@@ -72,7 +72,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                     fontWeight: FontWeight.w600,
                   ))),
             ),
-            SizedBox(height: 25),
+            SizedBox(height: 30),
             Container(
               width: 224,
               // height: 150,
@@ -90,20 +90,48 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           fontWeight: FontWeight.w500,
                         ))),
                   ),
-                  SizedBox(height: 25),
-                  TextField(
-                    onChanged: (value) {
-                      var email = value;
-                    },
-                    decoration: InputDecoration(hintText: "Correo electrónico"),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    onChanged: (value) {
-                      var email = value;
-                    },
-                    decoration: InputDecoration(hintText: "Constraseña"),
-                  ),
+                  SizedBox(height: 30),
+                  Container(
+                      width: 224,
+                      height: 38,
+                      child: TextField(
+                        onChanged: (value) {
+                          var email = value;
+                        },
+                        decoration: InputDecoration(
+                            label: Text(
+                              "Correo electronico",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(
+                                    color: const Color(primary_dark))),
+                            isDense: true,
+                            enabled: false),
+                        controller: TextEditingController(text: "some Text"),
+                      )),
+                  SizedBox(height: 29),
+                  Container(
+                      width: 224,
+                      height: 38,
+                      child: TextField(
+                        onChanged: (value) {
+                          var email = value;
+                        },
+                        decoration: InputDecoration(
+                            label: Text(
+                              "Contraseña",
+                              style: TextStyle(color: Colors.black),
+                            ),
+                            disabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(25.0),
+                                borderSide: BorderSide(
+                                    color: const Color(primary_dark))),
+                            isDense: true,
+                            enabled: false),
+                        controller: TextEditingController(text: "some Text"),
+                      )),
                   SizedBox(height: 40),
                   GestureDetector(
                     onTap: () {
