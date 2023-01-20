@@ -109,7 +109,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                                     color: const Color(primary_dark))),
                             isDense: true,
                             enabled: false),
-                        controller: TextEditingController(text: "some Text"),
+                        controller: TextEditingController(text: " "),
                       )),
                   SizedBox(height: 29),
                   Container(
@@ -130,7 +130,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                                     color: const Color(primary_dark))),
                             isDense: true,
                             enabled: false),
-                        controller: TextEditingController(text: "some Text"),
+                        controller: TextEditingController(text: " "),
                       )),
                   SizedBox(height: 40),
                   GestureDetector(
