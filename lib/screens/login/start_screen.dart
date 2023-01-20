@@ -94,56 +94,62 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                         "assets/images/logo_finniu_light.png",
                       )),
                 ),
-                Text('Empieza a vivir una nueva experiencia con Finniu',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(primary_dark_alternative),
-                      fontSize: 20,
-                    )),
                 Container(
-                  margin: EdgeInsets.only(top: 35),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/login_email');
-                    },
-                    child: Container(
-                      width: 230,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: const Color(primary_dark),
-                      ),
-                      child: Center(
-                          child: Text(
-                        'Iniciar Sesión',
-                        style: TextStyle(
-                            color: Colors.white,
+                  width: 224,
+                  height: 50,
+                  child:
+                      Text('Empieza a vivir una nueva experiencia con Finniu',
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                            color: Color(primary_dark),
                             fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    ),
-                  ),
+                            fontWeight: FontWeight.w500,
+                          ))),
                 ),
+                Container(
+                    margin: EdgeInsets.only(top: 35),
+                    child: GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/login_email');
+                        },
+                        child: Container(
+                            width: 230,
+                            height: 50,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: const Color(primary_dark),
+                            ),
+                            child: Center(
+                                child: Text('Iniciar Sesión',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.poppins(
+                                        textStyle: TextStyle(
+                                      color: Color(whitetext),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
+                                    ))))))),
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: GestureDetector(
                     onTap: () {},
                     child: Container(
-                      width: 230,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: const Color(primary_light),
-                      ),
-                      child: Center(
-                          child: Text(
-                        'Registrarme',
-                        style: TextStyle(
-                            color: const Color(primary_dark),
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    ),
+                        width: 230,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: const Color(primary_light),
+                        ),
+                        child: Center(
+                          child: Text('Registrarme',
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                color: Color(primary_dark),
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                              ))),
+                        )),
                   ),
                 ),
               ]),

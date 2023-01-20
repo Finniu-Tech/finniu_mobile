@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EmailLoginScreen extends StatefulWidget {
   const EmailLoginScreen({super.key});
@@ -63,11 +64,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
             Align(
               alignment: Alignment.center,
               child: Text('¡Bienvenido a Finniu!',
-                  style: TextStyle(
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
                     color: Color(primary_dark),
-                    fontWeight: FontWeight.bold,
                     fontSize: 24,
-                  )),
+                    fontWeight: FontWeight.w600,
+                  ))),
             ),
             SizedBox(height: 25),
             Container(
@@ -79,11 +82,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text('Ingresa a tu cuenta',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                          color: Color(blacktext),
                           fontSize: 16,
-                        )),
+                          fontWeight: FontWeight.w500,
+                        ))),
                   ),
                   SizedBox(height: 25),
                   TextField(
@@ -114,13 +119,15 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                         color: const Color(primary_dark),
                       ),
                       child: Center(
-                          child: Text(
-                        'Ingresar',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      )),
+                        child: Text('Ingresar',
+                            textAlign: TextAlign.center,
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                              color: Color(whitetext),
+                              fontSize: 16,
+                              fontWeight: FontWeight.w500,
+                            ))),
+                      ),
                     ),
                   )
                 ],
