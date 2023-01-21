@@ -83,7 +83,7 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
               child:
                   Column(mainAxisAlignment: MainAxisAlignment.start, children: [
                 SizedBox(
-                  height: 100,
+                  height: 50,
                 ),
                 Container(
                   width: 224,
