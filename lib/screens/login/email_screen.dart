@@ -100,15 +100,21 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                         },
                         decoration: InputDecoration(
                             label: Text(
-                              "Correo electronico",
-                              style: TextStyle(color: Colors.black),
+                              "Correo electrónico",
+                              style: GoogleFonts.inter(
+                                  textStyle: TextStyle(
+                                color: Color(primary_dark),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              )),
                             ),
-                            disabledBorder: OutlineInputBorder(
+                            border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
-                                    color: const Color(primary_dark))),
+                                  color: const Color(primary_dark),
+                                )),
                             isDense: true,
-                            enabled: false),
+                            enabled: true),
                         controller: TextEditingController(text: " "),
                       )),
                   SizedBox(height: 29),
@@ -120,16 +126,30 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                           var email = value;
                         },
                         decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.remove_red_eye,
+                                  color: Color(primary_dark), size: 23.20),
+                              alignment: Alignment.topRight,
+                              onPressed: () {
+                                setState(() {});
+                                //Aquí puedes agregar la lógica para mostrar/ocultar la contraseña
+                              },
+                            ),
                             label: Text(
                               "Contraseña",
-                              style: TextStyle(color: Colors.black),
+                              style: GoogleFonts.inter(
+                                  textStyle: TextStyle(
+                                color: Color(primary_dark),
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                              )),
                             ),
-                            disabledBorder: OutlineInputBorder(
+                            border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(25.0),
                                 borderSide: BorderSide(
                                     color: const Color(primary_dark))),
                             isDense: true,
-                            enabled: false),
+                            enabled: true),
                         controller: TextEditingController(text: " "),
                       )),
                   SizedBox(height: 40),
