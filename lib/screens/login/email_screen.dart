@@ -10,6 +10,10 @@ class EmailLoginScreen extends StatefulWidget {
 }
 
 class _EmailLoginScreenState extends State<EmailLoginScreen> {
+  String _email = "";
+  String _password = "";
+  bool _isHidden = true; //variable para controlar el mostrar password
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,18 +40,12 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 color: Color(primary_light),
                 Icons.arrow_back_ios_new_outlined,
               )),
-              // child: GestureDetector(
-              //   onTap: () {
-              //     Navigator.pop(context);
-              //   },
             ),
           )),
-      body: Center(
-        // padding: EdgeInsets.all(10),
-        // margin: EdgeInsets.all(10),
+      body: SingleChildScrollView(
+        //Con este Widget hacemos que nuestro column sea adaptativo, cuando sale el teclado el column se ira hacia arriba
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 30,
@@ -96,26 +94,30 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       height: 38,
                       child: TextField(
                         onChanged: (value) {
-                          var email = value;
+                          _email = value;
                         },
                         decoration: InputDecoration(
-                            label: Text(
-                              "Correo electrónico",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                color: Color(primary_dark),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
+                          hintText: 'Escriba su correo electrónico',
+                          hintStyle: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  color: Color(secondary_text_light),
+                                  fontSize: 11)),
+                          label: Text(
+                            "Correo electrónico",
+                            style: GoogleFonts.inter(
+                                textStyle: TextStyle(
+                              color: Color(primary_dark),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                            )),
+                          ),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: const Color(primary_dark),
                               )),
-                            ),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                  color: const Color(primary_dark),
-                                )),
-                            isDense: true,
-                            enabled: true),
-                        controller: TextEditingController(text: " "),
+                        ),
+                        controller: TextEditingController(text: _email),
                       )),
                   SizedBox(height: 29),
                   Container(
@@ -123,16 +125,28 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       height: 38,
                       child: TextField(
                         onChanged: (value) {
-                          var email = value;
+                          _password = value;
                         },
+
+                        obscureText: _isHidden, // esto oculta la contrasenia
+                        obscuringCharacter:
+                            '*', //el caracter el cual reemplaza la contrasenia
                         decoration: InputDecoration(
+                            hintText: 'Digite su contraseña',
+                            hintStyle: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    color: Color(secondary_text_light),
+                                    fontSize: 11)),
                             suffixIcon: IconButton(
-                              icon: Icon(Icons.remove_red_eye,
-                                  color: Color(primary_dark), size: 23.20),
+                              icon: Icon(
+                                  _isHidden
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Color(primary_dark),
+                                  size: 23.20),
                               alignment: Alignment.topRight,
                               onPressed: () {
-                                setState(() {});
-                                //Aquí puedes agregar la lógica para mostrar/ocultar la contraseña
+                                _togglePasswordView();
                               },
                             ),
                             label: Text(
@@ -150,7 +164,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                                     color: const Color(primary_dark))),
                             isDense: true,
                             enabled: true),
-                        controller: TextEditingController(text: " "),
+                        controller: TextEditingController(text: _password),
                       )),
                   SizedBox(height: 40),
                   GestureDetector(
@@ -185,5 +199,11 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
         ),
       ),
     );
+  }
+
+  void _togglePasswordView() {
+    setState(() {
+      _isHidden = !_isHidden;
+    });
   }
 }
