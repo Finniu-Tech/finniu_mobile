@@ -86,7 +86,14 @@ class _RegistroScreenState extends State<RegistroScreen> {
                 ),
               ])),
           SizedBox(height: 30),
-          Text("Elige tu avatar"),
+          Text("Elige tu avatar",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                color: Color(gray_text),
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ))),
           SizedBox(height: 15),
           Container(
             width: 157,

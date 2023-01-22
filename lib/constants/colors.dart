@@ -27,4 +27,5 @@ const gradient_third_alternative = 0xff77833FF;
 const whitetext = 0xffFFFFFF;
 const blacktext = 0xff000000;
 const graytext = 0xff535050;
+const gray_text = 0xff616161;
 const secondarygraytext = 0xff909090;
