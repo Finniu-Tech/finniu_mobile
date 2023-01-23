@@ -132,13 +132,9 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                 Container(
                   margin: EdgeInsets.only(top: 20),
                   child: GestureDetector(
-<<<<<<< Updated upstream
-                    onTap: () {},
-=======
                     onTap: () {
                       Navigator.pushNamed(context, '/sign_up_email');
                     },
->>>>>>> Stashed changes
                     child: Container(
                         width: 230,
                         height: 50,
