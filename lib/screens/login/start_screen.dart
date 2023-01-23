@@ -133,7 +133,7 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   margin: EdgeInsets.only(top: 20),
                   child: GestureDetector(
                     onTap: () {
-                      Navigator.pushNamed(context, '/login_registro');
+                      Navigator.pushNamed(context, '/sign_up_email');
                     },
                     child: Container(
                         width: 230,
