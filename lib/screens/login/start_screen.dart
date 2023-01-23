@@ -1,5 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/screens/intro_screen.dart';
+import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -95,65 +97,23 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                       )),
                 ),
                 Container(
-                  width: 224,
-                  height: 50,
-                  child:
-                      Text('Empieza a vivir una nueva experiencia con Finniu',
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                            color: Color(primary_dark),
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                          ))),
-                ),
+                    width: 224,
+                    height: 50,
+                    child: PoppinsFont(
+                        text:
+                            'Empieza a vivir una nueva experiencia con Finniu',
+                        colorText: primary_dark,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500)),
                 Container(
                     margin: EdgeInsets.only(top: 35),
-                    child: GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/login_email');
-                        },
-                        child: Container(
-                            width: 230,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              color: const Color(primary_dark),
-                            ),
-                            child: Center(
-                                child: Text('Iniciar Sesión',
-                                    textAlign: TextAlign.center,
-                                    style: GoogleFonts.poppins(
-                                        textStyle: TextStyle(
-                                      color: Color(whitetext),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ))))))),
+                    child: CustomButton(text: 'Iniciar sesión')),
                 Container(
-                  margin: EdgeInsets.only(top: 20),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/sign_up_email');
-                    },
-                    child: Container(
-                        width: 230,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(50),
-                          color: const Color(primary_light),
-                        ),
-                        child: Center(
-                          child: Text('Registrarme',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                color: Color(primary_dark),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ))),
-                        )),
-                  ),
-                ),
+                    margin: EdgeInsets.only(top: 20),
+                    child: CustomButton(
+                        text: 'Registrarme',
+                        color_background: primary_light,
+                        color_text: primary_dark)),
               ]),
             ))));
   }
