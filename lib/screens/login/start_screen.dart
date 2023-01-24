@@ -107,13 +107,18 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                         fontWeight: FontWeight.w500)),
                 Container(
                     margin: EdgeInsets.only(top: 35),
-                    child: CustomButton(text: 'Iniciar sesión')),
+                    child: CustomButton(
+                        text: 'Iniciar sesión',
+                        color_background: primary_dark,
+                        color_text: white_text,
+                        pushName: '/login_email')),
                 Container(
                     margin: EdgeInsets.only(top: 20),
                     child: CustomButton(
                         text: 'Registrarme',
                         color_background: primary_light,
-                        color_text: primary_dark)),
+                        color_text: primary_dark,
+                        pushName: '/sign_up_email')),
               ]),
             ))));
   }
