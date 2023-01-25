@@ -29,3 +29,4 @@ const black_text = 0xff000000;
 const gray_text1 = 0xff535050;
 const gray_text = 0xff616161;
 const secondary_gray_text = 0xff909090;
+const red_text = 0xffFF4D4D;

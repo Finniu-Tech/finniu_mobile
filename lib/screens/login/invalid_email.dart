@@ -5,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../widgets/buttons.dart';
 import '../../widgets/fonts.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class InvalidEmail extends StatefulWidget {
+  const InvalidEmail({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<InvalidEmail> createState() => _InvalidEmailState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _InvalidEmailState extends State<InvalidEmail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,67 +44,43 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             child: Column(children: <Widget>[
           SizedBox(height: 90),
           TextPoppinsFont(
-            text: '¿Olvidaste tu contraseña?',
+            text: 'Correo inválido',
             colorText: primary_dark,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 10),
           TextPoppinsFont(
-            text: 'No te preocupes es posible recuperarla',
+            text: 'Este correo no está registrado en el App',
             colorText: primary_dark,
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
+          SizedBox(height: 25),
           Container(
-            width: 67,
+            width: 91,
             height: 75,
-            child: Image.asset('assets/images/padlock.png'),
+            child: Image.asset('assets/images/sad.png'),
           ),
           Container(
-            width: 53,
-            height: 42,
-            child: Image.asset('assets/images/padlock1.png'),
+            width: 91,
+            height: 75,
+            child: Image.asset('assets/images/letter.png'),
           ),
-          Container(
-            width: 267,
-            height: 130,
-            decoration: BoxDecoration(
-                color: const Color(primary_light_alternative),
-                borderRadius: BorderRadius.circular(15)),
-            child: Align(
-              alignment: Alignment(-0.0, -0.0),
-              child: Container(
-                width: 184,
-                height: 103,
-                child: Text(
-                  'Por favor ingresa tu correo electrónico que ingresaste al crear tu cuenta en la App , en unos minutos recibiras un correo para recuperar tu contraseña.',
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w400,
-                    height: 1.5,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(height: 50),
+          SizedBox(height: 40),
           Container(
             width: 224,
             height: 38,
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Escribe tu correo electrónico',
+                hintText: 'Correo inválido',
                 hintStyle: GoogleFonts.poppins(
-                    textStyle:
-                        TextStyle(color: Color(gray_text), fontSize: 11)),
+                    textStyle: TextStyle(color: Color(red_text), fontSize: 11)),
                 label: Text(
                   "Correo electrónico",
                   style: GoogleFonts.inter(
                       textStyle: TextStyle(
-                    color: Color(primary_dark),
+                    color: Color(red_text),
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   )),
@@ -112,26 +88,29 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: const Color(primary_dark),
+                      color: const Color(red_text),
                     )),
               ),
             ),
           ),
-          SizedBox(height: 25),
+          SizedBox(height: 15),
           Container(
-            height: 50,
-            width: 224,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: const Color(primary_dark),
-            ),
-            child: Center(
-                child: CustomButton(
-                    text: 'Enviar correo',
-                    color_background: primary_dark,
-                    color_text: white_text,
-                    pushName: '/login_invalid')),
-          ),
+              child: Center(
+                  child: TextPoppinsFont(
+            text: '¿Aún no tienes una cuenta creada?',
+            colorText: black_text,
+            fontSize: 11,
+            fontWeight: FontWeight.w400,
+          ))),
+          SizedBox(height: 2),
+          Container(
+              child: Center(
+                  child: TextPoppinsFont(
+            text: 'Registrarme',
+            colorText: primary_dark,
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+          )))
         ])));
   }
 }
