@@ -57,16 +57,13 @@ class _InvalidEmailState extends State<InvalidEmail> {
             fontWeight: FontWeight.w500,
           ),
           SizedBox(height: 25),
-          Container(
-            width: 91,
-            height: 75,
-            child: Image.asset('assets/images/sad.png'),
-          ),
-          Container(
-            width: 91,
-            height: 75,
-            child: Image.asset('assets/images/letter.png'),
-          ),
+          Stack(children: <Widget>[
+            Container(
+              width: 125,
+              height: 103,
+              child: Image.asset('assets/forgotpassword/sad.png'),
+            ),
+          ]),
           SizedBox(height: 40),
           Container(
             width: 224,

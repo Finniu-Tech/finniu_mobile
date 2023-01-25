@@ -56,16 +56,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             fontSize: 12,
             fontWeight: FontWeight.w500,
           ),
-          Container(
-            width: 67,
-            height: 75,
-            child: Image.asset('assets/images/padlock.png'),
-          ),
-          Container(
-            width: 53,
-            height: 42,
-            child: Image.asset('assets/images/padlock1.png'),
-          ),
+          Stack(children: <Widget>[
+            Container(
+              width: 89,
+              height: 76,
+              child: Image.asset('assets/forgotpassword/padlock.png'),
+            ),
+          ]),
           Container(
             width: 267,
             height: 130,
