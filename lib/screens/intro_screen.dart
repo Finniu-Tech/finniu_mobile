@@ -46,7 +46,7 @@ class _IntroScreenState extends State<IntroScreen> {
               image: AssetImage(
             "assets/images/logo_finniu_light.png",
           )),
-          PoppinsFont(
+          TextPoppinsFont(
             text: 'Vive el #ModoFinniu',
             colorText: primary_dark,
             fontSize: 24,

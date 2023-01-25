@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class PoppinsFont extends StatelessWidget {
+class TextPoppinsFont extends StatelessWidget {
   final int colorText;
   final String text;
   final double fontSize;
   final FontWeight fontWeight;
 
-  const PoppinsFont({
+  const TextPoppinsFont({
     super.key,
     required this.text,
     this.colorText = primary_dark,
@@ -29,3 +29,13 @@ class PoppinsFont extends StatelessWidget {
                 ))));
   }
 }
+
+
+// TextStyle poppinsFont( , fontWeight)
+// // const TextStyle poppinsFont = GoogleFonts.poppins(
+// //             textStyle: TextStyle(
+// //                 fontSize: fontSize,
+// //                 fontWeight: fontWeight,
+// //                 color: Color(
+// //                   colorText,
+// //                 )));

@@ -1,7 +1,9 @@
 import 'package:finniu/screens/intro_screen.dart';
 import 'package:finniu/screens/login/email_screen.dart';
+import 'package:finniu/screens/login/forgot_password.dart';
 import 'package:finniu/screens/signup/email_screen.dart';
 import 'package:finniu/screens/login/start_screen.dart';
+import 'package:finniu/screens/signup/welcome_finniu.dart';
 import 'package:flutter/material.dart';
 // import 'package:teve_empresa_app/src/pages/chapter.dart';
 // import 'package:teve_empresa_app/src/pages/home.dart';
@@ -15,6 +17,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login_start': (BuildContext context) => StartLoginScreen(),
     '/login_email': (BuildContext context) => EmailLoginScreen(),
     '/sign_up_email': (BuildContext context) => SignUpEmailScreen(),
+    '/sign_up_welcome': (BuildContext context) => WelcomeFinniu(),
+    '/login_forgot': (BuildContext context) => ForgotPassword(),
+
     // '/home': (BuildContext context) => HomePage(),
     // '/chapter': (BuildContext context) => ChapterPage(),
     // '/program_list': (BuildContext context) => ProgramListPage(),

@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -69,7 +70,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                       child: Column(children: [
                         Align(
                           alignment: Alignment.topLeft,
-                          child: PoppinsFont(
+                          child: TextPoppinsFont(
                             text: 'Crea tu cuenta en Finniu y guarda tus datos',
                             colorText: black_text,
                             fontSize: 16,
@@ -78,7 +79,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                         ),
                       ])),
                   SizedBox(height: 10),
-                  PoppinsFont(
+                  TextPoppinsFont(
                     text: "Elige tu avatar",
                     colorText: gray_text,
                     fontSize: 12,
@@ -254,25 +255,23 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                       )),
                   SizedBox(height: 20),
                   Container(
-                      height: 50,
-                      width: 224,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: const Color(primary_dark),
-                      ),
-                      child: Center(
-                          child: Text('Crear registro',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                color: Color(white_text),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ))))),
+                    height: 50,
+                    width: 224,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: const Color(primary_dark),
+                    ),
+                    child: Center(
+                        child: CustomButton(
+                            text: 'Crear registro',
+                            color_background: primary_dark,
+                            color_text: white_text,
+                            pushName: '/sign_up_welcome')),
+                  ),
                   SizedBox(height: 2),
                   Container(
                       child: Center(
-                          child: PoppinsFont(
+                          child: TextPoppinsFont(
                     text: '¿Ya tienes una cuenta creada?',
                     colorText: black_text,
                     fontSize: 11,
@@ -281,7 +280,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   SizedBox(height: 2),
                   Container(
                       child: Center(
-                          child: PoppinsFont(
+                          child: TextPoppinsFont(
                     text: 'Iniciar sesión',
                     colorText: primary_dark,
                     fontSize: 11,

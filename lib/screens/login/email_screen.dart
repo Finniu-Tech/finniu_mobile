@@ -62,7 +62,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
           ),
           Align(
               alignment: Alignment.center,
-              child: PoppinsFont(
+              child: TextPoppinsFont(
                 text: '¡Bienvenido a Finniu!',
                 colorText: primary_dark,
                 fontSize: 24,
@@ -76,7 +76,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               child: Column(children: [
                 Align(
                   alignment: Alignment.topLeft,
-                  child: PoppinsFont(
+                  child: TextPoppinsFont(
                     text: 'Ingresa a tu cuenta',
                     colorText: black_text,
                     fontSize: 16,
@@ -162,15 +162,20 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       controller: TextEditingController(text: _password),
                     )),
                 SizedBox(height: 10),
-                Container(
-                    child: Align(
-                        alignment: Alignment.topRight,
-                        child: PoppinsFont(
-                          text: '¿Olvidaste tu contraseña?',
-                          colorText: black_text,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                        ))),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/login_forgot');
+                  },
+                  child: Container(
+                      child: Align(
+                          alignment: Alignment.topRight,
+                          child: TextPoppinsFont(
+                            text: '¿Olvidaste tu contraseña?',
+                            colorText: black_text,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                          ))),
+                ),
                 SizedBox(height: 15),
                 Container(
                     child: CustomButton(
@@ -181,7 +186,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 SizedBox(height: 7),
                 Container(
                     child: Center(
-                        child: PoppinsFont(
+                        child: TextPoppinsFont(
                   text: '¿Aún no tienes una cuenta creada?',
                   colorText: black_text,
                   fontSize: 11,
@@ -190,7 +195,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 SizedBox(height: 2),
                 Container(
                     child: Center(
-                        child: PoppinsFont(
+                        child: TextPoppinsFont(
                   text: 'Registrarme',
                   colorText: primary_dark,
                   fontSize: 11,

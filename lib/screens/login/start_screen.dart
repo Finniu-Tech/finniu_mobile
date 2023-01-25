@@ -99,7 +99,7 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                 Container(
                     width: 224,
                     height: 50,
-                    child: PoppinsFont(
+                    child: TextPoppinsFont(
                         text:
                             'Empieza a vivir una nueva experiencia con Finniu',
                         colorText: primary_dark,
