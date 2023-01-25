@@ -24,7 +24,7 @@ class CustomButton extends StatelessWidget {
         Navigator.pushNamed(context, pushName);
       },
       child: Container(
-        width: 230,
+        width: 224,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),

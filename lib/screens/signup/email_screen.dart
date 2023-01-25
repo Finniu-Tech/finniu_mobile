@@ -61,17 +61,6 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                           "assets/images/logo_small.png",
                         )),
                   ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text('¡Registrate ahora!',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                          color: Color(primary_dark),
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                        ))),
-                  ),
                   SizedBox(height: 8),
                   Container(
                       width: 224,
@@ -80,26 +69,21 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                       child: Column(children: [
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Text(
-                              'Crea tu cuenta en Finniu y guarda tus datos',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                color: Color(black_text),
-                                fontSize: 16,
-                                fontWeight: FontWeight.w500,
-                              ))),
+                          child: PoppinsFont(
+                            text: 'Crea tu cuenta en Finniu y guarda tus datos',
+                            colorText: black_text,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ])),
                   SizedBox(height: 10),
-                  Text("Elige tu avatar",
-                      textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
-                          textStyle: TextStyle(
-                        color: Color(gray_text),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ))),
+                  PoppinsFont(
+                    text: "Elige tu avatar",
+                    colorText: gray_text,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
                   SizedBox(height: 15),
                   Container(
                     width: 224,
@@ -112,6 +96,14 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                         'assets/avatars/avatar_1.png',
                         'assets/avatars/avatar_2.png',
                         'assets/avatars/avatar_3.png',
+                        'assets/avatars/avatar_4.png',
+                        'assets/avatars/avatar_5.png',
+                        'assets/avatars/avatar_6.png',
+                        'assets/avatars/avatar_7.png',
+                        'assets/avatars/avatar_8.png',
+                        'assets/avatars/avatar_9.png',
+                        'assets/avatars/avatar_10.png',
+                        'assets/avatars/avatar_11.png',
                       ].map((image_route) {
                         return Builder(
                           builder: (BuildContext context) {
@@ -140,8 +132,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                         hintText: 'Escriba su nombre favorito',
                         hintStyle: GoogleFonts.poppins(
                             textStyle: TextStyle(
-                                color: Color(secondary_text_light),
-                                fontSize: 11)),
+                                color: Color(gray_text), fontSize: 11)),
                         label: Text(
                           "Nombre favorito",
                           style: GoogleFonts.inter(
@@ -281,14 +272,12 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   SizedBox(height: 2),
                   Container(
                       child: Center(
-                          child: Text('¿Ya tienes una cuenta creada?',
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.poppins(
-                                  textStyle: TextStyle(
-                                color: Color(black_text),
-                                fontSize: 11,
-                                fontWeight: FontWeight.w400,
-                              ))))),
+                          child: PoppinsFont(
+                    text: '¿Ya tienes una cuenta creada?',
+                    colorText: black_text,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w400,
+                  ))),
                   SizedBox(height: 2),
                   Container(
                       child: Center(
