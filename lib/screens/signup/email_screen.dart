@@ -52,243 +52,189 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             body: SingleChildScrollView(
                 //Con este Widget hacemos que nuestro column sea adaptativo, cuando sale el teclado el column se ira hacia arriba
 
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Container(
-                    width: 70,
-                    height: 70,
-                    child: Image(
-                        fit: BoxFit.cover,
-                        image: AssetImage(
-                          "assets/images/logo_small.png",
+                child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Container(
+                width: 70,
+                height: 70,
+                child: Image(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                      "assets/images/logo_small.png",
+                    )),
+              ),
+              SizedBox(height: 8),
+              Container(
+                  width: 224,
+                  // height: 150,
+                  alignment: Alignment.topLeft,
+                  child: Column(children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: TextPoppins(
+                        text: 'Crea tu cuenta en Finniu y guarda tus datos',
+                        colorText: black_text,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ])),
+              SizedBox(height: 10),
+              TextPoppins(
+                text: "Elige tu avatar",
+                colorText: gray_text,
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+              ),
+              SizedBox(height: 15),
+              Container(
+                width: 224,
+                child: CarouselSlider(
+                  options: CarouselOptions(
+                    height: 145.0,
+                    viewportFraction: 0.8,
+                  ),
+                  items: [
+                    'assets/avatars/avatar_1.png',
+                    'assets/avatars/avatar_2.png',
+                    'assets/avatars/avatar_3.png',
+                    'assets/avatars/avatar_4.png',
+                    'assets/avatars/avatar_5.png',
+                    'assets/avatars/avatar_6.png',
+                    'assets/avatars/avatar_7.png',
+                    'assets/avatars/avatar_8.png',
+                    'assets/avatars/avatar_9.png',
+                    'assets/avatars/avatar_10.png',
+                    'assets/avatars/avatar_11.png',
+                  ].map((image_route) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          child: Image(
+                              fit: BoxFit.cover,
+                              image: AssetImage(
+                                image_route,
+                              )),
+                        );
+                      },
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(height: 20),
+              Container(
+                width: 224,
+                height: 38,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Escriba su nombre favorito',
+                    hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
+                    label: Text("Nombre favorito", style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600)),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: const Color(primary_dark),
                         )),
                   ),
-                  SizedBox(height: 8),
-                  Container(
-                      width: 224,
-                      // height: 150,
-                      alignment: Alignment.topLeft,
-                      child: Column(children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: TextPoppins(
-                            text: 'Crea tu cuenta en Finniu y guarda tus datos',
-                            colorText: black_text,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ])),
-                  SizedBox(height: 10),
-                  TextPoppins(
-                    text: "Elige tu avatar",
-                    colorText: gray_text,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    width: 224,
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                        height: 145.0,
-                        viewportFraction: 0.8,
-                      ),
-                      items: [
-                        'assets/avatars/avatar_1.png',
-                        'assets/avatars/avatar_2.png',
-                        'assets/avatars/avatar_3.png',
-                        'assets/avatars/avatar_4.png',
-                        'assets/avatars/avatar_5.png',
-                        'assets/avatars/avatar_6.png',
-                        'assets/avatars/avatar_7.png',
-                        'assets/avatars/avatar_8.png',
-                        'assets/avatars/avatar_9.png',
-                        'assets/avatars/avatar_10.png',
-                        'assets/avatars/avatar_11.png',
-                      ].map((image_route) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                              // width: 157,
-                              // height: 145,
-                              // width: MediaQuery.of(context).size.width / 4,
-                              // margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              child: Image(
-                                  fit: BoxFit.cover,
-                                  image: AssetImage(
-                                    image_route,
-                                  )),
-                            );
-                          },
-                        );
-                      }).toList(),
+                ),
+              ),
+              SizedBox(height: 28),
+              Container(
+                width: 224,
+                height: 38,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Escriba su número telefónico',
+                    hintStyle: fontPoppins(fontSize: 11, colorHex: secondary_text_light, fontWeight: FontWeight.w600),
+                    label: Text(
+                      "Número telefónico",
+                      style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
                     ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: const Color(primary_dark),
+                        )),
                   ),
-                  SizedBox(height: 20),
-                  Container(
-                    width: 224,
-                    height: 38,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Escriba su nombre favorito',
-                        hintStyle: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: Color(gray_text), fontSize: 11)),
-                        label: Text(
-                          "Nombre favorito",
-                          style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                            color: Color(primary_dark),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          )),
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                              color: const Color(primary_dark),
-                            )),
-                      ),
+                ),
+              ),
+              SizedBox(height: 28),
+              Container(
+                width: 224,
+                height: 38,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Escriba su correo electrónico',
+                    hintStyle: fontPoppins(fontSize: 11, colorHex: secondary_text_light, fontWeight: FontWeight.w600),
+                    label: Text(
+                      "Correo electrónico",
+                      style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
                     ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: const Color(primary_dark),
+                        )),
                   ),
-                  SizedBox(height: 28),
-                  Container(
-                    width: 224,
-                    height: 38,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Escriba su número telefónico',
-                        hintStyle: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: Color(secondary_text_light),
-                                fontSize: 11)),
-                        label: Text(
-                          "Número telefónico",
-                          style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                            color: Color(primary_dark),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          )),
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                              color: const Color(primary_dark),
-                            )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 28),
-                  Container(
-                    width: 224,
-                    height: 38,
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Escriba su correo electrónico',
-                        hintStyle: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                                color: Color(secondary_text_light),
-                                fontSize: 11)),
-                        label: Text(
-                          "Correo electrónico",
-                          style: GoogleFonts.inter(
-                              textStyle: TextStyle(
-                            color: Color(primary_dark),
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                          )),
-                        ),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                            borderSide: BorderSide(
-                              color: const Color(primary_dark),
-                            )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 28),
-                  Container(
-                      width: 224,
-                      height: 38,
-                      child: TextField(
-                        onChanged: (value) {
-                          _password = value;
-                        },
+                ),
+              ),
+              SizedBox(height: 28),
+              Container(
+                  width: 224,
+                  height: 38,
+                  child: TextField(
+                    onChanged: (value) {
+                      _password = value;
+                    },
 
-                        obscureText: _isHidden, // esto oculta la contrasenia
-                        obscuringCharacter:
-                            '*', //el caracter el cual reemplaza la contrasenia
-                        decoration: InputDecoration(
-                          hintText: 'Digite su contraseña',
-                          hintStyle: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: Color(secondary_text_light),
-                                  fontSize: 11)),
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                                _isHidden
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Color(primary_dark),
-                                size: 23.20),
-                            alignment: Alignment.topRight,
-                            onPressed: () {
-                              _togglePasswordView();
-                            },
-                          ),
-                          label: Text(
-                            "Contraseña",
-                            style: GoogleFonts.inter(
-                                textStyle: TextStyle(
-                              color: Color(primary_dark),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            )),
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide:
-                                  BorderSide(color: const Color(primary_dark))),
-                        ),
-                        controller: TextEditingController(text: _password),
-                      )),
-                  SizedBox(height: 20),
-                  Container(
-                    height: 50,
-                    width: 224,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: const Color(primary_dark),
+                    obscureText: _isHidden, // esto oculta la contrasenia
+                    obscuringCharacter: '*', //el caracter el cual reemplaza la contrasenia
+                    decoration: InputDecoration(
+                      hintText: 'Digite su contraseña',
+                      hintStyle: fontPoppins(fontSize: 11, colorHex: secondary_text_light, fontWeight: FontWeight.w600),
+                      suffixIcon: IconButton(
+                        icon: Icon(_isHidden ? Icons.visibility : Icons.visibility_off, color: Color(primary_dark), size: 23.20),
+                        alignment: Alignment.topRight,
+                        onPressed: () {
+                          _togglePasswordView();
+                        },
+                      ),
+                      label: Text(
+                        "Contraseña",
+                        style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
+                      ),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: const Color(primary_dark))),
                     ),
-                    child: Center(
-                        child: CustomButton(
-                            text: 'Crear registro',
-                            colorBackground: primary_dark,
-                            colorText: white_text,
-                            pushName: '/sign_up_welcome')),
-                  ),
-                  SizedBox(height: 2),
-                  Container(
-                      child: Center(
-                          child: TextPoppins(
-                    text: '¿Ya tienes una cuenta creada?',
-                    colorText: black_text,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w400,
-                  ))),
-                  SizedBox(height: 2),
-                  Container(
-                      child: Center(
-                          child: TextPoppins(
-                    text: 'Iniciar sesión',
-                    colorText: primary_dark,
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ))),
-                ]))));
+                    controller: TextEditingController(text: _password),
+                  )),
+              SizedBox(height: 20),
+              Container(
+                height: 50,
+                width: 224,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50),
+                  color: const Color(primary_dark),
+                ),
+                child: Center(child: CustomButton(text: 'Crear registro', colorBackground: primary_dark, colorText: white_text, pushName: '/sign_up_welcome')),
+              ),
+              SizedBox(height: 2),
+              Container(
+                  child: Center(
+                      child: TextPoppins(
+                text: '¿Ya tienes una cuenta creada?',
+                colorText: black_text,
+                fontSize: 11,
+                fontWeight: FontWeight.w400,
+              ))),
+              SizedBox(height: 2),
+              Container(
+                  child: Center(
+                      child: TextPoppins(
+                text: 'Iniciar sesión',
+                colorText: primary_dark,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              ))),
+            ]))));
   }
 
   void _togglePasswordView() {

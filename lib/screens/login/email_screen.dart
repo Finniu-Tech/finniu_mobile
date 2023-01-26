@@ -22,8 +22,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
     return CustomScaffoldReturn(
         body: SingleChildScrollView(
             //Con este Widget hacemos que nuestro column sea adaptativo, cuando sale el teclado el column se ira hacia arriba
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       SizedBox(
         height: 30,
       ),
@@ -69,70 +68,56 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   },
                   decoration: InputDecoration(
                     hintText: 'Escriba su correo electrónico',
-                    hintStyle: fontPoppins(
-                        fontSize: 11,
-                        colorHex: gray_text,
-                        fontWeight: FontWeight.w400),
+                    hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w400),
                     // hintStyle: GoogleFonts.poppins(
                     //     textStyle: TextStyle(
                     //         color: Color(secondary_text_light), fontSize: 11)),
                     label: Text(
                       "Correo electrónico",
-                      style: fontInter(
-                          colorHex: primary_dark,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600),
+                      style: fontInter(colorHex: primary_dark, fontSize: 12, fontWeight: FontWeight.w600),
                     ),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: const Color(primary_dark),
-                        )),
+                      borderRadius: BorderRadius.circular(25.0),
+                      borderSide: BorderSide(
+                        color: const Color(primary_dark),
+                      ),
+                    ),
                   ),
                   controller: TextEditingController(text: _email),
                 )),
             SizedBox(height: 29),
             Container(
-                width: 224,
-                height: 38,
-                child: TextField(
-                  onChanged: (value) {
-                    _password = value;
-                  },
+              width: 224,
+              height: 38,
+              child: TextField(
+                onChanged: (value) {
+                  _password = value;
+                },
 
-                  obscureText: _isHidden, // esto oculta la contrasenia
-                  obscuringCharacter:
-                      '*', //el caracter el cual reemplaza la contrasenia
-                  decoration: InputDecoration(
-                      hintText: 'Digite su contraseña',
-                      hintStyle: fontPoppins(
-                          fontSize: 11,
-                          colorHex: gray_text,
-                          fontWeight: FontWeight.w400),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                            _isHidden ? Icons.visibility : Icons.visibility_off,
-                            color: Color(primary_dark),
-                            size: 23.20),
-                        alignment: Alignment.topRight,
-                        onPressed: () {
-                          _togglePasswordView();
-                        },
-                      ),
-                      label: TextInter(
-                        text: "Contraseña",
-                        fontSize: 12,
-                        colorText: primary_dark,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25.0),
-                          borderSide:
-                              BorderSide(color: const Color(primary_dark))),
-                      isDense: true,
-                      enabled: true),
-                  controller: TextEditingController(text: _password),
-                )),
+                obscureText: _isHidden, // esto oculta la contrasenia
+                obscuringCharacter: '*', //el caracter el cual reemplaza la contrasenia
+                decoration: InputDecoration(
+                    hintText: 'Digite su contraseña',
+                    hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w400),
+                    suffixIcon: IconButton(
+                      icon: Icon(_isHidden ? Icons.visibility : Icons.visibility_off, color: Color(primary_dark), size: 23.20),
+                      alignment: Alignment.topRight,
+                      onPressed: () {
+                        _togglePasswordView();
+                      },
+                    ),
+                    label: TextInter(
+                      text: "Contraseña",
+                      fontSize: 12,
+                      colorText: primary_dark,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: const Color(primary_dark))),
+                    isDense: true,
+                    enabled: true),
+                controller: TextEditingController(text: _password),
+              ),
+            ),
             SizedBox(height: 10),
             GestureDetector(
               onTap: () {
@@ -149,12 +134,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       ))),
             ),
             SizedBox(height: 15),
-            Container(
-                child: CustomButton(
-                    text: 'Ingresar',
-                    colorBackground: primary_dark,
-                    colorText: white_text,
-                    pushName: '/login_email')),
+            Container(child: CustomButton(text: 'Ingresar', colorBackground: primary_dark, colorText: white_text, pushName: '/login_email')),
             SizedBox(height: 7),
             Container(
                 child: Center(

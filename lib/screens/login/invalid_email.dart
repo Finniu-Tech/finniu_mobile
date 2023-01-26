@@ -71,16 +71,10 @@ class _InvalidEmailState extends State<InvalidEmail> {
             child: TextField(
               decoration: InputDecoration(
                 hintText: 'Correo inválido',
-                hintStyle: GoogleFonts.poppins(
-                    textStyle: TextStyle(color: Color(red_text), fontSize: 11)),
+                hintStyle: fontPoppins(fontSize: 11, colorHex: red_text, fontWeight: FontWeight.w600),
                 label: Text(
                   "Correo electrónico",
-                  style: GoogleFonts.inter(
-                      textStyle: TextStyle(
-                    color: Color(red_text),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  )),
+                  style: fontInter(fontSize: 12, colorHex: red_text, fontWeight: FontWeight.w600),
                 ),
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),

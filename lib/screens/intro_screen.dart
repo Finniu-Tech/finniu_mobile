@@ -6,9 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-// import 'package:teve_empresa_app/src/pages/home.dart';
-// import 'package:teve_empresa_app/src/providers/home_video.dart';
-
 Color black = Colors.white;
 
 class IntroScreen extends StatefulWidget {
@@ -17,14 +14,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  // String videoUrl = '';
-
-  _IntroScreenState() {
-    // print('entre al intro');
-    // HomeVideoProvider().getHomeVideo().then((val) => setState(() {
-    //       videoUrl = val;
-    //     }));
-  }
+  _IntroScreenState() {}
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +28,6 @@ class _IntroScreenState extends State<IntroScreen> {
     return Scaffold(
       backgroundColor: Color(primary_light),
       body: Center(
-          // padding: EdgeInsets.all(20),
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
