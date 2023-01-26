@@ -57,14 +57,14 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
                 child: Image.asset('assets/welcome/welcome1.png'),
               ),
               SizedBox(height: 12),
-              TextPoppinsFont(
+              TextPoppins(
                 text: '¡Bienvenidos a Finniu!',
                 colorText: primary_light,
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
               SizedBox(height: 9),
-              TextPoppinsFont(
+              TextPoppins(
                 text:
                     'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
                 colorText: white_text,

@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/screens/intro_screen.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
+import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -19,54 +20,7 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: const Color(primary_light),
-          title: Center(
-            // alignment: Alignment.center,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Text("Light mode",
-                    style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                          color: const Color(primary_dark),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500),
-                    )),
-                SizedBox(width: 5),
-                FlutterSwitch(
-                  width: 45,
-                  height: 24,
-                  value: _isSwitchOn,
-                  inactiveColor: const Color(primary_dark),
-                  activeColor: const Color(primary_light),
-                  inactiveToggleColor: const Color(primary_light),
-                  onToggle: (value) {
-                    setState(() {
-                      _isSwitchOn = value;
-                    });
-                  },
-                ),
-
-                // Switch(
-                //   value: _isSwitchOn,
-                //   // activeColor: const Color(primary_light),
-                //   // activeTrackColor: const Color(primary_light),
-                //   inactiveTrackColor: const Color(primary_dark),
-                //   inactiveThumbColor: const Color(primary_light),
-                //   materialTapTargetSize: MaterialTapTargetSize.padded,
-                //   onChanged: (bool value) {
-                //     setState(() {
-                //       _isSwitchOn = value;
-                //     });
-                //   },
-                // ),
-              ],
-            ),
-          ),
-        ),
+    return CustomScaffoldStart(
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -99,7 +53,7 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                 Container(
                     width: 224,
                     height: 50,
-                    child: TextPoppinsFont(
+                    child: TextPoppins(
                         text:
                             'Empieza a vivir una nueva experiencia con Finniu',
                         colorText: primary_dark,
@@ -109,15 +63,15 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                     margin: EdgeInsets.only(top: 35),
                     child: CustomButton(
                         text: 'Iniciar sesión',
-                        color_background: primary_dark,
-                        color_text: white_text,
+                        colorBackground: primary_dark,
+                        colorText: white_text,
                         pushName: '/login_email')),
                 Container(
                     margin: EdgeInsets.only(top: 20),
                     child: CustomButton(
                         text: 'Registrarme',
-                        color_background: primary_light,
-                        color_text: primary_dark,
+                        colorBackground: primary_light,
+                        colorText: primary_dark,
                         pushName: '/sign_up_email')),
               ]),
             ))));

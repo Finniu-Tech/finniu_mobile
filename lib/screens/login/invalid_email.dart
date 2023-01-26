@@ -43,14 +43,14 @@ class _InvalidEmailState extends State<InvalidEmail> {
         body: Center(
             child: Column(children: <Widget>[
           SizedBox(height: 90),
-          TextPoppinsFont(
+          TextPoppins(
             text: 'Correo inválido',
             colorText: primary_dark,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 10),
-          TextPoppinsFont(
+          TextPoppins(
             text: 'Este correo no está registrado en el App',
             colorText: primary_dark,
             fontSize: 12,
@@ -93,7 +93,7 @@ class _InvalidEmailState extends State<InvalidEmail> {
           SizedBox(height: 15),
           Container(
               child: Center(
-                  child: TextPoppinsFont(
+                  child: TextPoppins(
             text: '¿Aún no tienes una cuenta creada?',
             colorText: black_text,
             fontSize: 11,
@@ -102,7 +102,7 @@ class _InvalidEmailState extends State<InvalidEmail> {
           SizedBox(height: 2),
           Container(
               child: Center(
-                  child: TextPoppinsFont(
+                  child: TextPoppins(
             text: 'Registrarme',
             colorText: primary_dark,
             fontSize: 11,

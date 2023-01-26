@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 
 class CustomButton extends StatelessWidget {
-  final int color_background;
-  final int color_text;
+  final int colorBackground;
+  final int colorText;
   final String text;
   final String pushName;
 
   const CustomButton({
     super.key,
     required this.text,
-    this.color_background = primary_dark,
-    this.color_text = white_text,
+    this.colorBackground = primary_dark,
+    this.colorText = white_text,
     this.pushName = "",
   });
 
-  //  const CustomButton({super.key, required this._text});
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -28,13 +27,13 @@ class CustomButton extends StatelessWidget {
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Color(color_background),
+          color: Color(colorBackground),
         ),
         child: Center(
           child: Text(
             text,
             style: TextStyle(
-                color: Color(color_text),
+                color: Color(colorText),
                 fontSize: 16,
                 fontWeight: FontWeight.bold),
           ),
@@ -44,16 +43,14 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-//botton de retroceso
-
-class CustomReturnButtom extends StatefulWidget {
-  const CustomReturnButtom({super.key});
+class CustomReturnButton extends StatefulWidget {
+  const CustomReturnButton({super.key});
 
   @override
-  State<CustomReturnButtom> createState() => _CustomReturnButtomState();
+  State<CustomReturnButton> createState() => _CustomReturnButtonState();
 }
 
-class _CustomReturnButtomState extends State<CustomReturnButtom> {
+class _CustomReturnButtonState extends State<CustomReturnButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -61,15 +58,14 @@ class _CustomReturnButtomState extends State<CustomReturnButtom> {
         Navigator.pop(context);
       },
       child: Container(
-        margin: EdgeInsets.all(10),
-        // padding: EdgeInsets.all(6),
+        margin: const EdgeInsets.all(10),
         width: 40,
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: const Color(primary_dark),
         ),
-        child: Center(
+        child: const Center(
             child: Icon(
           size: 20,
           color: Color(primary_light),

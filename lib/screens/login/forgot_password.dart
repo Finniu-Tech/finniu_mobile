@@ -43,14 +43,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         body: Center(
             child: Column(children: <Widget>[
           SizedBox(height: 90),
-          TextPoppinsFont(
+          TextPoppins(
             text: '¿Olvidaste tu contraseña?',
             colorText: primary_dark,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 10),
-          TextPoppinsFont(
+          TextPoppins(
             text: 'No te preocupes es posible recuperarla',
             colorText: primary_dark,
             fontSize: 12,
@@ -125,8 +125,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             child: Center(
                 child: CustomButton(
                     text: 'Enviar correo',
-                    color_background: primary_dark,
-                    color_text: white_text,
+                    colorBackground: primary_dark,
+                    colorText: white_text,
                     pushName: '/login_invalid')),
           ),
         ])));

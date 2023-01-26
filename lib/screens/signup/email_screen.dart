@@ -1,6 +1,8 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
+import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -70,7 +72,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                       child: Column(children: [
                         Align(
                           alignment: Alignment.topLeft,
-                          child: TextPoppinsFont(
+                          child: TextPoppins(
                             text: 'Crea tu cuenta en Finniu y guarda tus datos',
                             colorText: black_text,
                             fontSize: 16,
@@ -79,7 +81,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                         ),
                       ])),
                   SizedBox(height: 10),
-                  TextPoppinsFont(
+                  TextPoppins(
                     text: "Elige tu avatar",
                     colorText: gray_text,
                     fontSize: 12,
@@ -264,14 +266,14 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                     child: Center(
                         child: CustomButton(
                             text: 'Crear registro',
-                            color_background: primary_dark,
-                            color_text: white_text,
+                            colorBackground: primary_dark,
+                            colorText: white_text,
                             pushName: '/sign_up_welcome')),
                   ),
                   SizedBox(height: 2),
                   Container(
                       child: Center(
-                          child: TextPoppinsFont(
+                          child: TextPoppins(
                     text: '¿Ya tienes una cuenta creada?',
                     colorText: black_text,
                     fontSize: 11,
@@ -280,7 +282,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   SizedBox(height: 2),
                   Container(
                       child: Center(
-                          child: TextPoppinsFont(
+                          child: TextPoppins(
                     text: 'Iniciar sesión',
                     colorText: primary_dark,
                     fontSize: 11,
