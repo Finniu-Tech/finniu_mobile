@@ -83,7 +83,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.poppins(
                                     textStyle: TextStyle(
-                                  color: Color(blacktext),
+                                  color: Color(black_text),
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500,
                                 ))),
@@ -256,7 +256,7 @@ class _RegistroScreenState extends State<RegistroScreen> {
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
-                              color: Color(whitetext),
+                              color: Color(white_text),
                               fontSize: 16,
                               fontWeight: FontWeight.w500,
                             )))))

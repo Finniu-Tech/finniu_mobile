@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,14 +46,12 @@ class _IntroScreenState extends State<IntroScreen> {
               image: AssetImage(
             "assets/images/logo_finniu_light.png",
           )),
-          Text('Vive el #ModoFinniu',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                  textStyle: TextStyle(
-                color: Color(primary_dark),
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ))),
+          TextPoppins(
+            text: 'Vive el #ModoFinniu',
+            colorText: primary_dark,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+          ),
           SizedBox(height: 20.0),
           CircularProgressIndicator(color: black),
         ],

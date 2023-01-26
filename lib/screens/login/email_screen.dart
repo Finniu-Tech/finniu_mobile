@@ -1,6 +1,9 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/fonts.dart';
+import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class EmailLoginScreen extends StatefulWidget {
   const EmailLoginScreen({super.key});
@@ -16,189 +19,162 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-          elevation: 0.0,
-          backgroundColor: Colors.white,
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: Container(
-              margin: EdgeInsets.all(10),
-              // padding: EdgeInsets.all(6),
-              width: 40,
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: const Color(primary_dark),
-              ),
-              child: Center(
-                  child: Icon(
-                size: 20,
-                color: Color(primary_light),
-                Icons.arrow_back_ios_new_outlined,
-              )),
-            ),
+    return CustomScaffoldReturn(
+        body: SingleChildScrollView(
+            //Con este Widget hacemos que nuestro column sea adaptativo, cuando sale el teclado el column se ira hacia arriba
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+      SizedBox(
+        height: 30,
+      ),
+      Container(
+        width: 224,
+        height: 143,
+        child: Image(
+            fit: BoxFit.cover,
+            image: AssetImage(
+              "assets/images/logo_finniu_light.png",
+            )),
+      ),
+      Align(
+          alignment: Alignment.center,
+          child: TextPoppins(
+            text: '¡Bienvenido a Finniu!',
+            colorText: primary_dark,
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
           )),
-      body: SingleChildScrollView(
-        //Con este Widget hacemos que nuestro column sea adaptativo, cuando sale el teclado el column se ira hacia arriba
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 30,
-            ),
-            Container(
-              width: 224,
-              height: 143,
-              child: Image(
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    "assets/images/logo_finniu_light.png",
-                  )),
-            ),
+      SizedBox(height: 30),
+      Container(
+          width: 224,
+          // height: 150,
+          alignment: Alignment.topLeft,
+          child: Column(children: [
             Align(
-              alignment: Alignment.center,
-              child: Text('¡Bienvenido a Finniu!',
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                      textStyle: TextStyle(
-                    color: Color(primary_dark),
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ))),
+              alignment: Alignment.topLeft,
+              child: TextPoppins(
+                text: 'Ingresa a tu cuenta',
+                colorText: black_text,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
             ),
             SizedBox(height: 30),
             Container(
-              width: 224,
-              // height: 150,
-              alignment: Alignment.topLeft,
-              child: Column(
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text('Ingresa a tu cuenta',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.poppins(
-                            textStyle: TextStyle(
-                          color: Color(blacktext),
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ))),
-                  ),
-                  SizedBox(height: 30),
-                  Container(
-                      width: 224,
-                      height: 38,
-                      child: TextField(
-                        onChanged: (value) {
-                          _email = value;
-                        },
-                        decoration: InputDecoration(
-                          hintText: 'Escriba su correo electrónico',
-                          hintStyle: GoogleFonts.poppins(
-                              textStyle: TextStyle(
-                                  color: Color(secondary_text_light),
-                                  fontSize: 11)),
-                          label: Text(
-                            "Correo electrónico",
-                            style: GoogleFonts.inter(
-                                textStyle: TextStyle(
-                              color: Color(primary_dark),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                            )),
-                          ),
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                color: const Color(primary_dark),
-                              )),
-                        ),
-                        controller: TextEditingController(text: _email),
-                      )),
-                  SizedBox(height: 29),
-                  Container(
-                      width: 224,
-                      height: 38,
-                      child: TextField(
-                        onChanged: (value) {
-                          _password = value;
-                        },
-
-                        obscureText: _isHidden, // esto oculta la contrasenia
-                        obscuringCharacter:
-                            '*', //el caracter el cual reemplaza la contrasenia
-                        decoration: InputDecoration(
-                            hintText: 'Digite su contraseña',
-                            hintStyle: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                                    color: Color(secondary_text_light),
-                                    fontSize: 11)),
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                  _isHidden
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Color(primary_dark),
-                                  size: 23.20),
-                              alignment: Alignment.topRight,
-                              onPressed: () {
-                                _togglePasswordView();
-                              },
-                            ),
-                            label: Text(
-                              "Contraseña",
-                              style: GoogleFonts.inter(
-                                  textStyle: TextStyle(
-                                color: Color(primary_dark),
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                              )),
-                            ),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(25.0),
-                                borderSide: BorderSide(
-                                    color: const Color(primary_dark))),
-                            isDense: true,
-                            enabled: true),
-                        controller: TextEditingController(text: _password),
-                      )),
-                  SizedBox(height: 40),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/login_email');
-                    },
-                    child: Container(
-                      // padding: EdgeInsets.all(5),
-                      // width: 230,
-                      // height: 50,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: const Color(primary_dark),
-                      ),
-                      child: Center(
-                        child: Text('Ingresar',
-                            textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                                textStyle: TextStyle(
-                              color: Color(whitetext),
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ))),
-                      ),
+                width: 224,
+                height: 38,
+                child: TextField(
+                  onChanged: (value) {
+                    _email = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Escriba su correo electrónico',
+                    hintStyle: fontPoppins(
+                        fontSize: 11,
+                        colorHex: gray_text,
+                        fontWeight: FontWeight.w400),
+                    // hintStyle: GoogleFonts.poppins(
+                    //     textStyle: TextStyle(
+                    //         color: Color(secondary_text_light), fontSize: 11)),
+                    label: Text(
+                      "Correo electrónico",
+                      style: fontInter(
+                          colorHex: primary_dark,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
                     ),
-                  )
-                ],
-              ),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide: BorderSide(
+                          color: const Color(primary_dark),
+                        )),
+                  ),
+                  controller: TextEditingController(text: _email),
+                )),
+            SizedBox(height: 29),
+            Container(
+                width: 224,
+                height: 38,
+                child: TextField(
+                  onChanged: (value) {
+                    _password = value;
+                  },
+
+                  obscureText: _isHidden, // esto oculta la contrasenia
+                  obscuringCharacter:
+                      '*', //el caracter el cual reemplaza la contrasenia
+                  decoration: InputDecoration(
+                      hintText: 'Digite su contraseña',
+                      hintStyle: fontPoppins(
+                          fontSize: 11,
+                          colorHex: gray_text,
+                          fontWeight: FontWeight.w400),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                            _isHidden ? Icons.visibility : Icons.visibility_off,
+                            color: Color(primary_dark),
+                            size: 23.20),
+                        alignment: Alignment.topRight,
+                        onPressed: () {
+                          _togglePasswordView();
+                        },
+                      ),
+                      label: TextInter(
+                        text: "Contraseña",
+                        fontSize: 12,
+                        colorText: primary_dark,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(25.0),
+                          borderSide:
+                              BorderSide(color: const Color(primary_dark))),
+                      isDense: true,
+                      enabled: true),
+                  controller: TextEditingController(text: _password),
+                )),
+            SizedBox(height: 10),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/login_forgot');
+              },
+              child: Container(
+                  child: Align(
+                      alignment: Alignment.topRight,
+                      child: TextPoppins(
+                        text: '¿Olvidaste tu contraseña?',
+                        colorText: black_text,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                      ))),
             ),
-          ],
-        ),
-      ),
-    );
+            SizedBox(height: 15),
+            Container(
+                child: CustomButton(
+                    text: 'Ingresar',
+                    colorBackground: primary_dark,
+                    colorText: white_text,
+                    pushName: '/login_email')),
+            SizedBox(height: 7),
+            Container(
+                child: Center(
+                    child: TextPoppins(
+              text: '¿Aún no tienes una cuenta creada?',
+              colorText: black_text,
+              fontSize: 11,
+              fontWeight: FontWeight.w400,
+            ))),
+            SizedBox(height: 2),
+            Container(
+                child: Center(
+                    child: TextPoppins(
+              text: 'Registrarme',
+              colorText: primary_dark,
+              fontSize: 11,
+              fontWeight: FontWeight.bold,
+            )))
+          ]))
+    ])));
   }
 
   void _togglePasswordView() {

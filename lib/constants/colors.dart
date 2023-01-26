@@ -24,8 +24,9 @@ const gradient_primary_alternative = 0xff9381FF;
 const gradient_secondary_alternative = 0xff92C1FC;
 const gradient_third_alternative = 0xff77833FF;
 
-const whitetext = 0xffFFFFFF;
-const blacktext = 0xff000000;
-const graytext = 0xff535050;
+const white_text = 0xffFFFFFF;
+const black_text = 0xff000000;
+const gray_text1 = 0xff535050;
 const gray_text = 0xff616161;
-const secondarygraytext = 0xff909090;
+const secondary_gray_text = 0xff909090;
+const red_text = 0xffFF4D4D;
