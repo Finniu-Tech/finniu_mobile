@@ -43,31 +43,39 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
-//botton de retroceso//
-//  Widget build(BuildContext context) {
-//     return Scaffold(
-//         backgroundColor: Colors.white,
-//         appBar: AppBar(
-//             elevation: 0.0,
-//             backgroundColor: Colors.white,
-//             leading: GestureDetector(
-//               onTap: () {
-//                 Navigator.pop(context);
-//               },
-//               child: Container(
-//                 margin: EdgeInsets.all(10),
-//                 // padding: EdgeInsets.all(6),
-//                 width: 40,
-//                 height: 40,
-//                 decoration: BoxDecoration(
-//                   borderRadius: BorderRadius.circular(10),
-//                   color: const Color(primary_dark),
-//                 ),
-//                 child: Center(
-//                     child: Icon(
-//                   size: 20,
-//                   color: Color(primary_light),
-//                   Icons.arrow_back_ios_new_outlined,
-//                 )),
-//               ),
-//             )))
+
+//botton de retroceso
+
+class CustomReturnButtom extends StatefulWidget {
+  const CustomReturnButtom({super.key});
+
+  @override
+  State<CustomReturnButtom> createState() => _CustomReturnButtomState();
+}
+
+class _CustomReturnButtomState extends State<CustomReturnButtom> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        margin: EdgeInsets.all(10),
+        // padding: EdgeInsets.all(6),
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: const Color(primary_dark),
+        ),
+        child: Center(
+            child: Icon(
+          size: 20,
+          color: Color(primary_light),
+          Icons.arrow_back_ios_new_outlined,
+        )),
+      ),
+    );
+  }
+}
