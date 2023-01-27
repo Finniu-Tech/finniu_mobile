@@ -52,7 +52,7 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: CusttomButtom2(),
+                child: CusttomButtomRounded(pushName: '/login_start'),
               )
             ])));
   }

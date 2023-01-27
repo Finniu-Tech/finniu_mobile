@@ -74,24 +74,35 @@ class _CustomReturnButtonState extends State<CustomReturnButton> {
   }
 }
 
-class CusttomButtom2 extends StatefulWidget {
+class CusttomButtomRounded extends StatefulWidget {
   @override
-  State<CusttomButtom2> createState() => _CusttomButtom2State();
+  final String pushName;
+
+  const CusttomButtomRounded({
+    super.key,
+    this.pushName = "",
+  });
+  State<CusttomButtomRounded> createState() => _CusttomButtomRoundedState();
 }
 
-class _CusttomButtom2State extends State<CusttomButtom2> {
+class _CusttomButtomRoundedState extends State<CusttomButtomRounded> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(10),
-      // padding: EdgeInsets.all(6),
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(50),
-        color: Color(primary_dark),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, widget.pushName);
+      },
+      child: Container(
+        margin: EdgeInsets.all(10),
+        // padding: EdgeInsets.all(6),
+        width: 40,
+        height: 40,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: Color(primary_dark),
+        ),
+        child: Center(child: Icon(size: 20, color: Color(primary_light), Icons.arrow_forward)),
       ),
-      child: Center(child: Icon(size: 20, color: Color(primary_light), Icons.arrow_forward)),
     );
   }
 }

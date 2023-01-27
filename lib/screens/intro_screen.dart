@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-Color black = Colors.white;
-
 class IntroScreen extends StatefulWidget {
   @override
   _IntroScreenState createState() => _IntroScreenState();
@@ -43,7 +41,7 @@ class _IntroScreenState extends State<IntroScreen> {
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 20.0),
-          CircularProgressIndicator(color: black),
+          CircularProgressIndicator(color: Colors.grey),
         ],
       )),
     );
