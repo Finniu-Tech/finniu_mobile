@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/buttons.dart';
 
 class CustomButton extends StatelessWidget {
   final int colorBackground;
@@ -32,10 +33,7 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: TextStyle(
-                color: Color(colorText),
-                fontSize: 16,
-                fontWeight: FontWeight.bold),
+            style: TextStyle(color: Color(colorText), fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -72,6 +70,28 @@ class _CustomReturnButtonState extends State<CustomReturnButton> {
           Icons.arrow_back_ios_new_outlined,
         )),
       ),
+    );
+  }
+}
+
+class CusttomButtom2 extends StatefulWidget {
+  @override
+  State<CusttomButtom2> createState() => _CusttomButtom2State();
+}
+
+class _CusttomButtom2State extends State<CusttomButtom2> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.all(10),
+      // padding: EdgeInsets.all(6),
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(50),
+        color: Color(primary_dark),
+      ),
+      child: Center(child: Icon(size: 20, color: Color(primary_light), Icons.arrow_forward)),
     );
   }
 }

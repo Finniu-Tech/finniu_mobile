@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../constants/colors.dart';
 import '../../widgets/buttons.dart';
+import '../../widgets/scaffold.dart';
 
 class WelcomeFinniu extends StatefulWidget {
   const WelcomeFinniu({super.key});
@@ -15,40 +16,13 @@ class WelcomeFinniu extends StatefulWidget {
 class _WelcomeFinniuState extends State<WelcomeFinniu> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Color(primary_dark),
-        appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Color(primary_dark),
-            leading: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  // padding: EdgeInsets.all(6),
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(primary_light),
-                  ),
-                  child: Center(
-                      child: Icon(
-                    size: 20,
-                    color: Color(primary_dark),
-                    Icons.arrow_back_ios_new_outlined,
-                  )),
-                ))),
+    return CustomScaffoldReturn(
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
-              colors: [
-                const Color(primary_dark),
-                const Color(gradient_primary_alternative)
-              ],
+              colors: [const Color(primary_dark), const Color(gradient_primary_alternative)],
             )),
             child: Column(children: <Widget>[
               Container(
@@ -65,8 +39,7 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
               ),
               SizedBox(height: 9),
               TextPoppins(
-                text:
-                    'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
+                text: 'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
                 colorText: white_text,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -76,24 +49,11 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
                 height: 75,
               ),
               GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    margin: EdgeInsets.all(10),
-                    // padding: EdgeInsets.all(6),
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      color: Color(primary_dark),
-                    ),
-                    child: Center(
-                        child: Icon(
-                            size: 20,
-                            color: Color(primary_light),
-                            Icons.arrow_forward)),
-                  )),
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: CusttomButtom2(),
+              )
             ])));
   }
 }

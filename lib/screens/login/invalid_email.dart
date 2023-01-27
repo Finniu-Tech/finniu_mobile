@@ -1,9 +1,11 @@
+import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../widgets/buttons.dart';
 import '../../widgets/fonts.dart';
+import '../../widgets/scaffold.dart';
 
 class InvalidEmail extends StatefulWidget {
   const InvalidEmail({super.key});
@@ -15,93 +17,58 @@ class InvalidEmail extends StatefulWidget {
 class _InvalidEmailState extends State<InvalidEmail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-            elevation: 0.0,
-            backgroundColor: Colors.white,
-            leading: GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Container(
-                  margin: EdgeInsets.all(10),
-                  // padding: EdgeInsets.all(6),
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Color(primary_dark),
-                  ),
-                  child: Center(
-                      child: Icon(
-                    size: 20,
-                    color: Color(primary_light),
-                    Icons.arrow_back_ios_new_outlined,
-                  )),
-                ))),
+    return CustomScaffoldReturn(
         body: Center(
             child: Column(children: <Widget>[
-          SizedBox(height: 90),
-          TextPoppins(
-            text: 'Correo inválido',
-            colorText: primary_dark,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),
-          SizedBox(height: 10),
-          TextPoppins(
-            text: 'Este correo no está registrado en el App',
-            colorText: primary_dark,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
-          ),
-          SizedBox(height: 25),
-          Stack(children: <Widget>[
-            Container(
-              width: 125,
-              height: 103,
-              child: Image.asset('assets/forgotpassword/sad.png'),
-            ),
-          ]),
-          SizedBox(height: 40),
-          Container(
-            width: 224,
-            height: 38,
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Correo inválido',
-                hintStyle: fontPoppins(fontSize: 11, colorHex: red_text, fontWeight: FontWeight.w600),
-                label: Text(
-                  "Correo electrónico",
-                  style: fontInter(fontSize: 12, colorHex: red_text, fontWeight: FontWeight.w600),
-                ),
-                border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: const Color(red_text),
-                    )),
-              ),
-            ),
-          ),
-          SizedBox(height: 15),
-          Container(
-              child: Center(
-                  child: TextPoppins(
-            text: '¿Aún no tienes una cuenta creada?',
-            colorText: black_text,
-            fontSize: 11,
-            fontWeight: FontWeight.w400,
-          ))),
-          SizedBox(height: 2),
-          Container(
-              child: Center(
-                  child: TextPoppins(
-            text: 'Registrarme',
-            colorText: primary_dark,
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-          )))
-        ])));
+      SizedBox(height: 90),
+      TextPoppins(
+        text: 'Correo inválido',
+        colorText: primary_dark,
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+      ),
+      SizedBox(height: 10),
+      TextPoppins(
+        text: 'Este correo no está registrado en el App',
+        colorText: primary_dark,
+        fontSize: 12,
+        fontWeight: FontWeight.w500,
+      ),
+      SizedBox(height: 25),
+      Stack(children: <Widget>[
+        Container(
+          width: 125,
+          height: 103,
+          child: Image.asset('assets/forgotpassword/sad.png'),
+        ),
+      ]),
+      SizedBox(height: 40),
+      Container(
+        width: 224,
+        height: 38,
+        child: ButtomDecoration(
+          textHint: 'Correo inválido',
+          textLabel: 'Correo electrónico',
+        ),
+      ),
+      SizedBox(height: 15),
+      Container(
+          child: Center(
+              child: TextPoppins(
+        text: '¿Aún no tienes una cuenta creada?',
+        colorText: black_text,
+        fontSize: 11,
+        fontWeight: FontWeight.w400,
+      ))),
+      SizedBox(height: 2),
+      Container(
+          child: Center(
+              child: TextPoppins(
+        text: 'Registrarme',
+        colorText: primary_dark,
+        fontSize: 11,
+        fontWeight: FontWeight.bold,
+      )))
+    ])));
   }
 }

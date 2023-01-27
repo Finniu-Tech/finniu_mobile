@@ -1,4 +1,5 @@
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,22 +67,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       Container(
         width: 224,
         height: 38,
-        child: TextField(
-          decoration: InputDecoration(
-            hintText: 'Escribe tu correo electrónico',
-            hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
-            label: Text(
-              "Correo electrónico",
-              style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
-              //                   ),)
-            ),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: const Color(primary_dark),
-                )),
-          ),
-        ),
+        child: ButtomDecoration(textHint: 'Escribe tu correo electrónico', textLabel: "Correo electrónico"),
       ),
       SizedBox(height: 25),
       Container(

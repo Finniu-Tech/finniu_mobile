@@ -47,54 +47,15 @@ class TextInter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.inter(
-            textStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: fontWeight,
-                color: Color(colorText))));
+    return Text(text, textAlign: TextAlign.center, style: GoogleFonts.inter(textStyle: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: Color(colorText))));
   }
 }
 
 //function que retornar font poppins
-TextStyle fontPoppins(
-    {required double fontSize,
-    required int colorHex,
-    FontWeight fontWeight = FontWeight.w100}) {
-  return GoogleFonts.poppins(
-      textStyle: TextStyle(
-          fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
+TextStyle fontPoppins({required double fontSize, required int colorHex, FontWeight fontWeight = FontWeight.w100}) {
+  return GoogleFonts.poppins(textStyle: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
 }
 
-TextStyle fontInter(
-    {required double fontSize,
-    required int colorHex,
-    FontWeight fontWeight = FontWeight.w100}) {
-  return GoogleFonts.inter(
-      textStyle: TextStyle(
-          fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
+TextStyle fontInter({required double fontSize, required int colorHex, FontWeight fontWeight = FontWeight.w100}) {
+  return GoogleFonts.inter(textStyle: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
 }
-
-// class FontPoppins extends StatelessWidget {
-//   const FontPoppins({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GoogleFonts.poppins(
-//         textStyle: TextStyle(
-//             fontSize: fontSize,
-//             fontWeight: fontWeight,
-//             color: Color(
-//               colorText,
-//             )));
-//   }
-// }
-// TextStyle poppinsFont( , fontWeight)
-// // const TextStyle poppinsFont = GoogleFonts.poppins(
-// //             textStyle: TextStyle(
-// //                 fontSize: fontSize,
-// //                 fontWeight: fontWeight,
-// //                 color: Color(
-// //                   colorText,
-// //                 )));

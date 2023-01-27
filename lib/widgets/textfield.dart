@@ -4,31 +4,31 @@ import 'package:finniu/widgets/buttons.dart';
 
 import 'fonts.dart';
 
-// class ButtomDecoration extends StatefulWidget {
-//   final int colorHex;
-//   final String text;
-//    final double fontSize;
-//   final FontWeight fontWeight;
-  
+class ButtomDecoration extends StatefulWidget {
+  final String textLabel;
+  final String textHint;
 
-//   @override
-//   State<ButtomDecoration> createState() => _ButtomDecorationState();
-// }
+  const ButtomDecoration({super.key, required this.textLabel, required this.textHint});
 
-// class _ButtomDecorationState extends State<ButtomDecoration> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return TextField(
-//       decoration: InputDecoration(
-//         hintText: 'Escriba su nombre favorito',
-//         hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
-//         label: Text("Nombre favorito", style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600)),
-//         border: OutlineInputBorder(
-//             borderRadius: BorderRadius.circular(25.0),
-//             borderSide: BorderSide(
-//               color: const Color(primary_dark),
-//             )),
-//       ),
-//     );
-//   }
-// }
+  @override
+  State<ButtomDecoration> createState() => _ButtomDecorationState();
+}
+
+class _ButtomDecorationState extends State<ButtomDecoration> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      decoration: InputDecoration(
+        hintText: widget.textHint,
+        hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
+        labelText: widget.textLabel,
+        labelStyle: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
+        border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(25.0),
+            borderSide: BorderSide(
+              color: const Color(primary_dark),
+            )),
+      ),
+    );
+  }
+}

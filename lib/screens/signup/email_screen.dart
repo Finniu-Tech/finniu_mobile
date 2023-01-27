@@ -3,6 +3,7 @@ import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
+import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -122,59 +123,27 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
               ),
               SizedBox(height: 20),
               Container(
-                width: 224,
-                height: 38,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Escriba su nombre favorito',
-                    hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
-                    label: Text("Nombre favorito", style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600)),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: const Color(primary_dark),
-                        )),
-                  ),
-                ),
-              ),
+                  width: 224,
+                  height: 38,
+                  child: ButtomDecoration(
+                    textHint: 'Escriba su nombre favorito',
+                    textLabel: "Nombre favorito",
+                  )),
+              SizedBox(height: 28),
+              Container(
+                  width: 224,
+                  height: 38,
+                  child: ButtomDecoration(
+                    textHint: 'Escriba su número telefónico',
+                    textLabel: "Número telefónico",
+                  )),
               SizedBox(height: 28),
               Container(
                 width: 224,
                 height: 38,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Escriba su número telefónico',
-                    hintStyle: fontPoppins(fontSize: 11, colorHex: secondary_text_light, fontWeight: FontWeight.w600),
-                    label: Text(
-                      "Número telefónico",
-                      style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: const Color(primary_dark),
-                        )),
-                  ),
-                ),
-              ),
-              SizedBox(height: 28),
-              Container(
-                width: 224,
-                height: 38,
-                child: TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Escriba su correo electrónico',
-                    hintStyle: fontPoppins(fontSize: 11, colorHex: secondary_text_light, fontWeight: FontWeight.w600),
-                    label: Text(
-                      "Correo electrónico",
-                      style: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
-                    ),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25.0),
-                        borderSide: BorderSide(
-                          color: const Color(primary_dark),
-                        )),
-                  ),
+                child: ButtomDecoration(
+                  textHint: 'Escriba su correo electrónico',
+                  textLabel: 'Correo electrónico',
                 ),
               ),
               SizedBox(height: 28),
