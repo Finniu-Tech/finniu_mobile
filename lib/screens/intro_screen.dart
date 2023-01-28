@@ -1,49 +1,53 @@
 import 'dart:async';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/fonts.dart';
-import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class IntroScreen extends StatefulWidget {
   @override
+  // ignore: library_private_types_in_public_api
   _IntroScreenState createState() => _IntroScreenState();
 }
 
 class _IntroScreenState extends State<IntroScreen> {
-  _IntroScreenState() {}
+  _IntroScreenState();
 
   @override
   Widget build(BuildContext context) {
     Timer(
-        Duration(seconds: 3),
-        () => Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (BuildContext context) => StartLoginScreen(
-                // videoUrl: videoUrl,
-                ))));
+      const Duration(seconds: 3),
+      () => Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) => const StartLoginScreen(),
+        ),
+      ),
+    );
 
     return Scaffold(
-      backgroundColor: Color(primary_light),
+      backgroundColor: const Color(primary_light),
       body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: const [
+            Image(
               image: AssetImage(
-            "assets/images/logo_finniu_light.png",
-          )),
-          TextPoppins(
-            text: 'Vive el #ModoFinniu',
-            colorText: primary_dark,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),
-          SizedBox(height: 20.0),
-          CircularProgressIndicator(color: Colors.grey),
-        ],
-      )),
+                "assets/images/logo_finniu_light.png",
+              ),
+            ),
+            TextPoppins(
+              text: 'Vive el #ModoFinniu',
+              colorText: primary_dark,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
+            SizedBox(height: 20.0),
+            CircularProgressIndicator(color: Colors.grey),
+          ],
+        ),
+      ),
     );
   }
 }

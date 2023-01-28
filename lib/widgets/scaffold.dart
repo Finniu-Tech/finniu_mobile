@@ -1,7 +1,10 @@
+import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/share_preferences/preferences.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:provider/provider.dart';
 
 import '../constants/colors.dart';
 
@@ -15,39 +18,39 @@ class CustomScaffoldStart extends StatefulWidget {
 }
 
 class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
-  bool _isSwitchOn = false;
+  // bool _isSwitchOn = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      // backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: const Color(primary_light),
-        // leading: CustomReturnButtom(),
+        // backgroundColor: const Color(primary_light),
         title: Center(
-          // alignment: Alignment.center,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              TextPoppins(text: 'Light mode', colorText: primary_dark, fontSize: 10, fontWeight: FontWeight.w500),
-              // style: GoogleFonts.poppins(
-              //   textStyle: TextStyle(
-              //       color: const Color(primary_dark),
-              //       fontSize: 10,
-              //       fontWeight: FontWeight.w500),
-              //,
-              SizedBox(width: 5),
+              const TextPoppins(
+                  text: 'Light mode',
+                  colorText: primary_dark,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500),
+              const SizedBox(width: 5),
               FlutterSwitch(
                 width: 45,
                 height: 24,
-                value: _isSwitchOn,
+                value: Preferences.isDarkMode,
                 inactiveColor: const Color(primary_dark),
                 activeColor: const Color(primary_light),
                 inactiveToggleColor: const Color(primary_light),
                 onToggle: (value) {
-                  setState(() {
-                    _isSwitchOn = value;
-                  });
+                  Preferences.isDarkMode = value;
+                  final themeProvider =
+                      Provider.of<ThemeProvider>(context, listen: false);
+                  value
+                      ? themeProvider.setDarkMode()
+                      : themeProvider.setLightMode();
+                  setState(() {});
                 },
               ),
             ],
@@ -68,7 +71,12 @@ class CustomScaffoldReturn extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
 
-  const CustomScaffoldReturn({super.key, required this.body, this.backgroundColor = 0xffFFFFFF, this.colorBoxdecoration = primary_dark, this.colorIcon = primary_light});
+  const CustomScaffoldReturn(
+      {super.key,
+      required this.body,
+      this.backgroundColor = 0xffFFFFFF,
+      this.colorBoxdecoration = primary_dark,
+      this.colorIcon = primary_light});
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();
@@ -106,7 +114,7 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        leading: CustomReturnButton(),
+        leading: const CustomReturnButton(),
       ),
     );
   }
@@ -129,7 +137,7 @@ class _CustomScaffoldReturnLogo extends State<CustomScaffoldStart> {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        leading: CustomReturnButton(),
+        leading: const CustomReturnButton(),
       ),
     );
   }
