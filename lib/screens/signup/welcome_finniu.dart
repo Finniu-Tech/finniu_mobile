@@ -17,6 +17,9 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturn(
+        backgroundColor: primary_dark,
+        colorBoxdecoration: primary_light,
+        colorIcon: primary_light,
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -52,7 +55,7 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: CusttomButtomRounded(pushName: '/login_start'),
+                child: CusttomButtomRoundedDart(pushName: '/sign_up_start'),
               )
             ])));
   }

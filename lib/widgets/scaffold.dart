@@ -29,11 +29,7 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              TextPoppins(
-                  text: 'Light mode',
-                  colorText: primary_dark,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500),
+              TextPoppins(text: 'Light mode', colorText: primary_dark, fontSize: 10, fontWeight: FontWeight.w500),
               // style: GoogleFonts.poppins(
               //   textStyle: TextStyle(
               //       color: const Color(primary_dark),
@@ -68,8 +64,11 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
 
 class CustomScaffoldReturn extends StatefulWidget {
   final dynamic body;
+  final int backgroundColor;
+  final int colorBoxdecoration;
+  final int colorIcon;
 
-  const CustomScaffoldReturn({super.key, required this.body});
+  const CustomScaffoldReturn({super.key, required this.body, this.backgroundColor = 0xffFFFFFF, this.colorBoxdecoration = primary_dark, this.colorIcon = primary_light});
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();
@@ -82,7 +81,7 @@ class _CustomScaffoldReturnState extends State<CustomScaffoldReturn> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.white,
+        backgroundColor: Color(widget.backgroundColor),
         leading: const CustomReturnButton(),
       ),
       body: widget.body,
