@@ -17,7 +17,7 @@ class StartLoginScreen extends StatefulWidget {
 }
 
 class _StartLoginScreenState extends State<StartLoginScreen> {
-  final bool _isSwitchOn = false;
+  // final bool _isSwitchOn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,10 +52,12 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                 Container(
                   width: 224,
                   height: 188,
-                  child: const Image(
+                  child: Image(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      "assets/images/logo_finniu_light.png",
+                      themeProvider.isDarkMode()
+                          ? "assets/images/logo_finniu_dark.png"
+                          : "assets/images/logo_finniu_light.png",
                     ),
                   ),
                 ),
@@ -63,9 +65,9 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                 Container(
                   width: 224,
                   height: 50,
-                  child: const TextPoppins(
+                  child: TextPoppins(
                       text: 'Empieza a vivir una nueva experiencia con Finniu',
-                      colorText: primary_dark,
+                      colorText: Theme.of(context).colorScheme.tertiary.value,
                       fontSize: 16,
                       fontWeight: FontWeight.w500),
                 ),

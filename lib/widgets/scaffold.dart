@@ -21,6 +21,7 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: AppBar(
@@ -31,7 +32,7 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextPoppins(
-                  text: 'Light mode',
+                  text: themeProvider.isDarkMode() ? 'Dark mode' : 'Light mode',
                   colorText: Theme.of(context).colorScheme.primary.value,
                   // colorText: ,
                   fontSize: 10,

@@ -3,6 +3,7 @@ import 'package:finniu/constants/themes.dart';
 
 class ThemeProvider extends ChangeNotifier {
   ThemeData currentTheme;
+  // bool isDarkMode = false;
 
   ThemeProvider({required bool isDarkMode})
       : currentTheme =
@@ -16,5 +17,10 @@ class ThemeProvider extends ChangeNotifier {
   setDarkMode() {
     currentTheme = AppTheme().darkTheme;
     notifyListeners();
+  }
+
+  bool isDarkMode() {
+    if (currentTheme == AppTheme().darkTheme) return true;
+    return false;
   }
 }
