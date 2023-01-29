@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/screens/intro_screen.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -6,6 +7,7 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:provider/provider.dart';
 
 class StartLoginScreen extends StatefulWidget {
   const StartLoginScreen({super.key});
@@ -19,13 +21,20 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return CustomScaffoldStart(
       body: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
+            begin: Alignment.topRight,
             end: Alignment.bottomRight,
-            colors: [Color(gradient_primary), Color(gradient_secondary)],
+            // tileMode: TileMode.mirror,
+            // stops: [0.4, 0.9],
+            colors: [
+              Theme.of(context).primaryColor,
+              Theme.of(context).primaryColorLight
+            ],
           ),
         ),
         child: Center(

@@ -33,7 +33,10 @@ class CustomButton extends StatelessWidget {
         child: Center(
           child: Text(
             text,
-            style: TextStyle(color: Color(colorText), fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Color(colorText),
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -44,7 +47,10 @@ class CustomButton extends StatelessWidget {
 class CustomReturnButton extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
-  const CustomReturnButton({super.key, this.colorBoxdecoration = primary_dark, this.colorIcon = primary_light});
+  const CustomReturnButton(
+      {super.key,
+      this.colorBoxdecoration = primary_dark,
+      this.colorIcon = primary_light});
   @override
   State<CustomReturnButton> createState() => _CustomReturnButtonState();
 }
@@ -76,18 +82,19 @@ class _CustomReturnButtonState extends State<CustomReturnButton> {
   }
 }
 
-class CusttomButtomRoundedDart extends StatefulWidget {
+class CustomButtonRoundedDart extends StatefulWidget {
   @override
   final String pushName;
 
-  const CusttomButtomRoundedDart({
+  const CustomButtonRoundedDart({
     super.key,
     this.pushName = "",
   });
-  State<CusttomButtomRoundedDart> createState() => _CusttomButtomRoundedDartState();
+  State<CustomButtonRoundedDart> createState() =>
+      _CustomButtonRoundedDartState();
 }
 
-class _CusttomButtomRoundedDartState extends State<CusttomButtomRoundedDart> {
+class _CustomButtonRoundedDartState extends State<CustomButtonRoundedDart> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -103,7 +110,9 @@ class _CusttomButtomRoundedDartState extends State<CusttomButtomRoundedDart> {
           borderRadius: BorderRadius.circular(50),
           color: Color(primary_dark),
         ),
-        child: Center(child: Icon(size: 20, color: Color(primary_light), Icons.arrow_forward)),
+        child: Center(
+            child: Icon(
+                size: 20, color: Color(primary_light), Icons.arrow_forward)),
       ),
     );
   }
@@ -117,10 +126,11 @@ class CusttomButtomRoundedLight extends StatefulWidget {
     super.key,
     this.pushName = "",
   });
-  _CusttomButtomRoundedLightState createState() => _CusttomButtomRoundedLightState();
+  _CusttomButtomRoundedLightState createState() =>
+      _CusttomButtomRoundedLightState();
 }
 
-class _CusttomButtomRoundedLightState extends State<CusttomButtomRoundedDart> {
+class _CusttomButtomRoundedLightState extends State<CustomButtonRoundedDart> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -136,7 +146,11 @@ class _CusttomButtomRoundedLightState extends State<CusttomButtomRoundedDart> {
           borderRadius: BorderRadius.circular(50),
           color: Color(primary_light),
         ),
-        child: Center(child: Icon(size: 20, color: Color(primary_dark), Icons.arrow_back_outlined)),
+        child: Center(
+            child: Icon(
+                size: 20,
+                color: Color(primary_dark),
+                Icons.arrow_back_outlined)),
       ),
     );
   }

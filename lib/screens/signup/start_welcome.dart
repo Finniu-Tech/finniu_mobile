@@ -19,7 +19,10 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
             gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
-          colors: [const Color(gradient_primary), const Color(gradient_secondary)],
+          colors: [
+            const Color(gradient_primary),
+            const Color(gradient_secondary)
+          ],
         )),
         child: Column(children: <Widget>[
           SizedBox(height: 110),
@@ -37,7 +40,8 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
           ),
           SizedBox(height: 11),
           TextPoppins(
-            text: 'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
+            text:
+                'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
             colorText: primary_dark,
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -50,7 +54,7 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
             onTap: () {
               Navigator.pop(context);
             },
-            child: CusttomButtomRoundedDart(pushName: '/sign_up_middle'),
+            child: CustomButtonRoundedDart(pushName: '/sign_up_middle'),
           )
         ]));
   }

@@ -18,9 +18,9 @@ class CustomScaffoldStart extends StatefulWidget {
 }
 
 class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
-  // bool _isSwitchOn = false;
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: AppBar(
@@ -30,9 +30,10 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              const TextPoppins(
+              TextPoppins(
                   text: 'Light mode',
-                  colorText: primary_dark,
+                  colorText: Theme.of(context).colorScheme.primary.value,
+                  // colorText: ,
                   fontSize: 10,
                   fontWeight: FontWeight.w500),
               const SizedBox(width: 5),
@@ -43,10 +44,9 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
                 inactiveColor: const Color(primary_dark),
                 activeColor: const Color(primary_light),
                 inactiveToggleColor: const Color(primary_light),
+                activeToggleColor: const Color(primary_dark),
                 onToggle: (value) {
                   Preferences.isDarkMode = value;
-                  final themeProvider =
-                      Provider.of<ThemeProvider>(context, listen: false);
                   value
                       ? themeProvider.setDarkMode()
                       : themeProvider.setLightMode();
