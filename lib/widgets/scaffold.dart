@@ -86,11 +86,13 @@ class CustomScaffoldReturn extends StatefulWidget {
 class _CustomScaffoldReturnState extends State<CustomScaffoldReturn> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Color(widget.backgroundColor),
+        backgroundColor: Theme.of(context).backgroundColor,
         leading: const CustomReturnButton(),
       ),
       body: widget.body,
@@ -121,7 +123,7 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
   }
 }
 
-//custom_scaffold_returnlogo
+//custom_scaffold_return logo
 
 class CustomScaffoldReturnLogo extends StatefulWidget {
   const CustomScaffoldReturnLogo({super.key});

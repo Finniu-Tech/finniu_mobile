@@ -4,30 +4,28 @@ import 'package:finniu/widgets/buttons.dart';
 
 import 'fonts.dart';
 
-class ButtomDecoration extends StatefulWidget {
+class ButtonDecoration extends StatefulWidget {
   final String textLabel;
   final String textHint;
 
-  const ButtomDecoration({super.key, required this.textLabel, required this.textHint});
+  const ButtonDecoration(
+      {super.key, required this.textLabel, required this.textHint});
 
   @override
-  State<ButtomDecoration> createState() => _ButtomDecorationState();
+  State<ButtonDecoration> createState() => _ButtonDecorationState();
 }
 
-class _ButtomDecorationState extends State<ButtomDecoration> {
+class _ButtonDecorationState extends State<ButtonDecoration> {
   @override
   Widget build(BuildContext context) {
     return TextField(
       decoration: InputDecoration(
         hintText: widget.textHint,
-        hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
+        // hintStyle: fontPoppins(
+        //     fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
         labelText: widget.textLabel,
-        labelStyle: fontInter(fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
-        border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(25.0),
-            borderSide: BorderSide(
-              color: const Color(primary_dark),
-            )),
+        // labelStyle: fontInter(
+        //     fontSize: 12, colorHex: primary_dark, fontWeight: FontWeight.w600),
       ),
     );
   }

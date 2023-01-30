@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
 
-class CustomButton extends StatelessWidget {
+class CustomButton extends StatefulWidget {
   final int colorBackground;
   final int colorText;
   final String text;
@@ -17,24 +17,29 @@ class CustomButton extends StatelessWidget {
   });
 
   @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print(pushName);
-        Navigator.pushNamed(context, pushName);
+        print(widget.pushName);
+        Navigator.pushNamed(context, widget.pushName);
       },
       child: Container(
         width: 224,
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Color(colorBackground),
+          color: Color(widget.colorBackground),
         ),
         child: Center(
           child: Text(
-            text,
+            widget.text,
             style: TextStyle(
-                color: Color(colorText),
+                color: Color(widget.colorText),
                 fontSize: 16,
                 fontWeight: FontWeight.bold),
           ),

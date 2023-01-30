@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -8,6 +9,7 @@ import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:provider/provider.dart';
 
 class SignUpEmailScreen extends StatefulWidget {
   const SignUpEmailScreen({super.key});
@@ -23,16 +25,20 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return CustomScaffoldReturn(
       body: SingleChildScrollView(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
+          SizedBox(
             width: 70,
             height: 70,
-            child: const Image(
+            child: Image(
               fit: BoxFit.cover,
               image: AssetImage(
-                "assets/images/logo_small.png",
+                themeProvider.isDarkMode()
+                    ? "assets/images/logo_small_dark.png"
+                    : "assets/images/logo_small.png",
               ),
             ),
           ),
@@ -41,12 +47,13 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
               width: 224,
               // height: 150,
               alignment: Alignment.topLeft,
-              child: Column(children: const [
+              child: Column(children: [
                 Align(
                   alignment: Alignment.topLeft,
                   child: TextPoppins(
                     text: 'Crea tu cuenta en Finniu y guarda tus datos',
-                    colorText: black_text,
+                    colorText:
+                        Theme.of(context).textTheme.titleLarge!.color!.value,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -60,7 +67,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             fontWeight: FontWeight.w500,
           ),
           const SizedBox(height: 15),
-          Container(
+          SizedBox(
             width: 224,
             child: CarouselSlider(
               options: CarouselOptions(
@@ -99,7 +106,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
           Container(
               width: 224,
               height: 38,
-              child: const ButtomDecoration(
+              child: const ButtonDecoration(
                 textHint: 'Escriba su nombre favorito',
                 textLabel: "Nombre favorito",
               )),
@@ -108,7 +115,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
           Container(
               width: 224,
               height: 38,
-              child: const ButtomDecoration(
+              child: const ButtonDecoration(
                 textHint: 'Escriba su número telefónico',
                 textLabel: "Número telefónico",
               )),
@@ -117,7 +124,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
           Container(
             width: 224,
             height: 38,
-            child: const ButtomDecoration(
+            child: const ButtonDecoration(
               textHint: 'Escriba su correo electrónico',
               textLabel: 'Correo electrónico',
             ),
@@ -136,14 +143,14 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                     '*', //el caracter el cual reemplaza la contrasenia
                 decoration: InputDecoration(
                   hintText: 'Digite su contraseña',
-                  hintStyle: fontPoppins(
-                      fontSize: 11,
-                      colorHex: secondary_text_light,
-                      fontWeight: FontWeight.w600),
+                  // hintStyle: fontPoppins(
+                  //     fontSize: 11,
+                  //     colorHex: secondary_text_light,
+                  //     fontWeight: FontWeight.w600),
                   suffixIcon: IconButton(
                     icon: Icon(
                         _isHidden ? Icons.visibility : Icons.visibility_off,
-                        color: const Color(primary_dark),
+                        // color: const Color(primary_dark),
                         size: 23.20),
                     alignment: Alignment.topRight,
                     onPressed: () {
@@ -152,14 +159,15 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   ),
                   label: Text(
                     "Contraseña",
-                    style: fontInter(
-                        fontSize: 12,
-                        colorHex: primary_dark,
-                        fontWeight: FontWeight.w600),
+                    // style: fontInter(
+                    //     fontSize: 12,
+                    //     colorHex: primary_dark,
+                    //     fontWeight: FontWeight.w600),
                   ),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25.0),
-                      borderSide: const BorderSide(color: Color(primary_dark))),
+                  // border: OutlineInputBorder(
+                  //     // borderRadius: BorderRadius.circular(25.0),
+                  //     // borderSide: const BorderSide(color: Color(primary_dark)),
+                  //     ),
                 ),
                 controller: TextEditingController(text: _password),
               )),
@@ -174,8 +182,8 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             child: const Center(
                 child: CustomButton(
                     text: 'Crear registro',
-                    colorBackground: primary_dark,
-                    colorText: white_text,
+                    // colorBackground: primary_dark,
+                    // colorText: white_text,
                     pushName: '/sign_up_welcome')),
           ),
           const SizedBox(height: 2),

@@ -46,7 +46,7 @@ class _InvalidEmailState extends State<InvalidEmail> {
       Container(
         width: 224,
         height: 38,
-        child: ButtomDecoration(
+        child: ButtonDecoration(
           textHint: 'Correo inválido',
           textLabel: 'Correo electrónico',
         ),

@@ -44,7 +44,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       Container(
         width: 267,
         height: 130,
-        decoration: BoxDecoration(color: const Color(primary_light_alternative), borderRadius: BorderRadius.circular(15)),
+        decoration: BoxDecoration(
+            color: const Color(primary_light_alternative),
+            borderRadius: BorderRadius.circular(15)),
         child: Align(
           alignment: Alignment(-0.0, -0.0),
           child: Container(
@@ -67,7 +69,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       Container(
         width: 224,
         height: 38,
-        child: ButtomDecoration(textHint: 'Escribe tu correo electrónico', textLabel: "Correo electrónico"),
+        child: ButtonDecoration(
+            textHint: 'Escribe tu correo electrónico',
+            textLabel: "Correo electrónico"),
       ),
       SizedBox(height: 25),
       Container(
@@ -77,7 +81,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           borderRadius: BorderRadius.circular(50),
           color: const Color(primary_dark),
         ),
-        child: Center(child: CustomButton(text: 'Enviar correo', colorBackground: primary_dark, colorText: white_text, pushName: '/login_invalid')),
+        child: Center(
+            child: CustomButton(
+                text: 'Enviar correo',
+                colorBackground: primary_dark,
+                colorText: white_text,
+                pushName: '/login_invalid')),
       ),
     ])));
   }
