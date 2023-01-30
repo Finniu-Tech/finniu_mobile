@@ -4,10 +4,10 @@ import 'package:finniu/screens/login/forgot_password.dart';
 import 'package:finniu/screens/login/invalid_email.dart';
 import 'package:finniu/screens/signup/email_screen.dart';
 import 'package:finniu/screens/login/start_screen.dart';
-import 'package:finniu/screens/signup/finally_welcome.dart';
-import 'package:finniu/screens/signup/middle_welcome.dart';
-import 'package:finniu/screens/signup/start_welcome.dart';
-import 'package:finniu/screens/signup/welcome_finniu.dart';
+import 'package:finniu/screens/onboarding/finally_welcome.dart';
+import 'package:finniu/screens/onboarding/middle_welcome.dart';
+import 'package:finniu/screens/onboarding/start_welcome.dart';
+import 'package:finniu/screens/onboarding/welcome_finniu.dart';
 import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -18,10 +18,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/sign_up_email': (BuildContext context) => SignUpEmailScreen(),
     '/login_forgot': (BuildContext context) => ForgotPassword(),
     '/login_invalid': (BuildContext context) => InvalidEmail(),
-    '/sign_up_welcome': (BuildContext context) => WelcomeFinniu(),
-    '/sign_up_start': (BuildContext context) => StartWelcomeFinniu(),
-    '/sign_up_middle': (BuildContext context) => WelcomeMiddle(),
-    '/sign_up_finally': (BuildContext context) => WelcomeFinally(),
+    '/on_boarding_welcome': (BuildContext context) => WelcomeFinniu(),
+    '/on_boarding_start': (BuildContext context) => StartWelcomeFinniu(),
+    '/on_boarding_middle': (BuildContext context) => WelcomeMiddle(),
+    '/on_boarding_finally': (BuildContext context) => WelcomeFinally(),
 
     // '/home': (BuildContext context) => HomePage(),
     // '/chapter': (BuildContext context) => ChapterPage(),

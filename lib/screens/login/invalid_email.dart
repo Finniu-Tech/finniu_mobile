@@ -63,12 +63,16 @@ class _InvalidEmailState extends State<InvalidEmail> {
       SizedBox(height: 2),
       Container(
           child: Center(
-              child: TextPoppins(
-        text: 'Registrarme',
-        colorText: primary_dark,
-        fontSize: 11,
-        fontWeight: FontWeight.bold,
-      )))
+              child: InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/login_email');
+                  },
+                  child: TextPoppins(
+                    text: 'Registrarme',
+                    colorText: primary_dark,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ))))
     ])));
   }
 }

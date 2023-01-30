@@ -16,19 +16,17 @@ class WelcomeFinniu extends StatefulWidget {
 class _WelcomeFinniuState extends State<WelcomeFinniu> {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffoldReturn(
-        backgroundColor: primary_dark,
-        colorBoxdecoration: primary_light,
-        colorIcon: primary_light,
+    return Scaffold(
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: const Color(primary_dark),
+        ),
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
-              colors: [
-                const Color(primary_dark),
-                const Color(gradient_primary_alternative)
-              ],
+              colors: [const Color(primary_dark), const Color(gradient_primary_alternative)],
             )),
             child: Column(children: <Widget>[
               Container(
@@ -45,8 +43,7 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
               ),
               SizedBox(height: 9),
               TextPoppins(
-                text:
-                    'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
+                text: 'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
                 colorText: white_text,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
@@ -59,7 +56,7 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: CustomButtonRoundedDart(pushName: '/sign_up_start'),
+                child: CustomButtonRoundedDart(pushName: '/on_boarding_start'),
               )
             ])));
   }

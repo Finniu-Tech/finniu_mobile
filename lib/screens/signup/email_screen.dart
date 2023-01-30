@@ -36,9 +36,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             child: Image(
               fit: BoxFit.cover,
               image: AssetImage(
-                themeProvider.isDarkMode()
-                    ? "assets/images/logo_small_dark.png"
-                    : "assets/images/logo_small.png",
+                themeProvider.isDarkMode() ? "assets/images/logo_small_dark.png" : "assets/images/logo_small.png",
               ),
             ),
           ),
@@ -52,8 +50,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   alignment: Alignment.topLeft,
                   child: TextPoppins(
                     text: 'Crea tu cuenta en Finniu y guarda tus datos',
-                    colorText:
-                        Theme.of(context).textTheme.titleLarge!.color!.value,
+                    colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -139,8 +136,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                 },
 
                 obscureText: _isHidden, // esto oculta la contrasenia
-                obscuringCharacter:
-                    '*', //el caracter el cual reemplaza la contrasenia
+                obscuringCharacter: '*', //el caracter el cual reemplaza la contrasenia
                 decoration: InputDecoration(
                   hintText: 'Digite su contraseña',
                   // hintStyle: fontPoppins(
@@ -148,8 +144,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   //     colorHex: secondary_text_light,
                   //     fontWeight: FontWeight.w600),
                   suffixIcon: IconButton(
-                    icon: Icon(
-                        _isHidden ? Icons.visibility : Icons.visibility_off,
+                    icon: Icon(_isHidden ? Icons.visibility : Icons.visibility_off,
                         // color: const Color(primary_dark),
                         size: 23.20),
                     alignment: Alignment.topRight,
@@ -184,7 +179,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                     text: 'Crear registro',
                     // colorBackground: primary_dark,
                     // colorText: white_text,
-                    pushName: '/sign_up_welcome')),
+                    pushName: '/on_boarding_welcome')),
           ),
           const SizedBox(height: 2),
           // ignore: avoid_unnecessary_containers
