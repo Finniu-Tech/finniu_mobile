@@ -22,7 +22,8 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
     return CustomScaffoldReturn(
         body: SingleChildScrollView(
             //Con este Widget hacemos que nuestro column sea adaptativo, cuando sale el teclado el column se ira hacia arriba
-            child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       SizedBox(
         height: 30,
       ),
@@ -39,7 +40,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
           alignment: Alignment.center,
           child: TextPoppins(
             text: '¡Bienvenido a Finniu!',
-            colorText: primary_dark,
+            colorText: primaryDark,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           )),
@@ -53,7 +54,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               alignment: Alignment.topLeft,
               child: TextPoppins(
                 text: 'Ingresa a tu cuenta',
-                colorText: black_text,
+                colorText: blackText,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
               ),
@@ -68,18 +69,24 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   },
                   decoration: InputDecoration(
                     hintText: 'Escriba su correo electrónico',
-                    hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w400),
+                    hintStyle: fontPoppins(
+                        fontSize: 11,
+                        colorHex: gray_text,
+                        fontWeight: FontWeight.w400),
                     // hintStyle: GoogleFonts.poppins(
                     //     textStyle: TextStyle(
                     //         color: Color(secondary_text_light), fontSize: 11)),
                     label: Text(
                       "Correo electrónico",
-                      style: fontInter(colorHex: primary_dark, fontSize: 12, fontWeight: FontWeight.w600),
+                      style: fontInter(
+                          colorHex: primaryDark,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25.0),
                       borderSide: BorderSide(
-                        color: const Color(primary_dark),
+                        color: const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -95,12 +102,19 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 },
 
                 obscureText: _isHidden, // esto oculta la contrasenia
-                obscuringCharacter: '*', //el caracter el cual reemplaza la contrasenia
+                obscuringCharacter:
+                    '*', //el caracter el cual reemplaza la contrasenia
                 decoration: InputDecoration(
                     hintText: 'Digite su contraseña',
-                    hintStyle: fontPoppins(fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w400),
+                    hintStyle: fontPoppins(
+                        fontSize: 11,
+                        colorHex: gray_text,
+                        fontWeight: FontWeight.w400),
                     suffixIcon: IconButton(
-                      icon: Icon(_isHidden ? Icons.visibility : Icons.visibility_off, color: Color(primary_dark), size: 23.20),
+                      icon: Icon(
+                          _isHidden ? Icons.visibility : Icons.visibility_off,
+                          color: Color(primaryDark),
+                          size: 23.20),
                       alignment: Alignment.topRight,
                       onPressed: () {
                         _togglePasswordView();
@@ -109,10 +123,13 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                     label: TextInter(
                       text: "Contraseña",
                       fontSize: 12,
-                      colorText: primary_dark,
+                      colorText: primaryDark,
                       fontWeight: FontWeight.w600,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(25.0), borderSide: BorderSide(color: const Color(primary_dark))),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                        borderSide:
+                            BorderSide(color: const Color(primaryDark))),
                     isDense: true,
                     enabled: true),
                 controller: TextEditingController(text: _password),
@@ -128,19 +145,24 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       alignment: Alignment.topRight,
                       child: TextPoppins(
                         text: '¿Olvidaste tu contraseña?',
-                        colorText: black_text,
+                        colorText: blackText,
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
                       ))),
             ),
             SizedBox(height: 15),
-            Container(child: CustomButton(text: 'Ingresar', colorBackground: primary_dark, colorText: white_text, pushName: '/login_email')),
+            Container(
+                child: CustomButton(
+                    text: 'Ingresar',
+                    colorBackground: primaryDark,
+                    colorText: white_text,
+                    pushName: '/login_email')),
             SizedBox(height: 7),
             Container(
                 child: Center(
                     child: TextPoppins(
               text: '¿Aún no tienes una cuenta creada?',
-              colorText: black_text,
+              colorText: blackText,
               fontSize: 11,
               fontWeight: FontWeight.w400,
             ))),
@@ -149,7 +171,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                 child: Center(
                     child: TextPoppins(
               text: 'Registrarme',
-              colorText: primary_dark,
+              colorText: primaryDark,
               fontSize: 11,
               fontWeight: FontWeight.bold,
             )))

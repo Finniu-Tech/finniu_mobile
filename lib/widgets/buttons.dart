@@ -13,7 +13,7 @@ class CustomButton extends StatefulWidget {
   const CustomButton({
     super.key,
     required this.text,
-    this.colorBackground = primary_dark,
+    this.colorBackground = primaryDark,
     this.colorText = white_text,
     this.pushName = "",
     this.width = 224,
@@ -42,7 +42,10 @@ class _CustomButtonState extends State<CustomButton> {
         child: Center(
           child: Text(
             widget.text,
-            style: TextStyle(color: Color(widget.colorText), fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(
+                color: Color(widget.colorText),
+                fontSize: 16,
+                fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -53,7 +56,10 @@ class _CustomButtonState extends State<CustomButton> {
 class CustomReturnButton extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
-  const CustomReturnButton({super.key, this.colorBoxdecoration = primary_dark, this.colorIcon = primary_light});
+  const CustomReturnButton(
+      {super.key,
+      this.colorBoxdecoration = primaryDark,
+      this.colorIcon = primaryLight});
   @override
   State<CustomReturnButton> createState() => _CustomReturnButtonState();
 }
@@ -93,7 +99,8 @@ class CustomButtonRoundedDart extends StatefulWidget {
     super.key,
     this.pushName = "",
   });
-  State<CustomButtonRoundedDart> createState() => _CustomButtonRoundedDartState();
+  State<CustomButtonRoundedDart> createState() =>
+      _CustomButtonRoundedDartState();
 }
 
 class _CustomButtonRoundedDartState extends State<CustomButtonRoundedDart> {
@@ -110,9 +117,11 @@ class _CustomButtonRoundedDartState extends State<CustomButtonRoundedDart> {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Color(primary_dark),
+          color: Color(primaryDark),
         ),
-        child: Center(child: Icon(size: 20, color: Color(primary_light), Icons.arrow_forward)),
+        child: Center(
+            child: Icon(
+                size: 20, color: Color(primaryLight), Icons.arrow_forward)),
       ),
     );
   }
@@ -126,7 +135,8 @@ class CusttomButtomRoundedLight extends StatefulWidget {
     super.key,
     this.pushName = "",
   });
-  _CusttomButtomRoundedLightState createState() => _CusttomButtomRoundedLightState();
+  _CusttomButtomRoundedLightState createState() =>
+      _CusttomButtomRoundedLightState();
 }
 
 class _CusttomButtomRoundedLightState extends State<CusttomButtomRoundedLight> {
@@ -143,9 +153,13 @@ class _CusttomButtomRoundedLightState extends State<CusttomButtomRoundedLight> {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Color(primary_light),
+          color: Color(primaryLight),
         ),
-        child: Center(child: Icon(size: 20, color: Color(primary_dark), Icons.arrow_back_outlined)),
+        child: Center(
+            child: Icon(
+                size: 20,
+                color: Color(primaryDark),
+                Icons.arrow_back_outlined)),
       ),
     );
   }

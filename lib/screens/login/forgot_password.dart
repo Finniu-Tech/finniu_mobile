@@ -23,14 +23,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       SizedBox(height: 90),
       TextPoppins(
         text: '¿Olvidaste tu contraseña?',
-        colorText: primary_dark,
+        colorText: primaryDark,
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
       SizedBox(height: 10),
       TextPoppins(
         text: 'No te preocupes es posible recuperarla',
-        colorText: primary_dark,
+        colorText: primaryDark,
         fontSize: 12,
         fontWeight: FontWeight.w500,
       ),
@@ -45,7 +45,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         width: 267,
         height: 130,
         decoration: BoxDecoration(
-            color: const Color(primary_light_alternative),
+            color: const Color(primaryLightAlternative),
             borderRadius: BorderRadius.circular(15)),
         child: Align(
           alignment: Alignment(-0.0, -0.0),
@@ -79,12 +79,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         width: 224,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: const Color(primary_dark),
+          color: const Color(primaryDark),
         ),
         child: Center(
             child: CustomButton(
                 text: 'Enviar correo',
-                colorBackground: primary_dark,
+                colorBackground: primaryDark,
                 colorText: white_text,
                 pushName: '/login_invalid')),
       ),

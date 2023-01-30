@@ -36,7 +36,9 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             child: Image(
               fit: BoxFit.cover,
               image: AssetImage(
-                themeProvider.isDarkMode() ? "assets/images/logo_small_dark.png" : "assets/images/logo_small.png",
+                themeProvider.isDarkMode()
+                    ? "assets/images/logo_small_dark.png"
+                    : "assets/images/logo_small.png",
               ),
             ),
           ),
@@ -50,7 +52,8 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   alignment: Alignment.topLeft,
                   child: TextPoppins(
                     text: 'Crea tu cuenta en Finniu y guarda tus datos',
-                    colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
+                    colorText:
+                        Theme.of(context).textTheme.titleLarge!.color!.value,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -136,7 +139,8 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                 },
 
                 obscureText: _isHidden, // esto oculta la contrasenia
-                obscuringCharacter: '*', //el caracter el cual reemplaza la contrasenia
+                obscuringCharacter:
+                    '*', //el caracter el cual reemplaza la contrasenia
                 decoration: InputDecoration(
                   hintText: 'Digite su contraseña',
                   // hintStyle: fontPoppins(
@@ -144,7 +148,8 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   //     colorHex: secondary_text_light,
                   //     fontWeight: FontWeight.w600),
                   suffixIcon: IconButton(
-                    icon: Icon(_isHidden ? Icons.visibility : Icons.visibility_off,
+                    icon: Icon(
+                        _isHidden ? Icons.visibility : Icons.visibility_off,
                         // color: const Color(primary_dark),
                         size: 23.20),
                     alignment: Alignment.topRight,
@@ -172,7 +177,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             width: 224,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
-              color: const Color(primary_dark),
+              color: const Color(primaryDark),
             ),
             child: const Center(
                 child: CustomButton(
@@ -187,7 +192,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             child: const Center(
               child: TextPoppins(
                 text: '¿Ya tienes una cuenta creada?',
-                colorText: black_text,
+                colorText: blackText,
                 fontSize: 11,
                 fontWeight: FontWeight.w400,
               ),
@@ -199,7 +204,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             child: const Center(
               child: TextPoppins(
                 text: 'Iniciar sesión',
-                colorText: primary_dark,
+                colorText: primaryDark,
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
               ),

@@ -5,19 +5,22 @@ import 'package:finniu/constants/colors.dart';
 class AppTheme {
   get darkTheme => ThemeData(
         // primarySwatch:,
-        appBarTheme: const AppBarTheme(color: Color(primary_dark)),
+        appBarTheme: const AppBarTheme(color: Color(primaryDark)),
         backgroundColor: const Color(backgroundColorDark),
-        primaryColor: const Color(primary_dark), // usado para gradiente
-        primaryColorLight: const Color(primary_light), // usado para gradiente
-        textTheme: const TextTheme(
+        primaryColor: const Color(primaryDark), // usado para gradiente
+        primaryColorLight: const Color(primaryLight), // usado para gradiente
+        textTheme: TextTheme(
           titleLarge: TextStyle(
             color: Color(sky_blue_text),
+          ),
+          titleMedium: TextStyle(
+            color: Color(hintTextDarkColor),
           ),
         ),
         colorScheme: const ColorScheme.dark(
           primary: Colors.white,
-          secondary: Color(primary_light),
-          tertiary: Color(secondary_text_dark),
+          secondary: Color(primaryLight),
+          // tertiary: Color(0xff164D7D),
         ),
         inputDecorationTheme: InputDecorationTheme(
           focusedBorder: OutlineInputBorder(
@@ -55,12 +58,16 @@ class AppTheme {
   get lightTheme => ThemeData(
         // primarySwatch: Colors.grey,
         backgroundColor: const Color(backgroundColorLight),
-        primaryColor: const Color(primary_light), // usado para gradiente
+        primaryColor: const Color(primaryLight), // usado para gradiente
         primaryColorLight: const Color(secondary), // usado para gradiente
-        appBarTheme: const AppBarTheme(color: Color(primary_light)),
-        textTheme: const TextTheme(
+        appBarTheme: const AppBarTheme(color: Color(primaryLight)),
+
+        textTheme: TextTheme(
           titleLarge: TextStyle(
-            color: Color(black_text),
+            color: Color(blackText),
+          ),
+          titleMedium: TextStyle(
+            color: Color(hintTextLightColor),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
@@ -97,8 +104,8 @@ class AppTheme {
 
         colorScheme: const ColorScheme.dark(
           primary: Colors.black,
-          secondary: Color(primary_dark),
-          tertiary: Color(primary_dark),
+          secondary: Color(primaryDark),
+          // tertiary: Color(0xffA2E6FA),
         ),
       );
 }

@@ -19,7 +19,10 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
             gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
-          colors: [const Color(gradient_primary), const Color(gradient_secondary)],
+          colors: [
+            const Color(gradient_primary),
+            const Color(gradient_secondary)
+          ],
         )),
         child: Column(children: <Widget>[
           SizedBox(height: 110),
@@ -31,14 +34,15 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
           SizedBox(height: 16),
           TextPoppins(
             text: 'Multiplica tu dinero de forma sencilla',
-            colorText: primary_dark,
+            colorText: primaryDark,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 11),
           TextPoppins(
-            text: 'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
-            colorText: primary_dark,
+            text:
+                'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
+            colorText: primaryDark,
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),
@@ -51,7 +55,8 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
               onTap: () {
                 Navigator.pop(context);
               },
-              child: CusttomButtomRoundedLight(pushName: '/on_boarding_welcome'),
+              child:
+                  CusttomButtomRoundedLight(pushName: '/on_boarding_welcome'),
             ),
             Container(
               width: 80,

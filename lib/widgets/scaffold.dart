@@ -42,10 +42,10 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
                 width: 45,
                 height: 24,
                 value: Preferences.isDarkMode,
-                inactiveColor: const Color(primary_dark),
-                activeColor: const Color(primary_light),
-                inactiveToggleColor: const Color(primary_light),
-                activeToggleColor: const Color(primary_dark),
+                inactiveColor: const Color(primaryDark),
+                activeColor: const Color(primaryLight),
+                inactiveToggleColor: const Color(primaryLight),
+                activeToggleColor: const Color(primaryDark),
                 onToggle: (value) {
                   Preferences.isDarkMode = value;
                   value
@@ -76,8 +76,8 @@ class CustomScaffoldReturn extends StatefulWidget {
       {super.key,
       required this.body,
       this.backgroundColor = 0xffFFFFFF,
-      this.colorBoxdecoration = primary_dark,
-      this.colorIcon = primary_light});
+      this.colorBoxdecoration = primaryDark,
+      this.colorIcon = primaryLight});
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();

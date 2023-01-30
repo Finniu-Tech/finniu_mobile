@@ -18,7 +18,10 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
             gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
-          colors: [const Color(gradient_secondary), const Color(gradient_primary)],
+          colors: [
+            const Color(gradient_secondary),
+            const Color(gradient_primary)
+          ],
         )),
         child: Column(children: <Widget>[
           SizedBox(height: 110),
@@ -30,14 +33,15 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
           SizedBox(height: 16),
           TextPoppins(
             text: 'Recibe tus pagos de manera segura y puntual',
-            colorText: primary_dark,
+            colorText: primaryDark,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 11),
           TextPoppins(
-            text: 'Recibe tu capital y tus intereses garantizado en la fecha establecida',
-            colorText: primary_dark,
+            text:
+                'Recibe tu capital y tus intereses garantizado en la fecha establecida',
+            colorText: primaryDark,
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),
@@ -60,7 +64,13 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: CustomButton(text: 'Comenzar', colorBackground: primary_dark, colorText: white_text, width: 116, height: 40, pushName: '/login_start')),
+                child: CustomButton(
+                    text: 'Comenzar',
+                    colorBackground: primaryDark,
+                    colorText: white_text,
+                    width: 116,
+                    height: 40,
+                    pushName: '/login_start')),
           ])
         ]));
   }

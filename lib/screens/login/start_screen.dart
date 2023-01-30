@@ -75,7 +75,7 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   margin: const EdgeInsets.only(top: 35),
                   child: const CustomButton(
                       text: 'Iniciar sesión',
-                      colorBackground: primary_dark,
+                      colorBackground: primaryDark,
                       colorText: white_text,
                       pushName: '/login_email'),
                 ),
@@ -83,8 +83,8 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   margin: const EdgeInsets.only(top: 20),
                   child: const CustomButton(
                       text: 'Registrarme',
-                      colorBackground: primary_light,
-                      colorText: primary_dark,
+                      colorBackground: primaryLight,
+                      colorText: primaryDark,
                       pushName: '/sign_up_email'),
                 ),
               ],
