@@ -19,7 +19,7 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
     return CustomScaffoldReturn(
         backgroundColor: primary_dark,
         colorBoxdecoration: primary_light,
-        colorIcon: primary_light,
+        colorIcon: primary_dark,
         body: Container(
             decoration: BoxDecoration(
                 gradient: LinearGradient(

@@ -42,15 +42,27 @@ class _WelcomeMiddleState extends State<WelcomeMiddle> {
             fontWeight: FontWeight.w400,
           ),
           Container(
-            width: 67,
-            height: 75,
+            width: 50,
+            height: 50,
           ),
-          GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: CusttomButtomRoundedDart(pushName: '/sign_up_finally'),
-          )
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: CusttomButtomRoundedLight(pushName: '/sign_up_start'),
+            ),
+            Container(
+              width: 80,
+              height: 0,
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pop(context);
+              },
+              child: CusttomButtomRoundedDart(pushName: '/sign_up_finally'),
+            )
+          ])
         ]));
   }
 }

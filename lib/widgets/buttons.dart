@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
 
-class CustomButton extends StatelessWidget {
+class CustomButton extends StatefulWidget {
   final int colorBackground;
   final int colorText;
   final String text;
   final String pushName;
+  final double width;
+  final double height;
 
   const CustomButton({
     super.key,
@@ -14,26 +16,33 @@ class CustomButton extends StatelessWidget {
     this.colorBackground = primary_dark,
     this.colorText = white_text,
     this.pushName = "",
+    this.width = 224,
+    this.height = 50,
   });
 
+  @override
+  State<CustomButton> createState() => _CustomButtonState();
+}
+
+class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print(pushName);
-        Navigator.pushNamed(context, pushName);
+        print(widget.pushName);
+        Navigator.pushNamed(context, widget.pushName);
       },
       child: Container(
-        width: 224,
-        height: 50,
+        width: widget.width,
+        height: widget.height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Color(colorBackground),
+          color: Color(widget.colorBackground),
         ),
         child: Center(
           child: Text(
-            text,
-            style: TextStyle(color: Color(colorText), fontSize: 16, fontWeight: FontWeight.bold),
+            widget.text,
+            style: TextStyle(color: Color(widget.colorText), fontSize: 16, fontWeight: FontWeight.bold),
           ),
         ),
       ),
@@ -120,7 +129,7 @@ class CusttomButtomRoundedLight extends StatefulWidget {
   _CusttomButtomRoundedLightState createState() => _CusttomButtomRoundedLightState();
 }
 
-class _CusttomButtomRoundedLightState extends State<CusttomButtomRoundedDart> {
+class _CusttomButtomRoundedLightState extends State<CusttomButtomRoundedLight> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

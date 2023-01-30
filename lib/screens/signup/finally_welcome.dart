@@ -42,14 +42,26 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
             fontWeight: FontWeight.w400,
           ),
           Container(
-            width: 67,
-            height: 75,
+            width: 50,
+            height: 50,
           ),
-          GestureDetector(
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+            GestureDetector(
               onTap: () {
                 Navigator.pop(context);
               },
-              child: CustomButton(text: 'Comenzar', colorBackground: primary_dark, colorText: white_text, pushName: '/sign_up_finally')),
+              child: CusttomButtomRoundedLight(pushName: '/sign_up_middle'),
+            ),
+            Container(
+              width: 80,
+              height: 0,
+            ),
+            GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: CustomButton(text: 'Comenzar', colorBackground: primary_dark, colorText: white_text, width: 116, height: 40, pushName: '/sign_up_finally')),
+          ])
         ]));
   }
 }
