@@ -60,7 +60,7 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: CustomButton(text: 'Comenzar', colorBackground: primary_dark, colorText: white_text, width: 116, height: 40, pushName: '/sign_up_finally')),
+                child: CustomButton(text: 'Comenzar', colorBackground: primary_dark, colorText: white_text, width: 116, height: 40, pushName: '/login_start')),
           ])
         ]));
   }
