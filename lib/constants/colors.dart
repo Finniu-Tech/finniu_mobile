@@ -46,3 +46,9 @@ const borderInputDarkColor = 0xffA2E6FA;
 
 const suffixIconColorLight = 0xff0D3A5C;
 const suffixIconDarkColor = 0xffA2E6FA;
+
+const buttonBackgroundColorLight = 0xff0D3A5C;
+const buttonBackgroundColorDark = 0xffA2E6FA;
+
+const colorTextButtonLightColor = 0xffffffff;
+const colorTextButtonDarkColor = 0xff0D3A5C;

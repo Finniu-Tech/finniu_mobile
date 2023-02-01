@@ -23,14 +23,15 @@ class _WelcomeFinniuState extends State<WelcomeFinniu> {
         ),
         body: Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomRight,
-              colors: [
-                const Color(primaryDark),
-                const Color(gradient_primary_alternative)
-              ],
-            )),
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomRight,
+                colors: [
+                  const Color(primaryDark),
+                  const Color(gradient_primary_alternative)
+                ],
+              ),
+            ),
             child: Column(children: <Widget>[
               Container(
                 width: 360,

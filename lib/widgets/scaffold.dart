@@ -86,8 +86,6 @@ class CustomScaffoldReturn extends StatefulWidget {
 class _CustomScaffoldReturnState extends State<CustomScaffoldReturn> {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(

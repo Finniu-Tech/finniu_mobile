@@ -76,15 +76,15 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   child: const CustomButton(
                       text: 'Iniciar sesión',
                       colorBackground: primaryDark,
-                      colorText: white_text,
+                      // colorText: white_text,
                       pushName: '/login_email'),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: const CustomButton(
                       text: 'Registrarme',
-                      colorBackground: primaryLight,
-                      colorText: primaryDark,
+                      // colorBackground: primaryLight,
+                      // colorText: primaryDark,
                       pushName: '/sign_up_email'),
                 ),
               ],

@@ -172,20 +172,41 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                 controller: TextEditingController(text: _password),
               )),
           const SizedBox(height: 20),
-          Container(
-            height: 50,
-            width: 224,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: const Color(primaryDark),
-            ),
-            child: const Center(
-                child: CustomButton(
-                    text: 'Crear registro',
-                    // colorBackground: primary_dark,
-                    // colorText: white_text,
-                    pushName: '/on_boarding_welcome')),
+
+          CustomButton(
+            text: 'Crear registro',
+            // colorBackground: primary_dark,
+            // colorText: white_text,
+            pushName: '/on_boarding_welcome',
           ),
+
+          // TextButton(
+          //   style: TextButton.styleFrom(
+          //     fixedSize: Size(224, 50),
+          //     backgroundColor: Color(primaryDark),
+          //     shape: RoundedRectangleBorder(
+          //       borderRadius: BorderRadius.circular(40),
+          //     ),
+          //   ),
+          //   onPressed: () {},
+          //   child: Text('dfdfddfdf'),
+          // ),
+
+          // Container(
+          //   height: 50,
+          //   width: 224,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(50),
+          //     color: const Color(primaryDark),
+          //   ),
+          //   child: const Center(
+          //     child: CustomButton(
+          //         text: 'Crear registro',
+          //         // colorBackground: primary_dark,
+          //         // colorText: white_text,
+          //         pushName: '/on_boarding_welcome'),
+          //   ),
+          // ),
           const SizedBox(height: 2),
           // ignore: avoid_unnecessary_containers
           Container(

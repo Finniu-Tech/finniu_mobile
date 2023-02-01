@@ -1,10 +1,12 @@
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:provider/provider.dart';
 
 class CustomButton extends StatefulWidget {
-  final int colorBackground;
-  final int colorText;
+  final int? colorBackground;
+  final int? colorText;
   final String text;
   final String pushName;
   final double width;
@@ -13,8 +15,8 @@ class CustomButton extends StatefulWidget {
   const CustomButton({
     super.key,
     required this.text,
-    this.colorBackground = primaryDark,
-    this.colorText = white_text,
+    this.colorBackground,
+    this.colorText,
     this.pushName = "",
     this.width = 224,
     this.height = 50,
@@ -27,29 +29,61 @@ class CustomButton extends StatefulWidget {
 class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print(widget.pushName);
+    // final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    print('zzzz');
+    print(widget.text);
+    print(widget.colorBackground);
+    Color colorBackground;
+    if (widget.colorBackground == null) {
+      print('ifff');
+      colorBackground = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .backgroundColor!
+          .resolve({MaterialState.pressed})!;
+      print(colorBackground);
+    } else {
+      print('else');
+      colorBackground = Color(widget.colorBackground!);
+    }
+
+    return TextButton(
+      style: TextButton.styleFrom(
+        fixedSize: Size(widget.width, widget.height),
+        backgroundColor: colorBackground,
+        // foregroundColor: Color(widget.colorText)
+        // shape: RoundedRectangleBorder(
+        //   borderRadius: BorderRadius.circular(25),
+        // ),
+      ),
+      onPressed: () {
         Navigator.pushNamed(context, widget.pushName);
       },
-      child: Container(
-        width: widget.width,
-        height: widget.height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: Color(widget.colorBackground),
-        ),
-        child: Center(
-          child: Text(
-            widget.text,
-            style: TextStyle(
-                color: Color(widget.colorText),
-                fontSize: 16,
-                fontWeight: FontWeight.bold),
-          ),
-        ),
-      ),
+      child: Text(widget.text),
     );
+    // return GestureDetector(
+    //   onTap: () {
+    //     print(widget.pushName);
+    //     Navigator.pushNamed(context, widget.pushName);
+    //   },
+    //   child: Container(
+    //     width: widget.width,
+    //     height: widget.height,
+    //     decoration: BoxDecoration(
+    //       borderRadius: BorderRadius.circular(50),
+    //       color: Color(widget.colorBackground),
+    //     ),
+    //     child: Center(
+    //       child: Text(
+    //         widget.text,
+    //         style: TextStyle(
+    //             color: Color(widget.colorText),
+    //             fontSize: 16,
+    //             fontWeight: FontWeight.bold),
+    //       ),
+    //     ),
+    //   ),
+    // );
   }
 }
 

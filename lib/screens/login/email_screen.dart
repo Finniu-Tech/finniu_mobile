@@ -154,8 +154,8 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
             Container(
                 child: CustomButton(
                     text: 'Ingresar',
-                    colorBackground: primaryDark,
-                    colorText: white_text,
+                    // colorBackground: primaryDark,
+                    // colorText: white_text,
                     pushName: '/login_email')),
             SizedBox(height: 7),
             Container(

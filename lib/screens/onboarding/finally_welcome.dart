@@ -66,8 +66,8 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
                 },
                 child: CustomButton(
                     text: 'Comenzar',
-                    colorBackground: primaryDark,
-                    colorText: white_text,
+                    // colorBackground: primaryDark,
+                    // colorText: white_text,
                     width: 116,
                     height: 40,
                     pushName: '/login_start')),

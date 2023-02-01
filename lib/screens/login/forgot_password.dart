@@ -84,8 +84,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         child: Center(
             child: CustomButton(
                 text: 'Enviar correo',
-                colorBackground: primaryDark,
-                colorText: white_text,
+                // colorBackground: primaryDark,
+                // colorText: white_text,
                 pushName: '/login_invalid')),
       ),
     ])));

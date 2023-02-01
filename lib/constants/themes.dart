@@ -9,7 +9,7 @@ class AppTheme {
         backgroundColor: const Color(backgroundColorDark),
         primaryColor: const Color(primaryDark), // usado para gradiente
         primaryColorLight: const Color(primaryLight), // usado para gradiente
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           titleLarge: TextStyle(
             color: Color(sky_blue_text),
           ),
@@ -21,6 +21,30 @@ class AppTheme {
           primary: Colors.white,
           secondary: Color(primaryLight),
           // tertiary: Color(0xff164D7D),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            // textStyle: MaterialStateProperty.resolveWith<TextStyle>(
+            //   (_) {
+            //     return const TextStyle(
+            //       color: Color(colorTextButtonDarkColor),
+            //     );
+            //   },
+            // ),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+              (states) => const Color(buttonBackgroundColorDark),
+            ),
+            foregroundColor: MaterialStateProperty.all<Color>(
+              const Color(colorTextButtonDarkColor),
+            ),
+            shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+              (_) {
+                return RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                );
+              },
+            ),
+          ),
         ),
         inputDecorationTheme: InputDecorationTheme(
           focusedBorder: OutlineInputBorder(
@@ -62,12 +86,36 @@ class AppTheme {
         primaryColorLight: const Color(secondary), // usado para gradiente
         appBarTheme: const AppBarTheme(color: Color(primaryLight)),
 
-        textTheme: TextTheme(
+        textTheme: const TextTheme(
           titleLarge: TextStyle(
             color: Color(blackText),
           ),
           titleMedium: TextStyle(
             color: Color(hintTextLightColor),
+          ),
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            // textStyle: MaterialStateProperty.resolveWith<TextStyle>(
+            //   (_) {
+            //     return const TextStyle(
+            //         // color: Color(colorTextButtonLightColor),
+            //         // color: Colors.red,
+            //         );
+            //   },
+            // ),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (states) => const Color(buttonBackgroundColorLight)),
+            foregroundColor: MaterialStateProperty.all<Color>(
+              const Color(colorTextButtonLightColor),
+            ),
+            shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
+              (_) {
+                return RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25),
+                );
+              },
+            ),
           ),
         ),
         inputDecorationTheme: InputDecorationTheme(
@@ -102,7 +150,7 @@ class AppTheme {
           suffixIconColor: const Color(suffixIconColorLight),
         ),
 
-        colorScheme: const ColorScheme.dark(
+        colorScheme: const ColorScheme.light(
           primary: Colors.black,
           secondary: Color(primaryDark),
           // tertiary: Color(0xffA2E6FA),
