@@ -6,42 +6,53 @@ import '../../widgets/fonts.dart';
 import '../../widgets/scaffold.dart';
 import '../../widgets/textfield.dart';
 
-class StartInvesment extends StatefulWidget {
-  const StartInvesment({super.key});
+class StartInvestment extends StatefulWidget {
+  const StartInvestment({super.key});
 
   @override
-  State<StartInvesment> createState() => _StartInvesmentState();
+  State<StartInvestment> createState() => _StartInvestmentState();
 }
 
-class _StartInvesmentState extends State<StartInvesment> {
+class _StartInvestmentState extends State<StartInvestment> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturn(
         body: Center(
             child: Column(children: <Widget>[
-      SizedBox(height: 90),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SizedBox(height: 90),
+        ],
+      ),
+      Container(
+        width: 70,
+        height: 70,
+        child: Image.asset('assets/investment/logo.png'),
+      ),
       TextPoppins(
         text: 'Queremos conocerte para ofrecerte lo mejor',
         colorText: primaryDark,
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
-      Stack(children: <Widget>[
+      SizedBox(height: 20),
+      Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
         Container(
-          width: 99,
-          height: 99,
-          child: Image.asset('assets/investment/icon2.png'),
+          width: 40,
+          height: 40,
+          child: Image.asset('assets/investment/arrow.png'),
         ),
       ]),
       Stack(children: <Widget>[
         Container(
           width: 99,
           height: 99,
-          child: Image.asset('assets/investment/logo.png'),
+          child: Image.asset('assets/investment/avatar.png'),
         ),
       ]),
       Container(
-        width: 273,
+        width: 276,
         height: 163,
         decoration: BoxDecoration(color: const Color(primaryLightAlternative), borderRadius: BorderRadius.circular(15)),
         child: Align(
@@ -54,7 +65,7 @@ class _StartInvesmentState extends State<StartInvesment> {
               textAlign: TextAlign.right,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: 11,
+                fontSize: 14,
                 fontWeight: FontWeight.w400,
                 height: 1.5,
               ),
@@ -62,9 +73,8 @@ class _StartInvesmentState extends State<StartInvesment> {
           ),
         ),
       ),
-      Container(
-        width: 80,
-        height: 70,
+      SizedBox(
+        height: 60,
       ),
       GestureDetector(
           onTap: () {

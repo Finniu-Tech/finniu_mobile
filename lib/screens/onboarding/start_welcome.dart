@@ -16,34 +16,34 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
-              colors: [const Color(gradient_primary), const Color(gradient_secondary)],
+              colors: [Color(gradient_primary), Color(gradient_secondary)],
             )),
             child: Column(children: <Widget>[
-              SizedBox(height: 110),
+              const SizedBox(height: 110),
               Container(
                 width: 360,
                 height: 362,
                 child: Image.asset('assets/welcome/welcome2.png'),
               ),
-              SizedBox(height: 16),
-              TextPoppins(
+              const SizedBox(height: 16),
+              const TextPoppins(
                 text: 'Multiplica tu dinero de forma sencilla',
                 colorText: primaryDark,
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
-              SizedBox(height: 11),
-              TextPoppins(
+              const SizedBox(height: 11),
+              const TextPoppins(
                 text: 'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
                 colorText: primaryDark,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
-              Container(
+              const SizedBox(
                 width: 50,
                 height: 50,
               ),
@@ -52,17 +52,14 @@ class _StartWelcomeFinniuState extends State<StartWelcomeFinniu> {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: CusttomButtomRoundedLight(pushName: '/on_boarding_welcome'),
+                  child: const CusttomButtomRoundedLight(pushName: '/on_boarding_welcome'),
                 ),
-                Container(
-                  width: 80,
-                  height: 0,
-                ),
+                const SizedBox(width: 80),
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: CustomButtonRoundedDart(pushName: '/on_boarding_middle'),
+                  child: const CustomButtonRoundedDart(pushName: '/on_boarding_middle'),
                 )
               ])
             ])));

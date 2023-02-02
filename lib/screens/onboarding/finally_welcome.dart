@@ -15,45 +15,42 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomRight,
-              colors: [const Color(gradient_secondary), const Color(gradient_primary)],
+              colors: [Color(gradient_secondary), Color(gradient_primary)],
             )),
             child: Column(children: <Widget>[
-              SizedBox(height: 110),
-              Container(
-                width: 360,
-                height: 362,
+              SizedBox(height: 100),
+              SizedBox(
                 child: Image.asset('assets/welcome/welcome4.png'),
               ),
-              SizedBox(height: 16),
-              TextPoppins(
+              const SizedBox(height: 6),
+              const TextPoppins(
                 text: 'Recibe tus pagos de manera segura y puntual',
                 colorText: primaryDark,
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
-              SizedBox(height: 11),
-              TextPoppins(
+              const TextPoppins(
                 text: 'Recibe tu capital y tus intereses garantizado en la fecha establecida',
                 colorText: primaryDark,
                 fontSize: 16,
                 fontWeight: FontWeight.w400,
               ),
-              Container(
-                width: 50,
-                height: 50,
+              const SizedBox(
+                width: 10,
+                height: 40,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                 GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child: CusttomButtomRoundedLight(pushName: '/on_boarding_middle'),
+                  child: const CusttomButtomRoundedLight(pushName: '/on_boarding_middle'),
                 ),
-                Container(
+                const SizedBox(
                   width: 80,
                   height: 0,
                 ),
@@ -61,7 +58,7 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: CustomButton(
+                    child: const CustomButton(
                         text: 'Comenzar',
                         // colorBackground: primaryDark,
                         // colorText: white_text,

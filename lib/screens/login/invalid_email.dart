@@ -20,30 +20,30 @@ class _InvalidEmailState extends State<InvalidEmail> {
     return CustomScaffoldReturn(
         body: Center(
             child: Column(children: <Widget>[
-      SizedBox(height: 90),
-      TextPoppins(
+      const SizedBox(height: 90),
+      const TextPoppins(
         text: 'Correo inválido',
         colorText: primaryDark,
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
-      SizedBox(height: 10),
-      TextPoppins(
+      const SizedBox(height: 10),
+      const TextPoppins(
         text: 'Este correo no está registrado en el App',
         colorText: primaryDark,
         fontSize: 12,
         fontWeight: FontWeight.w500,
       ),
-      SizedBox(height: 25),
+      const SizedBox(height: 25),
       Stack(children: <Widget>[
-        Container(
+        SizedBox(
           width: 125,
           height: 103,
           child: Image.asset('assets/forgotpassword/sad.png'),
         ),
       ]),
-      SizedBox(height: 40),
-      Container(
+      const SizedBox(height: 40),
+      const SizedBox(
         width: 224,
         height: 38,
         child: ButtonDecoration(
@@ -51,28 +51,26 @@ class _InvalidEmailState extends State<InvalidEmail> {
           textLabel: 'Correo electrónico',
         ),
       ),
-      SizedBox(height: 15),
-      Container(
-          child: Center(
-              child: TextPoppins(
+      const SizedBox(height: 15),
+      const Center(
+          child: TextPoppins(
         text: '¿Aún no tienes una cuenta creada?',
         colorText: blackText,
         fontSize: 11,
         fontWeight: FontWeight.w400,
-      ))),
-      SizedBox(height: 2),
-      Container(
-          child: Center(
-              child: InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/login_email');
-                  },
-                  child: TextPoppins(
-                    text: 'Registrarme',
-                    colorText: primaryDark,
-                    fontSize: 11,
-                    fontWeight: FontWeight.bold,
-                  ))))
+      )),
+      const SizedBox(height: 2),
+      Center(
+          child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/login_email');
+              },
+              child: const TextPoppins(
+                text: 'Registrarme',
+                colorText: primaryDark,
+                fontSize: 11,
+                fontWeight: FontWeight.bold,
+              )))
     ])));
   }
 }

@@ -20,22 +20,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     return CustomScaffoldReturn(
         body: Center(
             child: Column(children: <Widget>[
-      SizedBox(height: 90),
-      TextPoppins(
+      const SizedBox(height: 90),
+      const TextPoppins(
         text: '¿Olvidaste tu contraseña?',
         colorText: primaryDark,
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
-      SizedBox(height: 10),
-      TextPoppins(
+      const SizedBox(height: 10),
+      const TextPoppins(
         text: 'No te preocupes es posible recuperarla',
         colorText: primaryDark,
         fontSize: 12,
         fontWeight: FontWeight.w500,
       ),
       Stack(children: <Widget>[
-        Container(
+        SizedBox(
           width: 89,
           height: 76,
           child: Image.asset('assets/forgotpassword/padlock.png'),
@@ -44,12 +44,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
       Container(
         width: 267,
         height: 130,
-        decoration: BoxDecoration(
-            color: const Color(primaryLightAlternative),
-            borderRadius: BorderRadius.circular(15)),
-        child: Align(
+        decoration: BoxDecoration(color: const Color(primaryLightAlternative), borderRadius: BorderRadius.circular(15)),
+        child: const Align(
           alignment: Alignment(-0.0, -0.0),
-          child: Container(
+          child: SizedBox(
             width: 184,
             height: 103,
             child: Text(
@@ -65,15 +63,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ),
         ),
       ),
-      SizedBox(height: 50),
-      Container(
+      const SizedBox(height: 50),
+      const SizedBox(
         width: 224,
         height: 38,
-        child: ButtonDecoration(
-            textHint: 'Escribe tu correo electrónico',
-            textLabel: "Correo electrónico"),
+        child: ButtonDecoration(textHint: 'Escribe tu correo electrónico', textLabel: "Correo electrónico"),
       ),
-      SizedBox(height: 25),
+      const SizedBox(height: 25),
       Container(
         height: 50,
         width: 224,
@@ -81,7 +77,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           borderRadius: BorderRadius.circular(50),
           color: const Color(primaryDark),
         ),
-        child: Center(
+        child: const Center(
             child: CustomButton(
                 text: 'Enviar correo',
                 // colorBackground: primaryDark,
