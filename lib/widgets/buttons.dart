@@ -35,7 +35,6 @@ class _CustomButtonState extends State<CustomButton> {
     print(widget.colorBackground);
     Color colorBackground;
     if (widget.colorBackground == null) {
-      print('ifff');
       colorBackground = Theme.of(context)
           .textButtonTheme
           .style!
@@ -43,19 +42,29 @@ class _CustomButtonState extends State<CustomButton> {
           .resolve({MaterialState.pressed})!;
       print(colorBackground);
     } else {
-      print('else');
       colorBackground = Color(widget.colorBackground!);
+    }
+
+    Color textColor;
+    if (widget.colorText == null) {
+      textColor = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .foregroundColor!
+          .resolve({MaterialState.pressed})!;
+    } else {
+      textColor = Color(widget.colorText!);
     }
 
     return TextButton(
       style: TextButton.styleFrom(
-        fixedSize: Size(widget.width, widget.height),
-        backgroundColor: colorBackground,
-        // foregroundColor: Color(widget.colorText)
-        // shape: RoundedRectangleBorder(
-        //   borderRadius: BorderRadius.circular(25),
-        // ),
-      ),
+          fixedSize: Size(widget.width, widget.height),
+          backgroundColor: colorBackground,
+          foregroundColor: textColor
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(25),
+          // ),
+          ),
       onPressed: () {
         Navigator.pushNamed(context, widget.pushName);
       },

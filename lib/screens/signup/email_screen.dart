@@ -36,7 +36,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             child: Image(
               fit: BoxFit.cover,
               image: AssetImage(
-                themeProvider.isDarkMode()
+                themeProvider.isDarkMode
                     ? "assets/images/logo_small_dark.png"
                     : "assets/images/logo_small.png",
               ),

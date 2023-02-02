@@ -28,30 +28,35 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
       ),
     );
+    print('themeProvider.isDarkMode' + themeProvider.isDarkMode.toString());
 
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image(
-              image: AssetImage(
-                themeProvider.isDarkMode()
-                    ? "assets/images/logo_finniu_dark.png"
-                    : "assets/images/logo_finniu_light.png",
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: Provider.of<ThemeProvider>(context).currentTheme,
+      home: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image(
+                image: AssetImage(
+                  themeProvider.isDarkMode
+                      ? "assets/images/logo_finniu_dark.png"
+                      : "assets/images/logo_finniu_light.png",
+                ),
               ),
-            ),
-            TextPoppins(
-              text: 'Vive el #ModoFinniu',
-              colorText: Theme.of(context).colorScheme.secondary.value,
-              fontSize: 24,
-              fontWeight: FontWeight.w600,
-            ),
-            SizedBox(height: 20.0),
-            CircularProgressIndicator(color: Colors.grey),
-          ],
+              TextPoppins(
+                text: 'Vive el #ModoFinniu',
+                colorText: Theme.of(context).colorScheme.secondary.value,
+                fontSize: 24,
+                fontWeight: FontWeight.w600,
+              ),
+              const SizedBox(height: 40.0),
+              const CircularProgressIndicator(color: Colors.grey),
+            ],
+          ),
         ),
       ),
     );

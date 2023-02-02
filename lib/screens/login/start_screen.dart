@@ -38,8 +38,6 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
           ),
         ),
         child: Center(
-          // padding: EdgeInsets.all(10),
-          // margin: EdgeInsets.all(10),
           child: Container(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -49,19 +47,17 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   height: 50,
                 ),
                 // ignore: sized_box_for_whitespace
-                Container(
-                  width: 224,
+                SizedBox(
                   height: 188,
                   child: Image(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      themeProvider.isDarkMode()
+                      themeProvider.isDarkMode
                           ? "assets/images/logo_finniu_dark.png"
                           : "assets/images/logo_finniu_light.png",
                     ),
                   ),
                 ),
-                // ignore: sized_box_for_whitespace
                 Container(
                   width: 224,
                   height: 50,
@@ -76,15 +72,15 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   child: const CustomButton(
                       text: 'Iniciar sesión',
                       colorBackground: primaryDark,
-                      // colorText: white_text,
+                      colorText: white_text,
                       pushName: '/login_email'),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: const CustomButton(
                       text: 'Registrarme',
-                      // colorBackground: primaryLight,
-                      // colorText: primaryDark,
+                      colorBackground: primaryLight,
+                      colorText: primaryDark,
                       pushName: '/sign_up_email'),
                 ),
               ],
