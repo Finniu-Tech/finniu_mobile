@@ -23,7 +23,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/on_boarding_start': (BuildContext context) => StartWelcomeFinniu(),
     '/on_boarding_middle': (BuildContext context) => WelcomeMiddle(),
     '/on_boarding_finally': (BuildContext context) => WelcomeFinally(),
-    '/invesment_start': (BuildContext context) => StartInvesment(),
+    '/investment_start': (BuildContext context) => StartInvesment(),
     // '/home': (BuildContext context) => HomePage(),
     // '/chapter': (BuildContext context) => ChapterPage(),
     // '/program_list': (BuildContext context) => ProgramListPage(),
