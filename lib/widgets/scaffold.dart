@@ -32,7 +32,7 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextPoppins(
-                  text: themeProvider.isDarkMode() ? 'Dark mode' : 'Light mode',
+                  text: themeProvider.isDarkMode ? 'Dark mode' : 'Light mode',
                   colorText: Theme.of(context).colorScheme.primary.value,
                   // colorText: ,
                   fontSize: 10,
