@@ -18,10 +18,7 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
             gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
-          colors: [
-            const Color(gradient_secondary),
-            const Color(gradient_primary)
-          ],
+          colors: [const Color(gradient_secondary), const Color(gradient_primary)],
         )),
         child: Column(children: <Widget>[
           SizedBox(height: 110),
@@ -39,8 +36,7 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
           ),
           SizedBox(height: 11),
           TextPoppins(
-            text:
-                'Recibe tu capital y tus intereses garantizado en la fecha establecida',
+            text: 'Recibe tu capital y tus intereses garantizado en la fecha establecida',
             colorText: primaryDark,
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -70,7 +66,7 @@ class _WelcomeFinallyState extends State<WelcomeFinally> {
                     // colorText: white_text,
                     width: 116,
                     height: 40,
-                    pushName: '/login_start')),
+                    pushName: '/invesment_start')),
           ])
         ]));
   }
