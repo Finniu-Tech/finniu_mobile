@@ -1,4 +1,5 @@
 import 'package:finniu/screens/intro_screen.dart';
+import 'package:finniu/screens/investment_question.dart/start_invesment.dart';
 import 'package:finniu/screens/login/email_screen.dart';
 import 'package:finniu/screens/login/forgot_password.dart';
 import 'package:finniu/screens/login/invalid_email.dart';
@@ -22,7 +23,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/on_boarding_start': (BuildContext context) => StartWelcomeFinniu(),
     '/on_boarding_middle': (BuildContext context) => WelcomeMiddle(),
     '/on_boarding_finally': (BuildContext context) => WelcomeFinally(),
-
+    '/investment_start': (BuildContext context) => StartInvesment(),
     // '/home': (BuildContext context) => HomePage(),
     // '/chapter': (BuildContext context) => ChapterPage(),
     // '/program_list': (BuildContext context) => ProgramListPage(),
