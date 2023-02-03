@@ -1,10 +1,8 @@
+import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../constants/colors.dart';
-import '../../widgets/buttons.dart';
-import '../../widgets/scaffold.dart';
 
 class WelcomeFinniu extends StatefulWidget {
   const WelcomeFinniu({super.key});

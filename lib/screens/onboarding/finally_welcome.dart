@@ -1,7 +1,7 @@
+import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
-import '../../constants/colors.dart';
-import '../../widgets/buttons.dart';
-import '../../widgets/fonts.dart';
 
 class WelcomeFinally extends StatefulWidget {
   const WelcomeFinally({super.key});

@@ -1,11 +1,9 @@
+import 'package:finniu/widgets/fonts.dart';
+import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../widgets/buttons.dart';
-import '../../widgets/fonts.dart';
-import '../../widgets/scaffold.dart';
 
 class InvalidEmail extends StatefulWidget {
   const InvalidEmail({super.key});

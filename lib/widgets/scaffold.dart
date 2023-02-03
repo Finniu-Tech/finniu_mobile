@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/share_preferences/preferences.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -5,8 +6,6 @@ import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
-
-import '../constants/colors.dart';
 
 class CustomScaffoldStart extends StatefulWidget {
   final dynamic body;
@@ -117,8 +116,9 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
 //custom_scaffold_return logo
 
 class CustomScaffoldReturnLogo extends StatefulWidget {
-  const CustomScaffoldReturnLogo({super.key, required Center body});
+  final dynamic body;
 
+  const CustomScaffoldReturnLogo({super.key, required this.body});
   @override
   _CustomScaffoldReturnLogo createState() => _CustomScaffoldReturnLogo();
 }
@@ -127,16 +127,18 @@ class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(backgroundColor: Colors.white, elevation: 0, actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 14.0),
-            child: SizedBox(
-              width: 70,
-              height: 70,
-              child: Image.asset('assets/investment/logo.png'),
-            ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(backgroundColor: Colors.white, elevation: 0, actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 14.0),
+          child: SizedBox(
+            width: 70,
+            height: 70,
+            child: Image.asset('assets/investment/logo.png'),
           ),
-        ]));
+        ),
+      ]),
+      body: widget.body,
+    );
   }
 }

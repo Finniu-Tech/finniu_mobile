@@ -1,10 +1,8 @@
+import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/fonts.dart';
+import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/colors.dart';
-import '../../widgets/buttons.dart';
-import '../../widgets/fonts.dart';
-import '../../widgets/scaffold.dart';
-import '../../widgets/textfield.dart';
 
 class StartInvestment extends StatefulWidget {
   const StartInvestment({super.key});
@@ -25,11 +23,6 @@ class _StartInvestmentState extends State<StartInvestment> {
           SizedBox(height: 90),
         ],
       ),
-      SizedBox(
-        width: 70,
-        height: 70,
-        child: Image.asset('assets/investment/logo.png'),
-      ),
       const TextPoppins(
         text: 'Queremos conocerte para ofrecerte lo mejor',
         colorText: primaryDark,
@@ -48,6 +41,10 @@ class _StartInvestmentState extends State<StartInvestment> {
         SizedBox(
           width: 99,
           height: 99,
+        ),
+        Positioned(
+          bottom: -2, // Establece la posición vertical de la imagen
+          right: 2, // Establece la posición horizontal de la imagen
           child: Image.asset('assets/investment/avatar.png'),
         ),
       ]),
@@ -59,9 +56,9 @@ class _StartInvestmentState extends State<StartInvestment> {
           alignment: Alignment(-0.0, -0.0),
           child: SizedBox(
             width: 184,
-            height: 103,
+            height: 80,
             child: Text(
-              'Hola,Mari queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción.',
+              'Hola,Mari queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversión para ti.',
               textAlign: TextAlign.right,
               style: TextStyle(
                 color: Colors.black,
