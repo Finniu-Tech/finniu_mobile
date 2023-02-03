@@ -14,30 +14,34 @@ class _SelectRangeState extends State<SelectRange> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
-      body: Center(
-        child: Column(children: <Widget>[
+        body: Center(
+      child: Column(
+        children: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: const [
               SizedBox(height: 90),
             ],
           ),
-          const TextPoppins(
-            text: 'Selecciona tu rango de edad ',
-            colorText: primaryDark,
-            fontSize: 24,
-            fontWeight: FontWeight.w600,
-          ),
-          SizedBox(
-            width: 40,
-            height: 40,
-            child: Image.asset('assets/investment/star.png'),
-          ),
-        ]),
+          Stack(alignment: Alignment.centerRight, children: <Widget>[
+            const TextPoppins(
+              text: 'Selecciona tu rango de edad ',
+              colorText: primaryDark,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+            ),
+            Row(
+              children: [
+                SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: Image.asset('assets/investment/star.png'),
+                ),
+              ],
+            ),
+          ]),
+        ],
       ),
-    );
-
-    ;
-    ;
+    ));
   }
 }

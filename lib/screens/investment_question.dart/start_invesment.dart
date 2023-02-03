@@ -23,20 +23,23 @@ class _StartInvestmentState extends State<StartInvestment> {
           SizedBox(height: 90),
         ],
       ),
-      const TextPoppins(
-        text: 'Queremos conocerte para ofrecerte lo mejor',
-        colorText: primaryDark,
-        fontSize: 24,
-        fontWeight: FontWeight.w600,
-      ),
-      const SizedBox(height: 50),
-      Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-        SizedBox(
-          width: 40,
-          height: 40,
-          child: Image.asset('assets/investment/arrow.png'),
+      Stack(alignment: Alignment.center, children: <Widget>[
+        const TextPoppins(
+          text: 'Queremos conocerte para ofrecerte lo mejor',
+          colorText: primaryDark,
+          fontSize: 24,
+          fontWeight: FontWeight.w600,
         ),
+        const SizedBox(height: 50),
+        Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+          SizedBox(
+            width: 40,
+            height: 40,
+            child: Image.asset('assets/investment/arrow.png'),
+          ),
+        ]),
       ]),
+      const SizedBox(height: 80),
       Stack(alignment: Alignment.center, children: <Widget>[
         Container(
           alignment: Alignment.center,
@@ -69,14 +72,14 @@ class _StartInvestmentState extends State<StartInvestment> {
               width: 89,
               height: 76,
               child: Transform.translate(
-                offset: Offset(150, -100),
+                offset: const Offset(150, -100),
                 child: Image.asset('assets/investment/avatar.png'),
               ),
             )
           ],
         ),
       ]),
-      SizedBox(height: 80),
+      const SizedBox(height: 80),
       GestureDetector(
           onTap: () {
             Navigator.pop(context);

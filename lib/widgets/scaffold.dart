@@ -128,7 +128,7 @@ class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white, elevation: 0, actions: [
+      appBar: AppBar(backgroundColor: Colors.white, elevation: 0, leading: const CustomReturnButton(), actions: [
         Padding(
           padding: const EdgeInsets.only(right: 14.0),
           child: SizedBox(
