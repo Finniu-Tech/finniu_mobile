@@ -21,31 +21,31 @@ class _StartInvestmentState extends State<StartInvestment> {
             child: Column(children: <Widget>[
       Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        children: [
+        children: const [
           SizedBox(height: 90),
         ],
       ),
-      Container(
+      SizedBox(
         width: 70,
         height: 70,
         child: Image.asset('assets/investment/logo.png'),
       ),
-      TextPoppins(
+      const TextPoppins(
         text: 'Queremos conocerte para ofrecerte lo mejor',
         colorText: primaryDark,
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
-      SizedBox(height: 20),
+      const SizedBox(height: 20),
       Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-        Container(
+        SizedBox(
           width: 40,
           height: 40,
           child: Image.asset('assets/investment/arrow.png'),
         ),
       ]),
       Stack(children: <Widget>[
-        Container(
+        SizedBox(
           width: 99,
           height: 99,
           child: Image.asset('assets/investment/avatar.png'),
@@ -55,9 +55,9 @@ class _StartInvestmentState extends State<StartInvestment> {
         width: 276,
         height: 163,
         decoration: BoxDecoration(color: const Color(primaryLightAlternative), borderRadius: BorderRadius.circular(15)),
-        child: Align(
+        child: const Align(
           alignment: Alignment(-0.0, -0.0),
-          child: Container(
+          child: SizedBox(
             width: 184,
             height: 103,
             child: Text(
@@ -73,14 +73,14 @@ class _StartInvestmentState extends State<StartInvestment> {
           ),
         ),
       ),
-      SizedBox(
+      const SizedBox(
         height: 60,
       ),
       GestureDetector(
           onTap: () {
             Navigator.pop(context);
           },
-          child: CustomButton(
+          child: const CustomButton(
               text: 'Continuar',
               // colorBackground: primaryDark,
               // colorText: white_text,
