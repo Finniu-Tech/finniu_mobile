@@ -29,7 +29,7 @@ class _StartInvestmentState extends State<StartInvestment> {
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
-      const SizedBox(height: 20),
+      const SizedBox(height: 50),
       Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
         SizedBox(
           width: 40,
@@ -37,42 +37,46 @@ class _StartInvestmentState extends State<StartInvestment> {
           child: Image.asset('assets/investment/arrow.png'),
         ),
       ]),
-      Stack(children: <Widget>[
-        SizedBox(
-          width: 99,
-          height: 99,
-        ),
-        Positioned(
-          bottom: -2, // Establece la posición vertical de la imagen
-          right: 2, // Establece la posición horizontal de la imagen
-          child: Image.asset('assets/investment/avatar.png'),
-        ),
-      ]),
-      Container(
-        width: 276,
-        height: 163,
-        decoration: BoxDecoration(color: const Color(primaryLightAlternative), borderRadius: BorderRadius.circular(15)),
-        child: const Align(
-          alignment: Alignment(-0.0, -0.0),
-          child: SizedBox(
-            width: 184,
-            height: 80,
-            child: Text(
-              'Hola,Mari queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversión para ti.',
-              textAlign: TextAlign.right,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 14,
-                fontWeight: FontWeight.w400,
-                height: 1.5,
+      Stack(alignment: Alignment.center, children: <Widget>[
+        Container(
+          alignment: Alignment.center,
+          width: 276,
+          height: 163,
+          decoration: BoxDecoration(color: const Color(primaryLightAlternative), borderRadius: BorderRadius.circular(15)),
+          child: const Align(
+            alignment: Alignment.centerRight,
+            child: SizedBox(
+              width: 226,
+              height: 113,
+              child: Text(
+                'Hola,Mari queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversion para ti.',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w400,
+                  height: 2.1,
+                ),
               ),
             ),
           ),
         ),
-      ),
-      const SizedBox(
-        height: 60,
-      ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(
+              width: 89,
+              height: 76,
+              child: Transform.translate(
+                offset: Offset(150, -100),
+                child: Image.asset('assets/investment/avatar.png'),
+              ),
+            )
+          ],
+        ),
+      ]),
+      SizedBox(height: 80),
       GestureDetector(
           onTap: () {
             Navigator.pop(context);
@@ -83,7 +87,7 @@ class _StartInvestmentState extends State<StartInvestment> {
               // colorText: white_text,
               width: 224,
               height: 50,
-              pushName: '/investment_start')),
+              pushName: '/investment_select')),
     ])));
   }
 }

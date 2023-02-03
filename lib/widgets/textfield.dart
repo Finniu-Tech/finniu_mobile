@@ -4,8 +4,7 @@ class ButtonDecoration extends StatefulWidget {
   final String textLabel;
   final String textHint;
 
-  const ButtonDecoration(
-      {super.key, required this.textLabel, required this.textHint});
+  const ButtonDecoration({super.key, required this.textLabel, required this.textHint});
 
   @override
   State<ButtonDecoration> createState() => _ButtonDecorationState();
@@ -19,8 +18,7 @@ class _ButtonDecorationState extends State<ButtonDecoration> {
       decoration: InputDecoration(
         hintText: widget.textHint,
         // isDense: true,
-        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0,
-            10.0), // con esto evitamos un bug cuando el texto es muy largo
+        contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0), // con esto evitamos un bug cuando el texto es muy largo
         // contentPadding: EdgeInsets.all(0),
         // hintStyle: fontPoppins(
         //     fontSize: 11, colorHex: gray_text, fontWeight: FontWeight.w600),
@@ -31,3 +29,22 @@ class _ButtonDecorationState extends State<ButtonDecoration> {
     );
   }
 }
+
+// class Question {
+//   final String id;
+//   final String tittle;
+//   final Map<String, bool> options;
+
+//   var title;
+
+//   Question(
+//     this.tittle, {
+//     required this.id,
+//     required this.title,
+//     required this.options,
+//   });
+//   @override
+//   String toString() {
+//     return 'Questions (id: $id,title: $Title, options:$options)';
+//   }
+// }
