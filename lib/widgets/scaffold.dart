@@ -48,9 +48,7 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
                 activeToggleColor: const Color(primaryDark),
                 onToggle: (value) {
                   Preferences.isDarkMode = value;
-                  value
-                      ? themeProvider.setDarkMode()
-                      : themeProvider.setLightMode();
+                  value ? themeProvider.setDarkMode() : themeProvider.setLightMode();
                   setState(() {});
                 },
               ),
@@ -72,12 +70,7 @@ class CustomScaffoldReturn extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
 
-  const CustomScaffoldReturn(
-      {super.key,
-      required this.body,
-      this.backgroundColor = 0xffFFFFFF,
-      this.colorBoxdecoration = primaryDark,
-      this.colorIcon = primaryLight});
+  const CustomScaffoldReturn({super.key, required this.body, this.backgroundColor = 0xffFFFFFF, this.colorBoxdecoration = primaryDark, this.colorIcon = primaryLight});
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();
@@ -124,22 +117,26 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
 //custom_scaffold_return logo
 
 class CustomScaffoldReturnLogo extends StatefulWidget {
-  const CustomScaffoldReturnLogo({super.key});
+  const CustomScaffoldReturnLogo({super.key, required Center body});
 
   @override
   _CustomScaffoldReturnLogo createState() => _CustomScaffoldReturnLogo();
 }
 
-class _CustomScaffoldReturnLogo extends State<CustomScaffoldStart> {
+class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0.0,
         backgroundColor: Colors.white,
-        leading: const CustomReturnButton(),
-      ),
-    );
+        appBar: AppBar(backgroundColor: Colors.white, elevation: 0, actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14.0),
+            child: SizedBox(
+              width: 70,
+              height: 70,
+              child: Image.asset('assets/investment/logo.png'),
+            ),
+          ),
+        ]));
   }
 }

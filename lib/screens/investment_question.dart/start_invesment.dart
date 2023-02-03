@@ -16,7 +16,7 @@ class StartInvestment extends StatefulWidget {
 class _StartInvestmentState extends State<StartInvestment> {
   @override
   Widget build(BuildContext context) {
-    return CustomScaffoldReturn(
+    return CustomScaffoldReturnLogo(
         body: Center(
             child: Column(children: <Widget>[
       Row(
