@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -43,7 +41,9 @@ class _IntroScreenState extends State<IntroScreen> {
             children: [
               Image(
                 image: AssetImage(
-                  themeProvider.isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
+                  themeProvider.isDarkMode
+                      ? "assets/images/logo_finniu_dark.png"
+                      : "assets/images/logo_finniu_light.png",
                 ),
               ),
               TextPoppins(
