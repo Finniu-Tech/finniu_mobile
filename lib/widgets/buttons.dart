@@ -1,8 +1,5 @@
-import 'package:finniu/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/widgets/buttons.dart';
-import 'package:provider/provider.dart';
 
 class CustomButton extends StatefulWidget {
   final int? colorBackground;
@@ -29,66 +26,49 @@ class CustomButton extends StatefulWidget {
 class _CustomButtonState extends State<CustomButton> {
   @override
   Widget build(BuildContext context) {
-    // final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
-    print('zzzz');
-    print(widget.text);
-    print(widget.colorBackground);
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
-      print(colorBackground);
+      colorBackground = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .backgroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .foregroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
 
     return TextButton(
-      style: TextButton.styleFrom(fixedSize: Size(widget.width, widget.height), backgroundColor: colorBackground, foregroundColor: textColor
-          // shape: RoundedRectangleBorder(
-          //   borderRadius: BorderRadius.circular(25),
-          // ),
-          ),
+      style: TextButton.styleFrom(
+        fixedSize: Size(widget.width, widget.height),
+        backgroundColor: colorBackground,
+        foregroundColor: textColor,
+      ),
       onPressed: () {
         Navigator.pushNamed(context, widget.pushName);
       },
       child: Text(widget.text),
     );
-    // return GestureDetector(
-    //   onTap: () {
-    //     print(widget.pushName);
-    //     Navigator.pushNamed(context, widget.pushName);
-    //   },
-    //   child: Container(
-    //     width: widget.width,
-    //     height: widget.height,
-    //     decoration: BoxDecoration(
-    //       borderRadius: BorderRadius.circular(50),
-    //       color: Color(widget.colorBackground),
-    //     ),
-    //     child: Center(
-    //       child: Text(
-    //         widget.text,
-    //         style: TextStyle(
-    //             color: Color(widget.colorText),
-    //             fontSize: 16,
-    //             fontWeight: FontWeight.bold),
-    //       ),
-    //     ),
-    //   ),
-    // );
   }
 }
 
 class CustomReturnButton extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
-  const CustomReturnButton({super.key, this.colorBoxdecoration = primaryDark, this.colorIcon = primaryLight});
+  const CustomReturnButton(
+      {super.key,
+      this.colorBoxdecoration = primaryDark,
+      this.colorIcon = primaryLight});
   @override
   State<CustomReturnButton> createState() => _CustomReturnButtonState();
 }
@@ -120,18 +100,19 @@ class _CustomReturnButtonState extends State<CustomReturnButton> {
   }
 }
 
-class CustomButtonRoundedDart extends StatefulWidget {
+class CustomButtonRoundedDark extends StatefulWidget {
   @override
   final String pushName;
 
-  const CustomButtonRoundedDart({
+  const CustomButtonRoundedDark({
     super.key,
     this.pushName = "",
   });
-  State<CustomButtonRoundedDart> createState() => _CustomButtonRoundedDartState();
+  State<CustomButtonRoundedDark> createState() =>
+      _CustomButtonRoundedDarkState();
 }
 
-class _CustomButtonRoundedDartState extends State<CustomButtonRoundedDart> {
+class _CustomButtonRoundedDarkState extends State<CustomButtonRoundedDark> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -139,48 +120,63 @@ class _CustomButtonRoundedDartState extends State<CustomButtonRoundedDart> {
         Navigator.pushNamed(context, widget.pushName);
       },
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         // padding: EdgeInsets.all(6),
         width: 40,
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Color(primaryDark),
+          color: const Color(primaryDark),
         ),
-        child: Center(child: Icon(size: 20, color: Color(primaryLight), Icons.arrow_forward)),
+        child: const Center(
+          child: Icon(
+            size: 20,
+            color: Color(primaryLight),
+            Icons.arrow_forward,
+          ),
+        ),
       ),
     );
   }
 }
 
-class CusttomButtomRoundedLight extends StatefulWidget {
+class CusttomButtonRoundedLight extends StatefulWidget {
   @override
   final String pushName;
+  final bool isReturn;
 
-  const CusttomButtomRoundedLight({
+  const CusttomButtonRoundedLight({
     super.key,
     this.pushName = "",
+    this.isReturn = false,
   });
-  _CusttomButtomRoundedLightState createState() => _CusttomButtomRoundedLightState();
+  _CusttomButtonRoundedLightState createState() =>
+      _CusttomButtonRoundedLightState();
 }
 
-class _CusttomButtomRoundedLightState extends State<CusttomButtomRoundedLight> {
+class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, widget.pushName);
+        if (widget.isReturn == true) {
+          Navigator.of(context).pop();
+        } else {
+          Navigator.pushNamed(context, widget.pushName);
+        }
       },
       child: Container(
         margin: EdgeInsets.all(10),
-        // padding: EdgeInsets.all(6),
         width: 40,
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: Color(primaryLight),
+          color: const Color(primaryLight),
         ),
-        child: Center(child: Icon(size: 20, color: Color(primaryDark), Icons.arrow_back_outlined)),
+        child: const Center(
+          child: Icon(
+              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
+        ),
       ),
     );
   }

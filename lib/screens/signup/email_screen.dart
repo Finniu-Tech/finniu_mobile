@@ -163,7 +163,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             const SizedBox(height: 20),
             const CustomButton(
               text: 'Crear registro',
-              pushName: '/on_boarding_welcome',
+              pushName: '/on_boarding_start',
             ),
             const SizedBox(height: 10),
             Center(
