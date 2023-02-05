@@ -52,3 +52,6 @@ const buttonBackgroundColorDark = 0xffA2E6FA;
 
 const colorTextButtonLightColor = 0xffffffff;
 const colorTextButtonDarkColor = 0xff0D3A5C;
+
+const cardBackgroundColorLight = 0xffDBF7FF;
+const cardBackgroundColorDark = 0xffA2E6FA;
