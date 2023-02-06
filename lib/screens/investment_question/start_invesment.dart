@@ -1,7 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
