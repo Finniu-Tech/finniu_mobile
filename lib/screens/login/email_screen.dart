@@ -136,7 +136,6 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                   const SizedBox(height: 15),
                   const CustomButton(
                     text: 'Ingresar',
-                    pushName: '/login_email',
                   ),
                   const SizedBox(height: 10),
                   Center(

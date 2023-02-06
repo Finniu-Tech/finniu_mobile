@@ -274,21 +274,19 @@ class _StartOnboardingState extends State<StartOnboarding> {
           children: [
             Container(
               height: 650,
-              child: Expanded(
-                child: PageView(
-                  controller: _controller,
-                  children: const [
-                    Section1(),
-                    Section2(),
-                    Section3(),
-                    Section4()
-                  ],
-                  onPageChanged: (page) {
-                    setState(() {
-                      _currentStep = page;
-                    });
-                  },
-                ),
+              child: PageView(
+                controller: _controller,
+                children: const [
+                  Section1(),
+                  Section2(),
+                  Section3(),
+                  Section4()
+                ],
+                onPageChanged: (page) {
+                  setState(() {
+                    _currentStep = page;
+                  });
+                },
               ),
             ),
             StepBar(

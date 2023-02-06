@@ -55,7 +55,9 @@ class _CustomButtonState extends State<CustomButton> {
         foregroundColor: textColor,
       ),
       onPressed: () {
-        Navigator.pushNamed(context, widget.pushName);
+        if (widget.pushName != "") {
+          Navigator.pushNamed(context, widget.pushName);
+        }
       },
       child: Text(widget.text),
     );

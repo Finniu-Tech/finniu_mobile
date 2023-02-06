@@ -1,4 +1,4 @@
-package com.example.finniu
+package alpha.finniu.test
 
 import io.flutter.embedding.android.FlutterActivity
 
