@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/step_bar.dart';
 import 'package:flutter/material.dart';
 
 class SelectRange extends StatefulWidget {
@@ -19,29 +20,38 @@ class _SelectRangeState extends State<SelectRange> {
       body: Center(
         child: Column(
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                SizedBox(height: 90),
+            SizedBox(height: 90),
+            Stack(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.only(right: 40, left: 20),
+                  margin: EdgeInsets.all(20),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 40,
+                        height: 40,
+                        child: Image.asset('assets/investment/star.png'),
+                      ),
+                      Expanded(
+                        child: Text('Selecciona tu rango de edad',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                color: Color(primaryDark),
+                                fontWeight: FontWeight.w600,
+                                fontSize: 24)),
+                        // child: const TextPoppins(
+                        //   text: 'Selecciona tu rango de edad ',
+                        //   colorText: primaryDark,
+                        //   fontSize: 24,
+                        //   fontWeight: FontWeight.w600,
+                        // ),
+                      ),
+                    ],
+                  ),
+                ),
               ],
             ),
-            Stack(alignment: Alignment.centerRight, children: <Widget>[
-              const TextPoppins(
-                text: 'Selecciona tu rango de edad ',
-                colorText: primaryDark,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: Image.asset('assets/investment/star.png'),
-                  ),
-                ],
-              ),
-            ]),
             const SizedBox(height: 40),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +73,7 @@ class _SelectRangeState extends State<SelectRange> {
                           color: const Color(primaryLightAlternative),
                           width: 2,
                         ),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(25),
                       ),
                       child: const Center(
                         child: TextPoppins(
@@ -91,7 +101,7 @@ class _SelectRangeState extends State<SelectRange> {
                       color: const Color(primaryLightAlternative),
                       width: 2,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   child: const Center(
                     child: TextPoppins(
@@ -117,7 +127,7 @@ class _SelectRangeState extends State<SelectRange> {
                       color: const Color(primaryLightAlternative),
                       width: 2,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   child: const Center(
                     child: TextPoppins(
@@ -143,7 +153,7 @@ class _SelectRangeState extends State<SelectRange> {
                       color: const Color(primaryLightAlternative),
                       width: 2,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   child: const Center(
                     child: TextPoppins(
@@ -169,7 +179,7 @@ class _SelectRangeState extends State<SelectRange> {
                       color: const Color(primaryLightAlternative),
                       width: 2,
                     ),
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(25),
                   ),
                   child: const Center(
                     child: TextPoppins(
@@ -182,6 +192,8 @@ class _SelectRangeState extends State<SelectRange> {
                 ),
               ),
             ),
+            SizedBox(height: 50),
+            StepBar(currentStep: 0, totalSteps: 4)
           ],
         ),
       ),
