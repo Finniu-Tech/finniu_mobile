@@ -1,9 +1,10 @@
 import 'package:finniu/screens/intro_screen.dart';
-import 'package:finniu/screens/investment_question.dart/select_range.dart';
-import 'package:finniu/screens/investment_question.dart/start_invesment.dart';
+import 'package:finniu/screens/investment_question/select_range.dart';
+import 'package:finniu/screens/investment_question/start_invesment.dart';
 import 'package:finniu/screens/login/email_screen.dart';
 import 'package:finniu/screens/login/forgot_password.dart';
 import 'package:finniu/screens/login/invalid_email.dart';
+import 'package:finniu/screens/onboarding/section_1.dart';
 import 'package:finniu/screens/signup/email_screen.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:finniu/screens/onboarding/start_onboarding.dart';
@@ -20,6 +21,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login_invalid': (BuildContext context) => const InvalidEmail(),
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
     '/investment_start': (BuildContext context) => const StartInvestment(),
+    '/investment_section': (BuildContext context) => const Section1(),
+
     // '/home': (BuildContext context) => HomePage(),
     // '/chapter': (BuildContext context) => ChapterPage(),
     // '/program_list': (BuildContext context) => ProgramListPage(),
