@@ -1,8 +1,10 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StartInvestment extends StatefulWidget {
   const StartInvestment({super.key});
@@ -14,6 +16,8 @@ class StartInvestment extends StatefulWidget {
 class _StartInvestmentState extends State<StartInvestment> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+
     return CustomScaffoldReturnLogo(
       body: Column(
         children: <Widget>[
@@ -24,13 +28,13 @@ class _StartInvestmentState extends State<StartInvestment> {
                 width: 276,
                 height: 118,
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                child: const Text(
+                child: Text(
                   'Queremos conocerte para ofrecerte lo mejor',
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                    color: Color(primaryDark),
+                    color: Color(Theme.of(context).colorScheme.secondary.value),
                   ),
                 ),
               ),
@@ -57,7 +61,9 @@ class _StartInvestmentState extends State<StartInvestment> {
                   padding: const EdgeInsets.all(15),
                   margin: const EdgeInsets.only(top: 65),
                   decoration: BoxDecoration(
-                    color: const Color(primaryLightAlternative),
+                    color: currentTheme.isDarkMode
+                        ? const Color(0xffFFEEDD)
+                        : const Color(primaryLightAlternative),
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: const Text(
@@ -72,7 +78,7 @@ class _StartInvestmentState extends State<StartInvestment> {
                   ),
                 ),
               ),
-              const Positioned(
+              Positioned(
                 // top: -30,
                 // left: 155,
                 child: Align(
@@ -83,8 +89,10 @@ class _StartInvestmentState extends State<StartInvestment> {
                     child: CircleAvatar(
                       radius: 43,
                       // foregroundColor: Colors.red,
-                      backgroundColor: Colors.white,
-                      child: CircleAvatar(
+                      backgroundColor: currentTheme.isDarkMode
+                          ? Color(backgroundColorDark)
+                          : Colors.white,
+                      child: const CircleAvatar(
                         backgroundImage:
                             AssetImage('assets/investment/avatar.png'),
                         radius: 35,

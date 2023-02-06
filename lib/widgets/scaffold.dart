@@ -47,7 +47,9 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
                 activeToggleColor: const Color(primaryDark),
                 onToggle: (value) {
                   Preferences.isDarkMode = value;
-                  value ? themeProvider.setDarkMode() : themeProvider.setLightMode();
+                  value
+                      ? themeProvider.setDarkMode()
+                      : themeProvider.setLightMode();
                   setState(() {});
                 },
               ),
@@ -69,7 +71,12 @@ class CustomScaffoldReturn extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
 
-  const CustomScaffoldReturn({super.key, required this.body, this.backgroundColor = 0xffFFFFFF, this.colorBoxdecoration = primaryDark, this.colorIcon = primaryLight});
+  const CustomScaffoldReturn(
+      {super.key,
+      required this.body,
+      this.backgroundColor = 0xffFFFFFF,
+      this.colorBoxdecoration = primaryDark,
+      this.colorIcon = primaryLight});
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();
@@ -126,18 +133,31 @@ class CustomScaffoldReturnLogo extends StatefulWidget {
 class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white, elevation: 0, leading: const CustomReturnButton(), actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 14.0),
-          child: SizedBox(
-            width: 70,
-            height: 70,
-            child: Image.asset('assets/investment/logo.png'),
-          ),
-        ),
-      ]),
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: 0,
+          leading: themeProvider.isDarkMode
+              ? const CustomReturnButton(
+                  colorBoxdecoration: primaryLight,
+                  colorIcon: primaryDark,
+                )
+              : const CustomReturnButton(),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 14.0),
+              child: SizedBox(
+                width: 70,
+                height: 70,
+                child: themeProvider.isDarkMode
+                    ? Image.asset('assets/images/logo_small_dark.png')
+                    : Image.asset('assets/images/logo_small.png'),
+              ),
+            ),
+          ]),
       body: widget.body,
     );
   }

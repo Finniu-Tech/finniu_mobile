@@ -65,10 +65,11 @@ class _CustomButtonState extends State<CustomButton> {
 class CustomReturnButton extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
-  const CustomReturnButton(
-      {super.key,
-      this.colorBoxdecoration = primaryDark,
-      this.colorIcon = primaryLight});
+  const CustomReturnButton({
+    super.key,
+    this.colorBoxdecoration = primaryDark,
+    this.colorIcon = primaryLight,
+  });
   @override
   State<CustomReturnButton> createState() => _CustomReturnButtonState();
 }
@@ -88,11 +89,11 @@ class _CustomReturnButtonState extends State<CustomReturnButton> {
           borderRadius: BorderRadius.circular(10),
           color: Color(widget.colorBoxdecoration),
         ),
-        child: const Center(
+        child: Center(
           child: Icon(
             Icons.arrow_back_ios_new_outlined,
             size: 20,
-            color: Colors.white,
+            color: Color(widget.colorIcon),
           ),
         ),
       ),

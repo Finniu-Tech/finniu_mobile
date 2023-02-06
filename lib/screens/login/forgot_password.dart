@@ -60,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       ),
                       height: 130,
                       width: 267,
-                      child: Align(
+                      child: const Align(
                         alignment: Alignment.center,
                         child: Text(
                             textAlign: TextAlign.center,
@@ -78,7 +78,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Container(
                       height: 90,
                       width: 80,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         image: DecorationImage(
                           image:
                               AssetImage("assets/forgotpassword/padlock.png"),
