@@ -11,7 +11,7 @@ class AppTheme {
         primaryColorLight: const Color(primaryLight), // usado para gradiente
         textTheme: const TextTheme(
           titleLarge: TextStyle(
-            color: Color(sky_blue_text),
+            color: Color(skyBlueText),
           ),
           titleMedium: TextStyle(
             color: Color(hintTextDarkColor),

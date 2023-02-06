@@ -48,8 +48,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
               alignment: Alignment.center,
               child: TextPoppins(
                 text: '¡Bienvenido a Finniu!',
-                colorText:
-                    themeProvider.isDarkMode ? sky_blue_text : primaryDark,
+                colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
@@ -64,7 +63,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                     child: TextPoppins(
                       text: 'Ingresa a tu cuenta',
                       colorText:
-                          themeProvider.isDarkMode ? white_text : blackText,
+                          themeProvider.isDarkMode ? whiteText : blackText,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                     ),
@@ -128,7 +127,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       child: TextPoppins(
                         text: '¿Olvidaste tu contraseña?',
                         colorText:
-                            themeProvider.isDarkMode ? white_text : blackText,
+                            themeProvider.isDarkMode ? whiteText : blackText,
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
                       ),
@@ -144,7 +143,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                     child: TextPoppins(
                       text: '¿Aún no tienes una cuenta creada?',
                       colorText:
-                          themeProvider.isDarkMode ? white_text : blackText,
+                          themeProvider.isDarkMode ? whiteText : blackText,
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
                     ),
@@ -158,7 +157,7 @@ class _EmailLoginScreenState extends State<EmailLoginScreen> {
                       child: TextPoppins(
                         text: 'Registrarme',
                         colorText: themeProvider.isDarkMode
-                            ? sky_blue_text
+                            ? skyBlueText
                             : primaryDark,
                         fontSize: 11,
                         fontWeight: FontWeight.bold,

@@ -18,7 +18,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
 
     return CustomScaffoldReturn(
       body: Center(
@@ -35,7 +35,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             SizedBox(height: 20),
             const TextPoppins(
               text: 'No te preocupes es posible recuperarla',
-              colorText: gray_text,
+              colorText: grayText,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -53,7 +53,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       padding: const EdgeInsets.only(
                           left: 50, right: 30, top: 15, bottom: 15),
                       decoration: BoxDecoration(
-                        color: themeProvider.isDarkMode
+                        color: currentTheme.isDarkMode
                             ? const Color(cardBackgroundColorDark)
                             : const Color(cardBackgroundColorLight),
                         borderRadius: BorderRadius.circular(15),

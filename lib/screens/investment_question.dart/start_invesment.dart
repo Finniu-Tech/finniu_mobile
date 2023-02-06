@@ -15,82 +15,95 @@ class _StartInvestmentState extends State<StartInvestment> {
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
-        body: Center(
-            child: Column(children: <Widget>[
-      Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: const [
-          SizedBox(height: 90),
-        ],
-      ),
-      Stack(alignment: Alignment.center, children: <Widget>[
-        const TextPoppins(
-          text: 'Queremos conocerte para ofrecerte lo mejor',
-          colorText: primaryDark,
-          fontSize: 24,
-          fontWeight: FontWeight.w600,
-        ),
-        const SizedBox(height: 50),
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-          SizedBox(
-            width: 40,
-            height: 40,
-            child: Image.asset('assets/investment/arrow.png'),
-          ),
-        ]),
-      ]),
-      const SizedBox(height: 80),
-      Stack(alignment: Alignment.center, children: <Widget>[
-        Container(
-          alignment: Alignment.center,
-          width: 276,
-          height: 163,
-          decoration: BoxDecoration(color: const Color(primaryLightAlternative), borderRadius: BorderRadius.circular(15)),
-          child: const Align(
-            alignment: Alignment.centerRight,
-            child: SizedBox(
-              width: 226,
-              height: 113,
-              child: Text(
-                'Hola,Mari queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversion para ti.',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w400,
-                  height: 2.1,
+      body: Column(
+        children: <Widget>[
+          const SizedBox(height: 90),
+          Stack(
+            children: <Widget>[
+              Container(
+                width: 276,
+                height: 118,
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                child: const Text(
+                  'Queremos conocerte para ofrecerte lo mejor',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Color(primaryDark),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 89,
-              height: 76,
-              child: Transform.translate(
-                offset: const Offset(150, -100),
-                child: Image.asset('assets/investment/avatar.png'),
+              Positioned(
+                right: 20,
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: SizedBox(
+                    child: Image.asset('assets/investment/arrow.png'),
+                  ),
+                ),
               ),
-            )
-          ],
-        ),
-      ]),
-      const SizedBox(height: 80),
-      GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: const CustomButton(
-              text: 'Continuar',
-              // colorBackground: primaryDark,
-              // colorText: white_text,
-              width: 224,
-              height: 50,
-              pushName: '/investment_select')),
-    ])));
+            ],
+          ),
+          const SizedBox(height: 20),
+          Stack(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 276,
+                  height: 163,
+                  padding: const EdgeInsets.all(15),
+                  margin: const EdgeInsets.only(top: 65),
+                  decoration: BoxDecoration(
+                    color: const Color(primaryLightAlternative),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: const Text(
+                    'Hola,Mari queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversion para ti.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+              ),
+              const Positioned(
+                // top: -30,
+                // left: 155,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: CircleAvatar(
+                    radius: 44,
+                    backgroundColor: Color(0xff9381FF),
+                    child: CircleAvatar(
+                      radius: 43,
+                      // foregroundColor: Colors.red,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        backgroundImage:
+                            AssetImage('assets/investment/avatar.png'),
+                        radius: 35,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 70),
+          const CustomButton(
+            text: 'Continuar',
+            width: 224,
+            height: 50,
+            pushName: '/investment_select',
+          ),
+        ],
+      ),
+    );
   }
 }

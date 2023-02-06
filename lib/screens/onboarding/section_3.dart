@@ -19,14 +19,14 @@ class Section3 extends StatelessWidget {
           const SizedBox(height: 16),
           const TextPoppins(
             text: 'Invierte de manera segura y transparente',
-            colorText: white_text,
+            colorText: whiteText,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
           const SizedBox(height: 11),
           const TextPoppins(
             text: 'Invierte con nosotros desde S/500 y sin comisiones',
-            colorText: white_text,
+            colorText: whiteText,
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),

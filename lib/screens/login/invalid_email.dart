@@ -1,9 +1,10 @@
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class InvalidEmail extends StatefulWidget {
   const InvalidEmail({super.key});
@@ -15,20 +16,22 @@ class InvalidEmail extends StatefulWidget {
 class _InvalidEmailState extends State<InvalidEmail> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+
     return CustomScaffoldReturn(
         body: Center(
             child: Column(children: <Widget>[
       const SizedBox(height: 90),
-      const TextPoppins(
+      TextPoppins(
         text: 'Correo inválido',
-        colorText: primaryDark,
+        colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
         fontSize: 24,
         fontWeight: FontWeight.w600,
       ),
       const SizedBox(height: 10),
       const TextPoppins(
         text: 'Este correo no está registrado en el App',
-        colorText: primaryDark,
+        colorText: grayText,
         fontSize: 12,
         fontWeight: FontWeight.w500,
       ),
@@ -50,25 +53,27 @@ class _InvalidEmailState extends State<InvalidEmail> {
         ),
       ),
       const SizedBox(height: 15),
-      const Center(
+      Center(
           child: TextPoppins(
         text: '¿Aún no tienes una cuenta creada?',
-        colorText: blackText,
+        colorText: currentTheme.isDarkMode ? whiteText : blackText,
         fontSize: 11,
         fontWeight: FontWeight.w400,
       )),
       const SizedBox(height: 2),
       Center(
-          child: InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/login_email');
-              },
-              child: const TextPoppins(
-                text: 'Registrarme',
-                colorText: primaryDark,
-                fontSize: 11,
-                fontWeight: FontWeight.bold,
-              )))
+        child: InkWell(
+          onTap: () {
+            Navigator.pushNamed(context, '/login_email');
+          },
+          child: TextPoppins(
+            text: 'Registrarme',
+            colorText: currentTheme.isDarkMode ? primaryLight : primaryDark,
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      )
     ])));
   }
 }

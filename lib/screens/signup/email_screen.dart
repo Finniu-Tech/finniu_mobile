@@ -66,7 +66,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             const SizedBox(height: 10),
             const TextPoppins(
               text: "Elige tu avatar",
-              colorText: gray_text,
+              colorText: grayText,
               fontSize: 12,
               fontWeight: FontWeight.w500,
             ),
@@ -169,7 +169,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             Center(
               child: TextPoppins(
                 text: '¿Ya tienes una cuenta creada?',
-                colorText: themeProvider.isDarkMode ? white_text : blackText,
+                colorText: themeProvider.isDarkMode ? whiteText : blackText,
                 fontSize: 11,
                 fontWeight: FontWeight.w400,
               ),
@@ -181,7 +181,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
                   textStyle: const TextStyle(
                       fontSize: 12, fontWeight: FontWeight.w600),
                   foregroundColor: themeProvider.isDarkMode
-                      ? const Color(sky_blue_text)
+                      ? const Color(skyBlueText)
                       : const Color(primaryDark),
                 ),
                 child: Text('Iniciar sesión'),

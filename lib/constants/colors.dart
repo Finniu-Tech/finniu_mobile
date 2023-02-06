@@ -27,13 +27,13 @@ const gradient_primary_alternative = 0xff9381FF;
 const gradient_secondary_alternative = 0xff92C1FC;
 const gradient_third_alternative = 0xff77833FF;
 
-const white_text = 0xffFFFFFF;
-const sky_blue_text = 0xffA2E6FA;
+const whiteText = 0xffFFFFFF;
+const skyBlueText = 0xffA2E6FA;
 const blackText = 0xff000000;
-const gray_text1 = 0xff535050;
-const gray_text = 0xff616161;
-const secondary_gray_text = 0xff909090;
-const red_text = 0xffFF4D4D;
+const grayText1 = 0xff535050;
+const grayText = 0xff616161;
+const secondaryGrayText = 0xff909090;
+const redText = 0xffFF4D4D;
 
 const hintTextLightColor = 0xff535050;
 const hintTextDarkColor = 0xff909090;

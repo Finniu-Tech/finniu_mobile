@@ -45,7 +45,7 @@ class Section1 extends StatelessWidget {
           const TextPoppins(
             text:
                 'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
-            colorText: white_text,
+            colorText: whiteText,
             fontSize: 16,
             fontWeight: FontWeight.w400,
           ),

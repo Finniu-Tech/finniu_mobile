@@ -31,7 +31,10 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
             end: Alignment.bottomRight,
             // tileMode: TileMode.mirror,
             // stops: [0.4, 0.9],
-            colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColorLight],
+            colors: [
+              Theme.of(context).primaryColor,
+              Theme.of(context).primaryColorLight
+            ],
           ),
         ),
         child: Center(
@@ -49,22 +52,36 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   child: Image(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      themeProvider.isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
+                      themeProvider.isDarkMode
+                          ? "assets/images/logo_finniu_dark.png"
+                          : "assets/images/logo_finniu_light.png",
                     ),
                   ),
                 ),
                 SizedBox(
                   width: 224,
                   height: 50,
-                  child: TextPoppins(text: 'Empieza a vivir una nueva experiencia con Finniu', colorText: Theme.of(context).colorScheme.tertiary.value, fontSize: 16, fontWeight: FontWeight.w500),
+                  child: TextPoppins(
+                      text: 'Empieza a vivir una nueva experiencia con Finniu',
+                      colorText: Theme.of(context).colorScheme.tertiary.value,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 35),
-                  child: const CustomButton(text: 'Iniciar sesión', colorBackground: primaryDark, colorText: white_text, pushName: '/login_email'),
+                  child: const CustomButton(
+                      text: 'Iniciar sesión',
+                      colorBackground: primaryDark,
+                      colorText: whiteText,
+                      pushName: '/login_email'),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 20),
-                  child: const CustomButton(text: 'Registrarme', colorBackground: primaryLight, colorText: primaryDark, pushName: '/sign_up_email'),
+                  child: const CustomButton(
+                      text: 'Registrarme',
+                      colorBackground: primaryLight,
+                      colorText: primaryDark,
+                      pushName: '/sign_up_email'),
                 ),
               ],
             ),
