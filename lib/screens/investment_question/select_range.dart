@@ -1,8 +1,10 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/screens/investment_question/section_1.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/step_bar.dart';
 import 'package:flutter/material.dart';
 
 class SelectRange extends StatefulWidget {
@@ -13,98 +15,33 @@ class SelectRange extends StatefulWidget {
 }
 
 class _SelectRangeState extends State<SelectRange> {
+  int _currentStep = 0;
   final PageController _controller = PageController();
 
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 180),
-              SizedBox(
-                child: Image.asset('assets/investment/star.png'),
-              ),
-              Container(
-                width: 228,
-                height: 95,
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-                child: const Text(
-                  'Selecciona tu rango de edad',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Color(primaryDark),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: PageView(
-              controller: _controller,
-              children: [
-                Container(
-                  child: Column(
-                    children: const [
-                      CustomButton(
-                        text: "18-25 años",
-                        colorText: primaryDark,
-                        colorBackground: primaryLightAlternative,
-                        width: 320,
-                        height: 53,
-                      ),
-                      SizedBox(
-                        height: 11,
-                      ),
-                      CustomButton(
-                        text: '25-35 años',
-                        colorText: primaryDark,
-                        colorBackground: primaryLightAlternative,
-                        width: 320,
-                        height: 53,
-                      ),
-                      SizedBox(
-                        height: 11,
-                      ),
-                      CustomButton(
-                        text: '35-45 años',
-                        colorText: primaryDark,
-                        colorBackground: primaryLightAlternative,
-                        width: 320,
-                        height: 53,
-                      ),
-                      SizedBox(
-                        height: 11,
-                      ),
-                      CustomButton(
-                        text: '45-50 años',
-                        colorText: primaryDark,
-                        colorBackground: primaryLightAlternative,
-                        width: 320,
-                        height: 53,
-                      ),
-                      SizedBox(
-                        height: 11,
-                      ),
-                      CustomButton(
-                        text: '55-65 años',
-                        colorText: primaryDark,
-                        colorBackground: primaryLightAlternative,
-                        width: 320,
-                        height: 53,
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
+        body: Column(children: [
+      Container(
+        height: 550,
+        child: PageView(
+          controller: _controller,
+          children: const [
+            Section1(),
+          ],
+          onPageChanged: (page) {
+            setState(() {
+              _currentStep = page;
+            });
+          },
+        ),
       ),
-    );
+      const StepBar(
+        currentStep: 1,
+        totalSteps: 4,
+        activeColor: Color(primaryLightAlternative),
+        inactiveColor: Color(primaryDark),
+      )
+    ]));
   }
 }
