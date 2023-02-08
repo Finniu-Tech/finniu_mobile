@@ -1,19 +1,9 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/screens/onboarding/section_2.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/step_bar.dart';
 import 'package:flutter/material.dart';
 
-class Section1 extends StatefulWidget {
-  const Section1({super.key});
-
-  @override
-  State<Section1> createState() => _Section1State();
-}
-
-class _Section1State extends State<Section1> {
-  final PageController _controller = PageController();
+class Section3 extends StatelessWidget {
+  const Section3({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,16 +12,29 @@ class _Section1State extends State<Section1> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const SizedBox(height: 180),
-            SizedBox(
-              child: Image.asset('assets/investment/star.png'),
+            Row(
+              children: [
+                SizedBox(
+                  child: Image.asset('assets/investment/arrow.png'),
+                ),
+                const Text(
+                  'Mari, cuentanos cual es tu meta que buscas lograr con tus inversiones',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    height: 1.5,
+                  ),
+                )
+              ],
             ),
             Container(
               width: 228,
               height: 95,
               padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
               child: const Text(
-                'Selecciona tu rango de edad',
+                '¿Cual es tu meta para invertir ?',
                 textAlign: TextAlign.left,
                 style: TextStyle(
                   fontSize: 24,
@@ -48,7 +51,7 @@ class _Section1State extends State<Section1> {
         height: 53,
         child: TextButton(
           onPressed: () {},
-          child: const Text("18-25 años", style: TextStyle(color: Color(primaryDark))),
+          child: const Text("Tener dinero para mis emergencias", style: TextStyle(color: Color(primaryDark))),
           style: TextButton.styleFrom(
             backgroundColor: const Color(primaryLightAlternative),
           ),
@@ -62,7 +65,7 @@ class _Section1State extends State<Section1> {
         height: 53,
         child: TextButton(
           onPressed: () {},
-          child: const Text("25-35 años", style: TextStyle(color: Color(primaryDark))),
+          child: const Text("Tener dinero para mis gastos de estudios", style: TextStyle(color: Color(primaryDark))),
           style: TextButton.styleFrom(
             backgroundColor: const Color(primaryLightAlternative),
           ),
@@ -76,7 +79,7 @@ class _Section1State extends State<Section1> {
         height: 53,
         child: TextButton(
           onPressed: () {},
-          child: const Text("35-45 años", style: TextStyle(color: Color(primaryDark))),
+          child: const Text("Llevo entre 1 a 5 años invirtiendo", style: TextStyle(color: Color(primaryDark))),
           style: TextButton.styleFrom(
             backgroundColor: const Color(primaryLightAlternative),
           ),
@@ -90,7 +93,29 @@ class _Section1State extends State<Section1> {
         height: 53,
         child: TextButton(
           onPressed: () {},
-          child: const Text("45-50 años", style: TextStyle(color: Color(primaryDark))),
+          child: const Text("Tener dinero para mis épocas sin trabajo ", style: TextStyle(color: Color(primaryDark))),
+          style: TextButton.styleFrom(
+            backgroundColor: const Color(primaryLightAlternative),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: 320,
+        height: 53,
+        child: TextButton(
+          onPressed: () {},
+          child: const Text("Tener dinero para viajar ", style: TextStyle(color: Color(primaryDark))),
+          style: TextButton.styleFrom(
+            backgroundColor: const Color(primaryLightAlternative),
+          ),
+        ),
+      ),
+      SizedBox(
+        width: 320,
+        height: 53,
+        child: TextButton(
+          onPressed: () {},
+          child: const Text("Tener dinero para comprarme una casa", style: TextStyle(color: Color(primaryDark))),
           style: TextButton.styleFrom(
             backgroundColor: const Color(primaryLightAlternative),
           ),
@@ -98,26 +123,12 @@ class _Section1State extends State<Section1> {
       ),
       const SizedBox(
         height: 11,
-      ),
-      SizedBox(
-        width: 320,
-        height: 53,
-        child: TextButton(
-          onPressed: () {},
-          child: const Text("55-65 años", style: TextStyle(color: Color(primaryDark))),
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(primaryLightAlternative),
-          ),
-        ),
-      ),
-      const SizedBox(
-        height: 5,
       ),
       const CustomButton(
-        text: 'Continuar',
+        text: 'Finalizar',
         width: 224,
         height: 50,
-        pushName: '/investment_result',
+        pushName: '/investment_select',
       ),
     ]);
     ;
