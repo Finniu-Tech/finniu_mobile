@@ -220,7 +220,7 @@ class _ResultInvesmentState extends State<ResultInvesment> {
                     text: 'Gracias',
                     // colorBackground: primaryDark,
                     // colorText: white_text,
-                    pushName: '/investment_result')),
+                    pushName: '/home_home')),
           ),
         ],
       ),

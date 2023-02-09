@@ -1,3 +1,4 @@
+import 'package:finniu/screens/home/home.dart';
 import 'package:finniu/screens/intro_screen.dart';
 import 'package:finniu/screens/investment_question/result.dart';
 import 'package:finniu/screens/investment_question/select_range.dart';
@@ -26,5 +27,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
     '/investment_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvesment(),
+    '/home_home': (BuildContext context) => const HomeStart(),
   };
 }
