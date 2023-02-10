@@ -72,64 +72,68 @@ class _SingleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var column = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text(
-          title,
-          style: TextStyle(
-            color: color,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
+    var column = Padding(
+      padding: const EdgeInsets.all(7.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: color,
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: color,
-              child: Icon(
-                icon,
-                size: 14.33,
-                color: Colors.white,
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: color,
+                child: Icon(
+                  icon,
+                  size: 14.33,
+                  color: Colors.white,
+                ),
+                radius: 14.33,
               ),
-              radius: 14.33,
-            ),
-            Text(
-              text_mount,
-              style: TextStyle(
-                color: color,
-                fontSize: 11,
-                fontWeight: FontWeight.w500,
+              Text(
+                text_mount,
+                style: TextStyle(
+                  color: color,
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: color,
-              child: Icon(
-                icon,
-                size: 14.33,
-                color: Colors.white,
+            ],
+          ),
+          Row(
+            children: [
+              CircleAvatar(
+                backgroundColor: color,
+                child: Icon(
+                  icon,
+                  size: 14.33,
+                  color: Colors.white,
+                ),
+                radius: 14.33,
               ),
-              radius: 14.33,
-            ),
-            Text(
-              text_percentage,
-              style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        CustomButton(
-          text: "Ir al plan",
-          width: 100,
-          height: 23,
-        )
-      ],
+              Text(
+                text_percentage,
+                style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          CustomButton(
+            text: "Ir al plan",
+            width: 100,
+            height: 23,
+          )
+        ],
+      ),
     );
     return _CardBackground(child: column);
   }
@@ -157,7 +161,7 @@ class _CardBackground extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
                 color: const Color(primaryDark),
-                width: 1.5,
+                width: 0.5,
               ),
             ),
           ),
