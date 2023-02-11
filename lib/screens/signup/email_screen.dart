@@ -177,7 +177,7 @@ class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
             Center(
               child: TextButton(
                 style: TextButton.styleFrom(
-                  backgroundColor: themeProvider.currentTheme!.backgroundColor,
+                  backgroundColor: Theme.of(context).backgroundColor,
                   textStyle: const TextStyle(
                       fontSize: 12, fontWeight: FontWeight.w600),
                   foregroundColor: themeProvider.isDarkMode
