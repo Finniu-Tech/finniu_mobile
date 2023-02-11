@@ -32,8 +32,7 @@ class Section2 extends StatelessWidget {
           ),
           const SizedBox(height: 11),
           const TextPoppins(
-            text:
-                'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
+            text: 'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
             colorText: primaryDark,
             fontSize: 16,
             fontWeight: FontWeight.w400,

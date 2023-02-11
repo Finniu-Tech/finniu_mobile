@@ -1,6 +1,8 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Section2 extends StatefulWidget {
   PageController controller = PageController();
@@ -13,13 +15,14 @@ class Section2 extends StatefulWidget {
 class _Section2State extends State<Section2> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return Column(
       children: [
-        const SizedBox(height: 50),
+        SizedBox(height: 50),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: const [
+          children: [
             SizedBox(
               width: 228,
               height: 95,
@@ -29,7 +32,7 @@ class _Section2State extends State<Section2> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
                 ),
               ),
             ),
@@ -46,7 +49,7 @@ class _Section2State extends State<Section2> {
             ),
           ],
         ),
-        const SizedBox(
+        SizedBox(
           height: 14,
         ),
         ButtonQuestions(text: "Nunca realicé una inversión ", controller: widget.controller),

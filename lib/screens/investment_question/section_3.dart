@@ -1,6 +1,8 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Section3 extends StatefulWidget {
   PageController controller = PageController();
@@ -13,10 +15,11 @@ class Section3 extends StatefulWidget {
 class _Section3State extends State<Section3> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return Column(
       children: [
-        const SizedBox(height: 40),
-        const SizedBox(
+        SizedBox(height: 40),
+        SizedBox(
           width: 228,
           height: 85,
           child: Text(
@@ -25,7 +28,7 @@ class _Section3State extends State<Section3> {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w600,
-              color: Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
             ),
           ),
         ),
