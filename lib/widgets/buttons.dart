@@ -28,14 +28,22 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .backgroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .foregroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -103,7 +111,8 @@ class CustomButtonRoundedDark extends StatefulWidget {
     super.key,
     this.pushName = "",
   });
-  State<CustomButtonRoundedDark> createState() => _CustomButtonRoundedDarkState();
+  State<CustomButtonRoundedDark> createState() =>
+      _CustomButtonRoundedDarkState();
 }
 
 class _CustomButtonRoundedDarkState extends State<CustomButtonRoundedDark> {
@@ -144,7 +153,8 @@ class CusttomButtonRoundedLight extends StatefulWidget {
     this.pushName = "",
     this.isReturn = false,
   });
-  _CusttomButtonRoundedLightState createState() => _CusttomButtonRoundedLightState();
+  _CusttomButtonRoundedLightState createState() =>
+      _CusttomButtonRoundedLightState();
 }
 
 class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
@@ -167,7 +177,8 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
           color: const Color(primaryLight),
         ),
         child: const Center(
-          child: Icon(size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
+          child: Icon(
+              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
         ),
       ),
     );
@@ -178,54 +189,86 @@ class BottomNavigationBarHome extends StatefulWidget {
   const BottomNavigationBarHome({super.key});
 
   @override
-  State<BottomNavigationBarHome> createState() => _BottomNavigationBarHomeState();
+  State<BottomNavigationBarHome> createState() =>
+      _BottomNavigationBarHomeState();
 }
 
 class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.only(bottom: 5),
-        width: 360,
-        height: 80,
-        decoration: BoxDecoration(
-          color: Color(primaryDark),
-          borderRadius: BorderRadius.circular(10),
+      margin: EdgeInsets.only(bottom: 5),
+      width: 360,
+      height: 80,
+      decoration: BoxDecoration(
+        color: Color(primaryDark),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.home, color: Colors.white),
+              Text("Home", style: TextStyle(color: Colors.white)),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.attach_money, color: Colors.white),
+              Text("Inversiones", style: TextStyle(color: Colors.white)),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.poll, color: Colors.white),
+              Text("Simulador", style: TextStyle(color: Colors.white)),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: const [
+              Icon(Icons.account_balance, color: Colors.white),
+              Text("Finanzas", style: TextStyle(color: Colors.white)),
+            ],
+          ),
+        ],
+      ),
+    );
+    ;
+    ;
+  }
+}
+
+class ButtonQuestions extends StatelessWidget {
+  String text;
+  PageController controller = PageController();
+  ButtonQuestions({super.key, required this.text, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 320,
+      height: 53,
+      child: TextButton(
+        onPressed: () {
+          // widget.currentStep = widget.currentStep + 1;
+          controller.nextPage(
+              duration: Duration(milliseconds: 300), curve: Curves.ease);
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: const Color(primaryLightAlternative),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Icon(Icons.home, color: Colors.white),
-                Text("Home", style: TextStyle(color: Colors.white)),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Icon(Icons.attach_money, color: Colors.white),
-                Text("Inversiones", style: TextStyle(color: Colors.white)),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Icon(Icons.poll, color: Colors.white),
-                Text("Simulador", style: TextStyle(color: Colors.white)),
-              ],
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: const [
-                Icon(Icons.account_balance, color: Colors.white),
-                Text("Finanzas", style: TextStyle(color: Colors.white)),
-              ],
-            ),
-          ],
-        ));
-    ;
-    ;
+        child: Text(
+          text,
+          style: const TextStyle(
+            color: Color(primaryDark),
+          ),
+        ),
+      ),
+    );
   }
 }
