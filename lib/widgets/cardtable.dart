@@ -26,7 +26,7 @@ class _CardTableState extends State<CardTable> {
             ),
             _SingleCard(
               color: Color(primaryDark),
-              icon: Icons.money_off_csred_outlined,
+              icon: Icons.arrow_back,
               title: 'Plan Estable',
               text_mount: 'Desde S/1,000',
               text_percentage: '14% anual',
@@ -113,7 +113,7 @@ class _SingleCard extends StatelessWidget {
                 backgroundColor: color,
                 child: Icon(
                   icon,
-                  size: 14.33,
+                  size: 11,
                   color: Colors.white,
                 ),
                 radius: 14.33,

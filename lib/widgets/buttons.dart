@@ -173,3 +173,59 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
     );
   }
 }
+
+class BottomNavigationBarHome extends StatefulWidget {
+  const BottomNavigationBarHome({super.key});
+
+  @override
+  State<BottomNavigationBarHome> createState() => _BottomNavigationBarHomeState();
+}
+
+class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        margin: EdgeInsets.only(bottom: 5),
+        width: 360,
+        height: 80,
+        decoration: BoxDecoration(
+          color: Color(primaryDark),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Icon(Icons.home, color: Colors.white),
+                Text("Home", style: TextStyle(color: Colors.white)),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Icon(Icons.attach_money, color: Colors.white),
+                Text("Inversiones", style: TextStyle(color: Colors.white)),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Icon(Icons.poll, color: Colors.white),
+                Text("Simulador", style: TextStyle(color: Colors.white)),
+              ],
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const [
+                Icon(Icons.account_balance, color: Colors.white),
+                Text("Finanzas", style: TextStyle(color: Colors.white)),
+              ],
+            ),
+          ],
+        ));
+    ;
+    ;
+  }
+}
