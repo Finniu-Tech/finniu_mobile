@@ -6,31 +6,29 @@ import 'package:finniu/widgets/step_bar.dart';
 import 'package:flutter/material.dart';
 
 class Section1 extends StatefulWidget {
-  const Section1({super.key});
+  PageController controller = PageController();
+  Section1({super.key, required this.controller});
 
   @override
   State<Section1> createState() => _Section1State();
 }
 
 class _Section1State extends State<Section1> {
-  final PageController _controller = PageController();
-
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Container(
-        child: Row(
+    return Column(
+      children: [
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 180),
             SizedBox(
               child: Image.asset('assets/investment/star.png'),
             ),
-            Container(
+            const SizedBox(
               width: 228,
               height: 95,
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-              child: const Text(
+              child: Text(
                 'Selecciona tu rango de edad',
                 textAlign: TextAlign.left,
                 style: TextStyle(
@@ -42,84 +40,38 @@ class _Section1State extends State<Section1> {
             ),
           ],
         ),
-      ),
-      SizedBox(
-        width: 320,
-        height: 53,
-        child: TextButton(
-          onPressed: () {},
-          child: const Text("18-25 años", style: TextStyle(color: Color(primaryDark))),
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(primaryLightAlternative),
-          ),
+        ButtonQuestions(text: "18-25 años", controller: widget.controller),
+        const SizedBox(
+          height: 11,
         ),
-      ),
-      const SizedBox(
-        height: 11,
-      ),
-      SizedBox(
-        width: 320,
-        height: 53,
-        child: TextButton(
-          onPressed: () {},
-          child: const Text("25-35 años", style: TextStyle(color: Color(primaryDark))),
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(primaryLightAlternative),
-          ),
+        ButtonQuestions(text: "25-35 años", controller: widget.controller),
+
+        const SizedBox(
+          height: 11,
         ),
-      ),
-      const SizedBox(
-        height: 11,
-      ),
-      SizedBox(
-        width: 320,
-        height: 53,
-        child: TextButton(
-          onPressed: () {},
-          child: const Text("35-45 años", style: TextStyle(color: Color(primaryDark))),
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(primaryLightAlternative),
-          ),
+        ButtonQuestions(text: "35-45 años", controller: widget.controller),
+
+        const SizedBox(
+          height: 11,
         ),
-      ),
-      const SizedBox(
-        height: 11,
-      ),
-      SizedBox(
-        width: 320,
-        height: 53,
-        child: TextButton(
-          onPressed: () {},
-          child: const Text("45-50 años", style: TextStyle(color: Color(primaryDark))),
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(primaryLightAlternative),
-          ),
+        ButtonQuestions(text: "45-50 años", controller: widget.controller),
+
+        const SizedBox(
+          height: 11,
         ),
-      ),
-      const SizedBox(
-        height: 11,
-      ),
-      SizedBox(
-        width: 320,
-        height: 53,
-        child: TextButton(
-          onPressed: () {},
-          child: const Text("55-65 años", style: TextStyle(color: Color(primaryDark))),
-          style: TextButton.styleFrom(
-            backgroundColor: const Color(primaryLightAlternative),
-          ),
+        ButtonQuestions(text: "55-65 años", controller: widget.controller),
+
+        const SizedBox(
+          height: 5,
         ),
-      ),
-      const SizedBox(
-        height: 5,
-      ),
-      const CustomButton(
-        text: 'Continuar',
-        width: 224,
-        height: 50,
-        pushName: '/investment_result',
-      ),
-    ]);
+        // const CustomButton(
+        //   text: 'Continuar',
+        //   width: 224,
+        //   height: 50,
+        //   pushName: '/investment_result',
+        // ),
+      ],
+    );
     ;
   }
 }

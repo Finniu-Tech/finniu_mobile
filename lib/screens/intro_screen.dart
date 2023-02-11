@@ -26,12 +26,10 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
       ),
     );
-    // ignore: avoid_print
-    print('themeProvider.isDarkMode' + themeProvider.isDarkMode.toString());
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: Provider.of<ThemeProvider>(context).currentTheme,
+      theme: Theme.of(context),
       home: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Center(
@@ -41,7 +39,9 @@ class _IntroScreenState extends State<IntroScreen> {
             children: [
               Image(
                 image: AssetImage(
-                  themeProvider.isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
+                  themeProvider.isDarkMode
+                      ? "assets/images/logo_finniu_dark.png"
+                      : "assets/images/logo_finniu_light.png",
                 ),
               ),
               TextPoppins(
