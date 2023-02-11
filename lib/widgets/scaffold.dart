@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/theme_provider.dart';
-import 'package:finniu/share_preferences/preferences.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';

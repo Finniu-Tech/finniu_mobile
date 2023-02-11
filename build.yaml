@@ -1,0 +1,19 @@
+targets:
+  $default:
+    builders:
+      artemis:
+        options:
+          # generate_helpers: true
+          schema_mapping:
+            - output: lib/graphql/graphql_api.dart
+              schema: lib/graphql/schema.graphql
+              queries_glob: lib/graphql/queries/get_auth_token.graphql
+              naming_schema: simple
+          custom_parser_import: 'package:finniu/coercers.dart'
+          scalar_mapping:
+          - graphql_type: Date
+            dart_type: DateTime
+            use_custom_parser: true
+          - graphql_type: Time
+            dart_type: DateTime
+            use_custom_parser: true
