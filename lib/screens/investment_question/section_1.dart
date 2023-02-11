@@ -18,12 +18,17 @@ class _Section1State extends State<Section1> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        const SizedBox(height: 80),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              child: Image.asset('assets/investment/star.png'),
+              child: Image.asset(
+                'assets/investment/star.png',
+                width: 40,
+                height: 40,
+              ),
             ),
             const SizedBox(
               width: 228,

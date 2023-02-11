@@ -1,3 +1,4 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/screens/investment_question/section_1.dart';
 import 'package:finniu/screens/investment_question/section_2.dart';
@@ -37,17 +38,20 @@ class _SelectRangeState extends State<SelectRange> {
     return CustomScaffoldReturnLogo(
       body: Column(
         children: [
-          const SizedBox(height: 80),
           Container(
-            height: 450,
-            child: PageView(
+            // height: 450,
+            child: ExpandablePageView(
               controller: _controller,
               children: [
                 Section1(
                   controller: _controller,
                 ),
-                Section2(),
-                Section3()
+                Section2(
+                  controller: _controller,
+                ),
+                Section3(
+                  controller: _controller,
+                ),
               ],
               onPageChanged: (page) {
                 setState(() {
@@ -55,6 +59,9 @@ class _SelectRangeState extends State<SelectRange> {
                 });
               },
             ),
+          ),
+          SizedBox(
+            height: 20,
           ),
           StepBar(
             currentStep: _currentStep,
