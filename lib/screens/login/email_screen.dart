@@ -133,6 +133,7 @@ class EmailLoginScreen extends HookWidget {
                       const SizedBox(height: 29),
                       SizedBox(
                         width: 224,
+                        // height: 38,
                         child: TextFormField(
                           onChanged: (value) {
                             _password = value;
@@ -148,23 +149,28 @@ class EmailLoginScreen extends HookWidget {
                           obscuringCharacter:
                               '*', //el caracter el cual reemplaza la contrasenia
                           decoration: InputDecoration(
-                              hintText: 'Digite su contraseña',
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                    isHidden.value
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
-                                    size: 23.20),
-                                alignment: Alignment.topRight,
-                                onPressed: () {
-                                  isHidden.value = !isHidden.value;
-                                },
+                            suffixIconConstraints: const BoxConstraints(
+                              maxHeight: 38,
+                              minWidth: 38,
+                            ),
+                            suffixIcon: IconButton(
+                              splashRadius: 20,
+                              padding: EdgeInsets.zero,
+                              icon: Icon(
+                                isHidden.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                size: 23.20,
                               ),
-                              label: const Text(
-                                "Contraseña",
-                              ),
-                              isDense: true,
-                              enabled: true),
+                              alignment: Alignment.center,
+                              onPressed: () {
+                                isHidden.value = !isHidden.value;
+                              },
+                            ),
+                            label: const Text(
+                              "Contraseña",
+                            ),
+                          ),
                           controller: TextEditingController(text: _password),
                         ),
                       ),

@@ -49,7 +49,7 @@ class AppTheme {
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
           contentPadding:
-              EdgeInsets.only(top: 13, bottom: 13, left: 20, right: 20),
+              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(
@@ -124,7 +124,7 @@ class AppTheme {
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
           contentPadding:
-              EdgeInsets.only(top: 13, bottom: 13, left: 20, right: 20),
+              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(
