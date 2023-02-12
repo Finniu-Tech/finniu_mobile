@@ -1,3 +1,4 @@
+import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/services/graphql_service.dart';
 import 'package:finniu/services/share_preferences_service.dart';
@@ -17,6 +18,9 @@ void main() async {
         ChangeNotifierProvider(
           create: (_) => ThemeProvider(isDarkMode: Preferences.isDarkMode),
         ),
+        ChangeNotifierProvider(
+          create: (_) => AuthTokenProvider(token: ''),
+        )
       ],
       child: const MyApp(),
     ),
