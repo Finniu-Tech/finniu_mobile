@@ -1,5 +1,5 @@
 class MutationRepository {
-  static String getAuthToken() {
+  static String getAuthTokenMutation() {
     return '''
       mutation getTokenAuth(\$password: String!, \$email: String!) {
         tokenAuth( password: \$password, email: \$email){
@@ -8,6 +8,39 @@ class MutationRepository {
           refreshExpiresIn
         }
     }
+    ''';
+  }
+
+  static String getSignUpMutation() {
+    return '''
+      mutation registerUserMutation(
+        \$nickname: String!,
+        \$email: String!,
+        \$phone: Int!,
+        \$password:String!
+      ){
+        registerUser(
+          input:{
+            nickName: \$nickname,
+            email:\$email,
+            password:\$password,
+            phoneNumber: \$phone
+          }
+        ){
+          success
+          user{
+              id
+            email
+            firstName
+            lastName
+            picture
+            phoneNumber
+            gender
+            displayName
+
+          }
+        }
+      }
     ''';
   }
 }
