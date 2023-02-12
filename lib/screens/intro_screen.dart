@@ -3,6 +3,7 @@ import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -26,12 +27,10 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
       ),
     );
-    // ignore: avoid_print
-    print('themeProvider.isDarkMode' + themeProvider.isDarkMode.toString());
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: Provider.of<ThemeProvider>(context).currentTheme,
+      theme: Theme.of(context),
       home: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Center(
@@ -41,7 +40,9 @@ class _IntroScreenState extends State<IntroScreen> {
             children: [
               Image(
                 image: AssetImage(
-                  themeProvider.isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
+                  themeProvider.isDarkMode
+                      ? "assets/images/logo_finniu_dark.png"
+                      : "assets/images/logo_finniu_light.png",
                 ),
               ),
               TextPoppins(
@@ -51,7 +52,10 @@ class _IntroScreenState extends State<IntroScreen> {
                 fontWeight: FontWeight.w600,
               ),
               const SizedBox(height: 40.0),
-              const CircularProgressIndicator(color: Colors.grey),
+              const SpinKitCircle(
+                color: Colors.grey,
+                size: 50.0,
+              ),
             ],
           ),
         ),
