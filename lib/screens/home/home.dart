@@ -143,7 +143,11 @@ class HomeStart extends StatelessWidget {
                     child: Container(
                       width: 24,
                       height: 23.84,
-                      child: const Icon(Icons.notifications_active),
+                      child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/home_notification');
+                          },
+                          child: const Icon(Icons.notifications_active)),
                     ),
                   ),
                   const SizedBox(width: 30),

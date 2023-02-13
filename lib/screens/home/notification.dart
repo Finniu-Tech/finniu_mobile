@@ -1,12 +1,15 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
         body: Padding(
       padding: const EdgeInsets.all(30.0),
@@ -19,12 +22,12 @@ class NotificationScreen extends StatelessWidget {
             SizedBox(
               child: Container(
                 alignment: Alignment.topCenter,
-                child: const Text(
+                child: Text(
                   'Notificaciones',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                    color: Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -43,11 +46,11 @@ class NotificationScreen extends StatelessWidget {
 
         Container(
           alignment: Alignment.topLeft,
-          child: const Text(
+          child: Text(
             'Hoy',
             style: TextStyle(
               fontSize: 16,
-              color: Color(blackText),
+              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
             ),
           ),
         ),
