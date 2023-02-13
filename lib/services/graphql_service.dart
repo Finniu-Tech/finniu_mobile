@@ -33,6 +33,38 @@ class GraphQLService {
     return _client;
   }
 
+// class CustomResponseParser extends ResponseParser {
+//   @override
+//   Response parseResponse(Map<String, dynamic> body) {
+//     Map<String, String> errors = new Map();
+//     if(body["errors"] != null) {
+//       errors['message'] = body["errors"][0];
+//     }
+//     Response res =  Response(
+//       errors: (body["errors"] as List?)
+//           ?.map(
+//             (dynamic error) => parseError(errors),
+//           )
+//           .toList(),
+//       data: body["data"] as Map<String, dynamic>?,
+//       context: Context().withEntry(
+//         ResponseExtensions(
+//           body["extensions"],
+//         ),
+//       ),
+//     );
+//     return res;
+//   }
+
+//   @override
+//   GraphQLError parseError(Map<String, dynamic> error) {
+//     return GraphQLError(
+//       message: error['message'],
+//     );
+//   }
+
+// }
+
   // Future<QueryResult<Object?>?> performQuery(
   //   String query, {
   //   Map<String, dynamic>? variables,

@@ -28,17 +28,17 @@ class EmailLoginScreen extends HookWidget {
     final addStarMutation = useMutation(
       MutationOptions(
         document: gql(
-          MutationRepository.getAuthToken(),
+          MutationRepository.getAuthTokenMutation(),
         ), // this is the mutation string you just created
         onCompleted: (dynamic resultData) {
           if (resultData != null) {
-            String? token = ScanModel.fromJson(resultData).tokenAuth?.token;
+            String? token = ScanAuthModel.fromJson(resultData).tokenAuth?.token;
             if (token != null) {
               Provider.of<AuthTokenProvider>(context, listen: false).token =
                   token;
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const HomeStart(),
+                  builder: (BuildContext context) => HomeStart(),
                 ),
               );
             } else {

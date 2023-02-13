@@ -20,7 +20,8 @@ void main() async {
         ),
         ChangeNotifierProvider(
           create: (_) => AuthTokenProvider(token: ''),
-        )
+        ),
+        ChangeNotifierProvider(create: (_) => UserProvider())
       ],
       child: const MyApp(),
     ),
