@@ -23,6 +23,8 @@ class UserProvider extends ChangeNotifier {
   late String? _firstName;
   late String? _lastName;
   late int? _phone;
+  late bool _onboardingCompleted;
+
   UserProvider({
     nickName,
     email,
@@ -41,6 +43,7 @@ class UserProvider extends ChangeNotifier {
   String? get firstName => _firstName;
   String? get lastName => _lastName;
   int? get phone => _phone;
+  bool get onboardingCompleted => _onboardingCompleted;
 
   set nickName(String? nickName) {
     _nickName = nickName;
@@ -64,6 +67,11 @@ class UserProvider extends ChangeNotifier {
 
   set phone(int? phone) {
     _phone = phone;
+    notifyListeners();
+  }
+
+  set onboardingCompleted(bool onboardingCompleted) {
+    _onboardingCompleted = onboardingCompleted;
     notifyListeners();
   }
 }

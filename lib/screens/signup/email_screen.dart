@@ -61,7 +61,8 @@ class SignUpEmailScreen extends HookWidget {
             userProvider.phone = user?.phoneNumber;
             userProvider.nickName = user?.displayName;
             print(user);
-            Navigator.of(context).pushNamed('/home_home');
+
+            Navigator.of(context).pushNamed('/on_boarding_start');
           } else {
             print('else zero');
             showError.value = true;
@@ -296,17 +297,18 @@ class SignUpEmailScreen extends HookWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        context.loaderOverlay.show();
-                        registerMutation.runMutation(
-                          {
-                            "email": emailController.text,
-                            "password": passwordController.text,
-                            "phone": int.parse(phoneController.text),
-                            "nickname": nickNameController.text,
-                          },
-                        );
-                      }
+                      Navigator.of(context).pushNamed('/on_boarding_start');
+                      // if (formKey.currentState!.validate()) {
+                      //   context.loaderOverlay.show();
+                      //   registerMutation.runMutation(
+                      //     {
+                      //       "email": emailController.text,
+                      //       "password": passwordController.text,
+                      //       "phone": int.parse(phoneController.text),
+                      //       "nickname": nickNameController.text,
+                      //     },
+                      //   );
+                      // }
                     },
                     child: Text('Crear registro'),
                   ),

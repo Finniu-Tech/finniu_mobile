@@ -276,7 +276,10 @@ class HomeStart extends StatelessWidget {
                     width: 320,
                     decoration: BoxDecoration(
                       color: const Color(primaryLightAlternative),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
                     ),
                     child: Row(
                       children: [
@@ -288,6 +291,10 @@ class HomeStart extends StatelessWidget {
                               height: 147,
                               width: 150,
                               decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
                                 image: DecorationImage(
                                   image: AssetImage("assets/home/person.png"),
                                   fit: BoxFit.cover,
