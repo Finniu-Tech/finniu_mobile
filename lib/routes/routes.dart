@@ -17,12 +17,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login_start': (BuildContext context) => const StartLoginScreen(),
     '/login_email': (BuildContext context) => EmailLoginScreen(),
     '/investment_select': (BuildContext context) => SelectRange(),
-    '/sign_up_email': (BuildContext context) => const SignUpEmailScreen(),
+    '/sign_up_email': (BuildContext context) => SignUpEmailScreen(),
     '/login_forgot': (BuildContext context) => const ForgotPassword(),
     '/login_invalid': (BuildContext context) => const InvalidEmail(),
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
     '/investment_start': (BuildContext context) => const StartInvestment(),
-    '/investment_result': (BuildContext context) => const ResultInvestment(),
+    '/investment_result': (BuildContext context) => ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeStart(),
   };
 }

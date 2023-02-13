@@ -3,6 +3,7 @@ import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -51,7 +52,10 @@ class _IntroScreenState extends State<IntroScreen> {
                 fontWeight: FontWeight.w600,
               ),
               const SizedBox(height: 40.0),
-              const CircularProgressIndicator(color: Colors.grey),
+              const SpinKitCircle(
+                color: Colors.grey,
+                size: 50.0,
+              ),
             ],
           ),
         ),

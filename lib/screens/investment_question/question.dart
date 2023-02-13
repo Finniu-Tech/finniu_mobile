@@ -65,7 +65,7 @@ class _SelectRangeState extends State<SelectRange> {
           ),
           StepBar(
             currentStep: _currentStep,
-            totalSteps: 4,
+            totalSteps: 3,
             activeColor: Color(primaryLightAlternative),
             inactiveColor: Color(primaryDark),
           ),

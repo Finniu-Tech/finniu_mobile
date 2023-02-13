@@ -1,8 +1,10 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/cardtable.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeStart extends StatefulWidget {
   const HomeStart({super.key});
@@ -14,6 +16,7 @@ class HomeStart extends StatefulWidget {
 class _HomeStartState extends State<HomeStart> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return Scaffold(
         bottomNavigationBar: BottomNavigationBarHome(),
         body: SingleChildScrollView(
@@ -26,6 +29,8 @@ class _HomeStartState extends State<HomeStart> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
+                      height: 47,
+                      width: 47,
                       child: Image.asset('assets/images/logo_finniu_home.png'),
                     ),
                   ],
@@ -35,12 +40,12 @@ class _HomeStartState extends State<HomeStart> {
                     SizedBox(
                       child: Container(
                         alignment: Alignment.centerLeft,
-                        child: const Text(
+                        child: Text(
                           'Hola,Mari!',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
-                            color: Color(blackText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                           ),
                         ),
                       ),
@@ -52,13 +57,13 @@ class _HomeStartState extends State<HomeStart> {
                       child: Container(
                         width: 24,
                         height: 23.84,
-                        child: Icon(Icons.notifications_active),
+                        // child: Icon(Icons.notifications_active),
                       ),
                     ),
                     const SizedBox(width: 30),
                     Container(
-                      width: 41,
-                      height: 43,
+                      width: 100,
+                      height: 100,
                       child: Container(
                         alignment: Alignment.center,
                         child: Image.asset('assets/home/avatar.png'),
@@ -70,12 +75,12 @@ class _HomeStartState extends State<HomeStart> {
                 SizedBox(
                   child: Container(
                     alignment: Alignment.centerLeft,
-                    child: const Text(
+                    child: Text(
                       'Multiplica tu dinero con nosotros!',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       ),
                     ),
                   ),
