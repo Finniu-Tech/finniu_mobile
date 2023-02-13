@@ -4,16 +4,111 @@ import 'package:finniu/widgets/cardtable.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 
-class HomeStart extends StatefulWidget {
-  const HomeStart({super.key});
+class HomeStart extends StatelessWidget {
+  HomeStart({super.key});
+  bool show = true;
 
-  @override
-  State<HomeStart> createState() => _HomeStartState();
-}
+  void _showWelcomeModal(BuildContext ctx) {
+    Future.delayed(
+      Duration.zero,
+      () async {
+        showModalBottomSheet(
+          // barrierColor: Colors.transparent,
+          clipBehavior: Clip.antiAlias,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topRight: Radius.circular(50),
+            ),
+          ),
+          elevation: 10,
+          backgroundColor: const Color(primaryLight),
+          context: ctx,
+          builder: (ctx) => SizedBox(
+            height: 476,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    child: Image.asset('assets/home/modal_info.png'),
+                  ),
+                  const SizedBox(
+                    width: 200,
+                    child: Text(
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 1.5,
+                          color: Color(primaryDark),
+                        ),
+                        "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 132,
+                        height: 46,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(0XFF68C3DE),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            "Saltar",
+                            style: TextStyle(
+                              color: Color(primaryDark),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        width: 132,
+                        height: 46,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              Color(primaryDark),
+                            ),
+                          ),
+                          onPressed: () {},
+                          child: Text(
+                            "Completar",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                  // ElevatedButton(
+                  //   child: const Text('Close BottomSheet'),
+                  //   onPressed: () {
+                  //     show = false;
+                  //     Navigator.pop(ctx);
+                  //   },
+                  // ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
 
-class _HomeStartState extends State<HomeStart> {
   @override
   Widget build(BuildContext context) {
+    if (show) {
+      _showWelcomeModal(context);
+    }
     return Scaffold(
       // extendBody: true,
       bottomNavigationBar: const BottomNavigationBarHome(),
@@ -52,12 +147,17 @@ class _HomeStartState extends State<HomeStart> {
                     ),
                   ),
                   const SizedBox(width: 30),
-                  Container(
-                    width: 41,
-                    height: 43,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Image.asset('assets/home/avatar.png'),
+                  InkWell(
+                    onTap: () {
+                      _showWelcomeModal(context);
+                    },
+                    child: SizedBox(
+                      width: 41,
+                      height: 43,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Image.asset('assets/home/avatar.png'),
+                      ),
                     ),
                   ),
                 ],

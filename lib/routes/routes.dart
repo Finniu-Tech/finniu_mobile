@@ -23,6 +23,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
     '/investment_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
-    '/home_home': (BuildContext context) => const HomeStart(),
+    '/home_home': (BuildContext context) => HomeStart(),
   };
 }
