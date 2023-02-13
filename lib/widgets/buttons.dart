@@ -1,3 +1,4 @@
+import 'package:finniu/screens/investment_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 
@@ -28,22 +29,14 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context)
-          .textButtonTheme
-          .style!
-          .backgroundColor!
-          .resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context)
-          .textButtonTheme
-          .style!
-          .foregroundColor!
-          .resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -150,8 +143,7 @@ class CusttomButtonRoundedLight extends StatefulWidget {
     this.pushName = "",
     this.isReturn = false,
   });
-  _CusttomButtonRoundedLightState createState() =>
-      _CusttomButtonRoundedLightState();
+  _CusttomButtonRoundedLightState createState() => _CusttomButtonRoundedLightState();
 }
 
 class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
@@ -174,8 +166,7 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
           color: const Color(primaryLight),
         ),
         child: const Center(
-          child: Icon(
-              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
+          child: Icon(size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
         ),
       ),
     );
@@ -290,8 +281,16 @@ class ButtonQuestions extends StatelessWidget {
       child: TextButton(
         onPressed: () {
           // widget.currentStep = widget.currentStep + 1;
-          controller.nextPage(
-              duration: Duration(milliseconds: 300), curve: Curves.ease);
+          print("page");
+          print(controller.page);
+          if (controller.page == 2.0) {
+            // Navigator.pushReplacementNamed(context, "investment_result");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ResultInvestment()),
+            );
+          } else {}
+          controller.nextPage(duration: Duration(milliseconds: 300), curve: Curves.ease);
         },
         style: TextButton.styleFrom(
           backgroundColor: const Color(primaryLightAlternative),

@@ -1,7 +1,9 @@
 import 'dart:ui';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CardTable extends StatefulWidget {
   const CardTable({super.key});
@@ -13,9 +15,10 @@ class CardTable extends StatefulWidget {
 class _CardTableState extends State<CardTable> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return SingleChildScrollView(
       child: Table(
-        children: const [
+        children: [
           TableRow(children: [
             _SingleCard(
               // color: Color(primaryDark),
@@ -140,8 +143,7 @@ class _SingleCard extends StatelessWidget {
           // height: 40,
           child: TextButton(
             onPressed: () {},
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all(EdgeInsets.zero)),
+            style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
             child: const Text(
               'Ir al plan',
               style: TextStyle(
