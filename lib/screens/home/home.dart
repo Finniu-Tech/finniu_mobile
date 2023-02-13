@@ -58,7 +58,9 @@ class HomeStart extends StatelessWidget {
                               Color(0XFF68C3DE),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                          },
                           child: Text(
                             "Saltar",
                             style: TextStyle(
@@ -77,7 +79,9 @@ class HomeStart extends StatelessWidget {
                               Color(primaryDark),
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                          },
                           child: Text(
                             "Completar",
                             style: TextStyle(
