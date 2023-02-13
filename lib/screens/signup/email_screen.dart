@@ -1,18 +1,21 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/graphql/mutations.dart';
+import 'package:finniu/models/user.dart';
+import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
-import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/textfield.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SignUpEmailScreen extends HookWidget {
   SignUpEmailScreen({super.key});
@@ -36,9 +39,48 @@ class SignUpEmailScreen extends HookWidget {
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     final formKey = GlobalKey<FormState>();
 
+    final registerMutation = useMutation(
+      MutationOptions(
+        document: gql(
+          MutationRepository.getSignUpMutation(),
+        ),
+        onCompleted: (dynamic data) {
+          print('completedd!!!');
+          print(data);
+          print('success');
+          print(data['registerUser']?['success']);
+          if (data != null && data['registerUser']?['success'] == true) {
+            print('if zero');
+            User? user = ScanUserModel.fromJson(data).registerUser?.user;
+            UserProvider userProvider =
+                Provider.of<UserProvider>(context, listen: false);
+            userProvider.email = user?.email;
+            userProvider.firstName = user?.firstName;
+            userProvider.lastName = user?.lastName;
+            // userProvider.picture = user.picture;
+            userProvider.phone = user?.phoneNumber;
+            userProvider.nickName = user?.displayName;
+            print(user);
+            Navigator.of(context).pushNamed('/home_home');
+          } else {
+            print('else zero');
+            showError.value = true;
+            context.loaderOverlay.hide();
+          }
+        },
+        onError: (dynamic error) {
+          print('errorrrr!!!');
+          print(error);
+          showError.value = true;
+          context.loaderOverlay.hide();
+        },
+      ),
+    );
+
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
         body: Form(
+          key: formKey,
           child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -105,14 +147,14 @@ class SignUpEmailScreen extends HookWidget {
                       'assets/avatars/avatar_9.png',
                       'assets/avatars/avatar_10.png',
                       'assets/avatars/avatar_11.png',
-                    ].map((image_route) {
+                    ].map((imageRoute) {
                       return Builder(
                         builder: (BuildContext context) {
                           return Container(
                             child: Image(
                               fit: BoxFit.cover,
                               image: AssetImage(
-                                image_route,
+                                imageRoute,
                               ),
                             ),
                           );
@@ -126,6 +168,12 @@ class SignUpEmailScreen extends HookWidget {
                   width: 224,
                   child: TextFormField(
                     controller: nickNameController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       nickNameController.text = value.toString();
                     },
@@ -140,6 +188,15 @@ class SignUpEmailScreen extends HookWidget {
                   width: 224,
                   child: TextFormField(
                     controller: phoneController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+                      if (value.length != 9) {
+                        return 'Tiene que ser de 9 dígitos';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       phoneController.text = value;
                     },
@@ -163,6 +220,15 @@ class SignUpEmailScreen extends HookWidget {
                   width: 224,
                   child: TextFormField(
                     controller: emailController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+                      if (EmailValidator.validate(value) == false) {
+                        return 'Ingrese un correo válido';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       emailController.text = value.toString();
                     },
@@ -171,18 +237,19 @@ class SignUpEmailScreen extends HookWidget {
                       label: Text('Correo electrónico'),
                     ),
                   ),
-                  // height: 38,
-
-                  // child: ButtonDecoration(
-                  //   textHint: 'Escriba su correo electrónico',
-                  //   textLabel: 'Correo electrónico',
-                  // ),
                 ),
                 const SizedBox(height: 28),
                 SizedBox(
                   width: 224,
-                  height: 38,
+                  // height: 38,
                   child: TextFormField(
+                    controller: passwordController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+                      return null;
+                    },
                     onChanged: (value) {
                       passwordController.text = value;
                     },
@@ -211,13 +278,38 @@ class SignUpEmailScreen extends HookWidget {
                         "Contraseña",
                       ),
                     ),
-                    controller: passwordController,
                   ),
                 ),
-                const SizedBox(height: 20),
-                const CustomButton(
-                  text: 'Crear registro',
-                  pushName: '/on_boarding_start',
+                const SizedBox(height: 15),
+                if (showError.value) ...[
+                  const Text(
+                    'No se pudo completar el registro',
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.red,
+                    ),
+                  ),
+                ],
+                const SizedBox(height: 5),
+                SizedBox(
+                  width: 224,
+                  height: 50,
+                  child: TextButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        context.loaderOverlay.show();
+                        registerMutation.runMutation(
+                          {
+                            "email": emailController.text,
+                            "password": passwordController.text,
+                            "phone": int.parse(phoneController.text),
+                            "nickname": nickNameController.text,
+                          },
+                        );
+                      }
+                    },
+                    child: Text('Crear registro'),
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Center(

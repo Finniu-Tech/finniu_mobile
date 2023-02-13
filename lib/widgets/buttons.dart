@@ -103,7 +103,7 @@ class _CustomReturnButtonState extends State<CustomReturnButton> {
   }
 }
 
-class CustomButtonRoundedDark extends StatefulWidget {
+class CustomButtonRoundedDark extends StatelessWidget {
   @override
   final String pushName;
 
@@ -111,16 +111,13 @@ class CustomButtonRoundedDark extends StatefulWidget {
     super.key,
     this.pushName = "",
   });
-  State<CustomButtonRoundedDark> createState() =>
-      _CustomButtonRoundedDarkState();
-}
-
-class _CustomButtonRoundedDarkState extends State<CustomButtonRoundedDark> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, widget.pushName);
+        if (pushName != "") {
+          Navigator.pushNamed(context, pushName);
+        }
       },
       child: Container(
         margin: const EdgeInsets.all(10),
@@ -185,61 +182,98 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
   }
 }
 
-class BottomNavigationBarHome extends StatefulWidget {
+class BottomNavigationBarHome extends StatelessWidget {
   const BottomNavigationBarHome({super.key});
 
   @override
-  State<BottomNavigationBarHome> createState() =>
-      _BottomNavigationBarHomeState();
-}
-
-class _BottomNavigationBarHomeState extends State<BottomNavigationBarHome> {
-  @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 5),
-      width: 360,
-      height: 80,
-      decoration: BoxDecoration(
-        color: Color(primaryDark),
-        borderRadius: BorderRadius.circular(10),
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20.0), // adjust to your liking
+          topRight: Radius.circular(20.0),
+          // adjust to your liking
+        ),
+        color: Color(primaryDark), // put the color here
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Icon(Icons.home, color: Colors.white),
-              Text("Home", style: TextStyle(color: Colors.white)),
-            ],
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.transparent,
+        selectedItemColor: Color(primaryLight),
+        unselectedItemColor: Color(primaryLight).withOpacity(.60),
+        selectedFontSize: 14,
+        unselectedFontSize: 14,
+        onTap: (value) {
+          // Respond to item press.
+        },
+        items: const [
+          BottomNavigationBarItem(
+            label: 'Home',
+            icon: Icon(
+              Icons.home_filled,
+              // color: Color(primaryLight),
+            ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Icon(Icons.attach_money, color: Colors.white),
-              Text("Inversiones", style: TextStyle(color: Colors.white)),
-            ],
+          BottomNavigationBarItem(
+            label: 'Inversiones',
+            icon: Icon(Icons.monetization_on_outlined),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Icon(Icons.poll, color: Colors.white),
-              Text("Simulador", style: TextStyle(color: Colors.white)),
-            ],
+          BottomNavigationBarItem(
+            label: 'Simulador',
+            icon: Icon(Icons.insert_chart_outlined_rounded),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const [
-              Icon(Icons.account_balance, color: Colors.white),
-              Text("Finanzas", style: TextStyle(color: Colors.white)),
-            ],
+          BottomNavigationBarItem(
+            label: 'Favorites',
+            icon: Icon(Icons.wallet),
           ),
         ],
       ),
     );
-    ;
-    ;
+    //   return Container(
+    //     margin: EdgeInsets.only(bottom: 5),
+    //     width: 360,
+    //     height: 80,
+    //     decoration: BoxDecoration(
+    //       color: Color(primaryDark),
+    //       borderRadius: BorderRadius.circular(10),
+    //     ),
+    //     child: Row(
+    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    //       children: [
+    //         Column(
+    //           mainAxisAlignment: MainAxisAlignment.start,
+    //           children: const [
+    //             Icon(Icons.home, color: Colors.white),
+    //             Text("Home", style: TextStyle(color: Colors.white)),
+    //           ],
+    //         ),
+    //         Column(
+    //           mainAxisAlignment: MainAxisAlignment.start,
+    //           children: const [
+    //             Icon(Icons.attach_money, color: Colors.white),
+    //             Text("Inversiones", style: TextStyle(color: Colors.white)),
+    //           ],
+    //         ),
+    //         Column(
+    //           mainAxisAlignment: MainAxisAlignment.start,
+    //           children: const [
+    //             Icon(Icons.poll, color: Colors.white),
+    //             Text("Simulador", style: TextStyle(color: Colors.white)),
+    //           ],
+    //         ),
+    //         Column(
+    //           mainAxisAlignment: MainAxisAlignment.start,
+    //           children: const [
+    //             Icon(Icons.account_balance, color: Colors.white),
+    //             Text("Finanzas", style: TextStyle(color: Colors.white)),
+    //           ],
+    //         ),
+    //       ],
+    //     ),
+    //   );
+    //   ;
+    //   ;
+    // }
   }
 }
 

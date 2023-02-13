@@ -4,18 +4,19 @@
 
 import 'dart:convert';
 
-ScanModel scanModelFromJson(String str) => ScanModel.fromJson(json.decode(str));
+ScanAuthModel scanModelFromJson(String str) =>
+    ScanAuthModel.fromJson(json.decode(str));
 
-String scanModelToJson(ScanModel data) => json.encode(data.toJson());
+String scanModelToJson(ScanAuthModel data) => json.encode(data.toJson());
 
-class ScanModel {
-  ScanModel({
+class ScanAuthModel {
+  ScanAuthModel({
     this.tokenAuth,
   });
 
   TokenAuth? tokenAuth;
 
-  factory ScanModel.fromJson(Map<String, dynamic> json) => ScanModel(
+  factory ScanAuthModel.fromJson(Map<String, dynamic> json) => ScanAuthModel(
         tokenAuth: json["tokenAuth"] == null
             ? null
             : TokenAuth.fromJson(json["tokenAuth"]),
