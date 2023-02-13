@@ -50,6 +50,7 @@ class _HomeStartState extends State<HomeStart> {
                         ),
                       ),
                     ),
+<<<<<<< Updated upstream
                     Expanded(
                       child: SizedBox.shrink(),
                     ),
@@ -58,6 +59,56 @@ class _HomeStartState extends State<HomeStart> {
                         width: 24,
                         height: 23.84,
                         // child: Icon(Icons.notifications_active),
+=======
+                  ),
+                  const Expanded(
+                    child: SizedBox.shrink(),
+                  ),
+                  SizedBox(
+                    child: Container(
+                      width: 24,
+                      height: 23.84,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/home_notification');
+                        },
+                        child: const Icon(Icons.notifications_active),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 30),
+                  Container(
+                    width: 41,
+                    height: 43,
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: Image.asset('assets/home/avatar.png'),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 25),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                  'Multiplica tu dinero con nosotros!',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Color(primaryDark),
+                  ),
+                ),
+              ),
+              const CardTable(),
+              Container(
+                  width: 320.0,
+                  height: 2,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Color(primaryDark),
+                        width: 0,
+>>>>>>> Stashed changes
                       ),
                     ),
                     const SizedBox(width: 30),

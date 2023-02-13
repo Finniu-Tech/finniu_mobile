@@ -1,4 +1,5 @@
 import 'package:finniu/screens/home/home.dart';
+import 'package:finniu/screens/home/notification.dart';
 import 'package:finniu/screens/intro_screen.dart';
 import 'package:finniu/screens/investment_question/result.dart';
 import 'package:finniu/screens/investment_question/question.dart';
@@ -10,6 +11,7 @@ import 'package:finniu/screens/signup/email_screen.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:finniu/screens/onboarding/start_onboarding.dart';
 import 'package:flutter/material.dart';
+import '';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
@@ -24,5 +26,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeStart(),
+    '/home_notification': (BuildContext context) => NotificationScreen(),
   };
 }
