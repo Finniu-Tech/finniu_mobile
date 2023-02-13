@@ -8,6 +8,78 @@ class HomeStart extends StatelessWidget {
   HomeStart({super.key});
   bool show = true;
 
+  void _showSettingsDialog(BuildContext ctx) {
+    showDialog(
+      context: ctx,
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.orange,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          height: 200,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: IconButton(
+                  icon: Container(
+                    height: 23,
+                    width: 23,
+                    decoration: BoxDecoration(
+                      color: Color(primaryDark),
+                      borderRadius: BorderRadius.circular(7),
+                    ),
+                    child: Icon(
+                      size: 20,
+                      Icons.close,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop();
+                  },
+                ),
+              ),
+              Text("Alerta"),
+              Text("¿Estas seguro de cerrar sesión?"),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text("Cancelar"),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+                child: Text("Aceptar"),
+              ),
+            ],
+          ),
+        ),
+
+        // title: Text("Alerta"),
+        // content: Text("¿Estas seguro de cerrar sesión?"),
+        // actions: [
+        //   TextButton(
+        //     onPressed: () {
+        //       Navigator.of(ctx).pop();
+        //     },
+        //     child: Text("Cancelar"),
+        //   ),
+        //   TextButton(
+        //     onPressed: () {
+        //       Navigator.of(ctx).pop();
+        //     },
+        //     child: Text("Aceptar"),
+        //   ),
+        // ],
+      ),
+    );
+  }
+
   void _showWelcomeModal(BuildContext ctx) {
     Future.delayed(
       Duration.zero,
@@ -153,7 +225,7 @@ class HomeStart extends StatelessWidget {
                   const SizedBox(width: 30),
                   InkWell(
                     onTap: () {
-                      _showWelcomeModal(context);
+                      _showSettingsDialog(context);
                     },
                     child: SizedBox(
                       width: 41,
