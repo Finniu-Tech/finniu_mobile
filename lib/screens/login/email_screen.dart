@@ -38,7 +38,7 @@ class EmailLoginScreen extends HookWidget {
                   token;
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const HomeStart(),
+                  builder: (BuildContext context) => HomeStart(),
                 ),
               );
             } else {

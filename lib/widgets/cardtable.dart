@@ -72,88 +72,89 @@ class _SingleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var column = Container(
-      padding: const EdgeInsets.only(right: 17, left: 17),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            title,
-            textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(primaryDark),
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
+    var column =
+        // padding: const EdgeInsets.only(),
+        Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      textDirection: TextDirection.ltr,
+      children: [
+        Text(
+          title,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(primaryDark),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(
+                Icons.monetization_on_outlined,
+                // size: 14.33,
+                color: Color(primaryDark),
+              ),
+              radius: 14.33,
             ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const CircleAvatar(
-                backgroundColor: Colors.transparent,
-                child: Icon(
-                  Icons.monetization_on_outlined,
-                  // size: 14.33,
-                  color: Color(primaryDark),
-                ),
-                radius: 14.33,
-              ),
-              Text(
-                text_mount,
-                style: const TextStyle(
-                  color: Color(primaryDark),
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const CircleAvatar(
-                backgroundColor: Colors.transparent,
-                child: Icon(
-                  Icons.currency_exchange_rounded,
-                  // size: 11,
-                  color: Color(primaryDark),
-                ),
-                radius: 14.33,
-              ),
-              Text(
-                text_percentage,
-                style: const TextStyle(
-                    // color: Color(primaryDark),
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 2,
-          ),
-          SizedBox(
-            width: 100,
-            height: 23,
-            // height: 40,
-            child: TextButton(
-              onPressed: () {},
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.all(EdgeInsets.zero)),
-              child: const Text(
-                'Ir al plan',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                ),
+            Text(
+              text_mount,
+              style: const TextStyle(
+                color: Color(primaryDark),
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
               ),
             ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const CircleAvatar(
+              backgroundColor: Colors.transparent,
+              child: Icon(
+                Icons.currency_exchange_rounded,
+                // size: 11,
+                color: Color(primaryDark),
+              ),
+              radius: 14.33,
+            ),
+            Text(
+              text_percentage,
+              style: const TextStyle(
+                  // color: Color(primaryDark),
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 2,
+        ),
+        SizedBox(
+          width: 100,
+          height: 23,
+          // height: 40,
+          child: TextButton(
+            onPressed: () {},
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero)),
+            child: const Text(
+              'Ir al plan',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
+
     return _CardBackground(child: column);
   }
 }
