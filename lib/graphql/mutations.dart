@@ -30,13 +30,13 @@ class MutationRepository {
           success
           user{
               id
-            email
-            firstName
-            lastName
-            picture
-            phoneNumber
-            gender
-            displayName
+              email
+            userProfile{
+                    nickName
+                    firstName
+                    lastName
+                    phoneNumber
+                }
 
           }
         }

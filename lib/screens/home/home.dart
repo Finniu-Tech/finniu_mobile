@@ -1,4 +1,6 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/models/user.dart';
+import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/cardtable.dart';
@@ -6,6 +8,7 @@ import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:provider/provider.dart';
 
 class HomeStart extends StatelessWidget {
   HomeStart({super.key});
@@ -15,7 +18,7 @@ class HomeStart extends StatelessWidget {
     showDialog(
         context: ctx,
         builder: (ctx) => Dialog(
-            backgroundColor: Color(secondary),
+            backgroundColor: const Color(secondary),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(20),
             ),
@@ -23,36 +26,48 @@ class HomeStart extends StatelessWidget {
                 width: 331,
                 height: 525,
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                    left: 40,
+                    right: 20,
+                    bottom: 20,
+                  ),
                   child: Column(
-                    mainAxisSize: MainAxisSize.min,
+                    // mainAxisSize: MainAxisSize.min,
                     children: [
                       Align(
                         alignment: Alignment.topRight,
-                        child: IconButton(
-                          icon: Container(
-                            height: 23,
-                            width: 23,
-                            decoration: BoxDecoration(
-                              color: Color(primaryDark),
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                            child: const Icon(
-                              size: 20,
-                              Icons.close,
-                              color: Color(secondaryLight),
-                            ),
+                        child: Container(
+                          height: 23,
+                          width: 23,
+                          padding: EdgeInsets.zero,
+                          decoration: BoxDecoration(
+                            color: const Color(primaryDark),
+                            borderRadius: BorderRadius.circular(7),
                           ),
-                          onPressed: () {
-                            Navigator.of(ctx).pop();
-                          },
+                          child: InkWell(
+                            child: Icon(
+                              size: 17,
+                              Icons.close,
+                              color: Color(primaryLight),
+                            ),
+                            onTap: () {
+                              Navigator.of(ctx).pop();
+                            },
+                          ),
+                          // onPressed: () {
+                          //   Navigator.of(ctx).pop();
+                          // },
                         ),
                       ),
+                      SizedBox(height: 20),
                       Row(
                         children: [
                           Column(
                             children: [
                               SizedBox(
+                                height: 50,
+                                width: 50,
                                 child: Image.asset("assets/home/avatar.png"),
                               )
                             ],
@@ -61,43 +76,56 @@ class HomeStart extends StatelessWidget {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Row(children: [
-                                  const Text(
-                                    "Mari",
-                                    style: TextStyle(
-                                      height: 1.5,
-                                      fontSize: 16,
-                                      color: Colors.black,
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 10,
                                     ),
-                                  ),
-                                  Spacer(),
-                                  TextPoppins(
-                                      text: 'Light mode',
-                                      colorText: Theme.of(ctx).colorScheme.primary.value,
-                                      // colorText: ,
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w500),
-                                  const SizedBox(width: 5),
-                                  FlutterSwitch(
-                                    width: 45,
-                                    height: 24,
-                                    value: Preferences.isDarkMode,
-                                    inactiveColor: const Color(primaryDark),
-                                    activeColor: const Color(primaryLight),
-                                    inactiveToggleColor: const Color(primaryLight),
-                                    activeToggleColor: const Color(primaryDark),
-                                    onToggle: (value) {
-                                      // Preferences.isDarkMode = value;
-                                      // value ? themeProvider.setDarkMode() : themeProvider.setLightMode();
-                                      // setState(() {});
-                                    },
-                                  ),
-                                ]),
-                                const SizedBox(
-                                  height: 7,
+                                    const Text(
+                                      "Mari",
+                                      style: TextStyle(
+                                          height: 1.5,
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                    const Spacer(),
+                                    TextPoppins(
+                                        text: 'Light mode',
+                                        colorText: Theme.of(ctx)
+                                            .colorScheme
+                                            .primary
+                                            .value,
+                                        // colorText: ,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w500),
+                                    const SizedBox(width: 5),
+                                    FlutterSwitch(
+                                      width: 29,
+                                      height: 16,
+                                      value: Preferences.isDarkMode,
+                                      inactiveColor: const Color(primaryDark),
+                                      activeColor: const Color(primaryLight),
+                                      inactiveToggleColor:
+                                          const Color(primaryLight),
+                                      activeToggleColor:
+                                          const Color(primaryDark),
+                                      onToggle: (value) {
+                                        // Preferences.isDarkMode = value;
+                                        // value ? themeProvider.setDarkMode() : themeProvider.setLightMode();
+                                        // setState(() {});
+                                      },
+                                    ),
+                                  ],
                                 ),
+                                // const SizedBox(
+                                //   height: 7,
+                                // ),
                                 Row(
                                   children: const [
+                                    SizedBox(
+                                      width: 10,
+                                    ),
                                     Text(
                                       "MarianaCPolo@gmail.com",
                                       style: TextStyle(
@@ -113,11 +141,11 @@ class HomeStart extends StatelessWidget {
                           ),
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 22,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Column(
                             children: const [
@@ -125,8 +153,9 @@ class HomeStart extends StatelessWidget {
                                 "S/4050",
                                 style: TextStyle(
                                   height: 1.5,
-                                  fontSize: 11,
+                                  fontSize: 14,
                                   color: Colors.black,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               Text(
@@ -145,7 +174,10 @@ class HomeStart extends StatelessWidget {
                           Container(
                             height: 60,
                             width: 2,
-                            color: Color(primaryDark),
+                            color: const Color(primaryDark),
+                          ),
+                          SizedBox(
+                            width: 20,
                           ),
                           Column(
                             children: const [
@@ -153,12 +185,14 @@ class HomeStart extends StatelessWidget {
                                 "2",
                                 style: TextStyle(
                                   height: 1.5,
-                                  fontSize: 11,
+                                  fontSize: 14,
                                   color: Colors.black,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
                               Text(
                                 "Planes invertidos",
+                                textAlign: TextAlign.right,
                                 style: TextStyle(
                                   height: 1.5,
                                   fontSize: 14,
@@ -176,8 +210,26 @@ class HomeStart extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
-                            children: const [
-                              Icon(Icons.person_outline),
+                            children: [
+                              Container(
+                                width: 46,
+                                height: 34,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(primaryDark),
+                                ),
+                                // color: Color(primaryDark),
+
+                                // color: Color(primaryLight),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.person_2_outlined,
+                                    color: Color(primaryLight),
+                                  ),
+                                  onTap: () {},
+                                ),
+                              ),
                               SizedBox(width: 10),
                               Text("Editar mi perfil"),
                             ],
@@ -186,8 +238,26 @@ class HomeStart extends StatelessWidget {
                             height: 10,
                           ),
                           Row(
-                            children: const [
-                              Icon(Icons.privacy_tip_outlined),
+                            children: [
+                              Container(
+                                width: 46,
+                                height: 34,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(primaryDark),
+                                ),
+                                // color: Color(primaryDark),
+
+                                // color: Color(primaryLight),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.privacy_tip_outlined,
+                                    color: Color(primaryLight),
+                                  ),
+                                  onTap: () {},
+                                ),
+                              ),
                               SizedBox(width: 10),
                               Text("Privacidad"),
                             ],
@@ -197,17 +267,53 @@ class HomeStart extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Icon(Icons.model_training),
-                              SizedBox(width: 10),
-                              Text("Mis transferencias"),
+                              Container(
+                                width: 46,
+                                height: 34,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(primaryDark),
+                                ),
+                                // color: Color(primaryDark),
+
+                                // color: Color(primaryLight),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.model_training,
+                                    color: Color(primaryLight),
+                                  ),
+                                  onTap: () {},
+                                ),
+                              ),
+                              const SizedBox(width: 10),
+                              const Text("Mis transferencias"),
                             ],
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Row(
-                            children: const [
-                              Icon(Icons.g_translate),
+                            children: [
+                              Container(
+                                width: 46,
+                                height: 34,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(primaryDark),
+                                ),
+                                // color: Color(primaryDark),
+
+                                // color: Color(primaryLight),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.g_translate_outlined,
+                                    color: Color(primaryLight),
+                                  ),
+                                  onTap: () {},
+                                ),
+                              ),
                               SizedBox(width: 10),
                               Text("Lenguajes"),
                             ],
@@ -216,8 +322,26 @@ class HomeStart extends StatelessWidget {
                             height: 10,
                           ),
                           Row(
-                            children: const [
-                              Icon(Icons.help_outline),
+                            children: [
+                              Container(
+                                width: 46,
+                                height: 34,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(primaryDark),
+                                ),
+                                // color: Color(primaryDark),
+
+                                // color: Color(primaryLight),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.help_outline,
+                                    color: Color(primaryLight),
+                                  ),
+                                  onTap: () {},
+                                ),
+                              ),
                               SizedBox(width: 10),
                               Text("Ayuda"),
                             ],
@@ -226,8 +350,29 @@ class HomeStart extends StatelessWidget {
                             height: 10,
                           ),
                           Row(
-                            children: const [
-                              Icon(Icons.logout),
+                            children: [
+                              Container(
+                                width: 46,
+                                height: 34,
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(primaryDark),
+                                ),
+                                // color: Color(primaryDark),
+
+                                // color: Color(primaryLight),
+                                child: InkWell(
+                                  child: Icon(
+                                    Icons.logout,
+                                    color: Color(primaryLight),
+                                  ),
+                                  onTap: () {
+                                    Navigator.of(ctx).pushNamedAndRemoveUntil(
+                                        '/login', (route) => false);
+                                  },
+                                ),
+                              ),
                               SizedBox(width: 10),
                               Text("Cerrar sesión"),
                             ],
@@ -293,7 +438,7 @@ class HomeStart extends StatelessWidget {
                         ),
                         "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -303,13 +448,13 @@ class HomeStart extends StatelessWidget {
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0XFF68C3DE),
+                              const Color(0XFF68C3DE),
                             ),
                           ),
                           onPressed: () {
                             Navigator.pop(ctx);
                           },
-                          child: Text(
+                          child: const Text(
                             "Saltar",
                             style: TextStyle(
                               color: Color(primaryDark),
@@ -324,13 +469,13 @@ class HomeStart extends StatelessWidget {
                         child: TextButton(
                           style: ButtonStyle(
                             backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(primaryDark),
+                              const Color(primaryDark),
                             ),
                           ),
                           onPressed: () {
                             Navigator.pop(ctx);
                           },
-                          child: Text(
+                          child: const Text(
                             "Completar",
                             style: TextStyle(
                               color: Colors.white,
@@ -358,6 +503,8 @@ class HomeStart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     if (show) {
       _showWelcomeModal(context);
     }
@@ -378,8 +525,8 @@ class HomeStart extends StatelessWidget {
                   SizedBox(
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Hola,Mari!',
+                      child: Text(
+                        'Hola, ${userProvider.nickName}',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -454,8 +601,8 @@ class HomeStart extends StatelessWidget {
                   Container(
                     height: 147,
                     width: 320,
-                    decoration: BoxDecoration(
-                      color: const Color(primaryLightAlternative),
+                    decoration: const BoxDecoration(
+                      color: Color(primaryLightAlternative),
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),

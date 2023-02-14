@@ -51,42 +51,52 @@ class User {
   User({
     this.id,
     this.email,
-    this.firstName,
-    this.lastName,
-    this.picture,
-    this.phoneNumber,
-    this.gender,
-    this.displayName,
+    this.userProfile,
   });
 
   String? id;
   String? email;
-  dynamic firstName;
-  dynamic lastName;
-  dynamic picture;
-  dynamic phoneNumber;
-  dynamic gender;
-  dynamic displayName;
+  UserProfile? userProfile;
 
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         email: json["email"],
-        firstName: json["firstName"],
-        lastName: json["lastName"],
-        picture: json["picture"],
-        phoneNumber: json["phoneNumber"],
-        gender: json["gender"],
-        displayName: json["displayName"],
+        userProfile: json["userProfile"] == null
+            ? null
+            : UserProfile.fromJson(json["userProfile"]),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "email": email,
+        "userProfile": userProfile?.toJson(),
+      };
+}
+
+class UserProfile {
+  UserProfile({
+    this.nickName,
+    this.firstName,
+    this.lastName,
+    this.phoneNumber,
+  });
+
+  String? nickName;
+  dynamic firstName;
+  dynamic lastName;
+  String? phoneNumber;
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
+        nickName: json["nickName"],
+        firstName: json["firstName"],
+        lastName: json["lastName"],
+        phoneNumber: json["phoneNumber"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "nickName": nickName,
         "firstName": firstName,
         "lastName": lastName,
-        "picture": picture,
         "phoneNumber": phoneNumber,
-        "gender": gender,
-        "displayName": displayName,
       };
 }
