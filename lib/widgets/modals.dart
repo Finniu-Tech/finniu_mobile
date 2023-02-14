@@ -54,9 +54,6 @@ void showSettingsDialog(BuildContext ctx) {
                       Navigator.of(ctx).pop();
                     },
                   ),
-                  // onPressed: () {
-                  //   Navigator.of(ctx).pop();
-                  // },
                 ),
               ),
               const SizedBox(height: 20),
