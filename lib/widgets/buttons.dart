@@ -1,6 +1,8 @@
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/screens/investment_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:provider/provider.dart';
 
 class CustomButton extends StatefulWidget {
   final int? colorBackground;
@@ -106,6 +108,7 @@ class CustomButtonRoundedDark extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         if (pushName != "") {
@@ -115,16 +118,23 @@ class CustomButtonRoundedDark extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(10),
         // padding: EdgeInsets.all(6),
-        width: 40,
-        height: 40,
+        width: 28.67,
+        height: 28.67,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: const Color(primaryDark),
+          color: currentTheme.isDarkMode
+              ? Colors.transparent
+              : Color(
+                  primaryLight,
+                ),
+          border: Border.all(
+            color: Color(primaryDark),
+          ),
         ),
         child: const Center(
           child: Icon(
             size: 20,
-            color: Color(primaryLight),
+            color: Color(primaryDark),
             Icons.arrow_forward,
           ),
         ),
@@ -178,20 +188,33 @@ class BottomNavigationBarHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20.0), // adjust to your liking
           topRight: Radius.circular(20.0),
           // adjust to your liking
         ),
-        color: Color(primaryDark), // put the color here
+        color: currentTheme.isDarkMode
+            ? Color(primaryLight)
+            : Color(
+                primaryDark, // put the color here
+              ),
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.transparent,
-        selectedItemColor: Color(primaryLight),
-        unselectedItemColor: Color(primaryLight).withOpacity(.60),
+        selectedItemColor: currentTheme.isDarkMode
+            ? Color(primaryDark)
+            : Color(
+                primaryLight, // put the color here
+              ),
+        unselectedItemColor: currentTheme.isDarkMode
+            ? Color(primaryDark)
+            : Color(
+                primaryLight, // put the color here
+              ).withOpacity(.60),
         selectedFontSize: 14,
         unselectedFontSize: 14,
         onTap: (value) {
