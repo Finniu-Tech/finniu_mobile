@@ -1,5 +1,8 @@
+import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/screens/investment_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:provider/provider.dart';
 
 class CustomButton extends StatefulWidget {
   final int? colorBackground;
@@ -113,6 +116,7 @@ class CustomButtonRoundedDark extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         if (pushName != "") {
@@ -122,16 +126,23 @@ class CustomButtonRoundedDark extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.all(10),
         // padding: EdgeInsets.all(6),
-        width: 40,
-        height: 40,
+        width: 28.67,
+        height: 28.67,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: const Color(primaryDark),
+          color: currentTheme.isDarkMode
+              ? Colors.transparent
+              : const Color(
+                  primaryLight,
+                ),
+          border: Border.all(
+            color: const Color(primaryDark),
+          ),
         ),
         child: const Center(
           child: Icon(
             size: 20,
-            color: Color(primaryLight),
+            color: Color(primaryDark),
             Icons.arrow_forward,
           ),
         ),
@@ -166,7 +177,7 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
         }
       },
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: 40,
         height: 40,
         decoration: BoxDecoration(
@@ -187,20 +198,34 @@ class BottomNavigationBarHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return Container(
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20.0), // adjust to your liking
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
           // adjust to your liking
         ),
-        color: Color(primaryDark), // put the color here
+        color: currentTheme.isDarkMode
+            ? const Color(primaryLight)
+            : const Color(
+                primaryDark,
+              ),
       ),
       child: BottomNavigationBar(
+        elevation: 0.0,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.transparent,
-        selectedItemColor: Color(primaryLight),
-        unselectedItemColor: Color(primaryLight).withOpacity(.60),
+        selectedItemColor: currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              ),
+        unselectedItemColor: currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              ).withOpacity(.60),
         selectedFontSize: 14,
         unselectedFontSize: 14,
         onTap: (value) {
@@ -211,7 +236,6 @@ class BottomNavigationBarHome extends StatelessWidget {
             label: 'Home',
             icon: Icon(
               Icons.home_filled,
-              // color: Color(primaryLight),
             ),
           ),
           BottomNavigationBarItem(
@@ -229,51 +253,6 @@ class BottomNavigationBarHome extends StatelessWidget {
         ],
       ),
     );
-    //   return Container(
-    //     margin: EdgeInsets.only(bottom: 5),
-    //     width: 360,
-    //     height: 80,
-    //     decoration: BoxDecoration(
-    //       color: Color(primaryDark),
-    //       borderRadius: BorderRadius.circular(10),
-    //     ),
-    //     child: Row(
-    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    //       children: [
-    //         Column(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           children: const [
-    //             Icon(Icons.home, color: Colors.white),
-    //             Text("Home", style: TextStyle(color: Colors.white)),
-    //           ],
-    //         ),
-    //         Column(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           children: const [
-    //             Icon(Icons.attach_money, color: Colors.white),
-    //             Text("Inversiones", style: TextStyle(color: Colors.white)),
-    //           ],
-    //         ),
-    //         Column(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           children: const [
-    //             Icon(Icons.poll, color: Colors.white),
-    //             Text("Simulador", style: TextStyle(color: Colors.white)),
-    //           ],
-    //         ),
-    //         Column(
-    //           mainAxisAlignment: MainAxisAlignment.start,
-    //           children: const [
-    //             Icon(Icons.account_balance, color: Colors.white),
-    //             Text("Finanzas", style: TextStyle(color: Colors.white)),
-    //           ],
-    //         ),
-    //       ],
-    //     ),
-    //   );
-    //   ;
-    //   ;
-    // }
   }
 }
 
@@ -289,9 +268,14 @@ class ButtonQuestions extends StatelessWidget {
       height: 53,
       child: TextButton(
         onPressed: () {
-          // widget.currentStep = widget.currentStep + 1;
+          if (controller.page == 2.0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ResultInvestment()),
+            );
+          } else {}
           controller.nextPage(
-              duration: Duration(milliseconds: 300), curve: Curves.ease);
+              duration: const Duration(milliseconds: 300), curve: Curves.ease);
         },
         style: TextButton.styleFrom(
           backgroundColor: const Color(primaryLightAlternative),

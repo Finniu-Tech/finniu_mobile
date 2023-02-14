@@ -56,3 +56,6 @@ const colorTextButtonDarkColor = 0xff0D3A5C;
 
 const cardBackgroundColorLight = 0xffDBF7FF;
 const cardBackgroundColorDark = 0xffA2E6FA;
+
+const colorIconlight = 0xff4C8DBE;
+const colorIcondark = 0xff428CA1;

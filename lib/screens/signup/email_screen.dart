@@ -18,23 +18,17 @@ import 'package:provider/provider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SignUpEmailScreen extends HookWidget {
-  SignUpEmailScreen({super.key});
-  TextEditingController nickNameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
-//   @override
-//   State<SignUpEmailScreen> createState() => _SignUpEmailScreenState();
-// }
-
-// class _SignUpEmailScreenState extends State<SignUpEmailScreen> {
+  const SignUpEmailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     // String _password = "";
     final isHidden = useState(true);
     final showError = useState(false);
+    final nickNameController = useTextEditingController();
+    final phoneController = useTextEditingController();
+    final emailController = useTextEditingController();
+    final passwordController = useTextEditingController();
 
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     final formKey = GlobalKey<FormState>();
@@ -54,14 +48,20 @@ class SignUpEmailScreen extends HookWidget {
             User? user = ScanUserModel.fromJson(data).registerUser?.user;
             UserProvider userProvider =
                 Provider.of<UserProvider>(context, listen: false);
+            print('email response');
+            print(user?.email);
+            print('nickName response');
+            print(user?.userProfile?.nickName);
             userProvider.email = user?.email;
-            userProvider.firstName = user?.firstName;
-            userProvider.lastName = user?.lastName;
+            userProvider.firstName = user?.userProfile?.firstName;
+            userProvider.lastName = user?.userProfile?.lastName;
             // userProvider.picture = user.picture;
-            userProvider.phone = user?.phoneNumber;
-            userProvider.nickName = user?.displayName;
+            userProvider.phone =
+                int.parse(user?.userProfile?.phoneNumber ?? '0');
+            userProvider.nickName = user?.userProfile?.nickName;
             print(user);
-            Navigator.of(context).pushNamed('/home_home');
+
+            Navigator.of(context).pushNamed('/on_boarding_start');
           } else {
             print('else zero');
             showError.value = true;
@@ -167,7 +167,7 @@ class SignUpEmailScreen extends HookWidget {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
-                    controller: nickNameController,
+                    // controller: nickNameController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Este dato es requerido';
@@ -198,7 +198,7 @@ class SignUpEmailScreen extends HookWidget {
                       return null;
                     },
                     onChanged: (value) {
-                      phoneController.text = value;
+                      // phoneController.text = value;
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
@@ -230,7 +230,7 @@ class SignUpEmailScreen extends HookWidget {
                       return null;
                     },
                     onChanged: (value) {
-                      emailController.text = value.toString();
+                      // emailController.text = value.toString();
                     },
                     decoration: const InputDecoration(
                       hintText: 'Escriba su correo electrónico',
@@ -251,7 +251,7 @@ class SignUpEmailScreen extends HookWidget {
                       return null;
                     },
                     onChanged: (value) {
-                      passwordController.text = value;
+                      // passwordController.text = value;
                     },
                     obscureText: isHidden.value, // esto oculta la contrasenia
                     obscuringCharacter: '*',
@@ -296,8 +296,11 @@ class SignUpEmailScreen extends HookWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () {
+                      // Navigator.of(context).pushNamed('/on_boarding_start');
                       if (formKey.currentState!.validate()) {
                         context.loaderOverlay.show();
+                        print('email controller');
+                        print(emailController.text);
                         registerMutation.runMutation(
                           {
                             "email": emailController.text,

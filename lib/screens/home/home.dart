@@ -1,118 +1,25 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/auth_provider.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/cardtable.dart';
-import 'package:finniu/widgets/scaffold.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:finniu/widgets/modals.dart';
 
 class HomeStart extends StatelessWidget {
   HomeStart({super.key});
   bool show = true;
 
-  void _showWelcomeModal(BuildContext ctx) {
-    Future.delayed(
-      Duration.zero,
-      () async {
-        showModalBottomSheet(
-          // barrierColor: Colors.transparent,
-          clipBehavior: Clip.antiAlias,
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(50),
-            ),
-          ),
-          elevation: 10,
-          backgroundColor: const Color(primaryLight),
-          context: ctx,
-          builder: (ctx) => SizedBox(
-            height: 476,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  SizedBox(
-                    child: Image.asset('assets/home/modal_info.png'),
-                  ),
-                  const SizedBox(
-                    width: 200,
-                    child: Text(
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5,
-                          color: Color(primaryDark),
-                        ),
-                        "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
-                  ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 132,
-                        height: 46,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(0XFF68C3DE),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(ctx);
-                          },
-                          child: Text(
-                            "Saltar",
-                            style: TextStyle(
-                              color: Color(primaryDark),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      SizedBox(
-                        width: 132,
-                        height: 46,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(primaryDark),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(ctx);
-                          },
-                          child: Text(
-                            "Completar",
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  )
-                  // ElevatedButton(
-                  //   child: const Text('Close BottomSheet'),
-                  //   onPressed: () {
-                  //     show = false;
-                  //     Navigator.pop(ctx);
-                  //   },
-                  // ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     if (show) {
-      _showWelcomeModal(context);
+      showWelcomeModal(context);
     }
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+
     return Scaffold(
       // extendBody: true,
       bottomNavigationBar: const BottomNavigationBarHome(),
@@ -123,19 +30,28 @@ class HomeStart extends StatelessWidget {
             children: [
               const SizedBox(height: 30),
               SizedBox(
-                child: Image.asset('assets/images/logo_finniu_home.png'),
+                child: Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    currentTheme.isDarkMode
+                        ? "assets/images/logo_finniu_home_dark.png"
+                        : "assets/images/logo_finniu_home.png",
+                  ),
+                ),
               ),
               Row(
                 children: [
                   SizedBox(
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'Hola,Mari!',
+                      child: Text(
+                        'Hola, ${userProvider.nickName}!',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
-                          color: Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -147,13 +63,25 @@ class HomeStart extends StatelessWidget {
                     child: Container(
                       width: 24,
                       height: 23.84,
-                      child: const Icon(Icons.notifications_active),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/home_notification');
+                        },
+                        child: Container(
+                          child: Icon(
+                            CupertinoIcons.bell,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 30),
                   InkWell(
                     onTap: () {
-                      _showWelcomeModal(context);
+                      showSettingsDialog(context);
                     },
                     child: SizedBox(
                       width: 41,
@@ -169,12 +97,14 @@ class HomeStart extends StatelessWidget {
               const SizedBox(height: 25),
               Container(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'Multiplica tu dinero con nosotros!',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -193,18 +123,17 @@ class HomeStart extends StatelessWidget {
               const SizedBox(height: 10),
               Stack(
                 children: <Widget>[
-                  // Card(
-                  //   shadowColor: Colors.transparent,
-                  //   shape: RoundedRectangleBorder(
-                  //     borderRadius: BorderRadius.circular(30),
-                  //   ),
-                  // ),
                   Container(
                     height: 147,
                     width: 320,
                     decoration: BoxDecoration(
-                      color: const Color(primaryLightAlternative),
-                      borderRadius: BorderRadius.circular(20),
+                      color: currentTheme.isDarkMode
+                          ? const Color(secondary)
+                          : const Color(primaryLight),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
                     ),
                     child: Row(
                       children: [
@@ -216,6 +145,10 @@ class HomeStart extends StatelessWidget {
                               height: 147,
                               width: 150,
                               decoration: const BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  topRight: Radius.circular(20),
+                                ),
                                 image: DecorationImage(
                                   image: AssetImage("assets/home/person.png"),
                                   fit: BoxFit.cover,
@@ -224,7 +157,6 @@ class HomeStart extends StatelessWidget {
                             ),
                           ),
                         ),
-                        // const SizedBox(height: 25),
                         Align(
                           alignment: Alignment.centerRight,
                           child: Column(
@@ -269,11 +201,6 @@ class HomeStart extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Container(
-                  //   width: 24,
-                  //   height: 23.84,
-                  //   child: Icon(Icons.arrow_circle_right),
-                  // ),
                 ],
               ),
             ],
