@@ -1,11 +1,12 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/auth_provider.dart';
+import 'package:finniu/providers/theme_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/cardtable.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
@@ -46,7 +47,7 @@ class HomeStart extends StatelessWidget {
                             borderRadius: BorderRadius.circular(7),
                           ),
                           child: InkWell(
-                            child: Icon(
+                            child: const Icon(
                               size: 17,
                               Icons.close,
                               color: Color(primaryLight),
@@ -60,7 +61,7 @@ class HomeStart extends StatelessWidget {
                           // },
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       Row(
                         children: [
                           Column(
@@ -78,7 +79,7 @@ class HomeStart extends StatelessWidget {
                               children: [
                                 Row(
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       width: 10,
                                     ),
                                     const Text(
@@ -176,7 +177,7 @@ class HomeStart extends StatelessWidget {
                             width: 2,
                             color: const Color(primaryDark),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 20,
                           ),
                           Column(
@@ -217,21 +218,21 @@ class HomeStart extends StatelessWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(primaryDark),
+                                  color: const Color(primaryDark),
                                 ),
                                 // color: Color(primaryDark),
 
                                 // color: Color(primaryLight),
                                 child: InkWell(
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.person_2_outlined,
                                     color: Color(primaryLight),
                                   ),
                                   onTap: () {},
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Text("Editar mi perfil"),
+                              const SizedBox(width: 10),
+                              const Text("Editar mi perfil"),
                             ],
                           ),
                           const SizedBox(
@@ -245,21 +246,21 @@ class HomeStart extends StatelessWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(primaryDark),
+                                  color: const Color(primaryDark),
                                 ),
                                 // color: Color(primaryDark),
 
                                 // color: Color(primaryLight),
                                 child: InkWell(
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.privacy_tip_outlined,
                                     color: Color(primaryLight),
                                   ),
                                   onTap: () {},
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Text("Privacidad"),
+                              const SizedBox(width: 10),
+                              const Text("Privacidad"),
                             ],
                           ),
                           const SizedBox(
@@ -273,13 +274,13 @@ class HomeStart extends StatelessWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(primaryDark),
+                                  color: const Color(primaryDark),
                                 ),
                                 // color: Color(primaryDark),
 
                                 // color: Color(primaryLight),
                                 child: InkWell(
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.model_training,
                                     color: Color(primaryLight),
                                   ),
@@ -301,21 +302,21 @@ class HomeStart extends StatelessWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(primaryDark),
+                                  color: const Color(primaryDark),
                                 ),
                                 // color: Color(primaryDark),
 
                                 // color: Color(primaryLight),
                                 child: InkWell(
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.g_translate_outlined,
                                     color: Color(primaryLight),
                                   ),
                                   onTap: () {},
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Text("Lenguajes"),
+                              const SizedBox(width: 10),
+                              const Text("Lenguajes"),
                             ],
                           ),
                           const SizedBox(
@@ -329,21 +330,21 @@ class HomeStart extends StatelessWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(primaryDark),
+                                  color: const Color(primaryDark),
                                 ),
                                 // color: Color(primaryDark),
 
                                 // color: Color(primaryLight),
                                 child: InkWell(
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.help_outline,
                                     color: Color(primaryLight),
                                   ),
                                   onTap: () {},
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Text("Ayuda"),
+                              const SizedBox(width: 10),
+                              const Text("Ayuda"),
                             ],
                           ),
                           const SizedBox(
@@ -357,13 +358,13 @@ class HomeStart extends StatelessWidget {
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: Color(primaryDark),
+                                  color: const Color(primaryDark),
                                 ),
                                 // color: Color(primaryDark),
 
                                 // color: Color(primaryLight),
                                 child: InkWell(
-                                  child: Icon(
+                                  child: const Icon(
                                     Icons.logout,
                                     color: Color(primaryLight),
                                   ),
@@ -373,8 +374,8 @@ class HomeStart extends StatelessWidget {
                                   },
                                 ),
                               ),
-                              SizedBox(width: 10),
-                              Text("Cerrar sesión"),
+                              const SizedBox(width: 10),
+                              const Text("Cerrar sesión"),
                             ],
                           ),
                         ],
@@ -504,10 +505,11 @@ class HomeStart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-
     if (show) {
       _showWelcomeModal(context);
     }
+    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+
     return Scaffold(
       // extendBody: true,
       bottomNavigationBar: const BottomNavigationBarHome(),
@@ -518,7 +520,15 @@ class HomeStart extends StatelessWidget {
             children: [
               const SizedBox(height: 30),
               SizedBox(
-                child: Image.asset('assets/images/logo_finniu_home.png'),
+                // width: 224,
+                child: Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    currentTheme.isDarkMode
+                        ? "assets/images/logo_finniu_home_dark.png"
+                        : "assets/images/logo_finniu_home.png",
+                  ),
+                ),
               ),
               Row(
                 children: [
@@ -530,7 +540,9 @@ class HomeStart extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
-                          color: Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -543,10 +555,18 @@ class HomeStart extends StatelessWidget {
                       width: 24,
                       height: 23.84,
                       child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/home_notification');
-                          },
-                          child: const Icon(Icons.notifications_active)),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/home_notification');
+                        },
+                        child: Container(
+                          child: Icon(
+                            CupertinoIcons.bell,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 30),
@@ -568,12 +588,14 @@ class HomeStart extends StatelessWidget {
               const SizedBox(height: 25),
               Container(
                 alignment: Alignment.centerLeft,
-                child: const Text(
+                child: Text(
                   'Multiplica tu dinero con nosotros!',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -601,9 +623,11 @@ class HomeStart extends StatelessWidget {
                   Container(
                     height: 147,
                     width: 320,
-                    decoration: const BoxDecoration(
-                      color: Color(primaryLightAlternative),
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      color: currentTheme.isDarkMode
+                          ? const Color(secondary)
+                          : const Color(primaryLight),
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
                       ),
