@@ -24,6 +24,7 @@ class HomeStart extends StatelessWidget {
       // extendBody: true,
       bottomNavigationBar: const BottomNavigationBarHome(),
       body: Container(
+          child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
@@ -111,7 +112,7 @@ class HomeStart extends StatelessWidget {
             ),
             const CardTable(),
             Container(
-                width: 320.0,
+                width: MediaQuery.of(context).size.width * 0.8,
                 height: 2,
                 decoration: const BoxDecoration(
                   border: Border(
@@ -139,20 +140,17 @@ class HomeStart extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Positioned(
-                    // left: 100,
-                    child: Container(
-                      height: 147,
-                      width: 150,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage("assets/home/person.png"),
-                          fit: BoxFit.cover,
-                        ),
+                  child: Container(
+                    height: 147,
+                    width: 150,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage("assets/home/person.png"),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -206,7 +204,7 @@ class HomeStart extends StatelessWidget {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 }

@@ -22,27 +22,43 @@ class _CardTableState extends State<CardTable> {
           TableRow(children: [
             _SingleCard(
               title: 'Plan Origen',
-              textMount: 'Desde S/500',
-              textPercentage: '12% anual',
+              text_mount: 'Desde S/500',
+              text_percentage: '12% anual',
             ),
             _SingleCard(
               title: 'Plan Estable',
-              textMount: 'Desde S/1,000',
-              textPercentage: '14% anual',
+              text_mount: 'Desde S/1,000',
+              text_percentage: '14% anual',
             )
           ]),
-          TableRow(children: [
-            _SingleCard(
-              title: 'Plan Responsable',
-              textMount: 'Desde S/5,000',
-              textPercentage: '16% anual',
-            ),
-            _SingleCard(
-              title: 'Plan crecimiento',
-              textMount: 'Desde S/10,000',
-              textPercentage: '18%anual',
-            )
-          ]),
+          TableRow(
+            children: [
+              _SingleCard(
+                title: 'Plan Responsable',
+                text_mount: 'Desde S/5,000',
+                text_percentage: '16% anual',
+              ),
+              _SingleCard(
+                title: 'Plan crecimiento',
+                text_mount: 'Desde S/10,000',
+                text_percentage: '18%anual',
+              )
+            ],
+          ),
+          // TableRow(
+          //   children: [
+          //     _SingleCard(
+          //       title: 'Plan Responsable',
+          //       text_mount: 'Desde S/5,000',
+          //       text_percentage: '16% anual',
+          //     ),
+          //     _SingleCard(
+          //       title: 'Plan crecimiento',
+          //       text_mount: 'Desde S/10,000',
+          //       text_percentage: '18%anual',
+          //     )
+          //   ],
+          // ),
         ],
       ),
     );
@@ -51,14 +67,14 @@ class _CardTableState extends State<CardTable> {
 
 class _SingleCard extends StatelessWidget {
   final String title;
-  final String textMount;
-  final String textPercentage;
+  final String text_mount;
+  final String text_percentage;
 
   const _SingleCard({
     super.key,
     required this.title,
-    required this.textMount,
-    required this.textPercentage,
+    required this.text_mount,
+    required this.text_percentage,
   });
 
   @override
@@ -95,7 +111,7 @@ class _SingleCard extends StatelessWidget {
               ),
             ),
             Text(
-              textMount,
+              text_mount,
               style: TextStyle(
                 color: currentTheme.isDarkMode
                     ? const Color(whiteText)
@@ -121,7 +137,7 @@ class _SingleCard extends StatelessWidget {
               ),
             ),
             Text(
-              textPercentage,
+              text_percentage,
               style: TextStyle(
                   color: currentTheme.isDarkMode
                       ? const Color(whiteText)
