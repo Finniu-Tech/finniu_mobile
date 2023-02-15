@@ -11,17 +11,20 @@ void showSettingsDialog(BuildContext ctx) {
   showDialog(
     context: ctx,
     builder: (ctx) => Dialog(
+      insetAnimationDuration: const Duration(seconds: 1),
+      insetAnimationCurve: Curves.easeInOutCubic,
       backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(secondary),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
+      insetPadding: EdgeInsets.zero,
       child: SizedBox(
-        width: 331,
+        width: MediaQuery.of(ctx).size.width * 0.9,
         height: 525,
         child: Padding(
           padding: const EdgeInsets.only(
             top: 10.0,
-            left: 40,
+            left: 20,
             right: 20,
             bottom: 20,
           ),
@@ -119,7 +122,7 @@ void showSettingsDialog(BuildContext ctx) {
                 height: 22,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
                     children: [
@@ -180,43 +183,39 @@ void showSettingsDialog(BuildContext ctx) {
               const SizedBox(
                 height: 15,
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ItemSetting(
-                    icon: Icons.person_outlined,
-                    text: "Mi perfil",
-                    onTap: () {
-                      Navigator.of(ctx).pushNamedAndRemoveUntil('/profile', (route) => false);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ItemSetting(icon: Icons.privacy_tip_outlined, text: "Privacidad"),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ItemSetting(icon: Icons.model_training, text: "Mis transferencias"),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ItemSetting(icon: Icons.g_translate_outlined, text: "Lenguajes"),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ItemSetting(icon: Icons.help_outline, text: "Ayuda"),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ItemSetting(
-                    icon: Icons.logout,
-                    text: "Cerrar sesión",
-                    onTap: () {
-                      Navigator.of(ctx).pushNamedAndRemoveUntil('/login', (route) => false);
-                    },
-                  ),
-                ],
+              SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    ItemSetting(icon: Icons.person_outlined, text: "Mi perfil"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ItemSetting(icon: Icons.privacy_tip_outlined, text: "Privacidad"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ItemSetting(icon: Icons.model_training, text: "Mis transferencias"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ItemSetting(icon: Icons.g_translate_outlined, text: "Lenguajes"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ItemSetting(icon: Icons.help_outline, text: "Ayuda"),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    ItemSetting(
+                      icon: Icons.logout,
+                      text: "Cerrar sesión",
+                      onTap: () {
+                        Navigator.of(ctx).pushNamedAndRemoveUntil('/login_start', (route) => false);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -275,7 +274,7 @@ class ItemSetting extends StatelessWidget {
 void showWelcomeModal(BuildContext ctx) {
   final themeProvider = Provider.of<ThemeProvider>(ctx, listen: false);
   Future.delayed(
-    Duration.zero,
+    const Duration(seconds: 1),
     () async {
       showModalBottomSheet(
         clipBehavior: Clip.antiAlias,
@@ -288,75 +287,79 @@ void showWelcomeModal(BuildContext ctx) {
         backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
         context: ctx,
         builder: (ctx) => SizedBox(
-          height: 476,
+          height: MediaQuery.of(ctx).size.height * 0.90,
+          // height:\
+          //     width: MediaQuery.of(context).size.width,
           child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                SizedBox(
-                  child: Image.asset('assets/home/modal_info.png'),
-                ),
-                SizedBox(
-                  width: 230,
-                  child: Text(
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                        color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
-                      ),
-                      "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 132,
-                      height: 46,
-                      child: TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(0XFF68C3DE),
-                          ),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  SizedBox(
+                    child: Image.asset('assets/home/modal_info.png'),
+                  ),
+                  SizedBox(
+                    width: 230,
+                    child: Text(
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          height: 1.5,
+                          color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                         ),
-                        onPressed: () {
-                          Navigator.pop(ctx);
-                        },
-                        child: Text(
-                          "Saltar",
-                          style: TextStyle(
-                            color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                        "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 132,
+                        height: 46,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(0XFF68C3DE),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    SizedBox(
-                      width: 132,
-                      height: 46,
-                      child: TextButton(
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            themeProvider.isDarkMode ? const Color(buttonBackgroundColorDark) : const Color(primaryDark),
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pop(ctx);
-                        },
-                        child: Text(
-                          "Completar",
-                          style: TextStyle(
-                            color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                          },
+                          child: Text(
+                            "Saltar",
+                            style: TextStyle(
+                              color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                )
-              ],
+                      const SizedBox(width: 10),
+                      SizedBox(
+                        width: 132,
+                        height: 46,
+                        child: TextButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all<Color>(
+                              themeProvider.isDarkMode ? const Color(buttonBackgroundColorDark) : const Color(primaryDark),
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pop(ctx);
+                          },
+                          child: Text(
+                            "Completar",
+                            style: TextStyle(
+                              color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

@@ -159,7 +159,7 @@ class SignUpEmailScreen extends HookWidget {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
-                    // controller: nickNameController,
+                    controller: nickNameController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Este dato es requerido';
@@ -167,7 +167,7 @@ class SignUpEmailScreen extends HookWidget {
                       return null;
                     },
                     onChanged: (value) {
-                      nickNameController.text = value.toString();
+                      // nickNameController.text = value.toString();
                     },
                     decoration: const InputDecoration(
                       hintText: 'Escriba su nombre favorito',
