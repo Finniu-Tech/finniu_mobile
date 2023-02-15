@@ -11,9 +11,7 @@ void showSettingsDialog(BuildContext ctx) {
   showDialog(
     context: ctx,
     builder: (ctx) => Dialog(
-      backgroundColor: themeProvider.isDarkMode
-          ? const Color(primaryDark)
-          : const Color(secondary),
+      backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(secondary),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
       ),
@@ -37,18 +35,14 @@ void showSettingsDialog(BuildContext ctx) {
                   width: 23,
                   padding: EdgeInsets.zero,
                   decoration: BoxDecoration(
-                    color: themeProvider.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     borderRadius: BorderRadius.circular(7),
                   ),
                   child: InkWell(
                     child: Icon(
                       size: 17,
                       Icons.close,
-                      color: themeProvider.isDarkMode
-                          ? const Color(primaryDark)
-                          : const Color(primaryLight),
+                      color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
                     ),
                     onTap: () {
                       Navigator.of(ctx).pop();
@@ -79,20 +73,12 @@ void showSettingsDialog(BuildContext ctx) {
                             ),
                             Text(
                               "Mari",
-                              style: TextStyle(
-                                  height: 1.5,
-                                  fontSize: 16,
-                                  color: themeProvider.isDarkMode
-                                      ? Colors.white
-                                      : Colors.black,
-                                  fontWeight: FontWeight.w500),
+                              style: TextStyle(height: 1.5, fontSize: 16, color: themeProvider.isDarkMode ? Colors.white : Colors.black, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
                             TextPoppins(
                                 text: 'Light mode',
-                                colorText: themeProvider.isDarkMode
-                                    ? Colors.white.value
-                                    : Colors.black.value,
+                                colorText: themeProvider.isDarkMode ? Colors.white.value : Colors.black.value,
                                 // colorText: ,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500),
@@ -119,9 +105,7 @@ void showSettingsDialog(BuildContext ctx) {
                               style: TextStyle(
                                 height: 1.5,
                                 fontSize: 12,
-                                color: themeProvider.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(grayText1),
+                                color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(grayText1),
                               ),
                             )
                           ],
@@ -144,9 +128,7 @@ void showSettingsDialog(BuildContext ctx) {
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 14,
-                          color: themeProvider.isDarkMode
-                              ? Colors.white
-                              : Colors.black,
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -155,9 +137,7 @@ void showSettingsDialog(BuildContext ctx) {
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 14,
-                          color: themeProvider.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                       ),
                     ],
@@ -168,9 +148,7 @@ void showSettingsDialog(BuildContext ctx) {
                   Container(
                     height: 60,
                     width: 2,
-                    color: themeProvider.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                   ),
                   const SizedBox(
                     width: 20,
@@ -182,9 +160,7 @@ void showSettingsDialog(BuildContext ctx) {
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 14,
-                          color: themeProvider.isDarkMode
-                              ? Colors.white
-                              : Colors.black,
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -194,9 +170,7 @@ void showSettingsDialog(BuildContext ctx) {
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 14,
-                          color: themeProvider.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                       ),
                     ],
@@ -209,22 +183,25 @@ void showSettingsDialog(BuildContext ctx) {
               Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ItemSetting(icon: Icons.person_2_outlined, text: "Mi perfil"),
+                  ItemSetting(
+                    icon: Icons.person_outlined,
+                    text: "Mi perfil",
+                    onTap: () {
+                      Navigator.of(ctx).pushNamedAndRemoveUntil('/profile', (route) => false);
+                    },
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
-                  ItemSetting(
-                      icon: Icons.privacy_tip_outlined, text: "Privacidad"),
+                  ItemSetting(icon: Icons.privacy_tip_outlined, text: "Privacidad"),
                   const SizedBox(
                     height: 10,
                   ),
-                  ItemSetting(
-                      icon: Icons.model_training, text: "Mis transferencias"),
+                  ItemSetting(icon: Icons.model_training, text: "Mis transferencias"),
                   const SizedBox(
                     height: 10,
                   ),
-                  ItemSetting(
-                      icon: Icons.g_translate_outlined, text: "Lenguajes"),
+                  ItemSetting(icon: Icons.g_translate_outlined, text: "Lenguajes"),
                   const SizedBox(
                     height: 10,
                   ),
@@ -236,8 +213,7 @@ void showSettingsDialog(BuildContext ctx) {
                     icon: Icons.logout,
                     text: "Cerrar sesión",
                     onTap: () {
-                      Navigator.of(ctx)
-                          .pushNamedAndRemoveUntil('/login', (route) => false);
+                      Navigator.of(ctx).pushNamedAndRemoveUntil('/login', (route) => false);
                     },
                   ),
                 ],
@@ -276,9 +252,7 @@ class ItemSetting extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: themeProvider.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDark),
+            color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
           ),
           // color: Color(primaryDark),
 
@@ -286,9 +260,7 @@ class ItemSetting extends StatelessWidget {
           child: InkWell(
             child: Icon(
               _icon,
-              color: themeProvider.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
+              color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
             ),
             onTap: _onTap as void Function()?,
           ),
@@ -313,9 +285,7 @@ void showWelcomeModal(BuildContext ctx) {
           ),
         ),
         elevation: 10,
-        backgroundColor: themeProvider.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(primaryLight),
+        backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
         context: ctx,
         builder: (ctx) => SizedBox(
           height: 476,
@@ -335,9 +305,7 @@ void showWelcomeModal(BuildContext ctx) {
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: themeProvider.isDarkMode
-                            ? Colors.white
-                            : const Color(primaryDark),
+                        color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                       ),
                       "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
                 ),
@@ -351,9 +319,7 @@ void showWelcomeModal(BuildContext ctx) {
                       child: TextButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            themeProvider.isDarkMode
-                                ? const Color(primaryDarkAlternative)
-                                : const Color(0XFF68C3DE),
+                            themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(0XFF68C3DE),
                           ),
                         ),
                         onPressed: () {
@@ -362,9 +328,7 @@ void showWelcomeModal(BuildContext ctx) {
                         child: Text(
                           "Saltar",
                           style: TextStyle(
-                            color: themeProvider.isDarkMode
-                                ? Colors.white
-                                : const Color(primaryDark),
+                            color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                           ),
                         ),
                       ),
@@ -376,9 +340,7 @@ void showWelcomeModal(BuildContext ctx) {
                       child: TextButton(
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
-                            themeProvider.isDarkMode
-                                ? const Color(buttonBackgroundColorDark)
-                                : const Color(primaryDark),
+                            themeProvider.isDarkMode ? const Color(buttonBackgroundColorDark) : const Color(primaryDark),
                           ),
                         ),
                         onPressed: () {
@@ -387,9 +349,7 @@ void showWelcomeModal(BuildContext ctx) {
                         child: Text(
                           "Completar",
                           style: TextStyle(
-                            color: themeProvider.isDarkMode
-                                ? const Color(primaryDark)
-                                : Colors.white,
+                            color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
                           ),
                         ),
                       ),
