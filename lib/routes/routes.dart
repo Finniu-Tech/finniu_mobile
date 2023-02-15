@@ -7,6 +7,7 @@ import 'package:finniu/screens/investment_question/start_invesment.dart';
 import 'package:finniu/screens/login/email_screen.dart';
 import 'package:finniu/screens/login/forgot_password.dart';
 import 'package:finniu/screens/login/invalid_email.dart';
+import 'package:finniu/screens/profile/profile_screen.dart';
 import 'package:finniu/screens/signup/email_screen.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:finniu/screens/onboarding/start_onboarding.dart';
@@ -27,5 +28,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_result': (BuildContext context) => ResultInvestment(),
     '/home_home': (BuildContext context) => HomeStart(),
     '/home_notification': (BuildContext context) => NotificationScreen(),
+    '/profile': (BuildContext context) => ProfileScreen(),
   };
 }
