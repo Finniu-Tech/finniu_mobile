@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -242,7 +243,11 @@ class ProfileScreen extends HookWidget {
                     color: Colors.red,
                   ),
                 ),
-              ]
+              ],
+              Container(
+                margin: const EdgeInsets.only(top: 20),
+                child: const CustomButton(text: 'Guardar', colorBackground: primaryDark, colorText: whiteText, pushName: '/home_home'),
+              ),
             ])));
   }
 }
