@@ -39,11 +39,15 @@ class _IntroScreenState extends State<IntroScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image(
-                  image: AssetImage(
-                    themeProvider.isDarkMode
-                        ? "assets/images/logo_finniu_dark.png"
-                        : "assets/images/logo_finniu_light.png",
+                SizedBox(
+                  width: 300,
+                  height: 300,
+                  child: Image(
+                    image: AssetImage(
+                      themeProvider.isDarkMode
+                          ? "assets/images/logo_finniu_dark.png"
+                          : "assets/images/logo_finniu_light.png",
+                    ),
                   ),
                 ),
                 TextPoppins(
