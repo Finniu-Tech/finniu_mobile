@@ -49,7 +49,8 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
                   ),
                   // ignore: sized_box_for_whitespace
                   SizedBox(
-                    height: 188,
+                    height: 200,
+                    width: 200,
                     child: Image(
                       fit: BoxFit.cover,
                       image: AssetImage(
