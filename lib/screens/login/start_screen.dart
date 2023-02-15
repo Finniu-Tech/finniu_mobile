@@ -38,52 +38,55 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
           ),
         ),
         child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 50,
-                ),
-                // ignore: sized_box_for_whitespace
-                SizedBox(
-                  height: 188,
-                  child: Image(
-                    fit: BoxFit.cover,
-                    image: AssetImage(
-                      themeProvider.isDarkMode
-                          ? "assets/images/logo_finniu_dark.png"
-                          : "assets/images/logo_finniu_light.png",
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  // ignore: sized_box_for_whitespace
+                  SizedBox(
+                    height: 188,
+                    child: Image(
+                      fit: BoxFit.cover,
+                      image: AssetImage(
+                        themeProvider.isDarkMode
+                            ? "assets/images/logo_finniu_dark.png"
+                            : "assets/images/logo_finniu_light.png",
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 224,
-                  height: 50,
-                  child: TextPoppins(
-                      text: 'Empieza a vivir una nueva experiencia con Finniu',
-                      colorText: Theme.of(context).colorScheme.tertiary.value,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 35),
-                  child: const CustomButton(
-                      text: 'Iniciar sesión',
-                      colorBackground: primaryDark,
-                      colorText: whiteText,
-                      pushName: '/login_email'),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  child: const CustomButton(
-                      text: 'Registrarme',
-                      colorBackground: primaryLight,
-                      colorText: primaryDark,
-                      pushName: '/sign_up_email'),
-                ),
-              ],
+                  SizedBox(
+                    width: 224,
+                    height: 50,
+                    child: TextPoppins(
+                        text:
+                            'Empieza a vivir una nueva experiencia con Finniu',
+                        colorText: Theme.of(context).colorScheme.tertiary.value,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 35),
+                    child: const CustomButton(
+                        text: 'Iniciar sesión',
+                        colorBackground: primaryDark,
+                        colorText: whiteText,
+                        pushName: '/login_email'),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: const CustomButton(
+                        text: 'Registrarme',
+                        colorBackground: primaryLight,
+                        colorText: primaryDark,
+                        pushName: '/sign_up_email'),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

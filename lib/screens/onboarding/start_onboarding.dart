@@ -266,37 +266,45 @@ class _StartOnboardingState extends State<StartOnboarding> {
     List<Color> stepBarColors = getStepBarColors(_currentStep);
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: _getGradient(_currentStep),
-        ),
-        child: Column(
-          children: [
-            Container(
-              height: 650,
-              child: PageView(
-                controller: _controller,
-                children: const [
-                  Section1(),
-                  Section2(),
-                  Section3(),
-                  Section4()
-                ],
-                onPageChanged: (page) {
-                  setState(() {
-                    _currentStep = page;
-                  });
-                },
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            gradient: _getGradient(_currentStep),
+          ),
+          child: Column(
+            children: [
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height * 0.8,
+                ),
+                child: PageView(
+                  controller: _controller,
+                  children: const [
+                    Section1(),
+                    Section2(),
+                    Section3(),
+                    Section4()
+                  ],
+                  onPageChanged: (page) {
+                    setState(() {
+                      _currentStep = page;
+                    });
+                  },
+                ),
               ),
-            ),
-            StepBar(
-              currentStep: _currentStep,
-              totalSteps: 4,
-              activeColor: stepBarColors[1],
-              inactiveColor: stepBarColors[0],
-            ),
-            getNextPrevButtons(_currentStep),
-          ],
+              StepBar(
+                currentStep: _currentStep,
+                totalSteps: 4,
+                activeColor: stepBarColors[1],
+                inactiveColor: stepBarColors[0],
+              ),
+              getNextPrevButtons(_currentStep),
+              SizedBox(
+                height: 20,
+              )
+            ],
+          ),
         ),
       ),
     );

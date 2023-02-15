@@ -9,39 +9,29 @@ class Section1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // decoration: const BoxDecoration(
-      //     // gradient: LinearGradient(
-      //     //   begin: Alignment.topCenter,
-      //     //   end: Alignment.bottomRight,
-      //     //   colors: [
-      //     //     Color(primaryDark),
-      //     //     Color(gradient_primary_alternative)
-      //     //   ],
-      //     // ),
-      //     ),
+    return SizedBox(
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: 100,
-          ),
+          // const SizedBox(
+          //   height: 100,
+          // ),
           SizedBox(
             width: double.infinity,
-            // height: 362,
+            height: MediaQuery.of(context).size.height * 0.5,
             // flex: BoxFit.fitWidth,
             child: Image.asset(
               'assets/welcome/welcome1.png',
               fit: BoxFit.fitWidth,
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 15),
           const TextPoppins(
             text: '¡Bienvenidos a Finniu!',
             colorText: primaryLight,
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
-          const SizedBox(height: 9),
+          const SizedBox(height: 11),
           const TextPoppins(
             text:
                 'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
@@ -50,21 +40,6 @@ class Section1 extends StatelessWidget {
             fontWeight: FontWeight.w400,
           ),
           const SizedBox(height: 10),
-          // StepBar(
-          //   currentStep: 1,
-          //   totalSteps: 4,
-          //   // maxSteps: 4,
-          // ),
-          // const SizedBox(
-          //   height: 10,
-          // ),
-          // GestureDetector(
-          //   onTap: () {
-          //     Navigator.pop(context);
-          //   },
-          //   child: const CustomButtonRoundedDark(
-          //       pushName: '/on_boarding_start'),
-          // )
         ],
       ),
     );

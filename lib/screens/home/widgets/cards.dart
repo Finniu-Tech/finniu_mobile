@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/theme_provider.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,38 +18,29 @@ class _CardTableState extends State<CardTable> {
     final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return SingleChildScrollView(
       child: Table(
-        children: [
+        children: const [
           TableRow(children: [
             _SingleCard(
-              // color: Color(primaryDark),
               title: 'Plan Origen',
-
-              // icon: Icons.paid,
-              text_mount: 'Desde S/500',
-              text_percentage: '12% anual',
+              textMount: 'Desde S/500',
+              textPercentage: '12% anual',
             ),
             _SingleCard(
-              // color: Color(primaryDark),
-              // icon: Icons.arrow_back,
               title: 'Plan Estable',
-              text_mount: 'Desde S/1,000',
-              text_percentage: '14% anual',
+              textMount: 'Desde S/1,000',
+              textPercentage: '14% anual',
             )
           ]),
           TableRow(children: [
             _SingleCard(
-              // color: Color(primaryDark),
-              // icon: Icons.money_off_csred_outlined,
               title: 'Plan Responsable',
-              text_mount: 'Desde S/5,000',
-              text_percentage: '16% anual',
+              textMount: 'Desde S/5,000',
+              textPercentage: '16% anual',
             ),
             _SingleCard(
-              // color: Color(primaryDark),
-              // icon: Icons.money_off_csred_outlined,
               title: 'Plan crecimiento',
-              text_mount: 'Desde S/10,000',
-              text_percentage: '18%anual',
+              textMount: 'Desde S/10,000',
+              textPercentage: '18%anual',
             )
           ]),
         ],
@@ -61,26 +51,20 @@ class _CardTableState extends State<CardTable> {
 
 class _SingleCard extends StatelessWidget {
   final String title;
-  // final IconData icon;
-  // final Color color;
-  final String text_mount;
-  final String text_percentage;
+  final String textMount;
+  final String textPercentage;
 
   const _SingleCard({
     super.key,
     required this.title,
-    // required this.icon,
-    // required this.color,
-    required this.text_mount,
-    required this.text_percentage,
+    required this.textMount,
+    required this.textPercentage,
   });
 
   @override
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
-    var column =
-        // padding: const EdgeInsets.only(),
-        Column(
+    var column = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       textDirection: TextDirection.ltr,
@@ -89,7 +73,9 @@ class _SingleCard extends StatelessWidget {
           title,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
+            color: currentTheme.isDarkMode
+                ? const Color(0xffA2E6FA)
+                : const Color(primaryDark),
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -99,17 +85,21 @@ class _SingleCard extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: Colors.transparent,
+              radius: 14.33,
               child: Icon(
                 Icons.monetization_on_outlined,
                 // size: 14.33,
-                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
               ),
-              radius: 14.33,
             ),
             Text(
-              text_mount,
+              textMount,
               style: TextStyle(
-                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
               ),
@@ -121,17 +111,21 @@ class _SingleCard extends StatelessWidget {
           children: [
             CircleAvatar(
               backgroundColor: Colors.transparent,
+              radius: 14.33,
               child: Icon(
                 Icons.currency_exchange_rounded,
                 // size: 11,
-                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
               ),
-              radius: 14.33,
             ),
             Text(
-              text_percentage,
+              textPercentage,
               style: TextStyle(
-                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                   // color: Color(primaryDark),
                   fontSize: 11,
                   fontWeight: FontWeight.w500),
@@ -147,11 +141,14 @@ class _SingleCard extends StatelessWidget {
           // height: 40,
           child: TextButton(
             onPressed: () {},
-            style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero)),
             child: Text(
               'Ir al plan',
               style: TextStyle(
-                color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryDark)
+                    : const Color(whiteText),
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
               ),
@@ -182,15 +179,19 @@ class _CardBackground extends StatelessWidget {
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
-            child: child,
             decoration: BoxDecoration(
-              color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+              color: currentTheme.isDarkMode
+                  ? Colors.transparent
+                  : const Color(whiteText),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
                 width: 0.5,
               ),
             ),
+            child: child,
           ),
         ),
       ),

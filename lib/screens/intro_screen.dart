@@ -34,29 +34,31 @@ class _IntroScreenState extends State<IntroScreen> {
       home: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage(
-                  themeProvider.isDarkMode
-                      ? "assets/images/logo_finniu_dark.png"
-                      : "assets/images/logo_finniu_light.png",
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage(
+                    themeProvider.isDarkMode
+                        ? "assets/images/logo_finniu_dark.png"
+                        : "assets/images/logo_finniu_light.png",
+                  ),
                 ),
-              ),
-              TextPoppins(
-                text: 'Vive el #ModoFinniu',
-                colorText: Theme.of(context).colorScheme.secondary.value,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-              const SizedBox(height: 40.0),
-              const SpinKitCircle(
-                color: Colors.grey,
-                size: 50.0,
-              ),
-            ],
+                TextPoppins(
+                  text: 'Vive el #ModoFinniu',
+                  colorText: Theme.of(context).colorScheme.secondary.value,
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+                const SizedBox(height: 40.0),
+                const SpinKitCircle(
+                  color: Colors.grey,
+                  size: 50.0,
+                ),
+              ],
+            ),
           ),
         ),
       ),
