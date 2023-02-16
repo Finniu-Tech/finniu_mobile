@@ -16,10 +16,19 @@ class _CardTableState extends State<CardTable> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
-    return SingleChildScrollView(
-      child: Table(
-        children: const [
-          TableRow(children: [
+    return ListView(
+      padding: EdgeInsets.only(
+        top: 15,
+        bottom: 15,
+      ),
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          spacing: 10,
+          runSpacing: 10,
+          children: <Widget>[
             _SingleCard(
               title: 'Plan Origen',
               text_mount: 'Desde S/500',
@@ -29,41 +38,73 @@ class _CardTableState extends State<CardTable> {
               title: 'Plan Estable',
               text_mount: 'Desde S/1,000',
               text_percentage: '14% anual',
+            ),
+            _SingleCard(
+              title: 'Plan Responsable',
+              text_mount: 'Desde S/5,000',
+              text_percentage: '16% anual',
+            ),
+            _SingleCard(
+              title: 'Plan crecimiento',
+              text_mount: 'Desde S/10,000',
+              text_percentage: '18%anual',
             )
-          ]),
-          TableRow(
-            children: [
-              _SingleCard(
-                title: 'Plan Responsable',
-                text_mount: 'Desde S/5,000',
-                text_percentage: '16% anual',
-              ),
-              _SingleCard(
-                title: 'Plan crecimiento',
-                text_mount: 'Desde S/10,000',
-                text_percentage: '18%anual',
-              )
-            ],
-          ),
-          // TableRow(
-          //   children: [
-          //     _SingleCard(
-          //       title: 'Plan Responsable',
-          //       text_mount: 'Desde S/5,000',
-          //       text_percentage: '16% anual',
-          //     ),
-          //     _SingleCard(
-          //       title: 'Plan crecimiento',
-          //       text_mount: 'Desde S/10,000',
-          //       text_percentage: '18%anual',
-          //     )
-          //   ],
-          // ),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }
+
+// scrollDirection: Axis.vertical,
+
+// child: Table(
+//   children: const [
+//     TableRow(children: [
+//       _SingleCard(
+//         title: 'Plan Origen',
+//         text_mount: 'Desde S/500',
+//         text_percentage: '12% anual',
+//       ),
+//       _SingleCard(
+//         title: 'Plan Estable',
+//         text_mount: 'Desde S/1,000',
+//         text_percentage: '14% anual',
+//       )
+//     ]),
+//     TableRow(
+//       children: [
+//         _SingleCard(
+//           title: 'Plan Responsable',
+//           text_mount: 'Desde S/5,000',
+//           text_percentage: '16% anual',
+//         ),
+//         _SingleCard(
+//           title: 'Plan crecimiento',
+//           text_mount: 'Desde S/10,000',
+//           text_percentage: '18%anual',
+//         )
+//       ],
+//     ),
+//     TableRow(
+//       children: [
+//         _SingleCard(
+//           title: 'Plan Responsable',
+//           text_mount: 'Desde S/5,000',
+//           text_percentage: '16% anual',
+//         ),
+//         _SingleCard(
+//           title: 'Plan crecimiento',
+//           text_mount: 'Desde S/10,000',
+//           text_percentage: '18%anual',
+//         )
+//       ],
+//     ),
+//   ],
+// ),
+//     );
+//   }
+// }
 
 class _SingleCard extends StatelessWidget {
   final String title;
@@ -188,8 +229,8 @@ class _CardBackground extends StatelessWidget {
     final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return Container(
       height: 144,
-      width: 170,
-      margin: const EdgeInsets.all(15),
+      width: 150,
+      // margin: const EdgeInsets.all(15),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: BackdropFilter(
