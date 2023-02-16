@@ -63,7 +63,7 @@ class HomeStart extends StatelessWidget {
                     height: 23.84,
                     child: InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, '/home_notification');
+                        Navigator.pushNamed(context, '/my_investment');
                       },
                       child: Container(
                         child: Icon(
