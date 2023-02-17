@@ -16,49 +16,106 @@ class _CardTableState extends State<CardTable> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
-    return SingleChildScrollView(
-      child: Table(
-        children: const [
-          TableRow(children: [
+    return ListView(
+      padding: EdgeInsets.only(
+        top: 15,
+        bottom: 15,
+      ),
+      scrollDirection: Axis.vertical,
+      children: <Widget>[
+        Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.center,
+          spacing: 10,
+          runSpacing: 10,
+          children: <Widget>[
             _SingleCard(
               title: 'Plan Origen',
-              textMount: 'Desde S/500',
-              textPercentage: '12% anual',
+              text_mount: 'Desde S/500',
+              text_percentage: '12% anual',
             ),
             _SingleCard(
               title: 'Plan Estable',
-              textMount: 'Desde S/1,000',
-              textPercentage: '14% anual',
-            )
-          ]),
-          TableRow(children: [
+              text_mount: 'Desde S/1,000',
+              text_percentage: '14% anual',
+            ),
             _SingleCard(
               title: 'Plan Responsable',
-              textMount: 'Desde S/5,000',
-              textPercentage: '16% anual',
+              text_mount: 'Desde S/5,000',
+              text_percentage: '16% anual',
             ),
             _SingleCard(
               title: 'Plan crecimiento',
-              textMount: 'Desde S/10,000',
-              textPercentage: '18%anual',
+              text_mount: 'Desde S/10,000',
+              text_percentage: '18%anual',
             )
-          ]),
-        ],
-      ),
+          ],
+        ),
+      ],
     );
   }
 }
 
+// scrollDirection: Axis.vertical,
+
+// child: Table(
+//   children: const [
+//     TableRow(children: [
+//       _SingleCard(
+//         title: 'Plan Origen',
+//         text_mount: 'Desde S/500',
+//         text_percentage: '12% anual',
+//       ),
+//       _SingleCard(
+//         title: 'Plan Estable',
+//         text_mount: 'Desde S/1,000',
+//         text_percentage: '14% anual',
+//       )
+//     ]),
+//     TableRow(
+//       children: [
+//         _SingleCard(
+//           title: 'Plan Responsable',
+//           text_mount: 'Desde S/5,000',
+//           text_percentage: '16% anual',
+//         ),
+//         _SingleCard(
+//           title: 'Plan crecimiento',
+//           text_mount: 'Desde S/10,000',
+//           text_percentage: '18%anual',
+//         )
+//       ],
+//     ),
+//     TableRow(
+//       children: [
+//         _SingleCard(
+//           title: 'Plan Responsable',
+//           text_mount: 'Desde S/5,000',
+//           text_percentage: '16% anual',
+//         ),
+//         _SingleCard(
+//           title: 'Plan crecimiento',
+//           text_mount: 'Desde S/10,000',
+//           text_percentage: '18%anual',
+//         )
+//       ],
+//     ),
+//   ],
+// ),
+//     );
+//   }
+// }
+
 class _SingleCard extends StatelessWidget {
   final String title;
-  final String textMount;
-  final String textPercentage;
+  final String text_mount;
+  final String text_percentage;
 
   const _SingleCard({
     super.key,
     required this.title,
-    required this.textMount,
-    required this.textPercentage,
+    required this.text_mount,
+    required this.text_percentage,
   });
 
   @override
@@ -95,7 +152,7 @@ class _SingleCard extends StatelessWidget {
               ),
             ),
             Text(
-              textMount,
+              text_mount,
               style: TextStyle(
                 color: currentTheme.isDarkMode
                     ? const Color(whiteText)
@@ -121,7 +178,7 @@ class _SingleCard extends StatelessWidget {
               ),
             ),
             Text(
-              textPercentage,
+              text_percentage,
               style: TextStyle(
                   color: currentTheme.isDarkMode
                       ? const Color(whiteText)
@@ -172,8 +229,8 @@ class _CardBackground extends StatelessWidget {
     final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
     return Container(
       height: 144,
-      width: 170,
-      margin: const EdgeInsets.all(15),
+      width: 150,
+      // margin: const EdgeInsets.all(15),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: BackdropFilter(

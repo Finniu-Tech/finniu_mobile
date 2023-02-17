@@ -23,13 +23,14 @@ class HomeStart extends StatelessWidget {
     return Scaffold(
       // extendBody: true,
       bottomNavigationBar: const BottomNavigationBarHome(),
-      body: SingleChildScrollView(
-          child: Container(
-        padding: const EdgeInsets.all(20),
+      body: Container(
+        padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
         child: Column(
           children: [
             const SizedBox(height: 30),
             SizedBox(
+              width: 111,
+              height: 82,
               child: Image(
                 fit: BoxFit.cover,
                 image: AssetImage(
@@ -108,23 +109,32 @@ class HomeStart extends StatelessWidget {
                 ),
               ),
             ),
-            const CardTable(),
+            Flexible(
+              flex: 10,
+              fit: FlexFit.tight,
+              child: const CardTable(),
+            ),
+            // SizedBox(
+            //   height: 40,
+            // ),
+            Spacer(),
             Container(
-                width: 320.0,
-                height: 2,
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color(primaryDark),
-                      width: 0,
-                    ),
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 3,
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(primaryDark),
+                    width: 0,
                   ),
-                )),
-            const SizedBox(height: 10),
+                ),
+              ),
+            ),
+            const SizedBox(height: 5),
             Stack(
               children: <Widget>[
                 Container(
-                  height: 147,
+                  height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
                     color: currentTheme.isDarkMode
@@ -138,20 +148,17 @@ class HomeStart extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.topLeft,
-                  child: Positioned(
-                    // left: 100,
-                    child: Container(
-                      height: 147,
-                      width: 150,
-                      decoration: const BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
-                        ),
-                        image: DecorationImage(
-                          image: AssetImage("assets/home/person.png"),
-                          fit: BoxFit.cover,
-                        ),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(20),
+                        topRight: Radius.circular(20),
+                      ),
+                      image: DecorationImage(
+                        image: AssetImage("assets/home/person.png"),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -160,7 +167,7 @@ class HomeStart extends StatelessWidget {
                   alignment: Alignment.center,
                   child: Container(
                     padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.1, top: 20),
+                        left: MediaQuery.of(context).size.width * 0.2, top: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
@@ -205,7 +212,7 @@ class HomeStart extends StatelessWidget {
             ),
           ],
         ),
-      )),
+      ),
     );
   }
 }
