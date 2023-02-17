@@ -237,7 +237,7 @@ class BottomNavigationBarHome extends StatelessWidget {
             icon: Icon(Icons.insert_chart_outlined_rounded),
           ),
           BottomNavigationBarItem(
-            label: 'Favorites',
+            label: 'Finanzas',
             icon: Icon(Icons.wallet),
           ),
         ],

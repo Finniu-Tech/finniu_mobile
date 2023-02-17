@@ -1,9 +1,8 @@
-import 'dart:ui';
-
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'dart:ui';
 
 class CardTable extends StatefulWidget {
   const CardTable({super.key});
@@ -73,9 +72,7 @@ class _SingleCard extends StatelessWidget {
           title,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: currentTheme.isDarkMode
-                ? const Color(0xffA2E6FA)
-                : const Color(primaryDark),
+            color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -89,17 +86,13 @@ class _SingleCard extends StatelessWidget {
               child: Icon(
                 Icons.monetization_on_outlined,
                 // size: 14.33,
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
               ),
             ),
             Text(
               textMount,
               style: TextStyle(
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
               ),
@@ -115,17 +108,13 @@ class _SingleCard extends StatelessWidget {
               child: Icon(
                 Icons.currency_exchange_rounded,
                 // size: 11,
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
               ),
             ),
             Text(
               textPercentage,
               style: TextStyle(
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                   // color: Color(primaryDark),
                   fontSize: 11,
                   fontWeight: FontWeight.w500),
@@ -141,14 +130,11 @@ class _SingleCard extends StatelessWidget {
           // height: 40,
           child: TextButton(
             onPressed: () {},
-            style: ButtonStyle(
-                padding: MaterialStateProperty.all(EdgeInsets.zero)),
+            style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
             child: Text(
               'Ir al plan',
               style: TextStyle(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryDark)
-                    : const Color(whiteText),
+                color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
               ),
@@ -180,14 +166,10 @@ class _CardBackground extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
             decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? Colors.transparent
-                  : const Color(whiteText),
+              color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                 width: 0.5,
               ),
             ),
