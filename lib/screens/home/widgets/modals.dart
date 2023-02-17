@@ -213,7 +213,13 @@ void showSettingsDialog(BuildContext ctx) {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ItemSetting(icon: Icons.person_outlined, text: "Mi perfil"),
+                    ItemSetting(
+                      icon: Icons.person_outlined,
+                      text: "Mi perfil",
+                      onTap: () {
+                        Navigator.of(ctx).pushNamed('/profile');
+                      },
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
