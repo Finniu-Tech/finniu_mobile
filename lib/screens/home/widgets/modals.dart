@@ -99,27 +99,6 @@ void showSettingsDialog(BuildContext ctx) {
                                 // colorText: ,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500),
-=======
-                              style: TextStyle(
-                                height: 1.5,
-                                fontSize: 16,
-                                color: themeProvider.isDarkMode
-                                    ? Colors.white
-                                    : Colors.black,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const Spacer(),
-                            TextPoppins(
-                              text: 'Light mode',
-                              colorText: themeProvider.isDarkMode
-                                  ? Colors.white.value
-                                  : Colors.black.value,
-                              // colorText: ,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                            ),
->>>>>>> Stashed changes
                             const SizedBox(width: 5),
                             FlutterSwitch(
                               width: 29,
