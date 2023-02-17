@@ -51,6 +51,8 @@ dependencies:
   expandable_page_view: ^1.0.17
   expansion_tile_card: ^2.0.0
   # expansion_tile_card: ^1.1.0
+  dropdown_search: ^5.0.5
+  percent_indicator: ^4.2.2
 
   # artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
   # json_annotation: ^3.1.0
