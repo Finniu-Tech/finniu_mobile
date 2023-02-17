@@ -76,6 +76,7 @@ void showSettingsDialog(BuildContext ctx) {
                             ),
                             Text(
                               "Mari",
+<<<<<<< Updated upstream
                               style: TextStyle(height: 1.5, fontSize: 16, color: themeProvider.isDarkMode ? Colors.white : Colors.black, fontWeight: FontWeight.w500),
                             ),
                             const Spacer(),
@@ -85,6 +86,27 @@ void showSettingsDialog(BuildContext ctx) {
                                 // colorText: ,
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500),
+=======
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 16,
+                                color: themeProvider.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const Spacer(),
+                            TextPoppins(
+                              text: 'Light mode',
+                              colorText: themeProvider.isDarkMode
+                                  ? Colors.white.value
+                                  : Colors.black.value,
+                              // colorText: ,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
+>>>>>>> Stashed changes
                             const SizedBox(width: 5),
                             FlutterSwitch(
                               width: 29,
@@ -187,7 +209,13 @@ void showSettingsDialog(BuildContext ctx) {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    ItemSetting(icon: Icons.person_outlined, text: "Mi perfil"),
+                    ItemSetting(
+                      icon: Icons.person_outlined,
+                      text: "Mi perfil",
+                      onTap: () {
+                        Navigator.of(ctx).pushNamed('/profile');
+                      },
+                    ),
                     const SizedBox(
                       height: 10,
                     ),

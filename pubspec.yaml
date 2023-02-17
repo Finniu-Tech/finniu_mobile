@@ -49,6 +49,8 @@ dependencies:
   loader_overlay: ^2.1.0
   flutter_spinkit: ^5.1.0
   expandable_page_view: ^1.0.17
+  dropdown_search: ^5.0.5
+  percent_indicator: ^4.2.2
 
   # artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
   # json_annotation: ^3.1.0
