@@ -221,22 +221,28 @@ class BottomNavigationBarHome extends StatelessWidget {
         onTap: (value) {
           // Respond to item press.
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            label: 'Home',
-            icon: Icon(
-              Icons.home_filled,
-            ),
-          ),
+              label: 'Home',
+              icon: InkWell(
+                child: Icon(Icons.home_filled),
+                onTap: () {
+                  Navigator.pushNamed(context, '/home_home');
+                },
+              )),
           BottomNavigationBarItem(
-            label: 'Inversiones',
-            icon: Icon(Icons.monetization_on_outlined),
-          ),
-          BottomNavigationBarItem(
+              label: 'Inversiones',
+              icon: InkWell(
+                child: Icon(Icons.monetization_on_outlined),
+                onTap: () {
+                  Navigator.pushNamed(context, '/my_investment');
+                },
+              )),
+          const BottomNavigationBarItem(
             label: 'Simulador',
             icon: Icon(Icons.insert_chart_outlined_rounded),
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             label: 'Finanzas',
             icon: Icon(Icons.wallet),
           ),
