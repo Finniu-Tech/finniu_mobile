@@ -1,5 +1,6 @@
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/screens/my_investment/widgets/card.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
