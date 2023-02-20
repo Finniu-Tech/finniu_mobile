@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/auth_provider.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/home/widgets/cards.dart';
 import 'package:finniu/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -15,11 +15,12 @@ class HomeStart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    if (show) {
+
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+
+    if (currentTheme.showWelcomeModal) {
       showWelcomeModal(context);
     }
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
-
     return Scaffold(
       // extendBody: true,
       bottomNavigationBar: const BottomNavigationBarHome(),

@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +9,7 @@ class NotificationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
         body: Padding(
       padding: const EdgeInsets.all(30.0),
@@ -27,7 +27,9 @@ class NotificationScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                    color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(0xffA2E6FA)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -50,7 +52,9 @@ class NotificationScreen extends StatelessWidget {
             'Hoy',
             style: TextStyle(
               fontSize: 16,
-              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+              color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(primaryDark),
             ),
           ),
         ),

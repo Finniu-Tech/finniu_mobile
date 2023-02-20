@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,7 @@ class CardTable extends StatefulWidget {
 class _CardTableState extends State<CardTable> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return ListView(
       padding: EdgeInsets.only(
         top: 15,
@@ -120,7 +120,7 @@ class _SingleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     var column = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -226,7 +226,7 @@ class _CardBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Container(
       height: 144,
       width: 150,

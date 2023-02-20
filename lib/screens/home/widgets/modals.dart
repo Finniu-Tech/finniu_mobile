@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:provider/provider.dart';
 
 void showSettingsDialog(BuildContext ctx) {
-  final themeProvider = Provider.of<ThemeProvider>(ctx, listen: false);
+  final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
     context: ctx,
     builder: (ctx) => Dialog(
@@ -278,7 +278,7 @@ class ItemSetting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeProvider themeProvider = Provider.of<ThemeProvider>(context);
+    SettingsProvider themeProvider = Provider.of<SettingsProvider>(context);
     return Row(
       children: [
         Container(
@@ -291,9 +291,6 @@ class ItemSetting extends StatelessWidget {
                 ? const Color(primaryLight)
                 : const Color(primaryDark),
           ),
-          // color: Color(primaryDark),
-
-          // color: Color(primaryLight),
           child: InkWell(
             child: Icon(
               _icon,
@@ -312,7 +309,7 @@ class ItemSetting extends StatelessWidget {
 }
 
 void showWelcomeModal(BuildContext ctx) {
-  final themeProvider = Provider.of<ThemeProvider>(ctx, listen: false);
+  final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   Future.delayed(
     const Duration(seconds: 1),
     () async {
@@ -374,6 +371,8 @@ void showWelcomeModal(BuildContext ctx) {
                           ),
                           onPressed: () {
                             Navigator.pop(ctx);
+                            Preferences.showWelcomeModal = false;
+                            themeProvider.setShowWelcomeModal(false);
                           },
                           child: Text(
                             "Saltar",
@@ -398,7 +397,9 @@ void showWelcomeModal(BuildContext ctx) {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.pop(ctx);
+                            Preferences.showWelcomeModal = false;
+                            themeProvider.setShowWelcomeModal(false);
+                            Navigator.of(ctx).pushNamed('/profile');
                           },
                           child: Text(
                             "Completar",
