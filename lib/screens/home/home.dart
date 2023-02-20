@@ -34,9 +34,7 @@ class HomeStart extends StatelessWidget {
               child: Image(
                 fit: BoxFit.cover,
                 image: AssetImage(
-                  currentTheme.isDarkMode
-                      ? "assets/images/logo_finniu_home_dark.png"
-                      : "assets/images/logo_finniu_home.png",
+                  currentTheme.isDarkMode ? "assets/images/logo_finniu_home_dark.png" : "assets/images/logo_finniu_home.png",
                 ),
               ),
             ),
@@ -50,9 +48,7 @@ class HomeStart extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -71,9 +67,7 @@ class HomeStart extends StatelessWidget {
                       child: Container(
                         child: Icon(
                           CupertinoIcons.bell,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -103,9 +97,7 @@ class HomeStart extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                 ),
               ),
             ),
@@ -137,9 +129,7 @@ class HomeStart extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode
-                        ? const Color(secondary)
-                        : const Color(primaryLight),
+                    color: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
@@ -166,8 +156,7 @@ class HomeStart extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    padding: EdgeInsets.only(
-                        left: MediaQuery.of(context).size.width * 0.2, top: 20),
+                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2, top: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [
