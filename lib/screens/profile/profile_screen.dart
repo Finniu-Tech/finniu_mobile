@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -35,7 +35,6 @@ class ProfileScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isHidden = useState(true);
     final showError = useState(false);
     final namesController = useTextEditingController();
     final docNumberController = useTextEditingController();
@@ -44,7 +43,7 @@ class ProfileScreen extends HookWidget {
     final addressController = useTextEditingController();
     final civilStateController = useTextEditingController();
 
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final _formKey = GlobalKey<FormState>();
 
     final percentage = useState(0.0);
@@ -254,7 +253,9 @@ class ProfileScreen extends HookWidget {
                   width: 224,
                   height: 39,
                   child: DropdownSearch<String>(
-                    selectedItem: departmentController.text,
+                    selectedItem: departmentController.text != ''
+                        ? departmentController.text
+                        : null,
                     key: const Key('department'),
                     onChanged: (value) {
                       print('Department value: $value');
@@ -336,7 +337,9 @@ class ProfileScreen extends HookWidget {
                   width: 224,
                   height: 38,
                   child: DropdownSearch<String>(
-                    selectedItem: districtController.text,
+                    selectedItem: districtController.text != ''
+                        ? districtController.text
+                        : null,
                     key: const Key('district'),
                     onChanged: (value) {
                       districtController.text = value.toString();
@@ -458,7 +461,9 @@ class ProfileScreen extends HookWidget {
                   width: 224,
                   height: 38,
                   child: DropdownSearch<String>(
-                    selectedItem: civilStateController.text,
+                    selectedItem: civilStateController.text != ''
+                        ? civilStateController.text
+                        : null,
                     key: const Key('civilState'),
                     onChanged: (value) {
                       civilStateController.text = value.toString();

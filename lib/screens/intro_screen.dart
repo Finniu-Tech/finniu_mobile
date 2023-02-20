@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
@@ -17,7 +17,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
 
     Timer(
       const Duration(seconds: 3),

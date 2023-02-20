@@ -1,4 +1,4 @@
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/investment_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
@@ -116,7 +116,7 @@ class CustomButtonRoundedDark extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         if (pushName != "") {
@@ -198,7 +198,7 @@ class BottomNavigationBarHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(

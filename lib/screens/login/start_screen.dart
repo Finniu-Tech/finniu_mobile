@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/intro_screen.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -21,7 +21,7 @@ class _StartLoginScreenState extends State<StartLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldStart(
       body: Container(

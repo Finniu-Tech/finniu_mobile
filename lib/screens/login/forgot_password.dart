@@ -1,4 +1,4 @@
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -17,7 +17,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturn(
       body: SingleChildScrollView(

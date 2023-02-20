@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +15,7 @@ class Section2 extends StatefulWidget {
 class _Section2State extends State<Section2> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Column(
       children: [
         SizedBox(height: 50),
@@ -32,7 +32,9 @@ class _Section2State extends State<Section2> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(0xffA2E6FA)
+                      : const Color(primaryDark),
                 ),
               ),
             ),
@@ -52,21 +54,29 @@ class _Section2State extends State<Section2> {
         SizedBox(
           height: 14,
         ),
-        ButtonQuestions(text: "Nunca realicé una inversión ", controller: widget.controller),
+        ButtonQuestions(
+            text: "Nunca realicé una inversión ",
+            controller: widget.controller),
         const SizedBox(
           height: 11,
         ),
-        ButtonQuestions(text: "Llevo menos de un año invirtiendo", controller: widget.controller),
+        ButtonQuestions(
+            text: "Llevo menos de un año invirtiendo",
+            controller: widget.controller),
 
         const SizedBox(
           height: 11,
         ),
-        ButtonQuestions(text: "Llevo entre 1 a 5 años invirtiendo", controller: widget.controller),
+        ButtonQuestions(
+            text: "Llevo entre 1 a 5 años invirtiendo",
+            controller: widget.controller),
 
         const SizedBox(
           height: 15,
         ),
-        ButtonQuestions(text: "Llevo más de 5 años invirtiendo", controller: widget.controller),
+        ButtonQuestions(
+            text: "Llevo más de 5 años invirtiendo",
+            controller: widget.controller),
 
         const SizedBox(
           height: 5,

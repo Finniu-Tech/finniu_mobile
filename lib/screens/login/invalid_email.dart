@@ -1,4 +1,4 @@
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/textfield.dart';
@@ -16,7 +16,7 @@ class InvalidEmail extends StatefulWidget {
 class _InvalidEmailState extends State<InvalidEmail> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturn(
         body: Center(
