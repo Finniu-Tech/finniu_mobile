@@ -44,9 +44,7 @@ class _IntroScreenState extends State<IntroScreen> {
                   height: 300,
                   child: Image(
                     image: AssetImage(
-                      themeProvider.isDarkMode
-                          ? "assets/images/logo_finniu_dark.png"
-                          : "assets/images/logo_finniu_light.png",
+                      themeProvider.isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
                     ),
                   ),
                 ),

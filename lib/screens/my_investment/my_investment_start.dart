@@ -110,7 +110,7 @@ class InvestmentStart extends HookWidget {
                   ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
-                      backgroundColor: MaterialStateProperty.all<Color>(Color(primaryDark)),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(gradient_primary)),
                     ),
                     onPressed: () {},
                     child: const Text(
@@ -125,6 +125,9 @@ class InvestmentStart extends HookWidget {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 12,
+              ),
               ExpandableCard(
                 image: 'assets/result/money.png',
                 textTiledCard: 'Plan Origen',
@@ -133,7 +136,7 @@ class InvestmentStart extends HookWidget {
                 textContainer: 'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
               ),
               SizedBox(
-                height: 5,
+                height: 10,
               ),
               ExpandableCard(
                 image: 'assets/investment/billsmoney.png',
