@@ -1,19 +1,22 @@
-import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/screens/my_investment/widgets/card.dart';
+// import 'package:finniu/screens/my_investment/widgets/card.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class InvestmentStart extends StatelessWidget {
+import 'widgets/card.dart';
+
+class InvestmentStart extends HookWidget {
   const InvestmentStart({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: const BottomNavigationBarHome(),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
+      bottomNavigationBar: const BottomNavigationBarHome(),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -74,11 +77,11 @@ class InvestmentStart extends StatelessWidget {
                     SizedBox(height: 103, width: 109, child: Image.asset('assets/investment/investment.png')),
                     const Expanded(
                       child: Text(
-                        'Hola Mari, puedes visualizar nuestros planes y simular tu inversión para comenzar a invertir desde hoy',
+                        'Hola Mari, puedes visualizar nuestros planes y simular tu inversión para comenzar a invertir desde hoy.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           height: 1.5,
-                          fontSize: 14,
+                          fontSize: 12,
                           color: Colors.white,
                         ),
                       ),
@@ -107,10 +110,7 @@ class InvestmentStart extends StatelessWidget {
                   ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
-                      backgroundColor: MaterialStateProperty.all<Color>(Color(primaryLight)),
-                      // fixedSize: MaterialStateProperty.all<Size>(
-                      //   Size(132, 32),
-                      // ),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(primaryDark)),
                     ),
                     onPressed: () {},
                     child: const Text(
@@ -119,15 +119,33 @@ class InvestmentStart extends StatelessWidget {
                         color: Color(primaryDark),
                         decoration: TextDecoration.underline,
                         decorationColor: Color(primaryDark),
-                        // decorationThickness: 2,
                         fontSize: 12,
                       ),
                     ),
                   ),
                 ],
               ),
+              ExpandableCard(
+                image: 'assets/result/money.png',
+                textTiledCard: 'Plan Origen',
+                textPercentage: '12% ',
+                textinvestment: 'S/500 ',
+                textContainer: 'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              ExpandableCard(
+                image: 'assets/investment/billsmoney.png',
+                textTiledCard: 'Plan Estable',
+                textPercentage: '14% ',
+                textinvestment: 'S/1,000 ',
+                textContainer: ' Esta inversión brinda una rentabilidad atractiva',
+              )
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

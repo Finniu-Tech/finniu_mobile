@@ -31,6 +31,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/home_notification': (BuildContext context) => NotificationScreen(),
     '/profile': (BuildContext context) => ProfileScreen(),
     '/my_investment': (BuildContext context) => InvestmentStart(),
-    '/my_investment': (BuildContext context) => ExpandableCard(),
   };
 }
