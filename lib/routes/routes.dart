@@ -12,7 +12,6 @@ import 'package:finniu/screens/signup/email_screen.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:finniu/screens/onboarding/start_onboarding.dart';
 import 'package:flutter/material.dart';
-import '';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
