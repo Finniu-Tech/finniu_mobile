@@ -127,8 +127,11 @@ class CardCustom extends StatelessWidget {
               width: 320,
               height: 270,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Column(
                         children: [
@@ -140,32 +143,37 @@ class CardCustom extends StatelessWidget {
                         ],
                       ),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.monetization_on_outlined, // Icono que deseas utilizar
-                                size: 21.5, // Tamaño del icono
-                                color: Color(primaryDark), // Color del icono
-                              ),
-                              Text(
-                                "Monto minimo",
-                                style: TextStyle(
-                                  fontSize: 10, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
+                          Container(
+                            child: Row(
+                              // mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Icon(
+                                  Icons
+                                      .monetization_on_outlined, // Icono que deseas utilizar
+                                  size: 21.5, // Tamaño del icono
+                                  color: Color(primaryDark), // Color del icono
                                 ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                textinvestment,
-                                style: TextStyle(
-                                  fontSize: 12, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
+                                Text(
+                                  "Monto minimo",
+                                  style: TextStyle(
+                                    fontSize: 10, // Tamaño de fuente
+                                    color: Color(primaryDark), // Color de texto
+                                  ),
                                 ),
-                              )
-                            ],
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  textinvestment,
+                                  style: TextStyle(
+                                    fontSize: 12, // Tamaño de fuente
+                                    color: Color(primaryDark), // Color de texto
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
 
                           SizedBox(height: 20),
@@ -173,7 +181,8 @@ class CardCustom extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                Icons.currency_exchange_rounded, // Icono que deseas utilizar
+                                Icons
+                                    .currency_exchange_rounded, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
@@ -200,7 +209,8 @@ class CardCustom extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                Icons.percent_sharp, // Icono que deseas utilizar
+                                Icons
+                                    .percent_sharp, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
@@ -231,7 +241,8 @@ class CardCustom extends StatelessWidget {
                     height: 15,
                   ),
                   Padding(
-                    padding: EdgeInsets.all(16.0), // aquí puedes configurar la cantidad de padding
+                    padding: EdgeInsets.all(
+                        16.0), // aquí puedes configurar la cantidad de padding
                     child: Center(
                       child: Text(
                         textContainer,
@@ -285,62 +296,74 @@ class InitialCardBody extends StatelessWidget {
         ),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                width: 90,
-                height: 90,
-                child: Transform.translate(
-                  offset: const Offset(0.0, -40.0),
-                  child: Image.asset(
-                    image,
-                    width: 90, // Establecer el ancho de la imagen
-                    height: 90, // Establecer el alto de la imagen
-                  ),
-                ),
-              ),
-              SizedBox(width: 10),
-              Container(
-                width: 82,
-                height: 34,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(gradient_secondary), width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  color: Color(gradient_secondary),
-                ),
-                child: Center(
-                  child: Text(
-                    "$textinvestment Monto minimo",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12.0,
+          SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            // height: 20,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 90,
+                  height: 70,
+                  child: Transform.translate(
+                    offset: const Offset(0.0, -30.0),
+                    child: Image.asset(
+                      image,
+                      width: 90, // Establecer el ancho de la imagen
+                      height: 70, // Establecer el alto de la imagen
                     ),
                   ),
                 ),
-              ),
-              SizedBox(width: 12),
-              Container(
-                width: 82,
-                height: 34,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Color(primaryLightAlternative), width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  color: Color(primaryLightAlternative),
-                ),
-                child: Center(
-                  child: Text(
-                    "$textPercentage Retorno anual",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12.0,
+                SizedBox(width: 10),
+                Container(
+                  width: 82,
+                  // height: 34,
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Color(gradient_secondary), width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: Color(gradient_secondary),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "$textinvestment Monto minimo",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 10.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+                SizedBox(width: 12),
+                Container(
+                  width: 82,
+                  // height: 34,
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Color(primaryLightAlternative), width: 2.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    color: Color(primaryLightAlternative),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "$textPercentage Retorno anual",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 10.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
           Container(
             height: 32,
@@ -350,7 +373,13 @@ class InitialCardBody extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
               color: Color(primaryDark),
             ),
-            child: Center(child: CustomButton(colorBackground: (primaryDark), text: "Comenzar a invertir", colorText: (whiteText), pushName: '/home_home')),
+            child: Center(
+              child: CustomButton(
+                  colorBackground: (primaryDark),
+                  text: "Comenzar a invertir",
+                  colorText: (whiteText),
+                  pushName: '/home_home'),
+            ),
           )
         ],
       ),

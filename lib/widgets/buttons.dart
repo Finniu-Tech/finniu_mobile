@@ -31,14 +31,22 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .backgroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .foregroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -153,7 +161,8 @@ class CusttomButtonRoundedLight extends StatefulWidget {
     this.pushName = "",
     this.isReturn = false,
   });
-  _CusttomButtonRoundedLightState createState() => _CusttomButtonRoundedLightState();
+  _CusttomButtonRoundedLightState createState() =>
+      _CusttomButtonRoundedLightState();
 }
 
 class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
@@ -176,7 +185,8 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
           color: const Color(primaryLight),
         ),
         child: const Center(
-          child: Icon(size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
+          child: Icon(
+              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
         ),
       ),
     );
@@ -223,13 +233,14 @@ class BottomNavigationBarHome extends StatelessWidget {
         },
         items: [
           BottomNavigationBarItem(
-              label: 'Home',
-              icon: InkWell(
-                child: Icon(Icons.home_filled),
-                onTap: () {
-                  Navigator.pushNamed(context, '/home_home');
-                },
-              )),
+            label: 'Home',
+            icon: InkWell(
+              child: Icon(Icons.home_filled),
+              onTap: () {
+                Navigator.pushNamed(context, '/home_home');
+              },
+            ),
+          ),
           BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
@@ -270,7 +281,8 @@ class ButtonQuestions extends StatelessWidget {
               MaterialPageRoute(builder: (context) => ResultInvestment()),
             );
           } else {}
-          controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
+          controller.nextPage(
+              duration: const Duration(milliseconds: 300), curve: Curves.ease);
         },
         style: TextButton.styleFrom(
           backgroundColor: const Color(primaryLightAlternative),
