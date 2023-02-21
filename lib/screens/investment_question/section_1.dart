@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/onboarding/section_2.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -18,7 +18,7 @@ class Section1 extends StatefulWidget {
 class _Section1State extends State<Section1> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Column(
       children: [
         const SizedBox(height: 80),
@@ -42,7 +42,9 @@ class _Section1State extends State<Section1> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
-                  color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(0xffA2E6FA)
+                      : const Color(primaryDark),
                 ),
               ),
             ),

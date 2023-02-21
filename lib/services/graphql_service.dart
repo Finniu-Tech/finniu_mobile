@@ -1,9 +1,11 @@
-import 'package:finniu/providers/auth_provider.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class GraphQLService {
   ValueNotifier<GraphQLClient>? _client;
+
+  final token = Preferences.token;
 
   GraphQLService() {
     print('contrsutcor');
@@ -12,7 +14,7 @@ class GraphQLService {
     );
     print('pass http');
     final AuthLink authLink = AuthLink(
-      getToken: () async => 'Bearer $AuthTokenProvider.token',
+      getToken: () async => token != null ? 'JWT $token' : 'Bearer',
       // OR
       // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
     );

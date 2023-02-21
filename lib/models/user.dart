@@ -75,28 +75,80 @@ class User {
 
 class UserProfile {
   UserProfile({
-    this.nickName,
     this.firstName,
     this.lastName,
+    this.email,
+    this.id,
+    this.nickName,
+    this.civilStatus,
+    this.distrito,
+    this.documentNumber,
+    this.gender,
+    this.hasCompletedOnboarding,
+    this.isActive,
+    this.occupation,
+    this.provincia,
+    this.region,
+    this.typeDocument,
     this.phoneNumber,
+    this.uuid,
   });
 
-  String? nickName;
-  dynamic firstName;
+  String? firstName;
   dynamic lastName;
+  String? email;
+  String? id;
+  String? nickName;
+  dynamic civilStatus;
+  dynamic distrito;
+  int? documentNumber;
+  dynamic gender;
+  bool? hasCompletedOnboarding;
+  bool? isActive;
+  String? occupation;
+  dynamic provincia;
+  dynamic region;
+  String? typeDocument;
+  String? uuid;
   String? phoneNumber;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
-        nickName: json["nickName"],
         firstName: json["firstName"],
         lastName: json["lastName"],
+        email: json["email"],
+        id: json["id"],
+        nickName: json["nickName"],
+        civilStatus: json["civilStatus"],
+        distrito: json["distrito"],
+        documentNumber: json["documentNumber"],
+        gender: json["gender"],
+        hasCompletedOnboarding: json["hasCompletedOnboarding"],
+        isActive: json["isActive"],
+        occupation: json["occupation"],
+        provincia: json["provincia"],
+        region: json["region"],
+        typeDocument: json["typeDocument"],
+        uuid: json["uuid"],
         phoneNumber: json["phoneNumber"],
       );
 
   Map<String, dynamic> toJson() => {
-        "nickName": nickName,
         "firstName": firstName,
         "lastName": lastName,
+        "email": email,
+        "id": id,
+        "nickName": nickName,
+        "civilStatus": civilStatus,
+        "distrito": distrito,
+        "documentNumber": documentNumber,
+        "gender": gender,
+        "hasCompletedOnboarding": hasCompletedOnboarding,
+        "isActive": isActive,
+        "occupation": occupation,
+        "provincia": provincia,
+        "region": region,
+        "typeDocument": typeDocument,
+        "uuid": uuid,
         "phoneNumber": phoneNumber,
       };
 }

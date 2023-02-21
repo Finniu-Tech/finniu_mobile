@@ -1,9 +1,12 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/graphql/mutations.dart';
+import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/models/auth.dart';
+import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/auth_provider.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/home/home.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -23,9 +26,33 @@ class EmailLoginScreen extends HookWidget {
   Widget build(BuildContext context) {
     final isHidden = useState(true);
     final showError = useState(false);
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final formKey = GlobalKey<FormState>();
-    final addStarMutation = useMutation(
+    final profileData = useQuery(
+      QueryOptions(
+        document: gql(QueryRepository
+            .getUserProfile), // this is the query string you just created
+        // variables: {
+        //   'nRepositories': 50,
+        // },
+        pollInterval: const Duration(seconds: 10),
+      ),
+    );
+    // getProfileData() {
+    //   print('Querying ${QueryRepository.getUserProfile}');
+    //   return useQuery(
+    //     QueryOptions(
+    //       document: gql(QueryRepository
+    //           .getUserProfile), // this is the query string you just created
+    //       // variables: {
+    //       //   'nRepositories': 50,
+    //       // },
+    //       pollInterval: const Duration(seconds: 10),
+    //     ),
+    //   );
+    // }
+
+    final tokenMutation = useMutation(
       MutationOptions(
         document: gql(
           MutationRepository.getAuthTokenMutation(),
@@ -36,6 +63,15 @@ class EmailLoginScreen extends HookWidget {
             if (token != null) {
               Provider.of<AuthTokenProvider>(context, listen: false).token =
                   token;
+
+              Preferences.token = token;
+
+              var userProfileData = profileData.result.data?['userProfile'];
+              print('userProfileData: $userProfileData');
+              if (userProfileData != null) {
+                UserProfile.fromJson(userProfileData);
+              }
+
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => HomeStart(),
@@ -56,6 +92,16 @@ class EmailLoginScreen extends HookWidget {
         },
       ),
     );
+
+    // final result = readRespositoriesResult.result;
+
+    // if (result.hasException) {
+    //     return Text(result.exception.toString());
+    // }
+
+    // if (result.isLoading) {
+    //   return const Text('Loading');
+    // }
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
@@ -208,10 +254,11 @@ class EmailLoginScreen extends HookWidget {
                         child: TextButton(
                           child: const Text('Ingresar'),
                           onPressed: () {
+                            // Navigator.pushNamed(context, '/home_home');
                             if (formKey.currentState!.validate()) {
                               context.loaderOverlay.show();
 
-                              addStarMutation.runMutation(
+                              tokenMutation.runMutation(
                                 {'email': _email, 'password': _password},
                               );
                             }

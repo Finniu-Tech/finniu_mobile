@@ -3,8 +3,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/auth_provider.dart';
-import 'package:finniu/providers/theme_provider.dart';
-import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -15,7 +14,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 
 class SignUpEmailScreen extends HookWidget {
   const SignUpEmailScreen({super.key});
@@ -30,7 +28,7 @@ class SignUpEmailScreen extends HookWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
 
-    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final formKey = GlobalKey<FormState>();
 
     final registerMutation = useMutation(

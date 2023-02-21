@@ -1,5 +1,5 @@
 import 'package:finniu/providers/auth_provider.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/services/graphql_service.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +17,10 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => ThemeProvider(isDarkMode: Preferences.isDarkMode),
+          create: (_) => SettingsProvider(
+            isDarkMode: Preferences.isDarkMode,
+            showWelcomeModal: Preferences.showWelcomeModal,
+          ),
         ),
         ChangeNotifierProvider(
           create: (_) => AuthTokenProvider(token: ''),
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         // theme: ThemeData.dark(),
-        theme: Provider.of<ThemeProvider>(context).currentTheme,
+        theme: Provider.of<SettingsProvider>(context).currentTheme,
         routes: getApplicationRoutes(),
         onGenerateRoute: (RouteSettings settings) {
           return MaterialPageRoute(

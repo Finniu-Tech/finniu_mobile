@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/theme_provider.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class StartInvestment extends StatefulWidget {
 class _StartInvestmentState extends State<StartInvestment> {
   @override
   Widget build(BuildContext context) {
-    final currentTheme = Provider.of<ThemeProvider>(context, listen: false);
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturnLogo(
       body: SingleChildScrollView(
@@ -34,7 +34,8 @@ class _StartInvestmentState extends State<StartInvestment> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
-                      color: Color(Theme.of(context).colorScheme.secondary.value),
+                      color:
+                          Color(Theme.of(context).colorScheme.secondary.value),
                     ),
                   ),
                 ),
@@ -63,7 +64,9 @@ class _StartInvestmentState extends State<StartInvestment> {
                     padding: const EdgeInsets.all(15),
                     margin: const EdgeInsets.only(top: 65),
                     decoration: BoxDecoration(
-                      color: currentTheme.isDarkMode ? const Color(0xffFFEEDD) : const Color(primaryLightAlternative),
+                      color: currentTheme.isDarkMode
+                          ? const Color(0xffFFEEDD)
+                          : const Color(primaryLightAlternative),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: const Text(
@@ -89,9 +92,12 @@ class _StartInvestmentState extends State<StartInvestment> {
                       child: CircleAvatar(
                         radius: 43,
                         // foregroundColor: Colors.red,
-                        backgroundColor: currentTheme.isDarkMode ? Color(backgroundColorDark) : Colors.white,
+                        backgroundColor: currentTheme.isDarkMode
+                            ? Color(backgroundColorDark)
+                            : Colors.white,
                         child: const CircleAvatar(
-                          backgroundImage: AssetImage('assets/investment/avatar.png'),
+                          backgroundImage:
+                              AssetImage('assets/investment/avatar.png'),
                           radius: 35,
                         ),
                       ),

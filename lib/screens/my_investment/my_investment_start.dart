@@ -68,17 +68,23 @@ class InvestmentStart extends HookWidget {
                 alignment: Alignment.topLeft,
                 width: MediaQuery.of(context).size.width * 0.8,
                 height: 129.0,
+                padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: Color(gradient_secondary_option),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Row(
                   children: [
-                    SizedBox(height: 103, width: 109, child: Image.asset('assets/investment/investment.png')),
-                    const Expanded(
+                    SizedBox(
+                      height: 103,
+                      width: 100,
+                      child: Image.asset('assets/investment/investment.png'),
+                    ),
+                    SizedBox(
+                      width: 180,
                       child: Text(
                         'Hola Mari, puedes visualizar nuestros planes y simular tu inversión para comenzar a invertir desde hoy.',
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.justify,
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 12,
@@ -109,8 +115,11 @@ class InvestmentStart extends HookWidget {
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
-                      backgroundColor: MaterialStateProperty.all<Color>(Color(gradient_primary)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(13))),
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                          Color(gradient_primary)),
                     ),
                     onPressed: () {},
                     child: const Text(
@@ -133,7 +142,8 @@ class InvestmentStart extends HookWidget {
                 textTiledCard: 'Plan Origen',
                 textPercentage: '12% ',
                 textinvestment: 'S/500 ',
-                textContainer: 'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
+                textContainer:
+                    'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
               ),
               SizedBox(
                 height: 10,
@@ -143,7 +153,8 @@ class InvestmentStart extends HookWidget {
                 textTiledCard: 'Plan Estable',
                 textPercentage: '14% ',
                 textinvestment: 'S/1,000 ',
-                textContainer: ' Esta inversión brinda una rentabilidad atractiva',
+                textContainer:
+                    ' Esta inversión brinda una rentabilidad atractiva',
               )
             ],
           ),
