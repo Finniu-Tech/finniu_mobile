@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/screens/home/widgets/modals.dart';
 // import 'package:finniu/screens/my_investment/widgets/card.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,15 +40,24 @@ class InvestmentStart extends HookWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: Icon(
-                      CupertinoIcons.bell,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/home_notification');
+                      },
+                      child: Icon(
+                        CupertinoIcons.bell,
+                      ),
                     ),
                   ),
                   Container(
                     height: 43,
                     width: 41,
                     alignment: Alignment.topRight,
-                    child: Image.asset('assets/home/avatar.png'),
+                    child: InkWell(
+                        onTap: () {
+                          showSettingsDialog(context);
+                        },
+                        child: Image.asset('assets/home/avatar.png')),
                   ),
                 ],
               ),
@@ -115,11 +125,8 @@ class InvestmentStart extends HookWidget {
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(13))),
-                      backgroundColor: MaterialStateProperty.all<Color>(
-                          Color(gradient_primary)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(gradient_primary)),
                     ),
                     onPressed: () {},
                     child: const Text(
@@ -140,10 +147,10 @@ class InvestmentStart extends HookWidget {
               ExpandableCard(
                 image: 'assets/result/money.png',
                 textTiledCard: 'Plan Origen',
-                textPercentage: '12% ',
-                textinvestment: 'S/500 ',
-                textContainer:
-                    'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
+                textPercentage: '12%',
+                textinvestment: '500',
+                textDeclaration: '5%',
+                textContainer: 'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
               ),
               SizedBox(
                 height: 10,
@@ -152,9 +159,9 @@ class InvestmentStart extends HookWidget {
                 image: 'assets/investment/billsmoney.png',
                 textTiledCard: 'Plan Estable',
                 textPercentage: '14% ',
+                textDeclaration: '8%',
                 textinvestment: 'S/1,000 ',
-                textContainer:
-                    ' Esta inversión brinda una rentabilidad atractiva',
+                textContainer: ' Esta inversión brinda una rentabilidad atractiva',
               )
             ],
           ),
