@@ -54,8 +54,16 @@ class PrivacyScreen extends StatelessWidget {
                   Text("Contraseñas", style: TextStyle(fontSize: 14, color: Color(primaryDark), fontWeight: FontWeight.bold)),
                 ]),
               ),
-              SizedBox(
-                height: 4,
+              Container(
+                height: 3,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color(gradient_secondary_option),
+                      width: 2,
+                    ),
+                  ),
+                ),
               ),
               SizedBox(
                 height: 10,
@@ -173,6 +181,129 @@ class PrivacyScreen extends StatelessWidget {
                     label: Text('Nueva contraseña'),
                   ),
                 ),
+              ),
+              // Padding(
+              //     padding: const EdgeInsets.all(0.0),
+              //     child: Column(children: [
+              Padding(
+                padding: const EdgeInsets.all(22.0),
+                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                  Container(
+                    width: 46.48,
+                    height: 34.87,
+                    decoration: BoxDecoration(
+                      color: Color(primaryDark),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Image.asset(
+                      'assets/privacy/lock-circle.png',
+                      width: 20,
+                      height: 20,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text("Administrador de permisos", style: TextStyle(fontSize: 14, color: Color(primaryDark), fontWeight: FontWeight.bold)),
+                ]),
+              ),
+              Container(
+                height: 3,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color(gradient_secondary_option),
+                      width: 2,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Permiso de ubicacion actual",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Color(blackText),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  const Spacer(),
+                  const SizedBox(width: 5),
+                  FlutterSwitch(
+                    width: 29,
+                    height: 16,
+                    value: Preferences.isDarkMode,
+                    inactiveColor: const Color(primaryDark),
+                    activeColor: const Color(primaryLight),
+                    inactiveToggleColor: const Color(primaryLight),
+                    activeToggleColor: const Color(primaryDark),
+                    onToggle: (value) {},
+                  ),
+                ],
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Permiso tu ubicacion actual mientras la app esta en uso",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Color(blackText),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Permiso de acceso a tu galeria",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12,
+                      color: Color(blackText),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 25,
+                  ),
+                  const Spacer(),
+                  const SizedBox(width: 5),
+                  FlutterSwitch(
+                    width: 29,
+                    height: 16,
+                    value: Preferences.isDarkMode,
+                    inactiveColor: const Color(primaryDark),
+                    activeColor: const Color(primaryLight),
+                    inactiveToggleColor: const Color(primaryLight),
+                    activeToggleColor: const Color(primaryDark),
+                    onToggle: (value) {},
+                  ),
+                ],
+              ),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    "Visualizar directamente tus fotos de tu galeria mientras la app esta en uso ",
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Color(blackText),
+                    ),
+                  ),
+                ],
               ),
             ])));
   }
