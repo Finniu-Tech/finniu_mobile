@@ -15,7 +15,7 @@ class PrivacyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
         body: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(30.0),
             child: Column(children: [
               Row(children: [
                 SizedBox(
@@ -99,11 +99,16 @@ class PrivacyScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Mostrar caracteres brevemente mientras escribes",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Color(blackText),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    width: 184,
+                    child: Text(
+                      "Mostrar caracteres brevemente mientras escribes",
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Color(blackText),
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ],
@@ -251,11 +256,16 @@ class PrivacyScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Permiso tu ubicacion actual mientras la app esta en uso",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Color(blackText),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    width: 184,
+                    child: Text(
+                      "Permiso tu ubicacion actual mientras la app esta en uso",
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Color(blackText),
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ],
@@ -296,11 +306,16 @@ class PrivacyScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    "Visualizar directamente tus fotos de tu galeria mientras la app esta en uso ",
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: Color(blackText),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    width: 184,
+                    child: Text(
+                      "Visualizar directamente tus fotos de tu galeria mientras la app esta en uso ",
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Color(blackText),
+                        height: 1.5,
+                      ),
                     ),
                   ),
                 ],

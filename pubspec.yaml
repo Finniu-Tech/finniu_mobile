@@ -104,6 +104,8 @@ flutter:
     - assets/home/
     - assets/svg/
     - assets/privacy/
+    - assets/transfer/
+    - assets/languages/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

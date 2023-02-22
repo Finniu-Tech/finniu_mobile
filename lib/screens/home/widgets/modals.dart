@@ -207,11 +207,23 @@ void showSettingsDialog(BuildContext ctx) {
                     const SizedBox(
                       height: 10,
                     ),
-                    ItemSetting(icon: Icons.model_training, text: "Mis transferencias"),
+                    ItemSetting(
+                      icon: Icons.model_training,
+                      text: "Mis transferencias",
+                      onTap: () {
+                        Navigator.of(ctx).pushNamed('/transfers');
+                      },
+                    ),
                     const SizedBox(
                       height: 10,
                     ),
-                    ItemSetting(icon: Icons.g_translate_outlined, text: "Lenguajes"),
+                    ItemSetting(
+                      icon: Icons.g_translate_outlined,
+                      text: "Lenguajes",
+                      onTap: () {
+                        Navigator.of(ctx).pushNamed('/languages');
+                      },
+                    ),
                     const SizedBox(
                       height: 10,
                     ),

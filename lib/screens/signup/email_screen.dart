@@ -129,7 +129,7 @@ class SignUpEmailScreen extends HookWidget {
                       'assets/avatars/avatar_1.png',
                       'assets/avatars/avatar_2.png',
                       'assets/avatars/avatar_3.png',
-                      'assets/avatars/avatar_4.png',
+                      'assets//avatar_4.png',
                       'assets/avatars/avatar_5.png',
                       'assets/avatars/avatar_6.png',
                       'assets/avatars/avatar_7.png',

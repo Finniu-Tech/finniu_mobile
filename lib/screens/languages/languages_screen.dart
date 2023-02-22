@@ -1,0 +1,163 @@
+import 'package:dropdown_search/dropdown_search.dart';
+import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/scaffold.dart';
+import 'package:flutter/material.dart';
+
+class LanguagesStart extends StatelessWidget {
+  const LanguagesStart({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    var languageController;
+    return CustomScaffoldReturnLogo(
+        body: Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(children: [
+              Row(
+                children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset(
+                    'assets/languages/land.png',
+                    width: 125,
+                    height: 150,
+                  ),
+                  // SizedBox(width: 10),
+                  Text(
+                    "Lenguajes",
+                    style: TextStyle(fontSize: 24, color: Color(primaryDark), fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                    child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(10),
+                          // width: 46.48,
+                          // height: 34.87,
+                          decoration: BoxDecoration(
+                            color: Color(primaryDark),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Image.asset(
+                            color: Color(cardBackgroundColorLight),
+                            'assets/languages/translate.png',
+                            width: 15,
+                            height: 15,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 7,
+                        ),
+                        Text('Configuración de lenguaje', style: TextStyle(fontSize: 14, color: Color(primaryDark), fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ],
+                )),
+              ),
+              Container(
+                width: 270,
+                height: 3,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color(gradient_secondary_option),
+                      width: 2,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 2),
+              Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(
+                  'Idioma seleccionado de la aplicación',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.5,
+                    color: Color(blackText),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              SizedBox(
+                width: 224,
+                height: 39,
+                child: DropdownSearch<String>(
+                  dropdownDecoratorProps: const DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      labelText: 'Idioma',
+                    ),
+                  ),
+                  items: [
+                    'Español',
+                    'Portugués',
+                    'Inglés',
+                  ],
+                  popupProps: PopupProps.menu(
+                    showSelectedItems: true,
+                    itemBuilder: (context, item, isSelected) => Container(
+                      decoration: BoxDecoration(
+                        color: Color(isSelected ? primaryDark : primaryLight),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        right: 15,
+                        left: 15,
+                      ),
+                      child: Text(
+                        item.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(isSelected ? Colors.white.value : primaryDark),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    menuProps: const MenuProps(
+                      backgroundColor: Color(primaryLightAlternative),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Color(primaryDark),
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    showSearchBox: true,
+                    searchFieldProps: const TextFieldProps(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        suffixIcon: Icon(Icons.search),
+                        label: Text('Buscar'),
+                      ),
+                    ),
+                  ),
+                  dropdownButtonProps: const DropdownButtonProps(
+                    color: Color(primaryDark),
+                    padding: EdgeInsets.zero,
+                  ),
+                ),
+              ),
+            ])));
+  }
+}
+
+void _calculatePercentage(String s) {}
