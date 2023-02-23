@@ -227,7 +227,13 @@ void showSettingsDialog(BuildContext ctx) {
                     const SizedBox(
                       height: 10,
                     ),
-                    ItemSetting(icon: Icons.help_outline, text: "Ayuda"),
+                    ItemSetting(
+                      icon: Icons.help_outline,
+                      text: "Ayuda",
+                      onTap: () {
+                        Navigator.of(ctx).pushNamed('/help');
+                      },
+                    ),
                     const SizedBox(
                       height: 10,
                     ),

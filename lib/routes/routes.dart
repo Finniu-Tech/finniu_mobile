@@ -1,3 +1,4 @@
+import 'package:finniu/screens/help/help_screen.dart';
 import 'package:finniu/screens/home/home.dart';
 import 'package:finniu/screens/home/notification.dart';
 import 'package:finniu/screens/intro_screen.dart';
@@ -37,5 +38,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/privacy': (BuildContext context) => PrivacyScreen(),
     '/transfers': (BuildContext context) => TransfersScreen(),
     '/languages': (BuildContext context) => LanguagesStart(),
+    '/help': (BuildContext context) => HelpScreen(),
   };
 }
