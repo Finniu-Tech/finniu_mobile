@@ -151,9 +151,14 @@ class PrivacyScreen extends StatelessWidget {
                   onChanged: (value) {
                     // emailController.text = value.toString();
                   },
+                  obscureText: true,
                   decoration: const InputDecoration(
                     hintText: 'Escriba su contraseña actual',
                     label: Text('Contraseña actual'),
+                    suffixIcon: Icon(
+                      Icons.visibility,
+                      color: Color(primaryDark),
+                    ),
                   ),
                 ),
               ),
@@ -184,6 +189,10 @@ class PrivacyScreen extends StatelessWidget {
                   decoration: const InputDecoration(
                     hintText: 'Escriba su nueva contraseña',
                     label: Text('Nueva contraseña'),
+                    suffixIcon: Icon(
+                      Icons.visibility,
+                      color: Color(primaryDark),
+                    ),
                   ),
                 ),
               ),
