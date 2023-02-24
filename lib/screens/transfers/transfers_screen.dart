@@ -1,12 +1,15 @@
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:provider/provider.dart';
 
 class TransfersScreen extends StatelessWidget {
   const TransfersScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
         body: Padding(
             padding: const EdgeInsets.all(30.0),
@@ -24,7 +27,7 @@ class TransfersScreen extends StatelessWidget {
                   // SizedBox(width: 10),
                   Text(
                     "Mis Transferencias",
-                    style: TextStyle(fontSize: 24, color: Color(primaryDark), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -53,7 +56,7 @@ class TransfersScreen extends StatelessWidget {
                         SizedBox(
                           width: 7,
                         ),
-                        Text('Mis últimas transferencias', style: TextStyle(fontSize: 14, color: Color(primaryDark), fontWeight: FontWeight.bold)),
+                        Text('Mis últimas transferencias', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
@@ -77,11 +80,7 @@ class TransfersScreen extends StatelessWidget {
                 child: Text(
                   'Tus últimas transferencias de inversion realizadas en Finniu',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 12,
-                    height: 1.5,
-                    color: Color(blackText),
-                  ),
+                  style: TextStyle(fontSize: 12, height: 1.5, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
                 ),
               ),
               SizedBox(
@@ -92,7 +91,7 @@ class TransfersScreen extends StatelessWidget {
                   width: 274.0,
                   height: 74.0,
                   decoration: BoxDecoration(
-                    color: Color(gradient_secondary),
+                    color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [

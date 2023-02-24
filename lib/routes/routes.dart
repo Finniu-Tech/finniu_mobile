@@ -1,3 +1,4 @@
+import 'package:finniu/screens/confirmation_phone/confirmation_phone_screen.dart';
 import 'package:finniu/screens/help/help_screen.dart';
 import 'package:finniu/screens/home/home.dart';
 import 'package:finniu/screens/home/notification.dart';
@@ -39,5 +40,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/transfers': (BuildContext context) => TransfersScreen(),
     '/languages': (BuildContext context) => LanguagesStart(),
     '/help': (BuildContext context) => HelpScreen(),
+    '/help': (BuildContext context) => HelpScreen(),
+    '/confirmation': (BuildContext context) => Confirmation_Phone(),
   };
 }

@@ -60,3 +60,5 @@ const cardBackgroundColorDark = 0xffA2E6FA;
 
 const colorIconlight = 0xff4C8DBE;
 const colorIcondark = 0xff428CA1;
+
+const colorblacklight = 0xff3F3F3F;

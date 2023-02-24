@@ -55,56 +55,6 @@ class _CardTableState extends State<CardTable> {
   }
 }
 
-// scrollDirection: Axis.vertical,
-
-// child: Table(
-//   children: const [
-//     TableRow(children: [
-//       _SingleCard(
-//         title: 'Plan Origen',
-//         text_mount: 'Desde S/500',
-//         text_percentage: '12% anual',
-//       ),
-//       _SingleCard(
-//         title: 'Plan Estable',
-//         text_mount: 'Desde S/1,000',
-//         text_percentage: '14% anual',
-//       )
-//     ]),
-//     TableRow(
-//       children: [
-//         _SingleCard(
-//           title: 'Plan Responsable',
-//           text_mount: 'Desde S/5,000',
-//           text_percentage: '16% anual',
-//         ),
-//         _SingleCard(
-//           title: 'Plan crecimiento',
-//           text_mount: 'Desde S/10,000',
-//           text_percentage: '18%anual',
-//         )
-//       ],
-//     ),
-//     TableRow(
-//       children: [
-//         _SingleCard(
-//           title: 'Plan Responsable',
-//           text_mount: 'Desde S/5,000',
-//           text_percentage: '16% anual',
-//         ),
-//         _SingleCard(
-//           title: 'Plan crecimiento',
-//           text_mount: 'Desde S/10,000',
-//           text_percentage: '18%anual',
-//         )
-//       ],
-//     ),
-//   ],
-// ),
-//     );
-//   }
-// }
-
 class _SingleCard extends StatelessWidget {
   final String title;
   final String text_mount;

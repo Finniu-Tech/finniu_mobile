@@ -1,10 +1,12 @@
 // import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:provider/provider.dart';
 
 class ExpandableCard extends HookWidget {
   final String image;
@@ -25,6 +27,7 @@ class ExpandableCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     final isExpanded = useState(false);
     return Center(
       child: Column(
@@ -74,6 +77,7 @@ class CardCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return SizedBox(
         width: 320,
         // height: 62,
@@ -128,7 +132,9 @@ class CardCustom extends StatelessWidget {
           children: [
             Container(
               alignment: Alignment.topLeft,
-              color: Color(gradient_secondary),
+              color: Color(
+                currentTheme.isDarkMode ? primaryLightAlternative : secondary,
+              ),
               width: 320,
               height: 270,
               child: Column(

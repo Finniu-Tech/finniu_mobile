@@ -1,13 +1,16 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LanguagesStart extends StatelessWidget {
   const LanguagesStart({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     var languageController;
     return CustomScaffoldReturnLogo(
         body: Padding(
@@ -26,7 +29,7 @@ class LanguagesStart extends StatelessWidget {
                   // SizedBox(width: 10),
                   Text(
                     "Lenguajes",
-                    style: TextStyle(fontSize: 24, color: Color(primaryDark), fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -55,7 +58,7 @@ class LanguagesStart extends StatelessWidget {
                         SizedBox(
                           width: 7,
                         ),
-                        Text('Configuración de lenguaje', style: TextStyle(fontSize: 14, color: Color(primaryDark), fontWeight: FontWeight.bold)),
+                        Text('Configuración de lenguaje', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
@@ -82,7 +85,7 @@ class LanguagesStart extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     height: 1.5,
-                    color: Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
               ),

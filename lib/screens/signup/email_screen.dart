@@ -282,20 +282,7 @@ class SignUpEmailScreen extends HookWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/on_boarding_start');
-                      // if (formKey.currentState!.validate()) {
-                      //   context.loaderOverlay.show();
-                      //   print('email controller');
-                      //   print(emailController.text);
-                      //   registerMutation.runMutation(
-                      //     {
-                      //       "email": emailController.text,
-                      //       "password": passwordController.text,
-                      //       "phone": int.parse(phoneController.text),
-                      //       "nickname": nickNameController.text,
-                      //     },
-                      //   );
-                      // }
+                      Navigator.of(context).pushNamed('/confirmation');
                     },
                     child: Text('Crear registro'),
                   ),
