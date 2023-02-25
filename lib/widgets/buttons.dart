@@ -64,8 +64,8 @@ class CustomReturnButton extends StatefulWidget {
   final int colorIcon;
   const CustomReturnButton({
     super.key,
-    this.colorBoxdecoration = primaryLight,
-    this.colorIcon = primaryDark,
+    this.colorBoxdecoration = primaryDark,
+    this.colorIcon = primaryLight,
   });
   @override
   State<CustomReturnButton> createState() => _CustomReturnButtonState();
@@ -74,23 +74,28 @@ class CustomReturnButton extends StatefulWidget {
 class _CustomReturnButtonState extends State<CustomReturnButton> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
       },
       child: Container(
-        margin: const EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
         width: 40,
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color(widget.colorBoxdecoration),
+          color: Color(
+            currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+          ),
         ),
         child: Center(
           child: Icon(
             Icons.arrow_back_ios_new_outlined,
             size: 20,
-            color: Color(widget.colorIcon),
+            color: Color(
+              currentTheme.isDarkMode ? (primaryDark) : (primaryLight),
+            ),
           ),
         ),
       ),

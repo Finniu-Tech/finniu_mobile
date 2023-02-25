@@ -33,7 +33,10 @@ class InvestmentStart extends HookWidget {
                     height: 60,
                     width: 60,
                     alignment: Alignment.topLeft,
-                    child: Image.asset('assets/images/logo_small.png'),
+                    child: Image.asset(
+                      'assets/images/logo_small.png',
+                      color: (currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
+                    ),
                   ),
                   const Spacer(),
                   Container(
@@ -84,7 +87,7 @@ class InvestmentStart extends HookWidget {
                 height: 129.0,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary_option),
+                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(gradient_secondary_option),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Row(
@@ -102,7 +105,7 @@ class InvestmentStart extends HookWidget {
                         style: TextStyle(
                           height: 1.5,
                           fontSize: 12,
-                          color: currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText),
+                          color: Color(whiteText),
                         ),
                       ),
                     ),

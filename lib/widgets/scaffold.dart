@@ -135,7 +135,7 @@ class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
           elevation: 0,
           leading: themeProvider.isDarkMode
               ? const CustomReturnButton(
-                  colorBoxdecoration: primaryLight,
+                  colorBoxdecoration: primaryDark,
                   colorIcon: primaryDark,
                 )
               : const CustomReturnButton(),
