@@ -129,7 +129,7 @@ class SignUpEmailScreen extends HookWidget {
                       'assets/avatars/avatar_1.png',
                       'assets/avatars/avatar_2.png',
                       'assets/avatars/avatar_3.png',
-                      'assets/avatars/avatar_4.png',
+                      'assets//avatar_4.png',
                       'assets/avatars/avatar_5.png',
                       'assets/avatars/avatar_6.png',
                       'assets/avatars/avatar_7.png',
@@ -282,20 +282,7 @@ class SignUpEmailScreen extends HookWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/on_boarding_start');
-                      // if (formKey.currentState!.validate()) {
-                      //   context.loaderOverlay.show();
-                      //   print('email controller');
-                      //   print(emailController.text);
-                      //   registerMutation.runMutation(
-                      //     {
-                      //       "email": emailController.text,
-                      //       "password": passwordController.text,
-                      //       "phone": int.parse(phoneController.text),
-                      //       "nickname": nickNameController.text,
-                      //     },
-                      //   );
-                      // }
+                      Navigator.of(context).pushNamed('/confirmation');
                     },
                     child: Text('Crear registro'),
                   ),

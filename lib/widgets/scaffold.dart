@@ -47,9 +47,7 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
                 activeToggleColor: const Color(primaryDark),
                 onToggle: (value) {
                   Preferences.isDarkMode = value;
-                  value
-                      ? themeProvider.setDarkMode()
-                      : themeProvider.setLightMode();
+                  value ? themeProvider.setDarkMode() : themeProvider.setLightMode();
                   setState(() {});
                 },
               ),
@@ -71,12 +69,7 @@ class CustomScaffoldReturn extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
 
-  const CustomScaffoldReturn(
-      {super.key,
-      required this.body,
-      this.backgroundColor = 0xffFFFFFF,
-      this.colorBoxdecoration = primaryDark,
-      this.colorIcon = primaryLight});
+  const CustomScaffoldReturn({super.key, required this.body, this.backgroundColor = 0xffFFFFFF, this.colorBoxdecoration = primaryDark, this.colorIcon = primaryLight});
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();
@@ -142,7 +135,7 @@ class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
           elevation: 0,
           leading: themeProvider.isDarkMode
               ? const CustomReturnButton(
-                  colorBoxdecoration: primaryLight,
+                  colorBoxdecoration: primaryDark,
                   colorIcon: primaryDark,
                 )
               : const CustomReturnButton(),
@@ -152,9 +145,7 @@ class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
               child: SizedBox(
                 width: 70,
                 height: 70,
-                child: themeProvider.isDarkMode
-                    ? Image.asset('assets/images/logo_small_dark.png')
-                    : Image.asset('assets/images/logo_small.png'),
+                child: themeProvider.isDarkMode ? Image.asset('assets/images/logo_small_dark.png') : Image.asset('assets/images/logo_small.png'),
               ),
             ),
           ]),

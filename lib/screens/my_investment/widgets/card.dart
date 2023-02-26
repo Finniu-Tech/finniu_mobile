@@ -1,10 +1,12 @@
 // import 'package:expansion_tile_card/expansion_tile_card.dart';
+import 'package:finniu/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:provider/provider.dart';
 
 class ExpandableCard extends HookWidget {
   final String image;
@@ -25,6 +27,7 @@ class ExpandableCard extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     final isExpanded = useState(false);
     return Center(
       child: Column(
@@ -74,6 +77,7 @@ class CardCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return SizedBox(
         width: 320,
         // height: 62,
@@ -88,9 +92,11 @@ class CardCustom extends StatelessWidget {
               textTiledCard,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.white,
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
+                color: Color(
+                  currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                ),
               ),
             ),
           ),
@@ -103,8 +109,10 @@ class CardCustom extends StatelessWidget {
                   'Ver más',
                   textAlign: TextAlign.left,
                   style: TextStyle(
-                    color: Colors.white,
                     fontSize: 10,
+                    color: Color(
+                      currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -112,9 +120,16 @@ class CardCustom extends StatelessWidget {
                 ),
                 CircleAvatar(
                   radius: 15,
-                  backgroundColor: Color(cardBackgroundColorLight),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
+                  backgroundColor: Color(
+                    currentTheme.isDarkMode ? (primaryDark) : (primaryLight),
+                  ),
+                  child: Icon(
+                    Icons.arrow_drop_down,
+                    color: Color(
+                      currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+                    ),
+                  ),
+                )
               ],
             ),
           ),
@@ -122,13 +137,19 @@ class CardCustom extends StatelessWidget {
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
-          baseColor: Color(primaryDark),
-          expandedColor: Color(primaryDark),
+          baseColor: Color(
+            currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+          ),
+          expandedColor: Color(
+            currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+          ),
           elevation: 2.0,
           children: [
             Container(
               alignment: Alignment.topLeft,
-              color: Color(gradient_secondary),
+              color: Color(
+                currentTheme.isDarkMode ? primaryLightAlternative : secondary,
+              ),
               width: 320,
               height: 270,
               child: Column(
@@ -275,16 +296,18 @@ class InitialCardBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+
     return Container(
         width: 320,
         height: 130,
         decoration: BoxDecoration(
           // border: Border.all(color: Color(primaryDark), width: 2.0),
           border: Border(
-            top: BorderSide(color: Color(primaryDark), width: 2.0),
-            left: BorderSide(color: Color(primaryDark), width: 2.0),
-            right: BorderSide(color: Color(primaryDark), width: 2.0),
-            bottom: BorderSide(color: Color(primaryDark), width: 2.0),
+            top: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+            left: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+            right: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+            bottom: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
           ),
 
           borderRadius: BorderRadius.only(
@@ -389,7 +412,7 @@ class InitialCardBody extends StatelessWidget {
               color: Color(primaryDark),
             ),
             child: Center(
-              child: CustomButton(colorBackground: (primaryDark), text: "Comenzar a invertir", colorText: (whiteText), pushName: '/home_home'),
+              child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Comenzar a invertir", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/home_home'),
             ),
           )
         ]));

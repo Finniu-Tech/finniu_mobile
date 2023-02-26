@@ -33,6 +33,7 @@ const blackText = 0xff000000;
 const grayText1 = 0xff535050;
 const grayText = 0xff616161;
 const grayText2 = 0xff555454;
+const grayText3 = 0xffD9D9D9;
 const secondaryGrayText = 0xff909090;
 const redText = 0xffFF4D4D;
 
@@ -59,3 +60,5 @@ const cardBackgroundColorDark = 0xffA2E6FA;
 
 const colorIconlight = 0xff4C8DBE;
 const colorIcondark = 0xff428CA1;
+
+const colorblacklight = 0xff3F3F3F;

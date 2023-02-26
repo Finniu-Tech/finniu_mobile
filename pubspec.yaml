@@ -50,7 +50,6 @@ dependencies:
   flutter_spinkit: ^5.1.0
   expandable_page_view: ^1.0.17
   expansion_tile_card: ^2.0.0
-  # expansion_tile_card: ^1.1.0
   dropdown_search: ^5.0.5
   percent_indicator: ^4.2.2
   image_picker: ^0.8.6+2
@@ -103,6 +102,10 @@ flutter:
     - assets/result/
     - assets/home/
     - assets/svg/
+    - assets/privacy/
+    - assets/transfers/
+    - assets/languages/
+    - assets/help/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

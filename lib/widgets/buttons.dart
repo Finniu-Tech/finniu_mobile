@@ -31,22 +31,14 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context)
-          .textButtonTheme
-          .style!
-          .backgroundColor!
-          .resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context)
-          .textButtonTheme
-          .style!
-          .foregroundColor!
-          .resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -82,23 +74,28 @@ class CustomReturnButton extends StatefulWidget {
 class _CustomReturnButtonState extends State<CustomReturnButton> {
   @override
   Widget build(BuildContext context) {
+    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
       },
       child: Container(
-        margin: const EdgeInsets.all(10),
+        margin: EdgeInsets.all(10),
         width: 40,
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Color(widget.colorBoxdecoration),
+          color: Color(
+            currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+          ),
         ),
         child: Center(
           child: Icon(
             Icons.arrow_back_ios_new_outlined,
             size: 20,
-            color: Color(widget.colorIcon),
+            color: Color(
+              currentTheme.isDarkMode ? (primaryDark) : (primaryLight),
+            ),
           ),
         ),
       ),
@@ -161,8 +158,7 @@ class CusttomButtonRoundedLight extends StatefulWidget {
     this.pushName = "",
     this.isReturn = false,
   });
-  _CusttomButtonRoundedLightState createState() =>
-      _CusttomButtonRoundedLightState();
+  _CusttomButtonRoundedLightState createState() => _CusttomButtonRoundedLightState();
 }
 
 class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
@@ -185,8 +181,7 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
           color: const Color(primaryLight),
         ),
         child: const Center(
-          child: Icon(
-              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
+          child: Icon(size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
         ),
       ),
     );
@@ -281,8 +276,7 @@ class ButtonQuestions extends StatelessWidget {
               MaterialPageRoute(builder: (context) => ResultInvestment()),
             );
           } else {}
-          controller.nextPage(
-              duration: const Duration(milliseconds: 300), curve: Curves.ease);
+          controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
         },
         style: TextButton.styleFrom(
           backgroundColor: const Color(primaryLightAlternative),
