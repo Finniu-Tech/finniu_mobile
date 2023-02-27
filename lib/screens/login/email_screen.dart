@@ -27,32 +27,7 @@ class EmailLoginScreen extends HookConsumerWidget {
     final isHidden = useState(true);
     final showError = useState(false);
     final themeProvider = ref.watch(settingsNotifierProvider);
-    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final formKey = GlobalKey<FormState>();
-    // final profileData = useQuery(
-    //   QueryOptions(
-    //     document: gql(
-    //       QueryRepository.getUserProfile,
-    //     ), // this is the query string you just created
-    //     // variables: {
-    //     //   'nRepositories': 50,
-    //     // },
-    //     pollInterval: const Duration(seconds: 10),
-    //   ),
-    // );
-    // getProfileData() {
-    //   print('Querying ${QueryRepository.getUserProfile}');
-    //   return useQuery(
-    //     QueryOptions(
-    //       document: gql(QueryRepository
-    //           .getUserProfile), // this is the query string you just created
-    //       // variables: {
-    //       //   'nRepositories': 50,
-    //       // },
-    //       pollInterval: const Duration(seconds: 10),
-    //     ),
-    //   );
-    // }
 
     final tokenMutation = useMutation(
       MutationOptions(
@@ -64,7 +39,7 @@ class EmailLoginScreen extends HookConsumerWidget {
             String? token = ScanAuthModel.fromJson(resultData).tokenAuth?.token;
             print('token: $token');
             if (token != null) {
-              Preferences.token = token;
+              // Preferences.token = token;
               ref.read(authTokenProvider.notifier).state = token;
               print('token: ${ref.read(authTokenProvider)}');
               // var userProfileData = profileData.result.data?['userProfile'];
@@ -73,12 +48,17 @@ class EmailLoginScreen extends HookConsumerWidget {
               // if (userProfileData != null) {
               //   UserProfile.fromJson(userProfileData);
               // }
-
-              Navigator.of(context).pushReplacement<void, void>(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => HomeStart(),
-                ),
-              );
+              print('watch token: ${ref.watch(authTokenProvider)}');
+              if (ref.watch(authTokenProvider) != '') {
+                // ref.refresh(gqlClientProvider);
+                print('pase ifff');
+                Navigator.of(context).pushReplacement<void, void>(
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => HomeStart(),
+                  ),
+                );
+              }
+              ;
             } else {
               showError.value = true;
               context.loaderOverlay.hide();

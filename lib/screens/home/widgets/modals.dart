@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -268,6 +269,8 @@ void showSettingsDialog(BuildContext ctx, WidgetRef ref) {
                       icon: Icons.logout,
                       text: "Cerrar sesión",
                       onTap: () {
+                        ref.invalidate(authTokenProvider);
+                        ref.invalidate(gqlClientProvider);
                         Navigator.of(ctx).pushNamedAndRemoveUntil(
                             '/login_start', (route) => false);
                       },

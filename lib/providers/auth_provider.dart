@@ -11,18 +11,23 @@ final authTokenProvider = StateProvider<String>((ref) {
 });
 
 final gqlClientProvider = Provider<ValueNotifier<GraphQLClient>>((ref) {
-  final String token = ref.watch(authTokenProvider);
+  // final String token = ref.watch(authTokenProvider);
 
   // final HttpLink httpLink = HttpLink(
   //   'https://finniu.com/api/v1/graph/finniu/',
   // );
 
-  final HttpLink httpLink = HttpLink('https://finniu.com/api/v1/graph/finniu/',
-      defaultHeaders: {'Authorization': token != '' ? 'JWT $token' : 'Bearer'}
-      // defaultHeaders: {if (token.isNotEmpty) 'JWT': token},
-      );
+  final HttpLink httpLink = HttpLink(
+    'https://finniu.com/api/v1/graph/finniu/',
+    // defaultHeaders: {'Authorization': token != '' ? 'JWT $token' : 'Bearer'}
+    // defaultHeaders: {if (token.isNotEmpty) 'JWT': token},
+  );
+  String token = ref.read(authTokenProvider);
+  final authLink = AuthLink(getToken: () async => 'JWT ${token}');
+  final link = authLink.concat(httpLink);
+
   print('httpLink:');
-  print(httpLink.defaultHeaders);
+  // print(httpLink.defaultHeaders);
   // final _webSocketLink = WebSocketLink('ws://10.0.2.2:4200/graphql');
   // var link = Link.split(
   //   (request) => request.isSubscription,
@@ -43,7 +48,7 @@ final gqlClientProvider = Provider<ValueNotifier<GraphQLClient>>((ref) {
 
   return ValueNotifier(
     GraphQLClient(
-      link: httpLink,
+      link: link,
       cache: GraphQLCache(store: HiveStore()),
     ),
   );
