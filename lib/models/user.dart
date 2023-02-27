@@ -95,7 +95,7 @@ class UserProfile {
   });
 
   String? firstName;
-  dynamic lastName;
+  String? lastName;
   String? email;
   String? id;
   String? nickName;
@@ -151,4 +151,28 @@ class UserProfile {
         "uuid": uuid,
         "phoneNumber": phoneNumber,
       };
+
+  UserProfile copyWith({
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? id,
+    String? nickName,
+    dynamic civilStatus,
+    dynamic distrito,
+    bool hasCompletedOnboarding = false,
+    String? phoneNumber,
+  }) {
+    return UserProfile(
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      email: email ?? this.email,
+      id: id ?? this.id,
+      nickName: nickName ?? this.nickName,
+      civilStatus: civilStatus ?? this.civilStatus,
+      distrito: distrito ?? this.distrito,
+      hasCompletedOnboarding: hasCompletedOnboarding,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+    );
+  }
 }
