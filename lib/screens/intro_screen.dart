@@ -4,26 +4,27 @@ import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class IntroScreen extends StatefulWidget {
+class IntroScreen extends ConsumerStatefulWidget {
+  const IntroScreen({Key? key}) : super(key: key);
   @override
   // ignore: library_private_types_in_public_api
   _IntroScreenState createState() => _IntroScreenState();
 }
 
-class _IntroScreenState extends State<IntroScreen> {
+class _IntroScreenState extends ConsumerState<IntroScreen> {
   _IntroScreenState();
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
+    final themeProvider = ref.watch(settingsNotifierProvider);
 
     Timer(
       const Duration(seconds: 3),
       () => Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (BuildContext context) => const StartLoginScreen(),
+          builder: (BuildContext context) => StartLoginScreen(),
         ),
       ),
     );
@@ -44,7 +45,9 @@ class _IntroScreenState extends State<IntroScreen> {
                   height: 300,
                   child: Image(
                     image: AssetImage(
-                      themeProvider.isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
+                      themeProvider.isDarkMode
+                          ? "assets/images/logo_finniu_dark.png"
+                          : "assets/images/logo_finniu_light.png",
                     ),
                   ),
                 ),

@@ -5,19 +5,15 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ForgotPassword extends StatefulWidget {
+class ForgotPassword extends ConsumerWidget {
   const ForgotPassword({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
-}
-
-class _ForgotPasswordState extends State<ForgotPassword> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturn(
       body: SingleChildScrollView(
@@ -53,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         padding: const EdgeInsets.only(
                             left: 50, right: 30, top: 15, bottom: 15),
                         decoration: BoxDecoration(
-                          color: currentTheme.isDarkMode
+                          color: themeProvider.isDarkMode
                               ? const Color(cardBackgroundColorDark)
                               : const Color(cardBackgroundColorLight),
                           borderRadius: BorderRadius.circular(15),

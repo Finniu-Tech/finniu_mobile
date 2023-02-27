@@ -1,20 +1,16 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'dart:ui';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CardTable extends StatefulWidget {
+class CardTable extends ConsumerWidget {
   const CardTable({super.key});
 
   @override
-  State<CardTable> createState() => _CardTableState();
-}
-
-class _CardTableState extends State<CardTable> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return ListView(
       padding: EdgeInsets.only(
         top: 15,
@@ -55,7 +51,7 @@ class _CardTableState extends State<CardTable> {
   }
 }
 
-class _SingleCard extends StatelessWidget {
+class _SingleCard extends ConsumerWidget {
   final String title;
   final String text_mount;
   final String text_percentage;
@@ -68,8 +64,9 @@ class _SingleCard extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     var column = Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -79,7 +76,9 @@ class _SingleCard extends StatelessWidget {
           title,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
+            color: currentTheme.isDarkMode
+                ? const Color(0xffA2E6FA)
+                : const Color(primaryDark),
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
@@ -93,13 +92,17 @@ class _SingleCard extends StatelessWidget {
               child: Icon(
                 Icons.monetization_on_outlined,
                 // size: 14.33,
-                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
               ),
             ),
             Text(
               text_mount,
               style: TextStyle(
-                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
               ),
@@ -115,13 +118,17 @@ class _SingleCard extends StatelessWidget {
               child: Icon(
                 Icons.currency_exchange_rounded,
                 // size: 11,
-                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
               ),
             ),
             Text(
               text_percentage,
               style: TextStyle(
-                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                   // color: Color(primaryDark),
                   fontSize: 11,
                   fontWeight: FontWeight.w500),
@@ -137,11 +144,14 @@ class _SingleCard extends StatelessWidget {
           // height: 40,
           child: TextButton(
             onPressed: () {},
-            style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
+            style: ButtonStyle(
+                padding: MaterialStateProperty.all(EdgeInsets.zero)),
             child: Text(
               'Ir al plan',
               style: TextStyle(
-                color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryDark)
+                    : const Color(whiteText),
                 fontSize: 11,
                 fontWeight: FontWeight.w500,
               ),
@@ -155,14 +165,15 @@ class _SingleCard extends StatelessWidget {
   }
 }
 
-class _CardBackground extends StatelessWidget {
+class _CardBackground extends ConsumerWidget {
   final Widget child;
 
   const _CardBackground({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Container(
       height: 144,
       width: 150,
@@ -173,10 +184,14 @@ class _CardBackground extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
           child: Container(
             decoration: BoxDecoration(
-              color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+              color: currentTheme.isDarkMode
+                  ? Colors.transparent
+                  : const Color(whiteText),
               borderRadius: BorderRadius.circular(20),
               border: Border.all(
-                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
                 width: 0.5,
               ),
             ),

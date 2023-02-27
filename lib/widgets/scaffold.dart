@@ -5,21 +5,22 @@ import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CustomScaffoldStart extends StatefulWidget {
+class CustomScaffoldStart extends ConsumerStatefulWidget {
   final dynamic body;
 
   const CustomScaffoldStart({super.key, required this.body});
 
   @override
-  State<CustomScaffoldStart> createState() => _CustomScaffoldStartState();
+  ConsumerState createState() => _CustomScaffoldStartState();
 }
 
-class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
+class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
 
     return Scaffold(
       // backgroundColor: Colors.white,
@@ -47,7 +48,13 @@ class _CustomScaffoldStartState extends State<CustomScaffoldStart> {
                 activeToggleColor: const Color(primaryDark),
                 onToggle: (value) {
                   Preferences.isDarkMode = value;
-                  value ? themeProvider.setDarkMode() : themeProvider.setLightMode();
+                  value
+                      ? ref
+                          .read(settingsNotifierProvider.notifier)
+                          .setDarkMode()
+                      : ref
+                          .read(settingsNotifierProvider.notifier)
+                          .setLightMode();
                   setState(() {});
                 },
               ),
@@ -69,7 +76,12 @@ class CustomScaffoldReturn extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
 
-  const CustomScaffoldReturn({super.key, required this.body, this.backgroundColor = 0xffFFFFFF, this.colorBoxdecoration = primaryDark, this.colorIcon = primaryLight});
+  const CustomScaffoldReturn(
+      {super.key,
+      required this.body,
+      this.backgroundColor = 0xffFFFFFF,
+      this.colorBoxdecoration = primaryDark,
+      this.colorIcon = primaryLight});
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();
@@ -115,18 +127,15 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
 
 //custom_scaffold_return logo
 
-class CustomScaffoldReturnLogo extends StatefulWidget {
+class CustomScaffoldReturnLogo extends ConsumerWidget {
   final dynamic body;
 
   const CustomScaffoldReturnLogo({super.key, required this.body});
   @override
-  _CustomScaffoldReturnLogo createState() => _CustomScaffoldReturnLogo();
-}
-
-class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
-  @override
-  Widget build(BuildContext context) {
-    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    // final themeProvider =
+    //     Provider.of<SettingsNotifierProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
@@ -145,11 +154,13 @@ class _CustomScaffoldReturnLogo extends State<CustomScaffoldReturnLogo> {
               child: SizedBox(
                 width: 70,
                 height: 70,
-                child: themeProvider.isDarkMode ? Image.asset('assets/images/logo_small_dark.png') : Image.asset('assets/images/logo_small.png'),
+                child: themeProvider.isDarkMode
+                    ? Image.asset('assets/images/logo_small_dark.png')
+                    : Image.asset('assets/images/logo_small.png'),
               ),
             ),
           ]),
-      body: widget.body,
+      body: body,
     );
   }
 }

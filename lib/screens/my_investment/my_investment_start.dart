@@ -4,17 +4,17 @@ import 'package:finniu/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'widgets/card.dart';
 
-class InvestmentStart extends HookWidget {
+class InvestmentStart extends HookConsumerWidget {
   const InvestmentStart({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Scaffold(
       bottomNavigationBar: const BottomNavigationBarHome(),
       body: Padding(
@@ -35,7 +35,9 @@ class InvestmentStart extends HookWidget {
                     alignment: Alignment.topLeft,
                     child: Image.asset(
                       'assets/images/logo_small.png',
-                      color: (currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
+                      color: (currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText)),
                     ),
                   ),
                   const Spacer(),
@@ -51,7 +53,9 @@ class InvestmentStart extends HookWidget {
                       },
                       child: Icon(
                         CupertinoIcons.bell,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -61,7 +65,7 @@ class InvestmentStart extends HookWidget {
                     alignment: Alignment.topRight,
                     child: InkWell(
                         onTap: () {
-                          showSettingsDialog(context);
+                          showSettingsDialog(context, ref);
                         },
                         child: Image.asset('assets/home/avatar.png')),
                   ),
@@ -72,7 +76,9 @@ class InvestmentStart extends HookWidget {
                 child: Text(
                   'Mis inversiones',
                   style: TextStyle(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
                   ),
@@ -87,7 +93,9 @@ class InvestmentStart extends HookWidget {
                 height: 129.0,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(gradient_secondary_option),
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(gradient_secondary_option),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Row(
@@ -124,7 +132,9 @@ class InvestmentStart extends HookWidget {
                       height: 1.5,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     ),
                   ),
                   SizedBox(
@@ -132,8 +142,11 @@ class InvestmentStart extends HookWidget {
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(13))),
-                      backgroundColor: MaterialStateProperty.all<Color>(Color(currentTheme.isDarkMode ? secondary : primaryLight)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(13))),
+                      backgroundColor: MaterialStateProperty.all<Color>(Color(
+                          currentTheme.isDarkMode ? secondary : primaryLight)),
                     ),
                     onPressed: () {},
                     child: const Text(
@@ -157,7 +170,8 @@ class InvestmentStart extends HookWidget {
                 textPercentage: '12%',
                 textinvestment: '500',
                 textDeclaration: '5%',
-                textContainer: 'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
+                textContainer:
+                    'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
               ),
               SizedBox(
                 height: 10,
@@ -168,7 +182,8 @@ class InvestmentStart extends HookWidget {
                 textPercentage: '14% ',
                 textDeclaration: '8%',
                 textinvestment: 'S/1,000 ',
-                textContainer: ' Esta inversión brinda una rentabilidad atractiva',
+                textContainer:
+                    ' Esta inversión brinda una rentabilidad atractiva',
               )
             ],
           ),

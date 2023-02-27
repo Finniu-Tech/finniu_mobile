@@ -2,20 +2,18 @@ import 'package:email_validator/email_validator.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
-import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class PrivacyScreen extends StatelessWidget {
-  const PrivacyScreen({super.key});
-
+class PrivacyScreen extends HookConsumerWidget {
   get emailController => null;
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
         body: Padding(
             padding: const EdgeInsets.all(30.0),
@@ -32,12 +30,18 @@ class PrivacyScreen extends StatelessWidget {
                 // SizedBox(width: 10),
                 Text(
                   "Privacidad",
-                  style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      fontWeight: FontWeight.bold),
                 )
               ]),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Container(
                     width: 46.48,
                     height: 34.87,
@@ -54,7 +58,13 @@ class PrivacyScreen extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text("Contraseñas", style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
+                  Text("Contraseñas",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                          fontWeight: FontWeight.bold)),
                 ]),
               ),
               Container(
@@ -79,7 +89,9 @@ class PrivacyScreen extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                   SizedBox(
@@ -109,7 +121,9 @@ class PrivacyScreen extends StatelessWidget {
                       "Mostrar caracteres brevemente mientras escribes",
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                         height: 1.5,
                       ),
                     ),
@@ -125,7 +139,9 @@ class PrivacyScreen extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                 ],
@@ -138,7 +154,9 @@ class PrivacyScreen extends StatelessWidget {
                 height: 30,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: currentTheme.isDarkMode ? const Color(colorblacklight) : const Color(grayText3),
+                  color: currentTheme.isDarkMode
+                      ? const Color(colorblacklight)
+                      : const Color(grayText3),
                 ),
                 child: TextFormField(
                   controller: emailController,
@@ -157,7 +175,11 @@ class PrivacyScreen extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Escriba su contraseña actual',
-                    hintStyle: TextStyle(fontSize: 10, color: currentTheme.isDarkMode ? Color(whiteText) : Color(blackText)),
+                    hintStyle: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode
+                            ? Color(whiteText)
+                            : Color(blackText)),
                     label: Text('Contraseña actual'),
                     suffixIcon: Icon(
                       Icons.visibility,
@@ -174,7 +196,9 @@ class PrivacyScreen extends StatelessWidget {
                 height: 30,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: currentTheme.isDarkMode ? const Color(colorblacklight) : const Color(grayText3),
+                  color: currentTheme.isDarkMode
+                      ? const Color(colorblacklight)
+                      : const Color(grayText3),
                 ),
                 child: TextFormField(
                   controller: emailController,
@@ -192,9 +216,17 @@ class PrivacyScreen extends StatelessWidget {
                   },
                   decoration: InputDecoration(
                     hintText: 'Escriba su nueva contraseña',
-                    hintStyle: TextStyle(fontSize: 10, color: currentTheme.isDarkMode ? Color(whiteText) : Color(blackText)),
+                    hintStyle: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode
+                            ? Color(whiteText)
+                            : Color(blackText)),
                     labelText: 'Nueva contraseña',
-                    labelStyle: TextStyle(fontSize: 10, color: currentTheme.isDarkMode ? Color(whiteText) : Color(blackText)),
+                    labelStyle: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode
+                            ? Color(whiteText)
+                            : Color(blackText)),
                     suffixIcon: Icon(
                       Icons.visibility,
                       color: Color(primaryDark),
@@ -207,7 +239,8 @@ class PrivacyScreen extends StatelessWidget {
               //     child: Column(children: [
               Padding(
                 padding: const EdgeInsets.all(22.0),
-                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Container(
                     width: 46.48,
                     height: 34.87,
@@ -224,7 +257,13 @@ class PrivacyScreen extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
-                  Text("Administrador de permisos", style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
+                  Text("Administrador de permisos",
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                          fontWeight: FontWeight.bold)),
                 ]),
               ),
               Container(
@@ -247,7 +286,9 @@ class PrivacyScreen extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                   SizedBox(
@@ -278,7 +319,9 @@ class PrivacyScreen extends StatelessWidget {
                       "Permiso tu ubicacion actual mientras la app esta en uso",
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                         height: 1.5,
                       ),
                     ),
@@ -297,7 +340,9 @@ class PrivacyScreen extends StatelessWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                   SizedBox(
@@ -328,7 +373,9 @@ class PrivacyScreen extends StatelessWidget {
                       "Visualizar directamente tus fotos de tu galeria mientras la app esta en uso ",
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                         height: 1.5,
                       ),
                     ),

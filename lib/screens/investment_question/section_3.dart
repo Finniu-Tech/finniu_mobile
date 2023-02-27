@@ -2,20 +2,16 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Section3 extends StatefulWidget {
+class Section3 extends ConsumerWidget {
   PageController controller = PageController();
   Section3({super.key, required this.controller});
 
   @override
-  State<Section3> createState() => _Section3State();
-}
-
-class _Section3State extends State<Section3> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Column(
       children: [
         SizedBox(height: 40),
@@ -58,41 +54,39 @@ class _Section3State extends State<Section3> {
           height: 17,
         ),
         ButtonQuestions(
-            text: "Tener dinero para mis emergencias",
-            controller: widget.controller),
+            text: "Tener dinero para mis emergencias", controller: controller),
         const SizedBox(
           height: 11,
         ),
         ButtonQuestions(
             text: "Tener dinero para mis gastos de estudios",
-            controller: widget.controller),
+            controller: controller),
 
         const SizedBox(
           height: 11,
         ),
         ButtonQuestions(
             text: "Tener dinero para mis épocas sin trabajo",
-            controller: widget.controller),
+            controller: controller),
 
         const SizedBox(
           height: 15,
         ),
         ButtonQuestions(
             text: "Tener dinero guardado para mi futuro",
-            controller: widget.controller),
+            controller: controller),
 
         const SizedBox(
           height: 15,
         ),
         ButtonQuestions(
-            text: "Tener dinero guardado para viajar",
-            controller: widget.controller),
+            text: "Tener dinero guardado para viajar", controller: controller),
         const SizedBox(
           height: 15,
         ),
         ButtonQuestions(
             text: "Tener dinero para comprarme una casa",
-            controller: widget.controller),
+            controller: controller),
 
         // const CustomButton(
         //   text: 'Continuar',

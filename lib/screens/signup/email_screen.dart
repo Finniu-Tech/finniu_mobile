@@ -9,17 +9,15 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:provider/provider.dart';
 
-class SignUpEmailScreen extends HookWidget {
-  const SignUpEmailScreen({super.key});
-
+class SignUpEmailScreen extends HookConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // String _password = "";
     final isHidden = useState(true);
     final showError = useState(false);
@@ -28,7 +26,7 @@ class SignUpEmailScreen extends HookWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
 
-    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
+    final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
 
     final registerMutation = useMutation(
@@ -44,18 +42,21 @@ class SignUpEmailScreen extends HookWidget {
           if (data != null && data['registerUser']?['success'] == true) {
             print('if zero');
             User? user = ScanUserModel.fromJson(data).registerUser?.user;
-            UserProvider userProvider = Provider.of<UserProvider>(context, listen: false);
+            // UserProvider userProvider =
+            //     Provider.of<UserProvider>(context, listen: false);
+            // final userProvider = ref.read(userProvider.notifier);
             print('email response');
             print(user?.email);
             print('nickName response');
             print(user?.userProfile?.nickName);
-            userProvider.email = user?.email;
-            userProvider.firstName = user?.userProfile?.firstName;
-            userProvider.lastName = user?.userProfile?.lastName;
-            // userProvider.picture = user.picture;
-            userProvider.phone = int.parse(user?.userProfile?.phoneNumber ?? '0');
-            userProvider.nickName = user?.userProfile?.nickName;
-            print(user);
+            // userProvider.email = user?.email;
+            // userProvider.firstName = user?.userProfile?.firstName;
+            // userProvider.lastName = user?.userProfile?.lastName;
+            // // userProvider.picture = user.picture;
+            // userProvider.phone =
+            //     int.parse(user?.userProfile?.phoneNumber ?? '0');
+            // userProvider.nickName = user?.userProfile?.nickName;
+            // print(user);
 
             Navigator.of(context).pushNamed('/on_boarding_start');
           } else {
@@ -87,7 +88,9 @@ class SignUpEmailScreen extends HookWidget {
                   child: Image(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      themeProvider.isDarkMode ? "assets/images/logo_small_dark.png" : "assets/images/logo_small.png",
+                      themeProvider.isDarkMode
+                          ? "assets/images/logo_small_dark.png"
+                          : "assets/images/logo_small.png",
                     ),
                   ),
                 ),
@@ -102,7 +105,11 @@ class SignUpEmailScreen extends HookWidget {
                         alignment: Alignment.topLeft,
                         child: TextPoppins(
                           text: 'Crea tu cuenta en Finniu y guarda tus datos',
-                          colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
+                          colorText: Theme.of(context)
+                              .textTheme
+                              .titleLarge!
+                              .color!
+                              .value,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -191,7 +198,9 @@ class SignUpEmailScreen extends HookWidget {
                       // phoneController.text = value;
                     },
                     keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     decoration: const InputDecoration(
                       hintText: 'Escriba su número telefónico',
                       label: Text("Número telefónico"),
@@ -252,7 +261,9 @@ class SignUpEmailScreen extends HookWidget {
                       suffixIcon: IconButton(
                         splashRadius: 20,
                         icon: Icon(
-                          isHidden.value ? Icons.visibility : Icons.visibility_off,
+                          isHidden.value
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           size: 23.20,
                         ),
                         alignment: Alignment.center,
@@ -304,7 +315,9 @@ class SignUpEmailScreen extends HookWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
-                      foregroundColor: themeProvider.isDarkMode ? const Color(skyBlueText) : const Color(primaryDark),
+                      foregroundColor: themeProvider.isDarkMode
+                          ? const Color(skyBlueText)
+                          : const Color(primaryDark),
                     ),
                     child: const Text('Iniciar sesión'),
                     onPressed: () {

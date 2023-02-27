@@ -1,24 +1,17 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
-import 'package:finniu/screens/onboarding/section_2.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/step_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Section1 extends StatefulWidget {
+class Section1 extends ConsumerWidget {
   PageController controller = PageController();
   Section1({super.key, required this.controller});
 
   @override
-  State<Section1> createState() => _Section1State();
-}
-
-class _Section1State extends State<Section1> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Column(
       children: [
         const SizedBox(height: 80),
@@ -50,26 +43,26 @@ class _Section1State extends State<Section1> {
             ),
           ],
         ),
-        ButtonQuestions(text: "18-25 años", controller: widget.controller),
+        ButtonQuestions(text: "18-25 años", controller: controller),
         const SizedBox(
           height: 11,
         ),
-        ButtonQuestions(text: "25-35 años", controller: widget.controller),
+        ButtonQuestions(text: "25-35 años", controller: controller),
 
         const SizedBox(
           height: 11,
         ),
-        ButtonQuestions(text: "35-45 años", controller: widget.controller),
+        ButtonQuestions(text: "35-45 años", controller: controller),
 
         const SizedBox(
           height: 11,
         ),
-        ButtonQuestions(text: "45-50 años", controller: widget.controller),
+        ButtonQuestions(text: "45-50 años", controller: controller),
 
         const SizedBox(
           height: 11,
         ),
-        ButtonQuestions(text: "55-65 años", controller: widget.controller),
+        ButtonQuestions(text: "55-65 años", controller: controller),
 
         const SizedBox(
           height: 5,

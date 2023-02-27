@@ -4,11 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ExpandableCard extends HookWidget {
+class ExpandableCard extends HookConsumerWidget {
   final String image;
   final String textTiledCard;
   final String textPercentage;
@@ -26,8 +25,9 @@ class ExpandableCard extends HookWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     final isExpanded = useState(false);
     return Center(
       child: Column(
@@ -55,7 +55,7 @@ class ExpandableCard extends HookWidget {
   }
 }
 
-class CardCustom extends StatelessWidget {
+class CardCustom extends ConsumerWidget {
   const CardCustom({
     Key? key,
     required this.isExpanded,
@@ -76,8 +76,9 @@ class CardCustom extends StatelessWidget {
   final ValueNotifier<bool> isExpanded;
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return SizedBox(
         width: 320,
         // height: 62,
@@ -176,7 +177,8 @@ class CardCustom extends StatelessWidget {
                               // mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Icon(
-                                  Icons.monetization_on_outlined, // Icono que deseas utilizar
+                                  Icons
+                                      .monetization_on_outlined, // Icono que deseas utilizar
                                   size: 21.5, // Tamaño del icono
                                   color: Color(primaryDark), // Color del icono
                                 ),
@@ -206,7 +208,8 @@ class CardCustom extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                Icons.currency_exchange_rounded, // Icono que deseas utilizar
+                                Icons
+                                    .currency_exchange_rounded, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
@@ -233,7 +236,8 @@ class CardCustom extends StatelessWidget {
                           Row(
                             children: [
                               Icon(
-                                Icons.percent_sharp, // Icono que deseas utilizar
+                                Icons
+                                    .percent_sharp, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
@@ -262,7 +266,8 @@ class CardCustom extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.all(25.0), // aquí puedes configurar la cantidad de padding
+                    padding: EdgeInsets.all(
+                        25.0), // aquí puedes configurar la cantidad de padding
                     child: Center(
                       child: Text(
                         textContainer,
@@ -283,7 +288,7 @@ class CardCustom extends StatelessWidget {
   }
 }
 
-class InitialCardBody extends StatelessWidget {
+class InitialCardBody extends ConsumerWidget {
   const InitialCardBody({
     Key? key,
     required this.image,
@@ -295,8 +300,9 @@ class InitialCardBody extends StatelessWidget {
   final String textinvestment;
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return Container(
         width: 320,
@@ -304,10 +310,22 @@ class InitialCardBody extends StatelessWidget {
         decoration: BoxDecoration(
           // border: Border.all(color: Color(primaryDark), width: 2.0),
           border: Border(
-            top: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
-            left: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
-            right: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
-            bottom: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+            top: BorderSide(
+                color: Color(
+                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
+                width: 2.0),
+            left: BorderSide(
+                color: Color(
+                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
+                width: 2.0),
+            right: BorderSide(
+                color: Color(
+                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
+                width: 2.0),
+            bottom: BorderSide(
+                color: Color(
+                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
+                width: 2.0),
           ),
 
           borderRadius: BorderRadius.only(
@@ -344,7 +362,8 @@ class InitialCardBody extends StatelessWidget {
                   // height: 34,
                   padding: EdgeInsets.all(3),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Color(gradient_secondary), width: 2.0),
+                    border: Border.all(
+                        color: Color(gradient_secondary), width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     color: Color(gradient_secondary),
                   ),
@@ -374,7 +393,8 @@ class InitialCardBody extends StatelessWidget {
                 // height: 34,
                 padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Color(primaryLightAlternative), width: 2.0),
+                  border: Border.all(
+                      color: Color(primaryLightAlternative), width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   color: Color(primaryLightAlternative),
                 ),
@@ -412,7 +432,13 @@ class InitialCardBody extends StatelessWidget {
               color: Color(primaryDark),
             ),
             child: Center(
-              child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Comenzar a invertir", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/home_home'),
+              child: CustomButton(
+                  colorBackground:
+                      currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+                  text: "Comenzar a invertir",
+                  colorText:
+                      currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                  pushName: '/home_home'),
             ),
           )
         ]));
