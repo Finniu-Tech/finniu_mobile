@@ -53,6 +53,8 @@ dependencies:
   image_picker: ^0.8.6+2
   flutter_hooks: ^0.18.0
   hooks_riverpod: ^2.2.0
+  flutter_verification_code: ^1.1.6
+  circular_countdown_timer: ^0.2.3
 
 
   # artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
