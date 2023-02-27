@@ -4,6 +4,7 @@ import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter/material.dart';
 
@@ -120,7 +121,8 @@ class Confirmation_Phone extends ConsumerWidget {
           height: 50,
           child: TextButton(
             onPressed: () {
-              Navigator.of(context).pushNamed('/showModalBottomSheet');
+              // Navigator.of(context).pushNamed('/showModalBottomSheet');
+              BottomSheetExample();
             },
             child: Text('Enviar SMS'),
           ),
@@ -130,21 +132,21 @@ class Confirmation_Phone extends ConsumerWidget {
   }
 }
 
-void main() => runApp(const BottomSheetApp());
+// void main() => runApp(const BottomSheetApp());
 
-class BottomSheetApp extends StatelessWidget {
-  const BottomSheetApp({super.key});
+// class BottomSheetApp extends StatelessWidget {
+//   const BottomSheetApp({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Bottom Sheet Sample')),
-        body: const BottomSheetExample(),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(title: const Text('Bottom Sheet Sample')),
+//         body: const BottomSheetExample(),
+//       ),
+//     );
+//   }
+// }
 
 class BottomSheetExample extends StatelessWidget {
   const BottomSheetExample({super.key});
@@ -249,7 +251,30 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                       ),
                       "Te hemos enviado un SMS a tu numero para confirmar la operacion"),
                 ),
-                const SizedBox(height: 80),
+                const SizedBox(height: 10),
+                VerificationCode(
+                  onCompleted: (value) {
+                    Navigator.of(ctx).pushNamed('/on_boarding_start');
+                  },
+                  onEditing: (value) {},
+                  textStyle: Theme.of(ctx).textTheme.bodyText2!.copyWith(color: Theme.of(ctx).primaryColor),
+                  keyboardType: TextInputType.number,
+                  underlineColor: Color(0xff9381FF), // If this is null it will use primaryColor: Colors.red from Theme
+                  length: 4,
+                  fullBorder: true,
+                  cursorColor: Colors.blue, // If this is null it will default to the ambient
+                  // clearAll is NOT required, you can delete it
+                  // takes any widget, so you can implement your design
+                  // clearAll: Padding(
+                  //   padding: const EdgeInsets.all(8.0),
+                  //   child: Text(
+                  //     'clear all',
+                  //     style: TextStyle(fontSize: 14.0, decoration: TextDecoration.underline, color: Colors.blue[700]),
+                  //   ),
+                  // ),
+                ),
+
+                const SizedBox(height: 10),
 
                 SizedBox(
                   width: 280,
@@ -264,6 +289,7 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                       "Reenviar el codigo en"),
                 ),
                 SizedBox(height: 15),
+
                 CircularCountdown(),
               ],
             ),
