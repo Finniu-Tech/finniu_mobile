@@ -11,7 +11,6 @@ import 'package:finniu/screens/login/email_screen.dart';
 import 'package:finniu/screens/login/forgot_password.dart';
 import 'package:finniu/screens/login/invalid_email.dart';
 import 'package:finniu/screens/my_investment/my_investment_start.dart';
-import 'package:finniu/screens/my_investment/widgets/card.dart';
 import 'package:finniu/screens/privacy/privacy_screen.dart';
 import 'package:finniu/screens/profile/profile_screen.dart';
 import 'package:finniu/screens/signup/email_screen.dart';
@@ -23,7 +22,7 @@ import 'package:flutter/material.dart';
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
     '/': (BuildContext context) => IntroScreen(),
-    '/login_start': (BuildContext context) => const StartLoginScreen(),
+    '/login_start': (BuildContext context) => StartLoginScreen(),
     '/login_email': (BuildContext context) => EmailLoginScreen(),
     '/investment_select': (BuildContext context) => SelectRange(),
     '/sign_up_email': (BuildContext context) => SignUpEmailScreen(),

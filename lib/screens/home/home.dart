@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/home/widgets/cards.dart';
@@ -6,20 +7,36 @@ import 'package:finniu/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class HomeStart extends StatelessWidget {
+class HomeStart extends HookConsumerWidget {
   HomeStart({super.key});
   bool show = true;
 
   @override
-  Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+  Widget build(BuildContext context, ref) {
+    final profileData = useQuery(
+      QueryOptions(
+        document: gql(
+          QueryRepository.getUserProfile,
+        ), // this is the query string you just created
+        // variables: {
+        //   'nRepositories': 50,
+        // },
+        pollInterval: const Duration(seconds: 10),
+      ),
+    );
+    var userProfileData = profileData.result.data?['userProfile'];
+    print(userProfileData);
 
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+    // final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     if (currentTheme.showWelcomeModal) {
-      showWelcomeModal(context);
+      showWelcomeModal(context, ref);
     }
     return Scaffold(
       // extendBody: true,
@@ -35,7 +52,9 @@ class HomeStart extends StatelessWidget {
               child: Image(
                 fit: BoxFit.cover,
                 image: AssetImage(
-                  currentTheme.isDarkMode ? "assets/images/logo_finniu_home_dark.png" : "assets/images/logo_finniu_home.png",
+                  currentTheme.isDarkMode
+                      ? "assets/images/logo_finniu_home_dark.png"
+                      : "assets/images/logo_finniu_home.png",
                 ),
               ),
             ),
@@ -45,11 +64,14 @@ class HomeStart extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Hola, ${userProvider.nickName}!',
+                      // 'Hola, ${userProvider.nickName}!',
+                      'Hola mundo!',
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -68,7 +90,9 @@ class HomeStart extends StatelessWidget {
                       child: Container(
                         child: Icon(
                           CupertinoIcons.bell,
-                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -77,7 +101,7 @@ class HomeStart extends StatelessWidget {
                 const SizedBox(width: 30),
                 InkWell(
                   onTap: () {
-                    showSettingsDialog(context);
+                    showSettingsDialog(context, ref);
                   },
                   child: SizedBox(
                     width: 41,
@@ -98,7 +122,9 @@ class HomeStart extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
-                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                 ),
               ),
             ),
@@ -130,7 +156,9 @@ class HomeStart extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: MediaQuery.of(context).size.width * 0.9,
                   decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
+                    color: currentTheme.isDarkMode
+                        ? const Color(secondary)
+                        : const Color(primaryLight),
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(20),
                       topRight: Radius.circular(20),
@@ -157,7 +185,8 @@ class HomeStart extends StatelessWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
-                    padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2, top: 20),
+                    padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width * 0.2, top: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [

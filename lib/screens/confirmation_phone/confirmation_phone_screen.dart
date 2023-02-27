@@ -1,8 +1,9 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Confirmation_Phone extends StatelessWidget {
+class Confirmation_Phone extends ConsumerWidget {
   const Confirmation_Phone({super.key});
 
   get numerotelefonicoController => null;
@@ -10,7 +11,7 @@ class Confirmation_Phone extends StatelessWidget {
   get numerotelefonicoValidator => null;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return CustomScaffoldReturn(
         body: SingleChildScrollView(
             child: Column(

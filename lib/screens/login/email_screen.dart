@@ -13,31 +13,33 @@ import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:provider/provider.dart';
 import 'package:email_validator/email_validator.dart';
 
-class EmailLoginScreen extends HookWidget {
+class EmailLoginScreen extends HookConsumerWidget {
   EmailLoginScreen({super.key});
   String _email = "";
   String _password = "";
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isHidden = useState(true);
     final showError = useState(false);
-    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final formKey = GlobalKey<FormState>();
-    final profileData = useQuery(
-      QueryOptions(
-        document: gql(QueryRepository
-            .getUserProfile), // this is the query string you just created
-        // variables: {
-        //   'nRepositories': 50,
-        // },
-        pollInterval: const Duration(seconds: 10),
-      ),
-    );
+    // final profileData = useQuery(
+    //   QueryOptions(
+    //     document: gql(
+    //       QueryRepository.getUserProfile,
+    //     ), // this is the query string you just created
+    //     // variables: {
+    //     //   'nRepositories': 50,
+    //     // },
+    //     pollInterval: const Duration(seconds: 10),
+    //   ),
+    // );
     // getProfileData() {
     //   print('Querying ${QueryRepository.getUserProfile}');
     //   return useQuery(
@@ -60,17 +62,17 @@ class EmailLoginScreen extends HookWidget {
         onCompleted: (dynamic resultData) {
           if (resultData != null) {
             String? token = ScanAuthModel.fromJson(resultData).tokenAuth?.token;
+            print('token: $token');
             if (token != null) {
-              Provider.of<AuthTokenProvider>(context, listen: false).token =
-                  token;
-
               Preferences.token = token;
-
-              var userProfileData = profileData.result.data?['userProfile'];
-              print('userProfileData: $userProfileData');
-              if (userProfileData != null) {
-                UserProfile.fromJson(userProfileData);
-              }
+              ref.read(authTokenProvider.notifier).state = token;
+              print('token: ${ref.read(authTokenProvider)}');
+              // var userProfileData = profileData.result.data?['userProfile'];
+              // var userProfileData = profileData.result.data;
+              // print('userProfileData: $userProfileData');
+              // if (userProfileData != null) {
+              //   UserProfile.fromJson(userProfileData);
+              // }
 
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(

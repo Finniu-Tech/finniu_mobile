@@ -1,22 +1,17 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ResultInvestment extends StatefulWidget {
-  ResultInvestment({super.key});
+class ResultInvestment extends ConsumerWidget {
+  const ResultInvestment({super.key});
 
   @override
-  State<ResultInvestment> createState() => _ResultInvestmentState();
-}
-
-class _ResultInvestmentState extends State<ResultInvestment> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
       body: SingleChildScrollView(
         child: Container(
@@ -33,7 +28,11 @@ class _ResultInvestmentState extends State<ResultInvestment> {
                       width: 272,
                       height: 102,
                       padding: const EdgeInsets.only(
-                          left: 45, right: 15, top: 15, bottom: 15),
+                        left: 45,
+                        right: 15,
+                        top: 15,
+                        bottom: 15,
+                      ),
                       decoration: BoxDecoration(
                         color: currentTheme.isDarkMode
                             ? Colors.transparent
@@ -44,15 +43,16 @@ class _ResultInvestmentState extends State<ResultInvestment> {
                         ),
                       ),
                       child: Text(
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(blackText),
-                            fontWeight: FontWeight.w500,
-                          ),
-                          "Según la información que nos brindaste te recomendamos el"),
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                          fontWeight: FontWeight.w500,
+                        ),
+                        "Según la información que nos brindaste te recomendamos el",
+                      ),
                     ),
                   ),
                   Positioned(
@@ -82,9 +82,10 @@ class _ResultInvestmentState extends State<ResultInvestment> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                      height: 90,
-                      width: 90,
-                      child: Image.asset('assets/result/money.png')),
+                    height: 90,
+                    width: 90,
+                    child: Image.asset('assets/result/money.png'),
+                  ),
                   Container(
                     // padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: Text(
@@ -126,16 +127,17 @@ class _ResultInvestmentState extends State<ResultInvestment> {
                 height: 13,
               ),
               Container(
-                  width: 232.0,
-                  height: 1,
-                  decoration: const BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Color(gradient_primary_alternative),
-                        width: 2,
-                      ),
+                width: 232.0,
+                height: 1,
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Color(gradient_primary_alternative),
+                      width: 2,
                     ),
-                  )),
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 13,
               ),
@@ -149,63 +151,68 @@ class _ResultInvestmentState extends State<ResultInvestment> {
                   },
                   // textDirection: TextDirection.ltr,
                   children: [
-                    TableRow(children: [
-                      TableCell(
-                        // width: 24,
-                        // height: 24,
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: ColorFiltered(
+                    TableRow(
+                      children: [
+                        TableCell(
+                          // width: 24,
+                          // height: 24,
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: ColorFiltered(
                             colorFilter: ColorFilter.mode(
-                                currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
-                                BlendMode.srcIn),
+                              currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
+                              BlendMode.srcIn,
+                            ),
                             child: Image.asset(
                               'assets/investment/dollar-circle.png',
                               height: 24,
                               width: 24,
-                            )),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Text(
-                          'Monto mínimo ',
-                          // textAlign: TextAlign.left,
+                            ),
+                          ),
+                        ),
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Text(
+                            'Monto mínimo ',
+                            // textAlign: TextAlign.left,
 
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: currentTheme.isDarkMode
-                                ? const Color(0xffA2E6FA)
-                                : const Color(primaryDark),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(0xffA2E6FA)
+                                  : const Color(primaryDark),
+                            ),
                           ),
                         ),
-                      ),
-                      TableCell(
-                        verticalAlignment: TableCellVerticalAlignment.middle,
-                        child: Text(
-                          'S/500',
-                          // textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: currentTheme.isDarkMode
-                                ? const Color(0xffA2E6FA)
-                                : const Color(primaryDark),
+                        TableCell(
+                          verticalAlignment: TableCellVerticalAlignment.middle,
+                          child: Text(
+                            'S/500',
+                            // textAlign: TextAlign.left,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(0xffA2E6FA)
+                                  : const Color(primaryDark),
+                            ),
                           ),
                         ),
-                      ),
-                    ]),
+                      ],
+                    ),
                     TableRow(
                       children: [
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
                           child: ColorFiltered(
                             colorFilter: ColorFilter.mode(
-                                currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
-                                BlendMode.srcIn),
+                              currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
+                              BlendMode.srcIn,
+                            ),
                             child: Image.asset(
                               'assets/investment/bitcoin-convert.png',
                             ),
@@ -258,17 +265,19 @@ class _ResultInvestmentState extends State<ResultInvestment> {
                       color: Color(primaryLight),
                     ),
                     child: Center(
-                        child: CustomButton(
-                            colorBackground: currentTheme.isDarkMode
-                                ? (primaryDark)
-                                : (primaryLight),
-                            text: 'Cambiar',
-                            colorText: currentTheme.isDarkMode
-                                ? (whiteText)
-                                : (primaryDark),
-                            // colorBackground: primaryDark,
-                            // colorText: white_text,
-                            pushName: '/investment_start')),
+                      child: CustomButton(
+                        colorBackground: currentTheme.isDarkMode
+                            ? (primaryDark)
+                            : (primaryLight),
+                        text: 'Cambiar',
+                        colorText: currentTheme.isDarkMode
+                            ? (whiteText)
+                            : (primaryDark),
+                        // colorBackground: primaryDark,
+                        // colorText: white_text,
+                        pushName: '/investment_start',
+                      ),
+                    ),
                   ),
                   const SizedBox(
                     width: 7,
@@ -281,18 +290,20 @@ class _ResultInvestmentState extends State<ResultInvestment> {
                       color: Color(primaryDark),
                     ),
                     child: Center(
-                        child: CustomButton(
-                            colorBackground: currentTheme.isDarkMode
-                                ? (primaryLight)
-                                : (primaryDark),
-                            text: 'Gracias',
-                            // colorBackground: primaryDark,
-                            // colorText: white_text,
+                      child: CustomButton(
+                        colorBackground: currentTheme.isDarkMode
+                            ? (primaryLight)
+                            : (primaryDark),
+                        text: 'Gracias',
+                        // colorBackground: primaryDark,
+                        // colorText: white_text,
 
-                            colorText: currentTheme.isDarkMode
-                                ? (primaryDark)
-                                : (whiteText),
-                            pushName: '/home_home')),
+                        colorText: currentTheme.isDarkMode
+                            ? (primaryDark)
+                            : (whiteText),
+                        pushName: '/home_home',
+                      ),
+                    ),
                   ),
                 ],
               ),

@@ -3,19 +3,15 @@ import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class StartInvestment extends StatefulWidget {
+class StartInvestment extends ConsumerWidget {
   const StartInvestment({super.key});
 
   @override
-  State<StartInvestment> createState() => _StartInvestmentState();
-}
-
-class _StartInvestmentState extends State<StartInvestment> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturnLogo(
       body: SingleChildScrollView(

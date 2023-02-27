@@ -4,19 +4,15 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class InvalidEmail extends StatefulWidget {
+class InvalidEmail extends ConsumerWidget {
   const InvalidEmail({super.key});
 
   @override
-  State<InvalidEmail> createState() => _InvalidEmailState();
-}
-
-class _InvalidEmailState extends State<InvalidEmail> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturn(
         body: Center(

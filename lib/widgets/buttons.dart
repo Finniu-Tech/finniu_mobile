@@ -2,7 +2,7 @@ import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/investment_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomButton extends StatefulWidget {
   final int? colorBackground;
@@ -31,14 +31,22 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .backgroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .foregroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -59,7 +67,7 @@ class _CustomButtonState extends State<CustomButton> {
   }
 }
 
-class CustomReturnButton extends StatefulWidget {
+class CustomReturnButton extends ConsumerWidget {
   final int colorBoxdecoration;
   final int colorIcon;
   const CustomReturnButton({
@@ -68,13 +76,9 @@ class CustomReturnButton extends StatefulWidget {
     this.colorIcon = primaryLight,
   });
   @override
-  State<CustomReturnButton> createState() => _CustomReturnButtonState();
-}
-
-class _CustomReturnButtonState extends State<CustomReturnButton> {
-  @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         Navigator.pop(context);
@@ -103,7 +107,7 @@ class _CustomReturnButtonState extends State<CustomReturnButton> {
   }
 }
 
-class CustomButtonRoundedDark extends StatelessWidget {
+class CustomButtonRoundedDark extends ConsumerWidget {
   @override
   final String pushName;
 
@@ -112,8 +116,9 @@ class CustomButtonRoundedDark extends StatelessWidget {
     this.pushName = "",
   });
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
         if (pushName != "") {
@@ -158,7 +163,8 @@ class CusttomButtonRoundedLight extends StatefulWidget {
     this.pushName = "",
     this.isReturn = false,
   });
-  _CusttomButtonRoundedLightState createState() => _CusttomButtonRoundedLightState();
+  _CusttomButtonRoundedLightState createState() =>
+      _CusttomButtonRoundedLightState();
 }
 
 class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
@@ -181,19 +187,21 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
           color: const Color(primaryLight),
         ),
         child: const Center(
-          child: Icon(size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
+          child: Icon(
+              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
         ),
       ),
     );
   }
 }
 
-class BottomNavigationBarHome extends StatelessWidget {
+class BottomNavigationBarHome extends ConsumerWidget {
   const BottomNavigationBarHome({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -276,7 +284,8 @@ class ButtonQuestions extends StatelessWidget {
               MaterialPageRoute(builder: (context) => ResultInvestment()),
             );
           } else {}
-          controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
+          controller.nextPage(
+              duration: const Duration(milliseconds: 300), curve: Curves.ease);
         },
         style: TextButton.styleFrom(
           backgroundColor: const Color(primaryLightAlternative),

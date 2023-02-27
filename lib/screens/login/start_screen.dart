@@ -1,27 +1,26 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
-import 'package:finniu/screens/intro_screen.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:provider/provider.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class StartLoginScreen extends StatefulWidget {
-  const StartLoginScreen({super.key});
+class StartLoginScreen extends ConsumerStatefulWidget {
+  // const StartLoginScreen({super.key});
 
   @override
-  State<StartLoginScreen> createState() => _StartLoginScreenState();
+  _StartLoginScreenState createState() => _StartLoginScreenState();
 }
 
-class _StartLoginScreenState extends State<StartLoginScreen> {
+class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
+  _StartLoginScreenState();
   // final bool _isSwitchOn = false;
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldStart(
       body: Container(
