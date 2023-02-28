@@ -1,4 +1,6 @@
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
@@ -86,48 +88,101 @@ class TransfersScreen extends ConsumerWidget {
               SizedBox(
                 height: 5,
               ),
-              Container(
-                  alignment: Alignment.centerRight,
-                  width: 274.0,
-                  height: 74.0,
-                  decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary),
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        right: 18.0,
-                      ),
-                      child: Image(
-                        image: AssetImage(
-                          'assets/transfers/wallet_change.png',
-                        ),
-                        width: 24,
-                        height: 24,
-                      ),
-                    ),
-                    Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                      const Text(
-                        'Transferencia de Plan Origen',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        '29 de Mayo 2022',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ])
-                  ]))
+              TransferenceList(),
+              EmptyTransference(),
             ])));
+  }
+}
+
+class TransferenceList extends ConsumerWidget {
+  const TransferenceList({super.key});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+
+    return Container(
+        alignment: Alignment.centerRight,
+        width: 274.0,
+        height: 74.0,
+        decoration: BoxDecoration(
+          color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary),
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              right: 18.0,
+            ),
+            child: Image(
+              image: AssetImage(
+                'assets/transfers/wallet_change.png',
+              ),
+              width: 24,
+              height: 24,
+            ),
+          ),
+          Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+            const Text(
+              'Transferencia de Plan Origen',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              '29 de Mayo 2022',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+              ),
+            ),
+          ])
+        ]));
+  }
+}
+
+class EmptyTransference extends ConsumerWidget {
+  const EmptyTransference({super.key});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+
+    return Expanded(
+      child: Container(
+        width: double.infinity,
+        height: 274,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/transferences.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Aun no tienes transferencias realizadas',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            CustomButton(
+              text: 'Ver planes',
+              width: 108,
+              height: 32,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
