@@ -13,84 +13,86 @@ class TransfersScreen extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
-        body: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(children: [
-              Row(
+        body: SingleChildScrollView(
+      child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: Column(children: [
+            Row(
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Image.asset(
+                  'assets/transfers/credit.png',
+                  width: 90,
+                  height: 90,
+                ),
+                // SizedBox(width: 10),
+                Text(
+                  "Mis Transferencias",
+                  style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                  child: Column(
                 children: [
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Image.asset(
-                    'assets/transfers/credit.png',
-                    width: 90,
-                    height: 90,
-                  ),
-                  // SizedBox(width: 10),
-                  Text(
-                    "Mis Transferencias",
-                    style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
+                  Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        // width: 46.48,
+                        // height: 34.87,
+                        decoration: BoxDecoration(
+                          color: Color(primaryDark),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Image.asset(
+                          color: Color(cardBackgroundColorLight),
+                          'assets/transfers/wallet_change.png',
+                          width: 15,
+                          height: 15,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 7,
+                      ),
+                      Text('Mis últimas transferencias', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
+                    ],
                   ),
                 ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Container(
-                    child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(10),
-                          // width: 46.48,
-                          // height: 34.87,
-                          decoration: BoxDecoration(
-                            color: Color(primaryDark),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Image.asset(
-                            color: Color(cardBackgroundColorLight),
-                            'assets/transfers/wallet_change.png',
-                            width: 15,
-                            height: 15,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 7,
-                        ),
-                        Text('Mis últimas transferencias', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ],
-                )),
-              ),
-              Container(
-                width: 270,
-                height: 3,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Color(gradient_secondary_option),
-                      width: 2,
-                    ),
+              )),
+            ),
+            Container(
+              width: 270,
+              height: 3,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(gradient_secondary_option),
+                    width: 2,
                   ),
                 ),
               ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'Tus últimas transferencias de inversion realizadas en Finniu',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 12, height: 1.5, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
-                ),
+            ),
+            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                'Tus últimas transferencias de inversion realizadas en Finniu',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 12, height: 1.5, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
               ),
-              SizedBox(
-                height: 5,
-              ),
-              TransferenceList(),
-              EmptyTransference(),
-            ])));
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            TransferenceList(),
+            EmptyTransference(),
+          ])),
+    ));
   }
 }
 
@@ -153,35 +155,56 @@ class EmptyTransference extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
-    return Expanded(
-      child: Container(
-        width: double.infinity,
-        height: 274,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/transferences.png'),
-            fit: BoxFit.cover,
-          ),
+    return Container(
+      alignment: Alignment.bottomLeft,
+      // height: 270,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/transferences.png'),
+          fit: BoxFit.contain,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Aun no tienes transferencias realizadas',
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(height: 150),
+          Container(
+            width: 210,
+            child: Text(
+              'Aún no tienes transferencias realizadas',
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
-            CustomButton(
-              text: 'Ver planes',
-              width: 108,
-              height: 32,
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 210,
+          ),
+          Column(
+            children: [
+              Text(
+                'Te invitamos a conocer nuestros planes de inversion',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          CustomButton(
+            text: 'Ver planes',
+            width: 108,
+            height: 32,
+          ),
+        ],
       ),
     );
   }
