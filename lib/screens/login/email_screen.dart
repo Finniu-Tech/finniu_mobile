@@ -1,18 +1,12 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/graphql/mutations.dart';
-import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/models/auth.dart';
-import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
-import 'package:finniu/screens/home/home.dart';
-import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:email_validator/email_validator.dart';
@@ -189,34 +183,55 @@ class EmailLoginScreen extends HookConsumerWidget {
                         height: 50,
                         child: TextButton(
                           child: const Text('Ingresar'),
-                          onPressed: () {
+                          onPressed: () async {
                             // Navigator.pushNamed(context, '/home_home');
                             if (formKey.currentState!.validate()) {
                               context.loaderOverlay.show();
-                              final token = ref.watch(
-                                authTokenMutationProvider(
-                                  LoginModel(
-                                      email: _email, password: _password),
-                                ),
-                              );
-                              token.when(
-                                data: (token) {
-                                  print('data: $token');
+                              final token = ref.watch(authTokenMutationProvider(
+                                LoginModel(email: _email, password: _password),
+                              ).future);
+                              print('token futurexxxxx');
+                              print(token);
+                              token.then(
+                                (value) {
+                                  print('value token++++++++++++: $value');
                                   context.loaderOverlay.hide();
-                                  ref.read(authTokenProvider.notifier).state =
-                                      token!;
-                                  Navigator.pushNamed(context, '/home_home');
+                                  if (value != null) {
+                                    ref.read(authTokenProvider.notifier).state =
+                                        value;
+                                    Navigator.pushNamed(context, '/home_home');
+                                  } else {
+                                    showError.value = true;
+                                  }
+                                  // ref.read(authTokenProvider.notifier).state =
+                                  //     value;
+                                  // Navigator.pushNamed(context, '/home_home');
                                 },
-                                error: (err, stack) {
+                                onError: (err) {
                                   print('error: $err');
                                   context.loaderOverlay.hide();
                                   showError.value = true;
                                 },
-                                loading: () {
-                                  print('loading');
-                                  const CircularProgressIndicator();
-                                },
                               );
+
+                              // token.when(
+                              //   data: (token) {
+                              //     print('data!!!!!: $token');
+                              //     context.loaderOverlay.hide();
+                              //     // ref.watch(authTokenProvider.notifier).state =
+                              //     //     token!;
+                              //     Navigator.pushNamed(context, '/home_home');
+                              //   },
+                              //   error: (err, stack) {
+                              //     print('error: $err');
+                              //     context.loaderOverlay.hide();
+                              //     showError.value = true;
+                              //   },
+                              //   loading: () {
+                              //     print('loading');
+                              //     return const CircularProgressIndicator();
+                              //   },
+                              // );
                             }
                           },
                         ),

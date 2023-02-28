@@ -38,7 +38,7 @@ final authTokenMutationProvider =
   }
 
   print('gqlClient: $gqlClient');
-  final userData = await gqlClient?.mutate(
+  final userData = await gqlClient.mutate(
     MutationOptions(
       document: gql(
         MutationRepository.getAuthTokenMutation(),
@@ -52,9 +52,9 @@ final authTokenMutationProvider =
   print(
     'user data',
   );
-  print(userData);
+  print(userData.data?['tokenAuth']['token']);
 
-  return userData?.data?['tokenAuth']['token'];
+  return userData.data?['tokenAuth']['token'];
 });
 
 // final gqlClientProvider = Provider<ValueNotifier<GraphQLClient>>((ref) {

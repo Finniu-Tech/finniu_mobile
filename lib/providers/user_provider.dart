@@ -6,30 +6,33 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final userProvider = FutureProvider<UserProfile>((ref) async {
-  final result = await ref.watch(gqlClientProvider.future).whenComplete(() {
-    print('gqlClientProvider');
-  }).then((value) async {
-    print('value');
-    print(value);
-    final QueryResult result = await value.query(
-      QueryOptions(
-        document: gql(
-          QueryRepository.getUserProfile,
-        ), // this is the query string you just created
-        // variables: {
-        //   'nRepositories': 50,
-        // },
-        pollInterval: const Duration(seconds: 10),
-      ),
-    );
-    return result;
-  });
+  final result = await ref.watch(gqlClientProvider.future).then(
+    (client) async {
+      print('client graphl++++++++++++');
+      print(client);
+      final QueryResult result = await client.query(
+        QueryOptions(
+          document: gql(
+            QueryRepository.getUserProfile,
+          ), // this is the query string you just created
+          // variables: {
+          //   'nRepositories': 50,
+          // },
+          pollInterval: const Duration(seconds: 10),
+        ),
+      );
+      return result;
+    },
+  );
   print('results');
   print(result);
   if (result.hasException) {
     throw result.exception!;
   }
-  return UserProfile.fromJson(result.data?['userProfile']);
+  if (result.data?['userProfile'] != null) {
+    return UserProfile.fromJson(result.data?['userProfile']);
+  }
+  return UserProfile();
 });
 
 class UserProviderNotifier extends StateNotifier<UserProfile> {

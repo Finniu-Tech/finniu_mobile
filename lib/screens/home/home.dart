@@ -28,33 +28,8 @@ class HomeStart extends HookConsumerWidget {
       // extendBody: true,
       bottomNavigationBar: const BottomNavigationBarHome(),
       body: HookBuilder(builder: (context) {
-        final userAPI = ref.watch(userProvider);
-        print('userAPI');
-        print(userAPI);
-        // final profileData = useQuery(
-        //   QueryOptions(
-        //     document: gql(
-        //       QueryRepository.getUserProfile,
-        //     ), // this is the query string you just created
-        //     // variables: {
-        //     //   'nRepositories': 50,
-        //     // },
-        //     pollInterval: const Duration(seconds: 10),
-        //   ),
-        // );
-        // UserProfile userProfileData =
-        //     UserProfile.fromJson(profileData.result.data?['userProfile']);
-        // print('userProfileData');
-        // print(userProfileData);
-        // ref.read(userNotifierProvider).copyWith(
-        //       firstName: userProfileData.firstName,
-        //       lastName: userProfileData.lastName,
-        //       email: userProfileData.email,
-        //       nickName: userProfileData.nickName,
-        //       phoneNumber: userProfileData.phoneNumber,
-        //       hasCompletedOnboarding:
-        //           userProfileData.hasCompletedOnboarding ?? false,
-        //     );
+        // UserProfile user = UserProfile();
+        final AsyncValue<UserProfile> userProfile = ref.watch(userProvider);
 
         return Container(
           padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
@@ -67,7 +42,9 @@ class HomeStart extends HookConsumerWidget {
                 child: Image(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                    currentTheme.isDarkMode ? "assets/images/logo_finniu_home_dark.png" : "assets/images/logo_finniu_home.png",
+                    currentTheme.isDarkMode
+                        ? "assets/images/logo_finniu_home_dark.png"
+                        : "assets/images/logo_finniu_home.png",
                   ),
                 ),
               ),
@@ -77,8 +54,7 @@ class HomeStart extends HookConsumerWidget {
                     child: Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        // 'Hola',
-                        userAPI.when(data: (user) {
+                        userProfile.when(data: (user) {
                           print('data');
                           print(user);
                           return 'Hola, ${user.nickName}!';
@@ -93,7 +69,9 @@ class HomeStart extends HookConsumerWidget {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
-                          color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -112,7 +90,9 @@ class HomeStart extends HookConsumerWidget {
                         child: Container(
                           child: Icon(
                             CupertinoIcons.bell,
-                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
                           ),
                         ),
                       ),
@@ -142,7 +122,9 @@ class HomeStart extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -174,7 +156,9 @@ class HomeStart extends HookConsumerWidget {
                     height: MediaQuery.of(context).size.height * 0.2,
                     width: MediaQuery.of(context).size.width * 0.9,
                     decoration: BoxDecoration(
-                      color: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
+                      color: currentTheme.isDarkMode
+                          ? const Color(secondary)
+                          : const Color(primaryLight),
                       borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(20),
                         topRight: Radius.circular(20),
@@ -201,7 +185,9 @@ class HomeStart extends HookConsumerWidget {
                   Align(
                     alignment: Alignment.center,
                     child: Container(
-                      padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2, top: 20),
+                      padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width * 0.2,
+                          top: 20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
