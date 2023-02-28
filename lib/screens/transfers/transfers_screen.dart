@@ -27,12 +27,7 @@ class TransfersScreen extends ConsumerWidget {
                   // SizedBox(width: 10),
                   Text(
                     "Mis Transferencias",
-                    style: TextStyle(
-                        fontSize: 24,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -61,13 +56,7 @@ class TransfersScreen extends ConsumerWidget {
                         SizedBox(
                           width: 7,
                         ),
-                        Text('Mis últimas transferencias',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
-                                fontWeight: FontWeight.bold)),
+                        Text('Mis últimas transferencias', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
@@ -91,12 +80,7 @@ class TransfersScreen extends ConsumerWidget {
                 child: Text(
                   'Tus últimas transferencias de inversion realizadas en Finniu',
                   textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 12,
-                      height: 1.5,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText)),
+                  style: TextStyle(fontSize: 12, height: 1.5, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
                 ),
               ),
               SizedBox(
@@ -107,47 +91,43 @@ class TransfersScreen extends ConsumerWidget {
                   width: 274.0,
                   height: 74.0,
                   decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode
-                        ? const Color(gradient_primary)
-                        : const Color(gradient_secondary),
+                    color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10.0, left: 10),
-                          child: Image(
-                            image: AssetImage(
-                              'assets/transfers/wallet_change.png',
-                            ),
-                            width: 24,
-                            height: 24,
-                          ),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        right: 18.0,
+                      ),
+                      child: Image(
+                        image: AssetImage(
+                          'assets/transfers/wallet_change.png',
                         ),
-                        Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Transferencia de Plan Origen',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                ),
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                '29 de Mayo 2022',
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ])
-                      ]))
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+                      const Text(
+                        'Transferencia de Plan Origen',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Text(
+                        '29 de Mayo 2022',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.black,
+                        ),
+                      ),
+                    ])
+                  ]))
             ])));
   }
 }
