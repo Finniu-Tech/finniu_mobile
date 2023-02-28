@@ -29,52 +29,6 @@ class EmailLoginScreen extends HookConsumerWidget {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
 
-    final tokenMutation = useMutation(
-      MutationOptions(
-        document: gql(
-          MutationRepository.getAuthTokenMutation(),
-        ), // this is the mutation string you just created
-        onCompleted: (dynamic resultData) {
-          if (resultData != null) {
-            String? token = ScanAuthModel.fromJson(resultData).tokenAuth?.token;
-            print('token: $token');
-            if (token != null) {
-              // Preferences.token = token;
-              ref.read(authTokenProvider.notifier).state = token;
-              print('token: ${ref.read(authTokenProvider)}');
-              // var userProfileData = profileData.result.data?['userProfile'];
-              // var userProfileData = profileData.result.data;
-              // print('userProfileData: $userProfileData');
-              // if (userProfileData != null) {
-              //   UserProfile.fromJson(userProfileData);
-              // }
-              print('watch token: ${ref.watch(authTokenProvider)}');
-              if (ref.watch(authTokenProvider) != '') {
-                // ref.refresh(gqlClientProvider);
-                print('pase ifff');
-                Navigator.of(context).pushReplacement<void, void>(
-                  MaterialPageRoute<void>(
-                    builder: (BuildContext context) => HomeStart(),
-                  ),
-                );
-              }
-              ;
-            } else {
-              showError.value = true;
-              context.loaderOverlay.hide();
-            }
-          } else {
-            showError.value = true;
-            context.loaderOverlay.hide();
-          }
-        },
-        onError: (error) {
-          showError.value = true;
-          context.loaderOverlay.hide();
-        },
-      ),
-    );
-
     // final result = readRespositoriesResult.result;
 
     // if (result.hasException) {
@@ -239,9 +193,29 @@ class EmailLoginScreen extends HookConsumerWidget {
                             // Navigator.pushNamed(context, '/home_home');
                             if (formKey.currentState!.validate()) {
                               context.loaderOverlay.show();
-
-                              tokenMutation.runMutation(
-                                {'email': _email, 'password': _password},
+                              final token = ref.watch(
+                                authTokenMutationProvider(
+                                  LoginModel(
+                                      email: _email, password: _password),
+                                ),
+                              );
+                              token.when(
+                                data: (token) {
+                                  print('data: $token');
+                                  context.loaderOverlay.hide();
+                                  ref.read(authTokenProvider.notifier).state =
+                                      token!;
+                                  Navigator.pushNamed(context, '/home_home');
+                                },
+                                error: (err, stack) {
+                                  print('error: $err');
+                                  context.loaderOverlay.hide();
+                                  showError.value = true;
+                                },
+                                loading: () {
+                                  print('loading');
+                                  const CircularProgressIndicator();
+                                },
                               );
                             }
                           },

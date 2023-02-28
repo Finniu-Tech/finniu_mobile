@@ -1,58 +1,81 @@
+import 'package:finniu/graphql/mutations.dart';
+import 'package:finniu/models/auth.dart';
+import 'package:finniu/providers/graphql_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+// part 'main.freezed.dart';
+// part 'main.g.dart';
+
 // final Provider<String> authTokenProvider = StateProvider<String>((ref) {
 //   return '';
 // });
+final authTokenProvider = StateProvider<String>((ref) => '');
 
-final authTokenProvider = StateProvider<String>((ref) {
-  return '';
-});
+// final tokenMutationProvider = StateNotifierProvider<TokenMutationNotifier, AsyncValue<ScanAuthModel>>(
+//   (ref) => TokenMutationNotifier(ref.read),
+// );
 
-final gqlClientProvider = Provider<ValueNotifier<GraphQLClient>>((ref) {
-  // final String token = ref.watch(authTokenProvider);
+// @freezed
+// abstract class LoginFragment with _$LoginFragment {
+//   factory LoginFragment({
+//     required int userId,
+//     required Locale locale,
+//   }) = _LoginFragment;
+// }
 
+final authTokenMutationProvider =
+    FutureProvider.autoDispose.family<String?, LoginModel>((ref, login) async {
   // final HttpLink httpLink = HttpLink(
   //   'https://finniu.com/api/v1/graph/finniu/',
   // );
 
-  final HttpLink httpLink = HttpLink(
-    'https://finniu.com/api/v1/graph/finniu/',
-    // defaultHeaders: {'Authorization': token != '' ? 'JWT $token' : 'Bearer'}
-    // defaultHeaders: {if (token.isNotEmpty) 'JWT': token},
-  );
-  String token = ref.read(authTokenProvider);
-  final authLink = AuthLink(getToken: () async => 'JWT ${token}');
-  final link = authLink.concat(httpLink);
+  print('get token mutation');
+  final gqlClient = ref.watch(gqlClientProvider).value;
+  if (gqlClient == null) {
+    throw Exception('GraphQL client is null');
+  }
 
-  print('httpLink:');
-  // print(httpLink.defaultHeaders);
-  // final _webSocketLink = WebSocketLink('ws://10.0.2.2:4200/graphql');
-  // var link = Link.split(
-  //   (request) => request.isSubscription,
-  //   httpLink,
-  // );
-
-  // print('token is not empty: $token.isNotEmpty');
-
-  // final AuthLink authLink = AuthLink(
-  //   getToken: () async => token != '' ? 'JWT $token' : 'Bearer',
-  //   // OR
-  //   // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
-  // );
-
-  // final AuthLink authLink = AuthLink(getToken: )
-  // final Link link = authLink.concat(httpLink);
-  // print('link: $link.toString()');
-
-  return ValueNotifier(
-    GraphQLClient(
-      link: link,
-      cache: GraphQLCache(store: HiveStore()),
+  print('gqlClient: $gqlClient');
+  final userData = await gqlClient?.mutate(
+    MutationOptions(
+      document: gql(
+        MutationRepository.getAuthTokenMutation(),
+      ),
+      variables: {
+        'email': login.email,
+        'password': login.password,
+      },
     ),
   );
+  print(
+    'user data',
+  );
+  print(userData);
+
+  return userData?.data?['tokenAuth']['token'];
 });
+
+// final gqlClientProvider = Provider<ValueNotifier<GraphQLClient>>((ref) {
+
+//   final HttpLink httpLink = HttpLink(
+//     'https://finniu.com/api/v1/graph/finniu/',
+
+//   );
+//   String token =  ref.read(authTokenProvider);
+//   final authLink = AuthLink(getToken: () async => 'JWT ${token}');
+//   final link = authLink.concat(httpLink);
+
+//   print('httpLink:');
+
+//   return ValueNotifier(
+//     GraphQLClient(
+//       link: link,
+//       cache: GraphQLCache(store: HiveStore()),
+//     ),
+//   );
+// });
 
 class UserProvider extends ChangeNotifier {
   late String? _nickName;

@@ -1,21 +1,29 @@
 import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/auth_provider.dart';
+import 'package:finniu/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final userProvider = FutureProvider<UserProfile>((ref) async {
-  final result = useQuery(
-    QueryOptions(
-      document: gql(
-        QueryRepository.getUserProfile,
-      ), // this is the query string you just created
-      // variables: {
-      //   'nRepositories': 50,
-      // },
-      pollInterval: const Duration(seconds: 10),
-    ),
-  ).result;
+  final result = await ref.watch(gqlClientProvider.future).whenComplete(() {
+    print('gqlClientProvider');
+  }).then((value) async {
+    print('value');
+    print(value);
+    final QueryResult result = await value.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.getUserProfile,
+        ), // this is the query string you just created
+        // variables: {
+        //   'nRepositories': 50,
+        // },
+        pollInterval: const Duration(seconds: 10),
+      ),
+    );
+    return result;
+  });
   print('results');
   print(result);
   if (result.hasException) {

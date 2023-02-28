@@ -14,7 +14,7 @@ class GraphQLService {
     );
     print('pass http');
     final AuthLink authLink = AuthLink(
-      getToken: () async => token != null ? 'JWT $token' : 'Bearer',
+      getToken: () async => 'JWT $token',
       // OR
       // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
     );

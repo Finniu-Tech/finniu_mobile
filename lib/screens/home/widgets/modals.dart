@@ -269,8 +269,8 @@ void showSettingsDialog(BuildContext ctx, WidgetRef ref) {
                       icon: Icons.logout,
                       text: "Cerrar sesión",
                       onTap: () {
-                        ref.invalidate(authTokenProvider);
-                        ref.invalidate(gqlClientProvider);
+                        // ref.invalidate(authTokenProvider);
+                        // ref.invalidate(gqlClientProvider);
                         Navigator.of(ctx).pushNamedAndRemoveUntil(
                             '/login_start', (route) => false);
                       },
