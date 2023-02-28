@@ -121,7 +121,6 @@ class Confirmation_Phone extends ConsumerWidget {
           height: 50,
           child: TextButton(
             onPressed: () {
-              // Navigator.of(context).pushNamed('/showModalBottomSheet');
               BottomSheetExample();
             },
             child: Text('Enviar SMS'),
@@ -131,22 +130,6 @@ class Confirmation_Phone extends ConsumerWidget {
     )));
   }
 }
-
-// void main() => runApp(const BottomSheetApp());
-
-// class BottomSheetApp extends StatelessWidget {
-//   const BottomSheetApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       home: Scaffold(
-//         appBar: AppBar(title: const Text('Bottom Sheet Sample')),
-//         body: const BottomSheetExample(),
-//       ),
-//     );
-//   }
-// }
 
 class BottomSheetExample extends StatelessWidget {
   const BottomSheetExample({super.key});
@@ -186,7 +169,7 @@ class BottomSheetExample extends StatelessWidget {
 
 void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
-  // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
+
   Future.delayed(const Duration(seconds: 1), () async {
     showModalBottomSheet(
       clipBehavior: Clip.antiAlias,
@@ -200,8 +183,6 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
       context: ctx,
       builder: (ctx) => SizedBox(
         height: MediaQuery.of(ctx).size.height * 0.90,
-        // height:\
-        //     width: MediaQuery.of(context).size.width,
         child: Center(
             child: Padding(
           padding: const EdgeInsets.all(40),
@@ -216,7 +197,7 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
 
                   child: Container(
                       decoration: BoxDecoration(
-                    color: Color(primaryDark),
+                    color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     borderRadius: BorderRadius.circular(25),
                   )),
                 ),
@@ -235,9 +216,9 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         height: 1.5,
-                        color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                        color: themeProvider.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
                       ),
-                      "Ingresa el codigo de verificacion"),
+                      "Ingresa el código de verificación"),
                 ),
                 SizedBox(
                   width: 280,
@@ -249,7 +230,7 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                         height: 1.5,
                         color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                       ),
-                      "Te hemos enviado un SMS a tu numero para confirmar la operacion"),
+                      "Te hemos enviado un SMS a tu número para confirmar la operación"),
                 ),
                 const SizedBox(height: 10),
                 VerificationCode(
@@ -257,21 +238,13 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                     Navigator.of(ctx).pushNamed('/on_boarding_start');
                   },
                   onEditing: (value) {},
-                  textStyle: Theme.of(ctx).textTheme.bodyText2!.copyWith(color: Theme.of(ctx).primaryColor),
+                  textStyle: Theme.of(ctx).textTheme.bodyText2!.copyWith(color: Theme.of(ctx).primaryColorDark),
                   keyboardType: TextInputType.number,
-                  underlineColor: Color(0xff9381FF), // If this is null it will use primaryColor: Colors.red from Theme
+                  underlineColor: Color(primaryDark),
                   length: 4,
                   fullBorder: true,
-                  cursorColor: Colors.blue, // If this is null it will default to the ambient
-                  // clearAll is NOT required, you can delete it
-                  // takes any widget, so you can implement your design
-                  // clearAll: Padding(
-                  //   padding: const EdgeInsets.all(8.0),
-                  //   child: Text(
-                  //     'clear all',
-                  //     style: TextStyle(fontSize: 14.0, decoration: TextDecoration.underline, color: Colors.blue[700]),
-                  //   ),
-                  // ),
+                  cursorColor: Color(primaryDark),
+                  itemSize: 50,
                 ),
 
                 const SizedBox(height: 10),
@@ -286,7 +259,7 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                         height: 1.5,
                         color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                       ),
-                      "Reenviar el codigo en"),
+                      "Reenviar el código en"),
                 ),
                 SizedBox(height: 15),
 
@@ -305,25 +278,39 @@ class CircularCountdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.centerRight,
       width: 70.0,
       height: 70.0,
-      child: CircularCountDownTimer(
-        width: MediaQuery.of(context).size.width / 2,
-        height: MediaQuery.of(context).size.height / 2,
-        duration: 60,
-        ringColor: Colors.grey[300]!,
-        fillColor: Color(primaryDark),
-        backgroundColor: Color(cardBackgroundColorLight),
-        strokeWidth: 6.0,
-        textStyle: TextStyle(
-          fontSize: 25.0,
-          color: Color(primaryDark),
-          fontWeight: FontWeight.bold,
-        ),
-        textFormat: CountdownTextFormat.S,
-        onComplete: () {
-          debugPrint('Countdown Ended');
-        },
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: [
+          CircularCountDownTimer(
+            width: MediaQuery.of(context).size.width / 2,
+            height: MediaQuery.of(context).size.height / 2,
+            duration: 60,
+            ringColor: Colors.grey[300]!,
+            fillColor: Color(primaryDark),
+            backgroundColor: Color(cardBackgroundColorLight),
+            strokeWidth: 6.0,
+            textStyle: TextStyle(
+              fontSize: 10.0,
+              color: Color(primaryDark),
+              fontWeight: FontWeight.bold,
+            ),
+            textFormat: CountdownTextFormat.S,
+            onComplete: () {
+              debugPrint('Countdown Ended');
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.all(9.0),
+            child: Icon(
+              Icons.alarm,
+              size: 18.0,
+              color: Color(primaryDark),
+            ),
+          ),
+        ],
       ),
     );
   }
