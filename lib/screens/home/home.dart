@@ -1,7 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/models/user.dart';
-import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/home/widgets/cards.dart';
 import 'package:finniu/screens/home/widgets/modals.dart';
@@ -9,7 +7,6 @@ import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:finniu/providers/user_provider.dart';
 
@@ -55,15 +52,10 @@ class HomeStart extends HookConsumerWidget {
                       alignment: Alignment.centerLeft,
                       child: Text(
                         userProfile.when(data: (user) {
-                          print('data');
-                          print(user);
                           return 'Hola, ${user.nickName}!';
                         }, error: (error, stackTrace) {
-                          print('error');
-                          print(error);
                           return 'Hola!';
                         }, loading: () {
-                          print('loading');
                           return 'Hola!';
                         }),
                         style: TextStyle(
@@ -151,10 +143,12 @@ class HomeStart extends HookConsumerWidget {
               ),
               const SizedBox(height: 5),
               Stack(
+                alignment: Alignment.center,
                 children: <Widget>[
                   Container(
+                    alignment: Alignment.center,
                     height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.width * 0.9,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: currentTheme.isDarkMode
                           ? const Color(secondary)

@@ -1,6 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +84,17 @@ void showSettingsDialog(BuildContext ctx, WidgetRef ref) {
                               width: 10,
                             ),
                             Text(
-                              "Mari",
+                              ref.watch(userProvider).when(
+                                data: (user) {
+                                  return user.nickName ?? '';
+                                },
+                                error: (error, stackTrace) {
+                                  return '';
+                                },
+                                loading: () {
+                                  return 'Loading';
+                                },
+                              ),
                               style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16,
@@ -370,16 +381,27 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                   SizedBox(
                     width: 230,
                     child: Text(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5,
-                          color: themeProvider.isDarkMode
-                              ? Colors.white
-                              : const Color(primaryDark),
-                        ),
-                        "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        height: 1.5,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : const Color(primaryDark),
+                      ),
+                      ref.watch(userProvider).when(
+                        data: (user) {
+                          return "Hola ${user.nickName},recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito.";
+                        },
+                        error: (error, stackTrace) {
+                          return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
+                        },
+                        loading: () {
+                          return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
+                        },
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Row(
