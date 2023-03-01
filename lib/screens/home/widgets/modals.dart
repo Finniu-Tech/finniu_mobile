@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showSettingsDialog(BuildContext ctx, WidgetRef ref) {
+void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -345,7 +345,7 @@ class ItemSetting extends ConsumerWidget {
   }
 }
 
-void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
+void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   Future.delayed(

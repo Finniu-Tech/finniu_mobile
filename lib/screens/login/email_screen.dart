@@ -23,16 +23,6 @@ class EmailLoginScreen extends HookConsumerWidget {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
 
-    // final result = readRespositoriesResult.result;
-
-    // if (result.hasException) {
-    //     return Text(result.exception.toString());
-    // }
-
-    // if (result.isLoading) {
-    //   return const Text('Loading');
-    // }
-
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
         body: SingleChildScrollView(
@@ -184,17 +174,13 @@ class EmailLoginScreen extends HookConsumerWidget {
                         child: TextButton(
                           child: const Text('Ingresar'),
                           onPressed: () async {
-                            // Navigator.pushNamed(context, '/home_home');
                             if (formKey.currentState!.validate()) {
                               context.loaderOverlay.show();
                               final token = ref.watch(authTokenMutationProvider(
                                 LoginModel(email: _email, password: _password),
                               ).future);
-                              print('token futurexxxxx');
-                              print(token);
                               token.then(
                                 (value) {
-                                  print('value token++++++++++++: $value');
                                   context.loaderOverlay.hide();
                                   if (value != null) {
                                     ref.read(authTokenProvider.notifier).state =
@@ -203,35 +189,12 @@ class EmailLoginScreen extends HookConsumerWidget {
                                   } else {
                                     showError.value = true;
                                   }
-                                  // ref.read(authTokenProvider.notifier).state =
-                                  //     value;
-                                  // Navigator.pushNamed(context, '/home_home');
                                 },
                                 onError: (err) {
-                                  print('error: $err');
                                   context.loaderOverlay.hide();
                                   showError.value = true;
                                 },
                               );
-
-                              // token.when(
-                              //   data: (token) {
-                              //     print('data!!!!!: $token');
-                              //     context.loaderOverlay.hide();
-                              //     // ref.watch(authTokenProvider.notifier).state =
-                              //     //     token!;
-                              //     Navigator.pushNamed(context, '/home_home');
-                              //   },
-                              //   error: (err, stack) {
-                              //     print('error: $err');
-                              //     context.loaderOverlay.hide();
-                              //     showError.value = true;
-                              //   },
-                              //   loading: () {
-                              //     print('loading');
-                              //     return const CircularProgressIndicator();
-                              //   },
-                              // );
                             }
                           },
                         ),

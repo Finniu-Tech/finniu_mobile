@@ -65,7 +65,7 @@ class InvestmentStart extends HookConsumerWidget {
                     alignment: Alignment.topRight,
                     child: InkWell(
                         onTap: () {
-                          showSettingsDialog(context, ref);
+                          settingsDialog(context, ref);
                         },
                         child: Image.asset('assets/home/avatar.png')),
                   ),

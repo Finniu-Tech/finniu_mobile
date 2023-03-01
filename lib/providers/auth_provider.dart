@@ -5,39 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// part 'main.freezed.dart';
-// part 'main.g.dart';
-
-// final Provider<String> authTokenProvider = StateProvider<String>((ref) {
-//   return '';
-// });
 final authTokenProvider = StateProvider<String>((ref) => '');
-
-// final tokenMutationProvider = StateNotifierProvider<TokenMutationNotifier, AsyncValue<ScanAuthModel>>(
-//   (ref) => TokenMutationNotifier(ref.read),
-// );
-
-// @freezed
-// abstract class LoginFragment with _$LoginFragment {
-//   factory LoginFragment({
-//     required int userId,
-//     required Locale locale,
-//   }) = _LoginFragment;
-// }
 
 final authTokenMutationProvider =
     FutureProvider.autoDispose.family<String?, LoginModel>((ref, login) async {
-  // final HttpLink httpLink = HttpLink(
-  //   'https://finniu.com/api/v1/graph/finniu/',
-  // );
-
-  print('get token mutation');
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     throw Exception('GraphQL client is null');
   }
 
-  print('gqlClient: $gqlClient');
   final userData = await gqlClient.mutate(
     MutationOptions(
       document: gql(
@@ -49,33 +25,9 @@ final authTokenMutationProvider =
       },
     ),
   );
-  print(
-    'user data',
-  );
-  print(userData.data?['tokenAuth']['token']);
 
   return userData.data?['tokenAuth']['token'];
 });
-
-// final gqlClientProvider = Provider<ValueNotifier<GraphQLClient>>((ref) {
-
-//   final HttpLink httpLink = HttpLink(
-//     'https://finniu.com/api/v1/graph/finniu/',
-
-//   );
-//   String token =  ref.read(authTokenProvider);
-//   final authLink = AuthLink(getToken: () async => 'JWT ${token}');
-//   final link = authLink.concat(httpLink);
-
-//   print('httpLink:');
-
-//   return ValueNotifier(
-//     GraphQLClient(
-//       link: link,
-//       cache: GraphQLCache(store: HiveStore()),
-//     ),
-//   );
-// });
 
 class UserProvider extends ChangeNotifier {
   late String? _nickName;

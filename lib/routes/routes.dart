@@ -31,7 +31,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
     '/investment_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => ResultInvestment(),
-    '/home_home': (BuildContext context) => HomeStart(),
+    '/home_home': (BuildContext context) => HomeScreen(),
     '/home_notification': (BuildContext context) => NotificationScreen(),
     '/profile': (BuildContext context) => ProfileScreen(),
     '/my_investment': (BuildContext context) => InvestmentStart(),
