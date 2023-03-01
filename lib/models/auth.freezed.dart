@@ -151,3 +151,182 @@ abstract class _LoginModel extends LoginModel {
   _$$_LoginModelCopyWith<_$_LoginModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+/// @nodoc
+mixin _$RegisterUserModel {
+  String get nickname => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  int get phone => throw _privateConstructorUsedError;
+  String get password => throw _privateConstructorUsedError;
+
+  @JsonKey(ignore: true)
+  $RegisterUserModelCopyWith<RegisterUserModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RegisterUserModelCopyWith<$Res> {
+  factory $RegisterUserModelCopyWith(
+          RegisterUserModel value, $Res Function(RegisterUserModel) then) =
+      _$RegisterUserModelCopyWithImpl<$Res, RegisterUserModel>;
+  @useResult
+  $Res call({String nickname, String email, int phone, String password});
+}
+
+/// @nodoc
+class _$RegisterUserModelCopyWithImpl<$Res, $Val extends RegisterUserModel>
+    implements $RegisterUserModelCopyWith<$Res> {
+  _$RegisterUserModelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? nickname = null,
+    Object? email = null,
+    Object? phone = null,
+    Object? password = null,
+  }) {
+    return _then(_value.copyWith(
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as int,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_RegisterUserModelCopyWith<$Res>
+    implements $RegisterUserModelCopyWith<$Res> {
+  factory _$$_RegisterUserModelCopyWith(_$_RegisterUserModel value,
+          $Res Function(_$_RegisterUserModel) then) =
+      __$$_RegisterUserModelCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String nickname, String email, int phone, String password});
+}
+
+/// @nodoc
+class __$$_RegisterUserModelCopyWithImpl<$Res>
+    extends _$RegisterUserModelCopyWithImpl<$Res, _$_RegisterUserModel>
+    implements _$$_RegisterUserModelCopyWith<$Res> {
+  __$$_RegisterUserModelCopyWithImpl(
+      _$_RegisterUserModel _value, $Res Function(_$_RegisterUserModel) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? nickname = null,
+    Object? email = null,
+    Object? phone = null,
+    Object? password = null,
+  }) {
+    return _then(_$_RegisterUserModel(
+      nickname: null == nickname
+          ? _value.nickname
+          : nickname // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as int,
+      password: null == password
+          ? _value.password
+          : password // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_RegisterUserModel extends _RegisterUserModel {
+  const _$_RegisterUserModel(
+      {required this.nickname,
+      required this.email,
+      required this.phone,
+      required this.password})
+      : super._();
+
+  @override
+  final String nickname;
+  @override
+  final String email;
+  @override
+  final int phone;
+  @override
+  final String password;
+
+  @override
+  String toString() {
+    return 'RegisterUserModel(nickname: $nickname, email: $email, phone: $phone, password: $password)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RegisterUserModel &&
+            (identical(other.nickname, nickname) ||
+                other.nickname == nickname) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.password, password) ||
+                other.password == password));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, nickname, email, phone, password);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RegisterUserModelCopyWith<_$_RegisterUserModel> get copyWith =>
+      __$$_RegisterUserModelCopyWithImpl<_$_RegisterUserModel>(
+          this, _$identity);
+}
+
+abstract class _RegisterUserModel extends RegisterUserModel {
+  const factory _RegisterUserModel(
+      {required final String nickname,
+      required final String email,
+      required final int phone,
+      required final String password}) = _$_RegisterUserModel;
+  const _RegisterUserModel._() : super._();
+
+  @override
+  String get nickname;
+  @override
+  String get email;
+  @override
+  int get phone;
+  @override
+  String get password;
+  @override
+  @JsonKey(ignore: true)
+  _$$_RegisterUserModelCopyWith<_$_RegisterUserModel> get copyWith =>
+      throw _privateConstructorUsedError;
+}

@@ -23,16 +23,31 @@ class HomeScreen extends HookConsumerWidget {
       bottomNavigationBar: const BottomNavigationBarHome(),
       body: HookBuilder(
         builder: (context) {
-          final AsyncValue<UserProfile> userProfile = ref.watch(userProvider);
-          userProfile.when(
-            data: (user) {
-              if (showCompleteProfileModal(user)) {
-                completeProfileDialog(context, ref);
-              }
-            },
-            error: (error, stackTrace) {},
-            loading: () {},
-          );
+          ref.watch(userProfileFutureProvider.future);
+          // userProfile.then((user) {
+          //   ref.read(userProfileNotifierProvider.notifier).updateFields(
+          //         nickName: user.nickName,
+          //         email: user.email,
+          //         phoneNumber: user.phoneNumber,
+          //       );
+          //   if (showCompleteProfileModal(user)) {
+          //     completeProfileDialog(context, ref);
+          //   }
+          // });
+          // userProfile.when(
+          //   data: (user) {
+          //     ref.read(userProfileNotifierProvider.notifier).updateFields(
+          //           nickName: user.nickName,
+          //           email: user.email,
+          //           phoneNumber: user.phoneNumber,
+          //         );
+          //     if (showCompleteProfileModal(user)) {
+          //       completeProfileDialog(context, ref);
+          //     }
+          //   },
+          //   error: (error, stackTrace) {},
+          //   loading: () {},
+          // );
 
           return Container(
             padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
@@ -57,13 +72,14 @@ class HomeScreen extends HookConsumerWidget {
                       child: Container(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          userProfile.when(data: (user) {
-                            return 'Hola, ${user.nickName}!';
-                          }, error: (error, stackTrace) {
-                            return 'Hola!';
-                          }, loading: () {
-                            return 'Hola!';
-                          }),
+                          "Hola ${ref.watch(userProfileNotifierProvider).nickName ?? ''}!",
+                          // userProfile.when(data: (user) {
+                          //   return 'Hola, ${user.nickName}!';
+                          // }, error: (error, stackTrace) {
+                          //   return 'Hola!';
+                          // }, loading: () {
+                          //   return 'Hola!';
+                          // }),
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,

@@ -92,6 +92,7 @@ class UserProfile {
     this.typeDocument,
     this.phoneNumber,
     this.uuid,
+    this.password,
   });
 
   String? firstName;
@@ -111,6 +112,7 @@ class UserProfile {
   String? typeDocument;
   String? uuid;
   String? phoneNumber;
+  String? password;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -150,6 +152,7 @@ class UserProfile {
         "typeDocument": typeDocument,
         "uuid": uuid,
         "phoneNumber": phoneNumber,
+        "password": password
       };
 
   UserProfile copyWith({
@@ -162,6 +165,7 @@ class UserProfile {
     dynamic distrito,
     bool hasCompletedOnboarding = false,
     String? phoneNumber,
+    String? password,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -173,6 +177,7 @@ class UserProfile {
       distrito: distrito ?? this.distrito,
       hasCompletedOnboarding: hasCompletedOnboarding,
       phoneNumber: phoneNumber ?? this.phoneNumber,
+      password: password ?? this.password,
     );
   }
 }

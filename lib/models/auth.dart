@@ -88,3 +88,14 @@ class LoginModel with _$LoginModel {
   }) = _LoginModel;
   const LoginModel._();
 }
+
+@freezed
+class RegisterUserModel with _$RegisterUserModel {
+  const factory RegisterUserModel({
+    required String nickname,
+    required String email,
+    required int phone,
+    required String password,
+  }) = _RegisterUserModel;
+  const RegisterUserModel._();
+}

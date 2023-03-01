@@ -84,17 +84,19 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                               width: 10,
                             ),
                             Text(
-                              ref.watch(userProvider).when(
-                                data: (user) {
-                                  return user.nickName ?? '';
-                                },
-                                error: (error, stackTrace) {
-                                  return '';
-                                },
-                                loading: () {
-                                  return 'Loading';
-                                },
-                              ),
+                              ref.watch(userProfileNotifierProvider).nickName ??
+                                  '',
+                              // ref.watch(userProfileFutureProvider).when(
+                              //   data: (user) {
+                              //     return user.nickName ?? '';
+                              //   },
+                              //   error: (error, stackTrace) {
+                              //     return '';
+                              //   },
+                              //   loading: () {
+                              //     return 'Loading';
+                              //   },
+                              // ),
                               style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16,
@@ -390,17 +392,18 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                             ? Colors.white
                             : const Color(primaryDark),
                       ),
-                      ref.watch(userProvider).when(
-                        data: (user) {
-                          return "Hola ${user.nickName},recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito.";
-                        },
-                        error: (error, stackTrace) {
-                          return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
-                        },
-                        loading: () {
-                          return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
-                        },
-                      ),
+                      "${ref.watch(userProfileNotifierProvider).nickName ?? ''}",
+                      // ref.watch(userProfileFutureProvider).when(
+                      //   data: (user) {
+                      //     return "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito.";
+                      //   },
+                      //   error: (error, stackTrace) {
+                      //     return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
+                      //   },
+                      //   loading: () {
+                      //     return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
+                      //   },
+                      // ),
                     ),
                   ),
                   const SizedBox(height: 20),

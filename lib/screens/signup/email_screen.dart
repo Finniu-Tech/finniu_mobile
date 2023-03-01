@@ -1,9 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/graphql/mutations.dart';
-import 'package:finniu/models/user.dart';
-import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/providers/user_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -11,14 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class SignUpEmailScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // String _password = "";
     final isHidden = useState(true);
     final showError = useState(false);
     final nickNameController = useTextEditingController();
@@ -28,51 +24,6 @@ class SignUpEmailScreen extends HookConsumerWidget {
 
     final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
-
-    final registerMutation = useMutation(
-      MutationOptions(
-        document: gql(
-          MutationRepository.getSignUpMutation(),
-        ),
-        onCompleted: (dynamic data) {
-          print('completedd!!!');
-          print(data);
-          print('success');
-          print(data['registerUser']?['success']);
-          if (data != null && data['registerUser']?['success'] == true) {
-            print('if zero');
-            User? user = ScanUserModel.fromJson(data).registerUser?.user;
-            // UserProvider userProvider =
-            //     Provider.of<UserProvider>(context, listen: false);
-            // final userProvider = ref.read(userProvider.notifier);
-            print('email response');
-            print(user?.email);
-            print('nickName response');
-            print(user?.userProfile?.nickName);
-            // userProvider.email = user?.email;
-            // userProvider.firstName = user?.userProfile?.firstName;
-            // userProvider.lastName = user?.userProfile?.lastName;
-            // // userProvider.picture = user.picture;
-            // userProvider.phone =
-            //     int.parse(user?.userProfile?.phoneNumber ?? '0');
-            // userProvider.nickName = user?.userProfile?.nickName;
-            // print(user);
-
-            Navigator.of(context).pushNamed('/on_boarding_start');
-          } else {
-            print('else zero');
-            showError.value = true;
-            context.loaderOverlay.hide();
-          }
-        },
-        onError: (dynamic error) {
-          print('errorrrr!!!');
-          print(error);
-          showError.value = true;
-          context.loaderOverlay.hide();
-        },
-      ),
-    );
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
@@ -292,8 +243,56 @@ class SignUpEmailScreen extends HookConsumerWidget {
                   width: 224,
                   height: 50,
                   child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/confirmation');
+                    onPressed: () async {
+                      // Navigator.of(context).pushNamed('/confirmation');
+                      if (formKey.currentState!.validate()) {
+                        context.loaderOverlay.show();
+                        print('email controller');
+                        print(emailController.text);
+                        // final registerInputs = RegisterUserModel(
+                        //   nickname: nickNameController.text,
+                        //   email: emailController.text,
+                        //   password: passwordController.text,
+                        //   phone: int.parse(phoneController.text),
+                        // );
+
+                        // final response = ref.watch(
+                        //   registerMutationProvider(registerInputs).future,
+                        // );
+                        // response.then(
+                        //   (value) {
+                        //     context.loaderOverlay.hide();
+                        //     if (value == true) {
+                        //       Navigator.of(context).pushNamed('/confirmation');
+                        //     } else {
+                        //       // context.loaderOverlay.hide();
+                        //       showError.value = true;
+                        //     }
+                        //   },
+                        // );
+                        // final registerService = RegisterUserUseCase(
+                        //     nickNameController.text,
+                        //     passwordController.text,
+                        //     passwordController.text,
+                        //     phoneController.text);
+
+                        ref
+                            .read(userProfileNotifierProvider.notifier)
+                            .updateFields(
+                              nickName: nickNameController.text,
+                              password: passwordController.text,
+                              email: emailController.text,
+                              phoneNumber: phoneController.text,
+                            );
+
+                        // ref.read(registerUserProvider.notifier).registerUser(
+                        //       nickNameController.text,
+                        //       passwordController.text,
+                        //       passwordController.text,
+                        //       phoneController.text,
+                        //     );
+                        Navigator.of(context).pushNamed('/confirmation');
+                      }
                     },
                     child: Text('Crear registro'),
                   ),
