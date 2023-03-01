@@ -3,6 +3,7 @@ import 'package:finniu/screens/help/help_screen.dart';
 import 'package:finniu/screens/home/home.dart';
 import 'package:finniu/screens/home/notification.dart';
 import 'package:finniu/screens/intro_screen.dart';
+import 'package:finniu/screens/investment_confirmation/investment_confirmation_screen.dart';
 import 'package:finniu/screens/investment_question/result.dart';
 import 'package:finniu/screens/investment_question/question.dart';
 import 'package:finniu/screens/investment_question/start_invesment.dart';
@@ -41,5 +42,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/help': (BuildContext context) => HelpScreen(),
     '/help': (BuildContext context) => HelpScreen(),
     '/confirmation': (BuildContext context) => Confirmation_Phone(),
+    '/investment': (BuildContext context) => Confirmation_Investment(),
   };
 }
