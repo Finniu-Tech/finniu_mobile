@@ -15,7 +15,8 @@ class Confirmation_Investment extends StatelessWidget {
     return CustomScaffoldReturnLogo(
         body: SingleChildScrollView(
             child: Column(children: <Widget>[
-      const SizedBox(height: 90),
+      StepBar(),
+      const SizedBox(height: 40),
       Stack(
         children: <Widget>[
           Container(
@@ -326,103 +327,104 @@ class Confirmation_Investment extends StatelessWidget {
   }
 }
 
-class StepperDemo extends StatefulWidget {
+class StepBar extends StatefulWidget {
+  const StepBar({Key? key}) : super(key: key);
+
   @override
-  _StepperDemoState createState() => _StepperDemoState();
+  _StepBarState createState() => _StepBarState();
 }
 
-class _StepperDemoState extends State<StepperDemo> {
-  int _currentStep = 0;
-  StepperType stepperType = StepperType.vertical;
+class _StepBarState extends State<StepBar> {
+  final double squareSize = 50.0;
+  final Color activeColor = Colors.blue;
+  final Color inactiveColor = Colors.grey;
+
+  List<Container> squares = [
+    Container(
+      height: 35,
+      width: 43,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Color(primaryDark),
+          width: 2,
+        ),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
+          bottomLeft: Radius.circular(4),
+          bottomRight: Radius.circular(4),
+        ),
+      ),
+      child: Icon(Icons.money_off_rounded),
+    ),
+    Container(
+      height: 35,
+      width: 43,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Color(primaryDark),
+          width: 2,
+        ),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
+          bottomLeft: Radius.circular(4),
+          bottomRight: Radius.circular(4),
+        ),
+      ),
+      child: Icon(Icons.article_sharp),
+    ),
+    Container(
+      height: 35,
+      width: 43,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Color(primaryDark),
+          width: 2,
+        ),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
+          bottomLeft: Radius.circular(4),
+          bottomRight: Radius.circular(4),
+        ),
+      ),
+      child: Icon(Icons.aspect_ratio_sharp),
+    ),
+    Container(
+      height: 35,
+      width: 43,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Color(primaryDark),
+          width: 2,
+        ),
+        shape: BoxShape.rectangle,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(5),
+          topRight: Radius.circular(5),
+          bottomLeft: Radius.circular(4),
+          bottomRight: Radius.circular(4),
+        ),
+      ),
+      child: Icon(Icons.edit_outlined),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Flutter Stepper Demo'),
-        centerTitle: true,
-      ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              child: Stepper(
-                type: stepperType,
-                physics: ScrollPhysics(),
-                currentStep: _currentStep,
-                onStepTapped: (step) => tapped(step),
-                onStepContinue: continued,
-                onStepCancel: cancel,
-                steps: <Step>[
-                  Step(
-                    title: new Text('Account'),
-                    content: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Email Address'),
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Password'),
-                        ),
-                      ],
-                    ),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 0 ? StepState.complete : StepState.disabled,
-                  ),
-                  Step(
-                    title: new Text('Address'),
-                    content: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Home Address'),
-                        ),
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Postcode'),
-                        ),
-                      ],
-                    ),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 1 ? StepState.complete : StepState.disabled,
-                  ),
-                  Step(
-                    title: new Text('Mobile Number'),
-                    content: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          decoration: InputDecoration(labelText: 'Mobile Number'),
-                        ),
-                      ],
-                    ),
-                    isActive: _currentStep >= 0,
-                    state: _currentStep >= 2 ? StepState.complete : StepState.disabled,
-                  ),
-                ],
-              ),
-            ),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 10),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: squares,
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.list),
-        onPressed: switchStepsType,
-      ),
+      ],
     );
-  }
-
-  switchStepsType() {
-    setState(() => stepperType == StepperType.vertical ? stepperType = StepperType.horizontal : stepperType = StepperType.vertical);
-  }
-
-  tapped(int step) {
-    setState(() => _currentStep = step);
-  }
-
-  continued() {
-    _currentStep < 2 ? setState(() => _currentStep += 1) : null;
-  }
-
-  cancel() {
-    _currentStep > 0 ? setState(() => _currentStep -= 1) : null;
   }
 }
