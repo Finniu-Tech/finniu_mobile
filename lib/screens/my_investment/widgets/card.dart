@@ -414,7 +414,7 @@ class InitialCardBody extends ConsumerWidget {
               color: Color(primaryDark),
             ),
             child: Center(
-              child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Comenzar a invertir", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/investment'),
+              child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Comenzar a invertir", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/investment_step1'),
             ),
           )
         ]));
