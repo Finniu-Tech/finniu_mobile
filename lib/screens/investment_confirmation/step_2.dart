@@ -27,11 +27,10 @@ class Step_2 extends ConsumerWidget {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.centerLeft,
-                        width: 276,
+                        width: 310,
                         height: 70,
                         padding: const EdgeInsets.only(
-                          top: 5,
-                          left: 05,
+                          right: 100,
                         ),
                         child: Text(
                           'Plan Origen',
@@ -53,27 +52,77 @@ class Step_2 extends ConsumerWidget {
                         children: [
                           Expanded(
                             child: Container(
-                              height: 100,
-                              width: 100,
-                              color: Colors.blue, // Coloca aquí el color que desees para el primer contenedor
+                              alignment: Alignment.center,
+                              height: 60,
+                              width: 116,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(primaryLight), // Coloca aquí el color que desees para el primer contenedor
+                              ),
+                              child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  'S/550 ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(primaryDark),
+                                  ),
+                                ),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  'Tu monto invertido ',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Color(blackText),
+                                  ),
+                                ),
+                              ]),
                             ),
                           ),
+
                           SizedBox(width: 50), // Coloca aquí el espacio que deseas entre los contenedores
+
                           Expanded(
-                            child: Container(
-                              height: 100,
-                              width: 100,
-                              color: Colors.green, // Coloca aquí el color que desees para el segundo contenedor
+                              child: Container(
+                            alignment: Alignment.center,
+                            height: 60,
+                            width: 116,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(secondary), // Coloca aquí el color que desees para el segundo contenedor
                             ),
-                          ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'S/583 ',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(primaryDark),
+                                  ),
+                                ),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  'Monto que recibiras ',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: Color(blackText),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ))
                         ],
-                      ),
+                      )
                     ],
                   ),
                   SizedBox(height: 50),
                   Row(
                     children: [
                       Container(
+                        width: 120,
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Elige tu banco',
@@ -101,10 +150,15 @@ class Step_2 extends ConsumerWidget {
                     height: 71,
 
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                        bottomLeft: Radius.circular(4),
+                        bottomRight: Radius.circular(4),
+                      ),
                       color: Colors.white,
                       border: Border.all(
-                        color: Colors.blue,
+                        color: Color(primaryDark),
                         width: 2,
                       ),
                     ),
@@ -123,6 +177,7 @@ class Step_2 extends ConsumerWidget {
                                 width: 190,
                                 child: Text(
                                   'Banco donde realizamos tu transferencia',
+                                  style: TextStyle(color: Color(primaryDark)),
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                 ),
