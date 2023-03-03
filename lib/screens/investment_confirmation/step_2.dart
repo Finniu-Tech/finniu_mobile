@@ -45,6 +45,48 @@ class Step_2 extends ConsumerWidget {
                     ],
                   ),
                   SizedBox(height: 15),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 59.49,
+                        height: 31.15,
+                        // padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Color(primaryDark),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color: Color(primaryDark),
+                            width: 1,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              '6%',
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                                color: Color(primaryLight),
+                              ),
+                            ),
+                            Text(
+                              textAlign: TextAlign.center,
+                              'Rentabilidad',
+                              style: TextStyle(
+                                fontSize: 5,
+                                color: Color(primaryLight),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   CircularCountdown(),
                   Column(
                     children: [
