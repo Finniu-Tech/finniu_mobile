@@ -225,6 +225,25 @@ class Step_2 extends ConsumerWidget {
                               SizedBox(
                                 width: 40,
                               ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Color(primaryDark),
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(20),
+                                      bottomLeft: Radius.circular(30),
+                                    )),
+                                width: 63,
+                                height: 80,
+                                child: Column(
+                                  children: [
+                                    Icon(Icons.loupe_rounded, size: 30, color: Color(primaryLight)),
+                                    Text(
+                                      'Agregar cuenta',
+                                      style: TextStyle(fontSize: 8, color: Color(primaryLight)),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ],
                           ),
                           Padding(padding: EdgeInsets.only(top: 70.0)),
