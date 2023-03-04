@@ -1,4 +1,4 @@
-import 'package:finniu/screens/confirmation_phone/confirmation_phone_screen.dart';
+import 'package:finniu/screens/signup/confirmation_phone_screen.dart';
 import 'package:finniu/screens/help/help_screen.dart';
 import 'package:finniu/screens/home/home.dart';
 import 'package:finniu/screens/home/notification.dart';
@@ -34,7 +34,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
     '/investment_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => ResultInvestment(),
-    '/home_home': (BuildContext context) => HomeStart(),
+    '/home_home': (BuildContext context) => HomeScreen(),
     '/home_notification': (BuildContext context) => NotificationScreen(),
     '/profile': (BuildContext context) => ProfileScreen(),
     '/my_investment': (BuildContext context) => InvestmentStart(),
@@ -42,7 +42,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/transfers': (BuildContext context) => TransfersScreen(),
     '/languages': (BuildContext context) => LanguagesStart(),
     '/help': (BuildContext context) => HelpScreen(),
-    '/confirmation': (BuildContext context) => Confirmation_Phone(),
+    '/confirmation': (BuildContext context) => ConfirmationPhone(),
     '/investment_step1': (BuildContext context) => Step_1(),
     '/investment_step2': (BuildContext context) => Step_2(),
   };

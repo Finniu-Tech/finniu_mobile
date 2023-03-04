@@ -1,18 +1,12 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/graphql/mutations.dart';
-import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/models/auth.dart';
-import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
-import 'package:finniu/screens/home/home.dart';
-import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:email_validator/email_validator.dart';
@@ -27,83 +21,7 @@ class EmailLoginScreen extends HookConsumerWidget {
     final isHidden = useState(true);
     final showError = useState(false);
     final themeProvider = ref.watch(settingsNotifierProvider);
-    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final formKey = GlobalKey<FormState>();
-    // final profileData = useQuery(
-    //   QueryOptions(
-    //     document: gql(
-    //       QueryRepository.getUserProfile,
-    //     ), // this is the query string you just created
-    //     // variables: {
-    //     //   'nRepositories': 50,
-    //     // },
-    //     pollInterval: const Duration(seconds: 10),
-    //   ),
-    // );
-    // getProfileData() {
-    //   print('Querying ${QueryRepository.getUserProfile}');
-    //   return useQuery(
-    //     QueryOptions(
-    //       document: gql(QueryRepository
-    //           .getUserProfile), // this is the query string you just created
-    //       // variables: {
-    //       //   'nRepositories': 50,
-    //       // },
-    //       pollInterval: const Duration(seconds: 10),
-    //     ),
-    //   );
-    // }
-
-    final tokenMutation = useMutation(
-      MutationOptions(
-        document: gql(
-          MutationRepository.getAuthTokenMutation(),
-        ), // this is the mutation string you just created
-        onCompleted: (dynamic resultData) {
-          if (resultData != null) {
-            String? token = ScanAuthModel.fromJson(resultData).tokenAuth?.token;
-            print('token: $token');
-            if (token != null) {
-              Preferences.token = token;
-              ref.read(authTokenProvider.notifier).state = token;
-              print('token: ${ref.read(authTokenProvider)}');
-              // var userProfileData = profileData.result.data?['userProfile'];
-              // var userProfileData = profileData.result.data;
-              // print('userProfileData: $userProfileData');
-              // if (userProfileData != null) {
-              //   UserProfile.fromJson(userProfileData);
-              // }
-
-              Navigator.of(context).pushReplacement<void, void>(
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => HomeStart(),
-                ),
-              );
-            } else {
-              showError.value = true;
-              context.loaderOverlay.hide();
-            }
-          } else {
-            showError.value = true;
-            context.loaderOverlay.hide();
-          }
-        },
-        onError: (error) {
-          showError.value = true;
-          context.loaderOverlay.hide();
-        },
-      ),
-    );
-
-    // final result = readRespositoriesResult.result;
-
-    // if (result.hasException) {
-    //     return Text(result.exception.toString());
-    // }
-
-    // if (result.isLoading) {
-    //   return const Text('Loading');
-    // }
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
@@ -255,13 +173,27 @@ class EmailLoginScreen extends HookConsumerWidget {
                         height: 50,
                         child: TextButton(
                           child: const Text('Ingresar'),
-                          onPressed: () {
-                            // Navigator.pushNamed(context, '/home_home');
+                          onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               context.loaderOverlay.show();
-
-                              tokenMutation.runMutation(
-                                {'email': _email, 'password': _password},
+                              final token = ref.watch(authTokenMutationProvider(
+                                LoginModel(email: _email, password: _password),
+                              ).future);
+                              token.then(
+                                (value) {
+                                  context.loaderOverlay.hide();
+                                  if (value != null) {
+                                    ref.read(authTokenProvider.notifier).state =
+                                        value;
+                                    Navigator.pushNamed(context, '/home_home');
+                                  } else {
+                                    showError.value = true;
+                                  }
+                                },
+                                onError: (err) {
+                                  context.loaderOverlay.hide();
+                                  showError.value = true;
+                                },
                               );
                             }
                           },

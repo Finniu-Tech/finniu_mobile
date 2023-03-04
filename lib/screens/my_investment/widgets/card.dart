@@ -84,7 +84,6 @@ class CardCustom extends ConsumerWidget {
         // height: 62,
         child: ExpansionTileCard(
           onExpansionChanged: (value) {
-            print('Expansion Value $value');
             isExpanded.value = value;
           },
           title: Padding(

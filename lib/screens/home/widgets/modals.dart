@@ -1,12 +1,14 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/providers/auth_provider.dart';
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showSettingsDialog(BuildContext ctx, WidgetRef ref) {
+void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -82,7 +84,19 @@ void showSettingsDialog(BuildContext ctx, WidgetRef ref) {
                               width: 10,
                             ),
                             Text(
-                              "Mari",
+                              ref.watch(userProfileNotifierProvider).nickName ??
+                                  '',
+                              // ref.watch(userProfileFutureProvider).when(
+                              //   data: (user) {
+                              //     return user.nickName ?? '';
+                              //   },
+                              //   error: (error, stackTrace) {
+                              //     return '';
+                              //   },
+                              //   loading: () {
+                              //     return 'Loading';
+                              //   },
+                              // ),
                               style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16,
@@ -268,6 +282,8 @@ void showSettingsDialog(BuildContext ctx, WidgetRef ref) {
                       icon: Icons.logout,
                       text: "Cerrar sesión",
                       onTap: () {
+                        // ref.invalidate(authTokenProvider);
+                        // ref.invalidate(gqlClientProvider);
                         Navigator.of(ctx).pushNamedAndRemoveUntil(
                             '/login_start', (route) => false);
                       },
@@ -331,7 +347,7 @@ class ItemSetting extends ConsumerWidget {
   }
 }
 
-void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
+void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   Future.delayed(
@@ -367,16 +383,28 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                   SizedBox(
                     width: 230,
                     child: Text(
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5,
-                          color: themeProvider.isDarkMode
-                              ? Colors.white
-                              : const Color(primaryDark),
-                        ),
-                        "Hola Mari,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        height: 1.5,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : const Color(primaryDark),
+                      ),
+                      "${ref.watch(userProfileNotifierProvider).nickName ?? ''}",
+                      // ref.watch(userProfileFutureProvider).when(
+                      //   data: (user) {
+                      //     return "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito.";
+                      //   },
+                      //   error: (error, stackTrace) {
+                      //     return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
+                      //   },
+                      //   loading: () {
+                      //     return ' "Hola ,recuerda que es muy importante tener todos tus datos completos en la sección Editar perfil para que puedas realizar tu inversión con éxito."';
+                      //   },
+                      // ),
+                    ),
                   ),
                   const SizedBox(height: 20),
                   Row(

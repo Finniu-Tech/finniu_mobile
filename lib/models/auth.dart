@@ -4,6 +4,10 @@
 
 import 'dart:convert';
 
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'auth.freezed.dart';
+
 ScanAuthModel scanModelFromJson(String str) =>
     ScanAuthModel.fromJson(json.decode(str));
 
@@ -74,4 +78,24 @@ class Payload {
         "exp": exp,
         "origIat": origIat,
       };
+}
+
+@freezed
+class LoginModel with _$LoginModel {
+  const factory LoginModel({
+    required String email,
+    required String password,
+  }) = _LoginModel;
+  const LoginModel._();
+}
+
+@freezed
+class RegisterUserModel with _$RegisterUserModel {
+  const factory RegisterUserModel({
+    required String nickname,
+    required String email,
+    required int phone,
+    required String password,
+  }) = _RegisterUserModel;
+  const RegisterUserModel._();
 }

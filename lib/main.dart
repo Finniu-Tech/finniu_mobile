@@ -18,24 +18,6 @@ void main() async {
       child: MyApp(),
     ),
   );
-  // runApp(
-  //   MultiProvider(
-  //     providers: [
-  //       ChangeNotifierProvider(
-  //         create: (_) => SettingsProvider(
-  //           isDarkMode: Preferences.isDarkMode,
-  //           showWelcomeModal: Preferences.showWelcomeModal,
-  //         ),
-  //       ),
-  //       ChangeNotifierProvider(
-  //         create: (_) => AuthTokenProvider(token: ''),
-  //       ),
-  //       ChangeNotifierProvider(create: (_) => UserProvider())
-  //     ],
-  //     child: const MyApp(),
-  //   ),
-  // );
-  // runApp(const MyApp())
 }
 
 class MyApp extends ConsumerWidget {
@@ -44,22 +26,19 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    final gqlClient = ref.watch(gqlClientProvider);
-    return GraphQLProvider(
-      client: gqlClient,
-      child: MaterialApp(
-        title: 'Finniu',
-        debugShowCheckedModeBanner: false,
-        initialRoute: '/',
-        // theme: ThemeData.dark(),
-        theme: ref.watch(settingsNotifierProvider).currentTheme,
-        routes: getApplicationRoutes(),
-        onGenerateRoute: (RouteSettings settings) {
-          return MaterialPageRoute(
-            builder: (BuildContext context) => const IntroScreen(),
-          );
-        },
-      ),
+    // final gqlClient =  ref.watch(gqlClientProvider);
+    return MaterialApp(
+      title: 'Finniu',
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      // theme: ThemeData.dark(),
+      theme: ref.watch(settingsNotifierProvider).currentTheme,
+      routes: getApplicationRoutes(),
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const IntroScreen(),
+        );
+      },
     );
   }
 }

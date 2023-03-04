@@ -1,52 +1,32 @@
+import 'package:finniu/graphql/mutations.dart';
+import 'package:finniu/models/auth.dart';
+import 'package:finniu/providers/graphql_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-// final Provider<String> authTokenProvider = StateProvider<String>((ref) {
-//   return '';
-// });
+final authTokenProvider = StateProvider<String>((ref) => '');
 
-final authTokenProvider = StateProvider<String>((ref) {
-  return '';
-});
+final authTokenMutationProvider =
+    FutureProvider.autoDispose.family<String?, LoginModel>((ref, login) async {
+  final gqlClient = ref.watch(gqlClientProvider).value;
+  if (gqlClient == null) {
+    throw Exception('GraphQL client is null');
+  }
 
-final gqlClientProvider = Provider<ValueNotifier<GraphQLClient>>((ref) {
-  final String token = ref.watch(authTokenProvider);
-
-  // final HttpLink httpLink = HttpLink(
-  //   'https://finniu.com/api/v1/graph/finniu/',
-  // );
-
-  final HttpLink httpLink = HttpLink('https://finniu.com/api/v1/graph/finniu/',
-      defaultHeaders: {'Authorization': token != '' ? 'JWT $token' : 'Bearer'}
-      // defaultHeaders: {if (token.isNotEmpty) 'JWT': token},
-      );
-  print('httpLink:');
-  print(httpLink.defaultHeaders);
-  // final _webSocketLink = WebSocketLink('ws://10.0.2.2:4200/graphql');
-  // var link = Link.split(
-  //   (request) => request.isSubscription,
-  //   httpLink,
-  // );
-
-  // print('token is not empty: $token.isNotEmpty');
-
-  // final AuthLink authLink = AuthLink(
-  //   getToken: () async => token != '' ? 'JWT $token' : 'Bearer',
-  //   // OR
-  //   // getToken: () => 'Bearer <YOUR_PERSONAL_ACCESS_TOKEN>',
-  // );
-
-  // final AuthLink authLink = AuthLink(getToken: )
-  // final Link link = authLink.concat(httpLink);
-  // print('link: $link.toString()');
-
-  return ValueNotifier(
-    GraphQLClient(
-      link: httpLink,
-      cache: GraphQLCache(store: HiveStore()),
+  final userData = await gqlClient.mutate(
+    MutationOptions(
+      document: gql(
+        MutationRepository.getAuthTokenMutation(),
+      ),
+      variables: {
+        'email': login.email,
+        'password': login.password,
+      },
     ),
   );
+
+  return userData.data?['tokenAuth']['token'];
 });
 
 class UserProvider extends ChangeNotifier {
