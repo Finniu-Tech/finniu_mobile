@@ -177,8 +177,7 @@ class CardCustom extends ConsumerWidget {
                               // mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Icon(
-                                  Icons
-                                      .monetization_on_outlined, // Icono que deseas utilizar
+                                  Icons.monetization_on_outlined, // Icono que deseas utilizar
                                   size: 21.5, // Tamaño del icono
                                   color: Color(primaryDark), // Color del icono
                                 ),
@@ -208,8 +207,7 @@ class CardCustom extends ConsumerWidget {
                           Row(
                             children: [
                               Icon(
-                                Icons
-                                    .currency_exchange_rounded, // Icono que deseas utilizar
+                                Icons.currency_exchange_rounded, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
@@ -236,8 +234,7 @@ class CardCustom extends ConsumerWidget {
                           Row(
                             children: [
                               Icon(
-                                Icons
-                                    .percent_sharp, // Icono que deseas utilizar
+                                Icons.percent_sharp, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
@@ -266,8 +263,7 @@ class CardCustom extends ConsumerWidget {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.all(
-                        25.0), // aquí puedes configurar la cantidad de padding
+                    padding: EdgeInsets.all(25.0), // aquí puedes configurar la cantidad de padding
                     child: Center(
                       child: Text(
                         textContainer,
@@ -310,22 +306,10 @@ class InitialCardBody extends ConsumerWidget {
         decoration: BoxDecoration(
           // border: Border.all(color: Color(primaryDark), width: 2.0),
           border: Border(
-            top: BorderSide(
-                color: Color(
-                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-                width: 2.0),
-            left: BorderSide(
-                color: Color(
-                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-                width: 2.0),
-            right: BorderSide(
-                color: Color(
-                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-                width: 2.0),
-            bottom: BorderSide(
-                color: Color(
-                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-                width: 2.0),
+            top: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+            left: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+            right: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+            bottom: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
           ),
 
           borderRadius: BorderRadius.only(
@@ -362,8 +346,7 @@ class InitialCardBody extends ConsumerWidget {
                   // height: 34,
                   padding: EdgeInsets.all(3),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Color(gradient_secondary), width: 2.0),
+                    border: Border.all(color: Color(gradient_secondary), width: 2.0),
                     borderRadius: BorderRadius.all(Radius.circular(10.0)),
                     color: Color(gradient_secondary),
                   ),
@@ -393,8 +376,7 @@ class InitialCardBody extends ConsumerWidget {
                 // height: 34,
                 padding: EdgeInsets.all(3),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                      color: Color(primaryLightAlternative), width: 2.0),
+                  border: Border.all(color: Color(primaryLightAlternative), width: 2.0),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   color: Color(primaryLightAlternative),
                 ),
@@ -432,13 +414,7 @@ class InitialCardBody extends ConsumerWidget {
               color: Color(primaryDark),
             ),
             child: Center(
-              child: CustomButton(
-                  colorBackground:
-                      currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-                  text: "Comenzar a invertir",
-                  colorText:
-                      currentTheme.isDarkMode ? (primaryDark) : (whiteText),
-                  pushName: '/home_home'),
+              child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Comenzar a invertir", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/investment_step1'),
             ),
           )
         ]));

@@ -3,6 +3,8 @@ import 'package:finniu/screens/help/help_screen.dart';
 import 'package:finniu/screens/home/home.dart';
 import 'package:finniu/screens/home/notification.dart';
 import 'package:finniu/screens/intro_screen.dart';
+import 'package:finniu/screens/investment_confirmation/step_1.dart';
+import 'package:finniu/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/screens/investment_question/result.dart';
 import 'package:finniu/screens/investment_question/question.dart';
 import 'package:finniu/screens/investment_question/start_invesment.dart';
@@ -16,6 +18,7 @@ import 'package:finniu/screens/profile/profile_screen.dart';
 import 'package:finniu/screens/signup/email_screen.dart';
 import 'package:finniu/screens/login/start_screen.dart';
 import 'package:finniu/screens/onboarding/start_onboarding.dart';
+import 'package:finniu/screens/simulator/simulator_screen.dart';
 import 'package:finniu/screens/transfers/transfers_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -39,7 +42,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/transfers': (BuildContext context) => TransfersScreen(),
     '/languages': (BuildContext context) => LanguagesStart(),
     '/help': (BuildContext context) => HelpScreen(),
-    '/help': (BuildContext context) => HelpScreen(),
     '/confirmation': (BuildContext context) => Confirmation_Phone(),
+    '/investment_step1': (BuildContext context) => Step_1(),
+    '/investment_step2': (BuildContext context) => Step_2(),
   };
 }
