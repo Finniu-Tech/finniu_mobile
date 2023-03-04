@@ -40,6 +40,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/languages': (BuildContext context) => LanguagesStart(),
     '/help': (BuildContext context) => HelpScreen(),
     '/help': (BuildContext context) => HelpScreen(),
-    '/confirmation': (BuildContext context) => Confirmation_Phone(),
+    '/confirmation': (BuildContext context) => ConfirmationPhone(),
   };
 }

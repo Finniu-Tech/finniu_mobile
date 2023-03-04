@@ -13,6 +13,8 @@ final registerMutationProvider = FutureProvider.family(
       throw Exception('GraphQL client is null');
     }
 
+    print('user input data ');
+    print(userInputData.phone);
     final response = await gqlClient.mutate(
       MutationOptions(
         document: gql(
@@ -26,6 +28,11 @@ final registerMutationProvider = FutureProvider.family(
         },
       ),
     );
+    print('response');
+    print(response);
+    if (response.data == null) {
+      return false;
+    }
     final registerResponse =
         RegisterUser.fromJson(response.data?['registerUser']);
     final userResponse = registerResponse.user?.userProfile;

@@ -8,25 +8,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 void sendSMSModal(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
-  Future.delayed(const Duration(seconds: 1), () async {
-    showModalBottomSheet(
-      clipBehavior: Clip.antiAlias,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topRight: Radius.circular(50),
-        ),
+  showModalBottomSheet(
+    clipBehavior: Clip.antiAlias,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(50),
       ),
-      elevation: 10,
-      backgroundColor: themeProvider.isDarkMode
-          ? const Color(primaryDark)
-          : const Color(cardBackgroundColorLight),
-      context: ctx,
-      builder: (ctx) => SizedBox(
-        height: MediaQuery.of(ctx).size.height * 0.90,
-        // height:\
-        //     width: MediaQuery.of(context).size.width,
-        child: Center(
-            child: Padding(
+    ),
+    elevation: 10,
+    backgroundColor: themeProvider.isDarkMode
+        ? const Color(primaryDark)
+        : const Color(cardBackgroundColorLight),
+    context: ctx,
+    builder: (ctx) => SizedBox(
+      height: MediaQuery.of(ctx).size.height * 0.90,
+      // height:\
+      //     width: MediaQuery.of(context).size.width,
+      child: Center(
+        child: Padding(
           padding: const EdgeInsets.all(40),
           child: SingleChildScrollView(
             child: Column(
@@ -38,10 +37,11 @@ void sendSMSModal(BuildContext ctx, WidgetRef ref) {
                   height: 6,
 
                   child: Container(
-                      decoration: BoxDecoration(
-                    color: const Color(primaryDark),
-                    borderRadius: BorderRadius.circular(25),
-                  )),
+                    decoration: BoxDecoration(
+                      color: const Color(primaryDark),
+                      borderRadius: BorderRadius.circular(25),
+                    ),
+                  ),
                 ),
                 // alto deseado
                 SizedBox(
@@ -118,8 +118,8 @@ void sendSMSModal(BuildContext ctx, WidgetRef ref) {
               ],
             ),
           ),
-        )),
+        ),
       ),
-    );
-  });
+    ),
+  );
 }
