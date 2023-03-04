@@ -186,7 +186,6 @@ class Step_2 extends ConsumerWidget {
                     ],
                   ),
                   SizedBox(height: 20),
-                  SizedBox(height: 20),
                   Container(
                     // width: 320,
                     height: 71,
@@ -205,11 +204,10 @@ class Step_2 extends ConsumerWidget {
                       ),
                     ),
                     // padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          Row(
                             children: <Widget>[
                               Icon(Icons.aspect_ratio_sharp),
                               SizedBox(
@@ -238,23 +236,26 @@ class Step_2 extends ConsumerWidget {
                               ),
                             ],
                           ),
-                        ),
-                        SizedBox(height: 70.0),
-                        Container(
-                          height: 50,
-                          width: 224,
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Color(primaryDark),
-                          ),
-                          child: Center(
-                            child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Continuar", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/investment_step1'),
-                          ),
-                        ),
-                      ],
+                          Padding(padding: EdgeInsets.only(top: 70.0)),
+                        ],
+                      ),
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Container(
+                    height: 50,
+                    width: 224,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: Color(primaryDark),
+                    ),
+                    child: Center(
+                      child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Continuar", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/investment_step1'),
+                    ),
+                  ),
                 ]))));
   }
 }
@@ -264,7 +265,7 @@ class CircularCountdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      alignment: Alignment.centerRight,
+      // alignment: Alignment.centerLeft,
       width: 125.41,
       height: 127.01,
       child: Stack(
