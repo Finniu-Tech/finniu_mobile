@@ -240,11 +240,16 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
                   onEditing: (value) {},
                   textStyle: Theme.of(ctx).textTheme.bodyText2!.copyWith(color: Theme.of(ctx).primaryColorDark),
                   keyboardType: TextInputType.number,
-                  underlineColor: Color(primaryDark),
+                  underlineColor: Color(
+                    themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  ),
+                  underlineUnfocusedColor: Color(
+                    themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  ),
                   length: 4,
                   fullBorder: true,
                   cursorColor: Color(primaryDark),
-                  itemSize: 50,
+                  itemSize: 60,
                 ),
 
                 const SizedBox(height: 10),
@@ -273,10 +278,11 @@ void showWelcomeModal(BuildContext ctx, WidgetRef ref) {
   });
 }
 
-class CircularCountdown extends StatelessWidget {
+class CircularCountdown extends ConsumerWidget {
   const CircularCountdown({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       alignment: Alignment.centerRight,
       width: 70.0,
@@ -288,16 +294,18 @@ class CircularCountdown extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 2,
             height: MediaQuery.of(context).size.height / 2,
             duration: 60,
-            ringColor: Colors.grey[300]!,
+            ringColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
             fillColor: Color(primaryDark),
-            backgroundColor: Color(cardBackgroundColorLight),
+            backgroundColor: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(cardBackgroundColorLight),
             strokeWidth: 6.0,
             textStyle: TextStyle(
               fontSize: 10.0,
-              color: Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
               fontWeight: FontWeight.bold,
             ),
             textFormat: CountdownTextFormat.S,
+            isReverse: true,
+            isReverseAnimation: true,
             onComplete: () {
               debugPrint('Countdown Ended');
             },
@@ -307,7 +315,7 @@ class CircularCountdown extends StatelessWidget {
             child: Icon(
               Icons.alarm,
               size: 18.0,
-              color: Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
             ),
           ),
         ],
