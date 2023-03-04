@@ -179,7 +179,7 @@ class Step_2 extends ConsumerWidget {
                       Image.asset('assets/result/money.png', width: 20.0, height: 20),
                       const Spacer(),
                       Icon(
-                        Icons.quiz_rounded, // Icono que deseas utilizar
+                        Icons.quiz_outlined, // Icono que deseas utilizar
                         size: 20, // Tamaño del icono
                         color: Color(primaryDark), // Color del icono
                       ),
@@ -187,7 +187,7 @@ class Step_2 extends ConsumerWidget {
                   ),
                   SizedBox(height: 20),
                   Container(
-                    // width: 320,
+                    // width: 310,
                     height: 71,
 
                     decoration: BoxDecoration(
@@ -200,7 +200,7 @@ class Step_2 extends ConsumerWidget {
                       color: Colors.white,
                       border: Border.all(
                         color: Color(primaryDark),
-                        width: 2,
+                        width: 1,
                       ),
                     ),
                     // padding: EdgeInsets.all(16.0),
@@ -224,15 +224,6 @@ class Step_2 extends ConsumerWidget {
                               ),
                               SizedBox(
                                 width: 40,
-                              ),
-                              Column(
-                                children: [
-                                  Icon(Icons.loupe_rounded, size: 30),
-                                  Text(
-                                    'Agregar cuenta',
-                                    style: TextStyle(fontSize: 8),
-                                  ),
-                                ],
                               ),
                             ],
                           ),
