@@ -73,16 +73,17 @@ class SMSBody extends HookConsumerWidget {
           SizedBox(
             width: 280,
             child: Text(
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  height: 1.5,
-                  color: themeProvider.isDarkMode
-                      ? Colors.white
-                      : const Color(primaryDark),
-                ),
-                "Ingresa el codigo de verificacion"),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                height: 1.5,
+                color: themeProvider.isDarkMode
+                    ? Colors.white
+                    : const Color(primaryDark),
+              ),
+              "Ingresa el codigo de verificacion",
+            ),
           ),
           SizedBox(
             width: 280,
@@ -118,7 +119,11 @@ class SMSBody extends HookConsumerWidget {
                 } else {
                   Navigator.of(ctx).pop();
 
-                  ScaffoldMessenger.of(ctx).showSnackBar(customSnackBar);
+                  ScaffoldMessenger.of(ctx).showSnackBar(
+                    customSnackBar(
+                        'No se pudo validar el código de verificación',
+                        'error'),
+                  );
                 }
               });
             },
@@ -150,9 +155,19 @@ class SMSBody extends HookConsumerWidget {
             TextButton(
               onPressed: () {
                 ref.read(timerCounterDownProvider.notifier).resetTimer();
-                ref
-                    .read(timerCounterDownProvider.notifier)
-                    .startTimer(first: true);
+
+                ref.read(resendOTPCodeFutureProvider.future).then((status) {
+                  print('status resend $status');
+                  if (status == true) {
+                    ref
+                        .read(timerCounterDownProvider.notifier)
+                        .startTimer(first: true);
+                  } else {
+                    ScaffoldMessenger.of(ctx).showSnackBar(
+                      customSnackBar('No se pudo reenviar el correo', 'error'),
+                    );
+                  }
+                });
               },
               style: TextButton.styleFrom(
                 padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),

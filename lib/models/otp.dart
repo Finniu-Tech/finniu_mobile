@@ -1,8 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-// To parse this JSON data, do
-//
-//     final scanModel = scanModelFromJson(jsonString);
-
 import 'dart:convert';
 
 ScanValidateOTPModel scanModelFromJson(String str) =>
@@ -52,4 +47,46 @@ class OTPForm {
     required this.email,
     required this.otp,
   });
+}
+
+// ScanModel scanModelFromJson(String str) => ScanModel.fromJson(json.decode(str));
+
+// String scanModelToJson(ScanModel data) => json.encode(data.toJson());
+
+// class ScanModel {
+//   ScanModel({
+//     this.resendOtpCode,
+//   });
+
+//   ResendOtpCode? resendOtpCode;
+
+//   factory ScanModel.fromJson(Map<String, dynamic> json) => ScanModel(
+//         resendOtpCode: json["resendOtpCode"] == null
+//             ? null
+//             : ResendOtpCode.fromJson(json["resendOtpCode"]),
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "resendOtpCode": resendOtpCode?.toJson(),
+//       };
+// }
+
+class ResendOtpCode {
+  ResendOtpCode({
+    this.success,
+    this.successResendCode,
+  });
+
+  bool? success;
+  bool? successResendCode;
+
+  factory ResendOtpCode.fromJson(Map<String, dynamic> json) => ResendOtpCode(
+        success: json["success"],
+        successResendCode: json["successResendCode"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "successResendCode": successResendCode,
+      };
 }

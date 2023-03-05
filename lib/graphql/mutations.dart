@@ -60,4 +60,16 @@ class MutationRepository {
       }
     ''';
   }
+
+  static String resendOTPCode() {
+    return '''
+      mutation resendCode(\$email:String!){
+        resendOtpCode(input: {
+          email: \$email
+        }){
+          success
+        }
+      }
+    ''';
+  }
 }
