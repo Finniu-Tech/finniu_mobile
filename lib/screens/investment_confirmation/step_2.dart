@@ -37,44 +37,50 @@ class Step_2 extends ConsumerWidget {
           ),
         ),
       ),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 59.49,
-            height: 31.15,
-            // padding: EdgeInsets.all(10),
-            decoration: BoxDecoration(
-              color: Color(primaryDark),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Color(primaryDark),
-                width: 1,
+      Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Container(
+                width: 59.49,
+                height: 31.15,
+                // padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: Color(primaryDark),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Color(primaryDark),
+                    width: 1,
+                  ),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      '6%',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Color(primaryLight),
+                      ),
+                    ),
+                    Text(
+                      textAlign: TextAlign.center,
+                      'Rentabilidad',
+                      style: TextStyle(
+                        fontSize: 5,
+                        color: Color(primaryLight),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  '6%',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Color(primaryLight),
-                  ),
-                ),
-                Text(
-                  textAlign: TextAlign.center,
-                  'Rentabilidad',
-                  style: TextStyle(
-                    fontSize: 5,
-                    color: Color(primaryLight),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
       Stack(
         children: <Widget>[
