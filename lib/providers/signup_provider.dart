@@ -1,9 +1,12 @@
+import 'dart:convert';
+import 'package:finniu/constants/avatars.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/models/auth.dart';
 import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/graphql_provider.dart';
 import 'package:finniu/providers/user_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final registerMutationProvider = FutureProvider.family(
@@ -15,12 +18,19 @@ final registerMutationProvider = FutureProvider.family(
 
     print('user input data ');
     print(userInputData.phone);
+    String avatarImage =
+        await base64ImageFromIndex(ref.watch(indexAvatarSelectedStateProvider));
+    print(
+      'iamge final',
+    );
+    print(avatarImage);
     final response = await gqlClient.mutate(
       MutationOptions(
         document: gql(
           MutationRepository.getSignUpMutation(),
         ),
         variables: {
+          'image': avatarImage,
           'nickname': userInputData.nickname,
           'email': userInputData.email,
           'password': userInputData.password,
@@ -54,3 +64,13 @@ final registerMutationProvider = FutureProvider.family(
     return registerResponse.success;
   },
 );
+
+final indexAvatarSelectedStateProvider = StateProvider((ref) => 0);
+
+Future<String> base64ImageFromIndex(int index) async {
+  String pathAvatar = listAvatars[index];
+  print('avatar path $pathAvatar');
+  ByteData bytes = await rootBundle.load(pathAvatar);
+  var buffer = bytes.buffer;
+  return 'data:image/png;base64,' + base64.encode(Uint8List.view(buffer));
+}

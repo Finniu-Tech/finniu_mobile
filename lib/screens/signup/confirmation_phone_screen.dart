@@ -141,33 +141,41 @@ class ConfirmationPhone extends HookConsumerWidget {
                     child: TextButton(
                       onPressed: () async {
                         showError.value = false;
-                        // sendSMSModal(context, ref);
-                        if (formKey.currentState!.validate()) {
-                          context.loaderOverlay.show();
-                          Future<bool> status = SignUpService().finishRegister(
-                            ref,
-                            phoneController.text.toString(),
-                          );
-                          status.then((value) {
-                            print('status value $value');
-                            if (value == false) {
-                              print('if!!');
-                              showError.value = true;
-                            } else {
-                              print('else!!');
-                              accountCreated.value = true;
-                              context.loaderOverlay.hide();
-                              ref
-                                  .read(timerCounterDownProvider.notifier)
-                                  .startTimer();
+                        if (accountCreated.value == true) {
+                          sendSMSModal(context, ref);
+                          return;
+                        } else {
+                          // sendSMSModal(context, ref);
+                          if (formKey.currentState!.validate()) {
+                            context.loaderOverlay.show();
+                            Future<bool> status =
+                                SignUpService().finishRegister(
+                              ref,
+                              phoneController.text.toString(),
+                            );
+                            status.then((value) {
+                              print('status value $value');
+                              if (value == false) {
+                                print('if!!');
+                                showError.value = true;
+                              } else {
+                                print('else!!');
+                                accountCreated.value = true;
+                                context.loaderOverlay.hide();
+                                ref
+                                    .read(timerCounterDownProvider.notifier)
+                                    .startTimer(first: true);
 
-                              sendSMSModal(context, ref);
-                            }
-                            context.loaderOverlay.hide();
-                          });
+                                sendSMSModal(context, ref);
+                              }
+                              context.loaderOverlay.hide();
+                            });
+                          }
                         }
                       },
-                      child: const Text('Enviar SMS'),
+                      child: Text(accountCreated.value == true
+                          ? 'Enviar SMS'
+                          : 'Registrar'),
                     ),
                   ),
                 ],

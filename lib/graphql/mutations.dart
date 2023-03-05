@@ -18,27 +18,44 @@ class MutationRepository {
         \$email: String!,
         \$phone: Int!,
         \$password:String!
+        \$image: String!
       ){
         registerUser(
           input:{
             nickName: \$nickname,
-            email:\$email,
-            password:\$password,
-            phoneNumber: \$phone
+            email: \$email,
+            password: \$password,
+            phoneNumber: \$phone,
+            imageProfile: \$image
           }
         ){
           success
           user{
               id
-              email
+            email
             userProfile{
-                    nickName
-                    firstName
-                    lastName
-                    phoneNumber
-                }
+                nickName
+                firstName
+                lastName
+                phoneNumber
+                imageProfile
+                imageProfileUrl
+            }
 
           }
+        }
+      }
+    ''';
+  }
+
+  static String validateOTP() {
+    return '''
+      mutation validateOtp(\$email:String!, \$code:String!){
+        validOtpUser(input:{
+          otpCode:\$code,
+          email:\$email
+        }){
+          success
         }
       }
     ''';
