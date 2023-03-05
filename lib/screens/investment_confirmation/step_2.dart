@@ -6,6 +6,7 @@ import 'package:finniu/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Step_2 extends ConsumerWidget {
@@ -14,6 +15,7 @@ class Step_2 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+
     var MontoController;
 
     return CustomScaffoldReturnLogo(
@@ -21,7 +23,7 @@ class Step_2 extends ConsumerWidget {
             child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(children: <Widget>[
-                  StepBar(),
+                  const StepBar(),
                   const SizedBox(height: 40),
                   Stack(
                     children: <Widget>[
@@ -178,10 +180,15 @@ class Step_2 extends ConsumerWidget {
                       ),
                       Image.asset('assets/result/money.png', width: 20.0, height: 20),
                       const Spacer(),
-                      Icon(
-                        Icons.quiz_outlined, // Icono que deseas utilizar
-                        size: 20, // Tamaño del icono
-                        color: Color(primaryDark), // Color del icono
+                      InkWell(
+                        onTap: () {
+                          Navigator.pushNamed(context, '/Alert1 ');
+                        },
+                        child: Icon(
+                          Icons.quiz_outlined, // Icono que deseas utilizar
+                          size: 20, // Tamaño del icono
+                          color: Color(primaryDark), // Color del icono
+                        ),
                       ),
                     ],
                   ),
@@ -193,7 +200,7 @@ class Step_2 extends ConsumerWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(15),
-                        topRight: Radius.circular(15),
+                        topRight: Radius.circular(21),
                         bottomLeft: Radius.circular(4),
                         bottomRight: Radius.circular(4),
                       ),
@@ -232,9 +239,10 @@ class Step_2 extends ConsumerWidget {
                                       topRight: Radius.circular(20),
                                       bottomLeft: Radius.circular(30),
                                     )),
-                                width: 63,
+                                width: 64,
                                 height: 80,
                                 child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Icon(Icons.loupe_rounded, size: 30, color: Color(primaryLight)),
                                     Text(
@@ -252,7 +260,7 @@ class Step_2 extends ConsumerWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   Container(
                     height: 50,
