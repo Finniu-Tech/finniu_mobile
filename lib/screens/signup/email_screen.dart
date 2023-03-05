@@ -1,7 +1,9 @@
 import 'package:email_validator/email_validator.dart';
+import 'package:finniu/constants/avatars.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/models/user.dart';
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/providers/signup_provider.dart';
 import 'package:finniu/providers/user_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -25,6 +27,8 @@ class SignUpEmailScreen extends HookConsumerWidget {
     final emailController = useTextEditingController(text: user.email);
     final passwordController = useTextEditingController(text: user.password);
     final themeProvider = ref.watch(settingsNotifierProvider);
+    CarouselController buttonCarouselController = CarouselController();
+
     final formKey = GlobalKey<FormState>();
 
     return CustomScaffoldReturn(
@@ -80,23 +84,21 @@ class SignUpEmailScreen extends HookConsumerWidget {
               SizedBox(
                 width: 224,
                 child: CarouselSlider(
+                  carouselController: buttonCarouselController,
                   options: CarouselOptions(
                     height: 145.0,
                     viewportFraction: 0.8,
+                    initialPage: ref.watch(indexAvatarSelectedStateProvider),
+                    onPageChanged: (index, reason) {
+                      print('index: $index');
+                      ref
+                          .read(indexAvatarSelectedStateProvider.notifier)
+                          .state = index;
+                      // currentPage = index;
+                      // setState((){});
+                    },
                   ),
-                  items: [
-                    'assets/avatars/avatar_1.png',
-                    'assets/avatars/avatar_2.png',
-                    'assets/avatars/avatar_3.png',
-                    'assets//avatar_4.png',
-                    'assets/avatars/avatar_5.png',
-                    'assets/avatars/avatar_6.png',
-                    'assets/avatars/avatar_7.png',
-                    'assets/avatars/avatar_8.png',
-                    'assets/avatars/avatar_9.png',
-                    'assets/avatars/avatar_10.png',
-                    'assets/avatars/avatar_11.png',
-                  ].map((imageRoute) {
+                  items: listAvatars.map((imageRoute) {
                     return Builder(
                       builder: (BuildContext context) {
                         return Container(
@@ -253,7 +255,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       Navigator.of(context).pushNamed('/confirmation');
                     }
                   },
-                  child: const Text('Crear registro'),
+                  child: const Text('Continuar'),
                 ),
               ),
               const SizedBox(height: 10),

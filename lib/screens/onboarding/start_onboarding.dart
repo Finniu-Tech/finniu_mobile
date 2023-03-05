@@ -261,14 +261,31 @@ class _StartOnboardingState extends State<StartOnboarding> {
     }
   }
 
+  Color _getScaffoldColor(int currentStep) {
+    switch (currentStep) {
+      case 0:
+        return const Color(gradient_primary_alternative);
+      case 1:
+        return const Color(gradient_secondary);
+      case 2:
+        // return Color.fromARGB(255, 106, 88, 207);
+        return const Color(gradient_third_alternative);
+      case 3:
+        return const Color(0xffA2E6FA);
+      default:
+        return const Color(0xff4759A2);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     List<Color> stepBarColors = getStepBarColors(_currentStep);
 
     return Scaffold(
+      backgroundColor: _getScaffoldColor(_currentStep),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
             gradient: _getGradient(_currentStep),
           ),
@@ -300,7 +317,7 @@ class _StartOnboardingState extends State<StartOnboarding> {
                 inactiveColor: stepBarColors[0],
               ),
               getNextPrevButtons(_currentStep),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               )
             ],

@@ -80,6 +80,8 @@ class UserProfile {
     this.email,
     this.id,
     this.nickName,
+    this.imageProfileUrl,
+    this.imageProfile,
     this.civilStatus,
     this.distrito,
     this.documentNumber,
@@ -113,6 +115,8 @@ class UserProfile {
   String? uuid;
   String? phoneNumber;
   String? password;
+  String? imageProfileUrl;
+  String? imageProfile;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -132,6 +136,8 @@ class UserProfile {
         typeDocument: json["typeDocument"],
         uuid: json["uuid"],
         phoneNumber: json["phoneNumber"],
+        imageProfile: json["imageProfile"],
+        imageProfileUrl: json["imageProfileUrl"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -152,7 +158,9 @@ class UserProfile {
         "typeDocument": typeDocument,
         "uuid": uuid,
         "phoneNumber": phoneNumber,
-        "password": password
+        "password": password,
+        "imageProfile": imageProfile,
+        "imageProfileUrl": imageProfileUrl,
       };
 
   UserProfile copyWith({
@@ -166,6 +174,8 @@ class UserProfile {
     bool hasCompletedOnboarding = false,
     String? phoneNumber,
     String? password,
+    String? imageProfileUrl,
+    String? imageProfile,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -178,6 +188,8 @@ class UserProfile {
       hasCompletedOnboarding: hasCompletedOnboarding,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
+      imageProfileUrl: imageProfileUrl ?? this.imageProfileUrl,
+      imageProfile: imageProfile ?? this.imageProfile,
     );
   }
 }
