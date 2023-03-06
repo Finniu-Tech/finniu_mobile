@@ -102,26 +102,8 @@ class ProfileScreen extends HookConsumerWidget {
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      CircularPercentIndicator(
-                        radius: 50.0,
-                        lineWidth: 10.0,
-                        // header:
-                        percent: percentage.value,
-                        center: CircleAvatar(
-                          radius: 40, // Image radius
-                          backgroundImage: imageFile.value != ''
-                              ? FileImage(
-                                  File(imageFile.value),
-                                )
-                              : AssetImage(
-                                  "assets/images/avatar_alone.png",
-                                ) as ImageProvider,
-                        ),
-
-                        progressColor: const Color(primaryDark),
-                        backgroundColor: const Color(primaryLight),
-                        // fillColor: Color(primaryLight),
-                      ),
+                      CircularPercentAvatar(
+                          percentage: percentage, imageFile: imageFile),
                       Positioned(
                         left: -62,
                         top: 10,
@@ -261,7 +243,6 @@ class ProfileScreen extends HookConsumerWidget {
                         : null,
                     key: const Key('department'),
                     onChanged: (value) {
-                      print('Department value: $value');
                       departmentController.text = value.toString();
                       _calculatePercentage('department');
                     },
@@ -285,7 +266,15 @@ class ProfileScreen extends HookConsumerWidget {
                       showSelectedItems: true,
                       itemBuilder: (context, item, isSelected) => Container(
                         decoration: BoxDecoration(
-                          color: Color(isSelected ? primaryDark : primaryLight),
+                          color: Color(
+                            isSelected
+                                ? (themeProvider.isDarkMode
+                                    ? primaryLight
+                                    : primaryDarkAlternative)
+                                : (themeProvider.isDarkMode
+                                    ? primaryDarkAlternative
+                                    : primaryLight),
+                          ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(20),
                           ),
@@ -302,35 +291,52 @@ class ProfileScreen extends HookConsumerWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(
-                                isSelected ? Colors.white.value : primaryDark),
+                              isSelected
+                                  ? (themeProvider.isDarkMode
+                                      ? primaryDark
+                                      : Colors.white.value)
+                                  : (themeProvider.isDarkMode
+                                      ? Colors.white.value
+                                      : primaryDark),
+                            ),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      menuProps: const MenuProps(
-                        backgroundColor: Color(primaryLightAlternative),
+                      menuProps: MenuProps(
+                        backgroundColor: Color(
+                          themeProvider.isDarkMode
+                              ? primaryDark
+                              : primaryLightAlternative,
+                        ),
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
-                            color: Color(primaryDark),
+                            color: Color(
+                              themeProvider.isDarkMode
+                                  ? primaryLight
+                                  : primaryDark,
+                            ),
                             width: 1.0,
                           ),
-                          borderRadius: BorderRadius.vertical(
+                          borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(10),
                           ),
                         ),
                       ),
                       showSearchBox: true,
-                      searchFieldProps: const TextFieldProps(
+                      searchFieldProps: TextFieldProps(
                         decoration: InputDecoration(
                           filled: true,
-                          fillColor: Colors.white,
+                          fillColor: Theme.of(context).backgroundColor,
                           suffixIcon: Icon(Icons.search),
                           label: Text('Buscar'),
                         ),
                       ),
                     ),
-                    dropdownButtonProps: const DropdownButtonProps(
-                      color: Color(primaryDark),
+                    dropdownButtonProps: DropdownButtonProps(
+                      color: Color(
+                        themeProvider.isDarkMode ? primaryLight : primaryDark,
+                      ),
                       padding: EdgeInsets.zero,
                     ),
                   ),
@@ -551,6 +557,47 @@ class ProfileScreen extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CircularPercentAvatar extends ConsumerWidget {
+  const CircularPercentAvatar({
+    super.key,
+    required this.percentage,
+    required this.imageFile,
+  });
+
+  final ValueNotifier<double> percentage;
+  final ValueNotifier<String> imageFile;
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    return CircularPercentIndicator(
+      radius: 50.0,
+      lineWidth: 10.0,
+      circularStrokeCap: CircularStrokeCap.round,
+
+      // startAngle: 45.0,
+      // header:
+      percent: percentage.value,
+      center: CircleAvatar(
+        radius: 40, // Image radius
+        backgroundImage: imageFile.value != ''
+            ? FileImage(
+                File(imageFile.value),
+              )
+            : AssetImage(
+                "assets/images/avatar_alone.png",
+              ) as ImageProvider,
+      ),
+
+      progressColor:
+          Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
+      backgroundColor:
+          Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
+      // fillColor: Color(primaryLight),
     );
   }
 }

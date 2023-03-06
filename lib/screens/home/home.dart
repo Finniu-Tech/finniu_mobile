@@ -4,6 +4,7 @@ import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/home/widgets/cards.dart';
 import 'package:finniu/screens/home/widgets/modals.dart';
 import 'package:finniu/use_cases/ui/modals/complete_profile.dart';
+import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,31 +25,6 @@ class HomeScreen extends HookConsumerWidget {
       body: HookBuilder(
         builder: (context) {
           ref.watch(userProfileFutureProvider.future);
-          // userProfile.then((user) {
-          //   ref.read(userProfileNotifierProvider.notifier).updateFields(
-          //         nickName: user.nickName,
-          //         email: user.email,
-          //         phoneNumber: user.phoneNumber,
-          //       );
-          //   if (showCompleteProfileModal(user)) {
-          //     completeProfileDialog(context, ref);
-          //   }
-          // });
-          // userProfile.when(
-          //   data: (user) {
-          //     ref.read(userProfileNotifierProvider.notifier).updateFields(
-          //           nickName: user.nickName,
-          //           email: user.email,
-          //           phoneNumber: user.phoneNumber,
-          //         );
-          //     if (showCompleteProfileModal(user)) {
-          //       completeProfileDialog(context, ref);
-          //     }
-          //   },
-          //   error: (error, stackTrace) {},
-          //   loading: () {},
-          // );
-
           return Container(
             padding: const EdgeInsets.only(top: 20, right: 20, left: 20),
             child: Column(
@@ -73,13 +49,6 @@ class HomeScreen extends HookConsumerWidget {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           "Hola ${ref.watch(userProfileNotifierProvider).nickName ?? ''}!",
-                          // userProfile.when(data: (user) {
-                          //   return 'Hola, ${user.nickName}!';
-                          // }, error: (error, stackTrace) {
-                          //   return 'Hola!';
-                          // }, loading: () {
-                          //   return 'Hola!';
-                          // }),
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
@@ -117,12 +86,10 @@ class HomeScreen extends HookConsumerWidget {
                       onTap: () {
                         settingsDialog(context, ref);
                       },
-                      child: SizedBox(
-                        width: 41,
-                        height: 43,
+                      child: Expanded(
                         child: Container(
                           alignment: Alignment.center,
-                          child: Image.asset('assets/home/avatar.png'),
+                          child: CircularPercentAvatarWidget(),
                         ),
                       ),
                     ),
