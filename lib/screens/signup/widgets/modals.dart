@@ -157,7 +157,6 @@ class SMSBody extends HookConsumerWidget {
                 ref.read(timerCounterDownProvider.notifier).resetTimer();
 
                 ref.read(resendOTPCodeFutureProvider.future).then((status) {
-                  print('status resend $status');
                   if (status == true) {
                     ref
                         .read(timerCounterDownProvider.notifier)
