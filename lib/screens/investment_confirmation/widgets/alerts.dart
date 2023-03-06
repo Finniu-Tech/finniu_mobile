@@ -1,10 +1,10 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-void main() => runApp(const Alert1());
+void main() => runApp(const HelpContract());
 
-class Alert1 extends StatelessWidget {
-  const Alert1({Key? key}) : super(key: key);
+class HelpContract extends StatelessWidget {
+  const HelpContract({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

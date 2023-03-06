@@ -47,6 +47,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_step1': (BuildContext context) => Step_1(),
     '/investment_step2': (BuildContext context) => Step_2(),
     '/investment_step2': (BuildContext context) => Step_2(),
-    '/investment_confirmation': (BuildContext context) => Alert1(),
   };
 }

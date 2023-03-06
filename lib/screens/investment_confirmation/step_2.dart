@@ -1,8 +1,8 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
-import 'package:finniu/screens/confirmation_phone/confirmation_phone_screen.dart';
 import 'package:finniu/screens/investment_confirmation/step_1.dart';
+import 'package:finniu/screens/investment_confirmation/widgets/alerts.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -189,9 +189,41 @@ class Step_2 extends ConsumerWidget {
             Image.asset('assets/result/money.png', width: 20.0, height: 20),
             const Spacer(),
             InkWell(
-              onTap: () {
-                Navigator.pushNamed(context, '/Alert1 ');
-              },
+              onTap: () => showDialog<String>(
+                barrierColor: Color(whiteText),
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  backgroundColor: Color(primaryLight),
+                  content: Stack(
+                    children: [
+                      Center(
+                        child: Image.asset(
+                          'assets/images/magnifying_glass.png',
+                          width: 60,
+                          height: 60,
+                        ),
+                      ),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: IconButton(
+                          icon: Icon(Icons.close),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 80, left: 20, right: 20),
+                        child: Text(
+                          textAlign: TextAlign.left,
+                          'Hola Mari, de acuerdo al articulo 1646 del codigo Civil, el pago de los intereses del contrato de mutuo se deben realizar en la misma cuenta bancaria desde donde se realizo la transferencia, por eso es importante, para nosotros, conocer tu cuenta bancaria o CCI.',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               child: Icon(
                 Icons.quiz_outlined, // Icono que deseas utilizar
                 size: 20, // Tamaño del icono
