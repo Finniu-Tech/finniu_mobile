@@ -194,13 +194,21 @@ class Step_2 extends ConsumerWidget {
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                   backgroundColor: Color(primaryLight),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                   content: Stack(
                     children: [
-                      Center(
-                        child: Image.asset(
-                          'assets/images/magnifying_glass.png',
-                          width: 60,
-                          height: 60,
+                      Positioned(
+                        top: 30,
+                        left: 0,
+                        right: 0,
+                        child: Center(
+                          child: Image.asset(
+                            'assets/images/magnifying_glass.png',
+                            width: 60,
+                            height: 60,
+                          ),
                         ),
                       ),
                       Positioned(
@@ -216,9 +224,9 @@ class Step_2 extends ConsumerWidget {
                       Padding(
                         padding: EdgeInsets.only(top: 80, left: 20, right: 20),
                         child: Text(
-                          textAlign: TextAlign.left,
-                          'Hola Mari, de acuerdo al articulo 1646 del codigo Civil, el pago de los intereses del contrato de mutuo se deben realizar en la misma cuenta bancaria desde donde se realizo la transferencia, por eso es importante, para nosotros, conocer tu cuenta bancaria o CCI.',
-                        ),
+                            textAlign: TextAlign.justify,
+                            'Hola Mari, de acuerdo al articulo 1646 del codigo Civil, el pago de los intereses del contrato de mutuo se deben realizar en la misma cuenta bancaria desde donde se realizo la transferencia, por eso es importante, para nosotros, conocer tu cuenta bancaria o CCI.',
+                            style: TextStyle(fontSize: 12, color: Color(primaryDark))),
                       ),
                     ],
                   ),
