@@ -1,4 +1,5 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/investment_confirmation/step_1.dart';
@@ -400,6 +401,7 @@ getModal(context) {
     backgroundColor: Color(primaryLightAlternative),
     context: context,
     builder: (BuildContext context) {
+      var MontoController;
       return Container(
         height: 500,
         decoration: BoxDecoration(
@@ -451,16 +453,112 @@ getModal(context) {
                   ],
                 ),
               ),
-              const Text(
-                textAlign: TextAlign.center,
-                'Agregar Cuenta',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Color(primaryDark),
+              Container(
+                width: 180,
+                child: const Text(
+                  textAlign: TextAlign.center,
+                  'Banco donde realizaras tu transferencia',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(primaryDark),
+                  ),
                 ),
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 15),
+              SizedBox(
+                width: 224,
+                height: 39,
+                child: DropdownSearch<String>(
+                  dropdownDecoratorProps: const DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      hintText: 'Seleccione el Banco',
+                      labelText: 'Banco',
+                    ),
+                  ),
+                  items: [
+                    'BCP',
+                    'Interbank',
+                    'Scotiabank',
+                  ],
+                  popupProps: PopupProps.menu(
+                    showSelectedItems: true,
+                    itemBuilder: (context, item, isSelected) => Container(
+                      decoration: BoxDecoration(
+                        color: Color(isSelected ? primaryDark : primaryLight),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        right: 15,
+                        left: 15,
+                      ),
+                      child: Text(
+                        item.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(isSelected ? Colors.white.value : primaryDark),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    menuProps: const MenuProps(
+                      backgroundColor: Color(primaryLightAlternative),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Color(primaryDark),
+                          width: 1.0,
+                        ),
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    showSearchBox: true,
+                    searchFieldProps: const TextFieldProps(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        suffixIcon: Icon(Icons.search),
+                        label: Text('Buscar'),
+                      ),
+                    ),
+                  ),
+                  dropdownButtonProps: const DropdownButtonProps(
+                    color: Color(primaryDark),
+                    padding: EdgeInsets.zero,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 224,
+                child: TextFormField(
+                  controller: MontoController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    // nickNameController.text = value.toString();
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Escriba su cuenta bancaria',
+                    label: Text("Cuenta Bancaria"),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 15,
+              ),
               CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
             ],
           ),
