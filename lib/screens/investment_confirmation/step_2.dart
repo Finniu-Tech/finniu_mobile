@@ -403,7 +403,8 @@ getModal(context) {
     builder: (BuildContext context) {
       var MontoController;
       return Container(
-        height: 500,
+        height: 516,
+        width: 360,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(40),
@@ -453,19 +454,34 @@ getModal(context) {
                   ],
                 ),
               ),
-              Container(
-                width: 180,
-                child: const Text(
-                  textAlign: TextAlign.center,
-                  'Banco donde realizaras tu transferencia',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: Color(primaryDark),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 180,
+                    child: const Text(
+                      textAlign: TextAlign.justify,
+                      'Banco donde realizaras tu transferencia',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(primaryDark),
+                      ),
+                    ),
                   ),
-                ),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  Container(
+                    child: Icon(
+                      Icons.quiz_outlined,
+                      color: Color(primaryDark),
+                      size: 23.0,
+                    ),
+                  ),
+                ],
               ),
-              SizedBox(height: 15),
+              SizedBox(height: 10),
               SizedBox(
                 width: 224,
                 height: 39,
@@ -535,7 +551,7 @@ getModal(context) {
                 ),
               ),
               SizedBox(
-                height: 10,
+                height: 35,
               ),
               SizedBox(
                 width: 224,
@@ -558,6 +574,29 @@ getModal(context) {
               ),
               SizedBox(
                 height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.check_box_outline_blank,
+                      color: Color(primaryDark),
+                      size: 21.0,
+                    ),
+                  ),
+                  Text(
+                    textAlign: TextAlign.center,
+                    'Confirmo que esa cuenta me pertenece',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Color(primaryDark),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 25,
               ),
               CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
             ],
