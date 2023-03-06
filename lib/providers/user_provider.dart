@@ -20,6 +20,7 @@ final userProfileFutureProvider = FutureProvider<UserProfile>((ref) async {
       return result;
     },
   );
+
   if (result.hasException) {
     throw result.exception!;
   }
@@ -31,6 +32,7 @@ final userProfileFutureProvider = FutureProvider<UserProfile>((ref) async {
           firstName: userProfile.firstName,
           lastName: userProfile.lastName,
           phoneNumber: userProfile.phoneNumber,
+          imageProfileUrl: userProfile.imageProfileUrl,
         );
     return userProfile;
   }
@@ -52,6 +54,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? lastName,
     String? phoneNumber,
     String? password,
+    String? imageProfileUrl,
     bool hasCompletedOnboarding = false,
   }) {
     state = state.copyWith(
@@ -62,6 +65,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       phoneNumber: phoneNumber,
       hasCompletedOnboarding: hasCompletedOnboarding,
       password: password,
+      imageProfileUrl: imageProfileUrl,
     );
   }
 
@@ -95,51 +99,3 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     state = state.copyWith(password: password);
   }
 }
-// class UserProviderNotifier extends StateNotifier<UserProfile> {
-//   UserProviderNotifier(UserProfile user) : super(user);
-
-//   void updateFields({
-//     String? nickName,
-//     String? email,
-//     String? firstName,
-//     String? lastName,
-//     String? phoneNumber,
-//     bool hasCompletedOnboarding = false,
-//   }) {
-//     state = state.copyWith(
-//       nickName: nickName,
-//       email: email,
-//       firstName: firstName,
-//       lastName: lastName,
-//       phoneNumber: phoneNumber,
-//       hasCompletedOnboarding: hasCompletedOnboarding,
-//     );
-//   }
-
-//   // existing set methods
-
-//   void setNickName(String? nickName) {
-//     state = state.copyWith(nickName: nickName);
-//   }
-
-//   void setEmail(String? email) {
-//     state = state.copyWith(email: email);
-//   }
-
-//   void setFirstName(String? firstName) {
-//     state = state.copyWith(firstName: firstName);
-//   }
-
-//   void setLastName(String? lastName) {
-//     state = state.copyWith(lastName: lastName);
-//   }
-
-//   void setPhone(String? phoneNumber) {
-//     state = state.copyWith(phoneNumber: phoneNumber);
-//   }
-
-//   void setOnboardingCompleted(bool hasCompletedOnboarding) {
-//     state = state.copyWith(hasCompletedOnboarding: hasCompletedOnboarding);
-//   }
-// }
-

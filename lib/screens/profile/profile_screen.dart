@@ -102,26 +102,8 @@ class ProfileScreen extends HookConsumerWidget {
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      CircularPercentIndicator(
-                        radius: 50.0,
-                        lineWidth: 10.0,
-                        // header:
-                        percent: percentage.value,
-                        center: CircleAvatar(
-                          radius: 40, // Image radius
-                          backgroundImage: imageFile.value != ''
-                              ? FileImage(
-                                  File(imageFile.value),
-                                )
-                              : AssetImage(
-                                  "assets/images/avatar_alone.png",
-                                ) as ImageProvider,
-                        ),
-
-                        progressColor: const Color(primaryDark),
-                        backgroundColor: const Color(primaryLight),
-                        // fillColor: Color(primaryLight),
-                      ),
+                      CircularPercentAvatar(
+                          percentage: percentage, imageFile: imageFile),
                       Positioned(
                         left: -62,
                         top: 10,
@@ -551,6 +533,41 @@ class ProfileScreen extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class CircularPercentAvatar extends StatelessWidget {
+  const CircularPercentAvatar({
+    super.key,
+    required this.percentage,
+    required this.imageFile,
+  });
+
+  final ValueNotifier<double> percentage;
+  final ValueNotifier<String> imageFile;
+
+  @override
+  Widget build(BuildContext context) {
+    return CircularPercentIndicator(
+      radius: 50.0,
+      lineWidth: 10.0,
+      // header:
+      percent: percentage.value,
+      center: CircleAvatar(
+        radius: 40, // Image radius
+        backgroundImage: imageFile.value != ''
+            ? FileImage(
+                File(imageFile.value),
+              )
+            : AssetImage(
+                "assets/images/avatar_alone.png",
+              ) as ImageProvider,
+      ),
+
+      progressColor: const Color(primaryDark),
+      backgroundColor: const Color(primaryLight),
+      // fillColor: Color(primaryLight),
     );
   }
 }

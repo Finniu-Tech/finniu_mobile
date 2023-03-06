@@ -19,6 +19,7 @@ class QueryRepository {
         region
         typeDocument
         uuid
+        imageProfileUrl
       }
     }
   ''';
