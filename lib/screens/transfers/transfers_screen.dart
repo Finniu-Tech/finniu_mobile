@@ -30,12 +30,18 @@ class TransfersScreen extends ConsumerWidget {
                 // SizedBox(width: 10),
                 Text(
                   "Mis Transferencias",
-                  style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 24,
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      fontWeight: FontWeight.bold),
                 ),
               ],
             ),
+            SizedBox(height: 15),
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.all(10.0),
               child: Container(
                   child: Column(
                 children: [
@@ -59,14 +65,20 @@ class TransfersScreen extends ConsumerWidget {
                       SizedBox(
                         width: 7,
                       ),
-                      Text('Mis últimas transferencias', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
+                      Text('Mis últimas transferencias',
+                          style: TextStyle(
+                              fontSize: 14,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
+                              fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],
               )),
             ),
             Container(
-              width: 270,
+              width: MediaQuery.of(context).size.width * 0.8,
               height: 3,
               decoration: BoxDecoration(
                 border: Border(
@@ -77,20 +89,25 @@ class TransfersScreen extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: 5),
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Text(
                 'Tus últimas transferencias de inversion realizadas en Finniu',
                 textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 12, height: 1.5, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
+                style: TextStyle(
+                    fontSize: 12,
+                    height: 1.5,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText)),
               ),
             ),
             SizedBox(
               height: 5,
             ),
             TransferenceList(),
-            EmptyTransference(),
+            // EmptyTransference(),
           ])),
     ));
   }
@@ -104,14 +121,18 @@ class TransferenceList extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return Container(
-        alignment: Alignment.centerRight,
-        width: 274.0,
-        height: 74.0,
-        decoration: BoxDecoration(
-          color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary),
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      alignment: Alignment.centerRight,
+      width: 274.0,
+      height: 74.0,
+      decoration: BoxDecoration(
+        color: currentTheme.isDarkMode
+            ? const Color(gradient_primary)
+            : const Color(gradient_secondary),
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
           Padding(
             padding: const EdgeInsets.only(
               right: 18.0,
@@ -124,27 +145,32 @@ class TransferenceList extends ConsumerWidget {
               height: 24,
             ),
           ),
-          Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-            const Text(
-              'Transferencia de Plan Origen',
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.black,
-              ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Text(
-              '29 de Mayo 2022',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.black,
-              ),
-            ),
-          ])
-        ]));
+          Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text(
+                  'Transferencia de Plan Origen',
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  '29 de Mayo 2022',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.black,
+                  ),
+                ),
+              ])
+        ],
+      ),
+    );
   }
 }
 
@@ -191,7 +217,9 @@ class EmptyTransference extends ConsumerWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
-                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                 ),
               ),
             ],
