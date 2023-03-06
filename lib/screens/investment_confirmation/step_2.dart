@@ -295,7 +295,16 @@ class Step_2 extends ConsumerWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.loupe_rounded, size: 30, color: Color(primaryLight)),
+                        InkWell(
+                          onTap: () {
+                            getModal(context);
+                          },
+                          child: Icon(
+                            Icons.loupe_rounded,
+                            size: 30,
+                            color: Color(primaryLight),
+                          ),
+                        ),
                         Text(
                           textAlign: TextAlign.center,
                           'Agregar cuenta',
@@ -384,4 +393,79 @@ class CircularCountdown extends StatelessWidget {
       ),
     );
   }
+}
+
+getModal(context) {
+  return showModalBottomSheet<void>(
+    backgroundColor: Color(primaryLightAlternative),
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        height: 500,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.add_circle_outline),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Text(
+                      textAlign: TextAlign.center,
+                      'Agregar Cuenta',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                        color: Color(primaryDark),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 12,
+                    ),
+                    SizedBox(
+                      width: 69,
+                      height: 58,
+                      child: Image.asset('assets/images/credit_card.png'),
+                    ),
+                    Positioned(
+                      top: 0,
+                      right: 0,
+                      child: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Text(
+                textAlign: TextAlign.center,
+                'Agregar Cuenta',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Color(primaryDark),
+                ),
+              ),
+              SizedBox(height: 50),
+              CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
