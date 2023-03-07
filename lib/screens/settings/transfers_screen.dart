@@ -1,4 +1,5 @@
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/screens/settings/widgets.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -30,12 +31,7 @@ class TransfersScreen extends ConsumerWidget {
                 // SizedBox(width: 10),
                 Text(
                   "Mis Transferencias",
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -47,31 +43,13 @@ class TransfersScreen extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        // width: 46.48,
-                        // height: 34.87,
-                        decoration: BoxDecoration(
-                          color: Color(primaryDark),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Image.asset(
-                          color: Color(cardBackgroundColorLight),
-                          'assets/transfers/wallet_change.png',
-                          width: 15,
-                          height: 15,
-                        ),
+                      IconContainer(
+                        image: 'assets/transfers/wallet.png',
                       ),
                       SizedBox(
                         width: 7,
                       ),
-                      Text('Mis últimas transferencias',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),
-                              fontWeight: FontWeight.bold)),
+                      Text('Mis últimas transferencias', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],
@@ -83,7 +61,7 @@ class TransfersScreen extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Color(gradient_secondary_option),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(gradient_secondary_option),
                     width: 2,
                   ),
                 ),
@@ -95,12 +73,7 @@ class TransfersScreen extends ConsumerWidget {
               child: Text(
                 'Tus últimas transferencias de inversion realizadas en Finniu',
                 textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 12,
-                    height: 1.5,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText)),
+                style: TextStyle(fontSize: 12, height: 1.5, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
               ),
             ),
             SizedBox(
@@ -125,9 +98,7 @@ class TransferenceList extends ConsumerWidget {
       width: 274.0,
       height: 74.0,
       decoration: BoxDecoration(
-        color: currentTheme.isDarkMode
-            ? const Color(gradient_primary)
-            : const Color(gradient_secondary),
+        color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(
@@ -145,29 +116,26 @@ class TransferenceList extends ConsumerWidget {
               height: 24,
             ),
           ),
-          Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
-                  'Transferencia de Plan Origen',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Text(
-                  '29 de Mayo 2022',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
-                ),
-              ])
+          Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+            const Text(
+              'Transferencia de Plan Origen',
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+              ),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Text(
+              '29 de Mayo 2022',
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+              ),
+            ),
+          ])
         ],
       ),
     );
@@ -217,9 +185,7 @@ class EmptyTransference extends ConsumerWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 14,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                 ),
               ),
             ],

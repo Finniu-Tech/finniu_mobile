@@ -1,4 +1,5 @@
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/screens/settings/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -30,12 +31,7 @@ class HelpScreen extends ConsumerWidget {
                   ),
                   Text(
                     "Ayuda",
-                    style: TextStyle(
-                        fontSize: 24,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                        fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.2,
@@ -57,23 +53,14 @@ class HelpScreen extends ConsumerWidget {
                             color: Color(primaryDark),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Image.asset(
-                            color: Color(cardBackgroundColorLight),
-                            'assets/help/message.png',
-                            width: 15,
-                            height: 15,
+                          child: IconContainer(
+                            image: 'assets/help/message.png',
                           ),
                         ),
                         SizedBox(
                           width: 7,
                         ),
-                        Text('Preguntas Frecuentes',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
-                                fontWeight: FontWeight.bold)),
+                        Text('Preguntas Frecuentes', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                       ],
                     ),
                   ],
@@ -85,9 +72,7 @@ class HelpScreen extends ConsumerWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: currentTheme.isDarkMode
-                          ? const Color(gradient_primary)
-                          : const Color(gradient_secondary_option),
+                      color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary_option),
                       width: 2,
                     ),
                   ),
@@ -102,9 +87,7 @@ class HelpScreen extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     height: 1.5,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
               ),
@@ -117,22 +100,16 @@ class HelpScreen extends ConsumerWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                   side: BorderSide(
-                    color: currentTheme.isDarkMode
-                        ? const Color(gradient_primary)
-                        : const Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(blackText),
                   ),
                 ),
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryDark)
-                    : const Color(primaryLightAlternative),
+                color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
                 child: ExpansionTile(
                   title: Text(
                     '¿Por qué se llama Finniu?',
                     style: TextStyle(
                       fontSize: 12,
-                      color: currentTheme.isDarkMode
-                          ? const Color(gradient_primary)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(blackText),
                     ),
                   ),
                   children: [
@@ -142,15 +119,9 @@ class HelpScreen extends ConsumerWidget {
                         // width: 249,
                         // height: 81,
                         decoration: BoxDecoration(
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryDarkAlternative)
-                              : const Color(primaryLight),
+                          color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight),
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryDarkAlternative)
-                                  : const Color(primaryLight),
-                              width: 2.0),
+                          border: Border.all(color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), width: 2.0),
                         ),
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -159,9 +130,7 @@ class HelpScreen extends ConsumerWidget {
                             'Al momento de fundarse la empresa se llamaba Finniu Way, luego se redujo a Finniu, es un juego de palabras entre Finnance y Niu del inglés New',
                             style: TextStyle(
                               fontSize: 12,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),
+                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                             ),
                           ),
                         ),
@@ -180,22 +149,16 @@ class HelpScreen extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(
-                      color: currentTheme.isDarkMode
-                          ? const Color(gradient_primary)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(blackText),
                     ),
                   ),
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(primaryLightAlternative),
+                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
                   child: ExpansionTile(
                       title: Text(
                         'Sobre Finniu',
                         style: TextStyle(
                           fontSize: 12,
-                          color: currentTheme.isDarkMode
-                              ? const Color(gradient_primary)
-                              : const Color(blackText),
+                          color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(blackText),
                         ),
                       ),
                       children: [
@@ -205,15 +168,9 @@ class HelpScreen extends ConsumerWidget {
                             // width: 249,
                             // height: 81,
                             decoration: BoxDecoration(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryDarkAlternative)
-                                  : const Color(primaryLight),
+                              color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight),
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryDarkAlternative)
-                                      : const Color(primaryLight),
-                                  width: 2.0),
+                              border: Border.all(color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), width: 2.0),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -222,9 +179,7 @@ class HelpScreen extends ConsumerWidget {
                                 'Finniu es una app que ayuda a incrementar tus ahorros con planes de inversion y tomar el control de tus finanzas con una herramienta de presupuestos',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
+                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                                 ),
                               ),
                             ),
@@ -241,22 +196,16 @@ class HelpScreen extends ConsumerWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                     side: BorderSide(
-                      color: currentTheme.isDarkMode
-                          ? const Color(gradient_primary)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(blackText),
                     ),
                   ),
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(primaryLightAlternative),
+                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
                   child: ExpansionTile(
                       title: Text(
                         '¿Que necesitamos para empezar Finniu?',
                         style: TextStyle(
                           fontSize: 12,
-                          color: currentTheme.isDarkMode
-                              ? const Color(gradient_primary)
-                              : const Color(blackText),
+                          color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(blackText),
                         ),
                       ),
                       children: [
@@ -266,15 +215,9 @@ class HelpScreen extends ConsumerWidget {
                             // width: 249,
                             // height: 81,
                             decoration: BoxDecoration(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryDarkAlternative)
-                                  : const Color(primaryLight),
+                              color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight),
                               borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryDarkAlternative)
-                                      : const Color(primaryLight),
-                                  width: 2.0),
+                              border: Border.all(color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), width: 2.0),
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(10.0),
@@ -283,9 +226,7 @@ class HelpScreen extends ConsumerWidget {
                                 'Finniu puede ser utilizada para cualquier persona dentro del Perú, ya sea de nacionalidad peruana con DNI o nacionalidad extranjera con CE.',
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
+                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                                 ),
                               ),
                             ),
@@ -302,17 +243,13 @@ class HelpScreen extends ConsumerWidget {
                     Navigator.of(context).pushNamed('/confirmation');
                   },
                   child: Container(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     child: Text(
                       'Ir a FQA',
                       style: TextStyle(
                         fontSize: 12,
                         decoration: TextDecoration.underline,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryDark)
-                            : const Color(whiteText),
+                        color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                       ),
                     ),
                   ),
@@ -325,30 +262,20 @@ class HelpScreen extends ConsumerWidget {
                     Row(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(10),
-                          width: 46.48,
-                          height: 34.87,
-                          decoration: BoxDecoration(
-                            color: Color(primaryDark),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Image.asset(
-                            color: Color(cardBackgroundColorLight),
-                            'assets/help/messagesinstant.png',
-                            width: 15,
-                            height: 15,
-                          ),
-                        ),
+                            padding: const EdgeInsets.all(10),
+                            width: 46.48,
+                            height: 34.87,
+                            decoration: BoxDecoration(
+                              color: Color(primaryDark),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: IconContainer(
+                              image: 'assets/help/messagesinstant.png',
+                            )),
                         SizedBox(
                           width: 7,
                         ),
-                        Text('Contactos de Finniu',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
-                                fontWeight: FontWeight.bold)),
+                        Text('Contactos de Finniu', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                       ],
                     ),
                     SizedBox(height: 10),
@@ -358,22 +285,20 @@ class HelpScreen extends ConsumerWidget {
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
-                            color: currentTheme.isDarkMode
-                                ? const Color(gradient_primary)
-                                : const Color(gradient_secondary_option),
+                            color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary_option),
                             width: 2,
                           ),
                         ),
                       ),
                     ),
                   ])),
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Column(
-                      children: [
-                        Row(
+              Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
@@ -383,9 +308,7 @@ class HelpScreen extends ConsumerWidget {
                               ),
                               child: Icon(
                                 CupertinoIcons.phone,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(blackText),
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
                               ),
                             ),
                             SizedBox(
@@ -394,25 +317,23 @@ class HelpScreen extends ConsumerWidget {
                             Text('963993305',
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
+                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                                 )),
                           ],
                         ),
-                      ],
-                    )),
-              ),
+                      ),
+                    ],
+                  )),
               SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.all(0.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: Column(
-                    children: [
-                      Row(
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20, left: 20),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Container(
@@ -422,9 +343,7 @@ class HelpScreen extends ConsumerWidget {
                             ),
                             child: Icon(
                               CupertinoIcons.chevron_down_square,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(blackText),
+                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
                             ),
                           ),
                           SizedBox(
@@ -433,16 +352,14 @@ class HelpScreen extends ConsumerWidget {
                           Text('hola@finniu.com',
                               style: TextStyle(
                                 fontSize: 11,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
+                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                               )),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ),
+              )
             ],
           ),
         ),

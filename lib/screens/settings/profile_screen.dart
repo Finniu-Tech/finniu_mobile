@@ -74,9 +74,7 @@ class ProfileScreen extends HookConsumerWidget {
       fieldValues[key] = mapControllerKey(key);
 
       // Count the number of non-empty fields
-      int count = fieldValues.values
-          .where((value) => value != null && value.toString().isNotEmpty)
-          .length;
+      int count = fieldValues.values.where((value) => value != null && value.toString().isNotEmpty).length;
 
       // Update the progress bar with the percentage of completed fields
       if (count == 0) {
@@ -102,8 +100,7 @@ class ProfileScreen extends HookConsumerWidget {
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      CircularPercentAvatar(
-                          percentage: percentage, imageFile: imageFile),
+                      CircularPercentAvatar(percentage: percentage, imageFile: imageFile),
                       Positioned(
                         left: -62,
                         top: 10,
@@ -140,10 +137,8 @@ class ProfileScreen extends HookConsumerWidget {
                         bottom: 25,
                         child: InkWell(
                           onTap: () async {
-                            Future<XFile?> ximage =
-                                _picker.pickImage(source: ImageSource.gallery);
-                            imageFile.value =
-                                await ximage.then((value) => value!.path);
+                            Future<XFile?> ximage = _picker.pickImage(source: ImageSource.gallery);
+                            imageFile.value = await ximage.then((value) => value!.path);
                             print('image value is ${imageFile.value}');
                           },
                           child: Icon(
@@ -167,9 +162,7 @@ class ProfileScreen extends HookConsumerWidget {
                       height: 1.5,
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
-                      color: themeProvider.isDarkMode
-                          ? Color(primaryLight)
-                          : Color(primaryDark),
+                      color: themeProvider.isDarkMode ? Color(primaryLight) : Color(primaryDark),
                     ),
                   ),
                 ),
@@ -223,8 +216,7 @@ class ProfileScreen extends HookConsumerWidget {
                     onEditingComplete: () {
                       _calculatePercentage('docNumber');
                     },
-                    keyboardType: const TextInputType.numberWithOptions(
-                        signed: true, decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
 
                     // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
@@ -238,9 +230,7 @@ class ProfileScreen extends HookConsumerWidget {
                   width: 224,
                   height: 39,
                   child: DropdownSearch<String>(
-                    selectedItem: departmentController.text != ''
-                        ? departmentController.text
-                        : null,
+                    selectedItem: departmentController.text != '' ? departmentController.text : null,
                     key: const Key('department'),
                     onChanged: (value) {
                       departmentController.text = value.toString();
@@ -251,29 +241,13 @@ class ProfileScreen extends HookConsumerWidget {
                         labelText: 'Departamento',
                       ),
                     ),
-                    items: [
-                      'Lima',
-                      'Ancash',
-                      'Loreto',
-                      'Junin',
-                      'Callao',
-                      'Madre de Dios',
-                      'Ica',
-                      'Puno',
-                      'Arequipa'
-                    ],
+                    items: ['Lima', 'Ancash', 'Loreto', 'Junin', 'Callao', 'Madre de Dios', 'Ica', 'Puno', 'Arequipa'],
                     popupProps: PopupProps.menu(
                       showSelectedItems: true,
                       itemBuilder: (context, item, isSelected) => Container(
                         decoration: BoxDecoration(
                           color: Color(
-                            isSelected
-                                ? (themeProvider.isDarkMode
-                                    ? primaryLight
-                                    : primaryDarkAlternative)
-                                : (themeProvider.isDarkMode
-                                    ? primaryDarkAlternative
-                                    : primaryLight),
+                            isSelected ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative) : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
                           ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(20),
@@ -291,13 +265,7 @@ class ProfileScreen extends HookConsumerWidget {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Color(
-                              isSelected
-                                  ? (themeProvider.isDarkMode
-                                      ? primaryDark
-                                      : Colors.white.value)
-                                  : (themeProvider.isDarkMode
-                                      ? Colors.white.value
-                                      : primaryDark),
+                              isSelected ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value) : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
                             ),
                             fontWeight: FontWeight.w500,
                           ),
@@ -305,16 +273,12 @@ class ProfileScreen extends HookConsumerWidget {
                       ),
                       menuProps: MenuProps(
                         backgroundColor: Color(
-                          themeProvider.isDarkMode
-                              ? primaryDark
-                              : primaryLightAlternative,
+                          themeProvider.isDarkMode ? primaryDark : primaryLightAlternative,
                         ),
                         shape: RoundedRectangleBorder(
                           side: BorderSide(
                             color: Color(
-                              themeProvider.isDarkMode
-                                  ? primaryLight
-                                  : primaryDark,
+                              themeProvider.isDarkMode ? primaryLight : primaryDark,
                             ),
                             width: 1.0,
                           ),
@@ -346,9 +310,7 @@ class ProfileScreen extends HookConsumerWidget {
                   width: 224,
                   height: 38,
                   child: DropdownSearch<String>(
-                    selectedItem: districtController.text != ''
-                        ? districtController.text
-                        : null,
+                    selectedItem: districtController.text != '' ? districtController.text : null,
                     key: const Key('district'),
                     onChanged: (value) {
                       districtController.text = value.toString();
@@ -377,14 +339,12 @@ class ProfileScreen extends HookConsumerWidget {
                           ),
                         ),
                         padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 15, left: 15),
+                        margin: const EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
                         child: Text(
                           item.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(
-                                isSelected ? Colors.white.value : primaryDark),
+                            color: Color(isSelected ? Colors.white.value : primaryDark),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -470,9 +430,7 @@ class ProfileScreen extends HookConsumerWidget {
                   width: 224,
                   height: 38,
                   child: DropdownSearch<String>(
-                    selectedItem: civilStateController.text != ''
-                        ? civilStateController.text
-                        : null,
+                    selectedItem: civilStateController.text != '' ? civilStateController.text : null,
                     key: const Key('civilState'),
                     onChanged: (value) {
                       civilStateController.text = value.toString();
@@ -494,14 +452,12 @@ class ProfileScreen extends HookConsumerWidget {
                           ),
                         ),
                         padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 15, left: 15),
+                        margin: const EdgeInsets.only(top: 5, bottom: 5, right: 15, left: 15),
                         child: Text(
                           item.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Color(
-                                isSelected ? Colors.white.value : primaryDark),
+                            color: Color(isSelected ? Colors.white.value : primaryDark),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -546,11 +502,7 @@ class ProfileScreen extends HookConsumerWidget {
                 ],
                 Container(
                   margin: const EdgeInsets.only(top: 20),
-                  child: const CustomButton(
-                      text: 'Guardar',
-                      colorBackground: primaryDark,
-                      colorText: whiteText,
-                      pushName: '/home_home'),
+                  child: const CustomButton(text: 'Guardar', colorBackground: primaryDark, colorText: whiteText, pushName: '/home_home'),
                 ),
               ],
             ),
@@ -593,10 +545,8 @@ class CircularPercentAvatar extends ConsumerWidget {
               ) as ImageProvider,
       ),
 
-      progressColor:
-          Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
-      backgroundColor:
-          Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
+      progressColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
+      backgroundColor: Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
       // fillColor: Color(primaryLight),
     );
   }

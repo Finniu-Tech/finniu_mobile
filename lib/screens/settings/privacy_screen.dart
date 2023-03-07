@@ -1,6 +1,7 @@
 import 'package:email_validator/email_validator.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/screens/settings/widgets.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -22,26 +23,19 @@ class PrivacyScreen extends HookConsumerWidget {
                 SizedBox(
                   height: 10,
                 ),
+
                 Image.asset(
                   'assets/privacy/privacy.png',
-                  width: 90,
-                  height: 90,
                 ),
                 // SizedBox(width: 10),
                 Text(
                   "Privacidad",
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
                 )
               ]),
               Padding(
                 padding: const EdgeInsets.all(20.0),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Container(
                     width: 46.48,
                     height: 34.87,
@@ -49,22 +43,14 @@ class PrivacyScreen extends HookConsumerWidget {
                       color: Color(primaryDark),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Image.asset(
-                      'assets/privacy/key.png',
-                      width: 30,
-                      height: 30,
+                    child: IconContainer(
+                      image: 'assets/privacy/key.png',
                     ),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  Text("Contraseñas",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
-                          fontWeight: FontWeight.bold)),
+                  Text("Contraseñas", style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                 ]),
               ),
               Container(
@@ -72,7 +58,7 @@ class PrivacyScreen extends HookConsumerWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Color(gradient_secondary_option),
+                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(gradient_secondary_option),
                       width: 2,
                     ),
                   ),
@@ -89,9 +75,7 @@ class PrivacyScreen extends HookConsumerWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                   SizedBox(
@@ -121,9 +105,7 @@ class PrivacyScreen extends HookConsumerWidget {
                       "Mostrar caracteres brevemente mientras escribes",
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                         height: 1.5,
                       ),
                     ),
@@ -139,9 +121,7 @@ class PrivacyScreen extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                 ],
@@ -154,9 +134,7 @@ class PrivacyScreen extends HookConsumerWidget {
                 height: 30,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: currentTheme.isDarkMode
-                      ? const Color(colorblacklight)
-                      : const Color(grayText3),
+                  color: currentTheme.isDarkMode ? const Color(colorblacklight) : const Color(grayText3),
                 ),
                 child: TextFormField(
                   controller: emailController,
@@ -175,11 +153,7 @@ class PrivacyScreen extends HookConsumerWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     hintText: 'Escriba su contraseña actual',
-                    hintStyle: TextStyle(
-                        fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? Color(whiteText)
-                            : Color(blackText)),
+                    hintStyle: TextStyle(fontSize: 10, color: currentTheme.isDarkMode ? Color(whiteText) : Color(blackText)),
                     label: Text('Contraseña actual'),
                     suffixIcon: Icon(
                       Icons.visibility,
@@ -196,9 +170,7 @@ class PrivacyScreen extends HookConsumerWidget {
                 height: 30,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
-                  color: currentTheme.isDarkMode
-                      ? const Color(colorblacklight)
-                      : const Color(grayText3),
+                  color: currentTheme.isDarkMode ? const Color(colorblacklight) : const Color(grayText3),
                 ),
                 child: TextFormField(
                   controller: emailController,
@@ -216,17 +188,9 @@ class PrivacyScreen extends HookConsumerWidget {
                   },
                   decoration: InputDecoration(
                     hintText: 'Escriba su nueva contraseña',
-                    hintStyle: TextStyle(
-                        fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? Color(whiteText)
-                            : Color(blackText)),
+                    hintStyle: TextStyle(fontSize: 10, color: currentTheme.isDarkMode ? Color(whiteText) : Color(blackText)),
                     labelText: 'Nueva contraseña',
-                    labelStyle: TextStyle(
-                        fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? Color(whiteText)
-                            : Color(blackText)),
+                    labelStyle: TextStyle(fontSize: 10, color: currentTheme.isDarkMode ? Color(primaryLight) : Color(blackText)),
                     suffixIcon: Icon(
                       Icons.visibility,
                       color: Color(primaryDark),
@@ -239,8 +203,7 @@ class PrivacyScreen extends HookConsumerWidget {
               //     child: Column(children: [
               Padding(
                 padding: const EdgeInsets.all(22.0),
-                child:
-                    Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
                   Container(
                     width: 46.48,
                     height: 34.87,
@@ -248,22 +211,14 @@ class PrivacyScreen extends HookConsumerWidget {
                       color: Color(primaryDark),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Image.asset(
-                      'assets/privacy/lock-circle.png',
-                      width: 20,
-                      height: 20,
+                    child: IconContainer(
+                      image: 'assets/privacy/lock-circle.png',
                     ),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  Text("Administrador de permisos",
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
-                          fontWeight: FontWeight.bold)),
+                  Text("Administrador de permisos", style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                 ]),
               ),
               Container(
@@ -271,7 +226,7 @@ class PrivacyScreen extends HookConsumerWidget {
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: Color(gradient_secondary_option),
+                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(gradient_secondary_option),
                       width: 2,
                     ),
                   ),
@@ -286,9 +241,7 @@ class PrivacyScreen extends HookConsumerWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                   SizedBox(
@@ -319,9 +272,7 @@ class PrivacyScreen extends HookConsumerWidget {
                       "Permiso tu ubicacion actual mientras la app esta en uso",
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                         height: 1.5,
                       ),
                     ),
@@ -340,9 +291,7 @@ class PrivacyScreen extends HookConsumerWidget {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 12,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                   SizedBox(
@@ -373,9 +322,7 @@ class PrivacyScreen extends HookConsumerWidget {
                       "Visualizar directamente tus fotos de tu galeria mientras la app esta en uso ",
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                         height: 1.5,
                       ),
                     ),

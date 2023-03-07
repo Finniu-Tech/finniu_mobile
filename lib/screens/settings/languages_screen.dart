@@ -1,6 +1,7 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/screens/settings/widgets.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,29 +23,24 @@ class LanguagesStart extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 10,
-                ),
                 Image.asset(
                   'assets/languages/land.png',
                   width: 125,
                   height: 150,
                 ),
                 // SizedBox(width: 10),
+
                 Text(
                   "Lenguajes",
-                  style: TextStyle(
-                      fontSize: 24,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
+                ),
+
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.2,
                 ),
               ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
@@ -52,31 +48,13 @@ class LanguagesStart extends ConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        // width: 46.48,
-                        // height: 34.87,
-                        decoration: BoxDecoration(
-                          color: Color(primaryDark),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Image.asset(
-                          color: Color(cardBackgroundColorLight),
-                          'assets/languages/translate.png',
-                          width: 15,
-                          height: 15,
-                        ),
+                      IconContainer(
+                        image: 'assets/languages/translate.png',
                       ),
                       SizedBox(
                         width: 7,
                       ),
-                      Text('Configuración de lenguaje',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),
-                              fontWeight: FontWeight.bold)),
+                      Text('Configuración de lenguaje', style: TextStyle(fontSize: 14, color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText), fontWeight: FontWeight.bold)),
                     ],
                   ),
                 ],
@@ -88,7 +66,7 @@ class LanguagesStart extends ConsumerWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                    color: Color(gradient_secondary_option),
+                    color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary_option),
                     width: 2,
                   ),
                 ),
@@ -103,9 +81,7 @@ class LanguagesStart extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 12,
                   height: 1.5,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
             ),
@@ -146,8 +122,7 @@ class LanguagesStart extends ConsumerWidget {
                       item.toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(
-                            isSelected ? Colors.white.value : primaryDark),
+                        color: Color(isSelected ? Colors.white.value : primaryDark),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
