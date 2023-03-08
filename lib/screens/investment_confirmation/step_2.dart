@@ -4,6 +4,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/screens/investment_confirmation/widgets/alerts.dart';
+import 'package:finniu/screens/investment_confirmation/widgets/image_circle.dart';
 import 'package:finniu/screens/settings/profile_screen.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -26,7 +27,7 @@ class Step_2 extends ConsumerWidget {
         child: Column(
           children: <Widget>[
             const StepBar(),
-            const SizedBox(height: 20),
+            // const SizedBox(height: 20),
             Container(
               alignment: Alignment.centerLeft,
               width: 310,
@@ -42,25 +43,25 @@ class Step_2 extends ConsumerWidget {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
                   height: 100,
                   width: MediaQuery.of(context).size.width * 0.6,
                   // width: double.maxFinite,
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.all(10),
+                  alignment: Alignment.center,
+
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      const CircularPercentAvatarWidget(),
+                      const CircularImage(),
                       Positioned(
-                        left: -62,
-                        top: 10,
+                        left: -45,
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
-                            width: 67,
-                            height: 35,
+                            width: 59.49,
+                            height: 31.15,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: const Color(primaryDark),
@@ -73,11 +74,11 @@ class Step_2 extends ConsumerWidget {
                             // color: Color(primaryDark),
                             child: Center(
                               child: Text(
-                                '60%',
+                                '6%',
                                 // textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
+                                  color: Color(primaryLight),
+                                  fontSize: 12,
                                 ),
                               ),
                             ),
@@ -120,6 +121,7 @@ class Step_2 extends ConsumerWidget {
                         ],
                       ),
                     ),
+                    SizedBox(height: 20),
                     Container(
                       alignment: Alignment.center,
                       height: 60,
