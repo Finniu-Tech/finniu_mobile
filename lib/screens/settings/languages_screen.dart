@@ -106,9 +106,13 @@ class LanguagesStart extends ConsumerWidget {
                   showSelectedItems: true,
                   itemBuilder: (context, item, isSelected) => Container(
                     decoration: BoxDecoration(
-                      color: Color(isSelected ? primaryDark : primaryLight),
+                      color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
                       borderRadius: const BorderRadius.all(
                         Radius.circular(20),
+                      ),
+                      border: Border.all(
+                        width: 2,
+                        color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
                       ),
                     ),
                     padding: const EdgeInsets.all(15),
@@ -122,16 +126,16 @@ class LanguagesStart extends ConsumerWidget {
                       item.toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Color(isSelected ? Colors.white.value : primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  menuProps: const MenuProps(
-                    backgroundColor: Color(primaryLightAlternative),
+                  menuProps: MenuProps(
+                    backgroundColor: currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
-                        color: Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         width: 1.0,
                       ),
                       borderRadius: BorderRadius.vertical(

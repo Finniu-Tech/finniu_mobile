@@ -163,33 +163,33 @@ class EmailLoginScreen extends HookConsumerWidget {
                         height: 50,
                         child: TextButton(
                           child: const Text('Ingresar'),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/investment_step2');
-                          },
-
-                          // onPressed: () async {
-                          //   if (formKey.currentState!.validate()) {
-                          //     context.loaderOverlay.show();
-                          //     final token = ref.watch(authTokenMutationProvider(
-                          //       LoginModel(email: _email, password: _password),
-                          //     ).future);
-                          //     token.then(
-                          //       (value) {
-                          //         context.loaderOverlay.hide();
-                          //         if (value != null) {
-                          //           ref.read(authTokenProvider.notifier).state = value;
-                          //           Navigator.pushNamed(context, '/home_home');
-                          //         } else {
-                          //           showError.value = true;
-                          //         }
-                          //       },
-                          //       onError: (err) {
-                          //         context.loaderOverlay.hide();
-                          //         showError.value = true;
-                          //       },
-                          //     );
-                          //   }
+                          // onPressed: () {
+                          //   Navigator.pushNamed(context, '/investment_step2');
                           // },
+
+                          onPressed: () async {
+                            if (formKey.currentState!.validate()) {
+                              context.loaderOverlay.show();
+                              final token = ref.watch(authTokenMutationProvider(
+                                LoginModel(email: _email, password: _password),
+                              ).future);
+                              token.then(
+                                (value) {
+                                  context.loaderOverlay.hide();
+                                  if (value != null) {
+                                    ref.read(authTokenProvider.notifier).state = value;
+                                    Navigator.pushNamed(context, '/home_home');
+                                  } else {
+                                    showError.value = true;
+                                  }
+                                },
+                                onError: (err) {
+                                  context.loaderOverlay.hide();
+                                  showError.value = true;
+                                },
+                              );
+                            }
+                          },
                         ),
                       ),
                       const SizedBox(height: 10),
