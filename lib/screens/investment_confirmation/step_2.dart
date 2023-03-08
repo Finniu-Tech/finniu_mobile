@@ -27,11 +27,11 @@ class Step_2 extends ConsumerWidget {
         child: Column(
           children: <Widget>[
             const StepBar(),
-            // const SizedBox(height: 20),
+            const SizedBox(height: 30),
             Container(
               alignment: Alignment.centerLeft,
               width: 310,
-              height: 70,
+              height: 40,
               child: Text(
                 'Plan Origen',
                 textAlign: TextAlign.left,
@@ -56,7 +56,7 @@ class Step_2 extends ConsumerWidget {
                     children: [
                       const CircularImage(),
                       Positioned(
-                        left: -45,
+                        right: 90,
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Container(
@@ -91,7 +91,7 @@ class Step_2 extends ConsumerWidget {
                 Column(
                   children: [
                     Container(
-                      alignment: Alignment.center,
+                      alignment: Alignment.centerLeft,
                       height: 60,
                       width: 116,
                       decoration: BoxDecoration(
@@ -121,9 +121,9 @@ class Step_2 extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     Container(
-                      alignment: Alignment.center,
+                      alignment: Alignment.topLeft,
                       height: 60,
                       width: 116,
                       decoration: BoxDecoration(

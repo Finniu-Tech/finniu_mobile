@@ -11,42 +11,45 @@ class CircularImage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
-    return CircularPercentIndicator(
-      radius: 60.0,
-      lineWidth: 5.0,
-      percent: 0.5,
-      center: CircleAvatar(
-        radius: 30,
-        backgroundColor: Colors.white,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              alignment: Alignment.topCenter,
-              child: SizedBox(
-                child: Image.asset(
-                  'assets/result/money.png',
-                  width: 60,
-                  height: 58.22,
+    return Container(
+      margin: EdgeInsets.only(left: 63.0),
+      child: CircularPercentIndicator(
+        radius: 50.0,
+        lineWidth: 5.0,
+        percent: 0.5,
+        center: CircleAvatar(
+          radius: 30,
+          backgroundColor: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  child: Image.asset(
+                    'assets/result/money.png',
+                    width: 50,
+                    height: 50,
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              "6 meses",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-                color: Color(primaryDark),
-              ),
-            )
-          ],
+              SizedBox(height: 8),
+              Text(
+                "6 meses",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Color(primaryDark),
+                ),
+              )
+            ],
+          ),
         ),
+        progressColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
+        backgroundColor: Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
+        fillColor: Colors.white,
       ),
-      progressColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
-      backgroundColor: Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
-      fillColor: Colors.white,
     );
   }
 }
