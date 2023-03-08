@@ -50,10 +50,10 @@ class Step_2 extends ConsumerWidget {
                 height: 31.15,
                 // padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                  color: Color(primaryDark),
+                  color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Color(primaryDark),
+                    color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(whiteText),
                     width: 1,
                   ),
                 ),
@@ -65,7 +65,7 @@ class Step_2 extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color(primaryLight),
+                        color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
                       ),
                     ),
                     Text(
@@ -73,7 +73,7 @@ class Step_2 extends ConsumerWidget {
                       'Rentabilidad',
                       style: TextStyle(
                         fontSize: 5,
-                        color: Color(primaryLight),
+                        color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
                       ),
                     ),
                   ],
@@ -236,7 +236,7 @@ class Step_2 extends ConsumerWidget {
               child: Icon(
                 Icons.quiz_outlined, // Icono que deseas utilizar
                 size: 20, // Tamaño del icono
-                color: Color(primaryDark), // Color del icono
+                color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark), // Color del icono
               ),
             ),
           ],
@@ -253,9 +253,9 @@ class Step_2 extends ConsumerWidget {
             bottomLeft: Radius.circular(4),
             bottomRight: Radius.circular(4),
           ),
-          color: Colors.white,
+          color: Colors.transparent,
           border: Border.all(
-            color: Color(primaryDark),
+            color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
             width: 1,
           ),
         ),
@@ -267,7 +267,7 @@ class Step_2 extends ConsumerWidget {
             children: <Widget>[
               Row(
                 children: <Widget>[
-                  Icon(Icons.aspect_ratio_sharp),
+                  Icon(Icons.aspect_ratio_sharp, color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark)),
                   SizedBox(
                     width: 10,
                   ),
@@ -276,7 +276,7 @@ class Step_2 extends ConsumerWidget {
                     child: Text(
                       textAlign: TextAlign.center,
                       'Banco donde realizamos tu transferencia',
-                      style: TextStyle(color: Color(primaryDark), fontWeight: FontWeight.bold),
+                      style: TextStyle(color: currentTheme.isDarkMode ? Color(whiteText) : const Color(primaryDark), fontWeight: FontWeight.bold),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -286,7 +286,8 @@ class Step_2 extends ConsumerWidget {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                        color: Color(primaryDark),
+                        border: Border.all(color: Color(primary_text), width: 2),
+                        color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
                         borderRadius: BorderRadius.only(
                           topRight: Radius.circular(20),
                           bottomLeft: Radius.circular(10),
@@ -303,14 +304,16 @@ class Step_2 extends ConsumerWidget {
                           child: Icon(
                             Icons.loupe_rounded,
                             size: 30,
-                            color: Color(primaryLight),
+                            color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
                           ),
                         ),
                         Text(
-                          textAlign: TextAlign.center,
-                          'Agregar cuenta',
-                          style: TextStyle(fontSize: 8, color: Color(primaryLight)),
-                        ),
+                            textAlign: TextAlign.center,
+                            'Agregar cuenta',
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
+                            )),
                       ],
                     ),
                   ),
@@ -340,10 +343,11 @@ class Step_2 extends ConsumerWidget {
   }
 }
 
-class CircularCountdown extends StatelessWidget {
+class CircularCountdown extends ConsumerWidget {
   const CircularCountdown({super.key});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       // alignment: Alignment.centerLeft,
       width: 125.41,
@@ -357,7 +361,7 @@ class CircularCountdown extends StatelessWidget {
             duration: 60,
             ringColor: Color(primaryLight),
             fillColor: Color(primaryDark),
-            backgroundColor: Color(whiteText),
+            backgroundColor: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
             strokeWidth: 6.0,
             textStyle: TextStyle(
               fontSize: 10.0,
@@ -382,10 +386,13 @@ class CircularCountdown extends StatelessWidget {
                 Text(
                   '6 meses',
                   style: TextStyle(
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.bold,
-                    color: Color(primaryDark),
-                  ),
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                      color: currentTheme.isDarkMode
+                          ? Color(primaryLight)
+                          : const Color(
+                              primaryDark,
+                            )),
                 ),
               ],
             ),
@@ -400,6 +407,7 @@ getModal(context) {
   return showModalBottomSheet<void>(
     backgroundColor: Color(primaryLightAlternative),
     context: context,
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
     builder: (BuildContext context) {
       var MontoController;
       return Container(
@@ -411,196 +419,193 @@ getModal(context) {
             topRight: Radius.circular(40),
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: Row(
-                  children: <Widget>[
-                    Icon(Icons.add_circle_outline),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    const Text(
-                      textAlign: TextAlign.center,
-                      'Agregar Cuenta',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Color(primaryDark),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 12,
-                    ),
-                    SizedBox(
-                      width: 69,
-                      height: 58,
-                      child: Image.asset('assets/images/credit_card.png'),
-                    ),
-                    Positioned(
-                      top: 0,
-                      right: 0,
-                      child: IconButton(
-                        icon: Icon(Icons.close),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                  ],
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () {
+                    // Navigator.of(context).pop();
+                  },
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 180,
-                    child: const Text(
-                      textAlign: TextAlign.justify,
-                      'Banco donde realizaras tu transferencia',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: Color(primaryDark),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 25,
-                  ),
-                  Container(
-                    child: Icon(
-                      Icons.quiz_outlined,
-                      color: Color(primaryDark),
-                      size: 23.0,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 10),
-              SizedBox(
-                width: 224,
-                height: 39,
-                child: DropdownSearch<String>(
-                  dropdownDecoratorProps: const DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                      hintText: 'Seleccione el Banco',
-                      labelText: 'Banco',
-                    ),
-                  ),
-                  items: [
-                    'BCP',
-                    'Interbank',
-                    'Scotiabank',
-                  ],
-                  popupProps: PopupProps.menu(
-                    showSelectedItems: true,
-                    itemBuilder: (context, item, isSelected) => Container(
-                      decoration: BoxDecoration(
-                        color: Color(isSelected ? primaryDark : primaryLight),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                      ),
-                      padding: const EdgeInsets.all(15),
-                      margin: const EdgeInsets.only(
-                        top: 5,
-                        bottom: 5,
-                        right: 15,
-                        left: 15,
-                      ),
-                      child: Text(
-                        item.toString(),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: Color(isSelected ? Colors.white.value : primaryDark),
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    menuProps: const MenuProps(
-                      backgroundColor: Color(primaryLightAlternative),
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          color: Color(primaryDark),
-                          width: 1.0,
-                        ),
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(10),
-                        ),
-                      ),
-                    ),
-                    showSearchBox: true,
-                    searchFieldProps: const TextFieldProps(
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        suffixIcon: Icon(Icons.search),
-                        label: Text('Buscar'),
-                      ),
-                    ),
-                  ),
-                  dropdownButtonProps: const DropdownButtonProps(
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Icon(Icons.add_circle_outline),
+                const SizedBox(
+                  width: 8,
+                ),
+                const Text(
+                  textAlign: TextAlign.center,
+                  'Agregar Cuenta',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                     color: Color(primaryDark),
-                    padding: EdgeInsets.zero,
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 35,
-              ),
-              SizedBox(
-                width: 224,
-                child: TextFormField(
-                  controller: MontoController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Este dato es requerido';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    // nickNameController.text = value.toString();
-                  },
-                  decoration: const InputDecoration(
-                    hintText: 'Escriba su cuenta bancaria',
-                    label: Text("Cuenta Bancaria"),
-                  ),
+                const SizedBox(
+                  width: 12,
                 ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Icon(
-                      Icons.check_box_outline_blank,
-                      color: Color(primaryDark),
-                      size: 21.0,
-                    ),
-                  ),
-                  Text(
-                    textAlign: TextAlign.center,
-                    'Confirmo que esa cuenta me pertenece',
+                SizedBox(
+                  width: 69,
+                  height: 58,
+                  child: Image.asset('assets/images/credit_card.png'),
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 180,
+                  child: const Text(
+                    textAlign: TextAlign.justify,
+                    'Banco donde realizaras tu transferencia',
                     style: TextStyle(
-                      fontSize: 10,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
                       color: Color(primaryDark),
                     ),
                   ),
+                ),
+                SizedBox(
+                  width: 50,
+                ),
+                Container(
+                  child: Icon(
+                    Icons.quiz_outlined,
+                    color: Color(primaryDark),
+                    size: 23.0,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 10),
+            SizedBox(
+              width: 224,
+              height: 39,
+              child: DropdownSearch<String>(
+                dropdownDecoratorProps: const DropDownDecoratorProps(
+                  dropdownSearchDecoration: InputDecoration(
+                    hintText: 'Seleccione el Banco',
+                    labelText: 'Banco',
+                  ),
+                ),
+                items: [
+                  'BCP',
+                  'Interbank',
+                  'Scotiabank',
                 ],
+                popupProps: PopupProps.menu(
+                  showSelectedItems: true,
+                  itemBuilder: (context, item, isSelected) => Container(
+                    decoration: BoxDecoration(
+                      color: Color(isSelected ? primaryDark : primaryLight),
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(20),
+                      ),
+                    ),
+                    padding: const EdgeInsets.all(15),
+                    margin: const EdgeInsets.only(
+                      top: 5,
+                      bottom: 5,
+                      right: 15,
+                      left: 15,
+                    ),
+                    child: Text(
+                      item.toString(),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Color(isSelected ? Colors.white.value : primaryDark),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  menuProps: const MenuProps(
+                    backgroundColor: Color(primaryLightAlternative),
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        color: Color(primaryDark),
+                        width: 1.0,
+                      ),
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(10),
+                      ),
+                    ),
+                  ),
+                  showSearchBox: true,
+                  searchFieldProps: const TextFieldProps(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.white,
+                      suffixIcon: Icon(Icons.search),
+                      label: Text('Buscar'),
+                    ),
+                  ),
+                ),
+                dropdownButtonProps: const DropdownButtonProps(
+                  color: Color(primaryDark),
+                  padding: EdgeInsets.zero,
+                ),
               ),
-              SizedBox(
-                height: 25,
+            ),
+            SizedBox(
+              height: 35,
+            ),
+            SizedBox(
+              width: 224,
+              child: TextFormField(
+                controller: MontoController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  // nickNameController.text = value.toString();
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Escriba su cuenta bancaria',
+                  label: Text("Cuenta Bancaria"),
+                ),
               ),
-              CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
-            ],
-          ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  child: Icon(
+                    Icons.check_box_outline_blank,
+                    color: Color(primaryDark),
+                    size: 21.0,
+                  ),
+                ),
+                Text(
+                  textAlign: TextAlign.center,
+                  'Confirmo que esa cuenta me pertenece',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Color(primaryDark),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 25,
+            ),
+            CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
+          ],
         ),
       );
     },
