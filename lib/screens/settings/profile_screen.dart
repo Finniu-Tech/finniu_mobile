@@ -252,6 +252,10 @@ class ProfileScreen extends HookConsumerWidget {
                           borderRadius: const BorderRadius.all(
                             Radius.circular(20),
                           ),
+                          border: Border.all(
+                            width: 2,
+                            color: themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
+                          ),
                         ),
                         padding: const EdgeInsets.all(15),
                         margin: const EdgeInsets.only(
