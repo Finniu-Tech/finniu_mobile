@@ -146,7 +146,7 @@ class Step_2 extends ConsumerWidget {
                           ),
                           Text(
                             'Monto que recibiras',
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 10,
                               color: Color(blackText),
@@ -234,7 +234,7 @@ class Step_2 extends ConsumerWidget {
               ),
             ),
             Container(
-              width: 320,
+              width: MediaQuery.of(context).size.width * 0.9,
               height: 71,
 
               decoration: BoxDecoration(
@@ -251,67 +251,61 @@ class Step_2 extends ConsumerWidget {
                 ),
               ),
               // padding: EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
-                // child: Padding(
-                //   padding: const EdgeInsets.all(4.0),
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Icon(Icons.aspect_ratio_sharp, color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark)),
-                        SizedBox(
-                          width: 10,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, left: 10),
+                    child: Icon(
+                      Icons.credit_card_outlined,
+                      color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
+                      size: MediaQuery.of(context).size.width * 0.07,
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.55,
+                    child: Text(
+                      textAlign: TextAlign.left,
+                      'Banco donde realizamos tu transferencia',
+                      style: TextStyle(color: currentTheme.isDarkMode ? Color(whiteText) : const Color(primaryDark), fontWeight: FontWeight.bold),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    decoration: BoxDecoration(
+                        color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(10),
+                        )),
+                    width: MediaQuery.of(context).size.width * 0.21,
+                    height: 71,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            getModal(context, ref);
+                          },
+                          child: Icon(
+                            Icons.loupe_rounded,
+                            size: MediaQuery.of(context).size.width * 0.05,
+                            color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
+                          ),
                         ),
-                        Container(
-                          width: 190,
-                          child: Text(
+                        Text(
                             textAlign: TextAlign.center,
-                            'Banco donde realizamos tu transferencia',
-                            style: TextStyle(color: currentTheme.isDarkMode ? Color(whiteText) : const Color(primaryDark), fontWeight: FontWeight.bold),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 40,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(10),
-                              )),
-                          width: 54,
-                          height: 71,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  getModal(context, ref);
-                                },
-                                child: Icon(
-                                  Icons.loupe_rounded,
-                                  size: 30,
-                                  color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
-                                ),
-                              ),
-                              Text(
-                                  textAlign: TextAlign.center,
-                                  'Agregar cuenta',
-                                  style: TextStyle(
-                                    fontSize: 8,
-                                    color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
-                                  )),
-                            ],
-                          ),
-                        ),
+                            'Agregar cuenta',
+                            style: TextStyle(
+                              fontSize: 8,
+                              color: currentTheme.isDarkMode ? Color(primaryDark) : const Color(primaryLight),
+                            )),
                       ],
                     ),
-                    Padding(padding: EdgeInsets.only(top: 70.0)),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -398,7 +392,7 @@ class CircularCountdown extends ConsumerWidget {
 
 getModal(context, WidgetRef ref) {
   final currentTheme = ref.watch(settingsNotifierProvider);
-  final bankController = useTextEditingController();
+  // final bankController = useTextEditingController();
   {
     return showModalBottomSheet<void>(
       backgroundColor: currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
@@ -423,7 +417,10 @@ getModal(context, WidgetRef ref) {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.close),
+                    icon: Icon(
+                      Icons.close,
+                      color: currentTheme.isDarkMode ? Color(primaryLight) : Color(blackText),
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -487,11 +484,11 @@ getModal(context, WidgetRef ref) {
                 ],
               ),
               SizedBox(height: 10),
-              CustomSelectButton(
-                textEditingController: bankController,
-                items: const ['BCP', 'Interbank', 'Scotiabank'],
-                labelText: "Banco",
-              ),
+              // CustomSelectButton(
+              //   // textEditingController: bankController,
+              //   items: const ['BCP', 'Interbank', 'Scotiabank'],
+              //   labelText: "Banco",
+              // ),
               SizedBox(
                 height: 35,
               ),
@@ -523,7 +520,7 @@ getModal(context, WidgetRef ref) {
                   Container(
                     child: Icon(
                       Icons.check_box_outline_blank,
-                      color: Color(primaryDark),
+                      color: currentTheme.isDarkMode ? Color(whiteText) : Color(blackText),
                       size: 21.0,
                     ),
                   ),
@@ -532,7 +529,7 @@ getModal(context, WidgetRef ref) {
                     'Confirmo que esa cuenta me pertenece',
                     style: TextStyle(
                       fontSize: 10,
-                      color: Color(primaryDark),
+                      color: currentTheme.isDarkMode ? Color(whiteText) : Color(primaryDark),
                     ),
                   ),
                 ],
