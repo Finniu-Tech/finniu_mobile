@@ -8,8 +8,10 @@ import 'package:finniu/screens/investment_confirmation/widgets/image_circle.dart
 import 'package:finniu/screens/settings/profile_screen.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -64,10 +66,10 @@ class Step_2 extends ConsumerWidget {
                             height: 31.15,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: const Color(primaryDark),
+                              color: currentTheme.isDarkMode ? Color(primaryLight) : Color(primaryDark),
                               border: Border.all(
                                 width: 4,
-                                color: const Color(0xff295984),
+                                color: currentTheme.isDarkMode ? Color(primaryLight) : Color(primaryDark),
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -76,8 +78,8 @@ class Step_2 extends ConsumerWidget {
                               child: Text(
                                 '6%',
                                 // textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  color: Color(primaryLight),
+                                style: TextStyle(
+                                  color: currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
                                   fontSize: 12,
                                 ),
                               ),
@@ -205,6 +207,7 @@ class Step_2 extends ConsumerWidget {
                               right: 0,
                               child: IconButton(
                                 icon: Icon(Icons.close),
+                                color: Color(primaryDark),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
@@ -274,7 +277,6 @@ class Step_2 extends ConsumerWidget {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                              border: Border.all(color: Color(primary_text), width: 2),
                               color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
                               borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(20),
@@ -287,7 +289,7 @@ class Step_2 extends ConsumerWidget {
                             children: [
                               InkWell(
                                 onTap: () {
-                                  getModal(context);
+                                  getModal(context, ref);
                                 },
                                 child: Icon(
                                   Icons.loupe_rounded,
@@ -352,7 +354,7 @@ class CircularCountdown extends ConsumerWidget {
             duration: 60,
             ringColor: Color(primaryLight),
             fillColor: Color(primaryDark),
-            backgroundColor: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+            backgroundColor: currentTheme.isDarkMode ? Color(backgroundColorDark) : const Color(whiteText),
             strokeWidth: 6.0,
             textStyle: TextStyle(
               fontSize: 10.0,
@@ -394,211 +396,155 @@ class CircularCountdown extends ConsumerWidget {
   }
 }
 
-getModal(context) {
-  return showModalBottomSheet<void>(
-    backgroundColor: Color(primaryLightAlternative),
-    context: context,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-    builder: (BuildContext context) {
-      var MontoController;
-      return Container(
-        height: 516,
-        width: 360,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(40),
-            topRight: Radius.circular(40),
-          ),
-        ),
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
+getModal(context, WidgetRef ref) {
+  final currentTheme = ref.watch(settingsNotifierProvider);
+  final bankController = useTextEditingController();
+  {
+    return showModalBottomSheet<void>(
+      backgroundColor: currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
+      context: context,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (BuildContext context) {
+        var MontoController;
+        return Container(
+          height: 516,
+          width: 360,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40),
+              topRight: Radius.circular(40),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Icon(Icons.add_circle_outline),
-                const SizedBox(
-                  width: 8,
-                ),
-                const Text(
-                  textAlign: TextAlign.center,
-                  'Agregar Cuenta',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                    color: Color(primaryDark),
+          ),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.add_circle_outline,
+                    color: currentTheme.isDarkMode ? Color(primaryLight) : Color(primaryDark),
+                  ),
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  Text(
+                    textAlign: TextAlign.center,
+                    'Agregar Cuenta',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: currentTheme.isDarkMode ? Color(primaryLight) : Color(primaryDark),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 12,
+                  ),
+                  SizedBox(
+                    width: 69,
+                    height: 58,
+                    child: Image.asset('assets/images/credit_card.png'),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 180,
+                    child: Text(
+                      textAlign: TextAlign.justify,
+                      'Banco donde realizaras tu transferencia',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: currentTheme.isDarkMode ? Color(whiteText) : Color(primaryDark),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Container(
+                    child: Icon(
+                      Icons.quiz_outlined,
+                      color: currentTheme.isDarkMode ? Color(primaryLight) : Color(primaryDark),
+                      size: 23.0,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10),
+              CustomSelectButton(
+                textEditingController: bankController,
+                items: const ['BCP', 'Interbank', 'Scotiabank'],
+                labelText: "Banco",
+              ),
+              SizedBox(
+                height: 35,
+              ),
+              SizedBox(
+                width: 224,
+                child: TextFormField(
+                  controller: MontoController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    // nickNameController.text = value.toString();
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Escriba su cuenta bancaria',
+                    label: Text("Cuenta Bancaria"),
                   ),
                 ),
-                const SizedBox(
-                  width: 12,
-                ),
-                SizedBox(
-                  width: 69,
-                  height: 58,
-                  child: Image.asset('assets/images/credit_card.png'),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 180,
-                  child: const Text(
-                    textAlign: TextAlign.justify,
-                    'Banco donde realizaras tu transferencia',
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    child: Icon(
+                      Icons.check_box_outline_blank,
+                      color: Color(primaryDark),
+                      size: 21.0,
+                    ),
+                  ),
+                  Text(
+                    textAlign: TextAlign.center,
+                    'Confirmo que esa cuenta me pertenece',
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 10,
                       color: Color(primaryDark),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 50,
-                ),
-                Container(
-                  child: Icon(
-                    Icons.quiz_outlined,
-                    color: Color(primaryDark),
-                    size: 23.0,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            SizedBox(
-              width: 224,
-              height: 39,
-              child: DropdownSearch<String>(
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(
-                    hintText: 'Seleccione el Banco',
-                    labelText: 'Banco',
-                  ),
-                ),
-                items: [
-                  'BCP',
-                  'Interbank',
-                  'Scotiabank',
                 ],
-                popupProps: PopupProps.menu(
-                  showSelectedItems: true,
-                  itemBuilder: (context, item, isSelected) => Container(
-                    decoration: BoxDecoration(
-                      color: Color(isSelected ? primaryDark : primaryLight),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    margin: const EdgeInsets.only(
-                      top: 5,
-                      bottom: 5,
-                      right: 15,
-                      left: 15,
-                    ),
-                    child: Text(
-                      item.toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: Color(isSelected ? Colors.white.value : primaryDark),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  menuProps: const MenuProps(
-                    backgroundColor: Color(primaryLightAlternative),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: Color(primaryDark),
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                  showSearchBox: true,
-                  searchFieldProps: const TextFieldProps(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      suffixIcon: Icon(Icons.search),
-                      label: Text('Buscar'),
-                    ),
-                  ),
-                ),
-                dropdownButtonProps: const DropdownButtonProps(
-                  color: Color(primaryDark),
-                  padding: EdgeInsets.zero,
-                ),
               ),
-            ),
-            SizedBox(
-              height: 35,
-            ),
-            SizedBox(
-              width: 224,
-              child: TextFormField(
-                controller: MontoController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Este dato es requerido';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  // nickNameController.text = value.toString();
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Escriba su cuenta bancaria',
-                  label: Text("Cuenta Bancaria"),
-                ),
+              SizedBox(
+                height: 25,
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  child: Icon(
-                    Icons.check_box_outline_blank,
-                    color: Color(primaryDark),
-                    size: 21.0,
-                  ),
-                ),
-                Text(
-                  textAlign: TextAlign.center,
-                  'Confirmo que esa cuenta me pertenece',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Color(primaryDark),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 25,
-            ),
-            CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
-          ],
-        ),
-      );
-    },
-  );
+              CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }
