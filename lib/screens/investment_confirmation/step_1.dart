@@ -2,17 +2,21 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Step_1 extends ConsumerWidget {
+class Step_1 extends HookConsumerWidget {
   const Step_1({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final termController = useTextEditingController();
+
     var MontoController;
 
     return CustomScaffoldReturnLogo(
@@ -176,143 +180,18 @@ class Step_1 extends ConsumerWidget {
           ),
         ),
         SizedBox(height: 15),
-        SizedBox(
-          width: 224,
-          height: 39,
-          child: DropdownSearch<String>(
-            dropdownDecoratorProps: const DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                hintText: 'Seleccione el plazo',
-                labelText: 'Plazo',
-              ),
-            ),
-            items: [
-              '6 meses',
-              '1 año',
-              '5 años',
-            ],
-            popupProps: PopupProps.menu(
-              showSelectedItems: true,
-              itemBuilder: (context, item, isSelected) => Container(
-                decoration: BoxDecoration(
-                  color: Color(isSelected ? primaryDark : primaryLight),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                padding: const EdgeInsets.all(15),
-                margin: const EdgeInsets.only(
-                  top: 5,
-                  bottom: 5,
-                  right: 15,
-                  left: 15,
-                ),
-                child: Text(
-                  item.toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(isSelected ? Colors.white.value : primaryDark),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              menuProps: const MenuProps(
-                backgroundColor: Color(primaryLightAlternative),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Color(primaryDark),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(10),
-                  ),
-                ),
-              ),
-              showSearchBox: true,
-              searchFieldProps: const TextFieldProps(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  suffixIcon: Icon(Icons.search),
-                  label: Text('Buscar'),
-                ),
-              ),
-            ),
-            dropdownButtonProps: const DropdownButtonProps(
-              color: Color(primaryDark),
-              padding: EdgeInsets.zero,
-            ),
-          ),
+        CustomSelectButton(
+          textEditingController: termController,
+          items: const ['6 meses', '1 año', '5 años'],
+          labelText: "Plazo",
         ),
         SizedBox(
           height: 15,
         ),
-        SizedBox(
-          width: 224,
-          height: 39,
-          child: DropdownSearch<String>(
-            dropdownDecoratorProps: const DropDownDecoratorProps(
-              dropdownSearchDecoration: InputDecoration(
-                hintText: 'Seleccione su eleccion',
-                labelText: 'Eleccion de Rentabilidad',
-              ),
-            ),
-            items: [
-              'Mensual',
-              'Plazo Fijo',
-            ],
-            popupProps: PopupProps.menu(
-              showSelectedItems: true,
-              itemBuilder: (context, item, isSelected) => Container(
-                decoration: BoxDecoration(
-                  color: Color(isSelected ? primaryDark : primaryLight),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(20),
-                  ),
-                ),
-                padding: const EdgeInsets.all(15),
-                margin: const EdgeInsets.only(
-                  top: 5,
-                  bottom: 5,
-                  right: 15,
-                  left: 15,
-                ),
-                child: Text(
-                  item.toString(),
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: Color(isSelected ? Colors.white.value : primaryDark),
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              menuProps: const MenuProps(
-                backgroundColor: Color(primaryLightAlternative),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    color: Color(primaryDark),
-                    width: 1.0,
-                  ),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(10),
-                  ),
-                ),
-              ),
-              showSearchBox: true,
-              searchFieldProps: const TextFieldProps(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.white,
-                  suffixIcon: Icon(Icons.search),
-                  label: Text('Buscar'),
-                ),
-              ),
-            ),
-            dropdownButtonProps: const DropdownButtonProps(
-              color: Color(primaryDark),
-              padding: EdgeInsets.zero,
-            ),
-          ),
+        CustomSelectButton(
+          textEditingController: termController,
+          items: const ['6 Mensual', 'Plazo Fijo'],
+          labelText: "Eleccion de Rentabilidad",
         ),
         SizedBox(
           height: 20,
