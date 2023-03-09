@@ -19,7 +19,7 @@ class CircularImage extends ConsumerWidget {
         percent: 0.5,
         center: CircleAvatar(
           radius: 30,
-          backgroundColor: Colors.white,
+          backgroundColor: themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -37,18 +37,14 @@ class CircularImage extends ConsumerWidget {
               Text(
                 "6 meses",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Color(primaryDark),
-                ),
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: themeProvider.isDarkMode ? Color(primaryLight) : Color(primaryDark)),
               )
             ],
           ),
         ),
         progressColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
         backgroundColor: Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
-        fillColor: Colors.white,
+        fillColor: themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
       ),
     );
   }

@@ -105,7 +105,7 @@ class Step_2 extends ConsumerWidget {
                         children: [
                           Text(
                             'S/550',
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -114,7 +114,7 @@ class Step_2 extends ConsumerWidget {
                           ),
                           Text(
                             'Tu monto invertido',
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 10,
                               color: Color(blackText),
@@ -146,7 +146,7 @@ class Step_2 extends ConsumerWidget {
                           ),
                           Text(
                             'Monto que recibiras',
-                            textAlign: TextAlign.left,
+                            textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 10,
                               color: Color(blackText),
@@ -257,7 +257,7 @@ class Step_2 extends ConsumerWidget {
                   Padding(
                     padding: const EdgeInsets.only(right: 10, left: 10),
                     child: Icon(
-                      Icons.credit_card_outlined,
+                      Icons.credit_score_outlined,
                       color: currentTheme.isDarkMode ? Color(primaryLight) : const Color(primaryDark),
                       size: MediaQuery.of(context).size.width * 0.07,
                     ),
