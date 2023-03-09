@@ -2,19 +2,21 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/providers/settings_provider.dart';
 import 'package:finniu/screens/settings/widgets.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:provider/provider.dart';
 
-class LanguagesStart extends ConsumerWidget {
-  const LanguagesStart({super.key});
+class LanguagesStart extends HookConsumerWidget {
+  LanguagesStart({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
-    var languageController;
+
+    final languageController = useTextEditingController();
     return CustomScaffoldReturnLogo(
       body: Padding(
         padding: const EdgeInsets.all(30.0),
@@ -34,22 +36,29 @@ class LanguagesStart extends ConsumerWidget {
                   "Lenguajes",
                   style: TextStyle(fontSize: 24, color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark), fontWeight: FontWeight.bold),
                 ),
-
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.2,
-                ),
               ],
             ),
-            SizedBox(height: 10),
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(20.0),
               child: Container(
                   child: Column(
                 children: [
                   Row(
                     children: [
-                      IconContainer(
-                        image: 'assets/languages/translate.png',
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        // width: 46.48,
+                        // height: 34.87,
+                        decoration: BoxDecoration(
+                          color: Color(primaryDark),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Image.asset(
+                          color: Color(cardBackgroundColorLight),
+                          'assets/languages/translate.png',
+                          width: 15,
+                          height: 15,
+                        ),
                       ),
                       SizedBox(
                         width: 7,
@@ -61,14 +70,12 @@ class LanguagesStart extends ConsumerWidget {
               )),
             ),
             Container(
+              // Container(
               width: MediaQuery.of(context).size.width * 0.8,
-              height: 3,
+
               decoration: BoxDecoration(
                 border: Border(
-                  bottom: BorderSide(
-                    color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary_option),
-                    width: 2,
-                  ),
+                  bottom: BorderSide(color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(gradient_secondary_option), width: 2),
                 ),
               ),
             ),
@@ -85,79 +92,10 @@ class LanguagesStart extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            SizedBox(
-              width: 224,
-              height: 39,
-              child: DropdownSearch<String>(
-                dropdownDecoratorProps: const DropDownDecoratorProps(
-                  dropdownSearchDecoration: InputDecoration(
-                    labelText: 'Idioma',
-                  ),
-                ),
-                items: [
-                  'Español',
-                  'Portugués',
-                  'Inglés',
-                ],
-                popupProps: PopupProps.menu(
-                  showSelectedItems: true,
-                  itemBuilder: (context, item, isSelected) => Container(
-                    decoration: BoxDecoration(
-                      color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      border: Border.all(
-                        width: 2,
-                        color: currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
-                      ),
-                    ),
-                    padding: const EdgeInsets.all(15),
-                    margin: const EdgeInsets.only(
-                      top: 5,
-                      bottom: 5,
-                      right: 15,
-                      left: 15,
-                    ),
-                    child: Text(
-                      item.toString(),
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  menuProps: MenuProps(
-                    backgroundColor: currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                        width: 1.0,
-                      ),
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(10),
-                      ),
-                    ),
-                  ),
-                  showSearchBox: true,
-                  searchFieldProps: const TextFieldProps(
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      suffixIcon: Icon(Icons.search),
-                      label: Text('Buscar'),
-                    ),
-                  ),
-                ),
-                dropdownButtonProps: const DropdownButtonProps(
-                  color: Color(primaryDark),
-                  padding: EdgeInsets.zero,
-                ),
-              ),
+            CustomSelectButton(
+              textEditingController: languageController,
+              items: const ['Español', 'Portugués', 'Inglés'],
+              labelText: "Idioma",
             ),
           ],
         ),
