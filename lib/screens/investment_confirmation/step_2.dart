@@ -60,7 +60,7 @@ class Step_2 extends ConsumerWidget {
                       Positioned(
                         right: 90,
                         child: Align(
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.center,
                           child: Container(
                             width: 59.49,
                             height: 31.15,
@@ -74,15 +74,28 @@ class Step_2 extends ConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             // color: Color(primaryDark),
-                            child: Center(
-                              child: Text(
-                                '6%',
-                                // textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
-                                  fontSize: 12,
+
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    '6%',
+                                    style: TextStyle(
+                                      color: currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
+                                      fontSize: 7,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  'Rentabilidad',
+                                  style: TextStyle(
+                                    color: currentTheme.isDarkMode ? Color(blackText) : Color(whiteText),
+                                    fontSize: 7,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
