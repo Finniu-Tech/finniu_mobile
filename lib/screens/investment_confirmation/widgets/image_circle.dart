@@ -14,7 +14,7 @@ class CircularImage extends ConsumerWidget {
     return Container(
       margin: EdgeInsets.only(left: 63.0),
       child: CircularPercentIndicator(
-        radius: 50.0,
+        radius: 55.0,
         lineWidth: 5.0,
         percent: 0.5,
         center: CircleAvatar(

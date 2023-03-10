@@ -48,7 +48,7 @@ class Step_2 extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
-                  height: 100,
+                  // height: 100,
                   width: MediaQuery.of(context).size.width * 0.6,
                   // width: double.maxFinite,
                   alignment: Alignment.center,
@@ -106,7 +106,6 @@ class Step_2 extends ConsumerWidget {
                 Column(
                   children: [
                     Container(
-                      alignment: Alignment.centerLeft,
                       height: 60,
                       width: 116,
                       decoration: BoxDecoration(
@@ -127,7 +126,7 @@ class Step_2 extends ConsumerWidget {
                           ),
                           Text(
                             'Tu monto invertido',
-                            textAlign: TextAlign.right,
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 10,
                               color: Color(blackText),
@@ -138,7 +137,6 @@ class Step_2 extends ConsumerWidget {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      alignment: Alignment.topLeft,
                       height: 60,
                       width: 116,
                       decoration: BoxDecoration(
