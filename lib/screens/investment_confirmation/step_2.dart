@@ -170,7 +170,7 @@ class Step_2 extends ConsumerWidget {
                 ),
               ],
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(40.0),
               child: Row(
@@ -214,8 +214,8 @@ class Step_2 extends ConsumerWidget {
                               ),
                             ),
                             Positioned(
-                              top: 0,
-                              right: 0,
+                              // top: 0,
+                              // right: 0,
                               child: IconButton(
                                 icon: Icon(Icons.close),
                                 color: Color(primaryDark),
@@ -331,7 +331,7 @@ class Step_2 extends ConsumerWidget {
                 color: Color(primaryDark),
               ),
               child: Center(
-                child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Continuar", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/investment_step1'),
+                child: CustomButton(colorBackground: currentTheme.isDarkMode ? (primaryLight) : (primaryDark), text: "Continuar", colorText: currentTheme.isDarkMode ? (primaryDark) : (whiteText), pushName: '/investment_step3'),
               ),
             ),
           ],

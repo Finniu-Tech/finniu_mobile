@@ -1,3 +1,4 @@
+import 'package:finniu/screens/investment_confirmation/step_3.dart';
 import 'package:finniu/screens/investment_confirmation/widgets/alerts.dart';
 import 'package:finniu/screens/signup/confirmation_phone_screen.dart';
 import 'package:finniu/screens/settings/help_screen.dart';
@@ -47,5 +48,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_step1': (BuildContext context) => Step_1(),
     '/investment_step2': (BuildContext context) => Step_2(),
     '/investment_step2': (BuildContext context) => Step_2(),
+    '/investment_step3': (BuildContext context) => Step_3(),
   };
 }
