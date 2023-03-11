@@ -1,6 +1,6 @@
-import 'package:finniu/models/auth.dart';
-import 'package:finniu/providers/signup_provider.dart';
-import 'package:finniu/providers/user_provider.dart';
+import 'package:finniu/infrastructure/models/auth.dart';
+import 'package:finniu/presentation/providers/signup_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 
 class SignUpService {
   void updatePhone(ref, String phone) {

@@ -25,17 +25,22 @@ class StepBar extends StatefulWidget {
 class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late double _previousPosition;
+  late double _currentPosition;
 
   @override
   void initState() {
     super.initState();
+    _previousPosition =
+        widget.width / widget.totalSteps * (widget.currentStep - 1);
+    _currentPosition = widget.width / widget.totalSteps * widget.currentStep;
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
     _animation = Tween<double>(
-      begin: 0,
-      end: 1,
+      begin: _previousPosition,
+      end: _currentPosition,
     ).animate(_controller);
   }
 
@@ -48,6 +53,13 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final stepWidth = widget.width / widget.totalSteps;
+    _previousPosition = _currentPosition;
+    _currentPosition = widget.width / widget.totalSteps * widget.currentStep;
+    _animation = Tween<double>(
+      begin: _previousPosition,
+      end: _currentPosition,
+    ).animate(_controller);
+    _controller.forward(from: 0);
 
     return AnimatedBuilder(
       animation: _animation,
@@ -57,21 +69,18 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
           children: List.generate(
             widget.totalSteps,
             (index) {
-              print('index' + index.toString());
               final isCurrentStep = index == widget.currentStep;
-              print('current step: ' + isCurrentStep.toString());
               final stepColor = widget.inactiveColor;
-              final circleColor = widget.activeColor;
 
               if (isCurrentStep) {
-                print('is current');
                 if (index == 0) {
                   return Container(
                     decoration: BoxDecoration(
                       color: widget.inactiveColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          bottomLeft: Radius.circular(5)),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                      ),
                     ),
                     width: stepWidth,
                     child: Container(
@@ -85,10 +94,12 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
                 } else if (index == widget.totalSteps - 1) {
                   return Container(
                     decoration: BoxDecoration(
-                        color: widget.inactiveColor,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            bottomRight: Radius.circular(5))),
+                      color: widget.inactiveColor,
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                      ),
+                    ),
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
@@ -115,41 +126,42 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
                   );
                 }
               } else {
-                // print('ekse' + index.toString());
                 if (index == 0) {
-                  return Container(
+                  return SizedBox(
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
                       decoration: BoxDecoration(
                         color: stepColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            bottomLeft: Radius.circular(5)),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          bottomLeft: Radius.circular(5),
+                        ),
                       ),
                     ),
                   );
                 } else if (index == widget.totalSteps - 1) {
-                  return Container(
+                  return SizedBox(
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
                       decoration: BoxDecoration(
                         color: stepColor,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            bottomRight: Radius.circular(5)),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(5),
+                          bottomRight: Radius.circular(5),
+                        ),
                       ),
                     ),
                   );
                 } else {
-                  return Container(
+                  return SizedBox(
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
                       decoration: BoxDecoration(
                         color: stepColor,
-                        borderRadius: BorderRadius.only(),
+                        borderRadius: const BorderRadius.only(),
                       ),
                     ),
                   );

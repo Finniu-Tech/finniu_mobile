@@ -1,9 +1,8 @@
-import 'package:finniu/providers/auth_provider.dart';
-import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/routes/routes.dart';
-import 'package:finniu/screens/intro_screen.dart';
+import 'package:finniu/presentation/screens/intro_screen.dart';
 import 'package:flutter/services.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

@@ -1,5 +1,5 @@
-import 'package:finniu/providers/settings_provider.dart';
-import 'package:finniu/screens/investment_question/result.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/onboarding_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,14 +31,22 @@ class _CustomButtonState extends State<CustomButton> {
   Widget build(BuildContext context) {
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .backgroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .foregroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -155,7 +163,8 @@ class CusttomButtonRoundedLight extends StatefulWidget {
     this.pushName = "",
     this.isReturn = false,
   });
-  _CusttomButtonRoundedLightState createState() => _CusttomButtonRoundedLightState();
+  _CusttomButtonRoundedLightState createState() =>
+      _CusttomButtonRoundedLightState();
 }
 
 class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
@@ -178,7 +187,8 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
           color: const Color(primaryLight),
         ),
         child: const Center(
-          child: Icon(size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
+          child: Icon(
+              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
         ),
       ),
     );
@@ -261,40 +271,6 @@ class BottomNavigationBarHome extends ConsumerWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class ButtonQuestions extends StatelessWidget {
-  String text;
-  PageController controller = PageController();
-  ButtonQuestions({super.key, required this.text, required this.controller});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 320,
-      height: 53,
-      child: TextButton(
-        onPressed: () {
-          if (controller.page == 2.0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => ResultInvestment()),
-            );
-          } else {}
-          controller.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.ease);
-        },
-        style: TextButton.styleFrom(
-          backgroundColor: const Color(primaryLightAlternative),
-        ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            color: Color(primaryDark),
-          ),
-        ),
       ),
     );
   }

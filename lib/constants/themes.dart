@@ -4,6 +4,7 @@ import 'package:finniu/constants/colors.dart';
 
 class AppTheme {
   get darkTheme => ThemeData(
+        // useMaterial3: true,
         // primarySwatch:,
         appBarTheme: const AppBarTheme(color: Color(primaryDark)),
         backgroundColor: const Color(backgroundColorDark),
@@ -83,6 +84,7 @@ class AppTheme {
       );
 
   get lightTheme => ThemeData(
+        // useMaterial3: true,
         // primarySwatch: Colors.grey,
         backgroundColor: const Color(backgroundColorLight),
         primaryColor: const Color(primaryLight), // usado para gradiente

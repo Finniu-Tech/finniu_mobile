@@ -72,4 +72,36 @@ class MutationRepository {
       }
     ''';
   }
+
+  static String startOnboardingQuestions() {
+    return '''
+      mutation startOnboarding(\$user_id: ID!, \$question_id: String,  \$answer_id: String){
+  startOnboarding(input:{
+    userId: \$user_id, questionUuid: \$question_id, answerUuid: \$answer_id
+  }
+  ){
+    success
+    successRegisterResponse
+    totalQuestions
+    questionsCompleted
+    questions{
+      text
+      uuid
+      questionImageUrl
+      answers{
+        
+        uuid
+        value
+        text
+      }
+      answerMarked{
+        uuid
+        text
+        value
+      }
+    }
+  }
+}
+    ''';
+  }
 }

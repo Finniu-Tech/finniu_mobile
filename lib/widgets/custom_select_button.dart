@@ -1,6 +1,6 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -42,14 +42,23 @@ class CustomSelectButton extends HookConsumerWidget {
           itemBuilder: (context, item, isSelected) => Container(
             decoration: BoxDecoration(
               color: Color(
-                isSelected ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative) : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
+                isSelected
+                    ? (themeProvider.isDarkMode
+                        ? primaryLight
+                        : primaryDarkAlternative)
+                    : (themeProvider.isDarkMode
+                        ? primaryDarkAlternative
+                        : primaryLight),
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
               border: Border.all(
                 width: 2,
-                color: themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
+                color: themeProvider.isDarkMode
+                    ? const Color(primaryDarkAlternative)
+                    : const Color(
+                        primaryLight), // Aquí especificas el color de borde deseado
               ),
             ),
             padding: const EdgeInsets.all(15),
@@ -64,7 +73,13 @@ class CustomSelectButton extends HookConsumerWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(
-                  isSelected ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value) : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
+                  isSelected
+                      ? (themeProvider.isDarkMode
+                          ? primaryDark
+                          : Colors.white.value)
+                      : (themeProvider.isDarkMode
+                          ? Colors.white.value
+                          : primaryDark),
                 ),
                 fontWeight: FontWeight.w500,
               ),
