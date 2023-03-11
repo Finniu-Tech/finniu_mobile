@@ -1,9 +1,3 @@
-// To parse this JSON data, do
-//
-//     final scanModel = scanModelFromJson(jsonString);
-
-import 'dart:convert';
-
 class StartOnboardingGraphqlModel {
   StartOnboardingGraphqlModel({
     this.success,
@@ -27,8 +21,11 @@ class StartOnboardingGraphqlModel {
         questionsCompleted: json["questionsCompleted"],
         questions: json["questions"] == null
             ? []
-            : List<QuestionGraphqlModel>.from(json["questions"]!
-                .map((x) => QuestionGraphqlModel.fromJson(x))),
+            : List<QuestionGraphqlModel>.from(
+                json["questions"]!.map(
+                  (x) => QuestionGraphqlModel.fromJson(x),
+                ),
+              ),
       );
 
   Map<String, dynamic> toJson() => {

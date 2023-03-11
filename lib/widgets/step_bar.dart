@@ -25,17 +25,22 @@ class StepBar extends StatefulWidget {
 class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
+  late double _previousPosition;
+  late double _currentPosition;
 
   @override
   void initState() {
     super.initState();
+    _previousPosition =
+        widget.width / widget.totalSteps * (widget.currentStep - 1);
+    _currentPosition = widget.width / widget.totalSteps * widget.currentStep;
     _controller = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,
     );
     _animation = Tween<double>(
-      begin: 0,
-      end: 1,
+      begin: _previousPosition,
+      end: _currentPosition,
     ).animate(_controller);
   }
 
@@ -48,6 +53,13 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final stepWidth = widget.width / widget.totalSteps;
+    _previousPosition = _currentPosition;
+    _currentPosition = widget.width / widget.totalSteps * widget.currentStep;
+    _animation = Tween<double>(
+      begin: _previousPosition,
+      end: _currentPosition,
+    ).animate(_controller);
+    _controller.forward(from: 0);
 
     return AnimatedBuilder(
       animation: _animation,

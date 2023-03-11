@@ -6,4 +6,16 @@ abstract class OnboardingDataSource {
     required GraphQLClient client,
     required String userId,
   });
+
+  Future<OnboardingEntity> updateOnboardingData({
+    required GraphQLClient client,
+    required String userId,
+    required String questionId,
+    required String answerId,
+  });
+
+  // Future<OnboardingEntity> completeOnboarding({
+  //   required GraphQLClient client,
+  //   required String userId,
+  // });
 }

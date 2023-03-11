@@ -1,7 +1,8 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/onboarding_entities.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
-import 'package:finniu/presentation/screens/investment_question/widgets/page.dart';
+import 'package:finniu/presentation/screens/onboarding_question/widgets/page.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/step_bar.dart';
 import 'package:flutter/material.dart';
@@ -59,6 +60,12 @@ class _SelectRangeState extends ConsumerState<SelectRange> {
                     animationDuration: const Duration(milliseconds: 500),
                     itemCount: onboardingData.totalQuestions,
                     onPageChanged: (page) {
+                      // updateOnboardingStateNotifierProvider(
+                      //   ref,
+                      //   onboardingData.copyWith(
+                      //     totalCompletedQuestions: page + 1,
+                      //   ),
+                      // );
                       setState(() {
                         _currentStep = page;
                       });

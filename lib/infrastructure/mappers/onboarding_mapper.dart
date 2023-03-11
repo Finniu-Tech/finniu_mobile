@@ -1,16 +1,7 @@
 import 'package:finniu/domain/entities/onboarding_entities.dart';
-import 'package:finniu/infrastructure/models/onboarding_mapper.dart';
+import 'package:finniu/infrastructure/models/onboarding_response.dart';
 
 class OnboardingMapper {
-  // static StartOnboardingGraphqlModel to(OnboardingEntity entity) {
-  //   return OnboardingModel(
-  //     id: entity.id,
-  //     title: entity.title,
-  //     description: entity.description,
-  //     image: entity.image,
-  //   );
-  // }
-
   static OnboardingEntity toEntity(StartOnboardingGraphqlModel model) {
     return OnboardingEntity(
       totalQuestions: model.totalQuestions ?? 0,

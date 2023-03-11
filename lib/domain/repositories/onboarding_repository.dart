@@ -6,4 +6,11 @@ abstract class OnboardingRepository {
     required GraphQLClient client,
     required String userId,
   });
+
+  Future<OnboardingEntity> updateOnboardingData({
+    required GraphQLClient client,
+    required String userId,
+    required String questionId,
+    required String answerId,
+  });
 }

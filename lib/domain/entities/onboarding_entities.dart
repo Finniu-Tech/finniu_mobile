@@ -86,3 +86,27 @@ class AnswerEntity {
     );
   }
 }
+
+class UserAnswerEntity {
+  final String userID;
+  final String questionUuid;
+  final String answerUuid;
+
+  UserAnswerEntity({
+    required this.questionUuid,
+    required this.answerUuid,
+    required this.userID,
+  });
+
+  UserAnswerEntity copyWith({
+    String? questionUuid,
+    String? answerUuid,
+    String? userID,
+  }) {
+    return UserAnswerEntity(
+      questionUuid: questionUuid ?? this.questionUuid,
+      answerUuid: answerUuid ?? this.answerUuid,
+      userID: userID ?? this.userID,
+    );
+  }
+}

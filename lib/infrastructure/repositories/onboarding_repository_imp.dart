@@ -16,6 +16,21 @@ class OnboardingRepositoryImp implements OnboardingRepository {
     return await dataSource.getOnboardingData(client: client, userId: userId);
   }
 
+  @override
+  Future<OnboardingEntity> updateOnboardingData({
+    required GraphQLClient client,
+    required String userId,
+    required String questionId,
+    required String answerId,
+  }) async {
+    return await dataSource.updateOnboardingData(
+      client: client,
+      userId: userId,
+      questionId: questionId,
+      answerId: answerId,
+    );
+  }
+
   // @override
   // Future<void> saveOnboardingStatus(bool status) async {
   //   await dataSource.saveOnboardingStatus(status);

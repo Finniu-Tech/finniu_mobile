@@ -1,5 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/investment_question/result.dart';
+import 'package:finniu/presentation/screens/onboarding_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

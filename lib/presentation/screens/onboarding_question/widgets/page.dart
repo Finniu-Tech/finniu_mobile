@@ -1,11 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:finniu/presentation/providers/onboarding_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/onboarding_entities.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/investment_question/result.dart';
+import 'package:finniu/presentation/screens/onboarding_question/result.dart';
 
 class PageQuestions extends ConsumerWidget {
   final PageController controller;
@@ -58,7 +60,8 @@ class PageQuestions extends ConsumerWidget {
         if (question.answers.isNotEmpty) ...[
           for (var i = 0; i < question.answers.length; i++)
             ButtonQuestions(
-              text: question.answers[i].text,
+              questionUuid: question.uuid,
+              answer: question.answers[i],
               controller: controller,
             ),
         ]
@@ -67,15 +70,22 @@ class PageQuestions extends ConsumerWidget {
   }
 }
 
-class ButtonQuestions extends StatelessWidget {
-  final String text;
+class ButtonQuestions extends ConsumerWidget {
   final PageController controller;
+  final String questionUuid; // TODO: get from
+  final AnswerEntity answer;
 
-  const ButtonQuestions(
-      {super.key, required this.text, required this.controller});
+  const ButtonQuestions({
+    super.key,
+    required this.controller,
+    required this.answer,
+    required this.questionUuid,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final user = ref.watch(userProfileNotifierProvider);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(
@@ -83,6 +93,16 @@ class ButtonQuestions extends StatelessWidget {
         height: 53,
         child: TextButton(
           onPressed: () {
+            ref.watch(
+              updateOnboardingStateNotifierProvider(
+                UserAnswerEntity(
+                  questionUuid: questionUuid,
+                  answerUuid: answer.uuid,
+                  userID: user.id!,
+                ),
+              ),
+            );
+
             if (controller.page == 2.0) {
               Navigator.push(
                 context,
@@ -98,7 +118,7 @@ class ButtonQuestions extends StatelessWidget {
             backgroundColor: const Color(primaryLightAlternative),
           ),
           child: Text(
-            text,
+            answer.text,
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Color(primaryDark),
