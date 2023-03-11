@@ -1,4 +1,4 @@
-import 'package:finniu/models/user.dart';
+import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/utils/strings.dart';
 
 bool hasCompleteProfile(UserProfile userProfile) {

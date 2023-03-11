@@ -57,21 +57,18 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
           children: List.generate(
             widget.totalSteps,
             (index) {
-              print('index' + index.toString());
               final isCurrentStep = index == widget.currentStep;
-              print('current step: ' + isCurrentStep.toString());
               final stepColor = widget.inactiveColor;
-              final circleColor = widget.activeColor;
 
               if (isCurrentStep) {
-                print('is current');
                 if (index == 0) {
                   return Container(
                     decoration: BoxDecoration(
                       color: widget.inactiveColor,
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(5),
-                          bottomLeft: Radius.circular(5)),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                      ),
                     ),
                     width: stepWidth,
                     child: Container(
@@ -85,10 +82,12 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
                 } else if (index == widget.totalSteps - 1) {
                   return Container(
                     decoration: BoxDecoration(
-                        color: widget.inactiveColor,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            bottomRight: Radius.circular(5))),
+                      color: widget.inactiveColor,
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                      ),
+                    ),
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
@@ -115,41 +114,42 @@ class _StepBarState extends State<StepBar> with SingleTickerProviderStateMixin {
                   );
                 }
               } else {
-                // print('ekse' + index.toString());
                 if (index == 0) {
-                  return Container(
+                  return SizedBox(
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
                       decoration: BoxDecoration(
                         color: stepColor,
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(5),
-                            bottomLeft: Radius.circular(5)),
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(5),
+                          bottomLeft: Radius.circular(5),
+                        ),
                       ),
                     ),
                   );
                 } else if (index == widget.totalSteps - 1) {
-                  return Container(
+                  return SizedBox(
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
                       decoration: BoxDecoration(
                         color: stepColor,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(5),
-                            bottomRight: Radius.circular(5)),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(5),
+                          bottomRight: Radius.circular(5),
+                        ),
                       ),
                     ),
                   );
                 } else {
-                  return Container(
+                  return SizedBox(
                     width: stepWidth,
                     child: Container(
                       height: widget.height,
                       decoration: BoxDecoration(
                         color: stepColor,
-                        borderRadius: BorderRadius.only(),
+                        borderRadius: const BorderRadius.only(),
                       ),
                     ),
                   );

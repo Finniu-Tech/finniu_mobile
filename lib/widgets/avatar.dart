@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/providers/settings_provider.dart';
-import 'package:finniu/providers/user_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';

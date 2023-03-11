@@ -1,4 +1,4 @@
-import 'package:finniu/models/user.dart';
+import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/use_cases/user/validations.dart';
 
