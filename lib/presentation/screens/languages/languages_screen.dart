@@ -65,13 +65,15 @@ class LanguagesStart extends HookConsumerWidget {
                       SizedBox(
                         width: 7,
                       ),
-                      Text('Configuración de lenguaje',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),
-                              fontWeight: FontWeight.bold)),
+                      Text(
+                        'Configuración de lenguaje',
+                        style: TextStyle(
+                            fontSize: 14,
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
+                            fontWeight: FontWeight.bold),
+                      ),
                     ],
                   ),
                 ],

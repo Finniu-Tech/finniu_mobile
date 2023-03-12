@@ -12,10 +12,12 @@ import 'package:finniu/presentation/screens/onboarding_question/result.dart';
 class PageQuestions extends ConsumerWidget {
   final PageController controller;
   final OnboardingQuestionEntity question;
+  final bool lastPage;
   const PageQuestions({
     super.key,
     required this.question,
     required this.controller,
+    required this.lastPage,
   });
 
   @override
@@ -103,12 +105,12 @@ class ButtonQuestions extends ConsumerWidget {
               ),
             );
 
-            if (controller.page == 2.0) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ResultInvestment()),
-              );
-            } else {}
+            // if (totalQuestions ==   2) {
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(builder: (context) => ResultInvestment()),
+            //   );
+            // } else {}
             controller.nextPage(
               duration: const Duration(milliseconds: 300),
               curve: Curves.ease,

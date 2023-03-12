@@ -44,6 +44,8 @@ final updateOnboardingStateNotifierProvider =
         print(value);
         print(value.totalCompletedQuestions);
         print(value.currentQuestion);
+        print('awswer id');
+        print(userAnswer.answerUuid);
 
         ref.read(onBoardingStateNotifierProvider.notifier).updateFields(
               totalQuestions: value.totalQuestions,

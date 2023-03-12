@@ -34,7 +34,7 @@ class OnboardingDataSourceImp extends OnboardingDataSource {
     required String questionId,
     required String answerId,
   }) async {
-    final response = client.mutate(
+    final response = await client.mutate(
       MutationOptions(
         document: gql(
           MutationRepository.startOnboardingQuestions(),
@@ -42,12 +42,14 @@ class OnboardingDataSourceImp extends OnboardingDataSource {
         variables: {
           'user_id': userId,
           'question_id': questionId,
-          'answer': answerId,
+          'answer_id': answerId,
         },
       ),
     );
+    print('response mutation');
+    print(response);
     final responseGraphQL = StartOnboardingGraphqlModel.fromJson(
-      (await response).data?['updateOnboarding'],
+      response.data?['startOnboarding'],
     );
     return OnboardingMapper.toEntity(responseGraphQL);
   }

@@ -18,6 +18,7 @@ class SelectRange extends StatefulHookConsumerWidget {
 
 class _SelectRangeState extends ConsumerState<SelectRange> {
   int _currentStep = 0;
+  bool lastPage = false;
 
   final PageController pageController = PageController();
 
@@ -66,14 +67,21 @@ class _SelectRangeState extends ConsumerState<SelectRange> {
                       //     totalCompletedQuestions: page + 1,
                       //   ),
                       // );
+
                       setState(() {
                         _currentStep = page;
+                        if (page == onboardingData.totalQuestions - 1) {
+                          lastPage = true;
+                        } else {
+                          lastPage = false;
+                        }
                       });
                     },
                     itemBuilder: (context, index) {
                       return PageQuestions(
                         question: questions[index],
                         controller: pageController,
+                        lastPage: lastPage,
                       );
                     },
                   ),
@@ -92,12 +100,25 @@ class _SelectRangeState extends ConsumerState<SelectRange> {
                   const SizedBox(
                     height: 20,
                   ),
-                  StepBar(
-                    currentStep: _currentStep,
-                    totalSteps: onboardingData.totalQuestions,
-                    activeColor: const Color(primaryLightAlternative),
-                    inactiveColor: const Color(primaryDark),
-                  ),
+                  if (lastPage) ...[
+                    SizedBox(
+                      width: 225,
+                      height: 50,
+                      child: TextButton(
+                        child: Text('Finalizar'),
+                        onPressed: () {
+                          Navigator.of(context).pushNamed('/investment_result');
+                        },
+                      ),
+                    ),
+                  ] else ...[
+                    StepBar(
+                      currentStep: _currentStep,
+                      totalSteps: onboardingData.totalQuestions,
+                      activeColor: const Color(primaryLightAlternative),
+                      inactiveColor: const Color(primaryDark),
+                    ),
+                  ]
                 ],
               ),
             ),
