@@ -5,7 +5,8 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userProfileFutureProvider = FutureProvider<UserProfile>((ref) async {
+final userProfileFutureProvider =
+    FutureProvider.autoDispose<UserProfile>((ref) async {
   final result = await ref.watch(gqlClientProvider.future).then(
     (client) async {
       final QueryResult result = await client.query(
@@ -19,12 +20,15 @@ final userProfileFutureProvider = FutureProvider<UserProfile>((ref) async {
       return result;
     },
   );
-
+  print('result user profile');
+  print(result);
   if (result.hasException) {
     throw result.exception!;
   }
   if (result.data?['userProfile'] != null) {
     final userProfile = UserProfile.fromJson(result.data?['userProfile']);
+    ref.read(hasCompletedOnboardingProvider.notifier).state =
+        userProfile.hasCompletedOnboarding ?? false;
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           id: userProfile.uuid,
           nickName: userProfile.nickName,
@@ -33,6 +37,7 @@ final userProfileFutureProvider = FutureProvider<UserProfile>((ref) async {
           lastName: userProfile.lastName,
           phoneNumber: userProfile.phoneNumber,
           imageProfileUrl: userProfile.imageProfileUrl,
+          hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
         );
     return userProfile;
   }
@@ -101,3 +106,5 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     state = state.copyWith(password: password);
   }
 }
+
+final hasCompletedOnboardingProvider = StateProvider((ref) => false);

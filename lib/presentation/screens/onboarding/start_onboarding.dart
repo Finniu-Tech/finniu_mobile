@@ -1,5 +1,8 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/infrastructure/models/auth.dart';
+import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/onboarding/section_1.dart';
 import 'package:finniu/presentation/screens/onboarding/section_2.dart';
 import 'package:finniu/presentation/screens/onboarding/section_3.dart';
@@ -218,7 +221,7 @@ class _StartOnboardingState extends ConsumerState<StartOnboarding> {
               child: const CustomButton(
                 text: 'Comenzar',
                 width: 116,
-                pushName: '/investment_start',
+                pushName: '/home_home',
               ),
             )
           ],
@@ -282,11 +285,21 @@ class _StartOnboardingState extends ConsumerState<StartOnboarding> {
   @override
   void initState() {
     super.initState();
-    ref.read(startOnBoardingStateNotifierProvider);
+    // ref.read(startOnBoardingStateNotifierProvider);
+
+    // ref.read(userProfileFutureProvider.future);
   }
 
   @override
   Widget build(BuildContext context) {
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final login =
+        LoginModel(email: userProfile.email!, password: userProfile.password!);
+    ref.read(
+      authTokenMutationProvider(
+        login,
+      ),
+    );
     List<Color> stepBarColors = getStepBarColors(_currentStep);
 
     return Scaffold(

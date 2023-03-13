@@ -295,7 +295,6 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                         onTap: () {
                           ref.invalidate(authTokenProvider);
                           ref.invalidate(gqlClientProvider);
-                          ref.invalidate(userProfileFutureProvider);
                           ref.invalidate(userProfileNotifierProvider);
                           // logout(ref);
                           Navigator.of(ctx).pushNamedAndRemoveUntil(

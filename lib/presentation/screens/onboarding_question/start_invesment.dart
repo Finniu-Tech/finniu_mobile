@@ -111,7 +111,7 @@ class StartInvestment extends ConsumerWidget {
               height: 50,
               child: TextButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/investment_select');
+                  Navigator.pushNamed(context, '/onboarding_questions');
                 },
                 child: Text(
                   'Continuar',
