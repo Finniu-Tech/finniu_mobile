@@ -26,23 +26,25 @@ class Step_1 extends HookConsumerWidget {
       child: Column(children: <Widget>[
         StepBar(),
         const SizedBox(height: 40),
-        Stack(
-          children: <Widget>[
-            Container(
-              width: 276,
-              height: 70,
-              padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
-              child: Text(
-                'Confirmación de tu inversión',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  color: Color(Theme.of(context).colorScheme.secondary.value),
+        Container(width: 200,
+          child: Stack(
+            children: <Widget>[
+              Container(
+               width: MediaQuery.of(context).size.width * 0.9,
+                // height: 90,
+                padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
+                child: Text(
+                  'Confirmación de tu inversión',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Color(Theme.of(context).colorScheme.secondary.value),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         SizedBox(
           height: 10,
@@ -131,9 +133,9 @@ class Step_1 extends HookConsumerWidget {
             ),
             Positioned(
                 top: 40,
-                left: 50,
+                left: 250,
                 bottom: 5,
-                child: Container(
+                child: Container(width:100 ,height: 100,
                     color: Colors.transparent,
                     child: Center(
                       child: SizedBox(

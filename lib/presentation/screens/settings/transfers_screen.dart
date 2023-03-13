@@ -13,93 +13,96 @@ class TransfersScreen extends ConsumerWidget {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
         body: SingleChildScrollView(
-      child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Column(children: [
-            Row(
-              children: [
-                SizedBox(
-                  height: 10,
-                ),
-                Image.asset(
-                  'assets/transfers/credit.png',
-                  width: 90,
-                  height: 90,
-                ),
-                // SizedBox(width: 10),
-                Text(
-                  "Mis Transferencias",
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                  child: Column(
+      child: Center(
+        child: ConstrainedBox(constraints: BoxConstraints(maxWidth:700,minWidth:400,maxHeight:1000,minHeight: 825 ),
+        child:Padding(
+            padding: const EdgeInsets.all(30.0),
+            child: Column(children: [
+              Row(
                 children: [
-                  Row(
-                    children: [
-                      IconContainer(
-                        image: 'assets/transfers/wallet.png',
-                      ),
-                      SizedBox(
-                        width: 7,
-                      ),
-                      Text('Mis últimas transferencias',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),
-                              fontWeight: FontWeight.bold)),
-                    ],
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset(
+                    'assets/transfers/credit.png',
+                    width: 90,
+                    height: 90,
+                  ),
+                  // SizedBox(width: 10),
+                  Text(
+                    "Mis Transferencias",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
-              )),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 3,
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(gradient_secondary_option),
-                    width: 2,
+              ),
+              SizedBox(height: 15),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                    child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        IconContainer(
+                          image: 'assets/transfers/wallet.png',
+                        ),
+                        SizedBox(
+                          width: 7,
+                        ),
+                        Text('Mis últimas transferencias',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(blackText),
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                  ],
+                )),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                height: 3,
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(gradient_secondary_option),
+                      width: 2,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Tus últimas transferencias de inversion realizadas en Finniu',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                    fontSize: 12,
-                    height: 1.5,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText)),
+              SizedBox(height: 5),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Text(
+                  'Tus últimas transferencias de inversion realizadas en Finniu',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                      fontSize: 12,
+                      height: 1.5,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText)),
+                ),
               ),
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            TransferenceList(),
-            // EmptyTransference(),
-          ])),
-    ));
+              SizedBox(
+                height: 5,
+              ),
+              TransferenceList(),
+              // EmptyTransference(),
+            ])),
+      ),
+    )));
   }
 }
 
