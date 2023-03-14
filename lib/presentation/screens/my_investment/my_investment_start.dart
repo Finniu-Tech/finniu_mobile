@@ -27,12 +27,12 @@ class InvestmentStart extends HookConsumerWidget {
                 height: 60,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     height: 60,
                     width: 60,
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.center,
                     child: Image.asset(
                       'assets/images/logo_small.png',
                       color: (currentTheme.isDarkMode
@@ -72,7 +72,7 @@ class InvestmentStart extends HookConsumerWidget {
                 ],
               ),
               Container(
-                alignment: Alignment.topLeft,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   'Mis inversiones',
                   style: TextStyle(
@@ -89,7 +89,7 @@ class InvestmentStart extends HookConsumerWidget {
               ),
               Container(
                 alignment: Alignment.topLeft,
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: 320,
                 height: 129.0,
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -123,7 +123,7 @@ class InvestmentStart extends HookConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
+              Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'Planes de inversión',

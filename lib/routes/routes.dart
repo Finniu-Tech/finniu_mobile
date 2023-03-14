@@ -50,5 +50,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_step2': (BuildContext context) => Step_2(),
     '/investment_step2': (BuildContext context) => Step_2(),
     '/investment_step3': (BuildContext context) => Step_3(),
+    '/verification': (BuildContext context) => GoodVerification(),
+
+
   };
 }
