@@ -43,9 +43,11 @@ class ValidOtpUser {
 class OTPForm {
   String email;
   String otp;
+  String action;
   OTPForm({
     required this.email,
     required this.otp,
+    required this.action,
   });
 }
 

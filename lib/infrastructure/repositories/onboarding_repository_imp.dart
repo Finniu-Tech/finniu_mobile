@@ -1,5 +1,6 @@
 import 'package:finniu/domain/datasources/onboarding_datasource.dart';
 import 'package:finniu/domain/entities/onboarding_entities.dart';
+import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/repositories/onboarding_repository.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -28,6 +29,17 @@ class OnboardingRepositoryImp implements OnboardingRepository {
       userId: userId,
       questionId: questionId,
       answerId: answerId,
+    );
+  }
+
+  @override
+  Future<PlanEntity> finishOnboarding({
+    required GraphQLClient client,
+    required String userId,
+  }) async {
+    return await dataSource.finishOnboarding(
+      client: client,
+      userId: userId,
     );
   }
 

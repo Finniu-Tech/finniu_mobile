@@ -18,10 +18,13 @@ final otpValidatorFutureProvider = FutureProvider.family(
             variables: {
               'email': otpForm.email,
               'code': otpForm.otp,
+              'action': otpForm.action,
             },
             pollInterval: const Duration(seconds: 10),
           ),
         );
+        print('result otp code');
+        print(result);
         return result;
       },
     );

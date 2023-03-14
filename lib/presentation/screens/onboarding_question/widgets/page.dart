@@ -2,26 +2,29 @@
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/onboarding_entities.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/onboarding_question/result.dart';
 
-class PageQuestions extends ConsumerWidget {
+class PageQuestion extends HookConsumerWidget {
   final PageController controller;
   final OnboardingQuestionEntity question;
   final bool lastPage;
-  const PageQuestions({
+  final int pageIndex;
+  const PageQuestion({
     super.key,
     required this.question,
     required this.controller,
     required this.lastPage,
+    required this.pageIndex,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final selectedAnswerIndex = useState(-1);
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Column(
@@ -50,10 +53,6 @@ class PageQuestions extends ConsumerWidget {
               question.questionImageUrl,
               fit: BoxFit.contain,
             ),
-            // child: Image.asset(
-            //   'assets/investment/bills.png',
-            //   fit: BoxFit.contain,
-            // ),
           ),
         ),
         const SizedBox(
@@ -61,10 +60,13 @@ class PageQuestions extends ConsumerWidget {
         ),
         if (question.answers.isNotEmpty) ...[
           for (var i = 0; i < question.answers.length; i++)
-            ButtonQuestions(
+            ButtonQuestion(
               questionUuid: question.uuid,
               answer: question.answers[i],
               controller: controller,
+              answerIndex: i,
+              pageIndex: pageIndex,
+              // selectedAnswerIndex: selectedAnswerIndex,
             ),
         ]
       ],
@@ -72,22 +74,35 @@ class PageQuestions extends ConsumerWidget {
   }
 }
 
-class ButtonQuestions extends ConsumerWidget {
+class ButtonQuestion extends HookConsumerWidget {
   final PageController controller;
   final String questionUuid; // TODO: get from
   final AnswerEntity answer;
+  final int answerIndex;
+  final int pageIndex;
+  // final ValueNotifier<int> selectedAnswerIndex;
 
-  const ButtonQuestions({
+  const ButtonQuestion({
     super.key,
     required this.controller,
     required this.answer,
     required this.questionUuid,
+    required this.answerIndex,
+    required this.pageIndex,
+    // required this.selectedAnswerIndex,
   });
 
   @override
   Widget build(BuildContext context, ref) {
     final user = ref.watch(userProfileNotifierProvider);
-
+    final selectedAnswerIndex = ref
+        .watch(SelectedAnswerListStateNotifier.provider.notifier)
+        .getSelectedAnswerForPageIndex(pageIndex)
+        .answerIndex;
+    print('selected index!!!');
+    // print(selectedAnswerIndex.value);
+    print('answer index!!!');
+    print(answerIndex);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(
@@ -96,7 +111,7 @@ class ButtonQuestions extends ConsumerWidget {
         child: TextButton(
           onPressed: () {
             ref.watch(
-              updateOnboardingStateNotifierProvider(
+              updateOnboardingFutureStateNotifierProvider(
                 UserAnswerEntity(
                   questionUuid: questionUuid,
                   answerUuid: answer.uuid,
@@ -104,7 +119,10 @@ class ButtonQuestions extends ConsumerWidget {
                 ),
               ),
             );
-
+            ref
+                .read(SelectedAnswerListStateNotifier.provider.notifier)
+                .updateSelectedAnswerForPageIndex(pageIndex, answerIndex);
+            // final totalQuestions = ref.watch(onboardingNotifierProvider).length;
             // if (totalQuestions ==   2) {
             //   Navigator.push(
             //     context,
@@ -117,13 +135,19 @@ class ButtonQuestions extends ConsumerWidget {
             );
           },
           style: TextButton.styleFrom(
-            backgroundColor: const Color(primaryLightAlternative),
+            backgroundColor: Color(
+              selectedAnswerIndex == answerIndex
+                  ? primaryDarkAlternative
+                  : primaryLightAlternative,
+            ),
           ),
           child: Text(
             answer.text,
             textAlign: TextAlign.center,
-            style: const TextStyle(
-              color: Color(primaryDark),
+            style: TextStyle(
+              color: Color(
+                selectedAnswerIndex == answerIndex ? whiteText : primaryDark,
+              ),
             ),
           ),
         ),

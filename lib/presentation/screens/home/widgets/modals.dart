@@ -4,7 +4,6 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
-import 'package:finniu/use_cases/user/logout.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +12,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
+  final userProvider = ref.watch(userProfileNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
     context: ctx,
@@ -27,12 +27,10 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
           borderRadius: BorderRadius.circular(20),
         ),
         insetPadding: EdgeInsets.zero,
-        child: ConstrainedBox(constraints: BoxConstraints(maxWidth:300,minWidth:200,maxHeight:600,minHeight: 325 ),
-          
-          
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+              maxWidth: 300, minWidth: 200, maxHeight: 600, minHeight: 325),
           child: SizedBox(
-         
-
             child: Padding(
               padding: const EdgeInsets.only(
                 top: 10.0,
@@ -122,18 +120,19 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   value: Preferences.isDarkMode,
                                   inactiveColor: const Color(primaryDark),
                                   activeColor: const Color(primaryLight),
-                                  inactiveToggleColor: const Color(primaryLight),
+                                  inactiveToggleColor:
+                                      const Color(primaryLight),
                                   activeToggleColor: const Color(primaryDark),
                                   onToggle: (value) {
                                     Navigator.of(context).pop();
                                     value
                                         ? ref
-                                            .read(
-                                                settingsNotifierProvider.notifier)
+                                            .read(settingsNotifierProvider
+                                                .notifier)
                                             .setDarkMode()
                                         : ref
-                                            .read(
-                                                settingsNotifierProvider.notifier)
+                                            .read(settingsNotifierProvider
+                                                .notifier)
                                             .setLightMode();
                                     Preferences.isDarkMode = value;
                                   },
@@ -146,7 +145,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   width: 10,
                                 ),
                                 Text(
-                                  ref.watch(userProfileNotifierProvider).email ??
+                                  ref
+                                          .watch(userProfileNotifierProvider)
+                                          .email ??
                                       '',
                                   style: TextStyle(
                                     height: 1.5,

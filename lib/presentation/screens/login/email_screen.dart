@@ -37,7 +37,9 @@ class EmailLoginScreen extends HookConsumerWidget {
                 child: Image(
                   fit: BoxFit.cover,
                   image: AssetImage(
-                    themeProvider.isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
+                    themeProvider.isDarkMode
+                        ? "assets/images/logo_finniu_dark.png"
+                        : "assets/images/logo_finniu_light.png",
                   ),
                 ),
               ),
@@ -45,7 +47,8 @@ class EmailLoginScreen extends HookConsumerWidget {
                 alignment: Alignment.center,
                 child: TextPoppins(
                   text: '¡Bienvenido a Finniu!',
-                  colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                  colorText:
+                      themeProvider.isDarkMode ? skyBlueText : primaryDark,
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
@@ -61,7 +64,8 @@ class EmailLoginScreen extends HookConsumerWidget {
                         alignment: Alignment.topLeft,
                         child: TextPoppins(
                           text: 'Ingresa a tu cuenta',
-                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
+                          colorText:
+                              themeProvider.isDarkMode ? whiteText : blackText,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -106,8 +110,10 @@ class EmailLoginScreen extends HookConsumerWidget {
                             }
                             return null;
                           },
-                          obscureText: isHidden.value, // esto oculta la contrasenia
-                          obscuringCharacter: '*', //el caracter el cual reemplaza la contrasenia
+                          obscureText:
+                              isHidden.value, // esto oculta la contrasenia
+                          obscuringCharacter:
+                              '*', //el caracter el cual reemplaza la contrasenia
                           decoration: InputDecoration(
                             suffixIconConstraints: const BoxConstraints(
                               maxHeight: 38,
@@ -117,7 +123,9 @@ class EmailLoginScreen extends HookConsumerWidget {
                               splashRadius: 20,
                               padding: EdgeInsets.zero,
                               icon: Icon(
-                                isHidden.value ? Icons.visibility : Icons.visibility_off,
+                                isHidden.value
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
                                 size: 23.20,
                               ),
                               alignment: Alignment.center,
@@ -141,7 +149,9 @@ class EmailLoginScreen extends HookConsumerWidget {
                           alignment: Alignment.topRight,
                           child: TextPoppins(
                             text: '¿Olvidaste tu contraseña?',
-                            colorText: themeProvider.isDarkMode ? whiteText : blackText,
+                            colorText: themeProvider.isDarkMode
+                                ? whiteText
+                                : blackText,
                             fontSize: 11,
                             fontWeight: FontWeight.w400,
                           ),
@@ -177,7 +187,8 @@ class EmailLoginScreen extends HookConsumerWidget {
                                 (value) {
                                   context.loaderOverlay.hide();
                                   if (value != null) {
-                                    ref.read(authTokenProvider.notifier).state = value;
+                                    ref.read(authTokenProvider.notifier).state =
+                                        value;
                                     Navigator.pushNamed(context, '/home_home');
                                   } else {
                                     showError.value = true;
@@ -196,7 +207,8 @@ class EmailLoginScreen extends HookConsumerWidget {
                       Center(
                         child: TextPoppins(
                           text: '¿Aún no tienes una cuenta creada?',
-                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
+                          colorText:
+                              themeProvider.isDarkMode ? whiteText : blackText,
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
                         ),
@@ -209,7 +221,9 @@ class EmailLoginScreen extends HookConsumerWidget {
                         child: Center(
                           child: TextPoppins(
                             text: 'Registrarme',
-                            colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                            colorText: themeProvider.isDarkMode
+                                ? skyBlueText
+                                : primaryDark,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),

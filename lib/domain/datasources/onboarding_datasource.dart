@@ -1,4 +1,5 @@
 import 'package:finniu/domain/entities/onboarding_entities.dart';
+import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 abstract class OnboardingDataSource {
@@ -14,8 +15,8 @@ abstract class OnboardingDataSource {
     required String answerId,
   });
 
-  // Future<OnboardingEntity> completeOnboarding({
-  //   required GraphQLClient client,
-  //   required String userId,
-  // });
+  Future<PlanEntity> finishOnboarding({
+    required GraphQLClient client,
+    required String userId,
+  });
 }

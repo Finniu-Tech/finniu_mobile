@@ -50,10 +50,11 @@ class MutationRepository {
 
   static String validateOTP() {
     return '''
-      mutation validateOtp(\$email:String!, \$code:String!){
+      mutation validateOtp(\$email:String!, \$code:String!, \$action:String!){
         validOtpUser(input:{
           otpCode:\$code,
-          email:\$email
+          email:\$email,
+          action: \$action
         }){
           success
         }
@@ -103,5 +104,26 @@ class MutationRepository {
   }
 }
     ''';
+  }
+
+  static String finishOnboardingQuestions() {
+    return '''
+      mutation finishOnboarding(\$user_id: ID!){
+        finishOnboarding(input: {
+          userId: \$user_id
+        }){
+          success
+          plan{
+            uuid
+            name
+            minAmount
+            value
+            twelveMonthsReturn
+            sixMonthsReturn
+            description
+          }
+        }
+      }
+        ''';
   }
 }

@@ -13,7 +13,11 @@ final authTokenMutationProvider =
   if (gqlClient == null) {
     throw Exception('GraphQL client is null');
   }
-
+  print('auth token provider******');
+  print('email');
+  print(login.email);
+  print('password');
+  print(login.password);
   final userData = await gqlClient.mutate(
     MutationOptions(
       document: gql(
@@ -25,9 +29,14 @@ final authTokenMutationProvider =
       },
     ),
   );
-
+  ref.read(authTokenProvider.notifier).state =
+      userData.data?['tokenAuth']['token'];
   return userData.data?['tokenAuth']['token'];
 });
+
+// final userProvider = StateNotifierProvider<UserProvider, UserProvider>((ref) {
+//   return UserProvider();
+// });
 
 class UserProvider extends ChangeNotifier {
   late String? _nickName;
@@ -36,19 +45,15 @@ class UserProvider extends ChangeNotifier {
   late String? _lastName;
   late int? _phone;
   late bool _onboardingCompleted;
+  late String? _password;
 
-  UserProvider({
-    nickName,
-    email,
-    firstName,
-    lastName,
-    phone,
-  }) {
+  UserProvider({nickName, email, firstName, lastName, phone, password}) {
     _nickName = nickName;
     _email = email;
     _firstName = firstName;
     _lastName = lastName;
     _phone = phone;
+    _password = password;
   }
   String? get nickName => _nickName;
   String? get email => _email;
@@ -84,6 +89,11 @@ class UserProvider extends ChangeNotifier {
 
   set onboardingCompleted(bool onboardingCompleted) {
     _onboardingCompleted = onboardingCompleted;
+    notifyListeners();
+  }
+
+  set password(String password) {
+    _password = password;
     notifyListeners();
   }
 }

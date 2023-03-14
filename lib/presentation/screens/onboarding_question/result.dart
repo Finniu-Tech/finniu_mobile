@@ -1,5 +1,7 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ class ResultInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final recommendedPlan = ref.watch(recommendedPlanStateNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
       body: SingleChildScrollView(
@@ -86,14 +89,22 @@ class ResultInvestment extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 90,
-                    width: 90,
-                    child: Image.asset('assets/result/money.png'),
-                  ),
+                      height: 90,
+                      width: 90,
+                      child: recommendedPlan.imageUrl != ''
+                          ? Image.network(
+                              recommendedPlan.imageUrl ??
+                                  'https://finniu.com/media/finniu/images/customuser/896d5e7e/13322377.png',
+                              fit: BoxFit.contain,
+                            )
+                          : Image.asset('assets/result/money.png')
+
+                      // child: Image.asset('assets/result/money.png'),
+                      ),
                   Container(
                     // padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
                     child: Text(
-                      'Plan Origen',
+                      recommendedPlan.name,
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 24,
@@ -109,11 +120,11 @@ class ResultInvestment extends ConsumerWidget {
               Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(6.0),
+                    padding: const EdgeInsets.all(6.0),
                     width: 224,
                     height: 80,
                     child: Text(
-                      'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti.',
+                      '${recommendedPlan.description}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
@@ -148,7 +159,7 @@ class ResultInvestment extends ConsumerWidget {
               SizedBox(
                 width: 230,
                 child: Table(
-                  columnWidths: {
+                  columnWidths: const {
                     0: FlexColumnWidth(1),
                     1: FlexColumnWidth(3),
                     2: FlexColumnWidth(2),
@@ -193,7 +204,7 @@ class ResultInvestment extends ConsumerWidget {
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
                           child: Text(
-                            'S/500',
+                            'S/${recommendedPlan.minAmount}',
                             // textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 16,
@@ -239,7 +250,7 @@ class ResultInvestment extends ConsumerWidget {
                         TableCell(
                           verticalAlignment: TableCellVerticalAlignment.middle,
                           child: Text(
-                            '12%',
+                            '${recommendedPlan.twelveMonthsReturn}%',
                             // textAlign: TextAlign.left,
                             style: TextStyle(
                               fontSize: 16,
@@ -266,7 +277,7 @@ class ResultInvestment extends ConsumerWidget {
                     width: 156,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Color(primaryLight),
+                      color: const Color(primaryLight),
                     ),
                     child: Center(
                       child: CustomButton(
@@ -291,22 +302,35 @@ class ResultInvestment extends ConsumerWidget {
                     width: 156,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: Color(primaryDark),
+                      color: const Color(primaryDark),
                     ),
                     child: Center(
-                      child: CustomButton(
-                        colorBackground: currentTheme.isDarkMode
-                            ? (primaryLight)
-                            : (primaryDark),
-                        text: 'Gracias',
-                        // colorBackground: primaryDark,
-                        // colorText: white_text,
+                      child: TextButton(
+                        onPressed: () {
+                          // ref
+                          //     .read(userProfileNotifierProvider.notifier)
+                          //     .setOnboardingCompleted(true);
 
-                        colorText: currentTheme.isDarkMode
-                            ? (primaryDark)
-                            : (whiteText),
-                        pushName: '/home_home',
+                          Navigator.pushNamed(context, '/home_home');
+                        },
+                        child: Text(
+                          'Gracias',
+                        ),
                       ),
+
+                      // child: CustomButton(
+                      //   colorBackground: currentTheme.isDarkMode
+                      //       ? (primaryLight)
+                      //       : (primaryDark),
+                      //   text: 'Gracias',
+                      //   // colorBackground: primaryDark,
+                      //   // colorText: white_text,
+
+                      //   colorText: currentTheme.isDarkMode
+                      //       ? (primaryDark)
+                      //       : (whiteText),
+                      //   pushName: '/home_home',
+                      // ),
                     ),
                   ),
                 ],

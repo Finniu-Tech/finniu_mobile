@@ -1,7 +1,9 @@
 import 'package:finniu/domain/datasources/onboarding_datasource.dart';
 import 'package:finniu/domain/entities/onboarding_entities.dart';
+import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/infrastructure/mappers/onboarding_mapper.dart';
+import 'package:finniu/infrastructure/models/onboarding_finish_response.dart';
 import 'package:finniu/infrastructure/models/onboarding_response.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -21,6 +23,8 @@ class OnboardingDataSourceImp extends OnboardingDataSource {
         },
       ),
     );
+    print('get onboarding data******');
+    print(response);
     final responseGraphQL = StartOnboardingGraphqlModel.fromJson(
       (await response).data?['startOnboarding'],
     );
@@ -46,11 +50,36 @@ class OnboardingDataSourceImp extends OnboardingDataSource {
         },
       ),
     );
-    print('response mutation');
-    print(response);
+
     final responseGraphQL = StartOnboardingGraphqlModel.fromJson(
       response.data?['startOnboarding'],
     );
     return OnboardingMapper.toEntity(responseGraphQL);
+  }
+
+  @override
+  Future<PlanEntity> finishOnboarding({
+    required GraphQLClient client,
+    required String userId,
+  }) async {
+    final response = await client.mutate(
+      MutationOptions(
+        document: gql(
+          // MutationRepository.startOnboardingQuestions(),
+          MutationRepository.finishOnboardingQuestions(),
+        ),
+        variables: {
+          'user_id': userId,
+        },
+      ),
+    );
+    print('response graphql onboarding');
+    print(response);
+
+    final responseGraphQl = FinishOnboardingResponseModel.fromJson(
+      response.data!,
+    );
+
+    return PlanMapper.toEntity(responseGraphQl);
   }
 }
