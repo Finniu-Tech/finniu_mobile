@@ -126,4 +126,15 @@ class MutationRepository {
       }
         ''';
   }
+
+  static String sendEmailRecoveryPassword() {
+    return '''
+      mutation recoveryPassword(\$email:String!){
+        recoveryPassword(email: \$email){
+          success
+          successSendCode
+        }
+      }
+    ''';
+  }
 }

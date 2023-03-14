@@ -17,7 +17,7 @@ final startOnBoardingFutureStateNotifierProvider =
     final onboardingData =
         ref.watch(onboardingRepositoryProvider).getOnboardingData(
               client: client!,
-              userId: userId!,
+              userId: userId,
             );
     onboardingData.then(
       (value) {

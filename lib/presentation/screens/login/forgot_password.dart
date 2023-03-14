@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/recovery_password_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -5,16 +6,16 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-
-
-class ForgotPassword extends ConsumerWidget {
+class ForgotPassword extends HookConsumerWidget {
   const ForgotPassword({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final emailController = useTextEditingController();
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturn(
@@ -31,16 +32,16 @@ class ForgotPassword extends ConsumerWidget {
                 fontWeight: FontWeight.w600,
               ),
               SizedBox(height: 20),
-             TextPoppins(
+              TextPoppins(
                 text: 'No te preocupes es posible recuperarla',
-                colorText: themeProvider.isDarkMode
-                          ? (whiteText)
-                          :(blackText),
+                colorText: themeProvider.isDarkMode ? (whiteText) : (blackText),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(height: 20),
-              Container(width: 320,height: 130,
+              Container(
+                width: 320,
+                height: 130,
                 child: Stack(
                   children: <Widget>[
                     Align(
@@ -54,8 +55,7 @@ class ForgotPassword extends ConsumerWidget {
                           padding: const EdgeInsets.only(
                               left: 50, right: 30, top: 15, bottom: 15),
                           decoration: BoxDecoration(
-                            color: 
-                                 Color(gradient_secondary),
+                            color: Color(gradient_secondary),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           height: 130,
@@ -64,8 +64,10 @@ class ForgotPassword extends ConsumerWidget {
                             alignment: Alignment.center,
                             child: Text(
                                 textAlign: TextAlign.center,
-                                style:
-                                    TextStyle(fontSize: 11, color: Colors.black,height: 1.5),
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.black,
+                                    height: 1.5),
                                 "Por favor ingresa tu correo electrónico que ingresaste al crear tu cuenta en la App , en unos minutos recibiras un correo para recuperar tu contraseña."),
                           ),
                         ),
@@ -73,8 +75,7 @@ class ForgotPassword extends ConsumerWidget {
                     ),
                     Positioned(
                       top: 20,
-                  
-                   right: 250,
+                      right: 250,
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Container(
@@ -82,8 +83,8 @@ class ForgotPassword extends ConsumerWidget {
                           width: 80,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image:
-                                  AssetImage("assets/forgotpassword/padlock.png"),
+                              image: AssetImage(
+                                  "assets/forgotpassword/padlock.png"),
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -94,12 +95,19 @@ class ForgotPassword extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const SizedBox(
+              SizedBox(
                 width: 224,
                 height: 38,
-                child: ButtonDecoration(
-                    textHint: 'Escribe tu correo electrónico',
-                    textLabel: "Correo electrónico"),
+                child: TextFormField(
+                  controller: emailController,
+                  onChanged: (value) {},
+                  decoration: const InputDecoration(
+                    hintText: 'Escribe tu correo electrónico',
+                    labelText: "Correo electrónico",
+                  ),
+                  // textHint: 'Escribe tu correo electrónico',
+                  // textLabel: "Correo electrónico",
+                ),
               ),
               const SizedBox(height: 25),
               Container(
@@ -109,14 +117,26 @@ class ForgotPassword extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(50),
                   color: const Color(primaryDark),
                 ),
-                child: const Center(
-                    child: CustomButton(
-                        text: 'Enviar correo',
-                        // colorBackground: primaryDark,
-                        // colorText: white_text,
-                        pushName: '/verification')),
-              
- 
+                child: Center(
+                  child: TextButton(
+                    onPressed: () async {
+                      final status = await ref.watch(
+                          recoveryPasswordFutureProvider(emailController.text)
+                              .future);
+                      if (status) {
+                        Navigator.pushNamed(context, '/goodverification');
+                      } else {
+                        Navigator.pushNamed(context, '/badverification');
+                      }
+                    },
+                    child: Text('Enviar correo'),
+                  ),
+                  // child: CustomButton(
+                  //     text: 'Enviar correo',
+                  //     // colorBackground: primaryDark,
+                  //     // colorText: white_text,
+                  //     pushName: '/verification'),
+                ),
               ),
             ],
           ),
@@ -129,7 +149,7 @@ class ForgotPassword extends ConsumerWidget {
 class GoodVerification extends ConsumerWidget {
   const GoodVerification({super.key});
 
-   @override
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
@@ -140,9 +160,8 @@ class GoodVerification extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-               SizedBox(height:
-              MediaQuery.of(context).size.height * 0.1),
-                  Container(
+              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+              Container(
                 alignment: Alignment.topCenter,
                 child: SizedBox(
                   child: Image.asset(
@@ -152,8 +171,6 @@ class GoodVerification extends ConsumerWidget {
                   ),
                 ),
               ),
-
-
               TextPoppins(
                 text: 'Cambiar tu contraseña',
                 colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
@@ -163,15 +180,11 @@ class GoodVerification extends ConsumerWidget {
               SizedBox(height: 20),
               TextPoppins(
                 text: 'Ingresa tu nueva contraseña',
-                colorText: themeProvider.isDarkMode
-                          ? (whiteText)
-                          :(blackText),
+                colorText: themeProvider.isDarkMode ? (whiteText) : (blackText),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
               SizedBox(height: 20),
-            
-             
               const SizedBox(
                 width: 224,
                 height: 38,
@@ -193,8 +206,6 @@ class GoodVerification extends ConsumerWidget {
                         // colorBackground: primaryDark,
                         // colorText: white_text,
                         pushName: '/verification')),
-              
- 
               ),
             ],
           ),
