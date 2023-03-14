@@ -1,6 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
+import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
@@ -13,6 +14,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
+  final userProvider = ref.watch(userProfileNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
     context: ctx,
@@ -88,10 +90,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                 width: 10,
                               ),
                               Text(
-                                ref
-                                        .watch(userProfileNotifierProvider)
-                                        .nickName ??
-                                    '',
+                                userProvider.nickName ?? '',
                                 style: TextStyle(
                                   height: 1.5,
                                   fontSize: 16,
@@ -296,9 +295,17 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                           ref.invalidate(authTokenProvider);
                           ref.invalidate(gqlClientProvider);
                           ref.invalidate(userProfileNotifierProvider);
+                          ref.invalidate(hasCompletedOnboardingProvider);
+                          ref.invalidate(onBoardingStateNotifierProvider);
+                          ref.invalidate(recommendedPlanStateNotifierProvider);
+                          // ref.invalidate(selectedAnswersProvider);
+                          ref.invalidate(
+                              SelectedAnswerListStateNotifier.provider);
                           // logout(ref);
                           Navigator.of(ctx).pushNamedAndRemoveUntil(
-                              '/login_start', (route) => false);
+                            '/login_start',
+                            (route) => false,
+                          );
                         },
                       ),
                     ],

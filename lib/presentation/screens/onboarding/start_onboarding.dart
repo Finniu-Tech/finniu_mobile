@@ -218,11 +218,24 @@ class _StartOnboardingState extends ConsumerState<StartOnboarding> {
             ),
             Container(
               margin: const EdgeInsets.only(top: 20),
-              child: const CustomButton(
-                text: 'Comenzar',
-                width: 116,
-                pushName: '/home_home',
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/home_home');
+                },
+                child: const Text(
+                  'Comenzar',
+                  // style: TextStyle(
+                  //   color: Color(primaryDark),
+                  //   fontSize: 16,
+                  //   fontWeight: FontWeight.w600,
+                  // ),
+                ),
               ),
+              // child: const CustomButton(
+              //   text: 'Comenzar',
+              //   width: 116,
+              //   pushName: '/home_home',
+              // ),
             )
           ],
         );

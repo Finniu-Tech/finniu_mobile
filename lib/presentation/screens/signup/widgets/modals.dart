@@ -108,7 +108,11 @@ class SMSBody extends HookConsumerWidget {
               print(userProfile.email);
               final futureIsValidCode = ref.watch(
                 otpValidatorFutureProvider(
-                  OTPForm(email: userProfile.email!, otp: code),
+                  OTPForm(
+                    email: userProfile.email!,
+                    otp: code,
+                    action: 'register',
+                  ),
                 ).future,
               );
               futureIsValidCode.then((status) {

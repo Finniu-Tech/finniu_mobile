@@ -111,7 +111,7 @@ class ButtonQuestion extends HookConsumerWidget {
         child: TextButton(
           onPressed: () {
             ref.watch(
-              updateOnboardingStateNotifierProvider(
+              updateOnboardingFutureStateNotifierProvider(
                 UserAnswerEntity(
                   questionUuid: questionUuid,
                   answerUuid: answer.uuid,

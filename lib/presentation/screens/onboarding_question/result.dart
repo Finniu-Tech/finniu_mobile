@@ -307,12 +307,11 @@ class ResultInvestment extends ConsumerWidget {
                     child: Center(
                       child: TextButton(
                         onPressed: () {
-                          ref
-                              .read(userProfileNotifierProvider.notifier)
-                              .setOnboardingCompleted(true);
+                          // ref
+                          //     .read(userProfileNotifierProvider.notifier)
+                          //     .setOnboardingCompleted(true);
 
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              '/home_home', (Route<dynamic> route) => false);
+                          Navigator.pushNamed(context, '/home_home');
                         },
                         child: Text(
                           'Gracias',

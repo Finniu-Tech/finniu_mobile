@@ -46,6 +46,7 @@ class PlanMapper {
       value: planModel?.value?.toDouble() ?? 0,
       twelveMonthsReturn: double.parse(planModel?.twelveMonthsReturn ?? '0'),
       sixMonthsReturn: double.parse(planModel?.sixMonthsReturn ?? '0'),
+      description: planModel?.description ?? '',
     );
   }
 }

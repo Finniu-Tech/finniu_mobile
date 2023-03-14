@@ -26,7 +26,7 @@ class _SelectRangeState extends ConsumerState<Questions> {
   void initState() {
     super.initState();
 
-    ref.read(startOnBoardingStateNotifierProvider);
+    ref.read(startOnBoardingFutureStateNotifierProvider);
   }
 
   @override
@@ -96,7 +96,8 @@ class _SelectRangeState extends ConsumerState<Questions> {
                       child: TextButton(
                         child: const Text('Finalizar'),
                         onPressed: () {
-                          ref.watch(finishOnboardingStateNotifierProvider);
+                          ref.watch(
+                              finishOnboardingFutureStateNotifierProvider);
 
                           Navigator.of(context).pushNamed('/investment_result');
                         },

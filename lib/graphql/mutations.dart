@@ -50,10 +50,11 @@ class MutationRepository {
 
   static String validateOTP() {
     return '''
-      mutation validateOtp(\$email:String!, \$code:String!){
+      mutation validateOtp(\$email:String!, \$code:String!, \$action:String!){
         validOtpUser(input:{
           otpCode:\$code,
-          email:\$email
+          email:\$email,
+          action: \$action
         }){
           success
         }
@@ -119,6 +120,7 @@ class MutationRepository {
             value
             twelveMonthsReturn
             sixMonthsReturn
+            description
           }
         }
       }

@@ -7,31 +7,17 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final startOnBoardingStateNotifierProvider = FutureProvider<OnboardingEntity>(
+final startOnBoardingFutureStateNotifierProvider =
+    FutureProvider<OnboardingEntity>(
   (ref) async {
     print('start onboarding ******');
     final client = ref.watch(gqlClientProvider).value;
-    String? userId = ref.watch(userProfileNotifierProvider).id;
-    // if (userId == null) {
-    //   // Wait for the userProfileNotifierProvider to have the correct user data
-    //   await Future.delayed(Duration(milliseconds: 300));
-    //   // Get the updated userProfile from the provider
-    //   final updatedUserProfile = ref.watch(userProfileNotifierProvider);
-    //   if (updatedUserProfile.id != null && updatedUserProfile.id!.isNotEmpty) {
-    //     // Use the updated userProfile to get the userId
-    //     userId = updatedUserProfile.id;
-    //   }
-    // }
+    String userId = ref.watch(userProfileNotifierProvider).id!;
 
-    if (userId == null) {
-      throw Exception('User id is null');
-    }
-    print('user id');
-    print(userId);
     final onboardingData =
         ref.watch(onboardingRepositoryProvider).getOnboardingData(
               client: client!,
-              userId: userId,
+              userId: userId!,
             );
     onboardingData.then(
       (value) {
@@ -46,7 +32,7 @@ final startOnBoardingStateNotifierProvider = FutureProvider<OnboardingEntity>(
   },
 );
 
-final updateOnboardingStateNotifierProvider =
+final updateOnboardingFutureStateNotifierProvider =
     FutureProvider.family<OnboardingEntity, UserAnswerEntity>(
   (ref, UserAnswerEntity userAnswer) async {
     print('update onboarding state notifier provider');
@@ -62,13 +48,6 @@ final updateOnboardingStateNotifierProvider =
             );
     onboardingData.then(
       (value) {
-        print('value!!!!');
-        print(value);
-        print(value.totalCompletedQuestions);
-        print(value.currentQuestion);
-        print('awswer id');
-        print(userAnswer.answerUuid);
-
         ref.read(onBoardingStateNotifierProvider.notifier).updateFields(
               totalQuestions: value.totalQuestions,
               totalCompletedQuestions: value.totalCompletedQuestions,
@@ -81,7 +60,7 @@ final updateOnboardingStateNotifierProvider =
   },
 );
 
-final finishOnboardingStateNotifierProvider = FutureProvider<bool>(
+final finishOnboardingFutureStateNotifierProvider = FutureProvider<bool>(
   (ref) async {
     final client = ref.watch(gqlClientProvider).value;
     final userId = ref.watch(userProfileNotifierProvider).id;
@@ -89,29 +68,27 @@ final finishOnboardingStateNotifierProvider = FutureProvider<bool>(
         .watch(onboardingRepositoryProvider)
         .finishOnboarding(client: client!, userId: userId!);
     bool success = false;
-    recommendedPlan.then(
-      (data) {
-        print('resoinse finish onboardin!!!');
-        print(data);
-        if (data.name.isNotEmpty) {
-          success = true;
-        }
-        ref.read(recommendedPlanStateNotifierProvider.notifier).updateFields(
-              uuid: data.uuid,
-              name: data.name,
-              description: data.description,
-              imageUrl: data.imageUrl,
-              minAmount: data.minAmount,
-              value: data.value,
-              twelveMonthsReturn: data.twelveMonthsReturn,
-              sixMonthsReturn: data.sixMonthsReturn,
-            );
-        ref.read(hasCompletedOnboardingProvider.notifier).state = true;
-        // ref
-        //     .read(userProfileNotifierProvider.notifier)
-        //     .setOnboardingCompleted(true);
-      },
-    );
+    final data = await recommendedPlan;
+    if (data.name.isNotEmpty) {
+      print('data is not empty');
+      success = true;
+
+      // ref.invalidate(hasCompletedOnboardingProvider);
+      // ref.invalidate(userProfileNotifierProvider);
+
+      ref.read(recommendedPlanStateNotifierProvider.notifier).updateFields(
+            uuid: data.uuid,
+            name: data.name,
+            description: data.description,
+            imageUrl: data.imageUrl,
+            minAmount: data.minAmount,
+            value: data.value,
+            twelveMonthsReturn: data.twelveMonthsReturn,
+            sixMonthsReturn: data.sixMonthsReturn,
+          );
+      ref.read(hasCompletedOnboardingProvider.notifier).state =
+          true; // ref.read(userProfileNotifierProvider.notifier).setOnboardingCompleted(true);
+    }
     return success;
   },
 );
@@ -185,8 +162,8 @@ class RecommendedPlanStateNotifier extends StateNotifier<PlanEntity> {
   }
 }
 
-final selectedAnswersProvider =
-    StateProvider<List<SelectedAnswer>>((ref) => []);
+// final selectedAnswersProvider =
+//     StateProvider<List<SelectedAnswer>>((ref) => []);
 
 class SelectedAnswerStateNotifier extends StateNotifier<SelectedAnswer> {
   SelectedAnswerStateNotifier(SelectedAnswer state) : super(state);
@@ -232,9 +209,4 @@ class SelectedAnswerListStateNotifier
   }
 }
 
-// // Wrap the selectedAnswerProvider with SelectedAnswerListStateNotifier
-// final selectedAnswersListProvider = StateNotifierProvider<SelectedAnswerListStateNotifier>((ref) {
-//   final selectedAnswers = ref.watch(selectedAnswersProvider);
-//   return SelectedAnswerListStateNotifier(selectedAnswers);
-// });
-
+final hasCompletedOnboardingProvider = StateProvider((ref) => false);

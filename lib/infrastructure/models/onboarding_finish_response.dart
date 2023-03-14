@@ -63,6 +63,7 @@ class Plan {
     this.value,
     this.twelveMonthsReturn,
     this.sixMonthsReturn,
+    this.description,
   });
 
   String? uuid;
@@ -71,6 +72,7 @@ class Plan {
   int? value;
   String? twelveMonthsReturn;
   String? sixMonthsReturn;
+  String? description;
 
   factory Plan.fromJson(Map<String, dynamic> json) => Plan(
         uuid: json["uuid"],
@@ -79,6 +81,7 @@ class Plan {
         value: json["value"],
         twelveMonthsReturn: json["twelveMonthsReturn"],
         sixMonthsReturn: json["sixMonthsReturn"],
+        description: json["description"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -88,6 +91,7 @@ class Plan {
         "value": value,
         "twelveMonthsReturn": twelveMonthsReturn,
         "sixMonthsReturn": sixMonthsReturn,
+        "description": description,
       };
 }
 

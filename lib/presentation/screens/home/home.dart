@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/cards.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
@@ -11,41 +12,39 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 
-class HomeScreen extends ConsumerWidget {
+class HomeScreen extends HookConsumerWidget {
   HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final userProfile = ref.watch(userProfileFutureProvider.future);
-    final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
 
     // add flag to check if callback has already been added
     var hasPushedOnboarding = false;
-
+    final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
     return Scaffold(
       bottomNavigationBar: const BottomNavigationBarHome(),
-      body: FutureBuilder(
-        future: userProfile,
-        builder: (context, AsyncSnapshot<UserProfile> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // check if onboarding has been completed and the callback hasn't been added
-            if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
-              hasPushedOnboarding = true; // set flag to true
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Navigator.of(context)
-                    .pushReplacementNamed('/onboarding_questions_start');
-              });
-            }
-            return HomeBody(
-              currentTheme: currentTheme,
-              userProfile: snapshot.data!,
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+      body: HookBuilder(
+        builder: (context) {
+          final userProfile = ref.watch(userProfileFutureProvider);
+
+          return userProfile.when(
+            data: (profile) {
+              if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
+                hasPushedOnboarding = true; // set flag to true
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  Navigator.of(context)
+                      .pushReplacementNamed('/onboarding_questions_start');
+                });
+              }
+              return HomeBody(
+                currentTheme: currentTheme,
+                userProfile: profile,
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, _) => Center(child: Text(error.toString())),
+          );
         },
       ),
     );
