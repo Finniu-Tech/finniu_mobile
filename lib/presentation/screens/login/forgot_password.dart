@@ -1,9 +1,9 @@
 import 'package:finniu/presentation/providers/recovery_password_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/login/widgets/modal.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -31,14 +31,14 @@ class ForgotPassword extends HookConsumerWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextPoppins(
                 text: 'No te preocupes es posible recuperarla',
                 colorText: themeProvider.isDarkMode ? (whiteText) : (blackText),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 width: 320,
                 height: 130,
@@ -55,7 +55,7 @@ class ForgotPassword extends HookConsumerWidget {
                           padding: const EdgeInsets.only(
                               left: 50, right: 30, top: 15, bottom: 15),
                           decoration: BoxDecoration(
-                            color: Color(gradient_secondary),
+                            color: const Color(gradient_secondary),
                             borderRadius: BorderRadius.circular(15),
                           ),
                           height: 130,
@@ -121,15 +121,22 @@ class ForgotPassword extends HookConsumerWidget {
                   child: TextButton(
                     onPressed: () async {
                       final status = await ref.watch(
-                          recoveryPasswordFutureProvider(emailController.text)
-                              .future);
-                      if (status) {
-                        Navigator.pushNamed(context, '/goodverification');
+                        recoveryPasswordFutureProvider(emailController.text)
+                            .future,
+                      );
+                      if (status == true) {
+                        ref
+                            .read(userProfileNotifierProvider.notifier)
+                            .setEmail(emailController.text);
+                        sendEmailRecoveryPasswordModal(context, ref);
                       } else {
-                        Navigator.pushNamed(context, '/badverification');
+                        // Navigator.pushNamed(context, '/badverification');
+                        const SnackBar(
+                          content: Text('Error al enviar el correo'),
+                        );
                       }
                     },
-                    child: Text('Enviar correo'),
+                    child: const Text('Enviar correo'),
                   ),
                   // child: CustomButton(
                   //     text: 'Enviar correo',
@@ -146,14 +153,15 @@ class ForgotPassword extends HookConsumerWidget {
   }
 }
 
-class GoodVerification extends ConsumerWidget {
-  const GoodVerification({super.key});
+class NewPassword extends HookConsumerWidget {
+  const NewPassword({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final passwordController = useTextEditingController();
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
-
+    final isHidden = useState(true);
     return CustomScaffoldReturn(
       body: SingleChildScrollView(
         child: Center(
@@ -177,20 +185,55 @@ class GoodVerification extends ConsumerWidget {
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               TextPoppins(
                 text: 'Ingresa tu nueva contraseña',
                 colorText: themeProvider.isDarkMode ? (whiteText) : (blackText),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
-              SizedBox(height: 20),
-              const SizedBox(
+              const SizedBox(height: 20),
+              SizedBox(
                 width: 224,
                 height: 38,
-                child: ButtonDecoration(
-                    textHint: 'Digita tu nueva contraseña',
-                    textLabel: "Contraseña nueva"),
+                child: TextFormField(
+                  // onChanged: (value) {
+                  //   _password = value;
+                  // },
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor ingrese algún valor';
+                    }
+                    return null;
+                  },
+                  obscureText: isHidden.value, // esto oculta la contrasenia
+                  obscuringCharacter:
+                      '*', //el caracter el cual reemplaza la contrasenia
+                  decoration: InputDecoration(
+                    suffixIconConstraints: const BoxConstraints(
+                      maxHeight: 38,
+                      minWidth: 38,
+                    ),
+                    suffixIcon: IconButton(
+                      splashRadius: 20,
+                      padding: EdgeInsets.zero,
+                      icon: Icon(
+                        isHidden.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                        size: 23.20,
+                      ),
+                      alignment: Alignment.center,
+                      onPressed: () {
+                        isHidden.value = !isHidden.value;
+                      },
+                    ),
+                    label: const Text(
+                      "Contraseña",
+                    ),
+                  ),
+                  controller: passwordController,
+                ),
               ),
               const SizedBox(height: 25),
               Container(
@@ -200,12 +243,35 @@ class GoodVerification extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(50),
                   color: const Color(primaryDark),
                 ),
-                child: const Center(
-                    child: CustomButton(
-                        text: 'Cambiar contraseña',
-                        // colorBackground: primaryDark,
-                        // colorText: white_text,
-                        pushName: '/verification')),
+                child: Center(
+                    child: TextButton(
+                  onPressed: () async {
+                    final status = await ref.read(
+                        setNewPasswordFutureProvider(passwordController.text)
+                            .future);
+                    if (status == true) {
+                      ref
+                          .read(userProfileNotifierProvider.notifier)
+                          .setPassword(passwordController.text);
+                      const SnackBar(
+                        content: Text('Contraseña cambiada con éxito'),
+                      );
+                      Navigator.pushNamed(context, '/login_email');
+                    } else {
+                      const SnackBar(
+                        content: Text('Error al cambiar la contraseña'),
+                      );
+                    }
+                  },
+                  child: const Text('Cambiar contraseña'),
+                )
+                    // child: CustomButton(
+                    //   text: 'Cambiar contraseña',
+                    //   // colorBackground: primaryDark,
+                    //   // colorText: white_text,
+                    //   pushName: '/verification',
+                    // ),
+                    ),
               ),
             ],
           ),
@@ -214,102 +280,3 @@ class GoodVerification extends ConsumerWidget {
     );
   }
 }
-
-
-
-// final stateSucessProvider = StateNotifierProvider<SucessState, bool>((ref) {
-//   return SucessState();
-// });
-// class SucessState extends StateNotifier<bool> {
-// SucessState() : super(false);
-
-// }
-
-// class ForgotPassword
-//  extends ConsumerWidget {
-//   const ForgotPassword
-//   ({super.key});
-   
-
-
-//   @override
-//   Widget build(BuildContext context,ref  ) {
-//       final sucessState= ref.watch(stateSucessProvider);
-
-
-//     return Scaffold( body: sucessState? SucessPassword(): NoSucessPassword() ,
- 
-   
-      
-//    );
-   
-     
-//   }
-// }
-
-
-// class SucessPassword extends ConsumerWidget {
-//   const SucessPassword({super.key});
-
-//   @override
-//   Widget build(BuildContext context,ref) {
-//     return 
-//      Center(
-//          child: Container(color: Colors.yellow,
-//            child: SizedBox(
-//                   width: 224,
-//                   height: 50,
-//                   child: TextButton(
-//                     onPressed: () {
-//                           ref.read(stateSucessProvider.notifier).state=false;
-                
-//                       }
-                     
-//                     ,
-//                     child: Text(
-//                       'boton de regreso',
-//                     ),
-                  
-//                 )),
-//          ),
-//        );
-  
-  
-  
-  
-//   }
-// }
-
-
-// class NoSucessPassword extends ConsumerWidget {
-//   const NoSucessPassword({super.key});
-
-//   @override
-//   Widget build(BuildContext context,ref) {
-//     return 
-//        Center(
-//          child: SizedBox(
-//                 width: 224,
-//                 height: 50,
-//                 child: TextButton(
-//                   onPressed: () {
-//                         ref.read(stateSucessProvider.notifier).state=true;
-       
-//                     }
-                   
-//                   ,
-//                   child: Text(
-//                     'Exitoso',
-//                   ),
-                
-//               )),
-//        );
-
-    
-//   }
-// }
-
-
-
- 
-

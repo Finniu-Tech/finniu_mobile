@@ -26,4 +26,29 @@ class RecoveryPasswordDataSourceImp extends RecoveryPasswordDataSource {
     );
     return responseData.recoveryPassword?.success ?? false;
   }
+
+  @override
+  Future<bool> setNewPassword({
+    required GraphQLClient client,
+    required String email,
+    required String password,
+  }) async {
+    final response = await client.mutate(
+      MutationOptions(
+        document: gql(
+          MutationRepository.setNewPassword(),
+        ),
+        variables: {
+          'email': email,
+          'password': password,
+        },
+      ),
+    );
+    print('get onboarding data******');
+    print(response);
+    final responseData = SetNewPasswordData.fromJson(
+      response.data!,
+    );
+    return responseData.changePasswordMinimal?.success ?? false;
+  }
 }

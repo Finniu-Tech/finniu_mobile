@@ -6,6 +6,12 @@ abstract class RecoveryPasswordRepository {
     required String email,
   });
 
+  Future<bool> setNewPassword({
+    required GraphQLClient client,
+    required String email,
+    required String password,
+  });
+
   // Future<OnboardingEntity> updateOnboardingData({
   //   required GraphQLClient client,
   //   required String userId,

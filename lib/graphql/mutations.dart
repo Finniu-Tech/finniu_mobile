@@ -137,4 +137,17 @@ class MutationRepository {
       }
     ''';
   }
+
+  static String setNewPassword() {
+    return '''
+      mutation setNewPassword(\$email:String!, \$password:String!){
+        changePasswordMinimal(input:{
+          email: \$email,
+          newPassword: \$password
+        }){
+          success
+        }
+      }
+    ''';
+  }
 }

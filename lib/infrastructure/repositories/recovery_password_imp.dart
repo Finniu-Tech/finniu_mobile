@@ -19,4 +19,17 @@ class RecoveryPasswordRepositoryImp implements RecoveryPasswordRepository {
       email: email,
     );
   }
+
+  @override
+  Future<bool> setNewPassword({
+    required GraphQLClient client,
+    required String email,
+    required String password,
+  }) async {
+    return await dataSource.setNewPassword(
+      client: client,
+      email: email,
+      password: password,
+    );
+  }
 }

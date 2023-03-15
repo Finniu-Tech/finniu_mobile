@@ -16,21 +16,21 @@ class Step_1 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final termController = useTextEditingController();
-
-    var MontoController;
+    final mountController = useTextEditingController();
 
     return CustomScaffoldReturnLogo(
         body: SingleChildScrollView(
             child: Padding(
       padding: const EdgeInsets.all(30.0),
       child: Column(children: <Widget>[
-        StepBar(),
+        const StepBar(),
         const SizedBox(height: 40),
-        Container(width: 200,
+        Container(
+          width: 200,
           child: Stack(
             children: <Widget>[
               Container(
-               width: MediaQuery.of(context).size.width * 0.9,
+                width: MediaQuery.of(context).size.width * 0.9,
                 // height: 90,
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
                 child: Text(
@@ -46,10 +46,10 @@ class Step_1 extends HookConsumerWidget {
             ],
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
-        Text(
+        const Text(
           'Tu plan seleccionado es',
           textAlign: TextAlign.center,
           style: TextStyle(
@@ -57,99 +57,103 @@ class Step_1 extends HookConsumerWidget {
               fontWeight: FontWeight.w600,
               color: Color(secondaryGrayText)),
         ),
-        Stack(
-          children: <Widget>[
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                alignment: Alignment.topRight,
-                width: 224,
-                height: 99,
-                padding: const EdgeInsets.all(10),
-                margin: const EdgeInsets.only(
-                  top: 30,
-                ),
-                decoration: BoxDecoration(
-                  color: Color(cardBackgroundColorLight),
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Column(
-                  children: [
-                    const Text(
-                      'Plan Origen',
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        color: Color(primaryDark),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        height: 1.5,
-                      ),
+        Container(
+          // alignment: Alignment.topRight,
+          width: 224,
+          height: 99,
+          padding: const EdgeInsets.all(10),
+          margin: const EdgeInsets.only(
+            top: 30,
+          ),
+          decoration: BoxDecoration(
+            color: const Color(cardBackgroundColorLight),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 7,
+                offset: const Offset(0, 3), // changes position of shadow
+              ),
+            ],
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                color: Colors.transparent,
+                child: const Center(
+                  child: SizedBox(
+                    width: 80, // ancho deseado de la imagen
+                    height: 80, // alto deseado de la imagen
+                    child: Image(
+                      image: AssetImage('assets/result/money.png'),
+                      fit: BoxFit.contain,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.monetization_on_outlined,
-                          size: 15,
-                          color: Color(primaryDark),
-                        ),
-                        const Text(
-                          'Desde S/500',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Color(primaryDark),
-                            fontSize: 10,
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 6),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.currency_exchange_rounded,
-                          size: 15,
-                          color: Color(primaryDark),
-                        ),
-                        const Text(
-                          '12% anual',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Color(primaryDark),
-                            fontSize: 10,
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-                top: 40,
-                left: 250,
-                bottom: 5,
-                child: Container(width:100 ,height: 100,
-                    color: Colors.transparent,
-                    child: Center(
-                      child: SizedBox(
-                        width: 80, // ancho deseado de la imagen
-                        height: 80, // alto deseado de la imagen
-                        child: Image(
-                          image: AssetImage('assets/result/money.png'),
-                          fit: BoxFit.contain,
+              Column(
+                children: [
+                  const Text(
+                    'Plan Origen',
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                      color: Color(primaryDark),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      height: 1.5,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Icon(
+                        Icons.monetization_on_outlined,
+                        size: 15,
+                        color: Color(primaryDark),
+                      ),
+                      const Text(
+                        'Desde S/500',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Color(primaryDark),
+                          fontSize: 10,
+                          height: 1.5,
                         ),
                       ),
-                    ))),
-          ],
+                    ],
+                  ),
+                  const SizedBox(height: 6),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      const Icon(
+                        Icons.currency_exchange_rounded,
+                        size: 15,
+                        color: Color(primaryDark),
+                      ),
+                      const Text(
+                        '12% anual',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                          color: Color(primaryDark),
+                          fontSize: 10,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         Text(
@@ -164,13 +168,13 @@ class Step_1 extends HookConsumerWidget {
             height: 1.5,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         SizedBox(
           width: 224,
           child: TextFormField(
-            controller: MontoController,
+            controller: mountController,
             validator: (value) {
               if (value!.isEmpty) {
                 return 'Este dato es requerido';
@@ -186,13 +190,13 @@ class Step_1 extends HookConsumerWidget {
             ),
           ),
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         CustomSelectButton(
           textEditingController: termController,
           items: const ['6 meses', '1 año', '5 años'],
           labelText: "Plazo",
         ),
-        SizedBox(
+        const SizedBox(
           height: 15,
         ),
         CustomSelectButton(
@@ -200,10 +204,10 @@ class Step_1 extends HookConsumerWidget {
           items: const ['6 Mensual', 'Plazo Fijo'],
           labelText: "Eleccion de Rentabilidad",
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
-        CustomButton(
+        const CustomButton(
           text: "Continuar",
           height: 50,
           width: 224,
@@ -225,14 +229,14 @@ class StepBar extends ConsumerStatefulWidget {
 
 class _StepBarState extends ConsumerState<StepBar> {
   final double squareSize = 50.0;
-  final Color activeColor = Color(secondary);
-  final Color inactiveColor = Color(primaryLight);
+  final Color activeColor = const Color(secondary);
+  final Color inactiveColor = const Color(primaryLight);
 
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SizedBox(height: 10),
+      const SizedBox(height: 10),
       Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Container(
           height: 35,
@@ -245,7 +249,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               width: 2,
             ),
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(5),
               topRight: Radius.circular(5),
               bottomLeft: Radius.circular(4),
@@ -283,7 +287,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               width: 2,
             ),
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(5),
               topRight: Radius.circular(5),
               bottomLeft: Radius.circular(4),
@@ -321,7 +325,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               width: 2,
             ),
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(5),
               topRight: Radius.circular(5),
               bottomLeft: Radius.circular(4),
@@ -359,7 +363,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               width: 2,
             ),
             shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.only(
+            borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(5),
               topRight: Radius.circular(5),
               bottomLeft: Radius.circular(4),

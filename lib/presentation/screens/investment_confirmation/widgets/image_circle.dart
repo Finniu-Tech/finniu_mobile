@@ -12,26 +12,28 @@ class CircularImage extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     return Container(
-      margin: EdgeInsets.only(left: 63.0),
+      // margin: EdgeInsets.only(left: 63.0),
       child: CircularPercentIndicator(
-        radius: 55.0,
-        lineWidth: 5.0,
+        circularStrokeCap: CircularStrokeCap.round,
+        radius: 65.0,
+        lineWidth: 10.0,
         percent: 0.5,
         center: CircleAvatar(
-          radius: 30,
+          radius: 50,
           backgroundColor: themeProvider.isDarkMode
               ? Color(backgroundColorDark)
               : Colors.white,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
                 alignment: Alignment.topCenter,
                 child: SizedBox(
                   child: Image.asset(
                     'assets/result/money.png',
-                    width: 37,
-                    height: 37,
+                    width: 55,
+                    height: 60,
                   ),
                 ),
               ),

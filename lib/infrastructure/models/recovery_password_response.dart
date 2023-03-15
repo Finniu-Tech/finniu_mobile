@@ -37,3 +37,39 @@ class RecoveryPassword {
         "successSendCode": successSendCode,
       };
 }
+
+class SetNewPasswordData {
+  SetNewPasswordData({
+    this.changePasswordMinimal,
+  });
+
+  ChangePasswordMinimal? changePasswordMinimal;
+
+  factory SetNewPasswordData.fromJson(Map<String, dynamic> json) =>
+      SetNewPasswordData(
+        changePasswordMinimal: json["changePasswordMinimal"] == null
+            ? null
+            : ChangePasswordMinimal.fromJson(json["changePasswordMinimal"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "changePasswordMinimal": changePasswordMinimal?.toJson(),
+      };
+}
+
+class ChangePasswordMinimal {
+  ChangePasswordMinimal({
+    this.success,
+  });
+
+  bool? success;
+
+  factory ChangePasswordMinimal.fromJson(Map<String, dynamic> json) =>
+      ChangePasswordMinimal(
+        success: json["success"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "success": success,
+      };
+}

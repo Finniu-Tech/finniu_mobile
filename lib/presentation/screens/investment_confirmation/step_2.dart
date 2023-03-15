@@ -44,12 +44,13 @@ class Step_2 extends ConsumerWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
                   // height: 100,
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.of(context).size.width * 0.60,
                   // width: double.maxFinite,
                   alignment: Alignment.center,
 
@@ -67,13 +68,13 @@ class Step_2 extends ConsumerWidget {
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: currentTheme.isDarkMode
-                                  ? Color(primaryLight)
-                                  : Color(primaryDark),
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
                               border: Border.all(
                                 width: 4,
                                 color: currentTheme.isDarkMode
-                                    ? Color(primaryLight)
-                                    : Color(primaryDark),
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -87,9 +88,9 @@ class Step_2 extends ConsumerWidget {
                                     '6%',
                                     style: TextStyle(
                                       color: currentTheme.isDarkMode
-                                          ? Color(primaryDark)
-                                          : Color(primaryLight),
-                                      fontSize: 7,
+                                          ? const Color(primaryDark)
+                                          : const Color(primaryLight),
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
@@ -98,8 +99,8 @@ class Step_2 extends ConsumerWidget {
                                   'Rentabilidad',
                                   style: TextStyle(
                                     color: currentTheme.isDarkMode
-                                        ? Color(blackText)
-                                        : Color(whiteText),
+                                        ? const Color(blackText)
+                                        : const Color(whiteText),
                                     fontSize: 7,
                                   ),
                                 ),
@@ -112,17 +113,26 @@ class Step_2 extends ConsumerWidget {
                   ),
                 ),
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
                       height: 60,
                       width: 116,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(primaryLight),
-                      ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(primaryLight),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 7,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ]),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'S/550',
                             textAlign: TextAlign.right,
@@ -143,17 +153,25 @@ class Step_2 extends ConsumerWidget {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
                       height: 60,
                       width: 116,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Color(secondary),
-                      ),
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(secondary),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 1,
+                              blurRadius: 7,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ]),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                        children: const [
                           Text(
                             'S/583',
                             textAlign: TextAlign.center,
@@ -178,7 +196,7 @@ class Step_2 extends ConsumerWidget {
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Padding(
               padding: const EdgeInsets.all(40.0),
               child: Row(
@@ -191,21 +209,24 @@ class Step_2 extends ConsumerWidget {
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 16,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: Color(
                             Theme.of(context).colorScheme.secondary.value),
                       ),
                     ),
                   ),
-                  Image.asset('assets/result/money.png',
-                      width: 20.0, height: 20),
+                  Image.asset(
+                    'assets/result/money.png',
+                    width: 20.0,
+                    height: 20,
+                  ),
                   const Spacer(),
                   InkWell(
                     onTap: () => showDialog<String>(
-                      barrierColor: Color(whiteText),
+                      barrierColor: Colors.transparent,
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
-                        backgroundColor: Color(primaryLight),
+                        backgroundColor: const Color(primaryLight),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
@@ -227,14 +248,14 @@ class Step_2 extends ConsumerWidget {
                               // top: 0,
                               // right: 0,
                               child: IconButton(
-                                icon: Icon(Icons.close),
-                                color: Color(primaryDark),
+                                icon: const Icon(Icons.close),
+                                color: const Color(primaryDark),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 },
                               ),
                             ),
-                            Padding(
+                            const Padding(
                               padding:
                                   EdgeInsets.only(top: 80, left: 20, right: 20),
                               child: Text(
@@ -251,7 +272,7 @@ class Step_2 extends ConsumerWidget {
                       Icons.quiz_outlined, // Icono que deseas utilizar
                       size: 20, // Tamaño del icono
                       color: currentTheme.isDarkMode
-                          ? Color(primaryLight)
+                          ? const Color(primaryLight)
                           : const Color(primaryDark), // Color del icono
                     ),
                   ),
@@ -263,7 +284,7 @@ class Step_2 extends ConsumerWidget {
               height: 71,
 
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(15),
                   topRight: Radius.circular(21),
                   bottomLeft: Radius.circular(4),
@@ -272,7 +293,7 @@ class Step_2 extends ConsumerWidget {
                 color: Colors.transparent,
                 border: Border.all(
                   color: currentTheme.isDarkMode
-                      ? Color(primaryLight)
+                      ? const Color(primaryLight)
                       : const Color(primaryDark),
                   width: 1,
                 ),
@@ -286,7 +307,7 @@ class Step_2 extends ConsumerWidget {
                     child: Icon(
                       Icons.credit_score_outlined,
                       color: currentTheme.isDarkMode
-                          ? Color(primaryLight)
+                          ? const Color(primaryLight)
                           : const Color(primaryDark),
                       size: MediaQuery.of(context).size.width * 0.07,
                     ),
@@ -298,7 +319,7 @@ class Step_2 extends ConsumerWidget {
                       'Banco donde realizamos tu transferencia',
                       style: TextStyle(
                           color: currentTheme.isDarkMode
-                              ? Color(whiteText)
+                              ? const Color(whiteText)
                               : const Color(primaryDark),
                           fontWeight: FontWeight.bold),
                       maxLines: 2,
@@ -309,9 +330,9 @@ class Step_2 extends ConsumerWidget {
                   Container(
                     decoration: BoxDecoration(
                         color: currentTheme.isDarkMode
-                            ? Color(primaryLight)
+                            ? const Color(primaryLight)
                             : const Color(primaryDark),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           bottomLeft: Radius.circular(10),
                         )),
@@ -328,7 +349,7 @@ class Step_2 extends ConsumerWidget {
                             Icons.loupe_rounded,
                             size: MediaQuery.of(context).size.width * 0.05,
                             color: currentTheme.isDarkMode
-                                ? Color(primaryDark)
+                                ? const Color(primaryDark)
                                 : const Color(primaryLight),
                           ),
                         ),
@@ -338,7 +359,7 @@ class Step_2 extends ConsumerWidget {
                             style: TextStyle(
                               fontSize: 8,
                               color: currentTheme.isDarkMode
-                                  ? Color(primaryDark)
+                                  ? const Color(primaryDark)
                                   : const Color(primaryLight),
                             )),
                       ],
@@ -347,7 +368,7 @@ class Step_2 extends ConsumerWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             Container(
@@ -356,7 +377,7 @@ class Step_2 extends ConsumerWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(50),
-                color: Color(primaryDark),
+                color: const Color(primaryDark),
               ),
               child: Center(
                 child: CustomButton(
@@ -392,13 +413,13 @@ class CircularCountdown extends ConsumerWidget {
             width: MediaQuery.of(context).size.width / 2,
             height: MediaQuery.of(context).size.height / 2,
             duration: 60,
-            ringColor: Color(primaryLight),
-            fillColor: Color(primaryDark),
+            ringColor: const Color(primaryLight),
+            fillColor: const Color(primaryDark),
             backgroundColor: currentTheme.isDarkMode
-                ? Color(backgroundColorDark)
+                ? const Color(backgroundColorDark)
                 : const Color(whiteText),
             strokeWidth: 6.0,
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontSize: 10.0,
               color: Color(primaryDark),
               fontWeight: FontWeight.bold,
@@ -417,14 +438,14 @@ class CircularCountdown extends ConsumerWidget {
                   width: 60.0,
                   height: 58.22,
                 ),
-                SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
                 Text(
                   '6 meses',
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,
                       color: currentTheme.isDarkMode
-                          ? Color(primaryLight)
+                          ? const Color(primaryLight)
                           : const Color(
                               primaryDark,
                             )),
@@ -443,17 +464,18 @@ getModal(context, WidgetRef ref) {
   // final bankController = useTextEditingController();
   {
     return showModalBottomSheet<void>(
-      backgroundColor:
-          currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryLight),
+      backgroundColor: currentTheme.isDarkMode
+          ? const Color(primaryDark)
+          : const Color(primaryLight),
       context: context,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (BuildContext context) {
         var MontoController;
         return Container(
           height: 516,
           width: 360,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40),
               topRight: Radius.circular(40),
@@ -470,8 +492,8 @@ getModal(context, WidgetRef ref) {
                     icon: Icon(
                       Icons.close,
                       color: currentTheme.isDarkMode
-                          ? Color(primaryLight)
-                          : Color(blackText),
+                          ? const Color(primaryLight)
+                          : const Color(blackText),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop();
@@ -485,8 +507,8 @@ getModal(context, WidgetRef ref) {
                   Icon(
                     Icons.add_circle_outline,
                     color: currentTheme.isDarkMode
-                        ? Color(primaryLight)
-                        : Color(primaryDark),
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                   ),
                   const SizedBox(
                     width: 8,
@@ -498,8 +520,8 @@ getModal(context, WidgetRef ref) {
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                       color: currentTheme.isDarkMode
-                          ? Color(primaryLight)
-                          : Color(primaryDark),
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     ),
                   ),
                   const SizedBox(
@@ -524,32 +546,32 @@ getModal(context, WidgetRef ref) {
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         color: currentTheme.isDarkMode
-                            ? Color(whiteText)
-                            : Color(primaryDark),
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 50,
                   ),
                   Container(
                     child: Icon(
                       Icons.quiz_outlined,
                       color: currentTheme.isDarkMode
-                          ? Color(primaryLight)
-                          : Color(primaryDark),
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                       size: 23.0,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               // CustomSelectButton(
               //   // textEditingController: bankController,
               //   items: const ['BCP', 'Interbank', 'Scotiabank'],
               //   labelText: "Banco",
               // ),
-              SizedBox(
+              const SizedBox(
                 height: 35,
               ),
               SizedBox(
@@ -571,7 +593,7 @@ getModal(context, WidgetRef ref) {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Row(
@@ -581,8 +603,8 @@ getModal(context, WidgetRef ref) {
                     child: Icon(
                       Icons.check_box_outline_blank,
                       color: currentTheme.isDarkMode
-                          ? Color(whiteText)
-                          : Color(blackText),
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       size: 21.0,
                     ),
                   ),
@@ -592,16 +614,17 @@ getModal(context, WidgetRef ref) {
                     style: TextStyle(
                       fontSize: 10,
                       color: currentTheme.isDarkMode
-                          ? Color(whiteText)
-                          : Color(primaryDark),
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
-              CustomButton(text: "Guardar cuenta", width: 224, height: 52.7),
+              const CustomButton(
+                  text: "Guardar cuenta", width: 224, height: 52.7),
             ],
           ),
         );

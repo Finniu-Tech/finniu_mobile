@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void sendSMSModal(BuildContext ctx, WidgetRef ref) {
+void sendEmailRecoveryPasswordModal(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showModalBottomSheet(
@@ -88,16 +88,17 @@ class SMSBody extends HookConsumerWidget {
           SizedBox(
             width: 280,
             child: Text(
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  height: 1.5,
-                  color: themeProvider.isDarkMode
-                      ? Colors.white
-                      : const Color(primaryDark),
-                ),
-                "Te hemos enviado un SMS a tu numero para confirmar la operacion"),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+                height: 1.5,
+                color: themeProvider.isDarkMode
+                    ? Colors.white
+                    : const Color(primaryDark),
+              ),
+              "Te hemos enviado un código a tu correo para confirmar la operacion",
+            ),
           ),
           const SizedBox(height: 10),
           VerificationCode(
@@ -111,7 +112,7 @@ class SMSBody extends HookConsumerWidget {
                   OTPForm(
                     email: userProfile.email!,
                     otp: code,
-                    action: 'register',
+                    action: 'recovery_password',
                   ),
                 ).future,
               );
@@ -119,14 +120,11 @@ class SMSBody extends HookConsumerWidget {
                 print('status');
                 print(status);
                 if (status == true) {
-                  Navigator.of(ctx).pushNamed('/on_boarding_start');
+                  Navigator.of(ctx).pushNamed('/set_new_password');
                 } else {
                   Navigator.of(ctx).pop();
-                  CustomSnackbar.show(
-                    ctx,
-                    'No se pudo validar el código de verificación',
-                    'error',
-                  );
+                  CustomSnackbar.show(ctx,
+                      'No se pudo validar el código de verificación', "error");
                   // ScaffoldMessenger.of(ctx).showSnackBar(
                   //   customSnackBar(
                   //       'No se pudo validar el código de verificación',
@@ -171,10 +169,7 @@ class SMSBody extends HookConsumerWidget {
                         .startTimer(first: true);
                   } else {
                     CustomSnackbar.show(
-                      ctx,
-                      'No se pudo reenviar el correo',
-                      'error',
-                    );
+                        ctx, 'No se pudo reenviar el correo', "error");
                     // ScaffoldMessenger.of(ctx).showSnackBar(
                     //   customSnackBar('No se pudo reenviar el correo', 'error'),
                     // );
