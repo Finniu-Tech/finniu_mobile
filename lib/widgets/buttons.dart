@@ -257,7 +257,7 @@ class BottomNavigationBarHome extends ConsumerWidget {
             icon: InkWell(
               child: Icon(Icons.insert_chart_outlined_rounded),
               onTap: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/calculator_tool');
               },
             ),
           ),
