@@ -7,7 +7,8 @@ class CustomSnackbar {
     final snackBar = SnackBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      content: SizedBox(
+      content: Container(
+        alignment: Alignment.center,
         height: 110,
         width: 310,
         child: Stack(
@@ -18,20 +19,20 @@ class CustomSnackbar {
               semanticsLabel: 'Error',
             ),
             Positioned(
-              left: 60,
+              left: 50,
               child: SizedBox(
                 height: 55,
-                width: 55,
+                width: 45,
                 child: Image.asset(_getImage(type)),
               ),
             ),
             Positioned(
-              left: 150,
+              left: 120,
               top: 20,
               child: _getTitle(type),
             ),
             Positioned(
-              left: 130,
+              left: 110,
               top: 45,
               child: SizedBox(
                 width: 200,
@@ -47,7 +48,7 @@ class CustomSnackbar {
               ),
             ),
             Positioned(
-              right: 25,
+              right: 5,
               top: 2,
               child: InkWell(
                 onTap: () {
@@ -62,7 +63,7 @@ class CustomSnackbar {
           ],
         ),
       ),
-      duration: const Duration(seconds: 3),
+      duration: const Duration(seconds: 5),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
