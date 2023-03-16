@@ -57,8 +57,7 @@ dependencies:
   freezed: ^2.3.2
   freezed_annotation: ^2.2.0
   json_annotation: ^4.8.0
-
-
+  flutter_svg: ^2.0.4
 
 
   # artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!

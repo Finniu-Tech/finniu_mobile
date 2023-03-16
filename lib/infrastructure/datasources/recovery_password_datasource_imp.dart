@@ -22,7 +22,7 @@ class RecoveryPasswordDataSourceImp extends RecoveryPasswordDataSource {
     print('get onboarding data******');
     print(response);
     final responseData = RecoveryPasswordData.fromJson(
-      response.data!,
+      response.data ?? {},
     );
     return responseData.recoveryPassword?.success ?? false;
   }

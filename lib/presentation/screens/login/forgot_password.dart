@@ -4,6 +4,7 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/login/widgets/modal.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -130,19 +131,12 @@ class ForgotPassword extends HookConsumerWidget {
                             .setEmail(emailController.text);
                         sendEmailRecoveryPasswordModal(context, ref);
                       } else {
-                        // Navigator.pushNamed(context, '/badverification');
-                        const SnackBar(
-                          content: Text('Error al enviar el correo'),
-                        );
+                        CustomSnackbar.show(
+                            context, 'El correo ingresado no existe', 'error');
                       }
                     },
                     child: const Text('Enviar correo'),
                   ),
-                  // child: CustomButton(
-                  //     text: 'Enviar correo',
-                  //     // colorBackground: primaryDark,
-                  //     // colorText: white_text,
-                  //     pushName: '/verification'),
                 ),
               ),
             ],
@@ -246,9 +240,12 @@ class NewPassword extends HookConsumerWidget {
                 child: Center(
                     child: TextButton(
                   onPressed: () async {
+                    // CustomSnackbar.show(
+                    //     context, 'Contraseña cambiada con éxito', 'error');
                     final status = await ref.read(
-                        setNewPasswordFutureProvider(passwordController.text)
-                            .future);
+                      setNewPasswordFutureProvider(passwordController.text)
+                          .future,
+                    );
                     if (status == true) {
                       ref
                           .read(userProfileNotifierProvider.notifier)
@@ -256,22 +253,20 @@ class NewPassword extends HookConsumerWidget {
                       const SnackBar(
                         content: Text('Contraseña cambiada con éxito'),
                       );
+                      CustomSnackbar.show(
+                          context, 'Contraseña cambiada con éxito!', 'success');
+                      await Future.delayed(const Duration(seconds: 3));
                       Navigator.pushNamed(context, '/login_email');
                     } else {
-                      const SnackBar(
-                        content: Text('Error al cambiar la contraseña'),
+                      CustomSnackbar.show(
+                        context,
+                        'No se pudo cambiar la contraseña',
+                        'error',
                       );
                     }
                   },
                   child: const Text('Cambiar contraseña'),
-                )
-                    // child: CustomButton(
-                    //   text: 'Cambiar contraseña',
-                    //   // colorBackground: primaryDark,
-                    //   // colorText: white_text,
-                    //   pushName: '/verification',
-                    // ),
-                    ),
+                )),
               ),
             ],
           ),
