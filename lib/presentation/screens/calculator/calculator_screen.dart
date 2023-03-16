@@ -111,8 +111,11 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                       }
                       return null;
                     },
-                    decoration: const InputDecoration(
+                    decoration:  InputDecoration(
                       hintText: 'Ingrese su monto de inversion',
+                       hintStyle: TextStyle(color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(grayText1),),
                       suffixIconConstraints: BoxConstraints(
                         maxHeight: 38,
                         minWidth: 38,
@@ -306,27 +309,154 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                     ),
                   ),
                 ),
-                Container(
+                
+                   SizedBox(height: 17),
+                
+                
+                 Container(
+  width: 224,
+  height: 67,
+  color: Color(primaryLightAlternative),
+  child: Padding(
+    padding: const EdgeInsets.all(14.0),
+    child: Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+           
+            SizedBox(width: 5), // Espacio entre el icono y el texto
+            Text(
+              'Tu plan recomendado es',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                color: Color(blackText),
+              ),
+            ),
+                        
+      InkWell(
+                    onTap: () => showDialog<String>(
+                      barrierColor: Colors.transparent,
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        
+                        
+                        backgroundColor: const Color(primaryDark),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                                            
+                        
+                        ),
+                        
+                        
+                        content: Stack(
+                          children: [
+                            Positioned(
+                              top: 30,
+                              left: 0,
+                              right: 0,
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/result/money.png',
+                                  width: 70,
+                                  height: 70,
+                                ),
+                              ),
+                            ),
+                              
+                           
+                           
+                            Positioned(
+                              
+                              left: 260,
+                              child: IconButton(
+                                icon: const Icon(Icons.close),
+                                color: const Color(whiteText),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ),
+                          
+                            Padding(
+                              padding:
+                                  EdgeInsets.only(top: 100, left: 20, right: 20),
+                              child:Column(
+                              children:[
+      
+                                Text(
+        'Plan Origen',
+        textAlign: TextAlign.justify,
+        style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: Color(primaryLight),
+          height: 1.5,
+        ),
+      ),
+      SizedBox(height: 10,),
+                               Text(
+                                  textAlign: TextAlign.justify,
+                                  'Esta inversion prioriza la estabilidad generando una rentabilidad moderada.Si recien empiezas a invertir, este plan es perfecto para ti.',
+                                  style: TextStyle(
+                                      fontSize: 12, color: Color(whiteText), height: 1.5, )),
+                           ] ),
+                                                  
+                          
+                        )],
+                        ),
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.quiz_outlined, // Icono que deseas utilizar
+                      size: 20, // Tamaño del icono
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark), // Color del icono
+                    ),
+                  ),
+          
+            
+            ],
+    
+       
+        ),
+       Text(
+              'Plan Origen',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.bold,
+                color: Color(primaryDark),
+              ),
+            ), ],
+    ),
+  ),
+),
+     
+                 Container(
                   margin:  EdgeInsets.only(top: 20),
                   child: CustomButton(text: 'Continuar', colorBackground: currentTheme.isDarkMode
                   ? (primaryLight)
                   :  primaryDark,     colorText: currentTheme.isDarkMode
                   ? (primaryDark)
-                  :  whiteText, pushName: '/home_home'), ),
-                  
-             
-       
+                  :  whiteText, pushName: '/calculator_result'), ),
+      
+      ],
+              ),
+            ),
       
       
-      
-      
-      
-      
-      
-      ]),
-    ));
+      );
+    ;
   }
 }
 
 void _calculatePercentage(String s) {
 }
+
+
+
+
+
