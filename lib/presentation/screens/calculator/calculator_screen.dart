@@ -334,86 +334,84 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                 color: Color(blackText),
               ),
             ),
-                        
+         SizedBox(width: 10,),               
       InkWell(
                     onTap: () => showDialog<String>(
                       barrierColor: Colors.transparent,
                       context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        
-                        
-                        backgroundColor: const Color(primaryDark),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                                            
-                        
-                        ),
-                        
-                        
-                        content: Stack(
-                          children: [
-                            Positioned(
-                              top: 30,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                child: Image.asset(
-                                  'assets/result/money.png',
-                                  width: 70,
-                                  height: 70,
+                      builder: (BuildContext context) => ConstrainedBox(
+                        constraints:BoxConstraints(maxWidth: 150.0, 
+      maxHeight: 250.0,),
+      
+                        child: AlertDialog(
+                          
+                          
+                          backgroundColor: const Color(primaryDark),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                                              
+                          
+                          ),
+                          
+                          
+                          content: SizedBox(height: 250 ,
+                            child: Column(
+                              
+                              children: [
+                                
+                                  Align(alignment: Alignment.topRight,
+                                    child: IconButton(alignment: Alignment.topRight,
+                                    icon: const Icon(Icons.close),
+                                    color: const Color(whiteText),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                                                  ),
+                                  ),
+                                
+                                Center(
+                                  child: Image.asset(
+                                    'assets/result/money.png',
+                                    width: 70,
+                                    height: 70,
+                                  ),
+                                ),
+                                  
+                               
+                               
+                              
+                              
+                                Text(
+                                'Plan Origen',
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(primaryLight),
+                                height: 1.5,
                                 ),
                               ),
+                              SizedBox(height: 10,),
+                                 Padding(
+                                   padding: const EdgeInsets.all(10.0),
+                                   child: Text(
+                                    textAlign: TextAlign.justify,
+                                    'Esta inversion prioriza la estabilidad generando una rentabilidad moderada.Si recien empiezas a invertir, este plan es perfecto para ti.',
+                                    style: TextStyle(
+                                        fontSize: 12, color: Color(whiteText), height: 1.5, )),
+                                 )],
                             ),
-                              
-                           
-                           
-                            Positioned(
-                              
-                              left: 260,
-                              child: IconButton(
-                                icon: const Icon(Icons.close),
-                                color: const Color(whiteText),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ),
-                          
-                            Padding(
-                              padding:
-                                  EdgeInsets.only(top: 100, left: 20, right: 20),
-                              child:Column(
-                              children:[
-      
-                                Text(
-        'Plan Origen',
-        textAlign: TextAlign.justify,
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          color: Color(primaryLight),
-          height: 1.5,
-        ),
-      ),
-      SizedBox(height: 10,),
-                               Text(
-                                  textAlign: TextAlign.justify,
-                                  'Esta inversion prioriza la estabilidad generando una rentabilidad moderada.Si recien empiezas a invertir, este plan es perfecto para ti.',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Color(whiteText), height: 1.5, )),
-                           ] ),
-                                                  
-                          
-                        )],
+                          ),
                         ),
                       ),
                     ),
+                   
                     child: Icon(
                       Icons.quiz_outlined, // Icono que deseas utilizar
                       size: 20, // Tamaño del icono
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark), // Color del icono
+                      color: 
+                           Color(primaryDark)
+                     // Color del icono
                     ),
                   ),
           

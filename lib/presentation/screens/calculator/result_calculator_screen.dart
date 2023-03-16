@@ -134,88 +134,84 @@ class ResultCalculator extends HookConsumerWidget {
          child: Row(
          mainAxisAlignment: MainAxisAlignment.center,
          children: [
-           Expanded(
-             child: Container(
-          width:   MediaQuery.of(context).size.width * 0.01,
-          height:  MediaQuery.of(context).size.height * 0.07,
+           Container(
+          width:   136,
+          height: 81,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: const Color(primaryLight),
             boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 7,
-                offset: const Offset(0, 3), // changes position of shadow
-              ),
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
             ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-                Text(
-                'Inversion inicial',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Color(blackText),
-                ),
-              ),
               Text(
-                'S/550',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(primaryDark),
-                ),
+              'Inversion inicial',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 10,
+                color: Color(blackText),
               ),
+            ),
+            Text(
+              'S/550',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(primaryDark),
+              ),
+            ),
             
             ],
           ),
-             ),
            ),
-           const SizedBox(width: 10),
-           Expanded(
-             child: Container(
-          width:   MediaQuery.of(context).size.width * 0.1,
-          height:  MediaQuery.of(context).size.height * 0.07,
+           const SizedBox(width: 17),
+           Container(
+          width:  136,
+          height:  81,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: const Color(secondary),
             boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 7,
-                offset: const Offset(0, 3), // changes position of shadow
-              ),
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 7,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
             ],
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: const [
-                Text(
-                'En 6 meses tendrias',
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: Color(blackText),
-                ),
-              ),
               Text(
-                'S/583',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Color(primaryDark),
-                ),
+              'En 6 meses tendrias',
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                fontSize: 10,
+                color: Color(blackText),
               ),
+            ),
+            Text(
+              'S/583',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(primaryDark),
+              ),
+            ),
             
             ],
           ),
-             ),
            ),
          ],
        ),
