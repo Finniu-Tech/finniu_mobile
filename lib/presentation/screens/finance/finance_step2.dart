@@ -66,7 +66,30 @@ class FinanceStep2 extends HookConsumerWidget {
       percentageString.value = '${(percentage.value * 100).round()}%';
     }
 
-    return CustomScaffoldReturnLogo(
+    return Scaffold(
+    bottomNavigationBar: const BottomNavigationBarHome(),
+       appBar: AppBar(
+  
+          backgroundColor: Color(whiteText),
+          elevation: 0,
+          leading: themeProvider.isDarkMode
+              ? const CustomReturnButton(
+                  colorBoxdecoration: primaryDark,
+                  colorIcon: primaryDark,
+                )
+              : const CustomReturnButton(),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 14.0),
+              child: SizedBox(
+                width: 70,
+                height: 70,
+                child: themeProvider.isDarkMode
+                    ? Image.asset('assets/images/logo_small_dark.png')
+                    : Image.asset('assets/images/logo_small.png'),
+              ),
+            ),
+          ]),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(25.0),
@@ -243,10 +266,57 @@ class FinanceStep2 extends HookConsumerWidget {
                   ),
                 ),
              
-             SizedBox(height: 20,),
-             
+             SizedBox(height: 50,),
+             Stack(
+                    clipBehavior: Clip.none,
+                    children: [
              const CircularFinanceSimulation(),
-               
+               Positioned(
+                        right: 110,
+                        bottom: 150,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 110,
+                            height: 50,
+                            // padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: Color (primaryLightAlternative),
+                              border: Border.all(
+                                width: 2,
+                                color: currentTheme.isDarkMode
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            // color: Color(primaryDark),
+        
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    textAlign: TextAlign.center,
+                                    'Si inviertes el 11% de tu monto',
+                                    style: TextStyle(
+                                      color: Color(blackText),
+                                      fontSize: 8,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  'S/400',
+                                  style: TextStyle(
+                                    
+                                    color:Color(primaryDark),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold
+                                  ),
+                                ),
+                             
+                              
+                             
 
              
 
@@ -257,8 +327,8 @@ class FinanceStep2 extends HookConsumerWidget {
                 )
                 )
                 )
-                )
-                ;
+                
+                    ])])))));
                 }
                 }
   

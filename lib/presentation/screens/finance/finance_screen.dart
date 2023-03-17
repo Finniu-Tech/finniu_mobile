@@ -97,7 +97,7 @@ class FinanceScreen extends HookConsumerWidget {
             children: [
               
               const SizedBox(
-                height: 35,
+                height: 40,
               ),
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -268,7 +268,7 @@ class FinanceScreen extends HookConsumerWidget {
             
                SizedBox(
                 
-                width: 224,
+                width: 280,
                 height: 127,
                 child: Container(
                   
@@ -285,8 +285,9 @@ class FinanceScreen extends HookConsumerWidget {
                         
                         alignment: Alignment.center,
                         child: Container(
+                          
                           width: 272,
-                          height: double.infinity,
+                          // height: double.infinity,
                           padding: const EdgeInsets.only(
                             left: 45,
                             right: 15,
@@ -294,6 +295,7 @@ class FinanceScreen extends HookConsumerWidget {
                             bottom: 15,
                           ),
                           decoration: BoxDecoration(
+                            
                             color: currentTheme.isDarkMode
                                 ? Color(primaryLightAlternative)
                                 : const Color(secondary),
@@ -301,9 +303,13 @@ class FinanceScreen extends HookConsumerWidget {
                             border: Border.all(
                               color: const Color(secondary),
                             ),
+                          
+                          
+                          
+                          
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: Text(
                               textAlign: TextAlign.justify,
                               style: TextStyle(
@@ -319,26 +325,30 @@ class FinanceScreen extends HookConsumerWidget {
                           ),
                         ),
                       ),
-                      Positioned(
-                        bottom:30,
-                        right: 160,
-                      
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Container(
-                            height: 60,
-                            width: 60,
-                            decoration: const BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    "assets/images/finance_2.png"),
-                                fit: BoxFit.contain,
+                      Container(width: 242,
+                        child: Positioned(
+                          // bottom:40,
+                         right: 190,
+                        
+                          child: Align(
+                            
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 140,
+                              height: 64,
+                              
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/finance_2.png"),
+                                  fit: BoxFit.contain,
+                                ),
                               ),
-                            ),
+                           
                           ),
                         ),
                       ),
-                    ],
+                  )],
                   ),
                 ),
               ),
