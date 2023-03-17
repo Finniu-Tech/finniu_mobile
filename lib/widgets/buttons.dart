@@ -266,7 +266,7 @@ class BottomNavigationBarHome extends ConsumerWidget {
             icon: InkWell(
               child: Icon(Icons.wallet),
               onTap: () {
-                Navigator.pushNamed(context, '/');
+                Navigator.pushNamed(context, '/finance');
               },
             ),
           )

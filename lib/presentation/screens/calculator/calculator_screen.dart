@@ -90,7 +90,7 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                   child: Image.asset(
                     'assets/welcome/welcome1.png',
                     width: 180,
-                    height: 260,
+                    height: 200,
                   ),
                 ),
               ),
@@ -100,10 +100,10 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                   width: 224,
                   // height: 38,
                   child: TextFormField(
-                    key: const Key('address'),
+                    key: const Key('monto'),
                     controller: amountController,
                     onChanged: (value) {
-                      _calculatePercentage('address');
+                      _calculatePercentage('monto');
                     },
                     validator: (value) {
                       if (value!.isEmpty) {
@@ -137,7 +137,7 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                   ),
                 ],
               
-            const SizedBox(height: 15),
+            const SizedBox(height: 5),
                  SizedBox(
                   width: 224,
                   height: 39,
@@ -222,7 +222,7 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
+    
               
                 const SizedBox(height: 15),
                SizedBox(
@@ -318,7 +318,7 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
   height: 67,
   color: Color(primaryLightAlternative),
   child: Padding(
-    padding: const EdgeInsets.all(14.0),
+    padding: const EdgeInsets.all(10.0),
     child: Column(
       children: [
         Row(
@@ -334,13 +334,13 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                 color: Color(blackText),
               ),
             ),
-         SizedBox(width: 10,),               
+         SizedBox(width: 5,),               
       InkWell(
                     onTap: () => showDialog<String>(
                       barrierColor: Colors.transparent,
                       context: context,
                       builder: (BuildContext context) => ConstrainedBox(
-                        constraints:BoxConstraints(maxWidth: 150.0, 
+                        constraints:BoxConstraints(maxWidth: 100.0, 
       maxHeight: 250.0,),
       
                         child: AlertDialog(
@@ -354,7 +354,7 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                           ),
                           
                           
-                          content: SizedBox(height: 250 ,
+                          content: SizedBox(height: 300 ,width: 350,
                             child: Column(
                               
                               children: [
@@ -434,14 +434,14 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
 ),
      
                  Container(
-                  margin:  EdgeInsets.only(top: 20),
-                  child: CustomButton(text: 'Continuar', colorBackground: currentTheme.isDarkMode
+                  margin:  EdgeInsets.only(top: 10),
+                  child: CustomButton(height:44,text: 'Continuar', colorBackground: currentTheme.isDarkMode
                   ? (primaryLight)
                   :  primaryDark,     colorText: currentTheme.isDarkMode
                   ? (primaryDark)
                   :  whiteText, pushName: '/calculator_result'), ),
       
-      ],
+     BottomNavigationBarHome() ],
               ),
             ),
       

@@ -1,10 +1,12 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
@@ -14,9 +16,13 @@ class ResultCalculator extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-
+    final themeProvider = ref.watch(settingsNotifierProvider);
     var MontoController;
+    final amountController = useTextEditingController();
 
+    final termController = useTextEditingController();
+
+    final percentage = useState(0.0);
     return CustomScaffoldReturnLogo(
       body: SingleChildScrollView(
         child: Column(
@@ -25,7 +31,7 @@ class ResultCalculator extends HookConsumerWidget {
             const SizedBox(height: 30),
             Container(
               alignment: Alignment.centerLeft,
-              width: 390,
+              width: 300,
               height: 40,
               child: Text(
                 'Plan Origen',
@@ -39,11 +45,11 @@ class ResultCalculator extends HookConsumerWidget {
             ),
             const SizedBox(height: 15),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   // height: 100,
-                  width: MediaQuery.of(context).size.width * 0.60,
+                  // width: MediaQuery.of(context).size.width * 0.90,
                   // width: double.maxFinite,
                   alignment: Alignment.center,
 
@@ -210,27 +216,118 @@ class ResultCalculator extends HookConsumerWidget {
               ),
             ),
             
-            ],
-          ),
-           ),
-         ],
-       ),
-       ),
-              
-            ],
-         
-              
-                  
-              
-    )));
-            
-    ;
           
            
-          
+           ],
+          ),
+           ),
+        ],
+       ),
+       ),
+           SizedBox(height: 5,),   
+        
+        Container(
+  decoration: BoxDecoration(
+    color: currentTheme.isDarkMode
+                                  ? const Color(primaryDarkAlternative)
+                                  : const Color(primaryLightAlternative),
+    borderRadius: BorderRadius.circular(10),
+  ),
+  width: 320,
+  height: 180,
+  child: 
+  
+  Row(mainAxisAlignment: MainAxisAlignment.center,
+ 
+               
+    children: [
+      Container(alignment: Alignment.center,
+  
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text("S/560",style: TextStyle(fontSize: 13,color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),fontWeight: FontWeight.bold ),),
+            Text("S/530",style: TextStyle(fontSize: 13,color:currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),fontWeight: FontWeight.bold ),),
+            Text("S/515",style: TextStyle(fontSize: 13,color:currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),fontWeight: FontWeight.bold),),
+          ],
+        ),
+      ),
+      SizedBox(width: 20,),
+      GraphContainerWidget(currentTheme: currentTheme),
+    ],
+  )),
+  
+  BottomNavigationBarHome()
+  
+  ])));
+   
         
     
   }
+}
+
+class GraphContainerWidget extends StatelessWidget {
+  const GraphContainerWidget({
+    super.key,
+    required this.currentTheme,
+  });
+
+  final SettingsProviderState currentTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(alignment:Alignment.center ,
+      // padding: const EdgeInsets.all(10.0),
+      child: Row(mainAxisAlignment:MainAxisAlignment.center,
+      
+        children: [
+          Container(
+            width: 50,
+            height: 155,
+            decoration: BoxDecoration(
+              color: currentTheme.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(primaryLight),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+         SizedBox(width: 35,),
+          Container(
+            width: 50,
+            height: 155,
+            decoration: BoxDecoration(
+              color: currentTheme.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(primaryLight),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+         
+         SizedBox(width: 35,),
+          Container(
+            width: 50,
+            height: 155,
+            decoration: BoxDecoration(
+              color: currentTheme.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(primaryLight),
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _calculatePercentage {
 }
 
 class CircularImageSimulation extends ConsumerWidget {
@@ -240,7 +337,7 @@ class CircularImageSimulation extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     return Container(
-      margin: EdgeInsets.only(left: 140.0),
+    alignment: Alignment.center,
       child: CircularPercentIndicator(
         circularStrokeCap: CircularStrokeCap.round,
         radius: 75.0,
@@ -275,7 +372,10 @@ class CircularImageSimulation extends ConsumerWidget {
                     color: themeProvider.isDarkMode
                         ? Color(primaryLight)
                         : Color(primaryDark)),
-              )
+              ),
+            
+    
+            
             ],
           ),
         ),
@@ -290,3 +390,5 @@ class CircularImageSimulation extends ConsumerWidget {
     );
   }
 }
+
+
