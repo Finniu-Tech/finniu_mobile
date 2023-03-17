@@ -23,12 +23,43 @@ class ResultCalculator extends HookConsumerWidget {
     final termController = useTextEditingController();
 
     final percentage = useState(0.0);
-    return CustomScaffoldReturnLogo(
+    return Scaffold(
+            backgroundColor: Colors.white,
+      appBar: AppBar(
+  
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: 0,
+          leading: themeProvider.isDarkMode
+              ? const CustomReturnButton(
+                  colorBoxdecoration: primaryDark,
+                  colorIcon: primaryDark,
+                )
+              : const CustomReturnButton(),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 14.0),
+              child: SizedBox(
+                width: 70,
+                height: 70,
+                child: themeProvider.isDarkMode
+                    ? Image.asset('assets/images/logo_small_dark.png')
+                    : Image.asset('assets/images/logo_small.png'),
+              ),
+            ),
+          ]),
+      
+      
+    
+      
+          bottomNavigationBar: const BottomNavigationBarHome(),
+      
       body: SingleChildScrollView(
         child: Column(
+          
           children: <Widget>[
-   
-            const SizedBox(height: 30),
+
+             
+          //  SizedBox(height: 10),
             Container(
               alignment: Alignment.centerLeft,
               width: 300,
@@ -52,7 +83,7 @@ class ResultCalculator extends HookConsumerWidget {
                   // width: MediaQuery.of(context).size.width * 0.90,
                   // width: double.maxFinite,
                   alignment: Alignment.center,
-
+        
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -78,7 +109,7 @@ class ResultCalculator extends HookConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             // color: Color(primaryDark),
-
+        
                             child: Column(
                               children: [
                                 Center(
@@ -118,8 +149,8 @@ class ResultCalculator extends HookConsumerWidget {
                
               ],
         ),
-       SizedBox(height: 15,),
-       
+             SizedBox(height: 15,),
+             
          Container(width: 210,
            child: Text(
                                     textAlign: TextAlign.center,
@@ -133,9 +164,9 @@ class ResultCalculator extends HookConsumerWidget {
                                     ),
                                   ),
          ),
-       
-       SizedBox(height: 20,),
-       Padding(
+             
+             SizedBox(height: 20,),
+             Padding(
          padding: const EdgeInsets.all(10.0),
          child: Row(
          mainAxisAlignment: MainAxisAlignment.center,
@@ -222,27 +253,27 @@ class ResultCalculator extends HookConsumerWidget {
           ),
            ),
         ],
-       ),
-       ),
+             ),
+             ),
            SizedBox(height: 5,),   
         
         Container(
-  decoration: BoxDecoration(
-    color: currentTheme.isDarkMode
+        decoration: BoxDecoration(
+          color: currentTheme.isDarkMode
                                   ? const Color(primaryDarkAlternative)
                                   : const Color(primaryLightAlternative),
-    borderRadius: BorderRadius.circular(10),
-  ),
-  width: 320,
-  height: 180,
-  child: 
-  
-  Row(mainAxisAlignment: MainAxisAlignment.center,
- 
+          borderRadius: BorderRadius.circular(10),
+        ),
+        width: 320,
+        height: 180,
+        child: 
+        
+        Row(mainAxisAlignment: MainAxisAlignment.center,
+         
                
-    children: [
-      Container(alignment: Alignment.center,
-  
+          children: [
+            Container(alignment: Alignment.center,
+        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -258,15 +289,15 @@ class ResultCalculator extends HookConsumerWidget {
                                   : const Color(blackText),fontWeight: FontWeight.bold),),
           ],
         ),
-      ),
-      SizedBox(width: 20,),
-      GraphContainerWidget(currentTheme: currentTheme),
-    ],
-  )),
-  
-  BottomNavigationBarHome()
-  
-  ])));
+            ),
+            SizedBox(width: 20,),
+            GraphContainerWidget(currentTheme: currentTheme),
+          ],
+        )),
+        
+        
+        
+        ])));
    
         
     

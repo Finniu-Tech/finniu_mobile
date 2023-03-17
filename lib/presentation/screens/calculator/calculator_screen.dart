@@ -35,6 +35,7 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
 
 
     return Scaffold(
+      bottomNavigationBar: const BottomNavigationBarHome(),
        body: Container(alignment: Alignment.centerRight,
     decoration: BoxDecoration(
       gradient: LinearGradient(
@@ -441,7 +442,7 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                   ? (primaryDark)
                   :  whiteText, pushName: '/calculator_result'), ),
       
-     BottomNavigationBarHome() ],
+    ],
               ),
             ),
       

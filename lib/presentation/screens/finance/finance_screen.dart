@@ -67,312 +67,334 @@ class FinanceScreen extends HookConsumerWidget {
       percentageString.value = '${(percentage.value * 100).round()}%';
     }
 
-    return CustomScaffoldReturnLogo(
+    return Scaffold(
+       bottomNavigationBar: const BottomNavigationBarHome(),
+       appBar: AppBar(
+  
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: 0,
+          leading: themeProvider.isDarkMode
+              ? const CustomReturnButton(
+                  colorBoxdecoration: primaryDark,
+                  colorIcon: primaryDark,
+                )
+              : const CustomReturnButton(),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 14.0),
+              child: SizedBox(
+                width: 70,
+                height: 70,
+                child: themeProvider.isDarkMode
+                    ? Image.asset('assets/images/logo_small_dark.png')
+                    : Image.asset('assets/images/logo_small.png'),
+              ),
+            ),
+          ]),
       body: SingleChildScrollView(
       
-          child: Center(
-            child: Column(mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                
-                const SizedBox(
-                  height: 25,
-                ),
-                Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image(
-              image: AssetImage('assets/images/finance.png'),
-              width: 40, // ajusta el tamaño de la imagen según tus necesidades
-              height: 40,
-            ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               
-                      Text(
-                        'Mis finanzas',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          height: 1.5,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: themeProvider.isDarkMode ? Color(primaryLight) : Color(primaryDark),
-                        ),
+              const SizedBox(
+                height: 35,
+              ),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+            image: AssetImage('assets/images/finance.png'),
+            width: 40, // ajusta el tamaño de la imagen según tus necesidades
+            height: 40,
+          ),
+            
+                    Text(
+                      'Mis finanzas',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: 1.5,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: themeProvider.isDarkMode ? Color(primaryLight) : Color(primaryDark),
                       ),
-                
-                  ],
-                 ),
+                    ),
+              
+                ],
+               ),
+               
+                  Column(
+                    children: [
+                      Text(
+                          'Ingresa tu ingreso mensual',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            height: 1.5,
+                            fontSize: 14,
                  
-                    Column(
-                      children: [
-                        Text(
-                            'Ingresa tu ingreso mensual',
-                            textAlign: TextAlign.center,
+                            color: themeProvider.isDarkMode ? Color(whiteText) : Color(blackText),
+                          ),
+                        ),
+                    ],
+                  ),
+               SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                width: 224,
+                child: TextFormField(
+                  controller: amountController,
+                  key: const Key('amount'),
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                 
+                  onEditingComplete: () {
+                    _calculatePercentage('amount');
+                  },
+          
+                  decoration: const InputDecoration(
+                    hintText: 'Ingrese el monto de sus ingreos',
+                    label: Text("Monto"),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+             
+             
+                  Column(
+                    children: [
+                      Container(width: 185,
+                        child: Text(
+                            'Elige cuanto de tus ingreso destinarias para invertir',
+                            textAlign: TextAlign.justify,
                             style: TextStyle(
-                              height: 1.5,
+                              height: 1.4,
                               fontSize: 14,
-                   
+                                       
                               color: themeProvider.isDarkMode ? Color(whiteText) : Color(blackText),
                             ),
                           ),
-                      ],
-                    ),
-                 SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  width: 224,
-                  child: TextFormField(
-                    controller: amountController,
-                    key: const Key('amount'),
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Este dato es requerido';
-                      }
-                      return null;
-                    },
-                   
-                    onEditingComplete: () {
-                      _calculatePercentage('amount');
-                    },
-          
-                    decoration: const InputDecoration(
-                      hintText: 'Ingrese el monto de sus ingreos',
-                      label: Text("Monto"),
+                      ),
+                    ],
+                  ),
+               SizedBox(height: 10,),
+            
+              SizedBox(
+                width: 224,
+                height: 39,
+                child: DropdownSearch<String>(
+                  selectedItem: incomeController.text != '' ? incomeController.text : null,
+                  key: const Key('income'),
+                  onChanged: (value) {
+                   incomeController.text = value.toString();
+                    _calculatePercentage('income');
+                  },
+                  dropdownDecoratorProps: const DropDownDecoratorProps(
+                    dropdownSearchDecoration: InputDecoration(
+                      labelText: 'Ingresos',
                     ),
                   ),
+                  items: ['10-15%', '15-20%'],
+                  popupProps: PopupProps.menu(
+                    showSelectedItems: true,
+                    itemBuilder: (context, item, isSelected) => Container(
+                      decoration: BoxDecoration(
+                        color: Color(
+                          isSelected ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative) : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
+                        ),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                        border: Border.all(
+                          width: 2,
+                          color: themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(15),
+                      margin: const EdgeInsets.only(
+                        top: 5,
+                        bottom: 5,
+                        right: 15,
+                        left: 15,
+                      ),
+                      child: Text(
+                        item.toString(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Color(
+                            isSelected ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value) : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
+                          ),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                    menuProps: MenuProps(
+                      backgroundColor: Color(
+                        themeProvider.isDarkMode ? primaryDark : primaryLightAlternative,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Color(
+                            themeProvider.isDarkMode ? primaryLight : primaryDark,
+                          ),
+                          width: 1.0,
+                        ),
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(10),
+                        ),
+                      ),
+                    ),
+                    showSearchBox: true,
+                    searchFieldProps: TextFieldProps(
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Theme.of(context).backgroundColor,
+                        suffixIcon: Icon(Icons.search),
+                        label: Text('Buscar'),
+                      ),
+                    ),
+                  ),
+                  dropdownButtonProps: DropdownButtonProps(
+                    color: Color(
+                      themeProvider.isDarkMode ? primaryLight : primaryDark,
+                    ),
+                    padding: EdgeInsets.zero,
+                  ),
                 ),
-                const SizedBox(height: 10),
-               
-               
-                    Column(
-                      children: [
-                        Container(width: 185,
-                          child: Text(
-                              'Elige cuanto de tus ingreso destinarias para invertir',
+              ),
+              const SizedBox(height: 28),
+            
+               SizedBox(
+                
+                width: 224,
+                height: 127,
+                child: Container(
+                  
+                // height: 100,
+                width: MediaQuery.of(context).size.width * 0.60,
+                // width: double.maxFinite,
+                alignment: Alignment.center,
+                  child: Stack(
+                    children: <Widget>[
+                  
+
+                   
+                      Align(
+                        
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 272,
+                          height: double.infinity,
+                          padding: const EdgeInsets.only(
+                            left: 45,
+                            right: 15,
+                            top: 15,
+                            bottom: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            color: currentTheme.isDarkMode
+                                ? Color(primaryLightAlternative)
+                                : const Color(secondary),
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(
+                              color: const Color(secondary),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
                               textAlign: TextAlign.justify,
                               style: TextStyle(
-                                height: 1.4,
-                                fontSize: 14,
-                                         
-                                color: themeProvider.isDarkMode ? Color(whiteText) : Color(blackText),
+                                fontSize: 12,
+                                height: 1.5,
+                                color: 
+                               Color(blackText),
+                                fontWeight: FontWeight.w500,
                               ),
+                              "En instantes te mostraremos el gráfico de tus ingresos y algunos tips",
+                                                 
                             ),
-                        ),
-                      ],
-                    ),
-                 SizedBox(height: 10,),
-              
-                SizedBox(
-                  width: 224,
-                  height: 39,
-                  child: DropdownSearch<String>(
-                    selectedItem: incomeController.text != '' ? incomeController.text : null,
-                    key: const Key('income'),
-                    onChanged: (value) {
-                     incomeController.text = value.toString();
-                      _calculatePercentage('income');
-                    },
-                    dropdownDecoratorProps: const DropDownDecoratorProps(
-                      dropdownSearchDecoration: InputDecoration(
-                        labelText: 'Ingresos',
-                      ),
-                    ),
-                    items: ['10-15%', '15-20%'],
-                    popupProps: PopupProps.menu(
-                      showSelectedItems: true,
-                      itemBuilder: (context, item, isSelected) => Container(
-                        decoration: BoxDecoration(
-                          color: Color(
-                            isSelected ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative) : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
-                          ),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          border: Border.all(
-                            width: 2,
-                            color: themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
-                          right: 15,
-                          left: 15,
-                        ),
-                        child: Text(
-                          item.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(
-                              isSelected ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value) : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
-                            ),
-                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
-                      menuProps: MenuProps(
-                        backgroundColor: Color(
-                          themeProvider.isDarkMode ? primaryDark : primaryLightAlternative,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Color(
-                              themeProvider.isDarkMode ? primaryLight : primaryDark,
-                            ),
-                            width: 1.0,
-                          ),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      showSearchBox: true,
-                      searchFieldProps: TextFieldProps(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).backgroundColor,
-                          suffixIcon: Icon(Icons.search),
-                          label: Text('Buscar'),
-                        ),
-                      ),
-                    ),
-                    dropdownButtonProps: DropdownButtonProps(
-                      color: Color(
-                        themeProvider.isDarkMode ? primaryLight : primaryDark,
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 28),
-              
-                 SizedBox(
-                  
-                  width: 224,
-                  height: 127,
-                  child: Container(
-                    
-                  // height: 100,
-                  width: MediaQuery.of(context).size.width * 0.60,
-                  // width: double.maxFinite,
-                  alignment: Alignment.center,
-                    child: Stack(
-                      children: <Widget>[
-                    
-
-                     
-                        Align(
-                          
-                          alignment: Alignment.center,
+                      Positioned(
+                        bottom:30,
+                        right: 160,
+                      
+                        child: Align(
+                          alignment: Alignment.centerLeft,
                           child: Container(
-                            width: 272,
-                            height: double.infinity,
-                            padding: const EdgeInsets.only(
-                              left: 45,
-                              right: 15,
-                              top: 15,
-                              bottom: 15,
-                            ),
-                            decoration: BoxDecoration(
-                              color: currentTheme.isDarkMode
-                                  ? Color(primaryLightAlternative)
-                                  : const Color(secondary),
-                              borderRadius: BorderRadius.circular(15),
-                              border: Border.all(
-                                color: const Color(secondary),
-                              ),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(10.0),
-                              child: Text(
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  height: 1.5,
-                                  color: 
-                                 Color(blackText),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                "En instantes te mostraremos el gráfico de tus ingresos y algunos tips",
-                                                   
+                            height: 60,
+                            width: 60,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                image: AssetImage(
+                                    "assets/images/finance_2.png"),
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
                         ),
-                        Positioned(
-                          bottom:30,
-                          right: 160,
-                        
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              height: 60,
-                              width: 60,
-                              decoration: const BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/finance_2.png"),
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-               SizedBox(height: 20,),
-                 Container(
+              ),
+             SizedBox(height: 20,),
+               Container(
           width: 320,
           height: 137,decoration: BoxDecoration(
-                  color:   themeProvider.isDarkMode ? Color(primaryDark) : Color(primaryLightAlternative),
-                  borderRadius: BorderRadius.circular(10),
-                ),
+                color:   themeProvider.isDarkMode ? Color(primaryDark) : Color(primaryLightAlternative),
+                borderRadius: BorderRadius.circular(10),
+              ),
         
           child: Row(mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
+          children: [
+            Container(
           width: 80,
           height: 80,
           decoration: BoxDecoration(
-            
-            image: DecorationImage(
-              image: AssetImage('assets/images/finance.png'),
-              fit: BoxFit.cover,
-            ),
+          
+          image: DecorationImage(
+            image: AssetImage('assets/images/finance.png'),
+            fit: BoxFit.cover,
           ),
-              ),
-              Column(
+          ),
+            ),
+            Column(
           mainAxisAlignment: MainAxisAlignment.center,
           // crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            Container(width: 180,
+          Container(width: 180,
           
-              child: Text(textAlign:TextAlign.justify,
-                'Multiplica tu dinero desde hoy',
-                style: TextStyle(
-                
-                  fontWeight: FontWeight.bold,color: themeProvider.isDarkMode ? Color(whiteText) : Color(primaryDark),
-                  fontSize: 16,
-                ),
+            child: Text(textAlign:TextAlign.justify,
+              'Multiplica tu dinero desde hoy',
+              style: TextStyle(
+              
+                fontWeight: FontWeight.bold,color: themeProvider.isDarkMode ? Color(whiteText) : Color(primaryDark),
+                fontSize: 16,
               ),
             ),
+          ),
           
-            SizedBox(height: 16),
-             SizedBox(
-              width: 161,
-              height: 38,
-              child: TextButton(
-               
-                onPressed: () {
-                  Navigator.pushNamed(context, '/finance_step2');
-                },
-                child: Text(
-                  'Ver planes',
-                ),
+          SizedBox(height: 16),
+           SizedBox(
+            width: 161,
+            height: 38,
+            child: TextButton(
+             
+              onPressed: () {
+                Navigator.pushNamed(context, '/finance_step2');
+              },
+              child: Text(
+                'Ver planes',
               ),
             ),
-            ],
-              ),
+          ),
+          ],
+            ),
           ],
           ),
         ),
@@ -382,16 +404,14 @@ class FinanceScreen extends HookConsumerWidget {
         
 
         
-                         BottomNavigationBarHome()
-                 
-                 
-                 ],
-                
                
-                
                
+               ],
               
-            ),
+             
+              
+             
+            
           ),
         
         ));
