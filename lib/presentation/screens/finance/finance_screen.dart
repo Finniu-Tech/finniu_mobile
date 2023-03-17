@@ -69,8 +69,7 @@ class FinanceScreen extends HookConsumerWidget {
 
     return CustomScaffoldReturnLogo(
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
+      
           child: Center(
             child: Column(mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -394,7 +393,7 @@ class FinanceScreen extends HookConsumerWidget {
               
             ),
           ),
-        ),
+        
         ));
       
   
