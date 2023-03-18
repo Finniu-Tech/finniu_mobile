@@ -1,42 +1,28 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:provider/provider.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:image_picker/image_picker.dart';
 
 class FinanceStep2 extends HookConsumerWidget {
   final fieldValues = <String, dynamic>{
-    'names': null,
-    'docNumber': null,
-    'department': null,
-    'district': null,
-    'address': null,
-    'civilState': null,
+  
   };
-  final ImagePicker _picker = ImagePicker();
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
+ 
     final themeProvider = ref.watch(settingsNotifierProvider);
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final showError = useState(false);
+
     final namesController = useTextEditingController();
     final amountController = useTextEditingController();
     final incomeController = useTextEditingController();
-    final _formKey = GlobalKey<FormState>();
+  
 
-    final percentage = useState(0.0);
-    final percentageString = useState('0%');
-
-    final imageFile = useState('');
 
     String mapControllerKey(String key) {
       if (key == 'names') {
@@ -51,26 +37,11 @@ class FinanceStep2 extends HookConsumerWidget {
       }
     }
 
-    void _calculatePercentage(String key) {
-      fieldValues[key] = mapControllerKey(key);
-
-      // Count the number of non-empty fields
-      int count = fieldValues.values.where((value) => value != null && value.toString().isNotEmpty).length;
-
-      // Update the progress bar with the percentage of completed fields
-      if (count == 0) {
-        percentage.value = 0.0;
-      } else {
-        percentage.value = (count / 6.0);
-      }
-      percentageString.value = '${(percentage.value * 100).round()}%';
-    }
-
     return Scaffold(
     bottomNavigationBar: const BottomNavigationBarHome(),
        appBar: AppBar(
   
-          backgroundColor: Color(whiteText),
+          backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
           elevation: 0,
           leading: themeProvider.isDarkMode
               ? const CustomReturnButton(
@@ -102,12 +73,11 @@ class FinanceStep2 extends HookConsumerWidget {
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image(
+                    const Image(
               image: AssetImage('assets/images/finance.png'),
               width: 40, // ajusta el tamaño de la imagen según tus necesidades
               height: 40,
-            ),
-              
+            ),        
                       Text(
                         'Mis finanzas',
                         textAlign: TextAlign.center,
@@ -115,7 +85,7 @@ class FinanceStep2 extends HookConsumerWidget {
                           height: 1.5,
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: themeProvider.isDarkMode ? Color(primaryLight) : Color(primaryDark),
+                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                       ),
                 
@@ -131,12 +101,12 @@ class FinanceStep2 extends HookConsumerWidget {
                               height: 1.5,
                               fontSize: 14,
                    
-                              color: themeProvider.isDarkMode ? Color(whiteText) : Color(blackText),
+                              color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                             ),
                           ),
                       ],
                     ),
-                 SizedBox(
+                 const SizedBox(
                   height: 10,
                 ),
                 SizedBox(
@@ -150,10 +120,7 @@ class FinanceStep2 extends HookConsumerWidget {
                       }
                       return null;
                     },
-                   
-                    onEditingComplete: () {
-                      _calculatePercentage('amount');
-                    },
+
           
                     decoration: const InputDecoration(
                       hintText: 'Ingrese el monto de sus ingreos',
@@ -166,7 +133,7 @@ class FinanceStep2 extends HookConsumerWidget {
                
                     Column(
                       children: [
-                        Container(width: 185,
+                        SizedBox(width: 185,
                           child: Text(
                               'Elige cuanto de tus ingreso destinarias para invertir',
                               textAlign: TextAlign.justify,
@@ -174,116 +141,38 @@ class FinanceStep2 extends HookConsumerWidget {
                                 height: 1.4,
                                 fontSize: 14,
                                          
-                                color: themeProvider.isDarkMode ? Color(whiteText) : Color(blackText),
+                                color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                               ),
                             ),
                         ),
                       ],
                     ),
-                 SizedBox(height: 10,),
+                 const SizedBox(height: 2,),
               
-                SizedBox(
-                  width: 224,
-                  height: 39,
-                  child: DropdownSearch<String>(
-                    selectedItem: incomeController.text != '' ? incomeController.text : null,
-                    key: const Key('income'),
-                    onChanged: (value) {
-                     incomeController.text = value.toString();
-                      _calculatePercentage('income');
-                    },
-                    dropdownDecoratorProps: const DropDownDecoratorProps(
-                      dropdownSearchDecoration: InputDecoration(
-                        labelText: 'Ingresos',
-                      ),
-                    ),
-                    items: ['10-15%', '15-20%'],
-                    popupProps: PopupProps.menu(
-                      showSelectedItems: true,
-                      itemBuilder: (context, item, isSelected) => Container(
-                        decoration: BoxDecoration(
-                          color: Color(
-                            isSelected ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative) : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
-                          ),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          border: Border.all(
-                            width: 2,
-                            color: themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
-                          right: 15,
-                          left: 15,
-                        ),
-                        child: Text(
-                          item.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(
-                              isSelected ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value) : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
-                            ),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      menuProps: MenuProps(
-                        backgroundColor: Color(
-                          themeProvider.isDarkMode ? primaryDark : primaryLightAlternative,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Color(
-                              themeProvider.isDarkMode ? primaryLight : primaryDark,
-                            ),
-                            width: 1.0,
-                          ),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      showSearchBox: true,
-                      searchFieldProps: TextFieldProps(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).backgroundColor,
-                          suffixIcon: Icon(Icons.search),
-                          label: Text('Buscar'),
-                        ),
-                      ),
-                    ),
-                    dropdownButtonProps: DropdownButtonProps(
-                      color: Color(
-                        themeProvider.isDarkMode ? primaryLight : primaryDark,
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
-                  ),
-                ),
-             
-             SizedBox(height: 50,),
-             
-             
-             
-             
-             
-             
-             
+               Text(
+               '',
+               textAlign: TextAlign.left,
+               style: TextStyle(
+                 fontSize: 12,
+                 height: 1.5,
+                 color: currentTheme.isDarkMode
+                     ? const Color(whiteText)
+                     : const Color(blackText),
+               ),
+             ),
+                     CustomSelectButton(
+                     textEditingController: incomeController,
+                     items: const ['De 10% a 15%', 'Entre 20% a 30%'],
+                     labelText: "Seleccione su % de ingres",
+                    
+                   ),
+             const SizedBox(height: 50,),
+
              
              Stack(
                     clipBehavior: Clip.none,
                     children: [
              const CircularFinanceSimulation(),
-
-            
-
-
-
 
                Positioned(
                         right: 110,
@@ -295,7 +184,9 @@ class FinanceStep2 extends HookConsumerWidget {
                             height: 50,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: Color (primaryLightAlternative),
+                              color: currentTheme.isDarkMode
+                                    ? const Color(gradient_primary)
+                                    : const Color(primaryLightAlternative),
                               border: Border.all(
                                 width: 2,
                                 color: currentTheme.isDarkMode
@@ -308,7 +199,7 @@ class FinanceStep2 extends HookConsumerWidget {
                     
 
                             child: Column(
-                              children: [
+                              children: const [
                                 Center(
                                   child: Text(
                                     textAlign: TextAlign.center,
@@ -327,34 +218,23 @@ class FinanceStep2 extends HookConsumerWidget {
                                     color:Color(primaryDark),
                                     fontSize: 12,
                                     fontWeight: FontWeight.bold
-                                  ),
+                                  ,),
                                 ),
-                             
-                              
-                             
-
-             
-
-
-
            ]
-                )
-                )
-                )
-                )
+                ,),
+                ),
+                ),
+                ),
                 
                     ]
-                    )
-                    
-                    
-                    
-                    
+                    ,)
+                             
                     ]
+                    ,)
+                    ,)
+                    ,),
                     )
-                    )
-                    )
-                    )
-                    );
+                    ,);
                 }
                 }
   
@@ -366,7 +246,7 @@ class FinanceStep2 extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     return Container(
-      margin: EdgeInsets.only(right: 20.0),
+      margin: const EdgeInsets.only(right: 20.0),
       child: CircularPercentIndicator(
         circularStrokeCap: CircularStrokeCap.round,
         radius: 80.0,
@@ -375,14 +255,14 @@ class FinanceStep2 extends HookConsumerWidget {
         center: CircleAvatar(
           radius: 50,
           backgroundColor: themeProvider.isDarkMode
-              ? Color(backgroundColorDark)
+              ? const Color(backgroundColorDark)
               : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
             
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 "S/4000",
                 textAlign: TextAlign.center,
@@ -390,21 +270,19 @@ class FinanceStep2 extends HookConsumerWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: themeProvider.isDarkMode
-                        ? Color(whiteText)
-                        : Color(blackText)),
+                        ? const Color(whiteText)
+                        : const Color(blackText)),
               ),
-             Container(
-               child: Text(
-                  "Total de ingresos",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: themeProvider.isDarkMode
-                          ? Color(whiteText)
-                          : Color(blackText)),
-                ),
-             ),
+             Text(
+                "Total de ingresos",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                    color: themeProvider.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText)),
+              ),
     
             
             ],
@@ -415,7 +293,7 @@ class FinanceStep2 extends HookConsumerWidget {
         backgroundColor:
             Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
         fillColor: themeProvider.isDarkMode
-            ? Color(backgroundColorDark)
+            ? const Color(backgroundColorDark)
             : Colors.white,
       ),
     );

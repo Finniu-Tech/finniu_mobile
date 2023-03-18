@@ -1,14 +1,11 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
 
 class ResultCalculator extends HookConsumerWidget {
   const ResultCalculator({super.key});
@@ -17,14 +14,11 @@ class ResultCalculator extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final themeProvider = ref.watch(settingsNotifierProvider);
-    var MontoController;
-    final amountController = useTextEditingController();
-
-    final termController = useTextEditingController();
-
-    final percentage = useState(0.0);
+   
     return Scaffold(
-            backgroundColor: Colors.white,
+            backgroundColor: currentTheme.isDarkMode
+                                  ? const Color(backgroundColorDark)
+                                  : const Color(whiteText),
       appBar: AppBar(
   
           backgroundColor: Theme.of(context).backgroundColor,
@@ -47,19 +41,12 @@ class ResultCalculator extends HookConsumerWidget {
               ),
             ),
           ]),
-      
-      
-    
-      
+       
           bottomNavigationBar: const BottomNavigationBarHome(),
       
       body: SingleChildScrollView(
-        child: Column(
-          
+        child: Column(   
           children: <Widget>[
-
-             
-          //  SizedBox(height: 10),
             Container(
               alignment: Alignment.centerLeft,
               width: 300,
@@ -89,7 +76,7 @@ class ResultCalculator extends HookConsumerWidget {
                     children: [
                       const CircularImageSimulation(),
                       Positioned(
-                        right: 90,
+                        right: 125,
                         child: Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -134,10 +121,7 @@ class ResultCalculator extends HookConsumerWidget {
                                     fontSize: 7,
                                   ),
                                 ),
-                             
-                              
-                             
-                             
+                                                                             
                               ],
                             ),
                           ),
@@ -149,7 +133,7 @@ class ResultCalculator extends HookConsumerWidget {
                
               ],
         ),
-             SizedBox(height: 15,),
+             const SizedBox(height: 15,),
              
          Container(width: 210,
            child: Text(
@@ -165,7 +149,7 @@ class ResultCalculator extends HookConsumerWidget {
                                   ),
          ),
              
-             SizedBox(height: 20,),
+             const SizedBox(height: 20,),
              Padding(
          padding: const EdgeInsets.all(10.0),
          child: Row(
@@ -255,7 +239,7 @@ class ResultCalculator extends HookConsumerWidget {
         ],
              ),
              ),
-           SizedBox(height: 5,),   
+           const SizedBox(height: 5,),   
         
         Container(
         decoration: BoxDecoration(
@@ -265,7 +249,7 @@ class ResultCalculator extends HookConsumerWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         width: 320,
-        height: 230,
+        height: 210,
         child: 
         
         Row(mainAxisAlignment: MainAxisAlignment.center,
@@ -275,31 +259,37 @@ class ResultCalculator extends HookConsumerWidget {
             Container(alignment: Alignment.center,
         
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("S/560",style: TextStyle(fontSize: 13,color: currentTheme.isDarkMode
+            Text("S/560",style: TextStyle(fontSize: 11,color: currentTheme.isDarkMode
                                   ? const Color(whiteText)
                                   : const Color(blackText),fontWeight: FontWeight.bold ),),
-            Text("S/530",style: TextStyle(fontSize: 13,color:currentTheme.isDarkMode
+           
+              const SizedBox(height: 60),
+            Text("S/530",style: TextStyle(fontSize: 11,color:currentTheme.isDarkMode
                                   ? const Color(whiteText)
                                   : const Color(blackText),fontWeight: FontWeight.bold ),),
-            Text("S/515",style: TextStyle(fontSize: 13,color:currentTheme.isDarkMode
+           
+             const SizedBox(height: 60),
+            Text("S/515",style: TextStyle(fontSize: 11,color:currentTheme.isDarkMode
                                   ? const Color(whiteText)
                                   : const Color(blackText),fontWeight: FontWeight.bold),),
           ],
         ),
             ),
-            SizedBox(width: 20,),
+            const SizedBox(width: 20,),
             GraphContainerWidget(currentTheme: currentTheme),
-          ],
-        )),
+        ],
+        )
+        ,),
         
         
-        
-        ])));
+         ]
+        ,),
+        ),
+        );
    
-        
     
   }
 }
@@ -314,7 +304,7 @@ class GraphContainerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(alignment:Alignment.center ,
+    return Container(alignment:Alignment.bottomRight ,
       // padding: const EdgeInsets.all(10.0),
       child: Row(mainAxisAlignment:MainAxisAlignment.center,
       
@@ -329,7 +319,7 @@ class GraphContainerWidget extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-         SizedBox(width: 35,),
+         const SizedBox(width: 35,),
           Container(
             width: 50,
             height: 155,
@@ -341,7 +331,7 @@ class GraphContainerWidget extends StatelessWidget {
             ),
           ),
          
-         SizedBox(width: 35,),
+         const SizedBox(width: 35,),
           Container(
             width: 50,
             height: 155,
@@ -377,7 +367,7 @@ class CircularImageSimulation extends ConsumerWidget {
         center: CircleAvatar(
           radius: 50,
           backgroundColor: themeProvider.isDarkMode
-              ? Color(backgroundColorDark)
+              ? const Color(backgroundColorDark)
               : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -393,7 +383,7 @@ class CircularImageSimulation extends ConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Text(
                 "6 meses",
                 textAlign: TextAlign.center,
@@ -401,12 +391,9 @@ class CircularImageSimulation extends ConsumerWidget {
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                     color: themeProvider.isDarkMode
-                        ? Color(primaryLight)
-                        : Color(primaryDark)),
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark)),
               ),
-            
-    
-            
             ],
           ),
         ),
@@ -415,7 +402,7 @@ class CircularImageSimulation extends ConsumerWidget {
         backgroundColor:
             Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
         fillColor: themeProvider.isDarkMode
-            ? Color(backgroundColorDark)
+            ? const Color(backgroundColorDark)
             : Colors.white,
       ),
     );
@@ -423,3 +410,40 @@ class CircularImageSimulation extends ConsumerWidget {
 }
 
 
+
+
+// class MySelect extends StatefulWidget {
+//   @override
+//   _MySelectState createState() => _MySelectState();
+// }
+
+// class _MySelectState extends State<MySelect> {
+//   String dropdownValue = 'Opción 1';
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return DropdownButton<String>(
+//       value: dropdownValue,
+//       icon: Icon(Icons.arrow_downward),
+//       iconSize: 24,
+//       elevation: 16,
+//       style: TextStyle(color: Colors.deepPurple),
+//       underline: Container(
+//         height: 2,
+//         color: Colors.deepPurpleAccent,
+//       ),
+//       onChanged: (String newValue) {
+//         setState(() {
+//           dropdownValue = newValue;
+//         });
+//       },
+//       items: <String>['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']
+//           .map<DropdownMenuItem<String>>((String value) {
+//         return DropdownMenuItem<String>(
+//           value: value,
+//           child: Text(value),
+//         );
+//       }).toList(),
+//     );
+//   }
+// }

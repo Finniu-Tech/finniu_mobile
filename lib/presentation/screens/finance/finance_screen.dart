@@ -2,17 +2,17 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+
 
 class FinanceScreen extends HookConsumerWidget {
   const FinanceScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final currentTheme = ref.watch(settingsNotifierProvider);
     final amountController = useTextEditingController();
@@ -114,90 +114,25 @@ class FinanceScreen extends HookConsumerWidget {
                     ),
                   ),
               ),
-           const SizedBox(height: 10,),
-        
-          SizedBox(
-            width: 224,
-            height: 39,
-            child: DropdownSearch<String>(
-              selectedItem: incomeController.text != '' ? incomeController.text : null,
-              key: const Key('income'),
-              onChanged: (value) {
-              
-              },
-              dropdownDecoratorProps: const DropDownDecoratorProps(
-                dropdownSearchDecoration: InputDecoration(
-                  labelText: 'Ingresos',
-                ),
-              ),
-              items: ['10-15%', '15-20%'],
-              popupProps: PopupProps.menu(
-                showSelectedItems: true,
-                itemBuilder: (context, item, isSelected) => Container(
-                  decoration: BoxDecoration(
-                    color: Color(
-                      isSelected ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative) : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    border: Border.all(
-                      width: 2,
-                      color: themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight), // Aquí especificas el color de borde deseado
-                    ),
-                  ),
-                  padding: const EdgeInsets.all(15),
-                  margin: const EdgeInsets.only(
-                    top: 5,
-                    bottom: 5,
-                    right: 15,
-                    left: 15,
-                  ),
-                  child: Text(
-                    item.toString(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: Color(
-                        isSelected ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value) : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
-                      ),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-                menuProps: MenuProps(
-                  backgroundColor: Color(
-                    themeProvider.isDarkMode ? primaryDark : primaryLightAlternative,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Color(
-                        themeProvider.isDarkMode ? primaryLight : primaryDark,
-                      ),
-                      width: 1.0,
-                    ),
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(10),
-                    ),
-                  ),
-                ),
-                showSearchBox: true,
-                searchFieldProps: TextFieldProps(
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Theme.of(context).backgroundColor,
-                    suffixIcon: const Icon(Icons.search),
-                    label: const Text('Buscar'),
-                  ),
-                ),
-              ),
-              dropdownButtonProps: DropdownButtonProps(
-                color: Color(
-                  themeProvider.isDarkMode ? primaryLight : primaryDark,
-                ),
-                padding: EdgeInsets.zero,
-              ),
-            ),
-          ),
+
+             Text(
+               '',
+               textAlign: TextAlign.left,
+               style: TextStyle(
+                 fontSize: 12,
+                 height: 1.5,
+                 color: currentTheme.isDarkMode
+                     ? const Color(whiteText)
+                     : const Color(blackText),
+               ),
+             ),
+                     CustomSelectButton(
+                     textEditingController: incomeController,
+                     items: const ['De 10% a 15%', 'Entre 20% a 30%'],
+                     labelText: "Seleccione su % de ingres",
+                    
+                   ),
+                 
           const SizedBox(height: 28),
         
            Container(
@@ -224,7 +159,7 @@ class FinanceScreen extends HookConsumerWidget {
                    
                    
                    ),
-                   child: Text(
+                   child: const Text(
                      textAlign: TextAlign.justify,
                      style: TextStyle(
                        fontSize: 12,
@@ -314,10 +249,6 @@ class FinanceScreen extends HookConsumerWidget {
       ),
         ),
       ],
-          
-         
-          
-         
         
       ),
       );

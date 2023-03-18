@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -18,8 +18,8 @@ class Calculator extends HookConsumerWidget {
     final amountController = useTextEditingController();
 
 
-List<Color> dayColors = [Color (gradient_primary), Color (gradient_secondary)];
-List<Color> nightColors = [Color(primaryDark), Color (primaryLight)]; 
+List<Color> dayColors = [const Color (gradient_primary), const Color (gradient_secondary)];
+List<Color> nightColors = [const Color(primaryDark), const Color (primaryDarkAlternative),const Color(primaryLightAlternative)]; 
 
 
 
@@ -308,11 +308,13 @@ List<Color> nightColors = [Color(primaryDark), Color (primaryLight)];
                          ? (primaryDark)
                          :  whiteText, pushName: '/calculator_result'), )
             ]
-            )));
+            ,),
+            ),
+            );
       
       
       
-    ;
+    
   }
 }
 
