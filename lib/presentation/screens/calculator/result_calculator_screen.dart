@@ -40,7 +40,8 @@ class ResultCalculator extends HookConsumerWidget {
                     : Image.asset('assets/images/logo_small.png'),
               ),
             ),
-          ]),
+          ],
+          ),
        
           bottomNavigationBar: const BottomNavigationBarHome(),
       
@@ -286,7 +287,8 @@ class ResultCalculator extends HookConsumerWidget {
                
             
             
-              ]),
+              ],
+              ),
                 ),
                 const SizedBox(width: 20,),
      
@@ -465,14 +467,15 @@ class _MySelectState extends State<MySelect> {
                     decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(color: const Color(primaryDarkAlternative)),
-              color: Color (primaryDarkAlternative),
+              color: const Color (primaryDarkAlternative),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal:10),
                     child: Center(
                     child:Text(value),
                   ),
             ),
-          ));
+          ),
+          );
         }).toList(),
       ),
     );
