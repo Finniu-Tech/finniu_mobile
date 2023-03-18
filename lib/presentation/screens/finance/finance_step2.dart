@@ -267,10 +267,24 @@ class FinanceStep2 extends HookConsumerWidget {
                 ),
              
              SizedBox(height: 50,),
+             
+             
+             
+             
+             
+             
+             
+             
              Stack(
                     clipBehavior: Clip.none,
                     children: [
              const CircularFinanceSimulation(),
+
+            
+
+
+
+
                Positioned(
                         right: 110,
                         bottom: 150,
@@ -291,7 +305,8 @@ class FinanceStep2 extends HookConsumerWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             // color: Color(primaryDark),
-        
+                    
+
                             child: Column(
                               children: [
                                 Center(
@@ -328,7 +343,18 @@ class FinanceStep2 extends HookConsumerWidget {
                 )
                 )
                 
-                    ])])))));
+                    ]
+                    )
+                    
+                    
+                    
+                    
+                    ]
+                    )
+                    )
+                    )
+                    )
+                    );
                 }
                 }
   

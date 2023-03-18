@@ -265,7 +265,7 @@ class ResultCalculator extends HookConsumerWidget {
           borderRadius: BorderRadius.circular(10),
         ),
         width: 320,
-        height: 180,
+        height: 230,
         child: 
         
         Row(mainAxisAlignment: MainAxisAlignment.center,
