@@ -252,40 +252,55 @@ class ResultCalculator extends HookConsumerWidget {
         height: 210,
         child: 
         
-        Row(mainAxisAlignment: MainAxisAlignment.center,
-         
+        Column(
+          children: [Align
+          
+          (alignment: Alignment.centerRight, child: MySelect()),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+  
+              children: [
+                Container(alignment: Alignment.center,
+
+            child: Column(
+              
+              mainAxisAlignment: MainAxisAlignment.start,
+          
+              children: [
+                Text("S/560",style: TextStyle(fontSize: 11,color: currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(blackText),fontWeight: FontWeight.bold ),),
                
-          children: [
-            Container(alignment: Alignment.center,
-        
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("S/560",style: TextStyle(fontSize: 11,color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),fontWeight: FontWeight.bold ),),
-           
-              const SizedBox(height: 60),
-            Text("S/530",style: TextStyle(fontSize: 11,color:currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),fontWeight: FontWeight.bold ),),
-           
-             const SizedBox(height: 60),
-            Text("S/515",style: TextStyle(fontSize: 11,color:currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),fontWeight: FontWeight.bold),),
-          ],
-        ),
+                  const SizedBox(height: 60),
+                Text("S/530",style: TextStyle(fontSize: 11,color:currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(blackText),fontWeight: FontWeight.bold ),),
+               
+                 const SizedBox(height: 60),
+                Text("S/515",style: TextStyle(fontSize: 11,color:currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(blackText),fontWeight: FontWeight.bold),),
+               
+              
+                
+            
+               
+            
+            
+              ]),
+                ),
+                const SizedBox(width: 20,),
+     
+             
+                
+            
+            GraphContainerWidget(currentTheme: currentTheme),],
             ),
-            const SizedBox(width: 20,),
-            GraphContainerWidget(currentTheme: currentTheme),
-        ],
+          ],
         )
         ,),
         
         
-         ]
+]
         ,),
         ),
         );
@@ -412,38 +427,54 @@ class CircularImageSimulation extends ConsumerWidget {
 
 
 
-// class MySelect extends StatefulWidget {
-//   @override
-//   _MySelectState createState() => _MySelectState();
-// }
+class MySelect extends StatefulWidget {
+  @override
+  _MySelectState createState() => _MySelectState();
+}
 
-// class _MySelectState extends State<MySelect> {
-//   String dropdownValue = 'Opción 1';
+class _MySelectState extends State<MySelect> {
+  String dropdownValue = 'Opción 1';
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return DropdownButton<String>(
-//       value: dropdownValue,
-//       icon: Icon(Icons.arrow_downward),
-//       iconSize: 24,
-//       elevation: 16,
-//       style: TextStyle(color: Colors.deepPurple),
-//       underline: Container(
-//         height: 2,
-//         color: Colors.deepPurpleAccent,
-//       ),
-//       onChanged: (String newValue) {
-//         setState(() {
-//           dropdownValue = newValue;
-//         });
-//       },
-//       items: <String>['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']
-//           .map<DropdownMenuItem<String>>((String value) {
-//         return DropdownMenuItem<String>(
-//           value: value,
-//           child: Text(value),
-//         );
-//       }).toList(),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return Container(width:102,
+      child: DropdownButton<String>(
+        value: dropdownValue,
+       dropdownColor: const Color(primaryDark),
+        icon: const Icon(Icons.arrow_drop_down_outlined),
+        iconSize: 16,
+        // elevation: 16,
+        style: const TextStyle(color:Color(whiteText),fontSize:11),
+        underline: Container(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),  
+          border: Border.all(color:const Color (primaryLightAlternative))),
+          // height: 2,
+      
+        ),
+        onChanged: (newValue) {
+          setState(() {
+            dropdownValue = newValue!;
+          });
+        },
+        items: <String>['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']
+            .map<DropdownMenuItem<String>>((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Center(
+              child: Container(width: 83,height: 22,
+                    decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              border: Border.all(color: const Color(primaryDarkAlternative)),
+              color: Color (primaryDarkAlternative),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal:10),
+                    child: Center(
+                    child:Text(value),
+                  ),
+            ),
+          ));
+        }).toList(),
+      ),
+    );
+  }
+}

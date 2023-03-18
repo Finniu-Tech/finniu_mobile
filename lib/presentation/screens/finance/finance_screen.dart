@@ -136,8 +136,8 @@ class FinanceScreen extends HookConsumerWidget {
           const SizedBox(height: 28),
         
            Container(
-           width: 350,
-           height: 127,
+           width: 265,
+           height: 150,
            padding: EdgeInsets.all(20),
            alignment: Alignment.center,
             child: Stack(
