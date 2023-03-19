@@ -1,20 +1,3 @@
-// class FinishOnboardingResponseModel {
-//   FinishOnboardingResponseModel({
-//     this.data,
-//   });
-
-//   Data? data;
-
-//   factory FinishOnboardingResponseModel.fromJson(Map<String, dynamic> json) =>
-//       FinishOnboardingResponseModel(
-//         data: json["data"] == null ? null : Data.fromJson(json["data"]),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "data": data?.toJson(),
-//       };
-// }
-
 class FinishOnboardingResponseModel {
   FinishOnboardingResponseModel({
     this.finishOnboarding,

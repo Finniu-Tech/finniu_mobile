@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/ubigeo_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -21,17 +22,6 @@ class ProfileScreen extends HookConsumerWidget {
   };
   final ImagePicker _picker = ImagePicker();
 
-  // _getFromGallery() async {
-  //   PickedFile pickedFile = await ImagePicker().getImage(
-  //     source: ImageSource.gallery,
-  //     maxWidth: 1800,
-  //     maxHeight: 1800,
-  //   );
-  //   if (pickedFile != null) {
-  //     return File(pickedFile.path);
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
@@ -43,7 +33,12 @@ class ProfileScreen extends HookConsumerWidget {
     final districtController = useTextEditingController();
     final addressController = useTextEditingController();
     final civilStateController = useTextEditingController();
-
+    final regionsFuture = ref.watch(regionsFutureProvider.future);
+    // List<String> regions = ];
+    // regionsFuture.then((value) {
+    //   print('valie: $value');
+    //   regions = value.map((e) => e.cod).toList();
+    // });
     final _formKey = GlobalKey<FormState>();
 
     final percentage = useState(0.0);
@@ -250,17 +245,10 @@ class ProfileScreen extends HookConsumerWidget {
                         labelText: 'Departamento',
                       ),
                     ),
-                    items: [
-                      'Lima',
-                      'Ancash',
-                      'Loreto',
-                      'Junin',
-                      'Callao',
-                      'Madre de Dios',
-                      'Ica',
-                      'Puno',
-                      'Arequipa'
-                    ],
+                    asyncItems: (String filter) async {
+                      final response = await regionsFuture;
+                      return response.map((e) => e.name).toList();
+                    },
                     popupProps: PopupProps.menu(
                       showSelectedItems: true,
                       itemBuilder: (context, item, isSelected) => Container(
