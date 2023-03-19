@@ -1,3 +1,7 @@
+import 'package:finniu/presentation/screens/calculator/calculator_screen.dart';
+import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
+import 'package:finniu/presentation/screens/finance/finance_screen.dart';
+import 'package:finniu/presentation/screens/finance/finance_step2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/alerts.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
 import 'package:finniu/presentation/screens/signup/confirmation_phone_screen.dart';
@@ -50,5 +54,14 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_step2': (BuildContext context) => Step_2(),
     '/investment_step3': (BuildContext context) => Step_3(),
     '/set_new_password': (BuildContext context) => NewPassword(),
+    '/calculator_tool': (BuildContext context) => Calculator(),
+    '/calculator_result': (BuildContext context) =>  ResultCalculator (),
+    '/finance': (BuildContext context) =>  FinanceScreen (),
+    '/finance_step2': (BuildContext context) =>  FinanceStep2(),
+
+
+
+
+
   };
 }

@@ -29,6 +29,8 @@ final authTokenMutationProvider =
       },
     ),
   );
+  print('resposne token');
+  print(userData);
   ref.read(authTokenProvider.notifier).state =
       userData.data?['tokenAuth']['token'];
   return userData.data?['tokenAuth']['token'];
