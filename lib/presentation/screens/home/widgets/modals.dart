@@ -28,7 +28,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
         ),
         insetPadding: EdgeInsets.zero,
         child: ConstrainedBox(
-          constraints: BoxConstraints(
+          constraints: const BoxConstraints(
               maxWidth: 300, minWidth: 200, maxHeight: 600, minHeight: 325),
           child: SizedBox(
             child: Padding(

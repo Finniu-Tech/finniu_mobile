@@ -3,11 +3,11 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class FinanceStep2 extends HookConsumerWidget {
+class Finance_Screen_2 extends HookConsumerWidget {
   final fieldValues = <String, dynamic>{
   
   };
@@ -38,6 +38,7 @@ class FinanceStep2 extends HookConsumerWidget {
     }
 
     return Scaffold(
+      backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : Color(whiteText),
     bottomNavigationBar: const BottomNavigationBarHome(),
        appBar: AppBar(
   
@@ -166,9 +167,33 @@ class FinanceStep2 extends HookConsumerWidget {
                      labelText: "Seleccione su % de ingres",
                     
                    ),
-             const SizedBox(height: 50,),
+             const SizedBox(height: 30,),
 
-             
+  Padding(
+    padding: const EdgeInsets.only(left: 250),
+    child: Container(alignment: Alignment.centerRight,
+    width: 80, 
+    height: 28.0, 
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(12),color: const Color(primaryLight), // borde negro para el contenedor
+    ),
+    child: Row(mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Icon(Icons.arrow_back_ios,size: 14,),
+         Center(
+          child: Text(style:TextStyle(fontSize: 11),
+            '10%',
+            textAlign: TextAlign.center, // alinear texto al centro
+          ),
+        ),
+        Icon(Icons.arrow_forward_ios,size:14),
+       
+      ],
+    ),
+  ),
+  ),
+
+SizedBox(height: 35,),
              Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -184,9 +209,7 @@ class FinanceStep2 extends HookConsumerWidget {
                             height: 50,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: currentTheme.isDarkMode
-                                    ? const Color(gradient_primary)
-                                    : const Color(primaryLightAlternative),
+                              color: const Color (primaryLightAlternative),
                               border: Border.all(
                                 width: 2,
                                 color: currentTheme.isDarkMode
@@ -227,17 +250,55 @@ class FinanceStep2 extends HookConsumerWidget {
                 ),
                 
                     ]
-                    ,)
-                             
-                    ]
-                    ,)
-                    ,)
                     ,),
-                    )
-                    ,);
-                }
-                }
-  
+const SizedBox(height: 29,),
+                  Row(mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(alignment: Alignment.center,
+          width: 22,
+          height: 16,
+          decoration: BoxDecoration(
+            color: const Color(primaryLight), // color de fondo del contenedor
+            borderRadius: BorderRadius.circular(10), // borde redondeado
+          ),
+        ),
+        const SizedBox(
+          width: 8, // espacio entre el contenedor y el texto
+        ),
+        const Text(
+          'Ingresos',
+          style: TextStyle(fontSize: 10,color:Color( blackText),fontWeight: FontWeight.bold // estilo del texto
+        ,),
+                  ),
+                  const SizedBox(width: 16,),
+                  Container(
+          width: 22,
+          height: 16,
+          decoration: BoxDecoration(
+            color: const Color(primaryDark), // color de fondo del contenedor
+            borderRadius: BorderRadius.circular(10), // borde redondeado
+          ),
+        ),
+        const SizedBox(
+          width: 8, // espacio entre el contenedor y el texto
+        ),
+        const Text(
+          '% de ingresos a invertir',
+          style: TextStyle(fontSize: 10,color:Color( blackText),fontWeight: FontWeight.bold // estilo del texto
+        ,),
+                  )
+                  
+                  ],
+    )
+    ]
+    ,)
+    ,)
+    ,)
+    ,)
+    ,);
+  }
+}
+
 
                 class CircularFinanceSimulation extends ConsumerWidget {
   const CircularFinanceSimulation({Key? key}) : super(key: key);
@@ -249,8 +310,8 @@ class FinanceStep2 extends HookConsumerWidget {
       margin: const EdgeInsets.only(right: 20.0),
       child: CircularPercentIndicator(
         circularStrokeCap: CircularStrokeCap.round,
-        radius: 80.0,
-        lineWidth: 10.0,
+        radius: 90.0,
+        lineWidth: 15.0,
         percent: 0.5,
         center: CircleAvatar(
           radius: 50,

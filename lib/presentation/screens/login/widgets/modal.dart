@@ -124,7 +124,7 @@ class SMSBody extends HookConsumerWidget {
                 } else {
                   Navigator.of(ctx).pop();
                   CustomSnackbar.show(ctx,
-                      'No se pudo validar el código de verificación', "error");
+                      'No se pudo validar el código de verificación', 'error');
                   // ScaffoldMessenger.of(ctx).showSnackBar(
                   //   customSnackBar(
                   //       'No se pudo validar el código de verificación',
