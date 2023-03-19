@@ -176,17 +176,7 @@ class FinanceScreen extends HookConsumerWidget {
                   top: 30,
                   left: -30,
                   child: Container(height: 80, width: 80, child: Image.asset("assets/images/finance_2.png", height: 66, width: 66,)),
-                  //  child: Container(
-                  //    width: 60,
-                  //    height: 64,
-                  //    decoration: const BoxDecoration(
-                  //      image: DecorationImage(
-                  //        image: AssetImage(
-                  //            "assets/images/finance_2.png",),
-                  //        fit: BoxFit.contain,
-                  //      ),
-                  //    ),
-                  //  ),
+             
                  ),
                  Image.asset('assets/images/clock.png', height: 40, width: 40,)
                 ],
@@ -202,16 +192,19 @@ class FinanceScreen extends HookConsumerWidget {
         
       child: Row(mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Container(
-      width: 80,
-      height: 80,
-      decoration: const BoxDecoration(
-      
-      image: DecorationImage(
-        image: AssetImage('assets/images/finance.png'),
-        fit: BoxFit.cover,
-      ),
-      ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(alignment: Alignment.bottomCenter,
+              width: 110,
+              height: 100,
+              decoration: const BoxDecoration(
+              
+              image: DecorationImage(alignment: Alignment.bottomCenter,
+          image: AssetImage('assets/images/hand.png'),
+          fit: BoxFit.cover,
+              ),
+              ),
+          ),
         ),
         Column(
       mainAxisAlignment: MainAxisAlignment.center,
