@@ -29,7 +29,11 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
         insetPadding: EdgeInsets.zero,
         child: ConstrainedBox(
           constraints: const BoxConstraints(
-              maxWidth: 300, minWidth: 200, maxHeight: 600, minHeight: 325),
+            maxWidth: 350,
+            minWidth: 350,
+            maxHeight: 600,
+            minHeight: 325,
+          ),
           child: SizedBox(
             child: Padding(
               padding: const EdgeInsets.only(
@@ -88,18 +92,22 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                 const SizedBox(
                                   width: 10,
                                 ),
-                                Text(
-                                  ref
-                                          .watch(userProfileNotifierProvider)
-                                          .nickName ??
-                                      '',
-                                  style: TextStyle(
-                                    height: 1.5,
-                                    fontSize: 16,
-                                    color: themeProvider.isDarkMode
-                                        ? Colors.white
-                                        : Colors.black,
-                                    fontWeight: FontWeight.w500,
+                                SizedBox(
+                                  width: 120,
+                                  child: Text(
+                                    ref
+                                            .watch(userProfileNotifierProvider)
+                                            .nickName ??
+                                        '',
+                                    style: TextStyle(
+                                      height: 1.5,
+                                      fontSize: 16,
+                                      color: themeProvider.isDarkMode
+                                          ? Colors.white
+                                          : Colors.black,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 const Spacer(),
