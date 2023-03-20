@@ -3,6 +3,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/ubigeo_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -22,6 +23,8 @@ class ProfileScreen extends HookConsumerWidget {
   };
   final ImagePicker _picker = ImagePicker();
 
+  ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
@@ -34,11 +37,8 @@ class ProfileScreen extends HookConsumerWidget {
     final addressController = useTextEditingController();
     final civilStateController = useTextEditingController();
     final regionsFuture = ref.watch(regionsFutureProvider.future);
-    // List<String> regions = ];
-    // regionsFuture.then((value) {
-    //   print('valie: $value');
-    //   regions = value.map((e) => e.cod).toList();
-    // });
+    final provincesFuture = ref.watch(provincesFutureProvider.future);
+
     final _formKey = GlobalKey<FormState>();
 
     final percentage = useState(0.0);
@@ -231,185 +231,209 @@ class ProfileScreen extends HookConsumerWidget {
                 SizedBox(
                   width: 224,
                   height: 39,
-                  child: DropdownSearch<String>(
-                    selectedItem: departmentController.text != ''
-                        ? departmentController.text
-                        : null,
-                    key: const Key('department'),
-                    onChanged: (value) {
-                      departmentController.text = value.toString();
-                      _calculatePercentage('department');
-                    },
-                    dropdownDecoratorProps: const DropDownDecoratorProps(
-                      dropdownSearchDecoration: InputDecoration(
-                        labelText: 'Departamento',
-                      ),
-                    ),
+                  child: CustomSelectButton(
+                    textEditingController: departmentController,
+                    labelText: 'Departamento',
                     asyncItems: (String filter) async {
                       final response = await regionsFuture;
                       return response.map((e) => e.name).toList();
                     },
-                    popupProps: PopupProps.menu(
-                      showSelectedItems: true,
-                      itemBuilder: (context, item, isSelected) => Container(
-                        decoration: BoxDecoration(
-                          color: Color(
-                            isSelected
-                                ? (themeProvider.isDarkMode
-                                    ? primaryLight
-                                    : primaryDarkAlternative)
-                                : (themeProvider.isDarkMode
-                                    ? primaryDarkAlternative
-                                    : primaryLight),
-                          ),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                          border: Border.all(
-                            width: 2,
-                            color: themeProvider.isDarkMode
-                                ? const Color(primaryDarkAlternative)
-                                : const Color(
-                                    primaryLight), // Aquí especificas el color de borde deseado
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
-                          right: 15,
-                          left: 15,
-                        ),
-                        child: Text(
-                          item.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(
-                              isSelected
-                                  ? (themeProvider.isDarkMode
-                                      ? primaryDark
-                                      : Colors.white.value)
-                                  : (themeProvider.isDarkMode
-                                      ? Colors.white.value
-                                      : primaryDark),
-                            ),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      menuProps: MenuProps(
-                        backgroundColor: Color(
-                          themeProvider.isDarkMode
-                              ? primaryDark
-                              : primaryLightAlternative,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Color(
-                              themeProvider.isDarkMode
-                                  ? primaryLight
-                                  : primaryDark,
-                            ),
-                            width: 1.0,
-                          ),
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      showSearchBox: true,
-                      searchFieldProps: TextFieldProps(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).backgroundColor,
-                          suffixIcon: Icon(Icons.search),
-                          label: Text('Buscar'),
-                        ),
-                      ),
-                    ),
-                    dropdownButtonProps: DropdownButtonProps(
-                      color: Color(
-                        themeProvider.isDarkMode ? primaryLight : primaryDark,
-                      ),
-                      padding: EdgeInsets.zero,
-                    ),
+                    callbackOnChange: (value) {
+                      departmentController.text = value.toString();
+                      _calculatePercentage('department');
+                    },
                   ),
+                  // child: DropdownSearch<String>(
+                  //   selectedItem: departmentController.text != ''
+                  //       ? departmentController.text
+                  //       : null,
+                  //   key: const Key('department'),
+                  //   onChanged: (value) {
+                  //     departmentController.text = value.toString();
+                  //     _calculatePercentage('department');
+                  //   },
+                  //   dropdownDecoratorProps: const DropDownDecoratorProps(
+                  //     dropdownSearchDecoration: InputDecoration(
+                  //       labelText: 'Departamento',
+                  //     ),
+                  //   ),
+                  //   asyncItems: (String filter) async {
+                  //     final response = await regionsFuture;
+                  //     return response.map((e) => e.name).toList();
+                  //   },
+                  //   popupProps: PopupProps.menu(
+                  //     showSelectedItems: true,
+                  //     itemBuilder: (context, item, isSelected) => Container(
+                  //       decoration: BoxDecoration(
+                  //         color: Color(
+                  //           isSelected
+                  //               ? (themeProvider.isDarkMode
+                  //                   ? primaryLight
+                  //                   : primaryDarkAlternative)
+                  //               : (themeProvider.isDarkMode
+                  //                   ? primaryDarkAlternative
+                  //                   : primaryLight),
+                  //         ),
+                  //         borderRadius: const BorderRadius.all(
+                  //           Radius.circular(20),
+                  //         ),
+                  //         border: Border.all(
+                  //           width: 2,
+                  //           color: themeProvider.isDarkMode
+                  //               ? const Color(primaryDarkAlternative)
+                  //               : const Color(
+                  //                   primaryLight), // Aquí especificas el color de borde deseado
+                  //         ),
+                  //       ),
+                  //       padding: const EdgeInsets.all(15),
+                  //       margin: const EdgeInsets.only(
+                  //         top: 5,
+                  //         bottom: 5,
+                  //         right: 15,
+                  //         left: 15,
+                  //       ),
+                  //       child: Text(
+                  //         item.toString(),
+                  //         textAlign: TextAlign.center,
+                  //         style: TextStyle(
+                  //           color: Color(
+                  //             isSelected
+                  //                 ? (themeProvider.isDarkMode
+                  //                     ? primaryDark
+                  //                     : Colors.white.value)
+                  //                 : (themeProvider.isDarkMode
+                  //                     ? Colors.white.value
+                  //                     : primaryDark),
+                  //           ),
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     menuProps: MenuProps(
+                  //       backgroundColor: Color(
+                  //         themeProvider.isDarkMode
+                  //             ? primaryDark
+                  //             : primaryLightAlternative,
+                  //       ),
+                  //       shape: RoundedRectangleBorder(
+                  //         side: BorderSide(
+                  //           color: Color(
+                  //             themeProvider.isDarkMode
+                  //                 ? primaryLight
+                  //                 : primaryDark,
+                  //           ),
+                  //           width: 1.0,
+                  //         ),
+                  //         borderRadius: const BorderRadius.vertical(
+                  //           top: Radius.circular(10),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     showSearchBox: true,
+                  //     searchFieldProps: TextFieldProps(
+                  //       decoration: InputDecoration(
+                  //         filled: true,
+                  //         fillColor: Theme.of(context).backgroundColor,
+                  //         suffixIcon: Icon(Icons.search),
+                  //         label: Text('Buscar'),
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   dropdownButtonProps: DropdownButtonProps(
+                  //     color: Color(
+                  //       themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  //     ),
+                  //     padding: EdgeInsets.zero,
+                  //   ),
+                  // ),
                 ),
                 const SizedBox(height: 28),
                 SizedBox(
                   width: 224,
                   height: 38,
-                  child: DropdownSearch<String>(
-                    selectedItem: districtController.text != ''
-                        ? districtController.text
-                        : null,
-                    key: const Key('district'),
-                    onChanged: (value) {
-                      districtController.text = value.toString();
-                      _calculatePercentage('district');
+                  child: CustomSelectButton(
+                    textEditingController: departmentController,
+                    labelText: 'Provincia',
+                    asyncItems: (String filter) async {
+                      final response = await regionsFuture;
+                      return response.map((e) => e.name).toList();
                     },
-                    dropdownDecoratorProps: const DropDownDecoratorProps(
-                      dropdownSearchDecoration: InputDecoration(
-                        labelText: 'Distrito',
-                      ),
-                    ),
-                    items: [
-                      'San Isidro',
-                      'San Miguel',
-                      'San Juan de Lurigancho',
-                      'San Juan de Miraflores',
-                      'San Luis',
-                      'San Martin de Porres',
-                    ],
-                    popupProps: PopupProps.menu(
-                      showSelectedItems: true,
-                      itemBuilder: (context, item, isSelected) => Container(
-                        decoration: BoxDecoration(
-                          color: Color(isSelected ? primaryDark : primaryLight),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 15, left: 15),
-                        child: Text(
-                          item.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(
-                                isSelected ? Colors.white.value : primaryDark),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      menuProps: const MenuProps(
-                        backgroundColor: Color(primaryLightAlternative),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Color(primaryDark),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      showSearchBox: true,
-                      searchFieldProps: const TextFieldProps(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          suffixIcon: Icon(Icons.search),
-                          label: Text('Buscar'),
-                        ),
-                      ),
-                    ),
-                    dropdownButtonProps: const DropdownButtonProps(
-                      color: Color(primaryDark),
-                      padding: EdgeInsets.zero,
-                    ),
+                    callbackOnChange: (value) {
+                      departmentController.text = value.toString();
+                      _calculatePercentage('province');
+                    },
                   ),
+                  // child: DropdownSearch<String>(
+                  //   selectedItem: districtController.text != ''
+                  //       ? districtController.text
+                  //       : null,
+                  //   key: const Key('district'),
+                  //   onChanged: (value) {
+                  //     districtController.text = value.toString();
+                  //     _calculatePercentage('district');
+                  //   },
+                  //   dropdownDecoratorProps: const DropDownDecoratorProps(
+                  //     dropdownSearchDecoration: InputDecoration(
+                  //       labelText: 'Distrito',
+                  //     ),
+                  //   ),
+                  //   items: [
+                  //     'San Isidro',
+                  //     'San Miguel',
+                  //     'San Juan de Lurigancho',
+                  //     'San Juan de Miraflores',
+                  //     'San Luis',
+                  //     'San Martin de Porres',
+                  //   ],
+                  //   popupProps: PopupProps.menu(
+                  //     showSelectedItems: true,
+                  //     itemBuilder: (context, item, isSelected) => Container(
+                  //       decoration: BoxDecoration(
+                  //         color: Color(isSelected ? primaryDark : primaryLight),
+                  //         borderRadius: const BorderRadius.all(
+                  //           Radius.circular(20),
+                  //         ),
+                  //       ),
+                  //       padding: const EdgeInsets.all(15),
+                  //       margin: const EdgeInsets.only(
+                  //           top: 5, bottom: 5, right: 15, left: 15),
+                  //       child: Text(
+                  //         item.toString(),
+                  //         textAlign: TextAlign.center,
+                  //         style: TextStyle(
+                  //           color: Color(
+                  //               isSelected ? Colors.white.value : primaryDark),
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     menuProps: const MenuProps(
+                  //       backgroundColor: Color(primaryLightAlternative),
+                  //       shape: RoundedRectangleBorder(
+                  //         side: BorderSide(
+                  //           color: Color(primaryDark),
+                  //           width: 1.0,
+                  //         ),
+                  //         borderRadius: BorderRadius.vertical(
+                  //           top: Radius.circular(10),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     showSearchBox: true,
+                  //     searchFieldProps: const TextFieldProps(
+                  //       decoration: InputDecoration(
+                  //         filled: true,
+                  //         fillColor: Colors.white,
+                  //         suffixIcon: Icon(Icons.search),
+                  //         label: Text('Buscar'),
+                  //       ),
+                  //     ),
+                  //   ),
+                  //   dropdownButtonProps: const DropdownButtonProps(
+                  //     color: Color(primaryDark),
+                  //     padding: EdgeInsets.zero,
+                  //   ),
+                  // ),
                 ),
                 const SizedBox(height: 15),
                 if (showError.value) ...[

@@ -83,7 +83,7 @@ class HomeBody extends ConsumerWidget {
           Row(
             children: [
               Container(
-                width: 150,
+                width: 250,
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Hola ${userProfile.nickName ?? ''}!",
