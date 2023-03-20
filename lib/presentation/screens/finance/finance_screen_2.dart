@@ -17,13 +17,10 @@ class Finance_Screen_2 extends HookConsumerWidget {
  
     final themeProvider = ref.watch(settingsNotifierProvider);
     final currentTheme = ref.watch(settingsNotifierProvider);
-
     final namesController = useTextEditingController();
     final amountController = useTextEditingController();
     final incomeController = useTextEditingController();
   
-
-
     String mapControllerKey(String key) {
       if (key == 'names') {
         return namesController.text;
@@ -170,7 +167,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
              const SizedBox(height: 30,),
 
   Padding(
-    padding: const EdgeInsets.only(left: 250),
+    padding: const EdgeInsets.only(left: 240),
     child: Container(alignment: Alignment.centerRight,
     width: 80, 
     height: 28.0, 
@@ -178,22 +175,31 @@ class Finance_Screen_2 extends HookConsumerWidget {
       borderRadius: BorderRadius.circular(12),color: const Color(primaryLight), // borde negro para el contenedor
     ),
     child: Row(mainAxisAlignment: MainAxisAlignment.center,
-      children: const [
-        Icon(Icons.arrow_back_ios,size: 14,),
+      children: [
+        Icon(Icons.arrow_back_ios,size: 14,color: currentTheme.isDarkMode
+                                    ? const Color(primaryDark)
+                                    : const Color(whiteText),  ),
          Center(
-          child: Text(style:TextStyle(fontSize: 11),
+          child: Text(style:TextStyle(fontSize: 11,color: currentTheme.isDarkMode
+                                    ? const Color(primaryDark)
+                                    : const Color(whiteText),   
+                                    fontWeight: FontWeight.bold
+                                    
+                                    ),
             '10%',
             textAlign: TextAlign.center, // alinear texto al centro
           ),
         ),
-        Icon(Icons.arrow_forward_ios,size:14),
+        Icon(Icons.arrow_forward_ios,size:14,color: currentTheme.isDarkMode
+                                    ? const Color(primaryDark)
+                                    : const Color(whiteText),  ),
        
       ],
     ),
   ),
   ),
 
-SizedBox(height: 35,),
+const SizedBox(height: 10,),
              Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -265,9 +271,11 @@ const SizedBox(height: 29,),
         const SizedBox(
           width: 8, // espacio entre el contenedor y el texto
         ),
-        const Text(
+        Text(
           'Ingresos',
-          style: TextStyle(fontSize: 10,color:Color( blackText),fontWeight: FontWeight.bold // estilo del texto
+          style: TextStyle(fontSize: 10,color:currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(blackText),fontWeight: FontWeight.bold // estilo del texto
         ,),
                   ),
                   const SizedBox(width: 16,),
@@ -282,9 +290,11 @@ const SizedBox(height: 29,),
         const SizedBox(
           width: 8, // espacio entre el contenedor y el texto
         ),
-        const Text(
+      Text(
           '% de ingresos a invertir',
-          style: TextStyle(fontSize: 10,color:Color( blackText),fontWeight: FontWeight.bold // estilo del texto
+          style: TextStyle(fontSize: 10,color:currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(blackText),fontWeight: FontWeight.bold // estilo del texto
         ,),
                   )
                   

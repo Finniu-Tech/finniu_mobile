@@ -41,7 +41,7 @@ class FinanceScreen extends HookConsumerWidget {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+       
         children: [
           const SizedBox(
             height: 40,

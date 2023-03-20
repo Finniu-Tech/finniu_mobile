@@ -23,7 +23,7 @@ class Calculator extends HookConsumerWidget {
     List<Color> nightColors = [
       const Color(primaryDark),
       const Color(primaryDarkAlternative),
-      const Color(primaryLightAlternative)
+      const Color(primaryDark)
     ];
 
     return Scaffold(
