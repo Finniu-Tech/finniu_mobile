@@ -41,7 +41,7 @@ class FinanceScreen extends HookConsumerWidget {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+       
         children: [
           const SizedBox(
             height: 40,
@@ -131,7 +131,7 @@ class FinanceScreen extends HookConsumerWidget {
             items: const ['De 10% a 15%', 'Entre 20% a 30%'],
             labelText: "Seleccione su % de ingres",
           ),
-          const SizedBox(height: 28),
+          const SizedBox(height: 16),
           Container(
             width: 300,
             height: 150,
@@ -141,7 +141,7 @@ class FinanceScreen extends HookConsumerWidget {
               children: <Widget>[
                 Container(
                   width: 220,
-                  height: 127,
+                  height: 135,
                   decoration: BoxDecoration(
                     color: currentTheme.isDarkMode
                         ? const Color(primaryLightAlternative)
@@ -151,15 +151,18 @@ class FinanceScreen extends HookConsumerWidget {
                       color: const Color(secondary),
                     ),
                   ),
-                  child: const Text(
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 1,
-                      color: Color(blackText),
-                      fontWeight: FontWeight.w500,
+                  child: const Padding(
+                    padding: EdgeInsets.all(35.0),
+                    child: Text(
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 12,
+                        height: 1.2,
+                        color: Color(blackText),
+                        fontWeight: FontWeight.w500,
+                      ),
+                      "En instantes te mostraremos el gráfico de tus ingresos y algunos tips.",
                     ),
-                    "En instantes te mostraremos el gráfico de tus ingresos y algunos tips",
                   ),
                 ),
                 Positioned(
@@ -167,38 +170,33 @@ class FinanceScreen extends HookConsumerWidget {
                   left: 0,
                   child: Container(
                       height: 80,
-                      width: 80,
+                      width: 60,
                       child: Image.asset(
                         "assets/images/finance_2.png",
                         height: 66,
                         width: 66,
                       )),
-                  //  child: Container(
-                  //    width: 60,
-                  //    height: 64,
-                  //    decoration: const BoxDecoration(
-                  //      image: DecorationImage(
-                  //        image: AssetImage(
-                  //            "assets/images/finance_2.png",),
-                  //        fit: BoxFit.contain,
-                  //      ),
-                  //    ),
-                  //  ),
+              
                 ),
-                Image.asset(
-                  'assets/images/clock.png',
-                  height: 40,
-                  width: 40,
+                Positioned(
+                  top: 9,
+                  child: Image.asset(
+                    'assets/images/clock.png',
+                    height: 40,
+                    width: 40,
+                  ),
                 )
+              
+              
               ],
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 12,
           ),
           Container(
             width: 320,
-            height: 137,
+            height: 130,
             decoration: BoxDecoration(
               color: themeProvider.isDarkMode
                   ? const Color(primaryDark)
@@ -208,13 +206,16 @@ class FinanceScreen extends HookConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 80,
-                  height: 80,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage('assets/images/finance.png'),
-                      fit: BoxFit.cover,
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 118,
+                    height: 112,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/hand.png'),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -236,13 +237,13 @@ class FinanceScreen extends HookConsumerWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: 161,
                       height: 38,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/finance_step2');
+                          Navigator.pushNamed(context, '/finance_screen2');
                         },
                         child: const Text(
                           'Ver planes',
