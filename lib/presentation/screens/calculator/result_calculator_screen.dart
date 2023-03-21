@@ -236,8 +236,10 @@ class ResultCalculator extends HookConsumerWidget {
               ),
             ),
             const SizedBox(
-              height: 5,
+              height: 70,
             ),
+
+            // Spacer(),
             Container(
               decoration: BoxDecoration(
                 color: currentTheme.isDarkMode

@@ -8,19 +8,16 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class Finance_Screen_2 extends HookConsumerWidget {
-  final fieldValues = <String, dynamic>{
-  
-  };
+  final fieldValues = <String, dynamic>{};
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
- 
     final themeProvider = ref.watch(settingsNotifierProvider);
     final currentTheme = ref.watch(settingsNotifierProvider);
     final namesController = useTextEditingController();
     final amountController = useTextEditingController();
     final incomeController = useTextEditingController();
-  
+
     String mapControllerKey(String key) {
       if (key == 'names') {
         return namesController.text;
@@ -28,18 +25,20 @@ class Finance_Screen_2 extends HookConsumerWidget {
         return amountController.text;
       } else if (key == 'department') {
         return incomeController.text;
-  
       } else {
         return '';
       }
     }
 
     return Scaffold(
-      backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : Color(whiteText),
-    bottomNavigationBar: const BottomNavigationBarHome(),
-       appBar: AppBar(
-  
-          backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
+      backgroundColor: themeProvider.isDarkMode
+          ? const Color(backgroundColorDark)
+          : Color(whiteText),
+      bottomNavigationBar: const BottomNavigationBarHome(),
+      appBar: AppBar(
+          backgroundColor: themeProvider.isDarkMode
+              ? const Color(backgroundColorDark)
+              : const Color(whiteText),
           elevation: 0,
           leading: themeProvider.isDarkMode
               ? const CustomReturnButton(
@@ -63,48 +62,51 @@ class Finance_Screen_2 extends HookConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.all(25.0),
           child: Center(
-            child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                
                 const SizedBox(
                   height: 25,
                 ),
-                Row(mainAxisAlignment: MainAxisAlignment.center,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Image(
-              image: AssetImage('assets/images/finance.png'),
-              width: 40, // ajusta el tamaño de la imagen según tus necesidades
-              height: 40,
-            ),        
-                      Text(
-                        'Mis finanzas',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          height: 1.5,
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                        ),
-                      ),
-                
-                  ],
-                 ),
-                 
-                    Column(
-                      children: [
-                        Text(
-                            'Ingresa tu ingreso mensual',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              height: 1.5,
-                              fontSize: 14,
-                   
-                              color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                            ),
-                          ),
-                      ],
+                      image: AssetImage('assets/images/finance.png'),
+                      width:
+                          40, // ajusta el tamaño de la imagen según tus necesidades
+                      height: 40,
                     ),
-                 const SizedBox(
+                    Text(
+                      'Mis finanzas',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: 1.5,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: themeProvider.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Text(
+                      'Ingresa tu ingreso mensual',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        height: 1.5,
+                        fontSize: 14,
+                        color: themeProvider.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
                   height: 10,
                 ),
                 SizedBox(
@@ -118,8 +120,6 @@ class Finance_Screen_2 extends HookConsumerWidget {
                       }
                       return null;
                     },
-
-          
                     decoration: const InputDecoration(
                       hintText: 'Ingrese el monto de sus ingreos',
                       label: Text("Monto"),
@@ -127,190 +127,218 @@ class Finance_Screen_2 extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 10),
-               
-               
-                    Column(
+                Column(
+                  children: [
+                    SizedBox(
+                      width: 185,
+                      child: Text(
+                        'Elige cuanto de tus ingreso destinarias para invertir',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          height: 1.4,
+                          fontSize: 14,
+                          color: themeProvider.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Text(
+                  '',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontSize: 12,
+                    height: 1.5,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
+                  ),
+                ),
+                CustomSelectButton(
+                  textEditingController: incomeController,
+                  items: const ['De 10% a 15%', 'Entre 20% a 30%'],
+                  labelText: "Seleccione su % de ingres",
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 240),
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    width: 80,
+                    height: 28.0,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      color: const Color(
+                          primaryLight), // borde negro para el contenedor
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(width: 185,
+                        Icon(
+                          Icons.arrow_back_ios,
+                          size: 14,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                        ),
+                        Center(
                           child: Text(
-                              'Elige cuanto de tus ingreso destinarias para invertir',
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(
-                                height: 1.4,
-                                fontSize: 14,
-                                         
-                                color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                              ),
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(primaryDark),
+                              fontWeight: FontWeight.bold,
                             ),
+                            '10%',
+                            textAlign:
+                                TextAlign.center, // alinear texto al centro
+                          ),
+                        ),
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          size: 14,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
                         ),
                       ],
                     ),
-                 const SizedBox(height: 2,),
-              
-               Text(
-               '',
-               textAlign: TextAlign.left,
-               style: TextStyle(
-                 fontSize: 12,
-                 height: 1.5,
-                 color: currentTheme.isDarkMode
-                     ? const Color(whiteText)
-                     : const Color(blackText),
-               ),
-             ),
-                     CustomSelectButton(
-                     textEditingController: incomeController,
-                     items: const ['De 10% a 15%', 'Entre 20% a 30%'],
-                     labelText: "Seleccione su % de ingres",
-                    
-                   ),
-             const SizedBox(height: 30,),
-
-  Padding(
-    padding: const EdgeInsets.only(left: 240),
-    child: Container(alignment: Alignment.centerRight,
-    width: 80, 
-    height: 28.0, 
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),color: const Color(primaryLight), // borde negro para el contenedor
-    ),
-    child: Row(mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(Icons.arrow_back_ios,size: 14,color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(whiteText),  ),
-         Center(
-          child: Text(style:TextStyle(fontSize: 11,color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(whiteText),   
-                                    fontWeight: FontWeight.bold
-                                    
-                                    ),
-            '10%',
-            textAlign: TextAlign.center, // alinear texto al centro
-          ),
-        ),
-        Icon(Icons.arrow_forward_ios,size:14,color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(whiteText),  ),
-       
-      ],
-    ),
-  ),
-  ),
-
-const SizedBox(height: 10,),
-             Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-             const CircularFinanceSimulation(),
-
-               Positioned(
-                        right: 110,
-                        bottom: 150,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 110,
-                            height: 50,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: const Color (primaryLightAlternative),
-                              border: Border.all(
-                                width: 2,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
-                              ),
-                              borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const CircularFinanceSimulation(),
+                    Positioned(
+                      left: -70,
+                      top: -20,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 110,
+                          height: 50,
+                          // padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: const Color(primaryLightAlternative),
+                            border: Border.all(
+                              width: 2,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
                             ),
-                            // color: Color(primaryDark),
-                    
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          // color: Color(primaryDark),
 
-                            child: Column(
-                              children: const [
-                                Center(
-                                  child: Text(
-                                    textAlign: TextAlign.center,
-                                    'Si inviertes el 11% de tu monto',
-                                    style: TextStyle(
-                                      color: Color(blackText),
-                                      fontSize: 8,
-                                    ),
+                          child: Column(
+                            children: const [
+                              Center(
+                                child: Text(
+                                  textAlign: TextAlign.center,
+                                  'Si inviertes el 11% de tu monto',
+                                  style: TextStyle(
+                                    color: Color(blackText),
+                                    fontSize: 8,
                                   ),
                                 ),
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  'S/400',
-                                  style: TextStyle(
-                                    
-                                    color:Color(primaryDark),
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold
-                                  ,),
+                              ),
+                              Text(
+                                textAlign: TextAlign.center,
+                                'S/400',
+                                style: TextStyle(
+                                  color: Color(primaryDark),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
                                 ),
-           ]
-                ,),
-                ),
-                ),
-                ),
-                
-                    ]
-                    ,),
-const SizedBox(height: 29,),
-                  Row(mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(alignment: Alignment.center,
-          width: 22,
-          height: 16,
-          decoration: BoxDecoration(
-            color: const Color(primaryLight), // color de fondo del contenedor
-            borderRadius: BorderRadius.circular(10), // borde redondeado
-          ),
-        ),
-        const SizedBox(
-          width: 8, // espacio entre el contenedor y el texto
-        ),
-        Text(
-          'Ingresos',
-          style: TextStyle(fontSize: 10,color:currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),fontWeight: FontWeight.bold // estilo del texto
-        ,),
-                  ),
-                  const SizedBox(width: 16,),
-                  Container(
-          width: 22,
-          height: 16,
-          decoration: BoxDecoration(
-            color: const Color(primaryDark), // color de fondo del contenedor
-            borderRadius: BorderRadius.circular(10), // borde redondeado
-          ),
-        ),
-        const SizedBox(
-          width: 8, // espacio entre el contenedor y el texto
-        ),
-      Text(
-          '% de ingresos a invertir',
-          style: TextStyle(fontSize: 10,color:currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),fontWeight: FontWeight.bold // estilo del texto
-        ,),
-                  )
-                  
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
-    )
-    ]
-    ,)
-    ,)
-    ,)
-    ,)
-    ,);
+                ),
+                const SizedBox(
+                  height: 29,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      width: 22,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: const Color(
+                            primaryLight), // color de fondo del contenedor
+                        borderRadius:
+                            BorderRadius.circular(10), // borde redondeado
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8, // espacio entre el contenedor y el texto
+                    ),
+                    Text(
+                      'Ingresos',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                        fontWeight: FontWeight.bold // estilo del texto
+                        ,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Container(
+                      width: 22,
+                      height: 16,
+                      decoration: BoxDecoration(
+                        color: const Color(
+                            primaryDark), // color de fondo del contenedor
+                        borderRadius:
+                            BorderRadius.circular(10), // borde redondeado
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 8, // espacio entre el contenedor y el texto
+                    ),
+                    Text(
+                      '% de ingresos a invertir',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                        fontWeight: FontWeight.bold // estilo del texto
+                        ,
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
-
-                class CircularFinanceSimulation extends ConsumerWidget {
+class CircularFinanceSimulation extends ConsumerWidget {
   const CircularFinanceSimulation({Key? key}) : super(key: key);
 
   @override
@@ -332,7 +360,6 @@ const SizedBox(height: 29,),
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-            
               const SizedBox(height: 8),
               Text(
                 "S/4000",
@@ -344,7 +371,7 @@ const SizedBox(height: 29,),
                         ? const Color(whiteText)
                         : const Color(blackText)),
               ),
-             Text(
+              Text(
                 "Total de ingresos",
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -354,8 +381,6 @@ const SizedBox(height: 29,),
                         ? const Color(whiteText)
                         : const Color(blackText)),
               ),
-    
-            
             ],
           ),
         ),
@@ -370,4 +395,3 @@ const SizedBox(height: 29,),
     );
   }
 }
-
