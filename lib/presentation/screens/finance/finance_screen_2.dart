@@ -172,17 +172,19 @@ class Finance_Screen_2 extends HookConsumerWidget {
     width: 80, 
     height: 28.0, 
     decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(12),color: const Color(primaryLight), // borde negro para el contenedor
+      borderRadius: BorderRadius.circular(12),color: currentTheme.isDarkMode
+                                    ? const Color(primaryDark)
+                                    : const Color(primaryLight),  // borde negro para el contenedor
     ),
     child: Row(mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Icon(Icons.arrow_back_ios,size: 14,color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(whiteText),  ),
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),  ),
          Center(
           child: Text(style:TextStyle(fontSize: 11,color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(whiteText),   
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),   
                                     fontWeight: FontWeight.bold
                                     
                                     ),
@@ -191,8 +193,8 @@ class Finance_Screen_2 extends HookConsumerWidget {
           ),
         ),
         Icon(Icons.arrow_forward_ios,size:14,color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(whiteText),  ),
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),  ),
        
       ],
     ),
@@ -257,7 +259,7 @@ const SizedBox(height: 10,),
                 
                     ]
                     ,),
-const SizedBox(height: 29,),
+const SizedBox(height: 13,),
                   Row(mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(alignment: Alignment.center,
@@ -299,9 +301,158 @@ const SizedBox(height: 29,),
                   )
                   
                   ],
-    )
-    ]
-    ,)
+    ),
+    const SizedBox(height: 20,),
+    SizedBox(
+            width: 300,
+            height: 150,
+            // padding: const EdgeInsets.all(20),
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Container(
+                  width: 233,
+                  height: 165,
+                  decoration: BoxDecoration(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLightAlternative)
+                        : const Color(secondary),
+                    borderRadius: BorderRadius.circular(15),
+                    border: Border.all(
+                      color: const Color(secondary),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center, // alinear los textos a la izquierda
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: const Text(
+                          "Hola Mari, separar entre un 10 a 15% de tus ingresos mensuales es una buena forma de empezar a invertir tu dinero para cumplir tus metas.¿Deseas guardar tu presupuesto?",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            fontSize: 10,
+                            height: 1.4,
+                            color: Color(blackText),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                     // agregar un espacio vertical entre los textos
+                      Padding(
+                        padding: const EdgeInsets.only(right:35),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                             Container(
+                                           width: 20,
+                                           height: 20,
+                                          decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(5),
+                              topLeft: Radius.circular(5),
+                              bottomLeft: Radius.circular(3),
+                              bottomRight: Radius.circular(3),
+                            ),
+                          border: Border.all(
+                            color: Colors.black,
+                            width: 2,
+                          ),
+                        ),),
+                          SizedBox(width: 5,),
+                           
+                         const Text(
+                          "Quiero guardar mi presupuesto",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 8,
+                            height: 1.3,
+                            color: Color(grayText1),
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),],
+                        ),
+                      ),
+                    ],
+                  ),
+      ),
+      Positioned(
+        top: 40,
+        left: 0,
+        child: SizedBox(
+          height: 80,
+          width: 60,
+          child: Image.asset(
+            "assets/images/finance_2.png",
+            height: 66,
+            width: 66,
+          ),
+        ),
+      ),
+    ],
+  ),
+),
+    const SizedBox(height: 10,),
+     Container(
+            width: 320,
+            height: 130,
+            decoration: BoxDecoration(
+              color: themeProvider.isDarkMode
+                  ? const Color(primaryDark)
+                  : const Color(primaryLightAlternative),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    width: 118,
+                    height: 112,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage('assets/images/hand.png'),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    SizedBox(
+                      width: 180,
+                      child: Text(
+                        textAlign: TextAlign.justify,
+                        'Multiplica tu dinero desde hoy',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: themeProvider.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 161,
+                      height: 38,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/finance_screen2');
+                        },
+                        child: const Text(
+                          'Ver planes',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),])
     ,)
     ,)
     ,)
@@ -316,7 +467,8 @@ const SizedBox(height: 29,),
   @override
   Widget build(BuildContext context, ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
-    return Container(
+    return 
+    Container(
       margin: const EdgeInsets.only(right: 20.0),
       child: CircularPercentIndicator(
         circularStrokeCap: CircularStrokeCap.round,
