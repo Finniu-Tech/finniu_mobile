@@ -325,9 +325,9 @@ const SizedBox(height: 13,),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center, // alinear los textos a la izquierda
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: const Text(
+                      const Padding(
+                        padding: EdgeInsets.all(24.0),
+                        child: Text(
                           "Hola Mari, separar entre un 10 a 15% de tus ingresos mensuales es una buena forma de empezar a invertir tu dinero para cumplir tus metas.¿Deseas guardar tu presupuesto?",
                           textAlign: TextAlign.justify,
                           style: TextStyle(
