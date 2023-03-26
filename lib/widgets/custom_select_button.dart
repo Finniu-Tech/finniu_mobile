@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomSelectButton extends HookConsumerWidget {
-  final textEditingController;
+  final TextEditingController textEditingController;
   final callbackOnChange;
   final List<String>? items;
   final Future<List<String>> Function(String)? asyncItems;
@@ -34,7 +34,7 @@ class CustomSelectButton extends HookConsumerWidget {
       width: 224,
       height: 39,
       child: DropdownSearch<String>(
-        // selectedItem: TextEditingController.text != 'TextEditingController' ? TextEditingController().text : null,
+        selectedItem: textEditingController.text,
         key: Key(identifier ?? ''),
         onChanged: (value) => callbackOnChange(value),
         dropdownDecoratorProps: DropDownDecoratorProps(

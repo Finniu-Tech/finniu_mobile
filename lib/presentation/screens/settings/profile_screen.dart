@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/ubigeo.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/ubigeo_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -33,11 +34,16 @@ class ProfileScreen extends HookConsumerWidget {
     final namesController = useTextEditingController();
     final docNumberController = useTextEditingController();
     final departmentController = useTextEditingController();
+    final provinceController = useTextEditingController();
     final districtController = useTextEditingController();
     final addressController = useTextEditingController();
     final civilStateController = useTextEditingController();
+
     final regionsFuture = ref.watch(regionsFutureProvider.future);
-    final provincesFuture = ref.watch(provincesFutureProvider.future);
+    final allProvincesFuture = ref.read(provincesFutureProvider.future);
+    final provinces = ref.watch(provincesStateNotifier);
+    ref.read(districtsFutureProvider.future);
+    final districts = ref.watch(districtsStateNotifier);
 
     final _formKey = GlobalKey<FormState>();
 
@@ -53,6 +59,8 @@ class ProfileScreen extends HookConsumerWidget {
         return docNumberController.text;
       } else if (key == 'department') {
         return departmentController.text;
+      } else if (key == 'province') {
+        return provinceController.text;
       } else if (key == 'district') {
         return districtController.text;
       } else if (key == 'address') {
@@ -238,214 +246,68 @@ class ProfileScreen extends HookConsumerWidget {
                       final response = await regionsFuture;
                       return response.map((e) => e.name).toList();
                     },
-                    callbackOnChange: (value) {
-                      departmentController.text = value.toString();
+                    callbackOnChange: (value) async {
+                      departmentController.text = value;
+                      provinceController.text = '';
+                      districtController.text = '';
+                      final regions = await regionsFuture;
+                      final codeRegion =
+                          RegionEntity.getCodeFromName(value, regions);
+
+                      print('code region is $codeRegion');
+                      ref
+                          .read(provincesStateNotifier.notifier)
+                          .filterProvinces(codeRegion);
                       _calculatePercentage('department');
                     },
                   ),
-                  // child: DropdownSearch<String>(
-                  //   selectedItem: departmentController.text != ''
-                  //       ? departmentController.text
-                  //       : null,
-                  //   key: const Key('department'),
-                  //   onChanged: (value) {
-                  //     departmentController.text = value.toString();
-                  //     _calculatePercentage('department');
-                  //   },
-                  //   dropdownDecoratorProps: const DropDownDecoratorProps(
-                  //     dropdownSearchDecoration: InputDecoration(
-                  //       labelText: 'Departamento',
-                  //     ),
-                  //   ),
-                  //   asyncItems: (String filter) async {
-                  //     final response = await regionsFuture;
-                  //     return response.map((e) => e.name).toList();
-                  //   },
-                  //   popupProps: PopupProps.menu(
-                  //     showSelectedItems: true,
-                  //     itemBuilder: (context, item, isSelected) => Container(
-                  //       decoration: BoxDecoration(
-                  //         color: Color(
-                  //           isSelected
-                  //               ? (themeProvider.isDarkMode
-                  //                   ? primaryLight
-                  //                   : primaryDarkAlternative)
-                  //               : (themeProvider.isDarkMode
-                  //                   ? primaryDarkAlternative
-                  //                   : primaryLight),
-                  //         ),
-                  //         borderRadius: const BorderRadius.all(
-                  //           Radius.circular(20),
-                  //         ),
-                  //         border: Border.all(
-                  //           width: 2,
-                  //           color: themeProvider.isDarkMode
-                  //               ? const Color(primaryDarkAlternative)
-                  //               : const Color(
-                  //                   primaryLight), // Aquí especificas el color de borde deseado
-                  //         ),
-                  //       ),
-                  //       padding: const EdgeInsets.all(15),
-                  //       margin: const EdgeInsets.only(
-                  //         top: 5,
-                  //         bottom: 5,
-                  //         right: 15,
-                  //         left: 15,
-                  //       ),
-                  //       child: Text(
-                  //         item.toString(),
-                  //         textAlign: TextAlign.center,
-                  //         style: TextStyle(
-                  //           color: Color(
-                  //             isSelected
-                  //                 ? (themeProvider.isDarkMode
-                  //                     ? primaryDark
-                  //                     : Colors.white.value)
-                  //                 : (themeProvider.isDarkMode
-                  //                     ? Colors.white.value
-                  //                     : primaryDark),
-                  //           ),
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     menuProps: MenuProps(
-                  //       backgroundColor: Color(
-                  //         themeProvider.isDarkMode
-                  //             ? primaryDark
-                  //             : primaryLightAlternative,
-                  //       ),
-                  //       shape: RoundedRectangleBorder(
-                  //         side: BorderSide(
-                  //           color: Color(
-                  //             themeProvider.isDarkMode
-                  //                 ? primaryLight
-                  //                 : primaryDark,
-                  //           ),
-                  //           width: 1.0,
-                  //         ),
-                  //         borderRadius: const BorderRadius.vertical(
-                  //           top: Radius.circular(10),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     showSearchBox: true,
-                  //     searchFieldProps: TextFieldProps(
-                  //       decoration: InputDecoration(
-                  //         filled: true,
-                  //         fillColor: Theme.of(context).backgroundColor,
-                  //         suffixIcon: Icon(Icons.search),
-                  //         label: Text('Buscar'),
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   dropdownButtonProps: DropdownButtonProps(
-                  //     color: Color(
-                  //       themeProvider.isDarkMode ? primaryLight : primaryDark,
-                  //     ),
-                  //     padding: EdgeInsets.zero,
-                  //   ),
-                  // ),
                 ),
                 const SizedBox(height: 28),
                 SizedBox(
                   width: 224,
                   height: 38,
                   child: CustomSelectButton(
-                    textEditingController: departmentController,
+                    textEditingController: provinceController,
                     labelText: 'Provincia',
-                    asyncItems: (String filter) async {
-                      final response = await regionsFuture;
-                      return response.map((e) => e.name).toList();
-                    },
-                    callbackOnChange: (value) {
-                      departmentController.text = value.toString();
+                    items: provinces.map((e) => e.name).toList(),
+                    callbackOnChange: (value) async {
+                      districtController.text = '';
+                      final allRegions = await regionsFuture;
+                      final allProvinces = await allProvincesFuture;
+                      final codeRegion = RegionEntity.getCodeFromName(
+                        departmentController.text,
+                        allRegions,
+                      );
+                      print('code province is $codeRegion');
+                      final codeProvince = ProvinceEntity.getCodeFromName(
+                        value,
+                        codeRegion,
+                        allProvinces,
+                      );
+                      print('code province is $codeProvince');
+                      ref
+                          .read(districtsStateNotifier.notifier)
+                          .filterDistricts(codeProvince, codeRegion);
                       _calculatePercentage('province');
+                      provinceController.text = value;
                     },
                   ),
-                  // child: DropdownSearch<String>(
-                  //   selectedItem: districtController.text != ''
-                  //       ? districtController.text
-                  //       : null,
-                  //   key: const Key('district'),
-                  //   onChanged: (value) {
-                  //     districtController.text = value.toString();
-                  //     _calculatePercentage('district');
-                  //   },
-                  //   dropdownDecoratorProps: const DropDownDecoratorProps(
-                  //     dropdownSearchDecoration: InputDecoration(
-                  //       labelText: 'Distrito',
-                  //     ),
-                  //   ),
-                  //   items: [
-                  //     'San Isidro',
-                  //     'San Miguel',
-                  //     'San Juan de Lurigancho',
-                  //     'San Juan de Miraflores',
-                  //     'San Luis',
-                  //     'San Martin de Porres',
-                  //   ],
-                  //   popupProps: PopupProps.menu(
-                  //     showSelectedItems: true,
-                  //     itemBuilder: (context, item, isSelected) => Container(
-                  //       decoration: BoxDecoration(
-                  //         color: Color(isSelected ? primaryDark : primaryLight),
-                  //         borderRadius: const BorderRadius.all(
-                  //           Radius.circular(20),
-                  //         ),
-                  //       ),
-                  //       padding: const EdgeInsets.all(15),
-                  //       margin: const EdgeInsets.only(
-                  //           top: 5, bottom: 5, right: 15, left: 15),
-                  //       child: Text(
-                  //         item.toString(),
-                  //         textAlign: TextAlign.center,
-                  //         style: TextStyle(
-                  //           color: Color(
-                  //               isSelected ? Colors.white.value : primaryDark),
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     menuProps: const MenuProps(
-                  //       backgroundColor: Color(primaryLightAlternative),
-                  //       shape: RoundedRectangleBorder(
-                  //         side: BorderSide(
-                  //           color: Color(primaryDark),
-                  //           width: 1.0,
-                  //         ),
-                  //         borderRadius: BorderRadius.vertical(
-                  //           top: Radius.circular(10),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //     showSearchBox: true,
-                  //     searchFieldProps: const TextFieldProps(
-                  //       decoration: InputDecoration(
-                  //         filled: true,
-                  //         fillColor: Colors.white,
-                  //         suffixIcon: Icon(Icons.search),
-                  //         label: Text('Buscar'),
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   dropdownButtonProps: const DropdownButtonProps(
-                  //     color: Color(primaryDark),
-                  //     padding: EdgeInsets.zero,
-                  //   ),
-                  // ),
                 ),
-                const SizedBox(height: 15),
-                if (showError.value) ...[
-                  const Text(
-                    'No se pudo completar el registro',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Colors.red,
-                    ),
+                const SizedBox(height: 28),
+                SizedBox(
+                  width: 224,
+                  height: 38,
+                  child: CustomSelectButton(
+                    textEditingController: districtController,
+                    labelText: 'Distrito',
+                    items: districts.map((e) => e.name).toList(),
+                    callbackOnChange: (value) {
+                      _calculatePercentage('district');
+                      districtController.text = value;
+                    },
                   ),
-                ],
-                const SizedBox(height: 15),
+                ),
+                const SizedBox(height: 28),
                 SizedBox(
                   width: 224,
                   // height: 38,
@@ -473,17 +335,7 @@ class ProfileScreen extends HookConsumerWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 15),
-                if (showError.value) ...[
-                  const Text(
-                    'No se pudo completar el registro',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
-                const SizedBox(height: 15),
+                const SizedBox(height: 28),
                 SizedBox(
                   width: 224,
                   height: 38,
@@ -553,15 +405,6 @@ class ProfileScreen extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                if (showError.value) ...[
-                  const Text(
-                    'No se pudo completar el registro',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: const CustomButton(

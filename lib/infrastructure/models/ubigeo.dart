@@ -145,12 +145,14 @@ class District {
     this.iddist,
     this.coddist,
     this.nomDist,
+    this.codregion,
     this.slug,
   });
 
   Prov? prov;
   String? iddist;
   String? coddist;
+  Dpto? codregion;
   String? nomDist;
   String? slug;
 
@@ -159,6 +161,8 @@ class District {
         iddist: json["iddist"],
         coddist: json["coddist"],
         nomDist: json["nomDist"],
+        codregion:
+            json["prov"] == null ? null : Dpto.fromJson(json["prov"]["dpto"]),
         slug: json["slug"],
       );
 
@@ -167,6 +171,7 @@ class District {
         "iddist": iddist,
         "coddist": coddist,
         "nomDist": nomDist,
+        "codregion": codregion,
         "slug": slug,
       };
 }

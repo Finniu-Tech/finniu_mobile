@@ -37,6 +37,7 @@ class UbigeoMapper {
             slug: e.slug ?? '',
             cod: e.coddist ?? '',
             codProvince: e.prov?.codprov ?? '',
+            codRegion: e.codregion?.coddpto ?? '',
           ),
         )
         .toList();
