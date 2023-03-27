@@ -53,6 +53,9 @@ class QueryRepository {
       distritos{
         prov{
           codprov
+          dpto{
+            coddpto
+          }
         }
         iddist
         coddist
