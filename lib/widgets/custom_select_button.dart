@@ -5,30 +5,37 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomSelectButton extends HookConsumerWidget {
-  final textEditingController;
+  final TextEditingController textEditingController;
   final callbackOnChange;
-  final List<String> items;
+  final List<String>? items;
+  final Future<List<String>> Function(String)? asyncItems;
   final String labelText;
   final String? hintText;
+  final String? identifier;
   const CustomSelectButton({
     super.key,
     required this.textEditingController,
-    required this.items,
+    this.items,
     this.callbackOnChange,
     required this.labelText,
     this.hintText,
+    this.asyncItems,
+    this.identifier,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // required this.currentStep,
+    if (items == null && asyncItems == null) {
+      throw ArgumentError("At least one of item and async must be provided.");
+    }
     final themeProvider = ref.watch(settingsNotifierProvider);
     return SizedBox(
       width: 224,
       height: 39,
       child: DropdownSearch<String>(
-        // selectedItem: TextEditingController.text != 'TextEditingController' ? TextEditingController().text : null,
-        key: Key('department'),
+        selectedItem: textEditingController.text,
+        key: Key(identifier ?? ''),
         onChanged: (value) => callbackOnChange(value),
         dropdownDecoratorProps: DropDownDecoratorProps(
           dropdownSearchDecoration: InputDecoration(
@@ -36,7 +43,8 @@ class CustomSelectButton extends HookConsumerWidget {
             hintText: hintText,
           ),
         ),
-        items: items,
+        items: items ?? [],
+        asyncItems: asyncItems,
         popupProps: PopupProps.menu(
           showSelectedItems: true,
           itemBuilder: (context, item, isSelected) => Container(

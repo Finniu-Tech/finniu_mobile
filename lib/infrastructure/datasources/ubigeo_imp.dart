@@ -15,8 +15,6 @@ class UbigeoDataSourceImp extends UbigeoDataSource {
         ),
       ),
     );
-    print('response!!! regions!!');
-    print(response);
     final responseData = RegionData.fromJson(response.data!);
     final regionsParsed = UbigeoMapper.toRegionEntityList(responseData);
     return regionsParsed;

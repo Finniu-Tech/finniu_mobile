@@ -82,18 +82,18 @@ class HomeBody extends ConsumerWidget {
           ),
           Row(
             children: [
-              SizedBox(
-                child: Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Hola ${userProfile.nickName ?? ''}!",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
-                    ),
+              Container(
+                width: 250,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Hola ${userProfile.nickName ?? ''}!",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
