@@ -17,9 +17,10 @@ class FinanceScreen extends HookConsumerWidget {
     final incomeController = useTextEditingController();
 
     return Scaffold(
+      backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
       bottomNavigationBar: const BottomNavigationBarHome(),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+          backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
         elevation: 0,
         leading: themeProvider.isDarkMode
             ? const CustomReturnButton(
@@ -41,7 +42,6 @@ class FinanceScreen extends HookConsumerWidget {
         ],
       ),
       body: Column(
-       
         children: [
           const SizedBox(
             height: 40,
