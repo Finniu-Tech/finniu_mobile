@@ -105,7 +105,9 @@ class ProfileScreen extends HookConsumerWidget {
                     clipBehavior: Clip.none,
                     children: [
                       CircularPercentAvatar(
-                          percentage: percentage, imageFile: imageFile),
+                        percentage: percentage,
+                        imageFile: imageFile,
+                      ),
                       Positioned(
                         left: -62,
                         top: 10,
@@ -408,10 +410,11 @@ class ProfileScreen extends HookConsumerWidget {
                 Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: const CustomButton(
-                      text: 'Guardar',
-                      colorBackground: primaryDark,
-                      colorText: whiteText,
-                      pushName: '/home_home'),
+                    text: 'Guardar',
+                    colorBackground: primaryDark,
+                    colorText: whiteText,
+                    pushName: '/home_home',
+                  ),
                 ),
               ],
             ),

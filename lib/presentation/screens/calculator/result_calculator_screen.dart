@@ -302,90 +302,92 @@ class ResultCalculator extends HookConsumerWidget {
               ),
             ),
             Column(
-  children: [
-    Container(
-      width: 370,
-      height: 150,
-      // padding: const EdgeInsets.all(20),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            width: 280,
-            height: 100,
-            decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? const Color(backgroundColorDark)
-                  : const Color(whiteText),
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(
-                color: const Color(gradient_secondary_option),
-                width: 2,
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:  [
-                SizedBox(width: 200,
-                  child: Text(
-                    "Fecha estimada de tu retorno si empiezas a invertir desde hoy.",
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 12,
-                      height: 1.5,
-                      color: currentTheme.isDarkMode
-                  ?  const Color(whiteText)
-                  :  const Color(blackText),
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ),
-               const SizedBox(height: 7,),
-               Text(
-                  "20 de Diciembre",
-                  style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
+              children: [
+                Container(
+                  width: 370,
+                  height: 150,
+                  // padding: const EdgeInsets.all(20),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 280,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color: currentTheme.isDarkMode
+                              ? const Color(backgroundColorDark)
+                              : const Color(whiteText),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: const Color(gradient_secondary_option),
+                            width: 2,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 200,
+                              child: Text(
+                                "Fecha estimada de tu retorno si empiezas a invertir desde hoy.",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  height: 1.5,
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(blackText),
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            Text(
+                              "20 de Diciembre",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: currentTheme.isDarkMode
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Positioned(
+                        top: 35,
+                        left: -0,
+                        child: Container(
+                          height: 80,
+                          width: 60,
+                          child: Image.asset(
+                            "assets/images/finance_2.png",
+                            height: 66,
+                            width: 70,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-          Positioned(
-            top: 35,
-            left: -0,
-            child: Container(
-              height: 80,
-              width: 60,
-              child: Image.asset(
-                "assets/images/finance_2.png",
-                height: 66,
-                width: 70,
-              ),
+
+            Center(
+              child: CustomButton(
+                  colorBackground:
+                      currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+                  text: "Comenzar a invertir",
+                  colorText:
+                      currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                  pushName: '/investment_step3'),
             ),
-          ),
-        ],
-      ),
-    ),
-  ],
-),
-         
-         Center(
-                child: CustomButton(
-                    colorBackground: currentTheme.isDarkMode
-                        ? (primaryLight)
-                        : (primaryDark),
-                    text: "Comenzar a invertir",
-                    colorText:
-                        currentTheme.isDarkMode ? (primaryDark) : (whiteText),
-                    pushName: '/investment_step3'),
-              ),
-         
-         
-         
+            SizedBox(
+              height: 30,
+            ),
           ],
         ),
       ),
