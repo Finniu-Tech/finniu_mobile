@@ -19,291 +19,315 @@ class Step_1 extends HookConsumerWidget {
 
     return CustomScaffoldReturnLogo(
         body: SingleChildScrollView(
-            child: Padding(
-      padding: const EdgeInsets.all(30.0),
-      child: Column(children: <Widget>[
-        const StepBar(),
-        const SizedBox(height: 40),
-        Container(
-          width: 200,
-          child: Stack(
-            children: <Widget>[
+            child: Column(children: <Widget>[
+              const StepBar(),
+              const SizedBox(height: 40),
+              SizedBox(
+                // width: 200,
+                child: Stack(
+                  children: <Widget>[
+        
+                      // width: MediaQuery.of(context).size.width * 0.9,
+                      // height: 90,
+                      // padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
+              Text(
+                        'Tu plan seleccionado',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Color(Theme.of(context).colorScheme.secondary.value),
+                        ),
+                      ),
+                   
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              
               Container(
-                width: MediaQuery.of(context).size.width * 0.9,
-                // height: 90,
-                padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
-                child: Text(
-                  'Confirmación de tu inversión',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Color(Theme.of(context).colorScheme.secondary.value),
+                // alignment: Alignment.topRight,
+                width: 224,
+                height: 99,
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.only(
+                  top: 30,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(cardBackgroundColorLight),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 100,
+                      color: Colors.transparent,
+                      child: const Center(
+                        child: SizedBox(
+                          width: 80, // ancho deseado de la imagen
+                          height: 80, // alto deseado de la imagen
+                          child: Image(
+                            image: AssetImage('assets/result/money.png'),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Column(
+                      children: [
+                        const Text(
+                          'Plan Origen',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            color: Color(primaryDark),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            height: 1.5,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Icon(
+                              Icons.monetization_on_outlined,
+                              size: 15,
+                              color: Color(primaryDark),
+                            ),
+                            Text(
+                              'Desde S/500',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Color(primaryDark),
+                                fontSize: 10,
+                                height: 1.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const <Widget>[
+                            Icon(
+                              Icons.currency_exchange_rounded,
+                              size: 15,
+                              color: Color(primaryDark),
+                            ),
+                            Text(
+                              '12% anual',
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                color: Color(primaryDark),
+                                fontSize: 10,
+                                height: 1.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Completa los siguientes datos',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  height: 1.5,
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                width: 224,
+                child: TextFormField(
+                  controller: mountController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    // nickNameController.text = value.toString();
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Escriba su monto de inversion',hintStyle: TextStyle(color:Color(grayText),fontSize: 11),
+                    label: Text("Monto"),
                   ),
                 ),
               ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        const Text(
-          'Tu plan seleccionado es',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: Color(secondaryGrayText)),
-        ),
-        Container(
-          // alignment: Alignment.topRight,
-          width: 224,
-          height: 99,
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.only(
-            top: 30,
-          ),
-          decoration: BoxDecoration(
-            color: const Color(cardBackgroundColorLight),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 7,
-                offset: const Offset(0, 3), // changes position of shadow
+              const SizedBox(height: 15),
+              CustomSelectButton(
+                textEditingController: termController,
+                items: const ['6 meses', '1 año', '5 años'],
+                labelText: "Plazo",
+                hintText:"Seleccione su plazo de inversión" ,
               ),
-            ],
-            borderRadius: BorderRadius.circular(15),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 100,
-                height: 100,
-                color: Colors.transparent,
-                child: const Center(
-                  child: SizedBox(
-                    width: 80, // ancho deseado de la imagen
-                    height: 80, // alto deseado de la imagen
-                    child: Image(
-                      image: AssetImage('assets/result/money.png'),
-                      fit: BoxFit.contain,
-                    ),
+              const SizedBox(
+                height: 15,
+              ),
+              CustomSelectButton(
+                textEditingController: termController,
+                items: const ['BCP', 'Interbank','Scotiabank'],
+                labelText: "Desde que banco realizas la transferencia",
+                hintText: "Seleccione su banco",
+              ),
+             const SizedBox(
+                height: 15,
+              ),
+            
+             SizedBox(
+                width: 224,
+                child: TextFormField(
+                  controller: mountController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    // nickNameController.text = value.toString();
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Ingresa tu codigo',hintStyle: TextStyle(color:Color(grayText),fontSize: 11),
+                    label: Text("Ingresa tu codigo promocional,si tienes uno"),
                   ),
                 ),
               ),
-              Column(
-                children: [
-                  const Text(
-                    'Plan Origen',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: Color(primaryDark),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      height: 1.5,
+            
+            
+            
+            
+            Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 136,
+                          height: 81,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(primaryLight),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                offset:
+                                    const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              
+                               Text(
+                                '6%',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(primaryDark),
+                                ),
+                              ),
+                              Text(
+                                '% de retorno',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Color(blackText),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: 17),
+                        Container(
+                          width: 136,
+                          height: 81,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: const Color(secondary),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                offset:
+                                    const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                               Text(
+                                'S/583',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(primaryDark),
+                                ),
+                              ),
+                              
+                              
+                              Text(
+                                'En 6 meses tendrias',
+                                textAlign: TextAlign.right,
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: Color(blackText),
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(
-                        Icons.monetization_on_outlined,
-                        size: 15,
-                        color: Color(primaryDark),
-                      ),
-                      Text(
-                        'Desde S/500',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Color(primaryDark),
-                          fontSize: 10,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 6),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const <Widget>[
-                      Icon(
-                        Icons.currency_exchange_rounded,
-                        size: 15,
-                        color: Color(primaryDark),
-                      ),
-                      Text(
-                        '12% anual',
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          color: Color(primaryDark),
-                          fontSize: 10,
-                          height: 1.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                      
+              const SizedBox(
+                height: 20,
               ),
+              const CustomButton(
+                text: "Continuar",
+                height: 50,
+                width: 224,
+                pushName: '/investment_step2',
+              ),
+            
             ],
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        Text(
-          'Ingresa tu monto y plazo',
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: currentTheme.isDarkMode
-                ? const Color(whiteText)
-                : const Color(primaryDark),
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            height: 1.5,
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        SizedBox(
-          width: 224,
-          child: TextFormField(
-            controller: mountController,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Este dato es requerido';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              // nickNameController.text = value.toString();
-            },
-            decoration: const InputDecoration(
-              hintText: 'Escriba su monto de inversion',
-              label: Text("Monto"),
             ),
-          ),
-        ),
-        const SizedBox(height: 15),
-        CustomSelectButton(
-          textEditingController: termController,
-          items: const ['6 meses', '1 año', '5 años'],
-          labelText: "Plazo",
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        CustomSelectButton(
-          textEditingController: termController,
-          items: const ['6 Mensual', 'Plazo Fijo'],
-          labelText: "Eleccion de Rentabilidad",
-        ),
-      Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 136,
-                    height: 81,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(primaryLight),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Inversion inicial',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
-                        ),
-                        Text(
-                          'S/550',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(primaryDark),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(width: 17),
-                  Container(
-                    width: 136,
-                    height: 81,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(secondary),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'En 6 meses tendrias',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
-                        ),
-                        Text(
-                          'S/583',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(primaryDark),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-                
-        const SizedBox(
-          height: 20,
-        ),
-        const CustomButton(
-          text: "Continuar",
-          height: 50,
-          width: 224,
-          pushName: '/investment_step2',
-        ),
-      
-      ],
-      ),
-    ),
     ),
     );
     

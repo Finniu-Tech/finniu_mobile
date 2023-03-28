@@ -308,7 +308,7 @@ class Calculator extends HookConsumerWidget {
                       currentTheme.isDarkMode ? (primaryLight) : primaryDark,
                   colorText:
                       currentTheme.isDarkMode ? (primaryDark) : whiteText,
-                  pushName: '/calendar_page'),
+                  pushName: '/calculator_result'),
             )
           ],
         ),
