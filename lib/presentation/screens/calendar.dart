@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart' 
 show DateFormat;
 
@@ -23,18 +24,17 @@ class Calendar extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-
-
   final String title;
 
   @override
 
-  // ignore: library_private_types_in_public_api
+  
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+ @override
+
   DateTime _currentDate = DateTime(2023, 2, 3);
   DateTime _currentDate2 = DateTime(2023, 2, 3);
   String _currentMonth = DateFormat.yMMM().format(DateTime(2023, 2, 3));
@@ -81,7 +81,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-   
+     super.initState();
+    initializeDateFormatting('es_ES', null);
     _markedDateMap.add(
         DateTime(2023, 2, 25),
         Event(
@@ -254,7 +255,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ),
                     ),
                     TextButton(
-                      child: const Text('PREV'),
+                      child: const Text('Atras'),
                       onPressed: () {
                         setState(() {
                           _targetDateTime = DateTime(
@@ -265,7 +266,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       },
                     ),
                     TextButton(
-                      child: const Text('NEXT'),
+                      child: const Text('Siguiente'),
                       onPressed: () {
                         setState(() {
                           _targetDateTime = DateTime(
@@ -281,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: calendarCarouselNoHeader,
-              ), //
+              ), 
             ],
           ),
         ),

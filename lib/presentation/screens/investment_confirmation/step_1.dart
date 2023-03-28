@@ -4,7 +4,6 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -111,13 +110,13 @@ class Step_1 extends HookConsumerWidget {
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Icon(
+                    children: const <Widget>[
+                      Icon(
                         Icons.monetization_on_outlined,
                         size: 15,
                         color: Color(primaryDark),
                       ),
-                      const Text(
+                      Text(
                         'Desde S/500',
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -131,13 +130,13 @@ class Step_1 extends HookConsumerWidget {
                   const SizedBox(height: 6),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Icon(
+                    children: const <Widget>[
+                      Icon(
                         Icons.currency_exchange_rounded,
                         size: 15,
                         color: Color(primaryDark),
                       ),
-                      const Text(
+                      Text(
                         '12% anual',
                         textAlign: TextAlign.left,
                         style: TextStyle(
@@ -204,6 +203,94 @@ class Step_1 extends HookConsumerWidget {
           items: const ['6 Mensual', 'Plazo Fijo'],
           labelText: "Eleccion de Rentabilidad",
         ),
+      Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 136,
+                    height: 81,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(primaryLight),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Inversion inicial',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                        ),
+                        Text(
+                          'S/550',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 17),
+                  Container(
+                    width: 136,
+                    height: 81,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(secondary),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'En 6 meses tendrias',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                        ),
+                        Text(
+                          'S/583',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+                
         const SizedBox(
           height: 20,
         ),
@@ -213,10 +300,15 @@ class Step_1 extends HookConsumerWidget {
           width: 224,
           pushName: '/investment_step2',
         ),
-      ]),
-    )));
+      
+      ],
+      ),
+    ),
+    ),
+    );
+    
 
-    ;
+    
   }
 }
 
@@ -263,7 +355,7 @@ class _StepBarState extends ConsumerState<StepBar> {
                 : const Color(primaryDark),
           ),
         ),
-        Container(
+        SizedBox(
           width: 30,
           child: Column(
             children: [
@@ -339,45 +431,11 @@ class _StepBarState extends ConsumerState<StepBar> {
                 : const Color(primaryDark),
           ),
         ),
-        Container(
-          width: 30,
-          child: Column(
-            children: [
-              Divider(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                thickness: 1,
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: 35,
-          width: 43,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
-              width: 2,
-            ),
-            shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5),
-              topRight: Radius.circular(5),
-              bottomLeft: Radius.circular(4),
-              bottomRight: Radius.circular(4),
-            ),
-          ),
-          child: Icon(
-            Icons.edit_outlined,
-            color: currentTheme.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDark),
-          ),
-        )
-      ])
-    ]);
+        
+        
+      ],
+      ),
+    ],
+    );
   }
 }
