@@ -327,32 +327,7 @@ class Step_3 extends ConsumerWidget {
                         )),
                     width: MediaQuery.of(context).size.width * 0.21,
                     height: 71,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            getModal(context, ref);
-                          },
-                          child: Icon(
-                            Icons.loupe_rounded,
-                            size: MediaQuery.of(context).size.width * 0.05,
-                            color: currentTheme.isDarkMode
-                                ? Color(primaryDark)
-                                : const Color(primaryLight),
-                          ),
-                        ),
-                        Text(
-                            textAlign: TextAlign.center,
-                            'Agregar cuenta',
-                            style: TextStyle(
-                              fontSize: 8,
-                              color: currentTheme.isDarkMode
-                                  ? Color(primaryDark)
-                                  : const Color(primaryLight),
-                            )),
-                      ],
-                    ),
+                    
                   ),
                 ],
               ),
