@@ -2,8 +2,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,7 +39,7 @@ class Step_3 extends ConsumerWidget {
          crossAxisAlignment: CrossAxisAlignment.center,
          children:[
        
-           SizedBox(width: 300,
+           const SizedBox(width: 300,
              child: Text(textAlign:TextAlign.justify,
                      "Hola Mari, la validación de tu transferencia será confirmada en 30 min,te enviaremos una notificación cuando validemos tu inversión.",
                      style: TextStyle(
@@ -52,11 +50,11 @@ class Step_3 extends ConsumerWidget {
                      ),
              ),
            ),
-           SizedBox(height: 16),
+           const SizedBox(height: 16),
            Padding(
              padding: const EdgeInsets.only(left: 40),
              child: Container(alignment: Alignment.topLeft,
-               child: Text(
+               child: const Text(
                      "Gracias por tu comprensión!",
                      style: TextStyle(
                        color: Color(primaryLight),
