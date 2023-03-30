@@ -345,15 +345,9 @@ class Step_2 extends ConsumerWidget {
   
 
 
-
-
-
-
-
    ],
       ),),
 ),
-
 
 
 
@@ -375,6 +369,7 @@ class Step_2 extends ConsumerWidget {
               ),
             ),
              const SizedBox(height: 12,),
+             
              Container(
               
               width: MediaQuery.of(context).size.width * 0.8,
@@ -396,40 +391,50 @@ class Step_2 extends ConsumerWidget {
                 ),
               ),
               
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: SizedBox(
+              child: SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          InkWell(onTap: (){
+      child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: Container(alignment: Alignment.topRight,
+          child: InkWell(onTap: (){
             origenPlan(context);
           },
             child: Icon(
-              Icons.help_outline,
+              Icons.quiz_outlined,
               color: currentTheme.isDarkMode
                   ? const Color(grayText)
                   : const Color(primaryDark),
               size: 20,
             ),
           ),
-          const SizedBox(width: 8),
-          Text(
-            'Suba la foto nitida donde sea visible el código de operación',
-            style: TextStyle(
-              color: currentTheme.isDarkMode
-                  ? const Color(grayText)
-                  : const Color(primaryDark),
-              fontSize: 8,
-            ),
-            textAlign: TextAlign.center,
-          ),
-        ],
+        ),
       ),
-    ),
+      const SizedBox(width: 8),
+      
+      Icon(
+        Icons.add_photo_alternate_outlined,
+        color: currentTheme.isDarkMode
+            ? const Color(grayText)
+            : const Color(primaryDark),
+        size: 20,
+      ),
+      const SizedBox(width: 8),
+      Text(
+        'Suba la foto nitida donde sea visible el código de operación',
+        style: TextStyle(
+          color: currentTheme.isDarkMode
+              ? const Color(grayText)
+              : const Color(primaryDark),
+          fontSize: 8,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    ],
   ),
-),
+),),
             const SizedBox(height: 10,),
             Row(
   mainAxisAlignment: MainAxisAlignment.center,
@@ -448,6 +453,7 @@ class Step_2 extends ConsumerWidget {
         border:Border.all(color:const Color(primaryDark))
       ),
     ),
+    const SizedBox(height: 40,),
     const SizedBox(width: 10,),
     const Text(
       'He leido y acepto el ',
@@ -480,11 +486,6 @@ class Step_2 extends ConsumerWidget {
             
             }
 }
-
-
-
-
-
 
 
 
@@ -564,9 +565,9 @@ void origenPlan(
       ),
     ),
     elevation: 11,
-    backgroundColor: Color(primaryLight),
+    backgroundColor: const Color(primaryLight),
     context: ctx,
-    builder: (ctx) => OrigenPlan(),
+    builder: (ctx) => const OrigenPlan(),
   );
 }
 
@@ -583,12 +584,12 @@ class OrigenPlan extends StatelessWidget {
     
         child: Column(
           
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           
           children: [
           Container(
            alignment: Alignment.topRight,
-        margin: const EdgeInsets.only( bottom:40,right: 20),
+        margin: const EdgeInsets.only( bottom:10,right: 20,top: 15),
             child: IconButton(alignment: Alignment.topRight,
                     icon: const Icon(Icons.close),
                     onPressed: () {
@@ -596,14 +597,14 @@ class OrigenPlan extends StatelessWidget {
                     },
                   ),
           ),
-            Row(mainAxisAlignment: MainAxisAlignment.start,
+            Row(mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 
-                 Container(alignment: Alignment.center,
+                 Container(
             margin: const EdgeInsets.only(right: 10),
             child: Image.asset('assets/images/page.png',width: 60,height: 60,),
           ),
-                const SizedBox(width: 270,
+                const SizedBox(width: 260,
                   child: Text(
                     'Adjunta tu comprobante con 3 pasos ',
                     textAlign: TextAlign.justify,
@@ -618,9 +619,6 @@ class OrigenPlan extends StatelessWidget {
               ],
             ),
             
-              
-            
-          
           const SizedBox(height: 20,),
           const SizedBox(width: 300,
             child: Text(
