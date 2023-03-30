@@ -290,19 +290,23 @@ class ResultCalculator extends HookConsumerWidget {
           ),
         ),
         child: Row(
-          children: const [
+          children: [
              Text(
               'Declaracion a la Sunat 5%',
               style: TextStyle(
                 fontSize: 14,
                 height: 1.5,
-                color: Color(blackText),
+                color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
               ),
             ),
             Icon(
               Icons.quiz_outlined,
               size: 20,
-              color: Color(primaryDark),
+              color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
             ),
             SizedBox(width: 5),
            

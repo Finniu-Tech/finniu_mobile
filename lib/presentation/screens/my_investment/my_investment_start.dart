@@ -23,7 +23,7 @@ class InvestmentStart extends HookConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 60,
               ),
               Row(
@@ -84,14 +84,14 @@ class InvestmentStart extends HookConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15.0,
               ),
               Container(
                 alignment: Alignment.topLeft,
                 width: 320,
                 height: 129.0,
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryDark)
@@ -105,7 +105,7 @@ class InvestmentStart extends HookConsumerWidget {
                       width: 100,
                       child: Image.asset('assets/investment/investment.png'),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 180,
                       child: Text(
                         'Hola Mari, puedes visualizar nuestros planes y simular tu inversión para comenzar a invertir desde hoy.',
@@ -137,9 +137,7 @@ class InvestmentStart extends HookConsumerWidget {
                           : const Color(primaryDark),
                     ),
                   ),
-                  SizedBox(
-                    width: 40,
-                  ),
+                 Spacer(),
                   ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -161,7 +159,7 @@ class InvestmentStart extends HookConsumerWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 12,
               ),
               ExpandableCard(

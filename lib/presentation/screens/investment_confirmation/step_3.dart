@@ -21,7 +21,7 @@ class Step_3 extends ConsumerWidget {
             const SizedBox(height: 8,),
          Container(
             width: MediaQuery.of(context).size.width,
-            height: 292,
+             height:MediaQuery.of(context).size.height * 0.5,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/images/man.png"),
@@ -34,26 +34,26 @@ class Step_3 extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height:MediaQuery.of(context).size.height * 0.5,
             color: const Color(primaryDark),
-       child: Column(
-         mainAxisAlignment: MainAxisAlignment.center,
-         crossAxisAlignment: CrossAxisAlignment.center,
-         children:[
-       
-           const SizedBox(width: 300,
-             child: Text(textAlign:TextAlign.justify,
-                     "Hola Mari, la validación de tu transferencia será confirmada en 30 min,te enviaremos una notificación cuando validemos tu inversión.",
-                     style: TextStyle(
-                      
-                       height: 1.9,
-                       color: Colors.white,
-                       fontSize: 16,
-                     ),
+       child: Padding(
+         padding: const EdgeInsets.all(18.0),
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.start,
+           crossAxisAlignment: CrossAxisAlignment.center,
+           children:[
+         
+             const SizedBox(width: 300,
+               child: Text(textAlign:TextAlign.justify,
+                       "Hola Mari, la validación de tu transferencia será confirmada en 30 min,te enviaremos una notificación cuando validemos tu inversión.",
+                       style: TextStyle(
+                        
+                         height: 1.9,
+                         color: Colors.white,
+                         fontSize: 16,
+                       ),
+               ),
              ),
-           ),
-           const SizedBox(height: 16),
-           Padding(
-             padding: const EdgeInsets.only(left: 40),
-             child: Container(alignment: Alignment.topLeft,
+             const SizedBox(height: 16),
+             Container(alignment: Alignment.topCenter,
                child: const Text(
                      "Gracias por tu comprensión!",
                      style: TextStyle(
@@ -62,8 +62,8 @@ class Step_3 extends ConsumerWidget {
                      ),
                ),
              ),
-           ),
-         ],
+           ],
+         ),
        ),
 ),
              

@@ -37,7 +37,8 @@ class Step_2 extends ConsumerWidget {
             ),
             const SizedBox(height: 15),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+             
               children: [
                 Container(
                   // height: 100,
@@ -191,7 +192,7 @@ class Step_2 extends ConsumerWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const SizedBox(
+            SizedBox(
               width: 320,
             
               child: Text(
@@ -200,8 +201,9 @@ class Step_2 extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 14,
               
-                  color: Color(
-                      primaryDark),
+                  color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(primaryDark),
                 ),
               ),
             ),
@@ -215,11 +217,13 @@ class Step_2 extends ConsumerWidget {
                  
                   bottomRight: Radius.circular(38),
                 ),
-                color: const Color(gradient_secondary),
+                color:   currentTheme.isDarkMode
+                                        ? const Color(primaryDark,)
+                                        : const Color(gradient_secondary),
                 border: Border.all(
                   color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryLightAlternative),
+                      ? const Color(primaryDark)
+                      : const Color(gradient_secondary),
                   width: 1,
                 ),
               ),
@@ -231,14 +235,17 @@ class Step_2 extends ConsumerWidget {
     child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
       
       children: [
-         const Text(
+          Text(
         'Finniu S.A.C',
         style: TextStyle(
+          color:  currentTheme.isDarkMode
+                                        ? const Color(primaryLight)
+                                        : const Color(primaryDark),
           fontWeight: FontWeight.bold,
           fontSize: 14,
         ),
       ),
-      SizedBox(height: 8),
+      const SizedBox(height: 8),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -248,8 +255,8 @@ class Step_2 extends ConsumerWidget {
               style: TextStyle(
    
                 color: currentTheme.isDarkMode
-                  ? const Color(grayText)
-                  : const Color(primaryDark),
+                  ? const Color(whiteText)
+                  : const Color(grayText),
                 fontSize: 12,
               ),
             ),
@@ -259,8 +266,8 @@ class Step_2 extends ConsumerWidget {
                 
                 fontWeight: FontWeight.bold,
                 color: currentTheme.isDarkMode
-                  ? const Color(grayText)
-                  : const Color(primaryDark),
+                  ? const Color(primaryLight)
+                  : const Color(grayText),
                 fontSize: 12,
               ),
             ),
@@ -278,8 +285,8 @@ class Step_2 extends ConsumerWidget {
                   style: TextStyle(
    
                     color: currentTheme.isDarkMode
-                      ? const Color(grayText)
-                      : const Color(primaryDark),
+                      ? const Color(whiteText)
+                      : const Color(grayText),
                     fontSize: 12,
                   ),
                 ),
@@ -290,8 +297,8 @@ class Step_2 extends ConsumerWidget {
                 
                 fontWeight: FontWeight.bold,
                 color: currentTheme.isDarkMode
-                  ? const Color(grayText)
-                  : const Color(primaryDark),
+                  ? const Color(primaryLight)
+                  : const Color(grayText),
                 fontSize: 12,
               ),
             ),
@@ -299,8 +306,8 @@ class Step_2 extends ConsumerWidget {
              Icon(
       Icons.copy_rounded,
       color: currentTheme.isDarkMode
-        ? const Color(grayText)
-        : const Color(primaryDark),
+        ? const Color(primaryLight)
+        : const Color(grayText),
       size: 18,
     ),
             
@@ -314,8 +321,8 @@ class Step_2 extends ConsumerWidget {
                   style: TextStyle(
    
                     color: currentTheme.isDarkMode
-                      ? const Color(grayText)
-                      : const Color(primaryDark),
+                      ? const Color(whiteText)
+                      : const Color(grayText),
                     fontSize: 12,
                   ),
                 ),
@@ -326,8 +333,8 @@ class Step_2 extends ConsumerWidget {
                 
                 fontWeight: FontWeight.bold,
                 color: currentTheme.isDarkMode
-                  ? const Color(grayText)
-                  : const Color(primaryDark),
+                  ? const Color(primaryLight)
+                  : const Color(grayText),
                 fontSize: 12,
               ),
             ),
@@ -335,8 +342,8 @@ class Step_2 extends ConsumerWidget {
              Icon(
       Icons.copy_rounded,
       color: currentTheme.isDarkMode
-        ? const Color(grayText)
-        : const Color(primaryDark),
+        ? const Color(primaryLight)
+        : const Color(grayText),
       size: 18,
     ),
             
@@ -354,7 +361,7 @@ class Step_2 extends ConsumerWidget {
 ),
              
              const SizedBox(height: 10,),
-             const SizedBox(
+             SizedBox(
               width: 305,
               // alignment: Alignment.centerLeft,
               child: Text(
@@ -363,8 +370,9 @@ class Step_2 extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 14,
               
-                  color: Color(
-                      primaryDark),
+                  color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(primaryDark),
                 ),
               ),
             ),
@@ -372,9 +380,8 @@ class Step_2 extends ConsumerWidget {
              
              Container(
               
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: 320,
               height: 73,
-
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
                   topLeft: Radius.circular(21),
@@ -392,6 +399,7 @@ class Step_2 extends ConsumerWidget {
               ),
               
               child: SizedBox(
+                
       width: MediaQuery.of(context).size.width * 0.8,
       child: Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -444,28 +452,35 @@ class Step_2 extends ConsumerWidget {
       height: 21,
       decoration: BoxDecoration(
         
-        color: Colors.white,
+        color:  Colors.transparent,
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(5),
                   topRight: Radius.circular(5),
                   bottomLeft: Radius.circular(5),
                   bottomRight: Radius.circular(5),),
                 
-        border:Border.all(color:const Color(primaryDark))
+        border:Border.all(color:currentTheme.isDarkMode
+                  ?  const Color(primaryLight)
+                  :  const Color(primaryDark),)
       ),
     ),
     const SizedBox(height: 40,),
     const SizedBox(width: 10,),
-    const Text(
+     Text(
       'He leido y acepto el ',
       style: TextStyle(
         fontSize: 10,
-        color: Color(blackText),
+        color:currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(blackText),
       ),
     ),
     
-    const Text(
+    Text(
       ' Contrato de Inversion de Finniu ',
       style: TextStyle(
+        color:currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
         fontSize: 12, 
         fontWeight: FontWeight.bold,
       ),
@@ -565,22 +580,26 @@ void origenPlan(
       ),
     ),
     elevation: 11,
-    backgroundColor: const Color(primaryLight),
     context: ctx,
     builder: (ctx) => const OrigenPlan(),
   );
 }
 
-class OrigenPlan extends StatelessWidget {
+class OrigenPlan extends ConsumerWidget {
   const OrigenPlan({key});
 
   @override
-  Widget build(BuildContext context) {
+Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height * 0.7,
       decoration: BoxDecoration(
-          color: const Color(primaryLight), borderRadius: BorderRadius.circular(40)),
+          color: currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(
+                              primaryLight,
+                            ), borderRadius: BorderRadius.circular(40)),
     
         child: Column(
           
@@ -590,7 +609,11 @@ class OrigenPlan extends StatelessWidget {
           Container(
            alignment: Alignment.topRight,
         margin: const EdgeInsets.only( bottom:10,right: 20,top: 15),
-            child: IconButton(alignment: Alignment.topRight,
+            child: IconButton(color:currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(
+                              blackText,
+                            ),alignment: Alignment.topRight,
                     icon: const Icon(Icons.close),
                     onPressed: () {
                       Navigator.of(context).pop(); // cerrar la pantalla modal
@@ -604,7 +627,7 @@ class OrigenPlan extends StatelessWidget {
             margin: const EdgeInsets.only(right: 10),
             child: Image.asset('assets/images/page.png',width: 60,height: 60,),
           ),
-                const SizedBox(width: 260,
+                SizedBox(width: 260,
                   child: Text(
                     'Adjunta tu comprobante con 3 pasos ',
                     textAlign: TextAlign.justify,
@@ -612,7 +635,11 @@ class OrigenPlan extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color (primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(
+                              primaryDark,
+                            ),
                     ),
                   ),
                 ),
@@ -620,7 +647,7 @@ class OrigenPlan extends StatelessWidget {
             ),
             
           const SizedBox(height: 20,),
-          const SizedBox(width: 300,
+          SizedBox(width: 300,
             child: Text(
                 '1.Tomate foto o screenshot del voucer de tu transferencia.',
                 textAlign: TextAlign.justify,
@@ -628,12 +655,16 @@ class OrigenPlan extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                 
-                  color: Color (blackText),
+                  color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(
+                              blackText,
+                            ),
                 ),
               ),
           ),
            const SizedBox(height: 20,),
-          const SizedBox(width: 300,
+           SizedBox(width: 300,
             child: Text(
                 '2.Abre tus archivos o tu galeria y busca la foto del voucher de su transferencia',
                 textAlign: TextAlign.justify,
@@ -641,12 +672,16 @@ class OrigenPlan extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                 
-                  color: Color (blackText),
+                  color:currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(
+                              blackText,
+                            ),
                 ),
               ),
           ),
              const SizedBox(height: 20,),
-           const SizedBox(width: 300,
+           SizedBox(width: 300,
              child: Text(
                 '3.Selecciona la foto o screenshot del voucher de tu transferencia',
                 textAlign: TextAlign.justify,
@@ -654,12 +689,16 @@ class OrigenPlan extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 12,
                 
-                  color: Color (blackText),
+                  color:currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(
+                              blackText,
+                            ),
                 ),
               ),
            ),
            const SizedBox(height: 60,),
-            const Text(
+            Text(
               '¡Y listo!',
               textAlign: TextAlign.center,
               
@@ -667,7 +706,11 @@ class OrigenPlan extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
               
-                color: Color (blackText),
+                color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(
+                              blackText,
+                            ),
               ),
             ),
           
