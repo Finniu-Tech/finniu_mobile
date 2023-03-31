@@ -390,7 +390,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 5,
                                 ),
                                 const Text(

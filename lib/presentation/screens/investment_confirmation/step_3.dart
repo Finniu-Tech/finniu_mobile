@@ -54,13 +54,16 @@ class Step_3 extends ConsumerWidget {
                ),
              ),
              const SizedBox(height: 16),
-             Container(alignment: Alignment.topCenter,
-               child: const Text(
-                     "Gracias por tu comprensión!",
-                     style: TextStyle(
-                       color: Color(primaryLight),
-                       fontSize: 16,
-                     ),
+             Padding(
+               padding: const EdgeInsets.only(left: 23),
+               child: Container(alignment: Alignment.topLeft,
+                 child: const Text(
+                       "Gracias por tu comprensión!",
+                       style: TextStyle(
+                         color: Color(primaryLight),
+                         fontSize: 16,
+                       ),
+                 ),
                ),
              ),
            const CustomButton(
