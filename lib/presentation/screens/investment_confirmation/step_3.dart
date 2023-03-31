@@ -2,6 +2,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
+import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -62,7 +63,12 @@ class Step_3 extends ConsumerWidget {
                      ),
                ),
              ),
-           ],
+           const CustomButton(
+                text: "siguiente",
+                height: 50,
+                width: 224,
+                pushName:'/finish_investment',
+              ), ],
          ),
        ),
 ),

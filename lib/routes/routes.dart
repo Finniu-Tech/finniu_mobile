@@ -3,6 +3,7 @@ import 'package:finniu/presentation/screens/calculator/result_calculator_screen.
 import 'package:finniu/presentation/screens/calendar.dart';
 import 'package:finniu/presentation/screens/finance/finance_screen.dart';
 import 'package:finniu/presentation/screens/finance/finance_screen_2.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/step_4.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/alerts.dart';
 import 'package:finniu/presentation/screens/pdf.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
@@ -31,37 +32,38 @@ import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
   return <String, WidgetBuilder>{
-    '/': (BuildContext context) => IntroScreen(),
+    '/': (BuildContext context) => const IntroScreen(),
     '/login_start': (BuildContext context) => StartLoginScreen(),
     '/login_email': (BuildContext context) => EmailLoginScreen(),
-    '/onboarding_questions': (BuildContext context) => Questions(),
+    '/onboarding_questions': (BuildContext context) => const Questions(),
     '/sign_up_email': (BuildContext context) => SignUpEmailScreen(),
     '/login_forgot': (BuildContext context) => const ForgotPassword(),
     '/login_invalid': (BuildContext context) => const InvalidEmail(),
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
     '/onboarding_questions_start': (BuildContext context) =>
         const StartInvestment(),
-    '/investment_result': (BuildContext context) => ResultInvestment(),
+    '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => HomeScreen(),
-    '/home_notification': (BuildContext context) => NotificationScreen(),
+    '/home_notification': (BuildContext context) => const NotificationScreen(),
     '/profile': (BuildContext context) => ProfileScreen(),
-    '/my_investment': (BuildContext context) => InvestmentStart(),
+    '/my_investment': (BuildContext context) => const InvestmentStart(),
     '/privacy': (BuildContext context) => PrivacyScreen(),
     '/transfers': (BuildContext context) => TransfersScreen(),
     '/languages': (BuildContext context) => LanguagesStart(),
-    '/help': (BuildContext context) => HelpScreen(),
-    '/confirmation': (BuildContext context) => ConfirmationPhone(),
-    '/investment_step1': (BuildContext context) => Step_1(),
-    '/investment_step2': (BuildContext context) => Step_2(),
-    '/investment_step2': (BuildContext context) => Step_2(),
-    '/investment_step3': (BuildContext context) => Step_3(),
-    '/set_new_password': (BuildContext context) => NewPassword(),
-    '/calculator_tool': (BuildContext context) => Calculator(),
-    '/calculator_result': (BuildContext context) =>  ResultCalculator (),
-    '/finance': (BuildContext context) =>  FinanceScreen (),
+    '/help': (BuildContext context) => const HelpScreen(),
+    '/confirmation': (BuildContext context) => const ConfirmationPhone(),
+    '/investment_step1': (BuildContext context) => const Step_1(),
+    '/investment_step2': (BuildContext context) => const Step_2(),
+    '/investment_step2': (BuildContext context) => const Step_2(),
+    '/investment_step3': (BuildContext context) => const Step_3(),
+    '/set_new_password': (BuildContext context) => const NewPassword(),
+    '/calculator_tool': (BuildContext context) => const Calculator(),
+    '/calculator_result': (BuildContext context) =>  const ResultCalculator (),
+    '/finance': (BuildContext context) =>  const FinanceScreen (),
     '/finance_screen2': (BuildContext context) => Finance_Screen_2(),
-    '/pdf_page': (BuildContext context) => PdfPage(),
-    '/calendar_page': (BuildContext context) => Calendar(),
+    '/pdf_page': (BuildContext context) => const PdfPage(),
+    '/calendar_page': (BuildContext context) => const Calendar(),
+    '/finish_investment': (BuildContext context) => const FinishInvestment(),
    
 
 
