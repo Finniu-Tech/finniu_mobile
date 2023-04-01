@@ -37,8 +37,10 @@ class FinishInvestment extends ConsumerWidget {
                 ),
               ),
           Positioned(
-            bottom:130,
-            left: 145,
+            
+          top:20,
+            left: 10,
+            right: 10,
             child:
             SizedBox(width:111,
             height: 82,
@@ -49,7 +51,9 @@ class FinishInvestment extends ConsumerWidget {
               
                
               ),
-            ),),]),
+            ),),
+            ],
+            ),
             const SizedBox(height: 30,),
              Container(width:MediaQuery.of(context).size.width * 0.9,
                child: Stack(alignment: Alignment.center,
@@ -76,7 +80,7 @@ class FinishInvestment extends ConsumerWidget {
                      ),
                      Positioned(
                        top: 10,
-                       left:30,
+                       left:26,
                        bottom: 10,
                        child: Icon(size:35,
                        Icons.attach_email_outlined, color:currentTheme.isDarkMode
@@ -84,18 +88,10 @@ class FinishInvestment extends ConsumerWidget {
                           : const Color(primaryDark),),
                      ),
                    ],
-                    
-                    
-                    
+                                   
                      ),
              ),
-            
-          
-        
-        
-        
-          
-           
+                      
            const SizedBox(height: 25,),
                 
           Container(
@@ -142,12 +138,12 @@ class FinishInvestment extends ConsumerWidget {
          ],
             ),),
           
-          ]))));
+          ],
+          ),
+          ),
+          ),
+          );
                
-  
-  
-
-      
     }
 }
 
@@ -174,254 +170,247 @@ class calification extends ConsumerWidget {
   @override
 Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.7,
-      decoration: BoxDecoration(
-          gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-             currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(secondary),
-             currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLight),
-          ],
-        ),
-                           borderRadius: BorderRadius.circular(40)),
-    
-        child: Column(
-          
-          mainAxisAlignment: MainAxisAlignment.start,
-          
-          children: [
-          Container(
-           alignment: Alignment.topRight,
-           
-        margin: const EdgeInsets.only( right: 20,top: 15),
-            child: IconButton(color:currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(
-                              blackText,
-                            ),alignment: Alignment.topRight,
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // cerrar la pantalla modal
-                    },
-                  ),
+    return SingleChildScrollView(
+      child: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.7,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+               currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(secondary),
+               currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLight),
+            ],
           ),
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                
-                SizedBox(width: 260,
-                  child: Text(
-                    'Como calificaria tu experiencia durante el proceso de inversion? ',
-                    textAlign: TextAlign.justify,
-                    
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color:Color(
-                       
-                              primaryDark,
-                            ),
+                             borderRadius: BorderRadius.circular(40)),
+      
+          child: Column(
+            
+            mainAxisAlignment: MainAxisAlignment.start,
+            
+            children: [
+            Container(
+             alignment: Alignment.topRight,
+             
+          margin: const EdgeInsets.only( right: 20,top: 15),
+              child: IconButton(color:currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(
+                                blackText,
+                              ),alignment: Alignment.topRight,
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // cerrar la pantalla modal
+                      },
+                    ),
+            ),
+              Row(mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  
+                  SizedBox(width: 260,
+                    child: Text(
+                      'Como calificaria tu experiencia durante el proceso de inversion? ',
+                      textAlign: TextAlign.justify,
+                      
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color:Color(
+                         
+                                primaryDark,
+                              ),
+                      ),
                     ),
                   ),
-                ),
+                ],
+              ),
+            const SizedBox(height: 10,),
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Row(
+                     mainAxisAlignment: MainAxisAlignment.center,
+                  
+              children: [
+                Container(
+                  width: 45,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(primaryLight),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        '1',
+                        style: TextStyle(
+                          color:Color(primaryDark),
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/angry.png'),
+                        width: 15,
+                        height: 15,
+                      ),
+                      
+                    ],
+                  ),
+              ),
+               const SizedBox(width: 10,),
+               Container(
+                  width: 45,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(primaryLight),
+                  ),
+                  child:Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                       Text(
+                        '2',
+                        style: TextStyle(
+                          color: Color(primaryDark),
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/bored.png'),
+                        width: 15,
+                        height: 15,
+                      ),
+                     
+                    
+                  ],
+                  ),
+              
+                   
+              ),
+                const SizedBox(width: 10,),
+               Container(
+                  width: 45,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(primaryLight),
+                  ),
+                  child:Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                       Text(
+                        '3',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color:Color(primaryDark),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/so_so.png'),
+                        width: 15,
+                        height:15,
+                      ),          
+                  ],
+                  ),
+                  
+              ),
+               const SizedBox(width: 10,),
+              Container(
+                  width: 45,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(primaryDark),
+                  ),
+                  child:Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                       Text(
+                        '4',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color:Color(primaryLight),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/happy.png'),
+                        width: 15,
+                        height:15,
+                      ),          
+                  ],
+                  ),
+                  
+              ), 
+              const SizedBox(width: 10,),
+              Container(
+                  width: 45,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(primaryLight),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        '5',
+                        style: TextStyle(
+                          color:Color(primaryDark),
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Image(
+                        image: AssetImage('assets/images/good.png'),
+                        width: 15,
+                        height: 15,
+                      ),
+                    
+                    ],
+                  ),
+              ),
+              
               ],
+              
+              ),
+            ),
+            
+            const SizedBox(height: 10,),
+            const SizedBox(width: 260,
+            
+              child: Text(
+                  '¿Tienes algun comentario o sugerencia para mejorar nuestro proceso?(Opcional)',
+                  textAlign: TextAlign.justify,
+                  
+                  style: TextStyle(
+                    height: 1.5,
+                    fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                    color: Color(blackText)
+                  ),
+                ),
             ),
           const SizedBox(height: 10,),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Row(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                
-            children: [
-              Container(
-                width: 45,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(primaryLight),
+          Container(  width: 300,height: 124,decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color:Color(whiteText))),
+           const SizedBox(height: 4,),
+             CustomButton(
+                  text: "Enviar respuesta",
+                  colorText:
+                          currentTheme.isDarkMode ? (primaryDark) : whiteText,
+                  colorBackground:currentTheme.isDarkMode ? (primaryLight) : primaryDark ,
+                  height: 38,
+                  width: 134,
+                  pushName: '/investment_step3',
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      '1',
-                      style: TextStyle(
-                        color:Color(primaryDark),
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/angry.png'),
-                      width: 15,
-                      height: 15,
-                    ),
-                    
-                  ],
-                ),
-            ),
-             const SizedBox(width: 10,),
-             Container(
-                width: 45,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(primaryLight),
-                ),
-                child:Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                     Text(
-                      '2',
-                      style: TextStyle(
-                        color: Color(primaryDark),
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/bored.png'),
-                      width: 15,
-                      height: 15,
-                    ),
-                   
-                  
-                ],
-                ),
-            
-                 
-            ),
-              const SizedBox(width: 10,),
-             Container(
-                width: 45,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(primaryLight),
-                ),
-                child:Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                     Text(
-                      '3',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color:Color(primaryDark),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/so_so.png'),
-                      width: 15,
-                      height:15,
-                    ),          
-                ],
-                ),
-                
-            ),
-             const SizedBox(width: 10,),
-            Container(
-                width: 45,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(primaryDark),
-                ),
-                child:Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                     Text(
-                      '4',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color:Color(primaryLight),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/happy.png'),
-                      width: 15,
-                      height:15,
-                    ),          
-                ],
-                ),
-                
-            ), 
-            const SizedBox(width: 10,),
-            Container(
-                width: 45,
-                height: 40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: const Color(primaryLight),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Text(
-                      '5',
-                      style: TextStyle(
-                        color:Color(primaryDark),
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Image(
-                      image: AssetImage('assets/images/good.png'),
-                      width: 15,
-                      height: 15,
-                    ),
-                    // SizedBox(height: 20,),
-                  //  Text(textAlign:TextAlign.start,
-                  //     'Buena ',
-                  //     style: TextStyle(
-                  //       color:Color(blackText),
-                  //       fontSize: 8,
-                  //       fontWeight: FontWeight.bold,
-                  //     ),
-                  //   ),
-                  
-                  ],
-                ),
-            ),
-            
+        
             ],
-            
             ),
-          ),
-          
-          const SizedBox(height: 40,),
-          const SizedBox(width: 260,
-          
-            child: Text(
-                '¿Tienes algun comentario o sugerencia para mejorar nuestro proceso?(Opcional)',
-                textAlign: TextAlign.justify,
-                
-                style: TextStyle(
-                  height: 1.5,
-                  fontSize: 12,
-                fontWeight: FontWeight.bold,
-                  color: Color(blackText)
-                ),
-              ),
-          ),
-        const SizedBox(height: 10,),
-        Container(  width: 300,height: 124,decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color:Color(whiteText))),
-         const SizedBox(height: 10,),
-           CustomButton(
-                text: "Enviar respuesta",
-                colorText:
-                        currentTheme.isDarkMode ? (primaryDark) : whiteText,
-                colorBackground:currentTheme.isDarkMode ? (primaryLight) : primaryDark ,
-                height: 38,
-                width: 134,
-                pushName: '/investment_step3',
-              ),
-      
-          ],
-          ),
-          );
+            ),
+    );
 
   }}
