@@ -25,25 +25,26 @@ class FinishInvestment extends ConsumerWidget {
               fontSize: 24,
               fontWeight: FontWeight.w600,
             ),
-            Stack(
+            Stack(alignment: Alignment.center,
             children: <Widget>[
-              SizedBox(
-                width:MediaQuery.of(context).size.width,
-           
+             Container(
+              constraints: const BoxConstraints(
+                maxWidth: 360,
+                maxHeight: 212,
+              ),
+               
+              
                 child: Image.asset(
-                  fit: BoxFit.fitWidth,
+                 
                   'assets/images/hands_shake.png', // Agregar nueva imagen aquí
                           
                 ),
               ),
           Positioned(
-            
-          top:20,
-            left: 10,
-            right: 10,
+          top:20,       
             child:
             SizedBox(width:111,
-            height: 82,
+
               child: Image.asset(
               'assets/images/finniu_logo.png',color:currentTheme.isDarkMode
                     ? const Color(whiteText)
@@ -55,11 +56,12 @@ class FinishInvestment extends ConsumerWidget {
             ],
             ),
             const SizedBox(height: 30,),
-             Container(width:MediaQuery.of(context).size.width * 0.9,
+             SizedBox(
+              width: 320,
                child: Stack(alignment: Alignment.center,
                  children: [
                   
-                  Container(alignment:Alignment.center,
+                  Container(
                            width: 252,
                            height: 75,
                            decoration: BoxDecoration(border:Border.all(color:currentTheme.isDarkMode
@@ -79,9 +81,10 @@ class FinishInvestment extends ConsumerWidget {
                        ),
                      ),
                      Positioned(
-                       top: 10,
-                       left:26,
-                       bottom: 10,
+                       top: 20,
+                    left: 13,
+                      
+                   
                        child: Icon(size:35,
                        Icons.attach_email_outlined, color:currentTheme.isDarkMode
                           ? const Color(primaryLight)
