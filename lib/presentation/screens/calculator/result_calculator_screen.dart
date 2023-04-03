@@ -128,7 +128,7 @@ class ResultCalculator extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            Container(
+            SizedBox(
               width: 210,
               child: Text(
                 textAlign: TextAlign.center,
@@ -145,7 +145,7 @@ class ResultCalculator extends HookConsumerWidget {
             const SizedBox(
               height: 30,
             ),
-            LineReportCalculatorWidget(
+            const LineReportCalculatorWidget(
               initialAmount: 550,
               finalAmount: 583,
               revenueAmount: 33,
@@ -225,7 +225,7 @@ class ResultCalculator extends HookConsumerWidget {
                               ? const Color(primaryLight)
                               : const Color(primaryDark),
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                       ],
                     ),
                   ),
@@ -289,7 +289,7 @@ class ResultCalculator extends HookConsumerWidget {
                   Positioned(
                     top: 35,
                     left: -0,
-                    child: Container(
+                    child: SizedBox(
                       height: 81,
                       width: 86,
                       child: Image.asset(
@@ -301,7 +301,7 @@ class ResultCalculator extends HookConsumerWidget {
               ),
             ),
             const CustomButton(text: "Comenzar a invertir"),
-            SizedBox(
+            const SizedBox(
               height: 30,
             )
           ],

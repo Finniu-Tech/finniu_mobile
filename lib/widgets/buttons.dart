@@ -245,6 +245,14 @@ class BottomNavigationBarHome extends ConsumerWidget {
             ),
           ),
           BottomNavigationBarItem(
+              label: 'Planes',
+              icon: InkWell(
+                child: Icon(Icons.border_all),
+                onTap: () {
+                  Navigator.pushNamed(context, '/my_investment');
+                },
+              )),
+          BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
                 child: Icon(Icons.monetization_on_outlined),
@@ -252,15 +260,7 @@ class BottomNavigationBarHome extends ConsumerWidget {
                   Navigator.pushNamed(context, '/my_investment');
                 },
               )),
-          BottomNavigationBarItem(
-            label: 'Simulador',
-            icon: InkWell(
-              child: Icon(Icons.insert_chart_outlined_rounded),
-              onTap: () {
-                Navigator.pushNamed(context, '/calculator_tool');
-              },
-            ),
-          ),
+         
           BottomNavigationBarItem(
             label: 'Finanzas',
             icon: InkWell(

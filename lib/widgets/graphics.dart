@@ -3,7 +3,6 @@ import 'dart:async';
 
 import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -115,7 +114,7 @@ class _LineReportCalculatorWidgetState
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'Si comienzas con',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -126,7 +125,7 @@ class _LineReportCalculatorWidgetState
                     Text(
                       'S/ ${widget.initialAmount}',
                       textAlign: TextAlign.right,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(primaryDark),
@@ -156,7 +155,7 @@ class _LineReportCalculatorWidgetState
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       'En 6 meses tendrías',
                       textAlign: TextAlign.center,
                       style: TextStyle(
@@ -167,7 +166,7 @@ class _LineReportCalculatorWidgetState
                     Text(
                       'S/ ${widget.finalAmount}',
                       textAlign: TextAlign.right,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Color(primaryDark),
@@ -184,10 +183,10 @@ class _LineReportCalculatorWidgetState
           right: 25,
           child: Column(
             children: [
-              Text('Intereses ganados'),
+              const Text('Intereses ganados'),
               Text(
                 'S/ ${widget.revenueAmount}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
