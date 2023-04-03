@@ -87,7 +87,7 @@ class HomeBody extends ConsumerWidget {
                     width: 250,
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      "Hola ${userProfile.nickName ?? ''}!",
+                      "Hola,${userProfile.nickName ?? ''}!",
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontSize: 24,
@@ -276,7 +276,10 @@ class HomeBody extends ConsumerWidget {
           
           
               
-              const SizedBox(height: 5),
+            Container(height: 2,color:currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),),
+              SizedBox(height: 5,),
               Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
@@ -464,6 +467,7 @@ class _LineReportHomeWidgetState
                 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'S/4050',
@@ -473,7 +477,7 @@ class _LineReportHomeWidgetState
                         fontWeight: FontWeight.bold,
                         color:currentTheme.isDarkMode
                           ? const Color(primaryLight)
-                          : const Color(blackText),
+                          : const Color(primaryDark),
                       ),
                     ),
                     Text(
@@ -483,7 +487,7 @@ class _LineReportHomeWidgetState
                         fontSize: 10,
                         color: currentTheme.isDarkMode
                           ? const Color(whiteText)
-                          : const Color(primaryDark),
+                          : const Color(blackText),
                       ),
                     ),
                   ],
@@ -492,12 +496,13 @@ class _LineReportHomeWidgetState
               const SizedBox(
                 height: 20,
               ),
-              Container(
+              SizedBox(
                 width: 125,
                 height: 60,
                 
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children:  [
                     Text(
                       '2 planes',
@@ -507,7 +512,7 @@ class _LineReportHomeWidgetState
                         fontWeight: FontWeight.bold,
                         color:currentTheme.isDarkMode
                           ? const Color(primaryLight)
-                          : const Color(blackText),
+                          : const Color(primaryDark),
                       ),
                       ),
                     
@@ -520,7 +525,7 @@ class _LineReportHomeWidgetState
                       
                           color: currentTheme.isDarkMode
                           ? const Color(whiteText)
-                          : const Color(primaryDark),
+                          : const Color(blackText),
                       ),
                         ),
                       

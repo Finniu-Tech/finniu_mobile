@@ -132,11 +132,8 @@ class CustomButtonRoundedDark extends ConsumerWidget {
         height: 28.67,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: currentTheme.isDarkMode
-              ? Colors.transparent
-              : const Color(
-                  primaryLight,
-                ),
+          color:
+               Colors.transparent,
           border: Border.all(
             color: const Color(primaryDark),
           ),
