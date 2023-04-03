@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/home/widgets/cards.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/graphics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -145,11 +146,16 @@ class HomeBody extends ConsumerWidget {
               ),
             ),
           ),
-          const Flexible(
-            flex: 10,
-            fit: FlexFit.tight,
-            child: CardTable(),
+          const LineReportCalculatorWidget(
+            initialAmount: 550,
+            finalAmount: 583,
+            revenueAmount: 33,
           ),
+          // const Flexible(
+          //   flex: 10,
+          //   fit: FlexFit.tight,
+          //   child: CardTable(),
+          // ),
           // SizedBox(
           //   height: 40,
           // ),

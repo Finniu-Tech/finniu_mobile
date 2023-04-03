@@ -84,7 +84,7 @@ class CustomReturnButton extends ConsumerWidget {
         Navigator.pop(context);
       },
       child: Container(
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         width: 40,
         height: 40,
         decoration: BoxDecoration(
