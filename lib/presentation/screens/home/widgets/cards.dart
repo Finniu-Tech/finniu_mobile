@@ -12,7 +12,7 @@ class CardTable extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return ListView(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 15,
         bottom: 15,
       ),
@@ -23,7 +23,7 @@ class CardTable extends ConsumerWidget {
           alignment: WrapAlignment.center,
           spacing: 10,
           runSpacing: 10,
-          children: <Widget>[
+          children: const <Widget>[
             _SingleCard(
               title: 'Plan Origen',
               text_mount: 'Desde S/500',

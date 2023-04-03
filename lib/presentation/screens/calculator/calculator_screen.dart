@@ -35,7 +35,9 @@ class Calculator extends HookConsumerWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: currentTheme.isDarkMode ? nightColors : dayColors)),
-        child: Column(
+        child:SingleChildScrollView(
+          child:
+         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
@@ -102,9 +104,7 @@ class Calculator extends HookConsumerWidget {
                 ],
               ),
             ),
-            // SizedBox(
-            //   height: 20,
-            // ),
+         
             SizedBox(
               width: 224,
               // height: 38,
@@ -313,6 +313,7 @@ class Calculator extends HookConsumerWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }

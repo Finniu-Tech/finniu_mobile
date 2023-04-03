@@ -63,9 +63,6 @@ class ResultCalculator extends HookConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  // height: 100,
-                  // width: MediaQuery.of(context).size.width * 0.90,
-                  // width: double.maxFinite,
                   alignment: Alignment.center,
 
                   child: Stack(
@@ -148,171 +145,188 @@ class ResultCalculator extends HookConsumerWidget {
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 136,
-                    height: 81,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(primaryLight),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'Inversion inicial',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
-                        ),
-                        Text(
-                          'S/550',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(primaryDark),
-                          ),
-                        ),
-                      ],
-                    ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 122,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(primaryLight),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
                   ),
-                  const SizedBox(width: 17),
-                  Container(
-                    width: 136,
-                    height: 81,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(secondary),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const [
+                      Text(
+                        'Inversion inicial',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Color(blackText),
                         ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          'En 6 meses tendrias',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
+                      ),
+                      Text(
+                        'S/550',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(primaryDark),
                         ),
-                        Text(
-                          'S/583',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(primaryDark),
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 13),
+                Container(
+                  width: 122,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: const Color(secondary),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 1,
+                        blurRadius: 7,
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
+                  
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:  const [
+                      Text(
+                        'En 6 meses tendrias',
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: Color(blackText),
+                        ),
+                      ),
+                      Text(
+                        'S/583',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(primaryDark),
+                        ),
+                      ),
+                    
+                    ],
+                  ),
+                ),
+              ],
             ),
             const SizedBox(
               height: 70,
             ),
 
             // Spacer(),
-            Container(
-              decoration: BoxDecoration(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryDarkAlternative)
-                    : const Color(primaryLightAlternative),
-                borderRadius: BorderRadius.circular(10),
+            
+      Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: Row(mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          InkWell(
+        onTap: () => showDialog<String>(
+          barrierColor: Colors.transparent,
+          context: context,
+          builder: (BuildContext context) => ConstrainedBox(
+            constraints: const BoxConstraints(),
+            child: AlertDialog(
+              backgroundColor: const Color(primaryLightAlternative),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15.0),
               ),
-              width: 320,
-              height: 210,
-              child: Column(
-                children: [
-                  Align(alignment: Alignment.topRight, child: MySelect()),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              "S/560",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 60),
-                            Text(
-                              "S/530",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 60),
-                            Text(
-                              "S/515",
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ],
+              content: SizedBox(
+                height: 200,
+                width: 228,
+                child: Column(
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: IconButton(
+                        alignment: Alignment.topRight,
+                        icon: const Icon(Icons.close),
+                        color: const Color(blackText),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: Text(
+                        'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.5,
+                          color: Color (blackText),
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      GraphContainerWidget(currentTheme: currentTheme),
-                    ],
-                  ),
-                ],
+                    )
+                  ],
+                ),
               ),
             ),
-            Column(
-              children: [
-                Container(
-                  width: 370,
+          ),
+        ),
+        child: Row(
+          children: [
+             Text(
+              'Declaracion a la Sunat 5%',
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
+              ),
+            ),
+            Icon(
+              Icons.quiz_outlined,
+              size: 20,
+              color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+            ),
+            SizedBox(width: 5),
+           
+          ],
+        ),
+          ),
+        ],
+      ),
+      ),
+
+                SizedBox(
+                  width: 390,
                   height: 150,
                   // padding: const EdgeInsets.all(20),
                   child: Stack(
                     alignment: Alignment.center,
                     children: <Widget>[
                       Container(
-                        width: 280,
-                        height: 100,
+                        width: 330,
+                        height: 110,
                         decoration: BoxDecoration(
                           color: currentTheme.isDarkMode
                               ? const Color(backgroundColorDark)
@@ -361,97 +375,30 @@ class ResultCalculator extends HookConsumerWidget {
                         top: 35,
                         left: -0,
                         child: Container(
-                          height: 80,
-                          width: 60,
+                          height: 81,
+                          width: 86,
                           child: Image.asset(
-                            "assets/images/finance_2.png",
-                            height: 66,
-                            width: 70,
+                            "assets/images/calendar.png",
+                           
                           ),
                         ),
                       ),
                     ],
                   ),
                 ),
+             
+             const CustomButton(text: "Comenzar a invertir")
+             
+             
               ],
-            ),
-
-            Center(
-              child: CustomButton(
-                  colorBackground:
-                      currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-                  text: "Comenzar a invertir",
-                  colorText:
-                      currentTheme.isDarkMode ? (primaryDark) : (whiteText),
-                  pushName: '/investment_step3'),
-            ),
-            SizedBox(
-              height: 30,
-            ),
-          ],
+            ),    
+      
         ),
-      ),
-    );
+      );
+    
   }
 }
 
-class GraphContainerWidget extends StatelessWidget {
-  const GraphContainerWidget({
-    super.key,
-    required this.currentTheme,
-  });
-
-  final SettingsProviderState currentTheme;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.bottomRight,
-      // padding: const EdgeInsets.all(10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 50,
-            height: 155,
-            decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          const SizedBox(
-            width: 35,
-          ),
-          Container(
-            width: 50,
-            height: 155,
-            decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-          const SizedBox(
-            width: 35,
-          ),
-          Container(
-            width: 50,
-            height: 155,
-            decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 class _calculatePercentage {}
 
@@ -513,62 +460,4 @@ class CircularImageSimulation extends ConsumerWidget {
   }
 }
 
-class MySelect extends StatefulWidget {
-  @override
-  _MySelectState createState() => _MySelectState();
-}
 
-class _MySelectState extends State<MySelect> {
-  String dropdownValue = 'Opción 1';
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 100,
-      child: DropdownButton<String>(
-        value: dropdownValue,
-        dropdownColor: const Color(primaryDark),
-        icon: const Icon(Icons.arrow_drop_down_outlined),
-        iconSize: 16,
-        // elevation: 16,
-        style: const TextStyle(color: Color(whiteText), fontSize: 11),
-        underline: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            border: Border.all(
-              color: const Color(primaryLightAlternative),
-            ),
-          ),
-          // height: 2,
-        ),
-        onChanged: (newValue) {
-          setState(() {
-            dropdownValue = newValue!;
-          });
-        },
-        items: <String>['Opción 1', 'Opción 2', 'Opción 3', 'Opción 4']
-            .map<DropdownMenuItem<String>>((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Center(
-              child: Container(
-                width: 80,
-                height: 22,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border:
-                      Border.all(color: const Color(primaryDarkAlternative)),
-                  color: const Color(primaryDarkAlternative),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Center(
-                  child: Text(value),
-                ),
-              ),
-            ),
-          );
-        }).toList(),
-      ),
-    );
-  }
-}

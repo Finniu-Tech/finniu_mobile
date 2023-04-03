@@ -1,18 +1,11 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/widgets/alerts.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
-import 'package:finniu/presentation/screens/settings/profile_screen.dart';
-import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Step_2 extends ConsumerWidget {
@@ -21,8 +14,6 @@ class Step_2 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-
-    var MontoController;
 
     return CustomScaffoldReturnLogo(
       body: SingleChildScrollView(
@@ -46,7 +37,8 @@ class Step_2 extends ConsumerWidget {
             ),
             const SizedBox(height: 15),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+             
               children: [
                 Container(
                   // height: 100,
@@ -59,7 +51,7 @@ class Step_2 extends ConsumerWidget {
                     children: [
                       const CircularImage(),
                       Positioned(
-                        right: 90,
+                        right: 108,
                         child: Align(
                           alignment: Alignment.center,
                           child: Container(
@@ -84,7 +76,7 @@ class Step_2 extends ConsumerWidget {
                               children: [
                                 Center(
                                   child: Text(
-                                    textAlign: TextAlign.center,
+                                    textAlign: TextAlign.left,
                                     '6%',
                                     style: TextStyle(
                                       color: currentTheme.isDarkMode
@@ -150,6 +142,7 @@ class Step_2 extends ConsumerWidget {
                               color: Color(blackText),
                             ),
                           ),
+                        
                         ],
                       ),
                     ),
@@ -192,217 +185,331 @@ class Step_2 extends ConsumerWidget {
                         ],
                       ),
                     ),
+                  
                   ],
                 ),
+    
               ],
             ),
-            const SizedBox(height: 15),
-            Padding(
-              padding: const EdgeInsets.all(40.0),
-              child: Row(
-                children: [
-                  Container(
-                    width: 120,
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Elige tu banco',
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: Color(
-                            Theme.of(context).colorScheme.secondary.value),
-                      ),
-                    ),
-                  ),
-                  Image.asset(
-                    'assets/result/money.png',
-                    width: 20.0,
-                    height: 20,
-                  ),
-                  const Spacer(),
-                  InkWell(
-                    onTap: () => showDialog<String>(
-                      barrierColor: Colors.transparent,
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        backgroundColor: const Color(primaryLight),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        content: Stack(
-                          children: [
-                            Positioned(
-                              top: 30,
-                              left: 0,
-                              right: 0,
-                              child: Center(
-                                child: Image.asset(
-                                  'assets/images/magnifying_glass.png',
-                                  width: 60,
-                                  height: 60,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              // top: 0,
-                              // right: 0,
-                              child: IconButton(
-                                icon: const Icon(Icons.close),
-                                color: const Color(primaryDark),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ),
-                            const Padding(
-                              padding:
-                                  EdgeInsets.only(top: 80, left: 20, right: 20),
-                              child: Text(
-                                  textAlign: TextAlign.justify,
-                                  'Hola Mari, de acuerdo al articulo 1646 del codigo Civil, el pago de los intereses del contrato de mutuo se deben realizar en la misma cuenta bancaria desde donde se realizo la transferencia, por eso es importante, para nosotros, conocer tu cuenta bancaria o CCI.',
-                                  style: TextStyle(
-                                      fontSize: 12, color: Color(primaryDark))),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    child: Icon(
-                      Icons.quiz_outlined, // Icono que deseas utilizar
-                      size: 20, // Tamaño del icono
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark), // Color del icono
-                    ),
-                  ),
-                ],
+            const SizedBox(height: 20),
+            SizedBox(
+              width: 320,
+            
+              child: Text(
+                'Realiza tu transferencia a la cuenta bancaria de Finniu: ',
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontSize: 14,
+              
+                  color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(primaryDark),
+                ),
               ),
             ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: 71,
+              const SizedBox(height: 12,),
+             Container(
+              width: 320,
+              height: 138,
 
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(21),
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
+                 
+                  bottomRight: Radius.circular(38),
                 ),
-                color: Colors.transparent,
+                color:   currentTheme.isDarkMode
+                                        ? const Color(primaryDark,)
+                                        : const Color(gradient_secondary),
                 border: Border.all(
                   color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                      ? const Color(primaryDark)
+                      : const Color(gradient_secondary),
                   width: 1,
                 ),
               ),
-              // padding: EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10, left: 10),
-                    child: Icon(
-                      Icons.credit_score_outlined,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      size: MediaQuery.of(context).size.width * 0.07,
-                    ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.55,
-                    child: Text(
-                      textAlign: TextAlign.left,
-                      'Banco donde realizamos tu transferencia',
-                      style: TextStyle(
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(primaryDark),
-                          fontWeight: FontWeight.bold),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(10),
-                        )),
-                    width: MediaQuery.of(context).size.width * 0.21,
-                    height: 71,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            getModal(context, ref);
-                          },
-                          child: Icon(
-                            Icons.loupe_rounded,
-                            size: MediaQuery.of(context).size.width * 0.05,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryDark)
-                                : const Color(primaryLight),
-                          ),
-                        ),
-                        Text(
-                            textAlign: TextAlign.center,
-                            'Agregar cuenta',
-                            style: TextStyle(
-                              fontSize: 8,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryDark)
-                                  : const Color(primaryLight),
-                            )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            Container(
-              height: 50,
-              width: 224,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50),
-                color: const Color(primaryDark),
-              ),
-              child: Center(
-                child: CustomButton(
-                    colorBackground: currentTheme.isDarkMode
-                        ? (primaryLight)
-                        : (primaryDark),
-                    text: "Continuar",
-                    colorText:
-                        currentTheme.isDarkMode ? (primaryDark) : (whiteText),
-                    pushName: '/investment_step3'),
-              ),
-            ),
-          ],
+              
+              child: Padding(
+                padding: const EdgeInsets.all(18.0),
+               child: SizedBox(
+    width: MediaQuery.of(context).size.width * 0.8,
+    child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
+      
+      children: [
+          Text(
+        'Finniu S.A.C',
+        style: TextStyle(
+          color:  currentTheme.isDarkMode
+                                        ? const Color(primaryLight)
+                                        : const Color(primaryDark),
+          fontWeight: FontWeight.bold,
+          fontSize: 14,
         ),
       ),
-    );
-  }
+      const SizedBox(height: 8),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            
+            Text(
+              'RUC ',
+              style: TextStyle(
+   
+                color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(grayText),
+                fontSize: 12,
+              ),
+            ),
+            Text(
+              '20609327210',
+              style: TextStyle(
+                
+                fontWeight: FontWeight.bold,
+                color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(grayText),
+                fontSize: 12,
+              ),
+            ),
+           
+   
+         
+         
+          ],
+        ),
+           const SizedBox(height: 8,),
+      Row(
+        children: [
+          Text(
+                  'N de cuenta Interbank ',
+                  style: TextStyle(
+   
+                    color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(grayText),
+                    fontSize: 12,
+                  ),
+                ),
+       
+            Text(
+              '2003004077570',
+              style: TextStyle(
+                
+                fontWeight: FontWeight.bold,
+                color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(grayText),
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(width: 5,),
+             Icon(
+      Icons.copy_rounded,
+      color: currentTheme.isDarkMode
+        ? const Color(primaryLight)
+        : const Color(grayText),
+      size: 18,
+    ),
+            
+             ],
+    ),
+   const SizedBox(height: 8,),
+   Row(
+        children: [
+          Text(
+                  'CCI ',
+                  style: TextStyle(
+   
+                    color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(grayText),
+                    fontSize: 12,
+                  ),
+                ),
+       
+            Text(
+              '003 200 00300407757039',
+              style: TextStyle(
+                
+                fontWeight: FontWeight.bold,
+                color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(grayText),
+                fontSize: 12,
+              ),
+            ),
+            const SizedBox(width: 5,),
+             Icon(
+      Icons.copy_rounded,
+      color: currentTheme.isDarkMode
+        ? const Color(primaryLight)
+        : const Color(grayText),
+      size: 18,
+    ),
+            
+             ],
+    ),
+  
+
+
+   ],
+      ),),
+),
+
+
+
+),
+             
+             const SizedBox(height: 10,),
+             SizedBox(
+              width: 305,
+              // alignment: Alignment.centerLeft,
+              child: Text(
+                'Adjunta tu constancia de transferencia: ',
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  fontSize: 14,
+              
+                  color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(primaryDark),
+                ),
+              ),
+            ),
+             const SizedBox(height: 12,),
+             
+             Container(
+              
+              width: 320,
+              height: 73,
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(21),
+                  topRight: Radius.circular(21),
+                  bottomLeft: Radius.circular(21),
+                  bottomRight: Radius.circular(21),
+                ),
+                color: const Color(primaryLightAlternative),
+                border: Border.all(
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryLightAlternative),
+                  width: 1,
+                ),
+              ),
+              
+              child: SizedBox(
+                
+      width: MediaQuery.of(context).size.width * 0.8,
+      child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(right: 10),
+        child: Container(alignment: Alignment.topRight,
+          child: InkWell(onTap: (){
+            origenPlan(context);
+          },
+            child: Icon(
+              Icons.quiz_outlined,
+              color: currentTheme.isDarkMode
+                  ? const Color(grayText)
+                  : const Color(primaryDark),
+              size: 20,
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(width: 8),
+      
+      Icon(
+        Icons.add_photo_alternate_outlined,
+        color: currentTheme.isDarkMode
+            ? const Color(grayText)
+            : const Color(primaryDark),
+        size: 20,
+      ),
+      const SizedBox(width: 8),
+      Text(
+        'Suba la foto nitida donde sea visible el código de operación',
+        style: TextStyle(
+          color: currentTheme.isDarkMode
+              ? const Color(grayText)
+              : const Color(primaryDark),
+          fontSize: 8,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    ],
+  ),
+),),
+            const SizedBox(height: 10,),
+            Row(
+  mainAxisAlignment: MainAxisAlignment.center,
+  children: [
+    Container(
+      width: 21,
+      height: 21,
+      decoration: BoxDecoration(
+        
+        color:  Colors.transparent,
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(5),
+                  bottomRight: Radius.circular(5),),
+                
+        border:Border.all(color:currentTheme.isDarkMode
+                  ?  const Color(primaryLight)
+                  :  const Color(primaryDark),)
+      ),
+    ),
+    const SizedBox(height: 40,),
+    const SizedBox(width: 10,),
+     Text(
+      'He leido y acepto el ',
+      style: TextStyle(
+        fontSize: 10,
+        color:currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(blackText),
+      ),
+    ),
+    
+    Text(
+      ' Contrato de Inversion de Finniu ',
+      style: TextStyle(
+        color:currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
+        fontSize: 12, 
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  ],
+),
+
+            const SizedBox(height: 10,),
+            const CustomButton(
+                text: "Finalizar mi proceso",
+                height: 50,
+                width: 224,
+                pushName: '/investment_step3',
+              ),
+             ],
+            ),),
+            );
+            
+            }
 }
+
+
 
 class CircularCountdown extends ConsumerWidget {
   const CircularCountdown({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    return Container(
+    return SizedBox(
       // alignment: Alignment.centerLeft,
       width: 125.41,
       height: 127.01,
@@ -459,176 +566,157 @@ class CircularCountdown extends ConsumerWidget {
   }
 }
 
-getModal(context, WidgetRef ref) {
-  final currentTheme = ref.watch(settingsNotifierProvider);
-  // final bankController = useTextEditingController();
-  {
-    return showModalBottomSheet<void>(
-      backgroundColor: currentTheme.isDarkMode
-          ? const Color(primaryDark)
-          : const Color(primaryLight),
-      context: context,
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-      builder: (BuildContext context) {
-        var MontoController;
-        return Container(
-          height: 516,
-          width: 360,
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40),
-              topRight: Radius.circular(40),
-            ),
-          ),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      color: currentTheme.isDarkMode
+
+
+void origenPlan(
+  BuildContext ctx,
+) {
+  showModalBottomSheet(
+    clipBehavior: Clip.antiAlias,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.only(
+        topRight: Radius.circular(50),
+        topLeft: Radius.circular(50),
+      ),
+    ),
+    elevation: 11,
+    context: ctx,
+    builder: (ctx) => const OrigenPlan(),
+  );
+}
+
+class OrigenPlan extends ConsumerWidget {
+  const OrigenPlan({key});
+
+  @override
+Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.7,
+      decoration: BoxDecoration(
+          color: currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(
+                              primaryLight,
+                            ), borderRadius: BorderRadius.circular(40)),
+    
+        child: Column(
+          
+          mainAxisAlignment: MainAxisAlignment.start,
+          
+          children: [
+          Container(
+           alignment: Alignment.topRight,
+        margin: const EdgeInsets.only( bottom:10,right: 20,top: 15),
+            child: IconButton(color:currentTheme.isDarkMode
                           ? const Color(primaryLight)
-                          : const Color(blackText),
-                    ),
+                          : const Color(
+                              blackText,
+                            ),alignment: Alignment.topRight,
+                    icon: const Icon(Icons.close),
                     onPressed: () {
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop(); // cerrar la pantalla modal
                     },
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    Icons.add_circle_outline,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  Text(
-                    textAlign: TextAlign.center,
-                    'Agregar Cuenta',
+          ),
+            Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                
+                 Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: Image.asset('assets/images/page.png',width: 60,height: 60,),
+          ),
+                SizedBox(width: 260,
+                  child: Text(
+                    'Adjunta tu comprobante con 3 pasos ',
+                    textAlign: TextAlign.justify,
+                    
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
                       fontSize: 16,
+                      fontWeight: FontWeight.bold,
                       color: currentTheme.isDarkMode
                           ? const Color(primaryLight)
-                          : const Color(primaryDark),
+                          : const Color(
+                              primaryDark,
+                            ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 12,
-                  ),
-                  SizedBox(
-                    width: 69,
-                    height: 58,
-                    child: Image.asset('assets/images/credit_card.png'),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 180,
-                    child: Text(
-                      textAlign: TextAlign.justify,
-                      'Banco donde realizaras tu transferencia',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Container(
-                    child: Icon(
-                      Icons.quiz_outlined,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      size: 23.0,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              // CustomSelectButton(
-              //   // textEditingController: bankController,
-              //   items: const ['BCP', 'Interbank', 'Scotiabank'],
-              //   labelText: "Banco",
-              // ),
-              const SizedBox(
-                height: 35,
-              ),
-              SizedBox(
-                width: 224,
-                child: TextFormField(
-                  controller: MontoController,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Este dato es requerido';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    // nickNameController.text = value.toString();
-                  },
-                  decoration: const InputDecoration(
-                    hintText: 'Escriba su cuenta bancaria',
-                    label: Text("Cuenta Bancaria"),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    child: Icon(
-                      Icons.check_box_outline_blank,
-                      color: currentTheme.isDarkMode
+              ],
+            ),
+            
+          const SizedBox(height: 20,),
+          SizedBox(width: 300,
+            child: Text(
+                '1.Tomate foto o screenshot del voucer de tu transferencia.',
+                textAlign: TextAlign.justify,
+                
+                style: TextStyle(
+                  fontSize: 12,
+                
+                  color: currentTheme.isDarkMode
                           ? const Color(whiteText)
-                          : const Color(blackText),
-                      size: 21.0,
-                    ),
-                  ),
-                  Text(
-                    textAlign: TextAlign.center,
-                    'Confirmo que esa cuenta me pertenece',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
-                    ),
-                  ),
-                ],
+                          : const Color(
+                              blackText,
+                            ),
+                ),
               ),
-              const SizedBox(
-                height: 25,
-              ),
-              const CustomButton(
-                  text: "Guardar cuenta", width: 224, height: 52.7),
-            ],
           ),
-        );
-      },
-    );
-  }
-}
+           const SizedBox(height: 20,),
+           SizedBox(width: 300,
+            child: Text(
+                '2.Abre tus archivos o tu galeria y busca la foto del voucher de su transferencia',
+                textAlign: TextAlign.justify,
+                
+                style: TextStyle(
+                  fontSize: 12,
+                
+                  color:currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(
+                              blackText,
+                            ),
+                ),
+              ),
+          ),
+             const SizedBox(height: 20,),
+           SizedBox(width: 300,
+             child: Text(
+                '3.Selecciona la foto o screenshot del voucher de tu transferencia',
+                textAlign: TextAlign.justify,
+                
+                style: TextStyle(
+                  fontSize: 12,
+                
+                  color:currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(
+                              blackText,
+                            ),
+                ),
+              ),
+           ),
+           const SizedBox(height: 60,),
+            Text(
+              '¡Y listo!',
+              textAlign: TextAlign.center,
+              
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              
+                color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(
+                              blackText,
+                            ),
+              ),
+            ),
+          
+          const SizedBox(height: 15,)
+          ],
+          ),
+          );
+
+  }}

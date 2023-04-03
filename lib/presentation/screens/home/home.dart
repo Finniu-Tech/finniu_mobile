@@ -22,7 +22,8 @@ class HomeScreen extends HookConsumerWidget {
 
     // add flag to check if callback has already been added
     var hasPushedOnboarding = false;
-    final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
+    // final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
+    var hasCompletedOnboarding=true;
     return Scaffold(
       bottomNavigationBar: const BottomNavigationBarHome(),
       body: HookBuilder(

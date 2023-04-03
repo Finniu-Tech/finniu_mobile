@@ -67,7 +67,8 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
                             'Empieza a vivir una nueva experiencia con Finniu',
                         colorText: Theme.of(context).colorScheme.tertiary.value,
                         fontSize: 16,
-                        fontWeight: FontWeight.w500),
+                        fontWeight: FontWeight.w500)
+                        ,
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 35),
