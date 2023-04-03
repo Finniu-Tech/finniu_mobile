@@ -54,7 +54,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/confirmation': (BuildContext context) => const ConfirmationPhone(),
     '/investment_step1': (BuildContext context) => const Step_1(),
     '/investment_step2': (BuildContext context) => const Step_2(),
-    '/investment_step2': (BuildContext context) => const Step_2(),
     '/investment_step3': (BuildContext context) => const Step_3(),
     '/set_new_password': (BuildContext context) => const NewPassword(),
     '/calculator_tool': (BuildContext context) => const Calculator(),
