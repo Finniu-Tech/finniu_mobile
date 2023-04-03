@@ -419,7 +419,7 @@ class _LineReportHomeWidgetState
     //     : _lightImages;
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
-        if (_currentPageIndex < 4) {
+        if (_currentPageIndex < 3) {
           _currentPageIndex++;
         } else {
           _currentPageIndex = 0;
