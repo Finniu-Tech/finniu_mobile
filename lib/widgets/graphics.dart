@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 
+import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -74,26 +75,127 @@ class _LineReportCalculatorWidgetState
   Widget build(BuildContext context) {
     final theme = ref.watch(settingsNotifierProvider);
     final images = theme.isDarkMode ? _darkImages : _lightImages;
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.4,
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: Stack(
-        alignment: Alignment.center,
-        children: images.map((image) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        ...images.map((image) {
           int index = images.indexOf(image);
           return AnimatedOpacity(
-            duration: const Duration(milliseconds: 10),
+            duration: const Duration(milliseconds: 500),
             opacity: index == _currentPageIndex ? 1.0 : 0.0,
             child: Image.asset(
               image,
-              height: MediaQuery.of(context).size.height * 0.4,
-              width: MediaQuery.of(context).size.width * 0.8,
+              // height: MediaQuery.of(context).size.height * 0.4,
+              width: MediaQuery.of(context).size.width * 0.9,
               fit: BoxFit.cover,
               gaplessPlayback: true,
             ),
           );
         }).toList(),
-      ),
+        Positioned(
+          top: 30,
+          left: 16,
+          child: Column(
+            children: [
+              Container(
+                width: 122,
+                height: 56,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(primaryLight),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Si comienzas con',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Color(blackText),
+                      ),
+                    ),
+                    Text(
+                      'S/ ${widget.initialAmount}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(primaryDark),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: 122,
+                height: 56,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: const Color(secondary),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 1,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'En 6 meses tendrías',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Color(blackText),
+                      ),
+                    ),
+                    Text(
+                      'S/ ${widget.finalAmount}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(primaryDark),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Positioned(
+          top: 30,
+          right: 25,
+          child: Column(
+            children: [
+              Text('Intereses ganados'),
+              Text(
+                'S/ ${widget.revenueAmount}',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

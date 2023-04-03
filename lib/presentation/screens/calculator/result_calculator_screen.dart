@@ -1,6 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/graphics.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -64,7 +65,6 @@ class ResultCalculator extends HookConsumerWidget {
               children: [
                 Container(
                   alignment: Alignment.center,
-
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
@@ -143,264 +143,173 @@ class ResultCalculator extends HookConsumerWidget {
               ),
             ),
             const SizedBox(
-              height: 20,
+              height: 30,
             ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: 122,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(primaryLight),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 7,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Inversion inicial',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(blackText),
-                        ),
-                      ),
-                      Text(
-                        'S/550',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(primaryDark),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 13),
-                Container(
-                  width: 122,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(secondary),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 1,
-                        blurRadius: 7,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children:  const [
-                      Text(
-                        'En 6 meses tendrias',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(blackText),
-                        ),
-                      ),
-                      Text(
-                        'S/583',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(primaryDark),
-                        ),
-                      ),
-                    
-                    ],
-                  ),
-                ),
-              ],
+            LineReportCalculatorWidget(
+              initialAmount: 550,
+              finalAmount: 583,
+              revenueAmount: 33,
             ),
             const SizedBox(
-              height: 70,
+              height: 10,
             ),
-
-            // Spacer(),
-            
-      Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: Row(mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          InkWell(
-        onTap: () => showDialog<String>(
-          barrierColor: Colors.transparent,
-          context: context,
-          builder: (BuildContext context) => ConstrainedBox(
-            constraints: const BoxConstraints(),
-            child: AlertDialog(
-              backgroundColor: const Color(primaryLightAlternative),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              content: SizedBox(
-                height: 200,
-                width: 228,
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        alignment: Alignment.topRight,
-                        icon: const Icon(Icons.close),
-                        color: const Color(blackText),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: 14,
-                          height: 1.5,
-                          color: Color (blackText),
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () => showDialog<String>(
+                      barrierColor: Colors.transparent,
+                      context: context,
+                      builder: (BuildContext context) => ConstrainedBox(
+                        constraints: const BoxConstraints(),
+                        child: AlertDialog(
+                          backgroundColor: const Color(primaryLightAlternative),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          content: SizedBox(
+                            height: 200,
+                            width: 228,
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.topRight,
+                                  child: IconButton(
+                                    alignment: Alignment.topRight,
+                                    icon: const Icon(Icons.close),
+                                    color: const Color(blackText),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.all(10.0),
+                                  child: Text(
+                                    'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      height: 1.5,
+                                      color: Color(blackText),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    )
-                  ],
-                ),
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Declaracion a la Sunat 5%',
+                          style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
+                          ),
+                        ),
+                        Icon(
+                          Icons.quiz_outlined,
+                          size: 20,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                        ),
+                        SizedBox(width: 5),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-        ),
-        child: Row(
-          children: [
-             Text(
-              'Declaracion a la Sunat 5%',
-              style: TextStyle(
-                fontSize: 14,
-                height: 1.5,
-                color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+            SizedBox(
+              width: 390,
+              height: 150,
+              // padding: const EdgeInsets.all(20),
+              child: Stack(
+                alignment: Alignment.center,
+                children: <Widget>[
+                  Container(
+                    width: 330,
+                    height: 110,
+                    decoration: BoxDecoration(
+                      color: currentTheme.isDarkMode
+                          ? const Color(backgroundColorDark)
+                          : const Color(whiteText),
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(
+                        color: const Color(gradient_secondary_option),
+                        width: 2,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          width: 200,
+                          child: Text(
+                            "Fecha estimada de tu retorno si empiezas a invertir desde hoy.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                              fontSize: 12,
+                              height: 1.5,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 7,
+                        ),
+                        Text(
+                          "20 de Diciembre",
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Positioned(
+                    top: 35,
+                    left: -0,
+                    child: Container(
+                      height: 81,
+                      width: 86,
+                      child: Image.asset(
+                        "assets/images/calendar.png",
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            Icon(
-              Icons.quiz_outlined,
-              size: 20,
-              color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
-            ),
-            SizedBox(width: 5),
-           
+            const CustomButton(text: "Comenzar a invertir"),
+            SizedBox(
+              height: 30,
+            )
           ],
         ),
-          ),
-        ],
       ),
-      ),
-
-                SizedBox(
-                  width: 390,
-                  height: 150,
-                  // padding: const EdgeInsets.all(20),
-                  child: Stack(
-                    alignment: Alignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 330,
-                        height: 110,
-                        decoration: BoxDecoration(
-                          color: currentTheme.isDarkMode
-                              ? const Color(backgroundColorDark)
-                              : const Color(whiteText),
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(
-                            color: const Color(gradient_secondary_option),
-                            width: 2,
-                          ),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              width: 200,
-                              child: Text(
-                                "Fecha estimada de tu retorno si empiezas a invertir desde hoy.",
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  height: 1.5,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 7,
-                            ),
-                            Text(
-                              "20 de Diciembre",
-                              style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        top: 35,
-                        left: -0,
-                        child: Container(
-                          height: 81,
-                          width: 86,
-                          child: Image.asset(
-                            "assets/images/calendar.png",
-                           
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-             
-             const CustomButton(text: "Comenzar a invertir")
-             
-             
-              ],
-            ),    
-      
-        ),
-      );
-    
+    );
   }
 }
-
-
-class _calculatePercentage {}
 
 class CircularImageSimulation extends ConsumerWidget {
   const CircularImageSimulation({Key? key}) : super(key: key);
@@ -459,5 +368,3 @@ class CircularImageSimulation extends ConsumerWidget {
     );
   }
 }
-
-
