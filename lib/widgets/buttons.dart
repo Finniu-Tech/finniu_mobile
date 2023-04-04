@@ -1,5 +1,4 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/onboarding_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -20,6 +19,7 @@ class CustomButton extends StatefulWidget {
     this.pushName = "",
     this.width = 224,
     this.height = 50,
+  
   });
 
   @override
@@ -235,7 +235,7 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
             label: 'Home',
             icon: InkWell(
-              child: Icon(Icons.home_filled),
+              child: const Icon(Icons.home_filled),
               onTap: () {
                 Navigator.pushNamed(context, '/home_home');
               },
@@ -244,7 +244,7 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
               label: 'Planes',
               icon: InkWell(
-                child: Icon(Icons.border_all),
+                child: const Icon(Icons.border_all),
                 onTap: () {
                   Navigator.pushNamed(context, '/my_investment');
                 },
@@ -252,21 +252,13 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
-                child: Icon(Icons.monetization_on_outlined),
+                child: const Icon(Icons.monetization_on_outlined),
                 onTap: () {
-                  Navigator.pushNamed(context, '/my_investment');
+                  Navigator.pushNamed(context, '/process_investment');
                 },
               )),
          
-          BottomNavigationBarItem(
-            label: 'Finanzas',
-            icon: InkWell(
-              child: Icon(Icons.wallet),
-              onTap: () {
-                Navigator.pushNamed(context, '/pdf_page');
-              },
-            ),
-          )
+          
         ],
       ),
     );

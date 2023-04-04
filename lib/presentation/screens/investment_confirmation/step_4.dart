@@ -110,21 +110,14 @@ class FinishInvestment extends ConsumerWidget {
             const SizedBox(height: 8),
             Row(mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-                  'Ir a Mis Inversiones ',
-                  style: TextStyle(
-         
-                    color:
-                     currentTheme.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(whiteText),
-                    fontSize: 14,
-                  ),
-                ),
-            const SizedBox(width: 5,),
-             InkWell(onTap: (){ calificationExperience(context);
-          },
-               child:  Icon(
+           const CustomButton(
+                text: "Ir a Mis Inversiones",
+                height: 50,
+                width: 224,
+                pushName:'/finish_investment',
+              ),
+          
+         Icon(
                          Icons.monetization_on_outlined,
                          color:
                       currentTheme.isDarkMode
@@ -132,14 +125,14 @@ class FinishInvestment extends ConsumerWidget {
                   : const Color(primaryLight),
                          size: 22,
                        ),
-             ),
-            
              ],
+            
+          )],
           ),
         
         
-         ],
-            ),),
+         
+            ),
           
           ],
           ),

@@ -206,7 +206,7 @@ class HomeBody extends ConsumerWidget {
             ),
 
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -226,20 +226,34 @@ class HomeBody extends ConsumerWidget {
                       color: Color(secondary)),
                   width: 98,
                   height: 65,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.border_all, color: Color(primaryDark)),
-                      SizedBox(height: 5),
-                      Text(
-                        'Planes',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(blackText),
-                        ),
-                        textAlign: TextAlign.center,
+                  child: GestureDetector(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:[
+                      Image.asset(
+                        'assets/icons/square.png', //Ruta de acceso de la imagen
+                        width: 15,
+                        height: 15,
                       ),
-                    ],
+                  
+                  
+                  
+                        const SizedBox(height: 5),
+                        const Text(
+                          'Planes',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  
+                   onTap: () {
+    Navigator.pushNamed(context, '/my_investment');
+  },
+                  
                   ),
                 ),
                 const SizedBox(
@@ -260,21 +274,34 @@ class HomeBody extends ConsumerWidget {
                       ]),
                   width: 98,
                   height: 65,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.monetization_on_outlined,
-                          color: Color(primaryDark)),
-                      SizedBox(height: 5),
-                      Text(
-                        'Mis inversiones ',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(blackText),
-                        ),
-                        textAlign: TextAlign.center,
+                 child: GestureDetector(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:[
+                      Image.asset(
+                        'assets/icons/dollar.png', //Ruta de acceso de la imagen
+                        width: 15,
+                        height: 15,
                       ),
-                    ],
+                  
+                  
+                  
+                        const SizedBox(height: 5),
+                        const Text(
+                          'Mis inversiones',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  
+                   onTap: () {
+    Navigator.pushNamed(context, '/process_investment');
+  },
+                  
                   ),
                 ),
                 const SizedBox(
@@ -295,25 +322,37 @@ class HomeBody extends ConsumerWidget {
                       ]),
                   width: 98,
                   height: 65,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.currency_exchange_rounded,
-                          color: Color(primaryDark)),
-                      SizedBox(height: 5),
-                      Text(
-                        'Transferencias',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(blackText),
-                        ),
-                        textAlign: TextAlign.center,
+                  child: GestureDetector(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children:[
+                      Image.asset(
+                        'assets/icons/transferences.png', //Ruta de acceso de la imagen
+                        width: 15,
+                        height: 15,
                       ),
-                    ],
+                  
+                  
+                  
+                        const SizedBox(height: 5),
+                        const Text(
+                          'Transferencias',
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  
+                   onTap: () {
+    Navigator.pushNamed(context, '/home_home');
+  },
+                  
                   ),
                 ),
-              ],
-            ),
+            ],),
 
             const Spacer(),
             Container(
@@ -335,15 +374,15 @@ class HomeBody extends ConsumerWidget {
                   ? const Color(primaryLight)
                   : const Color(primaryDark),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            // const SizedBox(
+            //   height: 4,
+            // ),
             Stack(
               alignment: Alignment.center,
               children: <Widget>[
                 Container(
                   alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.2,
+                  height: MediaQuery.of(context).size.height * 0.1,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: currentTheme.isDarkMode
@@ -358,8 +397,8 @@ class HomeBody extends ConsumerWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: 135,
+                    width: 141,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
@@ -375,7 +414,11 @@ class HomeBody extends ConsumerWidget {
                 Align(
                   alignment: Alignment.center,
                   child: Container(
+                    width: 320,
+                    height: 147,
+             
                     padding: EdgeInsets.only(
+                    
                       left: MediaQuery.of(context).size.width * 0.2,
                       top: 20,
                     ),
