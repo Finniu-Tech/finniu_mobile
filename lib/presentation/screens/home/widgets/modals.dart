@@ -252,8 +252,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         ItemSetting(
-                          icon: Icons.person_outlined,
-                          text: "Mi perfil",
+                        
+                         image:'assets/icons/icon_profile.png',
+                          text: "Editar mi perfil",
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/profile');
                           },
@@ -262,7 +263,8 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                           height: 10,
                         ),
                         ItemSetting(
-                          icon: Icons.privacy_tip_outlined,
+                        
+                           image:'assets/icons/padlock.png',
                           text: "Privacidad",
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/privacy');
@@ -272,8 +274,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                           height: 10,
                         ),
                         ItemSetting(
-                          icon: Icons.model_training,
-                          text: "Mis transferencias",
+            
+                          image:'assets/icons/transferens.png',
+                         text: "Mis transferencias",
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/transfers');
                           },
@@ -282,7 +285,8 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                           height: 10,
                         ),
                         ItemSetting(
-                          icon: Icons.g_translate_outlined,
+                       
+                         image:'assets/icons/lenguages.png',
                           text: "Lenguajes",
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/languages');
@@ -292,7 +296,8 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                           height: 10,
                         ),
                         ItemSetting(
-                          icon: Icons.help_outline,
+                          
+                          image:'assets/icons/questions.png',
                           text: "Ayuda",
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/help');
@@ -302,7 +307,8 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                           height: 10,
                         ),
                         ItemSetting(
-                          icon: Icons.logout,
+                         
+                        image:'assets/icons/sign_off.png',
                           text: "Cerrar sesión",
                           onTap: () {
                             ref.invalidate(authTokenProvider);
@@ -328,16 +334,19 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
 }
 
 class ItemSetting extends ConsumerWidget {
-  late IconData _icon;
+  late String _image;
+ 
   late String _text;
+  
   Function? _onTap;
 
   ItemSetting({
-    required IconData icon,
+    required String image,
     required String text,
     Function? onTap,
+  
   }) {
-    _icon = icon;
+    _image = image;
     _text = text;
     _onTap = onTap;
   }
@@ -350,21 +359,20 @@ class ItemSetting extends ConsumerWidget {
       children: [
         Container(
           width: 46,
-          height: 34,
+          height: 35,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: themeProvider.isDarkMode
+            color:themeProvider.isDarkMode
                 ? const Color(primaryLight)
-                : const Color(primaryDark),
+                : const Color(primaryDarkAlternative),
+          
+            borderRadius: BorderRadius.circular(5),
+          
           ),
           child: InkWell(
-            child: Icon(
-              _icon,
-              color: themeProvider.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
-            ),
+            child: Image.asset(_image,color:themeProvider.isDarkMode
+                ? const Color(primaryDark)
+                : const Color(primaryLight),width: 18,height: 18,),
             onTap: _onTap as void Function()?,
           ),
         ),

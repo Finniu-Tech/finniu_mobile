@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -79,6 +80,7 @@ class HomeBody extends ConsumerWidget {
                   child: const CircularPercentAvatarWidget(),
                 ),
               ),
+              SizedBox(width: 10,),
               Container(
                 width: 250,
                 alignment: Alignment.centerLeft,
@@ -141,7 +143,7 @@ class HomeBody extends ConsumerWidget {
             //   height: 40,
             // ),
             Padding(
-              padding: const EdgeInsets.only(right: 19, top: 10),
+              padding: const EdgeInsets.only(right: 30, top: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment
                     .end, // Alinear widgets en el centro horizontalmente
@@ -223,7 +225,7 @@ class HomeBody extends ConsumerWidget {
                               const Offset(0, 3), // changes position of shadow
                         ),
                       ],
-                      color: Color(secondary)),
+                      color: const Color(secondary)),
                   width: 98,
                   height: 65,
                   child: GestureDetector(
@@ -353,9 +355,9 @@ class HomeBody extends ConsumerWidget {
                   ),
                 ),
             ],),
+const SizedBox(height: 15,),
 
-            const Spacer(),
-            Container(
+         Container(
               width: MediaQuery.of(context).size.width * 0.8,
               height: 3,
               decoration: const BoxDecoration(
@@ -369,40 +371,43 @@ class HomeBody extends ConsumerWidget {
             ),
 
             Container(
-              height: 2,
+              height: 3,
               color: currentTheme.isDarkMode
                   ? const Color(primaryLight)
                   : const Color(primaryDark),
             ),
-            // const SizedBox(
-            //   height: 4,
-            // ),
+            const SizedBox(
+              height: 6,
+            ),
             Stack(
               alignment: Alignment.center,
               children: <Widget>[
+
+
+
                 Container(
+                 
+                  constraints:const BoxConstraints(
+                    maxWidth:330,
+                    maxHeight:147),
                   alignment: Alignment.center,
-                  height: MediaQuery.of(context).size.height * 0.1,
-                  width: double.infinity,
+                  
                   decoration: BoxDecoration(
                     color: currentTheme.isDarkMode
                         ? const Color(primaryLightAlternative)
                         : const Color(primaryLightAlternative),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(20),
-                    ),
+                    borderRadius: BorderRadius.circular(18),
                   ),
                 ),
                 Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.center,
                   child: Container(
-                    height: 135,
+                    height: 144,
                     width: 141,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(20),
-                        topRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
                       ),
                       image: DecorationImage(
                         image: AssetImage("assets/home/person.png"),

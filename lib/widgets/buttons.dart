@@ -216,6 +216,7 @@ class BottomNavigationBarHome extends ConsumerWidget {
         elevation: 0.0,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.transparent,
+        
         selectedItemColor: currentTheme.isDarkMode
             ? const Color(primaryDark)
             : const Color(
@@ -234,17 +235,29 @@ class BottomNavigationBarHome extends ConsumerWidget {
         items: [
           BottomNavigationBarItem(
             label: 'Home',
+            
             icon: InkWell(
-              child: const Icon(Icons.home_filled),
+              child: Image.asset('assets/icons/home.png', width: 30,
+                        height: 30,color: currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              )),
               onTap: () {
                 Navigator.pushNamed(context, '/home_home');
               },
             ),
+           
           ),
           BottomNavigationBarItem(
               label: 'Planes',
               icon: InkWell(
-                child: const Icon(Icons.border_all),
+                child:  Image.asset('assets/icons/square.png', width: 30,
+                        height: 30,color:currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              ) ,),
                 onTap: () {
                   Navigator.pushNamed(context, '/my_investment');
                 },
@@ -252,7 +265,12 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
-                child: const Icon(Icons.monetization_on_outlined),
+                child:  Image.asset('assets/icons/dollar.png', width: 30,
+                        height: 30,color:currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              ) ,),
                 onTap: () {
                   Navigator.pushNamed(context, '/process_investment');
                 },

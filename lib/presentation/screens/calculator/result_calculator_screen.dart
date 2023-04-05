@@ -218,13 +218,13 @@ class ResultCalculator extends HookConsumerWidget {
                                 : const Color(blackText),
                           ),
                         ),
-                        Icon(
-                          Icons.quiz_outlined,
+                        ImageIcon(
+      const AssetImage('assets/icons/questions.png'),
                           size: 20,
                           color: currentTheme.isDarkMode
                               ? const Color(primaryLight)
-                              : const Color(primaryDark),
-                        ),
+                              : const Color(primaryDark),),
+                        
                         const SizedBox(width: 5),
                       ],
                     ),

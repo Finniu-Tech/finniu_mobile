@@ -1,4 +1,4 @@
-import 'package:dropdown_search/dropdown_search.dart';
+
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -102,11 +102,12 @@ class Step_1 extends HookConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const <Widget>[
-                            Icon(
-                              Icons.monetization_on_outlined,
-                              size: 15,
-                              color: Color(primaryDark),
-                            ),
+                            Image(
+      image: AssetImage('assets/icons/dollar.png'),
+      width: 12, // ancho deseado de la imagen
+      height: 12, // alto deseado de la imagen
+      color: Color(primaryDark), // color de la imagen si es necesario
+    ),
                             Text(
                               'Desde S/500',
                               textAlign: TextAlign.left,
@@ -122,11 +123,12 @@ class Step_1 extends HookConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: const <Widget>[
-                            Icon(
-                              Icons.currency_exchange_rounded,
-                              size: 15,
-                              color: Color(primaryDark),
-                            ),
+                             Image(
+      image: AssetImage('assets/icons/double_dollar.png'),
+      width: 21, // ancho deseado de la imagen
+      height: 21, // alto deseado de la imagen
+      color: Color(primaryDark), // color de la imagen si es necesario
+    ),
                             Text(
                               '12% anual',
                               textAlign: TextAlign.left,
@@ -351,115 +353,121 @@ class _StepBarState extends ConsumerState<StepBar> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      const SizedBox(height: 10),
-      Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-        Container(
-          height: 35,
-          width: 43,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
-              width: 2,
-            ),
-            shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5),
-              topRight: Radius.circular(5),
-              bottomLeft: Radius.circular(4),
-              bottomRight: Radius.circular(4),
-            ),
-          ),
-          child: Icon(
-            Icons.monetization_on_outlined,
-            color: currentTheme.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDark),
-          ),
-        ),
-        SizedBox(
-          width: 30,
-          child: Column(
-            children: [
-              Divider(
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // const SizedBox(height: 10),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Container(
+            height: 35,
+            width: 46,
+            decoration: BoxDecoration(
+              border: Border.all(
                 color: currentTheme.isDarkMode
                     ? const Color(primaryLight)
                     : const Color(primaryDark),
-                thickness: 1,
+                width: 2,
               ),
-            ],
-          ),
-        ),
-        Container(
-          height: 35,
-          width: 43,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
-              width: 2,
+              shape: BoxShape.rectangle,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+                bottomLeft: Radius.circular(4),
+                bottomRight: Radius.circular(4),
+              ),
             ),
-            shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5),
-              topRight: Radius.circular(5),
-              bottomLeft: Radius.circular(4),
-              bottomRight: Radius.circular(4),
+            child:Image.asset(
+      'assets/icons/dollar.png',width: 5,height: 5,color:currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+      fit:BoxFit.scaleDown,
+     
+    ),
+          ),
+          SizedBox(
+            width: 38,
+            child: Column(
+              children: [
+                Divider(
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  thickness: 1,
+                ),
+              ],
             ),
           ),
-          child: Icon(
-            Icons.article_outlined,
-            color: currentTheme.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDark),
-          ),
-        ),
-        Container(
-          width: 30,
-          child: Column(
-            children: [
-              Divider(
+          Container(
+            height: 35,
+            width: 46,
+            decoration: BoxDecoration(
+              border: Border.all(
                 color: currentTheme.isDarkMode
                     ? const Color(primaryLight)
                     : const Color(primaryDark),
-                thickness: 1,
+                width: 2,
               ),
-            ],
-          ),
-        ),
-        Container(
-          height: 35,
-          width: 43,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
-              width: 2,
+              shape: BoxShape.rectangle,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+                bottomLeft: Radius.circular(4),
+                bottomRight: Radius.circular(4),
+              ),
             ),
-            shape: BoxShape.rectangle,
-            borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(5),
-              topRight: Radius.circular(5),
-              bottomLeft: Radius.circular(4),
-              bottomRight: Radius.circular(4),
+            child: Image.asset(
+      'assets/icons/paper.png',color:currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+      fit:BoxFit.scaleDown,
+     
+    ),
+          ),
+          SizedBox(
+            width: 38,
+            child: Column(
+              children: [
+                Divider(
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  thickness: 1,
+                ),
+              ],
             ),
           ),
-          child: Icon(
-            Icons.aspect_ratio_sharp,
-            color: currentTheme.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDark),
+          Container(
+            height: 35,
+            width: 46,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+                width: 2,
+              ),
+              shape: BoxShape.rectangle,
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5),
+                topRight: Radius.circular(5),
+                bottomLeft: Radius.circular(4),
+                bottomRight: Radius.circular(4),
+              ),
+            ),
+            child: Image.asset(
+      'assets/icons/square2.png',color:currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+      fit:BoxFit.scaleDown,
+     
+    ),
           ),
+          
+          
+        ],
         ),
-        
-        
       ],
       ),
-    ],
     );
   }
 }

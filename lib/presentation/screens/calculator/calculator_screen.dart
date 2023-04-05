@@ -22,8 +22,10 @@ class Calculator extends HookConsumerWidget {
     ];
     List<Color> nightColors = [
       const Color(primaryDark),
-      const Color(primaryDarkAlternative),
-      const Color(primaryDark)
+        const Color(primaryDark),
+       const Color(primaryDark),
+     
+     
     ];
 
     return Scaffold(
@@ -270,12 +272,10 @@ class Calculator extends HookConsumerWidget {
                               ),
                             ),
                           ),
-                          child: const Icon(
-                              Icons.quiz_outlined, // Icono que deseas utilizar
-                              size: 20, // Tamaño del icono
-                              color: Color(primaryDark)
+                          child: const ImageIcon(AssetImage('assets/icons/questions.png'),color:Color(primaryDark)) // Tamaño del icono
+                            
                               // Color del icono
-                              ),
+                              
                         ),
                       ],
                     ),
@@ -293,13 +293,15 @@ class Calculator extends HookConsumerWidget {
               ),
             ),
              const SizedBox(height: 10,),
-             const SizedBox(width: 200,
+           SizedBox(width: 200,
                child: Text(
                         '*Recuerda que puedes retirar tus intereses desde el 1er mes',
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: 10,
-                          color: Color(blackText),
+                          color: currentTheme.isDarkMode
+                      ? Color(whiteText)
+                      :  Color(blackText),
                         ),
                       ),
              ),

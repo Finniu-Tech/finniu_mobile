@@ -303,15 +303,15 @@ class Step_2 extends ConsumerWidget {
               ),
             ),
             const SizedBox(width: 5,),
-             Icon(
-      Icons.copy_rounded,
-      color: currentTheme.isDarkMode
+            ImageIcon(color: currentTheme.isDarkMode
         ? const Color(primaryLight)
         : const Color(grayText),
       size: 18,
-    ),
+      AssetImage('assets/icons/double_square.png',),
+      
+   
             
-             ],
+      )],
     ),
    const SizedBox(height: 8,),
    Row(
@@ -339,15 +339,13 @@ class Step_2 extends ConsumerWidget {
               ),
             ),
             const SizedBox(width: 5,),
-             Icon(
-      Icons.copy_rounded,
-      color: currentTheme.isDarkMode
+              ImageIcon(color: currentTheme.isDarkMode
         ? const Color(primaryLight)
         : const Color(grayText),
       size: 18,
-    ),
+      const AssetImage('assets/icons/double_square.png',),
             
-             ],
+   )],
     ),
   
 
@@ -410,26 +408,23 @@ class Step_2 extends ConsumerWidget {
           child: InkWell(onTap: (){
             origenPlan(context);
           },
-            child: Icon(
-              Icons.quiz_outlined,
-              color: currentTheme.isDarkMode
-                  ? const Color(grayText)
-                  : const Color(primaryDark),
-              size: 20,
-            ),
+            
+            child: ImageIcon(
+            const AssetImage('assets/icons/questions.png'),
+            size: 20, // Tamaño de la imagen
+            color: currentTheme.isDarkMode
+                ? const Color(grayText)
+                : const Color(primaryDark), // Color de la imagen
           ),
         ),
       ),
-      const SizedBox(width: 8),
-      
-      Icon(
-        Icons.add_photo_alternate_outlined,
-        color: currentTheme.isDarkMode
-            ? const Color(grayText)
-            : const Color(primaryDark),
-        size: 20,
       ),
+
       const SizedBox(width: 8),
+        ImageIcon(const AssetImage('assets/icons/photo.png'),color: currentTheme.isDarkMode
+        ? const Color(grayText)
+        : const Color(primaryDark),)
+,     const SizedBox(width: 8),
       Text(
         'Suba la foto nitida donde sea visible el código de operación',
         style: TextStyle(
