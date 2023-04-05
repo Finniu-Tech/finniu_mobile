@@ -85,8 +85,11 @@ class FinishInvestment extends ConsumerWidget {
                     left: 13,
                       
                    
-                       child: Icon(size:35,
-                       Icons.attach_email_outlined, color:currentTheme.isDarkMode
+                       child:  Image.asset(
+    'assets/icons/letter.png',
+    width: 35,
+    height: 35,
+   color:currentTheme.isDarkMode
                           ? const Color(primaryLight)
                           : const Color(primaryDark),),
                      ),
@@ -96,49 +99,29 @@ class FinishInvestment extends ConsumerWidget {
              ),
                       
            const SizedBox(height: 25,),
-                
-          Container(
-          width: 224,
-          height: 50,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color:currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
-            
-            children: [
           
-            const SizedBox(height: 8),
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-           const CustomButton(
+            
+      
+          CustomButton(
                 text: "Ir a Mis Inversiones",
-                height: 50,
+                colorText: whiteText,
                 width: 224,
+                height: 50,
+                colorBackground: primaryDark,
+                image: 'assets/icons/dollar.png',
+                imageColor: Color(primaryLight),
                 pushName:'/finish_investment',
+               
               ),
           
-         Icon(
-                         Icons.monetization_on_outlined,
-                         color:
-                      currentTheme.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
-                         size: 22,
-                       ),
-             ],
-            
-          )],
-          ),
-        
-        
-         
-            ),
-          
+       
           ],
           ),
           ),
           ),
           );
+          
+          
                
     }
 }

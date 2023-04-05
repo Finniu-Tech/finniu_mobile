@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CustomButton extends StatefulWidget {
+class CustomButton extends ConsumerStatefulWidget {
   final int? colorBackground;
   final int? colorText;
   final String text;
   final String pushName;
+  final String? image;
   final double width;
   final double height;
+  final Color? imageColor; 
 
-  const CustomButton({
+   CustomButton({
     super.key,
     required this.text,
     this.colorBackground,
@@ -19,16 +21,19 @@ class CustomButton extends StatefulWidget {
     this.pushName = "",
     this.width = 224,
     this.height = 50,
-  
+    this.image,
+   this.imageColor,
   });
 
   @override
-  State<CustomButton> createState() => _CustomButtonState();
+ 
+ _CustomButtonState createState() => _CustomButtonState();
 }
 
-class _CustomButtonState extends State<CustomButton> {
+class _CustomButtonState extends ConsumerState<CustomButton> {
   @override
   Widget build(BuildContext context) {
+      final themeProvider = ref.watch(settingsNotifierProvider);
     Color colorBackground;
     if (widget.colorBackground == null) {
       colorBackground = Theme.of(context)
@@ -62,11 +67,28 @@ class _CustomButtonState extends State<CustomButton> {
           Navigator.pushNamed(context, widget.pushName);
         }
       },
-      child: Text(widget.text),
+     child: widget.image != null
+          ? Row(
+            
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                 Text(widget.text),
+                  SizedBox(width: 10),
+                Image.asset(
+                  widget.image!,
+                
+                  width: 20,
+                  height: 20,
+                  color: widget.imageColor,
+                ),
+               
+               
+              ],
+            )
+          : Text(widget.text),
     );
   }
 }
-
 class CustomReturnButton extends ConsumerWidget {
   final int colorBoxdecoration;
   final int colorIcon;

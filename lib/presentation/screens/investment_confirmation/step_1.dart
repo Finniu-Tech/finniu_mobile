@@ -321,7 +321,7 @@ class Step_1 extends HookConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
-              const CustomButton(
+              CustomButton(
                 text: "Continuar",
                 height: 50,
                 width: 224,

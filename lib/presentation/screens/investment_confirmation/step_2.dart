@@ -484,7 +484,7 @@ class Step_2 extends ConsumerWidget {
 ),
 
             const SizedBox(height: 10,),
-            const CustomButton(
+            CustomButton(
                 text: "Finalizar mi proceso",
                 height: 50,
                 width: 224,
