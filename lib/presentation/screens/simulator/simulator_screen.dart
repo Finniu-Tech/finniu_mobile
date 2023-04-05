@@ -71,7 +71,7 @@ class _SimulatorScreenState extends ConsumerState<SimulatorScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 35),
-                    child: const CustomButton(
+                    child:  CustomButton(
                         text: 'Iniciar sesión',
                         colorBackground: primaryDark,
                         colorText: whiteText,
@@ -79,7 +79,7 @@ class _SimulatorScreenState extends ConsumerState<SimulatorScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 20),
-                    child: const CustomButton(
+                    child: CustomButton(
                         text: 'Registrarme',
                         colorBackground: primaryLight,
                         colorText: primaryDark,
