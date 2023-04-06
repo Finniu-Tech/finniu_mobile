@@ -171,8 +171,93 @@ class InvestmentProcess extends ConsumerWidget {
                   ),
                 ],
               ),
-            ),],
-)
+            ),
+            SizedBox(height: 10,),
+             Text(
+                    'Distribucion de mi patrimonio',
+                    style: TextStyle(
+                      fontSize: 16,
+                     
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
+                    ),
+                  ), 
+                  SizedBox(height: 10,),
+                   Row(
+                     children: [
+                       Container(
+  decoration: const BoxDecoration(
+    border: Border(
+      bottom: BorderSide(
+        color: Color(primaryLight), // color del subrayado
+        width: 5.0, // ancho del subrayado
+      ),
+    ),
+  )
+  ,
+                         child:
+                       Text(
+                        'Inversiones en Curso',
+                        style: TextStyle(
+                          fontSize: 12,
+                         
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                        ),
+                       ),),
+                     SizedBox(width: 90,),
+                     Text(
+                        'Inversiones finalizadas',
+                        style: TextStyle(
+                          fontSize: 12,
+                         
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                        ),
+                  )
+                  
+                  
+                  ],
+                   ), 
+            const SizedBox(height: 10,),      
+          Container(
+  width: MediaQuery.of(context).size.width * 0.9,
+  height: MediaQuery.of(context).size.height * 0.2,
+  decoration: BoxDecoration(
+
+    color: Colors.white,
+    border: Border.all(
+      color: const Color(primaryDark),
+      width: 1,
+    ),
+   borderRadius: BorderRadius.circular(20), 
+
+  ),
+  child: Align(
+    alignment: Alignment.centerRight,
+    child: Padding(
+      padding: const EdgeInsets.only(right:10),
+      child: Container(
+        width: 200,
+        height: 112,
+        decoration: BoxDecoration(
+          color: const Color(primaryLight),
+       
+
+ 
+    
+   borderRadius: BorderRadius.circular(20), 
+),
+      ),
+    ),
+  ),
+)        
+    
+],
+),
 
 
 
@@ -270,7 +355,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
         Positioned(
           top: 30,
           left: 16,
-          child: Column(
+          child: Row(
             children: [
               Container(
                 width: 122,
@@ -300,6 +385,8 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                             : const Color(blackText),
                       ),
                     ),
+                  
+                  
                   ],
                 ),
               ),
@@ -309,30 +396,34 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
               SizedBox(
                 width: 125,
                 height: 60,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Text(
-                      '2 planes',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                    Text(
-                      'Mis inversiones en Curso',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
-                      ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '2 planes',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
+                          ),
+                        ),
+                        Text(
+                          'Mis inversiones en Curso',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
