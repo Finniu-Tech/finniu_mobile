@@ -415,84 +415,59 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
           left: 16,
           child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start ,
             children: [
-               Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'S/4050',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                    Text(
-                      'Balance total',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
-                      ),
-                    ),
+               Text(
+                 'S/4050',
+                 textAlign: TextAlign.center,
+                 style: TextStyle(
+                   fontSize: 16,
+                   fontWeight: FontWeight.bold,
+                   color: currentTheme.isDarkMode
+                       ? const Color(primaryLight)
+                       : const Color(primaryDark),
+                 ),
+               ),
+               Text(
+                 'Balance total',
+                 textAlign: TextAlign.center,
+                 style: TextStyle(
+                   fontSize: 10,
+                   color: currentTheme.isDarkMode
+                       ? const Color(whiteText)
+                       : const Color(blackText),
+                 ),
+               ),
                 
                   
-                  ],
-                ),
+                 
               
               const SizedBox(
                 height: 20,
               ),
             
-               Row(
-                  children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '2 planes',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(primaryDark),
-                          ),
-                        ),
-                        Text(
-                          'Mis inversiones en Curso',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(blackText),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              
-          
             
-  
-          
-          
-          
-          
-          
-          
-      ]),
-        ),
-      ],
-    );
+               Text(
+                '2 planes',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
+                ),
+               ),
+               Text(
+                'Mis inversiones en Curso',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(blackText),
+                ),
+               ),
+            ],
+      ),
+    )]);
   }
 }
