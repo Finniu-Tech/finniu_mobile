@@ -8,18 +8,18 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Step_3 extends ConsumerWidget {
-  const Step_3({super.key});
+class Step3 extends ConsumerWidget {
+  const Step3({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     
     final currentTheme = ref.watch(settingsNotifierProvider);
   
-     Future.delayed(const Duration(seconds: 10), (){
-    print("Wait for 10 seconds");
+     Future.delayed(const Duration(seconds: 5), (){
+    print("Wait for 5 seconds");
       
-      () =>const Calification();
+      () =>calificationExperience(context);
       
 
     });
@@ -76,6 +76,9 @@ class Step_3 extends ConsumerWidget {
                  ),
                ),
              ),
+            
+          
+      
             ],
          ),
        ),

@@ -8,8 +8,8 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Step_2 extends ConsumerWidget {
-  const Step_2({super.key});
+class Step2 extends ConsumerWidget {
+  const Step2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

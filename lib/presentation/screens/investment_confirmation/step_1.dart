@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class Step_1 extends HookConsumerWidget {
-  const Step_1({super.key});
+class Step1 extends HookConsumerWidget {
+  const Step1({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -368,7 +368,7 @@ class _StepBarState extends ConsumerState<StepBar> {
                     : const Color(primaryDark),
                 width: 2,
               ),
-              shape: BoxShape.rectangle,
+         
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(5),
                 topRight: Radius.circular(5),

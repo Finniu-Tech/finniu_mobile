@@ -223,7 +223,9 @@ class InvestmentProcess extends ConsumerWidget {
                   ],
                    ), 
             const SizedBox(height: 10,),      
-          Container(
+          Column(
+            children: [
+              Container(
   width: MediaQuery.of(context).size.width * 0.9,
   height: MediaQuery.of(context).size.height * 0.2,
   decoration: BoxDecoration(
@@ -244,26 +246,82 @@ class InvestmentProcess extends ConsumerWidget {
         width: 200,
         height: 112,
         decoration: BoxDecoration(
-          color: const Color(primaryLight),
+              color: const Color(primaryLightAlternative),
        
 
  
     
    borderRadius: BorderRadius.circular(20), 
 ),
-      ),
-    ),
+     
+     
+     child: Padding(
+       padding: const EdgeInsets.all(15.0),
+       child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+        
+         children: const [
+              SizedBox(height: 10,),
+               Text(
+                 'Dinero actual',
+                 style: TextStyle(
+                   fontSize: 10,
+                   fontWeight: FontWeight.bold,
+                   color: Color(primaryDark)
+                 ),
+                
+                
+                
+                
+                 ),
+         SizedBox(height: 10,),
+         Text(
+                 'S/784.87',
+                 style: TextStyle(
+                   fontSize: 16,
+                   fontWeight: FontWeight.bold,
+                   color: Color(primaryDark)
+                 ),
+                
+                
+                
+                
+                 ),
+                 
+                 SizedBox(height: 10,),
+                 Text(
+                 'Inicio:29 Mayo',
+                 style: TextStyle(
+                   fontSize: 10.5,
+                   fontWeight: FontWeight.bold,
+                   color: Color(primaryDark)
+                 ),
+                
+                
+                
+                
+                 ),
+                 
+                 ],
+    
+      
+       ),
+     
+     
+     
+     ),
   ),
 )        
     
-],
 ),
+),
+            ],
+          ),
 
+ 
 
-
+                ],
                 ),
-                ),
-                );
+                )));
                 
                 
                 
@@ -355,12 +413,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
         Positioned(
           top: 30,
           left: 16,
-          child: Row(
+          child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start ,
             children: [
-              Container(
-                width: 122,
-                height: 56,
-                child: Column(
+               Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -377,7 +432,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     ),
                     Text(
                       'Balance total',
-                      textAlign: TextAlign.right,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 10,
                         color: currentTheme.isDarkMode
@@ -385,18 +440,16 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                             : const Color(blackText),
                       ),
                     ),
-                  
+                
                   
                   ],
                 ),
-              ),
+              
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                width: 125,
-                height: 60,
-                child: Row(
+            
+               Row(
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -427,9 +480,17 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
+              
+          
+            
+  
+          
+          
+          
+          
+          
+          
+      ]),
         ),
       ],
     );
