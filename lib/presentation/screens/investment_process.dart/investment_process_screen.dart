@@ -44,7 +44,7 @@ class InvestmentProcess extends ConsumerWidget {
         width: 20,
         height: 20,
       ),
-            SizedBox(width:80,),
+           const SizedBox(width:80,),
                Image.asset(
         'assets/icons/calendar.png',
         width: 20,
@@ -115,8 +115,8 @@ class InvestmentProcess extends ConsumerWidget {
                     .end, // Alinear widgets en el centro horizontalmente
                 children: [
                   Container(
-                    width: 20,
-                    height: 20,
+                    width: 15,
+                    height: 15,
                     decoration: BoxDecoration(
                       border: Border.all(
                         width: 1,
@@ -146,8 +146,8 @@ class InvestmentProcess extends ConsumerWidget {
                     width: 16,
                   ),
                   Container(
-                    width: 20,
-                    height: 20,
+                    width: 15,
+                    height: 15,
                     decoration: BoxDecoration(
                       border:
                           Border.all(width: 1, color: const Color(primaryDark)),
@@ -172,7 +172,7 @@ class InvestmentProcess extends ConsumerWidget {
                 ],
               ),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
              Text(
                     'Distribucion de mi patrimonio',
                     style: TextStyle(
@@ -183,18 +183,28 @@ class InvestmentProcess extends ConsumerWidget {
                           : const Color(blackText),
                     ),
                   ), 
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                    Row(
                      children: [
                        Container(
-  decoration: const BoxDecoration(
+  decoration:  const BoxDecoration(
+  
     border: Border(
       bottom: BorderSide(
         color: Color(primaryLight), // color del subrayado
         width: 5.0, // ancho del subrayado
       ),
     ),
+  
+  
+  
+  
+  
   )
+
+
+
+
   ,
                          child:
                        Text(
@@ -207,7 +217,7 @@ class InvestmentProcess extends ConsumerWidget {
                               : const Color(primaryDark),
                         ),
                        ),),
-                     SizedBox(width: 90,),
+                     const SizedBox(width: 90,),
                      Text(
                         'Inversiones finalizadas',
                         style: TextStyle(
@@ -215,7 +225,7 @@ class InvestmentProcess extends ConsumerWidget {
                          
                           color: currentTheme.isDarkMode
                               ? const Color(whiteText)
-                              : const Color(primaryDark),
+                              : const Color(blackText),
                         ),
                   )
                   
@@ -224,10 +234,14 @@ class InvestmentProcess extends ConsumerWidget {
                    ), 
             const SizedBox(height: 10,),      
           Column(
+            
             children: [
+          
+              
               Container(
+                
   width: MediaQuery.of(context).size.width * 0.9,
-  height: MediaQuery.of(context).size.height * 0.2,
+  height: MediaQuery.of(context).size.height * 0.23,
   decoration: BoxDecoration(
 
     color: Colors.white,
@@ -238,19 +252,31 @@ class InvestmentProcess extends ConsumerWidget {
    borderRadius: BorderRadius.circular(20), 
 
   ),
-  child: Align(
+  child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Plan estable',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        
+
+
+
+
+
+Align(
     alignment: Alignment.centerRight,
     child: Padding(
       padding: const EdgeInsets.only(right:10),
       child: Container(
-        width: 200,
-        height: 112,
+        width: MediaQuery.of(context).size.width * 0.6,
+        height: MediaQuery.of(context).size.height * 0.15,
         decoration: BoxDecoration(
               color: const Color(primaryLightAlternative),
-       
-
- 
-    
    borderRadius: BorderRadius.circular(20), 
 ),
      
@@ -259,49 +285,110 @@ class InvestmentProcess extends ConsumerWidget {
        padding: const EdgeInsets.all(15.0),
        child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
         
-         children: const [
-              SizedBox(height: 10,),
-               Text(
+    
+         children: [
+          
+              const SizedBox(height: 10,),
+              
+               const Text(
                  'Dinero actual',
                  style: TextStyle(
                    fontSize: 10,
                    fontWeight: FontWeight.bold,
-                   color: Color(primaryDark)
+                   color: Color(blackText)
                  ),
                 
                 
                 
                 
                  ),
-         SizedBox(height: 10,),
-         Text(
-                 'S/784.87',
+         const SizedBox(height: 10,),
+         Row(
+           children: [
+             const Text(
+                     'S/1650.15',
+                     style: TextStyle(
+                       fontSize: 16,
+                       fontWeight: FontWeight.bold,
+                       color: Color(blackText)
+                     ),
+                    
+                    
+                    
+                    
+                     ),
+                       SizedBox(width:MediaQuery.of(context).size.width * 0.09,),
+           const SizedBox(height: 10,),
+                 Image.asset(
+                   alignment: Alignment.center,
+                   'assets/images/arrow.png',
+                  //  width: 15,
+                   height: 30,
+                 ),
+                 const Text(
+                 '+10.01%',
                  style: TextStyle(
-                   fontSize: 16,
+                   fontSize: 12,
                    fontWeight: FontWeight.bold,
-                   color: Color(primaryDark)
+                   color: Color(colorgreen)
                  ),
                 
                 
                 
                 
-                 ),
+                 ), ],
+         ),
                  
-                 SizedBox(height: 10,),
-                 Text(
-                 'Inicio:29 Mayo',
-                 style: TextStyle(
-                   fontSize: 10.5,
-                   fontWeight: FontWeight.bold,
-                   color: Color(primaryDark)
-                 ),
-                
-                
-                
-                
-                 ),
+          
                  
-                 ],
+              Row(
+                children: [
+                  const Text(
+                     'Inicio',
+                     style: TextStyle(
+                       fontSize: 6,
+                     
+                       color: Color(blackText),
+                     ),
+            
+                     ),
+                  const Text(
+                     '29 Mayo',
+                     style: TextStyle(
+                       fontSize: 6,
+                       fontWeight: FontWeight.bold,
+                       color: Color(blackText)
+                     ),
+            
+                     ),
+                  SizedBox(width:MediaQuery.of(context).size.width * 0.21,),
+                  const Text(
+                     'Finaliza',
+                     style: TextStyle(
+                       fontSize: 6,
+                 
+                       color: Color(blackText)
+                     ),
+                    
+                    
+                    
+                    
+                     ),
+                  const Text(
+                     '29 Mayo 2023',
+                     style: TextStyle(
+                       fontSize: 7,
+                       fontWeight: FontWeight.bold,
+                       color: Color(blackText)
+                     ),
+                    
+                    
+                    
+                    
+                     )
+                
+                ],
+              ),   ],
     
       
        ),
@@ -309,19 +396,24 @@ class InvestmentProcess extends ConsumerWidget {
      
      
      ),
+  
   ),
-)        
+) ,      
     
 ),
-),
-            ],
+],
+          ),
+          ),
+          ],
           ),
 
  
 
                 ],
                 ),
-                )));
+                ),
+                ),
+                );
                 
                 
                 
@@ -415,59 +507,97 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
           left: 16,
           child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment:CrossAxisAlignment.start ,
             children: [
-               Text(
-                 'S/4050',
+               Row(
+                 children: [
+                   Text(
+                     'S/7620',
+                     textAlign: TextAlign.center,
+                     style: TextStyle(
+                       fontSize: 16,
+                       fontWeight: FontWeight.bold,
+                       color: currentTheme.isDarkMode
+                           ? const Color(primaryLight)
+                           : const Color(primaryDark),
+                     ),
+                   ),
+                  const SizedBox(width: 22,),
+                  Text(
+                 'S/597.34',
                  textAlign: TextAlign.center,
                  style: TextStyle(
                    fontSize: 16,
-                   fontWeight: FontWeight.bold,
-                   color: currentTheme.isDarkMode
-                       ? const Color(primaryLight)
-                       : const Color(primaryDark),
+                    fontWeight: FontWeight.bold,
+                    color: currentTheme.isDarkMode
+                           ? const Color(primaryLight)
+                           : const Color(primaryDark),
                  ),
+               ), ],
                ),
-               Text(
-                 'Balance total',
+               
+               SizedBox(height: 10,),
+               Row(
+                 children: [
+                   Text(
+                     'Dinero total',
+                     textAlign: TextAlign.center,
+                     style: TextStyle(
+                       fontSize: 10,
+                      
+                       color: currentTheme.isDarkMode
+                           ? const Color(primaryLight)
+                           : const Color(blackText),
+                     ),
+                   ),
+                  const SizedBox(width: 22,),
+                  Text(
+                 'Intereses generados',
                  textAlign: TextAlign.center,
                  style: TextStyle(
                    fontSize: 10,
-                   color: currentTheme.isDarkMode
-                       ? const Color(whiteText)
-                       : const Color(blackText),
+               
+                    color: currentTheme.isDarkMode
+                           ? const Color(primaryLight)
+                           : const Color(blackText),
                  ),
+               ), ],
                ),
-                
-                  
-                 
-              
-              const SizedBox(
-                height: 20,
-              ),
-            
-            
-               Text(
-                '2 planes',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
-                ),
+            const SizedBox(height: 10,),
+            Text(
+                 '3 planes',
+                 textAlign: TextAlign.center,
+                 style: TextStyle(
+                   fontSize: 14,
+                   fontWeight: FontWeight.bold,
+               
+                    color: currentTheme.isDarkMode
+                           ? const Color(primaryLight)
+                           : const Color(primaryDark),
+                 ),
+               ), 
+               
+                const SizedBox(height: 10,),
+                 Row(
+                 children: [
+                   Text(
+                     'Mis inversiones en curso',
+                     textAlign: TextAlign.center,
+                     style: TextStyle(
+                       fontSize: 10,
+                      
+                       color: currentTheme.isDarkMode
+                           ? const Color(primaryLight)
+                           : const Color(blackText),
+                     ),
+                   ),
+                  const SizedBox(width: 22,),
+                  ],
                ),
-               Text(
-                'Mis inversiones en Curso',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 10,
-                  color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(blackText),
-                ),
-               ),
-            ],
+               
+               
+               ],
       ),
-    )]);
+    ),
+    ],
+    );
   }
 }
