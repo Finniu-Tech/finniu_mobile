@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/finance/finance_screen.dart';
 import 'package:finniu/presentation/screens/finance/finance_screen_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_4.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/alerts.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/investment_history.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/investment_process_screen.dart';
 import 'package:finniu/presentation/screens/pdf.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
@@ -65,9 +66,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/calendar_page': (BuildContext context) => const Calendar(),
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
     '/process_investment': (BuildContext context) => const InvestmentProcess(),
-
+     '/investment_history': (BuildContext context) => const InvestmentHistory(),
+    
    
-
 
 
 

@@ -51,7 +51,9 @@ class InvestmentProcess extends ConsumerWidget {
                Image.asset(
         'assets/icons/calendar.png',
         width: 20,
-        height: 20,
+        height: 20,color:currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
       ),
               
               
@@ -63,9 +65,11 @@ class InvestmentProcess extends ConsumerWidget {
                     Container(
       width: 170,
       height: 40,
-      decoration: const BoxDecoration(
-        color: Color(primaryDark),
-        borderRadius: BorderRadius.only(
+      decoration:  BoxDecoration(
+        color:currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
           bottomLeft: Radius.circular(20),
@@ -74,16 +78,21 @@ class InvestmentProcess extends ConsumerWidget {
         ),
        
       ),
-      child: const Center(
-        child: Text("Rentabilidad",style: TextStyle(color: Color(whiteText)),),
+      child: Center(
+        child: Text("Rentabilidad",style: TextStyle(color:currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(whiteText),
+                          ),),
       ),
     ),
           
     Container(
       width: 170,
       height: 40,
-      decoration: const BoxDecoration(
-        color: Color(primaryLight),
+      decoration:  BoxDecoration(
+        color:currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(primaryLight),
         borderRadius: BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
@@ -92,8 +101,14 @@ class InvestmentProcess extends ConsumerWidget {
         ),
         
       ),
-      child: const Center(
-        child: Text("Mi historial"),
+      child:  Center(
+
+        child: GestureDetector(  
+                        onTap: () {
+                          Navigator.pushNamed(context, '/investment_history');
+                        },child: Text("Mi historial",style: TextStyle(color:currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),),)),
       ),
     ),   ],
                 ),
@@ -191,11 +206,13 @@ class InvestmentProcess extends ConsumerWidget {
                    Row(
                      children: [
                        Container(
-  decoration:  const BoxDecoration(
+  decoration:  BoxDecoration(
   
     border: Border(
       bottom: BorderSide(
-        color: Color(primaryLight), // color del subrayado
+        color:currentTheme.isDarkMode
+                          ? const Color(secondary)
+                          : const Color(primaryLight), // color del subrayado
         width: 5.0, // ancho del subrayado
       ),
     ),
@@ -217,7 +234,7 @@ class InvestmentProcess extends ConsumerWidget {
                           fontSize: 12,
                          
                           color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
+                              ? const Color(primaryLight)
                               : const Color(primaryDark),
                         ),
                        ),),
@@ -404,7 +421,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                        fontSize: 10,
                       
                        color: currentTheme.isDarkMode
-                           ? const Color(primaryLight)
+                           ? const Color(whiteText)
                            : const Color(blackText),
                      ),
                    ),
@@ -416,7 +433,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                    fontSize: 10,
                
                     color: currentTheme.isDarkMode
-                           ? const Color(primaryLight)
+                            ? const Color(whiteText)
                            : const Color(blackText),
                  ),
                ), ],
@@ -445,7 +462,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                        fontSize: 10,
                       
                        color: currentTheme.isDarkMode
-                           ? const Color(primaryLight)
+                             ? const Color(whiteText)
                            : const Color(blackText),
                      ),
                    ),
@@ -464,21 +481,26 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
 
 
 
-class TableCard extends StatelessWidget {
+class TableCard extends ConsumerWidget {
   const TableCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
 
 width: MediaQuery.of(context).size.width * 0.9,
   height: 200,
   decoration: BoxDecoration(
 
-    color: Colors.white,
+    color: currentTheme.isDarkMode
+                         ? Colors.transparent
+                  : const Color(whiteText),
     border: Border.all(
-      color: const Color(primaryDark),
-      width: 1,
+      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+      width: 2,
     ),
    borderRadius: BorderRadius.circular(20), 
 
@@ -490,9 +512,12 @@ width: MediaQuery.of(context).size.width * 0.9,
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-            const Text(
+             Text(
                     'Plan estable',
                     style: TextStyle(
+                      color:currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ), 
@@ -505,12 +530,14 @@ width: MediaQuery.of(context).size.width * 0.9,
                     
                    ),
             const SizedBox(width: 5,),
-             const Text(
+             Text(
                     'En curso',
                     style: TextStyle(
                       fontSize: 11,
                   
-                      color: Color(blackText)
+                      color:currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
 
       )
@@ -548,7 +575,11 @@ const SizedBox(height: 10,),
                   children: [
                     Column(
                       children: [
-                        Container(decoration:BoxDecoration(borderRadius: BorderRadius.circular(10),color:Color(primaryLight),border:Border.all(color:Color(blackText))),height: 60,width: 5,),
+                        Container(decoration:BoxDecoration(borderRadius: BorderRadius.circular(10),color: currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(primaryLight),border:Border.all(color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),)),height: 60,width: 5,),
                     
                       
                       
@@ -560,10 +591,13 @@ const SizedBox(height: 10,),
                    ] 
                    ),
                     Column(
-                         children: const [
+                         children:  [
                            Text(
                       'Dinero invertido',
                       style: TextStyle(
+                        color:currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                             fontSize: 7,
                             fontWeight: FontWeight.bold,
                       ),
@@ -573,7 +607,9 @@ const SizedBox(height: 10,),
                          Text(
                     'S/1500',
                      style: TextStyle(
-                    color: Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
                   ),
@@ -592,24 +628,30 @@ const SizedBox(height: 10,),
             
                   Column(
                     children: [
-                      Container(decoration:BoxDecoration(borderRadius: BorderRadius.circular(10),color:Color(secondary),border:Border.all(color:Color(blackText))),height: 60,width: 5,),
+                      Container(decoration:BoxDecoration(borderRadius: BorderRadius.circular(10),color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(secondary),border:Border.all(color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),)),height: 60,width: 5,),
                     ],
                   ),
                  Column(
-                   children: const [
-                     Text(
+                   children:  [
+                     const Text(
                         'Intereses generados',
                         style: TextStyle(
                           fontSize: 7,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                       SizedBox(height: 10,),
+                       const SizedBox(height: 10,),
                     Text(
                 'S/150.15',
                 style: TextStyle(
                   fontSize: 14,
-                  color:Color(primaryDark),
+                  color:currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                   fontWeight: FontWeight.bold,
                 ),
 
@@ -626,7 +668,9 @@ const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Container(width: 216,height: 112,
-            decoration: BoxDecoration( color:Color(primaryLightAlternative),borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration( color: currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(primaryLightAlternative),borderRadius: BorderRadius.circular(10)),
             child: Padding(
               padding: const EdgeInsets.all(13.0),
               child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
@@ -636,12 +680,14 @@ const SizedBox(height: 10,),
                
                    const SizedBox(height: 10,),
                    
-                    const Text(
+                     Text(
                       'Dinero actual',
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
-                        color: Color(blackText)
+                        color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       ),
                      
                      
@@ -651,12 +697,14 @@ const SizedBox(height: 10,),
                 const SizedBox(height: 10,),
                 Row(
                 children: [
-                  const Text(
+                   Text(
                           'S/1650.15',
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Color(blackText)
+                            color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(blackText),
                           ),
                          
                          
@@ -689,43 +737,50 @@ const SizedBox(height: 10,),
                       
                    Row(
                      children: [
-                       const Text(
+                       Text(
                           'Inicio',
                           style: TextStyle(
                             fontSize: 6,
                           
-                            color: Color(blackText),
+                            color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                           ),
                  
                           ),
-                       const Text(
+                       Text(
                           '29 Mayo',
                           style: TextStyle(
                             fontSize: 6,
                             fontWeight: FontWeight.bold,
-                            color: Color(blackText)
+                            color:  currentTheme.isDarkMode ? const Color(whiteText)
+                          : const Color(blackText),
                           ),
                  
                           ),
                        SizedBox(width:MediaQuery.of(context).size.width * 0.07,),
-                       const Text(
+                      Text(
                           'Finaliza',
                           style: TextStyle(
                             fontSize: 6,
-                      
-                            color: Color(blackText)
+                            color:
+                            currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                           ),
                          
                          
                          
                          
                           ),
-                       const Text(
+                      Text(
                           '29 Mayo 2023',
                           style: TextStyle(
                             fontSize: 7,
                             fontWeight: FontWeight.bold,
-                            color: Color(blackText)
+                            color:  currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                           ),
                          
                          
