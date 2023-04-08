@@ -39,6 +39,7 @@ class InvestmentProcess extends ConsumerWidget {
                                 ),
                       ),
                     ),
+                const SizedBox(width: 10,),
                  Image.asset(
         'assets/icons/dollar.png',
         width: 20,
@@ -58,7 +59,7 @@ class InvestmentProcess extends ConsumerWidget {
                 Row(mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-      width: 150,
+      width: 170,
       height: 40,
       decoration: const BoxDecoration(
         color: Color(primaryDark),
@@ -75,9 +76,9 @@ class InvestmentProcess extends ConsumerWidget {
         child: Text("Rentabilidad",style: TextStyle(color: Color(whiteText)),),
       ),
     ),
-              
+          
     Container(
-      width: 150,
+      width: 170,
       height: 40,
       decoration: const BoxDecoration(
         color: Color(primaryLight),
@@ -142,6 +143,8 @@ class InvestmentProcess extends ConsumerWidget {
                           : const Color(blackText),
                     ),
                   ),
+                  
+                  
                   const SizedBox(
                     width: 16,
                   ),
@@ -174,7 +177,7 @@ class InvestmentProcess extends ConsumerWidget {
             ),
             const SizedBox(height: 10,),
              Text(
-                    'Distribucion de mi patrimonio',
+                    'Distribucin de mi patrimonio',
                     style: TextStyle(
                       fontSize: 16,
                      
@@ -233,15 +236,10 @@ class InvestmentProcess extends ConsumerWidget {
                   ],
                    ), 
             const SizedBox(height: 10,),      
-          Column(
+          Container(
             
-            children: [
-          
-              
-              Container(
-                
   width: MediaQuery.of(context).size.width * 0.9,
-  height: MediaQuery.of(context).size.height * 0.23,
+  height: MediaQuery.of(context).size.height * 0.25,
   decoration: BoxDecoration(
 
     color: Colors.white,
@@ -252,168 +250,253 @@ class InvestmentProcess extends ConsumerWidget {
    borderRadius: BorderRadius.circular(20), 
 
   ),
-  child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+          
+          child: Column(
+    mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Plan estable',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+            const Text(
+                    'Plan estable',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ), 
+                  ),
+       SizedBox(width:MediaQuery.of(context).size.width * 0.39, ),
+               Image.asset(
+                     alignment: Alignment.center,
+                     'assets/images/circle_green.png',
+                    height: 15,
+                    
+                   ),
+            const SizedBox(width: 5,),
+             const Text(
+                    'En curso',
+                    style: TextStyle(
+                      fontSize: 11,
+                  
+                      color: Color(blackText)
+                    ),
+
+      )
+      
+      ],
+      ),
+const SizedBox(height: 10,),
+ const Padding(
+   padding: EdgeInsets.only(left: 15),
+   child: Text(
+                      'Plazo de 12 meses:14%',
+                      style: TextStyle(
+                        fontSize: 11,
+                    
+                        color: Color(grayText2)
+                      ),
+ 
+        ),
+ ),
+
+
+
+
+
+
+      const SizedBox(height: 10),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 14),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                Text(
+                  'Dinero invertido',
+                  style: TextStyle(
+                    fontSize: 7,
+                    fontWeight: FontWeight.bold,
+                  ),
+             ) ,
+             
+             Text(
+                'S/1500',
+                style: TextStyle(
+                  color: Color(primaryDark),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+            ),
+
+            SizedBox(height: 15,),
+             Text(
+                'Intereses generados',
+                style: TextStyle(
+                  fontSize: 7,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+ 
+        Text(
+                'S/150.15',
+                style: TextStyle(
+                  fontSize: 14,
+                  color:Color(primaryDark),
+                  fontWeight: FontWeight.bold,
+                ),
+
+            
+            
+            )],
             ),
           ),
-        
-
-
-
-
-
-Align(
-    alignment: Alignment.centerRight,
-    child: Padding(
-      padding: const EdgeInsets.only(right:10),
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.6,
-        height: MediaQuery.of(context).size.height * 0.15,
-        decoration: BoxDecoration(
-              color: const Color(primaryLightAlternative),
-   borderRadius: BorderRadius.circular(20), 
-),
-     
-     
-     child: Padding(
-       padding: const EdgeInsets.all(15.0),
-       child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
-        
-    
-         children: [
-          
+          Container(width: 216,height: 112,
+          decoration: BoxDecoration( color:Color(primaryLightAlternative),borderRadius: BorderRadius.circular(10)),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+             
+             
+              children: [
+             
+                 const SizedBox(height: 10,),
+                 
+                  const Text(
+                    'Dinero actual',
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.bold,
+                      color: Color(blackText)
+                    ),
+                   
+                   
+                   
+                   
+                    ),
               const SizedBox(height: 10,),
-              
-               const Text(
-                 'Dinero actual',
-                 style: TextStyle(
-                   fontSize: 10,
-                   fontWeight: FontWeight.bold,
-                   color: Color(blackText)
-                 ),
-                
-                
-                
-                
-                 ),
-         const SizedBox(height: 10,),
-         Row(
-           children: [
-             const Text(
-                     'S/1650.15',
-                     style: TextStyle(
-                       fontSize: 16,
-                       fontWeight: FontWeight.bold,
-                       color: Color(blackText)
-                     ),
-                    
-                    
-                    
-                    
-                     ),
-                       SizedBox(width:MediaQuery.of(context).size.width * 0.09,),
-           const SizedBox(height: 10,),
-                 Image.asset(
-                   alignment: Alignment.center,
-                   'assets/images/arrow.png',
-                  //  width: 15,
-                   height: 30,
-                 ),
-                 const Text(
-                 '+10.01%',
-                 style: TextStyle(
-                   fontSize: 12,
-                   fontWeight: FontWeight.bold,
-                   color: Color(colorgreen)
-                 ),
-                
-                
-                
-                
-                 ), ],
-         ),
-                 
-          
-                 
               Row(
-                children: [
-                  const Text(
-                     'Inicio',
-                     style: TextStyle(
-                       fontSize: 6,
-                     
-                       color: Color(blackText),
-                     ),
-            
-                     ),
-                  const Text(
-                     '29 Mayo',
-                     style: TextStyle(
-                       fontSize: 6,
-                       fontWeight: FontWeight.bold,
-                       color: Color(blackText)
-                     ),
-            
-                     ),
-                  SizedBox(width:MediaQuery.of(context).size.width * 0.21,),
-                  const Text(
-                     'Finaliza',
-                     style: TextStyle(
-                       fontSize: 6,
-                 
-                       color: Color(blackText)
-                     ),
+              children: [
+                const Text(
+                        'S/1650.15',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(blackText)
+                        ),
+                       
+                       
+                       
+                       
+                        ),
+                          SizedBox(width:MediaQuery.of(context).size.width * 0.06,),
+              const SizedBox(height: 10,),
+                    Image.asset(
+                      alignment: Alignment.center,
+                      'assets/images/arrow.png',
+                     //  width: 15,
+                      height: 30,
+                    ),
+                    const Text(
+                    '+10.01%',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Color(colorgreen)
+                    ),
+                   
+                   
+                   
+                   
+                    ), ],
+              ),
                     
+             
                     
+                 Row(
+                   children: [
+                     const Text(
+                        'Inicio',
+                        style: TextStyle(
+                          fontSize: 6,
+                        
+                          color: Color(blackText),
+                        ),
+               
+                        ),
+                     const Text(
+                        '29 Mayo',
+                        style: TextStyle(
+                          fontSize: 6,
+                          fontWeight: FontWeight.bold,
+                          color: Color(blackText)
+                        ),
+               
+                        ),
+                     SizedBox(width:MediaQuery.of(context).size.width * 0.18,),
+                     const Text(
+                        'Finaliza',
+                        style: TextStyle(
+                          fontSize: 6,
                     
-                    
-                     ),
-                  const Text(
-                     '29 Mayo 2023',
-                     style: TextStyle(
-                       fontSize: 7,
-                       fontWeight: FontWeight.bold,
-                       color: Color(blackText)
-                     ),
-                    
-                    
-                    
-                    
-                     )
-                
-                ],
-              ),   ],
-    
+                          color: Color(blackText)
+                        ),
+                       
+                       
+                       
+                       
+                        ),
+                     const Text(
+                        '29 Mayo 2023',
+                        style: TextStyle(
+                          fontSize: 7,
+                          fontWeight: FontWeight.bold,
+                          color: Color(blackText)
+                        ),
+                       
+                       
+                       
+                       
+                        )
+                   
+                   ],
+                 ),   ],
+             
+                  
+            ),
+          ),
+          
+          ) ,      
       
-       ),
-     
-     
-     
-     ),
-  
-  ),
-) ,      
-    
-),
-],
-          ),
-          ),
-          ],
+              ]),
+    ],
+          ))],
           ),
 
- 
 
-                ],
-                ),
-                ),
-                ),
-                );
+
+
+
+           ),
+          )
+             
+          
+          
+          
+          
+          
+          
+          
+          
+     
+              
+            
+              
+              
+              
+              
+                
+    );
+                
                 
                 
                 
