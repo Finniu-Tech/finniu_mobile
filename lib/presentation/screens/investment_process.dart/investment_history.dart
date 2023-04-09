@@ -69,7 +69,7 @@ class InvestmentHistory extends ConsumerWidget {
       height: 40,
       decoration:  BoxDecoration(
         color:currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(primaryDark)
                           : const Color(primaryDark),
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20),
@@ -82,7 +82,7 @@ class InvestmentHistory extends ConsumerWidget {
       ),
       child: Center(
         child: Text("Rentabilidad",style: TextStyle(color:currentTheme.isDarkMode
-                          ? const Color(primaryDark)
+                          ? const Color(whiteText)
                           : const Color(whiteText),
                           ),),
       ),
@@ -93,7 +93,7 @@ class InvestmentHistory extends ConsumerWidget {
       height: 40,
       decoration:  BoxDecoration(
         color:currentTheme.isDarkMode
-                          ? const Color(primaryDark)
+                          ? const Color(primaryLight)
                           : const Color(primaryLight),
         borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20),
@@ -109,7 +109,7 @@ class InvestmentHistory extends ConsumerWidget {
                         onTap: () {
                           Navigator.pushNamed(context, '/investment_history');
                         },child: Text("Mi historial",style: TextStyle(color:currentTheme.isDarkMode
-                          ? const Color(whiteText)
+                          ? const Color(primaryDark)
                           : const Color(primaryDark),),)),
       ),
     ),  
@@ -142,11 +142,16 @@ class InvestmentHistory extends ConsumerWidget {
                   
                   Row(
                     children: [
-                      Container(decoration: const BoxDecoration(
+                      Container(decoration:  BoxDecoration(
                         border:Border(
                           bottom:BorderSide(
-                            color:Color(primaryLight),
-                            width: 6,),),),
+                            color:currentTheme.isDarkMode
+                               ? const Color(secondary)
+                               : const Color(primaryLight),
+                            width: 6,),),
+                            
+                            
+                            ),
                         child: Text(
                          'En curso',
                          style: TextStyle(
@@ -165,7 +170,7 @@ class InvestmentHistory extends ConsumerWidget {
                          fontSize: 12,
                         
                          color:currentTheme.isDarkMode
-                             ? const Color(primaryLight)
+                             ? const Color(whiteText)
                              : const Color(blackText),
                        ),
                       ),
@@ -178,7 +183,7 @@ class InvestmentHistory extends ConsumerWidget {
                          fontSize: 12,
                         
                          color:currentTheme.isDarkMode
-                             ? const Color(primaryLight)
+                             ? const Color(whiteText)
                              : const Color(blackText),
                        ),
                       ),
@@ -201,7 +206,7 @@ class InvestmentHistory extends ConsumerWidget {
                          fontWeight: FontWeight.bold,
                         
                          color:currentTheme.isDarkMode
-                             ? const Color(primaryLight)
+                             ? const Color(whiteText)
                              : const Color(primaryDark),
                        ),
                       ),
@@ -268,7 +273,7 @@ class InvestmentHistory extends ConsumerWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
+                          ? const Color(primaryLight)
                           : const Color(blackText),
                       ),
                      
@@ -306,7 +311,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 10,
                         
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(grayText)
                           : const Color(grayText),
                           ),
                          
@@ -327,7 +332,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(whiteText)
                           : const Color(blackText),
                           ),
                          
@@ -341,7 +346,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(whiteText)
                           : const Color(blackText),
                           ),
                          
@@ -353,12 +358,14 @@ class InvestmentHistory extends ConsumerWidget {
                             SizedBox(width:MediaQuery.of(context).size.width * 0.03,),
                 const SizedBox(height: 10,),
                      const Spacer(),
-                      const Text(
+                       Text(
                       'Finaliza:',
                       style: TextStyle(
                         fontSize: 12,
                  
-                        color: Color(blackText),
+                        color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       ),
                      
                      
@@ -366,12 +373,14 @@ class InvestmentHistory extends ConsumerWidget {
                      
                       ),
                 
-                 const Text(
+               Text(
                       '29 Mayo 2023',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color(blackText)
+                        color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       ),
                      
                      
@@ -440,7 +449,7 @@ class InvestmentHistory extends ConsumerWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
+                          ? const Color(primaryLight)
                           : const Color(blackText),
                       ),
                      
@@ -478,7 +487,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 10,
                         
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(grayText)
                           : const Color(grayText),
                           ),
                          
@@ -499,7 +508,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(whiteText)
                           : const Color(blackText),
                           ),
                          
@@ -513,7 +522,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(whiteText)
                           : const Color(blackText),
                           ),
                          
@@ -525,12 +534,14 @@ class InvestmentHistory extends ConsumerWidget {
                             SizedBox(width:MediaQuery.of(context).size.width * 0.03,),
                 const SizedBox(height: 10,),
                      const Spacer(),
-                      const Text(
+                    Text(
                       'Finaliza:',
                       style: TextStyle(
                         fontSize: 12,
                  
-                        color: Color(blackText),
+                        color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       ),
                      
                      
@@ -538,12 +549,14 @@ class InvestmentHistory extends ConsumerWidget {
                      
                       ),
                 
-                 const Text(
+               Text(
                       '29 Mayo 2023',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color(blackText)
+                        color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       ),
                      
                      
@@ -632,7 +645,7 @@ class InvestmentHistory extends ConsumerWidget {
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
+                          ? const Color(primaryLight)
                           : const Color(blackText),
                       ),
                      
@@ -670,7 +683,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 10,
                         
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(grayText)
                           : const Color(grayText),
                           ),
                          
@@ -691,7 +704,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(whiteText)
                           : const Color(blackText),
                           ),
                          
@@ -705,7 +718,7 @@ class InvestmentHistory extends ConsumerWidget {
                             fontSize: 9,
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(whiteText)
                           : const Color(blackText),
                           ),
                          
@@ -717,12 +730,14 @@ class InvestmentHistory extends ConsumerWidget {
                             SizedBox(width:MediaQuery.of(context).size.width * 0.03,),
                 const SizedBox(height: 10,),
                      const Spacer(),
-                      const Text(
+                       Text(
                       'Finaliza:',
                       style: TextStyle(
                         fontSize: 12,
                  
-                        color: Color(blackText),
+                        color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       ),
                      
                      
@@ -730,12 +745,14 @@ class InvestmentHistory extends ConsumerWidget {
                      
                       ),
                 
-                 const Text(
+                 Text(
                       '13 Abril 2023',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: Color(blackText)
+                        color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                       ),
                      
                      
@@ -862,7 +879,7 @@ class InvestmentHistory extends ConsumerWidget {
                           Border.all(width: 1, color: const Color(primaryDark)),
                       shape: BoxShape.circle,
                       color:themeProvider.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(gradient_secondary_option)
                           : const Color(primaryDark),
                     ),
                     // Si desea agregar un icono dentro del círculo
