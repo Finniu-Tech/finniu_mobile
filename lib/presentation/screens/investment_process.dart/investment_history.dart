@@ -49,7 +49,7 @@ class InvestmentHistory extends ConsumerWidget {
       ),
            const SizedBox(width:80,),
                
-               Spacer(),
+               const Spacer(),
                Image.asset(
         'assets/icons/calendar.png',
         width: 20,
@@ -215,7 +215,7 @@ class InvestmentHistory extends ConsumerWidget {
                     ],
                   ),
                        
-                       SizedBox(height: 10,),
+                       const SizedBox(height: 10,),
                        
                         Padding(
             padding: const EdgeInsets.only(right: 10),
@@ -809,7 +809,7 @@ class InvestmentHistory extends ConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: themeProvider.isDarkMode
-                            ? const Color(primaryLight)
+                            ? const Color(whiteText)
                             : const Color(primaryDark)),
                   ),
                 ),
@@ -828,9 +828,9 @@ class InvestmentHistory extends ConsumerWidget {
             ),
           ),
           progressColor:
-              Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
+              Color(themeProvider.isDarkMode ? gradient_secondary_option : primaryDark),
           backgroundColor:
-              Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
+              Color(themeProvider.isDarkMode ? primaryLight : primaryLightAlternative),
           fillColor: themeProvider.isDarkMode
               ? const Color(backgroundColorDark)
               : Colors.white,
