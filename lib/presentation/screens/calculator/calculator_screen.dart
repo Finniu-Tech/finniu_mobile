@@ -22,8 +22,10 @@ class Calculator extends HookConsumerWidget {
     ];
     List<Color> nightColors = [
       const Color(primaryDark),
-      const Color(primaryDarkAlternative),
-      const Color(primaryDark)
+        const Color(primaryDark),
+       const Color(primaryDark),
+     
+     
     ];
 
     return Scaffold(
@@ -173,15 +175,8 @@ class Calculator extends HookConsumerWidget {
                 ),
               ),
             ),
-            CustomSelectButton(
-              textEditingController: termController,
-              items: const ['Mensual', 'Plazo Fijo'],
-              labelText: "Elección de Rentabilidad",
-              hintText: 'Seleccione su plazo de inversión',
-            ),
-            const SizedBox(
-              height: 15,
-            ),
+           
+           
             Container(
               width: 224,
               height: 67,
@@ -277,12 +272,10 @@ class Calculator extends HookConsumerWidget {
                               ),
                             ),
                           ),
-                          child: const Icon(
-                              Icons.quiz_outlined, // Icono que deseas utilizar
-                              size: 20, // Tamaño del icono
-                              color: Color(primaryDark)
+                          child: const ImageIcon(AssetImage('assets/icons/questions.png'),color:Color(primaryDark)) // Tamaño del icono
+                            
                               // Color del icono
-                              ),
+                              
                         ),
                       ],
                     ),
@@ -299,6 +292,22 @@ class Calculator extends HookConsumerWidget {
                 ),
               ),
             ),
+             const SizedBox(height: 10,),
+           SizedBox(width: 200,
+               child: Text(
+                        '*Recuerda que puedes retirar tus intereses desde el 1er mes',
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: currentTheme.isDarkMode
+                      ? Color(whiteText)
+                      :  Color(blackText),
+                        ),
+                      ),
+             ),
+            
+            
+            
             Container(
               margin: const EdgeInsets.only(top: 10),
               child: CustomButton(

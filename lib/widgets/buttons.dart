@@ -1,18 +1,19 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/onboarding_question/result.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CustomButton extends StatefulWidget {
+class CustomButton extends ConsumerStatefulWidget {
   final int? colorBackground;
   final int? colorText;
   final String text;
   final String pushName;
+  final String? image;
   final double width;
   final double height;
+  final Color? imageColor; 
 
-  const CustomButton({
+   CustomButton({
     super.key,
     required this.text,
     this.colorBackground,
@@ -20,15 +21,19 @@ class CustomButton extends StatefulWidget {
     this.pushName = "",
     this.width = 224,
     this.height = 50,
+    this.image,
+   this.imageColor,
   });
 
   @override
-  State<CustomButton> createState() => _CustomButtonState();
+ 
+ _CustomButtonState createState() => _CustomButtonState();
 }
 
-class _CustomButtonState extends State<CustomButton> {
+class _CustomButtonState extends ConsumerState<CustomButton> {
   @override
   Widget build(BuildContext context) {
+      final themeProvider = ref.watch(settingsNotifierProvider);
     Color colorBackground;
     if (widget.colorBackground == null) {
       colorBackground = Theme.of(context)
@@ -62,11 +67,28 @@ class _CustomButtonState extends State<CustomButton> {
           Navigator.pushNamed(context, widget.pushName);
         }
       },
-      child: Text(widget.text),
+     child: widget.image != null
+          ? Row(
+            
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                 Text(widget.text),
+                  SizedBox(width: 10),
+                Image.asset(
+                  widget.image!,
+                
+                  width: 20,
+                  height: 20,
+                  color: widget.imageColor,
+                ),
+               
+               
+              ],
+            )
+          : Text(widget.text),
     );
   }
 }
-
 class CustomReturnButton extends ConsumerWidget {
   final int colorBoxdecoration;
   final int colorIcon;
@@ -216,6 +238,7 @@ class BottomNavigationBarHome extends ConsumerWidget {
         elevation: 0.0,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.transparent,
+        
         selectedItemColor: currentTheme.isDarkMode
             ? const Color(primaryDark)
             : const Color(
@@ -234,17 +257,29 @@ class BottomNavigationBarHome extends ConsumerWidget {
         items: [
           BottomNavigationBarItem(
             label: 'Home',
+            
             icon: InkWell(
-              child: Icon(Icons.home_filled),
+              child: Image.asset('assets/icons/home.png', width: 30,
+                        height: 30,color: currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              )),
               onTap: () {
                 Navigator.pushNamed(context, '/home_home');
               },
             ),
+           
           ),
           BottomNavigationBarItem(
               label: 'Planes',
               icon: InkWell(
-                child: Icon(Icons.border_all),
+                child:  Image.asset('assets/icons/square.png', width: 30,
+                        height: 30,color:currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              ) ,),
                 onTap: () {
                   Navigator.pushNamed(context, '/my_investment');
                 },
@@ -252,21 +287,18 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
-                child: Icon(Icons.monetization_on_outlined),
+                child:  Image.asset('assets/icons/dollar.png', width: 30,
+                        height: 30,color:currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              ) ,),
                 onTap: () {
-                  Navigator.pushNamed(context, '/my_investment');
+                  Navigator.pushNamed(context, '/process_investment');
                 },
               )),
          
-          BottomNavigationBarItem(
-            label: 'Finanzas',
-            icon: InkWell(
-              child: Icon(Icons.wallet),
-              onTap: () {
-                Navigator.pushNamed(context, '/pdf_page');
-              },
-            ),
-          )
+          
         ],
       ),
     );

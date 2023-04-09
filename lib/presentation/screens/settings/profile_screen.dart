@@ -409,7 +409,7 @@ class ProfileScreen extends HookConsumerWidget {
                 const SizedBox(height: 15),
                 Container(
                   margin: const EdgeInsets.only(top: 20),
-                  child: const CustomButton(
+                  child:  CustomButton(
                     text: 'Guardar',
                     colorBackground: primaryDark,
                     colorText: whiteText,

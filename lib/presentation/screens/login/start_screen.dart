@@ -72,7 +72,7 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 35),
-                    child: const CustomButton(
+                    child:  CustomButton(
                         text: 'Iniciar sesión',
                         colorBackground: primaryDark,
                         colorText: whiteText,
@@ -80,7 +80,7 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 20),
-                    child: const CustomButton(
+                    child: CustomButton(
                         text: 'Registrarme',
                         colorBackground: primaryLight,
                         colorText: primaryDark,

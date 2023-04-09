@@ -5,6 +5,8 @@ import 'package:finniu/presentation/screens/finance/finance_screen.dart';
 import 'package:finniu/presentation/screens/finance/finance_screen_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_4.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/alerts.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/investment_history.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/investment_process_screen.dart';
 import 'package:finniu/presentation/screens/pdf.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
 import 'package:finniu/presentation/screens/signup/confirmation_phone_screen.dart';
@@ -52,9 +54,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/languages': (BuildContext context) => LanguagesStart(),
     '/help': (BuildContext context) => const HelpScreen(),
     '/confirmation': (BuildContext context) => const ConfirmationPhone(),
-    '/investment_step1': (BuildContext context) => const Step_1(),
-    '/investment_step2': (BuildContext context) => const Step_2(),
-    '/investment_step3': (BuildContext context) => const Step_3(),
+    '/investment_step1': (BuildContext context) => const Step1(),
+    '/investment_step2': (BuildContext context) => const Step2(),
+    '/investment_step3': (BuildContext context) => const Step3(),
     '/set_new_password': (BuildContext context) => const NewPassword(),
     '/calculator_tool': (BuildContext context) => const Calculator(),
     '/calculator_result': (BuildContext context) =>  const ResultCalculator (),
@@ -63,8 +65,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/pdf_page': (BuildContext context) => const PdfPage(),
     '/calendar_page': (BuildContext context) => const Calendar(),
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
+    '/process_investment': (BuildContext context) => const InvestmentProcess(),
+     '/investment_history': (BuildContext context) => const InvestmentHistory(),
+    
    
-
 
 
 
