@@ -47,7 +47,7 @@ class InvestmentProcess extends ConsumerWidget {
       ),
            const SizedBox(width:80,),
                
-               Spacer(),
+               const Spacer(),
                Image.asset(
         'assets/icons/calendar.png',
         width: 20,
@@ -93,7 +93,7 @@ class InvestmentProcess extends ConsumerWidget {
         color:currentTheme.isDarkMode
                           ? const Color(primaryDark)
                           : const Color(primaryLight),
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(20),
           topLeft: Radius.circular(20),
           bottomRight: Radius.circular(20),
@@ -162,7 +162,7 @@ class InvestmentProcess extends ConsumerWidget {
                   ),
                   
                   
-                 Spacer(),
+                 const Spacer(),
                   
                   Container(
                     width: 15,
@@ -259,9 +259,9 @@ class InvestmentProcess extends ConsumerWidget {
                    ), 
             const SizedBox(height: 10,),      
       
-          TableCard(),
-          SizedBox(height: 10,),
-          TableCard()
+          const TableCard(),
+          const SizedBox(height: 10,),
+          const TableCard()
           
           ],
           ),
@@ -568,7 +568,7 @@ const SizedBox(height: 10,),
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
-            padding:  EdgeInsets.only(left: 14),
+            padding:  const EdgeInsets.only(left: 14),
             child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
               children:  [
                 Row(
@@ -603,7 +603,7 @@ const SizedBox(height: 10,),
                       ),
                       ),
                         
-                        SizedBox(height: 10,),
+                        const SizedBox(height: 10,),
                          Text(
                     'S/1500',
                      style: TextStyle(
@@ -668,7 +668,18 @@ const SizedBox(height: 10,),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Container(width: 216,height: 112,
-            decoration: BoxDecoration( color: currentTheme.isDarkMode
+            decoration: BoxDecoration( 
+                 boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                offset:
+                                    const Offset(0, 3), // changes position of shadow
+                              ),
+                            ],
+              
+              color: currentTheme.isDarkMode
                           ? const Color(primaryDark)
                           : const Color(primaryLightAlternative),borderRadius: BorderRadius.circular(10)),
             child: Padding(
@@ -798,9 +809,11 @@ const SizedBox(height: 10,),
             ),
           ) ,      
       
-              ]),
+              ],
+              ),
     ],
-          ));
+          ),
+          );
 
 
     
