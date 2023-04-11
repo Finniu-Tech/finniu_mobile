@@ -150,4 +150,34 @@ class MutationRepository {
       }
     ''';
   }
+
+  static String calculateInvestment() {
+    return '''
+        mutation calculateInvestment(\$amount: Int!, \$deadline: Int!){
+            calculateInvestment(
+              input: {
+                ammount: \$amount,
+                deadline:\$deadline
+              }
+              
+            ){
+              success
+              profitability{
+                preInvestmentAmount
+              }
+              plan{
+                uuid
+                name
+                description
+                minAmount
+                value
+                twelveMonthsReturn
+                sixMonthsReturn
+                returnDateEstimate
+                planImageUrl
+              }
+            }
+        }
+    ''';
+  }
 }
