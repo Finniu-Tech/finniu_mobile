@@ -87,7 +87,7 @@ class CardCustom extends ConsumerWidget {
             isExpanded.value = value;
           },
           title: Padding(
-            padding: EdgeInsets.only(left: 27),
+            padding: const EdgeInsets.only(left: 27),
             child: Text(
               textTiledCard,
               textAlign: TextAlign.center,
@@ -95,7 +95,7 @@ class CardCustom extends ConsumerWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Color(
-                  currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                  currentTheme.isDarkMode ? (primaryDark) : (primaryLightAlternative),
                 ),
               ),
             ),
@@ -115,13 +115,13 @@ class CardCustom extends ConsumerWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 CircleAvatar(
                   radius: 15,
                   backgroundColor: Color(
-                    currentTheme.isDarkMode ? (primaryDark) : (primaryLight),
+                    currentTheme.isDarkMode ? (primaryDark) : (primaryLightAlternative),
                   ),
                   child: Icon(
                     Icons.arrow_drop_down,
@@ -133,7 +133,7 @@ class CardCustom extends ConsumerWidget {
               ],
             ),
           ),
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
           ),
@@ -148,7 +148,7 @@ class CardCustom extends ConsumerWidget {
             Container(
               alignment: Alignment.topLeft,
               color: Color(
-                currentTheme.isDarkMode ? primaryLightAlternative : secondary,
+                currentTheme.isDarkMode ? primaryLightAlternative : colortext,
               ),
               width: 320,
               height: 270,
@@ -169,60 +169,30 @@ class CardCustom extends ConsumerWidget {
                         ],
                       ),
                       Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            child: Row(
-                              // mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Icon(
-                                  Icons
-                                      .monetization_on_outlined, // Icono que deseas utilizar
-                                  size: 21.5, // Tamaño del icono
-                                  color: Color(primaryDark), // Color del icono
-                                ),
-                                Text(
-                                  "Monto minimo",
-                                  style: TextStyle(
-                                    fontSize: 10, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  textinvestment,
-                                  style: TextStyle(
-                                    fontSize: 12, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-
-                          SizedBox(height: 20),
-
                           Row(
+                            // mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons
-                                    .currency_exchange_rounded, // Icono que deseas utilizar
+                                    .monetization_on_outlined, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
-                              Text(
-                                "Retorno anual",
+                              const Text(
+                                "Monto minimo",
                                 style: TextStyle(
                                   fontSize: 10, // Tamaño de fuente
                                   color: Color(primaryDark), // Color de texto
                                 ),
                               ),
-                              SizedBox(width: 5),
+                              const SizedBox(
+                                width: 5,
+                              ),
                               Text(
-                                textPercentage,
-                                style: TextStyle(
+                                textinvestment,
+                                style: const TextStyle(
                                   fontSize: 12, // Tamaño de fuente
                                   color: Color(primaryDark), // Color de texto
                                 ),
@@ -234,15 +204,42 @@ class CardCustom extends ConsumerWidget {
 
                           Row(
                             children: [
-                              Icon(
-                                Icons
-                                    .percent_sharp, // Icono que deseas utilizar
-                                size: 21.5, // Tamaño del icono
-                                color: Color(primaryDark), // Color del icono
+                              Image.asset(
+      'assets/icons/double_dollar.png', 
+      width: 25,
+      height: 25, 
+    ),
+                              const Text(
+                                "Retorno anual",
+                                style: TextStyle(
+                                  fontSize: 10, // Tamaño de fuente
+                                  color: Color(primaryDark), // Color de texto
+                                ),
                               ),
+                              const SizedBox(width: 5),
                               Text(
+                                textPercentage,
+                                style: const TextStyle(
+                                  fontSize: 12, // Tamaño de fuente
+                                  color: Color(primaryDark), // Color de texto
+                                ),
+                              )
+                            ],
+                          ),
+
+                          const SizedBox(height: 20),
+
+                          Row(
+                            children: [
+                                  Image.asset(
+      'assets/icons/percent.png', 
+      width: 20,
+      height: 20, 
+    ),
+              
+                              const Text(
                                 // textAlign: TextAlign.end,
-                                "Declaración a la Sunat",
+                                " Declaración a la Sunat",
                                 style: TextStyle(
                                   fontSize: 10, // Tamaño de fuente
                                   color: Color(primaryDark), // Color de texto
@@ -251,7 +248,7 @@ class CardCustom extends ConsumerWidget {
                               SizedBox(width: 5),
                               Text(
                                 textDeclaration,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12, // Tamaño de fuente
                                   color: Color(primaryDark), // Color de texto
                                 ),
@@ -265,12 +262,12 @@ class CardCustom extends ConsumerWidget {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.all(
+                    padding: const EdgeInsets.all(
                         25.0), // aquí puedes configurar la cantidad de padding
                     child: Center(
                       child: Text(
                         textContainer,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.w400,
                           color: Color(blackText),
@@ -279,11 +276,31 @@ class CardCustom extends ConsumerWidget {
                       ),
                     ),
                   ),
+                
+                
+                 Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 3,
+              decoration: const BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: Color(gradient_secondary_option),
+                    width: 1.2,
+                  ),
+                ),
+              ),
+            ),
+                
+                
+            
+                
+                
                 ],
               ),
             )
           ],
-        ));
+        ),
+        );
   }
 }
 
@@ -327,7 +344,7 @@ class InitialCardBody extends ConsumerWidget {
                 width: 2.0),
           ),
 
-          borderRadius: BorderRadius.only(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(0),
             topRight: Radius.circular(0),
             bottomLeft: Radius.circular(30),
@@ -335,7 +352,7 @@ class InitialCardBody extends ConsumerWidget {
           ),
         ),
         child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           SizedBox(
@@ -355,11 +372,11 @@ class InitialCardBody extends ConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Container(
                   width: 82,
                   // height: 34,
-                  padding: EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(3),
                   decoration: BoxDecoration(
                     border: Border.all(
                         color: Color(gradient_secondary), width: 2.0),
@@ -371,12 +388,12 @@ class InitialCardBody extends ConsumerWidget {
                       Text(
                         textinvestment,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 12.0,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Monto minimo",
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -386,16 +403,16 @@ class InitialCardBody extends ConsumerWidget {
                       ),
                     ],
                   )),
-              SizedBox(width: 12),
+              const SizedBox(width: 12),
               Container(
                 width: 82,
                 // height: 34,
-                padding: EdgeInsets.all(3),
+                padding: const EdgeInsets.all(3),
                 decoration: BoxDecoration(
                   border: Border.all(
-                      color: Color(primaryLightAlternative), width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                  color: Color(primaryLightAlternative),
+                      color: const Color(primaryLightAlternative), width: 2.0),
+                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                  color: const Color(primaryLightAlternative),
                 ),
                 child: Center(
                   child: Column(
@@ -403,12 +420,12 @@ class InitialCardBody extends ConsumerWidget {
                       Text(
                         textPercentage,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 12.0,
                         ),
                       ),
-                      Text(
+                      const Text(
                         "Retorno Anual",
                         textAlign: TextAlign.center,
                         style: TextStyle(

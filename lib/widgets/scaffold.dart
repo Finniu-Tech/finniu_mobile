@@ -139,7 +139,9 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
+      appBar: AppBar
+      
+      (
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0,
           leading: themeProvider.isDarkMode

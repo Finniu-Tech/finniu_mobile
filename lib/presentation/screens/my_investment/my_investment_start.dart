@@ -1,8 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
-import 'package:finniu/widgets/buttons.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:finniu/widgets/scaffold.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,129 +14,36 @@ class InvestmentStart extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
-    return Scaffold(
-      bottomNavigationBar: const BottomNavigationBarHome(),
+    return CustomScaffoldReturnLogo(
+   
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 60,
+                height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    height: 60,
-                    width: 60,
-                    alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/images/logo_small.png',
-                      color: (currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText)),
-                    ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/home_notification');
-                      },
-                      child: Icon(
-                        CupertinoIcons.bell,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                  ),
-                  Container(
-                    height: 43,
-                    width: 41,
-                    alignment: Alignment.topRight,
-                    child: InkWell(
-                        onTap: () {
-                          settingsDialog(context, ref);
-                        },
-                        child: Image.asset('assets/home/avatar.png')),
-                  ),
-                ],
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
+              
+              SizedBox(width: 220,
+                         
                 child: Text(
-                  'Mis inversiones',
+                  'Nuestro planes de inversión',
                   style: TextStyle(
                     color: currentTheme.isDarkMode
                         ? const Color(primaryLight)
                         : const Color(primaryDark),
                     fontSize: 24,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              Container(
-                alignment: Alignment.topLeft,
-                width: 320,
-                height: 129.0,
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(gradient_secondary_option),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      height: 103,
-                      width: 100,
-                      child: Image.asset('assets/investment/investment.png'),
-                    ),
-                    const SizedBox(
-                      width: 180,
-                      child: Text(
-                        'Hola Mari, puedes visualizar nuestros planes y simular tu inversión para comenzar a invertir desde hoy.',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          height: 1.5,
-                          fontSize: 12,
-                          color: Color(whiteText),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
+           
               Row(mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    'Planes de inversión',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      height: 1.5,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                    ),
-                  ),
-                 Spacer(),
+                
+                 const Spacer(),
                   ElevatedButton(
                     style: ButtonStyle(
                       shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -148,7 +54,7 @@ class InvestmentStart extends HookConsumerWidget {
                     ),
                     onPressed: () {},
                     child: const Text(
-                      "Agendar sesión 1:1",
+                      "Quiero conversar",
                       style: TextStyle(
                         color: Color(primaryDark),
                         decoration: TextDecoration.underline,
@@ -166,12 +72,12 @@ class InvestmentStart extends HookConsumerWidget {
                 image: 'assets/result/money.png',
                 textTiledCard: 'Plan Origen',
                 textPercentage: '12%',
-                textinvestment: '500',
+                textinvestment: 'S/500',
                 textDeclaration: '5%',
                 textContainer:
                     'Esta inversión prioriza la estabilidad generando una rentabilidad moderada. Si recién empiezas a invertir, este plan es perfecto para ti',
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               ExpandableCard(
@@ -181,9 +87,35 @@ class InvestmentStart extends HookConsumerWidget {
                 textDeclaration: '8%',
                 textinvestment: 'S/1,000 ',
                 textContainer:
-                    ' Esta inversión brinda una rentabilidad atractiva',
-              )
-            ],
+                    ' Esta inversión busca relacion de riesgo-beneficio. Recomendable para personas que buscan otra alternativa de inversion de en el mercado.',
+              ),
+            const SizedBox(
+                height: 10,
+              ),
+            ExpandableCard(
+                image: 'assets/images/bills.png',
+                textTiledCard: 'Plan Responsable',
+                textPercentage: '16% ',
+                textDeclaration: '8%',
+                textinvestment: 'S/5,000 ',
+                textContainer:
+                    ' Esta inversión brinda una rentabilidad atractiva mayor a fondos mutuos y factoring. Esencial para aquellos que buscan incrementar sus ahorros.',
+              ) ,
+              const SizedBox(
+                height: 10,
+              ),
+              
+               ExpandableCard(
+                image: 'assets/images/increasemoney.png',
+                textTiledCard: 'Plan Crecimiento',
+                textPercentage: '18% ',
+                textDeclaration: '8%',
+                textinvestment: 'S/10,000 ',
+                textContainer:
+                    ' Esta inversión se enfoca en brindar la mejor rentabilidad para aquellos inversionistas que buscan maximizar sus ganancias',
+              ) ,
+              
+              ],
           ),
         ),
       ),

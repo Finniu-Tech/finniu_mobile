@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:flutter_calendar_carousel/classes/event.dart';
@@ -42,7 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   static final Widget _eventIcon = Container(
     decoration: BoxDecoration(
-        color: Colors.white,
+      
+        color: Color(secondary),
         borderRadius: const BorderRadius.all(Radius.circular(1000)),
         border: Border.all(color: Colors.blue, width: 2.0),),
     child: const Icon(
@@ -123,50 +125,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    final calendarCarousel = CalendarCarousel<Event>(
-      onDayPressed: (date, events) {
-        setState(() => _currentDate = date);
-        for (var event in events) {
-          print(event.title);
-        }
-      },
-      weekendTextStyle: const TextStyle(
-        color: Colors.red,
-      ),
-      thisMonthDayBorderColor: Colors.grey,
-
-      headerText: 'Cabecera Personalizada',
-      weekFormat: true,
-      markedDatesMap: _markedDateMap,
-      height: 200.0,
-      selectedDateTime: _currentDate2,
-      showIconBehindDayText: true,
-
-      customGridViewPhysics: const NeverScrollableScrollPhysics(),
-      markedDateShowIcon: true,
-      markedDateIconMaxShown: 2,
-      selectedDayTextStyle: const TextStyle(
-        color: Colors.black,
-      ),
-      todayTextStyle: const TextStyle(
-        color: Colors.blue,
-      ),
-      markedDateIconBuilder: (event) {
-        return event.icon ?? const Icon(Icons.help_outline);
-      },
-      minSelectedDate: _currentDate.subtract(const Duration(days: 360)),
-      maxSelectedDate: _currentDate.add(const Duration(days: 360)),
-      todayButtonColor: Colors.transparent,
-      todayBorderColor: Colors.blue,
-      markedDateMoreShowTotal:
-          true, 
-
-    );
-
+  
+    
   
     final calendarCarouselNoHeader = CalendarCarousel<Event>(
       todayBorderColor: Colors.blue,
+      weekdayTextStyle: TextStyle(color:Color(primaryDark),fontWeight: FontWeight.bold,fontSize: 16),
       onDayPressed: (date, events) {
         setState(() => _currentDate2 = date);
         for (var event in events) {
@@ -176,9 +140,9 @@ class _MyHomePageState extends State<MyHomePage> {
       daysHaveCircularBorder: true,
       showOnlyCurrentMonthDate: false,
       weekendTextStyle: const TextStyle(
-        color: Colors.black,
+        color: Color(primaryDark),
       ),
-      thisMonthDayBorderColor: Colors.grey,
+      thisMonthDayBorderColor: Color(primaryDark),
       weekFormat: false,
 //      firstDayOfWeek: 4,
       markedDatesMap: _markedDateMap,
@@ -187,7 +151,7 @@ class _MyHomePageState extends State<MyHomePage> {
       targetDateTime: _targetDateTime,
       customGridViewPhysics: const NeverScrollableScrollPhysics(),
       markedDateCustomShapeBorder:
-          const CircleBorder(side: BorderSide(color: Colors.yellow)),
+          const CircleBorder(side: BorderSide(color: Color(primaryDark))),
       markedDateCustomTextStyle: const TextStyle(
         fontSize: 18,
         color: Colors.blue,
@@ -197,15 +161,15 @@ class _MyHomePageState extends State<MyHomePage> {
         color: Colors.blue,
       ),
      
-      todayButtonColor: Colors.yellow,
+      todayButtonColor: Color(blackText),
       selectedDayTextStyle: const TextStyle(
-        color: Colors.yellow,
+        color: Color(primaryDark),
       ),
       minSelectedDate: _currentDate.subtract(const Duration(days: 360)),
       maxSelectedDate: _currentDate.add(const Duration(days: 360)),
       prevDaysTextStyle: const TextStyle(
         fontSize: 16,
-        color: Colors.pinkAccent,
+        color: Color(blackText),
       ),
       inactiveDaysTextStyle: const TextStyle(
         color: Colors.tealAccent,
@@ -232,10 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
             
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: calendarCarousel,
-              ), 
+              
               Container(
                 margin: const EdgeInsets.only(
                   top: 30.0,
@@ -254,36 +215,62 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                     ),
-                    TextButton(
-                      child: const Text('Atras'),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month - 1);
-                          _currentMonth =
-                              DateFormat.yMMM().format(_targetDateTime);
-                        });
-                      },
-                    ),
-                    TextButton(
-                      child: const Text('Siguiente'),
-                      onPressed: () {
-                        setState(() {
-                          _targetDateTime = DateTime(
-                              _targetDateTime.year, _targetDateTime.month + 1);
-                          _currentMonth =
-                              DateFormat.yMMM().format(_targetDateTime);
-                        });
-                      },
-                    )
+                
+                   
                   ],
                 ),
               ),
-              Container(
+              
+            Container(
                 margin: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: calendarCarouselNoHeader,
-              ), 
-            ],
+              ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(alignment: Alignment.centerLeft,
+                child: const Text(
+                        'Fechas importantes de Mayo',
+                        style: TextStyle(
+                          fontSize: 16,
+                        
+                          color: 
+                               Color(blackText),
+                        ),
+                      ),
+              ),
+            ),
+           
+           Padding(
+             padding: const EdgeInsets.only(left:60),
+             child: Container(alignment: Alignment.center,              width: 290,height: 75,decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),   color: Color(primaryLightAlternative),),
+             
+           
+                  child: Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
+                  children:const [Text(
+                          '29 de Mayo',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: 
+                                 Color(blackText),
+                          ),
+                        ),
+                  SizedBox(height: 4), // Agrega un espacio de 4 píxeles entre los dos textos
+                     Text(
+              'Fecha de pago de tu inversion Plan Estable',
+              style: TextStyle(
+              fontSize: 10,
+              color: Color(blackText),
+              ),
+                
+                
+                ),
+              ],
+              ),
+             
+                     ),
+           ),
+          ],
           ),
         ),
         );

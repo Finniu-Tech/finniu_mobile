@@ -8,6 +8,9 @@ import 'package:finniu/presentation/screens/investment_confirmation/widgets/aler
 import 'package:finniu/presentation/screens/investment_process.dart/investment_history.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/investment_process_screen.dart';
 import 'package:finniu/presentation/screens/pdf.dart';
+import 'package:finniu/presentation/screens/reinvest_process.dart/reinvest_process_end.dart';
+import 'package:finniu/presentation/screens/reinvest_process.dart/reinvest_process_screen.dart';
+import 'package:finniu/presentation/screens/reinvest_process.dart/reinvest_process_start.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
 import 'package:finniu/presentation/screens/signup/confirmation_phone_screen.dart';
 import 'package:finniu/presentation/screens/help/help_screen.dart';
@@ -67,6 +70,16 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
     '/process_investment': (BuildContext context) => const InvestmentProcess(),
      '/investment_history': (BuildContext context) => const InvestmentHistory(),
+     '/reinvest_process': (BuildContext context) => const ReinvestProcess(),
+     '/reinvest': (BuildContext context) => const Reinvest(),
+      '/reinvest_end': (BuildContext context) => const ReinvestEnd(),
+
+   
+
+
+
+    
+    
     
    
 

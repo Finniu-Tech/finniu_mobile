@@ -25,7 +25,7 @@ class InvestmentHistory extends ConsumerWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20),
                       child: Text(
-                        'Mis inversiones',
+                        'Mis inversiones 💸 ',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24,
@@ -39,22 +39,25 @@ class InvestmentHistory extends ConsumerWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Image.asset(
-                    'assets/icons/dollar.png',
-                    width: 20,
-                    height: 20,
-                  ),
                   const SizedBox(
                     width: 80,
                   ),
-                  Spacer(),
-                  Image.asset(
-                    'assets/icons/calendar.png',
-                    width: 20,
-                    height: 20,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                  const Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 11),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/calendar_page');
+                      },
+                      child: Image.asset(
+                        'assets/icons/calendar.png',
+                        width: 20,
+                        height: 20,
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                      ),
+                    ),
                   ),
                 ]),
                 const SizedBox(
@@ -211,7 +214,7 @@ class InvestmentHistory extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Padding(
@@ -683,7 +686,7 @@ class CircularImageSimulation extends ConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         color: themeProvider.isDarkMode
-                            ? const Color(primaryLight)
+                            ? const Color(whiteText)
                             : const Color(primaryDark)),
                   ),
                 ),
@@ -701,10 +704,12 @@ class CircularImageSimulation extends ConsumerWidget {
               ],
             ),
           ),
-          progressColor:
-              Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
-          backgroundColor:
-              Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
+          progressColor: Color(themeProvider.isDarkMode
+              ? gradient_secondary_option
+              : primaryDark),
+          backgroundColor: Color(themeProvider.isDarkMode
+              ? primaryLight
+              : primaryLightAlternative),
           fillColor: themeProvider.isDarkMode
               ? const Color(backgroundColorDark)
               : Colors.white,
