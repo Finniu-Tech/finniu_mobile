@@ -4,16 +4,12 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ReinvestProcess extends StatefulWidget {
+class ReinvestProcess extends HookConsumerWidget {
   const ReinvestProcess({super.key});
 
   @override
-  State<ReinvestProcess> createState() => _ReinvestProcessState();
-}
-
-class _ReinvestProcessState extends State<ReinvestProcess> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,WidgetRef ref) {
+      final themeProvider = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
       body:  Padding(
         padding: const EdgeInsets.all(20.0),
@@ -25,11 +21,13 @@ class _ReinvestProcessState extends State<ReinvestProcess> {
                 height: 10,
               ),
               
-              const Text(textAlign:TextAlign.center,
+             Text(textAlign:TextAlign.center,
                 'Planes de inversion que puedes reinvertir',
                 style: TextStyle(
                   color: 
-                      Color(primaryDark),
+                   themeProvider.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
@@ -47,25 +45,38 @@ class _ReinvestProcessState extends State<ReinvestProcess> {
                         width: 224,
                         height: 111,
                         padding:  const EdgeInsets.only(
-                          left: 45,
+                          left: 25,
                           right: 15,
                           top: 15,
                           bottom: 15,
                         ),
                         decoration: BoxDecoration(
+                          boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
                           color:
-                               Color(primaryDark),
+                         themeProvider.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                             color: const Color(primaryDark),
                           ),
                         ),
-                        child: const Text(
+                        child:  Text(
                           textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 12,
                             color: 
-                                 Color(whiteText),
+                               themeProvider.isDarkMode
+                  ? const Color(blackText)
+                  : const Color(whiteText),
                             fontWeight: FontWeight.w500,
                           ),
                           "Hola Mari recuerda que solo peudes reinvertir 15 dias antes de culminar tu plan de inversion.",
@@ -93,12 +104,14 @@ class _ReinvestProcessState extends State<ReinvestProcess> {
                   ],
                 ),
               ),
-     SizedBox(height: 10,),
-      const Text(textAlign:TextAlign.center,
+     const SizedBox(height: 10,),
+      Text(textAlign:TextAlign.center,
                 'Planes finalizados',
                 style: TextStyle(
                   color: 
-                      Color(primaryDark),
+                    themeProvider.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(primaryDark),
                   fontSize: 14,
             
                 ),
@@ -180,7 +193,13 @@ width: MediaQuery.of(context).size.width * 0.9,
             const SizedBox(width: 16,),
              Padding(
                padding: const EdgeInsets.only(right: 10),
-               child: Container(width: 69,height: 24,decoration: BoxDecoration(color: Color(primaryDark), borderRadius: BorderRadius.circular(10)),
+               child: Container(width: 69,height: 24,decoration: BoxDecoration(color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+               
+               
+               
+               borderRadius: BorderRadius.circular(10)),
                  child: Padding(
                    padding: const EdgeInsets.all(6.0),
                    child: GestureDetector( onTap: () {
@@ -192,7 +211,7 @@ width: MediaQuery.of(context).size.width * 0.9,
                               fontSize: 11,
                           
                               color:currentTheme.isDarkMode
-                                  ? const Color(whiteText)
+                                  ? const Color(primaryDark)
                                   : const Color(whiteText),
                             ),
                                 
@@ -206,7 +225,7 @@ width: MediaQuery.of(context).size.width * 0.9,
       ),
 const SizedBox(height: 10,),
  Padding(
-   padding: EdgeInsets.only(left: 17),
+   padding: const EdgeInsets.only(left: 17),
    child: Row(
      children: [
          Image.asset(
@@ -216,12 +235,14 @@ const SizedBox(height: 10,),
                     
                    ),
       const SizedBox(width: 5,),
-       const Text(
+      Text(
                           'En Curso',
                           style: TextStyle(
                             fontSize: 11,
                         
-                            color: Color(grayText2)
+                            color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(grayText2),
                           ),
  
             ),
@@ -278,19 +299,34 @@ const SizedBox(height: 10,),
       
             Column(
               children: [
-                  Container(width: 83.95,height: 43,decoration: BoxDecoration(color: Color(primaryLight), borderRadius: BorderRadius.circular(10)),
+                  Container(width: 83.95,height: 43,decoration: BoxDecoration(
+                    boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    
+                    color: currentTheme.isDarkMode
+                            ? const Color(primaryLightAlternative)
+                            : const Color(primaryLight), 
+                  
+                  
+                  borderRadius: BorderRadius.circular(10)),
          child: Padding(
            padding: const EdgeInsets.all(6.0),
            child: Column(
              children: [
-               Text( textAlign:TextAlign.center,
+               const Text( textAlign:TextAlign.center,
                       'Monto inicial',
                       style: TextStyle(
                         fontSize: 7,
                     
-                        color:currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color:
+                            Color(blackText),
                       ),
                           
                    ),
@@ -300,7 +336,7 @@ const SizedBox(height: 10,),
                         fontSize: 14,
                     
                         color:currentTheme.isDarkMode
-                            ? const Color(whiteText)
+                            ? const Color(primaryDark)
                             : const Color(blackText),
                       ),
                           
@@ -311,22 +347,32 @@ const SizedBox(height: 10,),
               ],
             ),
            
-           SizedBox(width: 20,),
+           const SizedBox(width: 20,),
            Column(
              children:  [
-    Container(width: 83.95,height: 43,decoration: BoxDecoration(color: Color(secondary), borderRadius: BorderRadius.circular(10)),
+    Container(width: 83.95,height: 43,decoration: BoxDecoration(
+      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 7,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+      
+      color: const Color(secondary), borderRadius: BorderRadius.circular(10)),
          child: Padding(
            padding: const EdgeInsets.all(6.0),
            child: Column(
              children: [
-               Text( textAlign:TextAlign.center,
+               const Text( textAlign:TextAlign.center,
                       'En 6 meses tendrias',
                       style: TextStyle(
                         fontSize: 7,
                     
-                        color:currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color:
+                             Color(blackText),
                       ),
                           
                    ),
@@ -336,7 +382,7 @@ const SizedBox(height: 10,),
                         fontSize: 14,
                     
                         color:currentTheme.isDarkMode
-                            ? const Color(whiteText)
+                            ? const Color(primaryDark)
                             : const Color(blackText),
                       ),
                           
@@ -354,7 +400,9 @@ const SizedBox(height: 10,),
       const SizedBox(height: 10,),
       Container(alignment: Alignment.center,
         
-        width: 69,height: 24,decoration: BoxDecoration(color: const Color(primaryDark), borderRadius: BorderRadius.circular(10)),
+        width: 69,height: 24,decoration: BoxDecoration(color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark), borderRadius: BorderRadius.circular(10)),
                child: Padding(
                  padding: const EdgeInsets.all(6.0),
                  child: Text( textAlign:TextAlign.center,
@@ -363,7 +411,7 @@ const SizedBox(height: 10,),
                           fontSize: 11,
                       
                           color:currentTheme.isDarkMode
-                              ? const Color(whiteText)
+                              ? const Color(primaryDark)
                               : const Color(whiteText),
                         ),
                             

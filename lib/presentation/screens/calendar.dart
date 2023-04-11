@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         'Fechas importantes de Mayo',
                         style: TextStyle(
                           fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        
                           color: 
                                Color(blackText),
                         ),
@@ -241,10 +241,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
            
            Padding(
-             padding: const EdgeInsets.only(left: 18),
+             padding: const EdgeInsets.only(left:60),
              child: Container(alignment: Alignment.center,              width: 290,height: 75,decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),   color: Color(primaryLightAlternative),),
+             
            
-
                   child: Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
                   children:const [Text(
                           '29 de Mayo',
@@ -256,20 +256,20 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                   SizedBox(height: 4), // Agrega un espacio de 4 píxeles entre los dos textos
-          Text(
-            'Fecha de pago de tu inversion Plan Estable',
-            style: TextStyle(
+                     Text(
+              'Fecha de pago de tu inversion Plan Estable',
+              style: TextStyle(
               fontSize: 10,
               color: Color(blackText),
-            ),
+              ),
                 
                 
                 ),
-            ],
-            ),
-           
-          ),
-          ),
+              ],
+              ),
+             
+                     ),
+           ),
           ],
           ),
         ),

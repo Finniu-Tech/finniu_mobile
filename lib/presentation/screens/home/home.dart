@@ -400,7 +400,7 @@ const SizedBox(height: 15,),
                   ),
                 ),
                 Align(
-                  alignment: Alignment.center,
+                  alignment: Alignment.centerLeft,
                   child: Container(
                     height: 144,
                     width: 141,
