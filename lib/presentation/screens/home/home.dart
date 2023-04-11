@@ -65,411 +65,389 @@ class HomeBody extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 20, left: 10),
-        child: Column(
-          children: [
-            const SizedBox(height: 70),
+        padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(height: 70),
 
-            Row(children: [
-              InkWell(
-                onTap: () {
-                  settingsDialog(context, ref);
-                },
+              Row(children: [
+                InkWell(
+                  onTap: () {
+                    settingsDialog(context, ref);
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    child: const CircularPercentAvatarWidget(),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Hola,${userProfile.nickName ?? ''}!",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  child: Image.asset(
+                    'assets/images/logo_small.png',
+                    width: 60,
+                    height: 60,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
+                  ),
+                ),
+              ]),
+              const SizedBox(width: 30),
+
+              const SizedBox(height: 25),
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
                 child: Container(
-                  alignment: Alignment.center,
-                  child: const CircularPercentAvatarWidget(),
-                ),
-              ),
-              SizedBox(width: 10,),
-              Container(
-                width: 250,
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Hola,${userProfile.nickName ?? ''}!",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Resumen de mis inversiones',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),
+                    ),
                   ),
                 ),
               ),
-              const Expanded(
-                child: SizedBox.shrink(),
+              const LineReportHomeWidget(
+                initialAmount: 550,
+                finalAmount: 583,
+                revenueAmount: 33,
               ),
-              SizedBox(
-                child: Image.asset(
-                  'assets/images/logo_small.png',
-                  width: 60,
-                  height: 60,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
-                ),
-              ),
-            ]),
-            const SizedBox(width: 30),
-
-            const SizedBox(height: 25),
-            Padding(
-              padding: const EdgeInsets.only(left: 15),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Resumen de mis inversiones',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
-                  ),
-                ),
-              ),
-            ),
-            const LineReportHomeWidget(
-              initialAmount: 550,
-              finalAmount: 583,
-              revenueAmount: 33,
-            ),
-            // const Flexible(
-            //   flex: 10,
-            //   fit: FlexFit.tight,
-            //   child: CardTable(),
-            // ),
-            // SizedBox(
-            //   height: 40,
-            // ),
-            Padding(
-              padding: const EdgeInsets.only(right: 30, top: 10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .end, // Alinear widgets en el centro horizontalmente
-                children: [
-                  Container(
-                    width: 20,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        width: 1,
+              // const Flexible(
+              //   flex: 10,
+              //   fit: FlexFit.tight,
+              //   child: CardTable(),
+              // ),
+              // SizedBox(
+              //   height: 40,
+              // ),
+              Padding(
+                padding: const EdgeInsets.only(right: 30, top: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment
+                      .end, // Alinear widgets en el centro horizontalmente
+                  children: [
+                    Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryDark)
+                              : const Color(primaryDark),
+                        ),
+                        shape: BoxShape.circle,
                         color: currentTheme.isDarkMode
                             ? const Color(primaryDark)
-                            : const Color(primaryDark),
+                            : const Color(primaryLight),
                       ),
-                      shape: BoxShape.circle,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryDark)
-                          : const Color(primaryLight),
+                      // Si desea agregar un icono dentro del círculo
                     ),
-                    // Si desea agregar un icono dentro del círculo
+                    const SizedBox(
+                        width: 5), // Separación entre el círculo y el texto
+                    Text(
+                      'Dinero invertido',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Container(
+                      width: 12,
+                      height: 12,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                            width: 1, color: const Color(primaryDark)),
+                        shape: BoxShape.circle,
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(secondary),
+                      ),
+                      // Si desea agregar un icono dentro del círculo
+                    ),
+                    // Separación entre el círculo y el texto
+                    const SizedBox(width: 5),
+                    Text(
+                      'Intereses generados',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(
+                height: 15,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
+                        color: const Color(secondary)),
+                    width: 98,
+                    height: 65,
+                    child: GestureDetector(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icons/square.png', //Ruta de acceso de la imagen
+                            width: 15,
+                            height: 15,
+                          ),
+                          const SizedBox(height: 5),
+                          const Text(
+                            'Planes',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(blackText),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/my_investment');
+                      },
+                    ),
                   ),
                   const SizedBox(
-                      width: 5), // Separación entre el círculo y el texto
-                  Text(
-                    'Dinero invertido',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 16,
+                    width: 20,
                   ),
                   Container(
-                    width: 20,
-                    height: 20,
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(width: 1, color: const Color(primaryDark)),
-                      shape: BoxShape.circle,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(secondary),
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(secondary),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ]),
+                    width: 98,
+                    height: 65,
+                    child: GestureDetector(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icons/dollar.png', //Ruta de acceso de la imagen
+                            width: 15,
+                            height: 15,
+                          ),
+                          const SizedBox(height: 5),
+                          const Text(
+                            'Mis inversiones',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(blackText),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/process_investment');
+                      },
                     ),
-                    // Si desea agregar un icono dentro del círculo
                   ),
-                  // Separación entre el círculo y el texto
-                  const SizedBox(width: 5),
-                  Text(
-                    'Intereses generados',
-                    style: TextStyle(
-                      fontSize: 10,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                  const SizedBox(
+                    width: 20,
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(secondary),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 7,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ]),
+                    width: 98,
+                    height: 65,
+                    child: GestureDetector(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/icons/transferences.png', //Ruta de acceso de la imagen
+                            width: 15,
+                            height: 15,
+                          ),
+                          const SizedBox(height: 5),
+                          const Text(
+                            'Transferencias',
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(blackText),
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/home_home');
+                      },
                     ),
                   ),
                 ],
               ),
-            ),
+              const SizedBox(
+                height: 15,
+              ),
 
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
+              Container(
+                height: 2,
+                width: MediaQuery.of(context).size.width * 0.8,
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              SizedBox(
+                width: 330,
+                // height: ,
+                child: Center(
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      Container(
+                        constraints:
+                            const BoxConstraints(maxWidth: 330, maxHeight: 147),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLightAlternative)
+                              : const Color(primaryLightAlternative),
+                          borderRadius: BorderRadius.circular(18),
                         ),
-                      ],
-                      color: const Color(secondary)),
-                  width: 98,
-                  height: 65,
-                  child: GestureDetector(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:[
-                      Image.asset(
-                        'assets/icons/square.png', //Ruta de acceso de la imagen
-                        width: 15,
-                        height: 15,
                       ),
-                  
-                  
-                  
-                        const SizedBox(height: 5),
-                        const Text(
-                          'Planes',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          height: 144,
+                          width: 141,
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                            ),
+                            image: DecorationImage(
+                              image: AssetImage("assets/home/person.png"),
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                      ],
-                    ),
-                  
-                   onTap: () {
-    Navigator.pushNamed(context, '/my_investment');
-  },
-                  
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(secondary),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ]),
-                  width: 98,
-                  height: 65,
-                 child: GestureDetector(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:[
-                      Image.asset(
-                        'assets/icons/dollar.png', //Ruta de acceso de la imagen
-                        width: 15,
-                        height: 15,
                       ),
-                  
-                  
-                  
-                        const SizedBox(height: 5),
-                        const Text(
-                          'Mis inversiones',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 320,
+                          height: 147,
+                          padding: EdgeInsets.only(
+                            left: 60,
+                            top: 20,
                           ),
-                          textAlign: TextAlign.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              Text(
+                                "Simula tu inversión aquí",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(primaryDark),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Descubre como simular el",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(grayText2),
+                                ),
+                              ),
+                              Text(
+                                "retorno de tu inversión",
+                                textAlign: TextAlign.left,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(grayText2),
+                                ),
+                              ),
+                              CustomButtonRoundedDark(
+                                pushName: '/calculator_tool',
+                              )
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  
-                   onTap: () {
-    Navigator.pushNamed(context, '/process_investment');
-  },
-                  
-                  ),
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(secondary),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ]),
-                  width: 98,
-                  height: 65,
-                  child: GestureDetector(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children:[
-                      Image.asset(
-                        'assets/icons/transferences.png', //Ruta de acceso de la imagen
-                        width: 15,
-                        height: 15,
                       ),
-                  
-                  
-                  
-                        const SizedBox(height: 5),
-                        const Text(
-                          'Transferencias',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
-                    ),
-                  
-                   onTap: () {
-    Navigator.pushNamed(context, '/reinvest_process');
-  },
-                  
-                  ),
-                ),
-            ],),
-const SizedBox(height: 15,),
-
-         Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 3,
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color(primaryDark),
-                    width: 0,
+                    ],
                   ),
                 ),
               ),
-            ),
-
-            Container(
-              height: 3,
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
-            ),
-            const SizedBox(
-              height: 6,
-            ),
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-
-
-
-                Container(
-                 
-                  constraints:const BoxConstraints(
-                    maxWidth:330,
-                    maxHeight:147),
-                  alignment: Alignment.center,
-                  
-                  decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLightAlternative)
-                        : const Color(primaryLightAlternative),
-                    borderRadius: BorderRadius.circular(18),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Container(
-                    height: 144,
-                    width: 141,
-                    decoration: const BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                      ),
-                      image: DecorationImage(
-                        image: AssetImage("assets/home/person.png"),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 320,
-                    height: 147,
-             
-                    padding: EdgeInsets.only(
-                    
-                      left: MediaQuery.of(context).size.width * 0.2,
-                      top: 20,
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          "Simula tu inversión aquí",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(primaryDark),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          "Descubre como simular el",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Color(grayText2),
-                          ),
-                        ),
-                        Text(
-                          "retorno de tu inversión",
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Color(grayText2),
-                          ),
-                        ),
-                        CustomButtonRoundedDark(
-                          pushName: '/calculator_tool',
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
+              const SizedBox(
+                height: 15,
+              ),
+            ],
+          ),
         ),
       ),
     );

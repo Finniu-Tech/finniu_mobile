@@ -38,7 +38,6 @@ class Step2 extends ConsumerWidget {
             const SizedBox(height: 15),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-             
               children: [
                 Container(
                   // height: 100,
@@ -142,7 +141,6 @@ class Step2 extends ConsumerWidget {
                               color: Color(blackText),
                             ),
                           ),
-                        
                         ],
                       ),
                     ),
@@ -185,41 +183,39 @@ class Step2 extends ConsumerWidget {
                         ],
                       ),
                     ),
-                  
                   ],
                 ),
-    
               ],
             ),
             const SizedBox(height: 20),
             SizedBox(
               width: 320,
-            
               child: Text(
                 'Realiza tu transferencia a la cuenta bancaria de Finniu: ',
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontSize: 14,
-              
                   color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(primaryDark),
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                 ),
               ),
             ),
-              const SizedBox(height: 12,),
-             Container(
+            const SizedBox(
+              height: 12,
+            ),
+            Container(
               width: 320,
               height: 138,
-
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                 
                   bottomRight: Radius.circular(38),
                 ),
-                color:   currentTheme.isDarkMode
-                                        ? const Color(primaryDark,)
-                                        : const Color(gradient_secondary),
+                color: currentTheme.isDarkMode
+                    ? const Color(
+                        primaryDark,
+                      )
+                    : const Color(gradient_secondary),
                 border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryDark)
@@ -227,139 +223,134 @@ class Step2 extends ConsumerWidget {
                   width: 1,
                 ),
               ),
-              
               child: Padding(
                 padding: const EdgeInsets.all(18.0),
-               child: SizedBox(
-    width: MediaQuery.of(context).size.width * 0.8,
-    child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
-      
-      children: [
-          Text(
-        'Finniu S.A.C',
-        style: TextStyle(
-          color:  currentTheme.isDarkMode
-                                        ? const Color(primaryLight)
-                                        : const Color(primaryDark),
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
-      ),
-      const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            
-            Text(
-              'RUC ',
-              style: TextStyle(
-   
-                color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(grayText),
-                fontSize: 12,
-              ),
-            ),
-            Text(
-              '20609327210',
-              style: TextStyle(
-                
-                fontWeight: FontWeight.bold,
-                color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(grayText),
-                fontSize: 12,
-              ),
-            ),
-           
-   
-         
-         
-          ],
-        ),
-           const SizedBox(height: 8,),
-      Row(
-        children: [
-          Text(
-                  'N de cuenta Interbank ',
-                  style: TextStyle(
-   
-                    color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(grayText),
-                    fontSize: 12,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Finniu S.A.C',
+                        style: TextStyle(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            'RUC ',
+                            style: TextStyle(
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(grayText),
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            '20609327210',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(grayText),
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'N de cuenta Interbank ',
+                            style: TextStyle(
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(grayText),
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            '2003004077570',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(grayText),
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          ImageIcon(
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(grayText),
+                            size: 18,
+                            AssetImage(
+                              'assets/icons/double_square.png',
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'CCI ',
+                            style: TextStyle(
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(grayText),
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            '003 200 00300407757039',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(grayText),
+                              fontSize: 12,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          ImageIcon(
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(grayText),
+                            size: 18,
+                            const AssetImage(
+                              'assets/icons/double_square.png',
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-       
-            Text(
-              '2003004077570',
-              style: TextStyle(
-                
-                fontWeight: FontWeight.bold,
-                color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(grayText),
-                fontSize: 12,
               ),
             ),
-            const SizedBox(width: 5,),
-            ImageIcon(color: currentTheme.isDarkMode
-        ? const Color(primaryLight)
-        : const Color(grayText),
-      size: 18,
-      AssetImage('assets/icons/double_square.png',),
-      
-   
-            
-      )],
-    ),
-   const SizedBox(height: 8,),
-   Row(
-        children: [
-          Text(
-                  'CCI ',
-                  style: TextStyle(
-   
-                    color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(grayText),
-                    fontSize: 12,
-                  ),
-                ),
-       
-            Text(
-              '003 200 00300407757039',
-              style: TextStyle(
-                
-                fontWeight: FontWeight.bold,
-                color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(grayText),
-                fontSize: 12,
-              ),
+            const SizedBox(
+              height: 10,
             ),
-            const SizedBox(width: 5,),
-              ImageIcon(color: currentTheme.isDarkMode
-        ? const Color(primaryLight)
-        : const Color(grayText),
-      size: 18,
-      const AssetImage('assets/icons/double_square.png',),
-            
-   )],
-    ),
-  
-
-
-   ],
-      ),),
-),
-
-
-
-),
-             
-             const SizedBox(height: 10,),
-             SizedBox(
+            SizedBox(
               width: 305,
               // alignment: Alignment.centerLeft,
               child: Text(
@@ -367,17 +358,16 @@ class Step2 extends ConsumerWidget {
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontSize: 14,
-              
                   color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(primaryDark),
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                 ),
               ),
             ),
-             const SizedBox(height: 12,),
-             
-             Container(
-              
+            const SizedBox(
+              height: 12,
+            ),
+            Container(
               width: 320,
               height: 73,
               decoration: BoxDecoration(
@@ -395,109 +385,117 @@ class Step2 extends ConsumerWidget {
                   width: 1,
                 ),
               ),
-              
               child: SizedBox(
-                
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Padding(
-        padding: const EdgeInsets.only(right: 10),
-        child: Container(alignment: Alignment.topRight,
-          child: InkWell(onTap: (){
-            origenPlan(context);
-          },
-            
-            child: ImageIcon(
-            const AssetImage('assets/icons/questions.png'),
-            size: 20, // Tamaño de la imagen
-            color: currentTheme.isDarkMode
-                ? const Color(grayText)
-                : const Color(primaryDark), // Color de la imagen
-          ),
-        ),
-      ),
-      ),
-
-      const SizedBox(width: 8),
-        ImageIcon(const AssetImage('assets/icons/photo.png'),color: currentTheme.isDarkMode
-        ? const Color(grayText)
-        : const Color(primaryDark),)
-,     const SizedBox(width: 8),
-      Text(
-        'Suba la foto nitida donde sea visible el código de operación',
-        style: TextStyle(
-          color: currentTheme.isDarkMode
-              ? const Color(grayText)
-              : const Color(primaryDark),
-          fontSize: 8,
-        ),
-        textAlign: TextAlign.center,
-      ),
-    ],
-  ),
-),),
-            const SizedBox(height: 10,),
-            Row(
-  mainAxisAlignment: MainAxisAlignment.center,
-  children: [
-    Container(
-      width: 21,
-      height: 21,
-      decoration: BoxDecoration(
-        
-        color:  Colors.transparent,
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                  bottomLeft: Radius.circular(5),
-                  bottomRight: Radius.circular(5),),
-                
-        border:Border.all(color:currentTheme.isDarkMode
-                  ?  const Color(primaryLight)
-                  :  const Color(primaryDark),)
-      ),
-    ),
-    const SizedBox(height: 40,),
-    const SizedBox(width: 10,),
-     Text(
-      'He leido y acepto el ',
-      style: TextStyle(
-        fontSize: 10,
-        color:currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(blackText),
-      ),
-    ),
-    
-    Text(
-      ' Contrato de Inversion de Finniu ',
-      style: TextStyle(
-        color:currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
-        fontSize: 12, 
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  ],
-),
-
-            const SizedBox(height: 10,),
-            CustomButton(
-                text: "Finalizar mi proceso",
-                height: 50,
-                width: 224,
-                pushName: '/investment_step3',
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Container(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          onTap: () {
+                            origenPlan(context);
+                          },
+                          child: ImageIcon(
+                            const AssetImage('assets/icons/questions.png'),
+                            size: 20, // Tamaño de la imagen
+                            color: currentTheme.isDarkMode
+                                ? const Color(grayText)
+                                : const Color(
+                                    primaryDark), // Color de la imagen
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    ImageIcon(
+                      const AssetImage('assets/icons/photo.png'),
+                      color: currentTheme.isDarkMode
+                          ? const Color(grayText)
+                          : const Color(primaryDark),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Suba la foto nitida donde sea visible el código de operación',
+                      style: TextStyle(
+                        color: currentTheme.isDarkMode
+                            ? const Color(grayText)
+                            : const Color(primaryDark),
+                        fontSize: 8,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
-             ],
-            ),),
-            );
-            
-            }
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 21,
+                  height: 21,
+                  decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(5),
+                        topRight: Radius.circular(5),
+                        bottomLeft: Radius.circular(5),
+                        bottomRight: Radius.circular(5),
+                      ),
+                      border: Border.all(
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                      )),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  'He leido y acepto el ',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
+                  ),
+                ),
+                Text(
+                  ' Contrato de Inversion de Finniu ',
+                  style: TextStyle(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            CustomButton(
+              text: "Finalizar mi proceso",
+              height: 50,
+              width: 224,
+              pushName: '/investment_step3',
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
-
-
 
 class CircularCountdown extends ConsumerWidget {
   const CircularCountdown({super.key});
@@ -561,8 +559,6 @@ class CircularCountdown extends ConsumerWidget {
   }
 }
 
-
-
 void origenPlan(
   BuildContext ctx,
 ) {
@@ -584,134 +580,141 @@ class OrigenPlan extends ConsumerWidget {
   const OrigenPlan({key});
 
   @override
-Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.7,
       decoration: BoxDecoration(
           color: currentTheme.isDarkMode
-                          ? const Color(primaryDark)
-                          : const Color(
-                              primaryLight,
-                            ), borderRadius: BorderRadius.circular(40)),
-    
-        child: Column(
-          
-          mainAxisAlignment: MainAxisAlignment.start,
-          
-          children: [
+              ? const Color(primaryDark)
+              : const Color(
+                  primaryLight,
+                ),
+          borderRadius: BorderRadius.circular(40)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
           Container(
-           alignment: Alignment.topRight,
-        margin: const EdgeInsets.only( bottom:10,right: 20,top: 15),
-            child: IconButton(color:currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(
-                              blackText,
-                            ),alignment: Alignment.topRight,
-                    icon: const Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // cerrar la pantalla modal
-                    },
-                  ),
-          ),
-            Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                
-                 Container(
-            margin: const EdgeInsets.only(right: 10),
-            child: Image.asset('assets/images/page.png',width: 60,height: 60,),
-          ),
-                SizedBox(width: 260,
-                  child: Text(
-                    'Adjunta tu comprobante con 3 pasos ',
-                    textAlign: TextAlign.justify,
-                    
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(
-                              primaryDark,
-                            ),
+            alignment: Alignment.topRight,
+            margin: const EdgeInsets.only(bottom: 10, right: 20, top: 15),
+            child: IconButton(
+              color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(
+                      blackText,
                     ),
+              alignment: Alignment.topRight,
+              icon: const Icon(Icons.close),
+              onPressed: () {
+                Navigator.of(context).pop(); // cerrar la pantalla modal
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                margin: const EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  'assets/images/page.png',
+                  width: 60,
+                  height: 60,
+                ),
+              ),
+              SizedBox(
+                width: 260,
+                child: Text(
+                  'Adjunta tu comprobante con 3 pasos ',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(
+                            primaryDark,
+                          ),
                   ),
                 ),
-              ],
-            ),
-            
-          const SizedBox(height: 20,),
-          SizedBox(width: 300,
-            child: Text(
-                '1.Tomate foto o screenshot del voucer de tu transferencia.',
-                textAlign: TextAlign.justify,
-                
-                style: TextStyle(
-                  fontSize: 12,
-                
-                  color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(
-                              blackText,
-                            ),
-                ),
               ),
+            ],
           ),
-           const SizedBox(height: 20,),
-           SizedBox(width: 300,
-            child: Text(
-                '2.Abre tus archivos o tu galeria y busca la foto del voucher de su transferencia',
-                textAlign: TextAlign.justify,
-                
-                style: TextStyle(
-                  fontSize: 12,
-                
-                  color:currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(
-                              blackText,
-                            ),
-                ),
-              ),
+          const SizedBox(
+            height: 20,
           ),
-             const SizedBox(height: 20,),
-           SizedBox(width: 300,
-             child: Text(
-                '3.Selecciona la foto o screenshot del voucher de tu transferencia',
-                textAlign: TextAlign.justify,
-                
-                style: TextStyle(
-                  fontSize: 12,
-                
-                  color:currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(
-                              blackText,
-                            ),
-                ),
-              ),
-           ),
-           const SizedBox(height: 60,),
-            Text(
-              '¡Y listo!',
-              textAlign: TextAlign.center,
-              
+          SizedBox(
+            width: 300,
+            child: Text(
+              '1.Tomate foto o screenshot del voucer de tu transferencia.',
+              textAlign: TextAlign.justify,
               style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              
+                fontSize: 12,
                 color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(
-                              blackText,
-                            ),
+                    ? const Color(whiteText)
+                    : const Color(
+                        blackText,
+                      ),
               ),
             ),
-          
-          const SizedBox(height: 15,)
-          ],
           ),
-          );
-
-  }}
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            width: 300,
+            child: Text(
+              '2.Abre tus archivos o tu galeria y busca la foto del voucher de su transferencia',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontSize: 12,
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(
+                        blackText,
+                      ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            width: 300,
+            child: Text(
+              '3.Selecciona la foto o screenshot del voucher de tu transferencia',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontSize: 12,
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(
+                        blackText,
+                      ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 60,
+          ),
+          Text(
+            '¡Y listo!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(
+                      blackText,
+                    ),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          )
+        ],
+      ),
+    );
+  }
+}
