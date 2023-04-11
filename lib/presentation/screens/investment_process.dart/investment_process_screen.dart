@@ -14,91 +14,89 @@ class InvestmentProcess extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
         body: SingleChildScrollView(
-          
-            child: Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
-              
-              children: <Widget>[
-                
-                 
-                Row(
-                  children: [
-                    SizedBox(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Text(
-                                  ' Mis inversiones 💸 ',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(Theme.of(context).colorScheme.secondary.value),
-                                  ),
-                                ),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(children: [
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20),
+                  child: Text(
+                    ' Mis inversiones 💸 ',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color:
+                          Color(Theme.of(context).colorScheme.secondary.value),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 80,
+              ),
+              const Spacer(),
+              Image.asset(
+                'assets/icons/calendar.png',
+                width: 20,
+                height: 20,
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+              ),
+            ]),
+            const SizedBox(
+              height: 30,
+            ),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 170,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Rentabilidad",
+                      style: TextStyle(
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(whiteText),
                       ),
                     ),
-             
-                 
-           const SizedBox(width:80,),
-               
-               const Spacer(),
-               Image.asset(
-        'assets/icons/calendar.png',
-        width: 20,
-        height: 20,color:currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-      ),
-              
-              
-              ]),
-                const SizedBox(height: 30,),
-                
-                Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-      width: 170,
-      height: 40,
-      decoration:  BoxDecoration(
-        color:currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
-          bottomLeft: Radius.circular(20),
-           bottomRight: Radius.circular(20),
-          
-        ),
-       
-      ),
-      child: Center(
-        child: Text("Rentabilidad",style: TextStyle(color:currentTheme.isDarkMode
-                          ? const Color(primaryDark)
-                          : const Color(whiteText),
-                          ),),
-      ),
-    ),
-          
-    Container(
-      width: 170,
-      height: 40,
-      decoration:  BoxDecoration(
-        color:currentTheme.isDarkMode
-                          ? const Color(primaryDark)
-                          : const Color(primaryLight),
-        borderRadius: const BorderRadius.only(
-          topRight: Radius.circular(20),
-          topLeft: Radius.circular(20),
-          bottomRight: Radius.circular(20),
-          bottomLeft: Radius.circular(20),
-        ),
-        
-      ),
-      child:  Center(
-
-        child: GestureDetector(  
+                  ),
+                ),
+                Container(
+                  width: 170,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryDark)
+                        : const Color(primaryLight),
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                    ),
+                  ),
+                  child: Center(
+                    child: GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, '/investment_history');
                         },
@@ -458,92 +456,80 @@ class TableCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
-
-width: MediaQuery.of(context).size.width * 0.9,
-  height: 200,
-  decoration: BoxDecoration(
-
-    color: currentTheme.isDarkMode
-                         ? Colors.transparent
-                  : const Color(whiteText),
-    border: Border.all(
-      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-      width: 2,
-    ),
-   borderRadius: BorderRadius.circular(20), 
-
-  ),
-          
-          child: Column(
-    mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-             Text(
-                    'Plan estable',
-                    style: TextStyle(
-                      color:currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ), 
-                  ),
-       SizedBox(width:MediaQuery.of(context).size.width * 0.39, ),
-               Image.asset(
-                     alignment: Alignment.center,
-                     'assets/images/circle_green.png',
-                    height: 15,
-                    
-                   ),
-            const SizedBox(width: 5,),
-             Text(
-                    'En curso',
-                    style: TextStyle(
-                      fontSize: 11,
-                  
-                      color:currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
-                    ),
-
-      )
-      
-      ],
-      ),
-const SizedBox(height: 10,),
- const Padding(
-   padding: EdgeInsets.only(left: 15),
-   child: Text(
-                      'Plazo de 12 meses:14%',
-                      style: TextStyle(
-                        fontSize: 11,
-                    
-                        color: Color(grayText2)
-                      ),
- 
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: 200,
+      decoration: BoxDecoration(
+        color: currentTheme.isDarkMode
+            ? Colors.transparent
+            : const Color(whiteText),
+        border: Border.all(
+          color: currentTheme.isDarkMode
+              ? const Color(primaryLight)
+              : const Color(primaryDark),
+          width: 2,
         ),
- ),
-
-
-
-
-
-
-      const SizedBox(height: 10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding:  const EdgeInsets.only(left: 14),
-            child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
-              children:  [
-                Row(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Plan estable',
+                style: TextStyle(
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.39,
+              ),
+              Image.asset(
+                alignment: Alignment.center,
+                'assets/images/circle_green.png',
+                height: 15,
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Text(
+                'En curso',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
+                ),
+              )
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Text(
+              'Plazo de 12 meses:14%',
+              style: TextStyle(fontSize: 11, color: Color(grayText2)),
+            ),
+          ),
+          const SizedBox(height: 10),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 14),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Column(
+                    Row(
                       children: [
                         Column(children: [
                           Container(
