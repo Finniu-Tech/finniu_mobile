@@ -29,7 +29,7 @@ class InvestmentProcess extends ConsumerWidget {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
                         child: Text(
-                                  'Mis inversiones',
+                                  ' Mis inversiones 💸 ',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
                                     fontSize: 24,
@@ -39,12 +39,8 @@ class InvestmentProcess extends ConsumerWidget {
                                 ),
                       ),
                     ),
-                const SizedBox(width: 10,),
-                 Image.asset(
-        'assets/icons/dollar.png',
-        width: 20,
-        height: 20,
-      ),
+             
+                 
            const SizedBox(width:80,),
                
                const Spacer(),
