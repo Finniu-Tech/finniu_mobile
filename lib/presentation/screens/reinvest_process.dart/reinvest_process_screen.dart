@@ -61,7 +61,7 @@ class _ReinvestProcessState extends State<ReinvestProcess> {
                           ),
                         ),
                         child: const Text(
-                          textAlign: TextAlign.left,
+                          textAlign: TextAlign.justify,
                           style: TextStyle(
                             fontSize: 12,
                             color: 
@@ -103,9 +103,9 @@ class _ReinvestProcessState extends State<ReinvestProcess> {
             
                 ),
               ),
-    SizedBox(height: 10,),
+    const SizedBox(height: 10,),
     const TableCard(),
-    SizedBox(height: 10,),
+    const SizedBox(height: 10,),
     const Text(
                       'Historial de planes en curso',
                       style: TextStyle(
@@ -116,7 +116,7 @@ class _ReinvestProcessState extends State<ReinvestProcess> {
                   
                       ), 
                     ),
-    SizedBox(height: 10,),
+    const SizedBox(height: 10,),
       const TableCard(),
    
     ],
@@ -183,17 +183,21 @@ width: MediaQuery.of(context).size.width * 0.9,
                child: Container(width: 69,height: 24,decoration: BoxDecoration(color: Color(primaryDark), borderRadius: BorderRadius.circular(10)),
                  child: Padding(
                    padding: const EdgeInsets.all(6.0),
-                   child: Text( textAlign:TextAlign.center,
-                          'Reinvertir',
-                          style: TextStyle(
-                            fontSize: 11,
-                        
-                            color:currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(whiteText),
-                          ),
-                              
-                       ),
+                   child: GestureDetector( onTap: () {
+    Navigator.pushNamed(context, '/reinvest');
+  },
+                     child: Text( textAlign:TextAlign.center,
+                            'Reinvertir',
+                            style: TextStyle(
+                              fontSize: 11,
+                          
+                              color:currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(whiteText),
+                            ),
+                                
+                         ),
+                   ),
                  ),
                ),
              )
