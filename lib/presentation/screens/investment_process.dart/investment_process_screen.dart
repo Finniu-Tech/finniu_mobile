@@ -250,11 +250,11 @@ class InvestmentProcess extends ConsumerWidget {
               height: 10,
             ),
 
-            const TableCard(),
+             const TableCard(planName: "Plan Estable",termText: "Plazo de 12 meses:14%",amountInvested: "S/1500", interestGenerated: "S/150.15",currentMoney: "S/1650.15",moneyGrowth:"+10.01%",textButton: false,),
             const SizedBox(
               height: 10,
             ),
-            const TableCard()
+           const TableCard(planName: "Plan Origen",termText: "Plazo de 12 meses:12%",amountInvested: "S/720",interestGenerated: "S/64.87",currentMoney: "S/784.87",moneyGrowth: "+9.01%",)
           ],
         ),
       ),
@@ -266,12 +266,13 @@ class LineReportHomeWidget extends ConsumerStatefulWidget {
   final double initialAmount;
   final double finalAmount;
   final double revenueAmount;
-
+  
   const LineReportHomeWidget({
     super.key,
     required this.initialAmount,
     required this.finalAmount,
     required this.revenueAmount,
+    
   });
 
   @override
@@ -377,7 +378,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -450,14 +451,38 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
 }
 
 class TableCard extends ConsumerWidget {
-  const TableCard({super.key});
+  final String planName;
+  final String termText;
+  final String amountInvested;
+  final String interestGenerated;
+  final String currentMoney;
+  final String moneyGrowth;
+  final bool? textButton;
+ 
+
+  
+  const TableCard({super.key,
+  required this.planName,
+  required this.termText,
+  required this.amountInvested,
+  required this.interestGenerated,
+  required this.currentMoney,
+ required this.moneyGrowth,
+ this.textButton,
+
+  
+  
+  
+  });
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 200,
+      height: 210,
       decoration: BoxDecoration(
         color: currentTheme.isDarkMode
             ? Colors.transparent
@@ -478,7 +503,7 @@ class TableCard extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Plan estable',
+               planName,
                 style: TextStyle(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
@@ -512,13 +537,29 @@ class TableCard extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          const Padding(
-            padding: EdgeInsets.only(left: 15),
-            child: Text(
-              'Plazo de 12 meses:14%',
-              style: TextStyle(fontSize: 11, color: Color(grayText2)),
-            ),
-          ),
+         Row(
+           children: [
+             Padding(
+                padding: EdgeInsets.only(left: 15),
+                child: Text(
+                  termText,
+                  style: TextStyle(fontSize: 11, color: Color(grayText2)),
+                ),
+              ),
+          Spacer(),
+          if (textButton==true)
+           Padding(
+             padding: const EdgeInsets.only(right: 10),
+             child: SizedBox(width:82 ,height: 30,
+               child: TextButton(onPressed: () {
+                                  Navigator.pushNamed(context, '/reinvest');
+                                }, child:   const Text(
+                                  'Reinvertir',)
+               
+                      ),
+             ),
+           )],
+         ),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -547,32 +588,35 @@ class TableCard extends ConsumerWidget {
                             width: 5,
                           ),
                         ]),
-                        Column(
-                          children: [
-                            Text(
-                              'Dinero invertido',
-                              style: TextStyle(
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
-                                fontSize: 7,
-                                fontWeight: FontWeight.bold,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                'Dinero invertido',
+                                style: TextStyle(
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(blackText),
+                                  fontSize: 7,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'S/1500',
-                              style: TextStyle(
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
-                          ],
+                              Text(
+                                amountInvested,
+                                style: TextStyle(
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(primaryLight)
+                                      : const Color(primaryDark),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -599,29 +643,32 @@ class TableCard extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        Column(
-                          children: [
-                            const Text(
-                              'Intereses generados',
-                              style: TextStyle(
-                                fontSize: 7,
-                                fontWeight: FontWeight.bold,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Column(
+                            children: [
+                              const Text(
+                                'Intereses generados',
+                                style: TextStyle(
+                                  fontSize: 7,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'S/150.15',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
-                                fontWeight: FontWeight.bold,
+                              const SizedBox(
+                                height: 10,
                               ),
-                            )
-                          ],
+                              Text(
+                                interestGenerated,
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(primaryLight)
+                                      : const Color(primaryDark),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -672,7 +719,7 @@ class TableCard extends ConsumerWidget {
                         Row(
                           children: [
                             Text(
-                              'S/1650.15',
+                              currentMoney,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -693,8 +740,8 @@ class TableCard extends ConsumerWidget {
                               //  width: 15,
                               height: 30,
                             ),
-                            const Text(
-                              '+10.01%',
+                            Text(
+                              moneyGrowth,
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.bold,
