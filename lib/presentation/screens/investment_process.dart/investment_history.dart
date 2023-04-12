@@ -72,7 +72,7 @@ class InvestmentHistory extends ConsumerWidget {
                       decoration: BoxDecoration(
                         color: currentTheme.isDarkMode
                             ? const Color(primaryDark)
-                            : const Color(primaryDark),
+                            : const Color(primaryLightAlternative),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20),
@@ -86,7 +86,7 @@ class InvestmentHistory extends ConsumerWidget {
                           style: TextStyle(
                             color: currentTheme.isDarkMode
                                 ? const Color(whiteText)
-                                : const Color(whiteText),
+                                : const Color(primaryDark),
                           ),
                         ),
                       ),
@@ -97,7 +97,7 @@ class InvestmentHistory extends ConsumerWidget {
                       decoration: BoxDecoration(
                         color: currentTheme.isDarkMode
                             ? const Color(primaryLight)
-                            : const Color(primaryLight),
+                            : const Color(primaryDark),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20),
@@ -116,7 +116,7 @@ class InvestmentHistory extends ConsumerWidget {
                               style: TextStyle(
                                 color: currentTheme.isDarkMode
                                     ? const Color(primaryDark)
-                                    : const Color(primaryDark),
+                                    : const Color(whiteText),
                               ),
                             )),
                       ),
@@ -217,442 +217,26 @@ class InvestmentHistory extends ConsumerWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 110,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryDark)
-                              : const Color(primaryLightAlternative),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(13.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Plan Estable',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  'S/1500',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(primaryLight)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Image.asset(
-                                  alignment: Alignment.center,
-                                  'assets/images/circle_green.png',
-                                  height: 15,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'En curso',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Plazo de 12 meses: 14%',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(grayText)
-                                    : const Color(grayText),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Inicio',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                Text(
-                                  '29 Mayo',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const Spacer(),
-                                Text(
-                                  'Finaliza:',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                Text(
-                                  '29 Mayo 2023',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    )),
-                SizedBox(
+               
+               const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/1500", startDay: "29 Mayo", finishDay: "29 Mayo 2023"),
+                       const SizedBox(
+                  height: 10,
+                ), 
+                       const TablePlan(planName: "Plan Origen", termText: "Plazo de 12 meses:12%", mounted: "S/720", startDay: "29 Noviembre", finishDay: "29 Mayo 2023"),
+                       
+                     
+                      const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 110,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryDark)
-                              : const Color(primaryLightAlternative),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(13.0),
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Plan Estable',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                    'S/720',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(primaryLight)
-                                          : const Color(blackText),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Image.asset(
-                                    alignment: Alignment.center,
-                                    'assets/images/circle_green.png',
-                                    height: 15,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'En curso',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Plazo de 12 meses: 12%',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(grayText)
-                                      : const Color(grayText),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(children: [
-                                Text(
-                                  'Inicio',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                Text(
-                                  '29 Noviembre',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const Spacer(),
-                                Text(
-                                  'Finaliza:',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                Text(
-                                  '29 Mayo 2023',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                              ]),
-                            ]),
-                      ),
-                    )),
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      height: 110,
-                      decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryDark)
-                              : const Color(primaryLightAlternative),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(13.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Plan Estable',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  'S/5400',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(primaryLight)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                const Spacer(),
-                                Image.asset(
-                                  alignment: Alignment.center,
-                                  'assets/images/circle_green.png',
-                                  height: 15,
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'En curso',
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                )
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Plazo de 6 meses: 8%',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(grayText)
-                                    : const Color(grayText),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  'Inicio',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                Text(
-                                  '13 Octubre',
-                                  style: TextStyle(
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.03,
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const Spacer(),
-                                Text(
-                                  'Finaliza:',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                                Text(
-                                  '13 Abril 2023',
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.bold,
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                      const TablePlan(planName: "Plan Responsable", termText: "Plazo de 6 meses:8%", mounted: "S/5400", startDay: "13 Octubre", finishDay: "13 Abril 2023")
+                     
+                        ]
+                        
                         ),
                       ),
-                    ))
-              ]),
-        ),
-      ),
-    );
+                    ));
+              
+        
   }
 }
 
@@ -708,8 +292,8 @@ class CircularImageSimulation extends ConsumerWidget {
               ? gradient_secondary_option
               : primaryDark),
           backgroundColor: Color(themeProvider.isDarkMode
-              ? primaryLight
-              : primaryLightAlternative),
+              ? primaryLightAlternative
+              : primaryLight),
           fillColor: themeProvider.isDarkMode
               ? const Color(backgroundColorDark)
               : Colors.white,
@@ -785,3 +369,178 @@ class CircularImageSimulation extends ConsumerWidget {
     );
   }
 }
+
+
+
+class TablePlan extends ConsumerWidget {
+  final String planName;
+  final String termText;
+  final String mounted;
+  final String startDay;
+  final String finishDay;
+
+
+
+  
+  const TablePlan({super.key,
+  required this.planName,
+  required this.termText,
+  required this.mounted,
+  required this.startDay,
+  required this.finishDay,
+
+
+  
+  
+  
+  });
+
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    return  Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: 110,
+                        decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 1,
+                                blurRadius: 7,
+                                offset: const Offset(
+                                    0, 3), // changes position of shadow
+                              ),
+                            ],
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(primaryLightAlternative),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(13.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                   planName,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                   mounted,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(primaryLight)
+                                          : const Color(blackText),
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Image.asset(
+                                    alignment: Alignment.center,
+                                    'assets/images/circle_green.png',
+                                    height: 15,
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'En curso',
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
+                                    ),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                'Plazo de 12 meses: 14%',
+                                style: TextStyle(
+                                  fontSize: 10,
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(grayText)
+                                      : const Color(grayText),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Inicio',
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.bold,
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
+                                    ),
+                                  ),
+                                  Text(
+                                    startDay,
+                                    style: TextStyle(
+                                      fontSize: 9,
+                                      fontWeight: FontWeight.bold,
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.03,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    'Finaliza:',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
+                                    ),
+                                  ),
+                                  Text(
+                                    finishDay,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+    );}}

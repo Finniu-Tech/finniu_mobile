@@ -254,7 +254,11 @@ class InvestmentProcess extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-           const TableCard(planName: "Plan Origen",termText: "Plazo de 12 meses:12%",amountInvested: "S/720",interestGenerated: "S/64.87",currentMoney: "S/784.87",moneyGrowth: "+9.01%",)
+           const TableCard(planName: "Plan Origen",termText: "Plazo de 12 meses:12%",amountInvested: "S/720",interestGenerated: "S/64.87",currentMoney: "S/784.87",moneyGrowth: "+9.01%",),
+           const SizedBox(
+              height: 10,
+            ),
+           const TableCard(planName: "Plan Responsable",termText: "Plazo de 6 meses:8%",amountInvested: "S/5400", interestGenerated: "S/382.32",currentMoney: "S/5782.32",moneyGrowth:"+7.08%",textButton: true,),
           ],
         ),
       ),
@@ -500,21 +504,22 @@ class TableCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-               planName,
-                style: TextStyle(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: Text(
+                 planName,
+                  style: TextStyle(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.39,
-              ),
+             Spacer(),
               Image.asset(
                 alignment: Alignment.center,
                 'assets/images/circle_green.png',
@@ -523,13 +528,16 @@ class TableCard extends ConsumerWidget {
               const SizedBox(
                 width: 5,
               ),
-              Text(
-                'En curso',
-                style: TextStyle(
-                  fontSize: 11,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Text(
+                  'En curso',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
+                  ),
                 ),
               )
             ],
@@ -771,7 +779,7 @@ class TableCard extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.07,
+                              width: MediaQuery.of(context).size.width * 0.12,
                             ),
                             Text(
                               'Finaliza',
