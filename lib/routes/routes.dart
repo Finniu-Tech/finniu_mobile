@@ -4,6 +4,8 @@ import 'package:finniu/presentation/screens/calendar.dart';
 import 'package:finniu/presentation/screens/finance/finance_screen.dart';
 import 'package:finniu/presentation/screens/finance/finance_screen_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_4.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/finish.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/investment_finish.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/investment_history.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/investment_process_screen.dart';
 import 'package:finniu/presentation/screens/pdf.dart';
@@ -66,11 +68,13 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/pdf_page': (BuildContext context) => const PdfPage(),
     '/calendar_page': (BuildContext context) => const Calendar(),
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
-    '/process_investment': (BuildContext context) => const InvestmentProcess(),
+    '/process_investment': (BuildContext context) => InvestmentProcess(),
      '/investment_history': (BuildContext context) => const InvestmentHistory(),
      '/reinvest': (BuildContext context) => const Reinvest(),
-      '/reinvest_end': (BuildContext context) => const ReinvestEnd(),
-
+     '/reinvest_end': (BuildContext context) => const ReinvestEnd(),
+      '/investment_finish': (BuildContext context) => const InvestmentFinish(),
+      '/finish': (BuildContext context) => const Finish(),
+   
    
 
 

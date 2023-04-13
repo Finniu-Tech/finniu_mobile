@@ -1,13 +1,12 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home/home.dart';
+import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
-
-import '../../../widgets/scaffold.dart';
-
-class InvestmentHistory extends ConsumerWidget {
-  const InvestmentHistory({super.key});
+class Finish extends ConsumerWidget {
+  const Finish({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -145,7 +144,22 @@ class InvestmentHistory extends ConsumerWidget {
                 ),
                 Row(
                   children: [
-                    Container(
+                    Text(
+                      'En curso',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 22,
+                    ),
+                    GestureDetector( onTap: () {
+                          Navigator.pushNamed(context, '/finish');
+                        },
+                      child: Container( 
                       decoration: BoxDecoration(
                         border: Border(
                           bottom: BorderSide(
@@ -156,29 +170,14 @@ class InvestmentHistory extends ConsumerWidget {
                           ),
                         ),
                       ),
-                      child: Text(
-                        'En curso',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 22,
-                    ),
-                    GestureDetector( onTap: () {
-                          Navigator.pushNamed(context, '/finish');
-                        },
-                      child: Text(
-                        'Finalizadas',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
+                        child: Text(
+                          'Finalizadas',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
+                          ),
                         ),
                       ),
                     ),
@@ -222,18 +221,11 @@ class InvestmentHistory extends ConsumerWidget {
                   height: 10,
                 ),
                
-               const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/1500", startDay: "29 Mayo", finishDay: "29 Mayo 2023"),
+               const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/1140", startDay: "29 Mayo", finishDay: "29 Mayo 2023"),
                        const SizedBox(
                   height: 10,
                 ), 
-                       const TablePlan(planName: "Plan Origen", termText: "Plazo de 12 meses:12%", mounted: "S/720", startDay: "29 Noviembre", finishDay: "29 Mayo 2023"),
-                       
-                     
-                      const SizedBox(
-                  height: 10,
-                ),
-                      const TablePlan(planName: "Plan Responsable", termText: "Plazo de 6 meses:8%", mounted: "S/5400", startDay: "13 Octubre", finishDay: "13 Abril 2023")
-                     
+                  
                         ]
                         
                         ),
@@ -460,7 +452,7 @@ class TablePlan extends ConsumerWidget {
                                   const Spacer(),
                                   Image.asset(
                                     alignment: Alignment.center,
-                                    'assets/images/circle_green.png',
+                                    'assets/images/circle_purple.png',
                                     height: 15,
                                   ),
                                   const SizedBox(

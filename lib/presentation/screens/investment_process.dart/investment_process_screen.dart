@@ -81,33 +81,33 @@ class InvestmentProcess extends ConsumerWidget {
                     ),
                   ),
                 ),
-                Container(
-                  width: 170,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(primaryLight),
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                  ),
-                  child: Center(
-                    child: GestureDetector(
-                        onTap: () {
+                GestureDetector(onTap: () {
                           Navigator.pushNamed(context, '/investment_history');
                         },
-                        child: Text(
-                          "Mi historial",
-                          style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(primaryDark),
-                          ),
-                        )),
+                  child: Container(
+                    width: 170,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(primaryLight),
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Mi historial",
+                        style: TextStyle(
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -194,7 +194,7 @@ class InvestmentProcess extends ConsumerWidget {
               height: 10,
             ),
             Text(
-              'Distribucion de mi patrimonio',
+              'Distribución de mi patrimonio',
               style: TextStyle(
                 fontSize: 16,
                 color: currentTheme.isDarkMode
@@ -234,13 +234,19 @@ class InvestmentProcess extends ConsumerWidget {
                 Spacer(),
                 Padding(
                   padding: const EdgeInsets.only(right: 12),
-                  child: Text(
-                    'Inversiones finalizadas',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                  
+                  child:GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context,  '/investment_finish');
+                        },
+                    child: Text(
+                      'Inversiones finalizadas',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                      ),
                     ),
                   ),
                 )

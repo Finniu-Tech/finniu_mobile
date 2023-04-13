@@ -66,7 +66,7 @@ class Step3 extends ConsumerWidget {
              const SizedBox(height: 16),
              Padding(
                padding: const EdgeInsets.only(left: 23),
-               child: Container(alignment: Alignment.center,
+               child: Container(alignment: Alignment.centerLeft,
                  child: const Text(
                        "Gracias por tu comprensión!",
                        style: TextStyle(

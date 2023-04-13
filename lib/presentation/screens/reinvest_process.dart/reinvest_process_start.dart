@@ -38,21 +38,25 @@ class Reinvest extends HookConsumerWidget {
                   const SizedBox(width: 12,),
                     Padding(
                  padding: const EdgeInsets.only(right: 10),
-                 child: Container(width: 142,height: 32,decoration: BoxDecoration(color: Color(primaryLight), borderRadius: BorderRadius.circular(20)),
-                   child: const Padding(
-                     padding: EdgeInsets.all(8.0),
-                     child: Text( textAlign:TextAlign.center,
-                            'Planes para reinvertir',
-                            style: TextStyle(
-                              fontSize: 11,
-                          
-                              color:
-                                   Color(primaryDark),
-                            ),
-                                
-                         ),
-                   ),
-                   ),
+                 child: GestureDetector( onTap: () {
+                        Navigator.pushNamed(context, '/my_investment');
+                      },
+                   child: Container(width: 142,height: 32,decoration: BoxDecoration(color: Color(primaryLight), borderRadius: BorderRadius.circular(20)),
+                     child: const Padding(
+                       padding: EdgeInsets.all(8.0),
+                       child: Text( textAlign:TextAlign.center,
+                              'Planes para reinvertir',
+                              style: TextStyle(
+                                fontSize: 11,
+                            
+                                color:
+                                     Color(primaryDark),
+                              ),
+                                  
+                           ),
+                     ),
+                     ),
+                 ),
                    ),
                    ],
                 ),
@@ -203,17 +207,17 @@ class Reinvest extends HookConsumerWidget {
                   
                    Padding(
                  padding: const EdgeInsets.only(right: 10),
-                 child: Container(width: 320,height: 53,decoration: BoxDecoration(color: themeProvider.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark), 
-                 
-                 
-                 
-                 borderRadius: BorderRadius.circular(20)),
-                   child: Padding(
-                     padding: const EdgeInsets.all(19.0),
-                     child: GestureDetector( onTap: () {
+                 child: GestureDetector(onTap: () {
               Navigator.pushNamed(context, '/reinvest_end');},
+                   child: Container(width: 320,height: 53,decoration: BoxDecoration(color: themeProvider.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark), 
+                   
+                   
+                   
+                   borderRadius: BorderRadius.circular(20)),
+                     child: Padding(
+                       padding: const EdgeInsets.all(19.0),
                        child: Text( textAlign:TextAlign.center,
                               'Reinvertir mi capital+intereses',
                               style: TextStyle(
@@ -227,8 +231,8 @@ class Reinvest extends HookConsumerWidget {
                                   
                            ),
                      ),
-                   ),
-                   ),
+                     ),
+                 ),
                    ), 
                    
                    const SizedBox(height: 30,),

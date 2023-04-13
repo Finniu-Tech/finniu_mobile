@@ -325,7 +325,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                      Navigator.pushNamed(context, '/calculator_result');
                     setState(() {});
                   },
-                  child: Text(
+                  child: const Text(
                     'Continuar',
                   ),
                   style: ButtonStyle(

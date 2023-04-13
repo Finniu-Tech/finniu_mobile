@@ -484,11 +484,17 @@ class Step2 extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            CustomButton(
-              text: "Finalizar mi proceso",
-              height: 50,
+           SizedBox(
               width: 224,
-              pushName: '/investment_step3',
+              height: 50,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/investment_step3');
+                },
+                child: const Text(
+                  'Finalizar mi proceso',
+                ),
+              ),
             ),
           ],
         ),

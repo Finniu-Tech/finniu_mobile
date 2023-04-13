@@ -2,7 +2,6 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -375,7 +374,7 @@ class ReinvestEnd extends HookConsumerWidget{
                   hintText:"Seleccione su plazo de inversión" ,
                 ),
               ),
-                 SizedBox(height: 15,),
+                 const SizedBox(height: 15,),
                   Center(
                     child: CustomSelectButton(
                                   textEditingController: termController,
@@ -384,8 +383,8 @@ class ReinvestEnd extends HookConsumerWidget{
                                   hintText: "Seleccione su eleccion",
                                 ),
                   ),
-              SizedBox(height: 10,),
-  Row(
+              const SizedBox(height: 10,),
+  Row(mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(width: 136,height: 81,decoration: BoxDecoration(boxShadow: [
                         BoxShadow(
@@ -430,7 +429,7 @@ class ReinvestEnd extends HookConsumerWidget{
                   ],
              ),
            ),
-SizedBox(width: 10,),
+const SizedBox(width: 10,),
       Container(width: 136,height: 81,decoration: BoxDecoration(
         boxShadow: [
                         BoxShadow(

@@ -300,7 +300,18 @@ class ResultCalculator extends HookConsumerWidget {
                 ],
               ),
             ),
-             CustomButton(text: "Comenzar a invertir"),
+           SizedBox(
+              width: 224,
+              height: 50,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/my_investment');
+                },
+                child: const Text(
+                  'Comenzar a invertir',
+                ),
+              ),
+            ),
             const SizedBox(
               height: 30,
             )
