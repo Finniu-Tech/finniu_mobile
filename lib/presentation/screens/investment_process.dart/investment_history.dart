@@ -1,244 +1,210 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-import '../../../widgets/scaffold.dart';
+class InvestmentHistory extends StatefulWidget {
+  @override
+  InvestmentHistoryState createState() => InvestmentHistoryState();
+}
 
-class InvestmentHistory extends ConsumerWidget {
-  const InvestmentHistory({super.key});
+class InvestmentHistoryState extends State<InvestmentHistory>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  @override
+  void initState() {
+    _tabController = new TabController(length: 4, vsync: this);
+    super.initState();
+  }
+
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
+  Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(children: [
-                  SizedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Text(
-                        'Mis inversiones 💸 ',
+      body: Padding(
+        padding: const EdgeInsets.all(9.0),
+        
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              
+              
+              SizedBox(
+                child: Padding(
+                  padding: const EdgeInsets.only(left:20),
+                  child: Row(
+                    children: [
+                      Text(
+                        ' Mis inversiones 💸 ',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
-                          color: Color(
-                              Theme.of(context).colorScheme.secondary.value),
+                          color:
+                              Color(Theme.of(context).colorScheme.secondary.value),
                         ),
                       ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  const SizedBox(
-                    width: 80,
-                  ),
-                  const Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 11),
-                    child: InkWell(
-                      onTap: () {
+                    const SizedBox(
+                width: 80,
+              ),
+          
+              GestureDetector(onTap: () {
                         Navigator.pushNamed(context, '/calendar_page');
                       },
-                      child: Image.asset(
-                        'assets/icons/calendar.png',
-                        width: 20,
-                        height: 20,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                child: Padding(
+                  padding: const EdgeInsets.only(left:10),
+                  child: Image.asset(
+                    'assets/icons/calendar.png',
+                    width: 20,
+                    height: 20,
+                    color: 
+                        const Color(primaryDark),
+                  ),
+                ),
+              ),],
+                  ),
+                ),
+              ),
+               SizedBox(height: 20,),
+               Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              GestureDetector(onTap: () {
+                            Navigator.pushNamed(context, '/process_investment');
+                          },
+                child: Container(
+                  width: 170,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                    color:  Color(primaryDark),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(20),
+                      topLeft: Radius.circular(20),
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Rentabilidad",
+                      style: TextStyle(
+                        color:  const Color(whiteText),
                       ),
                     ),
                   ),
-                ]),
-                const SizedBox(
-                  height: 30,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 170,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryDark)
-                            : const Color(primaryLightAlternative),
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Rentabilidad",
-                          style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(primaryDark),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: 170,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                        borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                        ),
-                      ),
-                      child: Center(
-                        child: GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, '/investment_history');
-                            },
-                            child: Text(
-                              "Mi historial",
-                              style: TextStyle(
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(whiteText),
-                              ),
-                            )),
-                      ),
-                    ),
-                  ],
+              ),
+              Container(
+                width: 170,
+                height: 40,
+                decoration: const BoxDecoration(
+                  color: Color(primaryLight),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
                 ),
+                child: Center(
+                  child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/investment_history');
+                      },
+                      child: const Text(
+                        "Mi historial",
+                        style: TextStyle(
+                          color: 
+                               Color(primaryDark),
+                        ),
+                      )),
+                ),
+              ),
+              ],
+            ),
+               
+              const SizedBox(
+                height: 30,
+              ),
+      
+                
                 const SizedBox(
                   height: 20,
                 ),
-                const CircularImageSimulation(),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Estado de mis inversiones ',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                const CircularImageSimulation (),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: const Text(
+                      'Estado de mis inversiones ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color:  Color(blackText),
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: currentTheme.isDarkMode
-                                ? const Color(secondary)
-                                : const Color(primaryLight),
-                            width: 6,
-                          ),
-                        ),
-                      ),
-                      child: Text(
-                        'En curso',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
-                        ),
-                      ),
+                
+                  Column(
+              children: [
+                TabBar(
+                  unselectedLabelColor: Colors.black,
+                  labelColor: Colors.black,
+                  tabs: const [
+                    Tab(
+                      text:"En curso",
                     ),
-                    const SizedBox(
-                      width: 22,
+                    Tab(
+                     text:"Finalizadas",
                     ),
-                    GestureDetector( onTap: () {
-                          Navigator.pushNamed(context, '/finish');
-                        },
-                      child: Text(
-                        'Finalizadas',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 22,
-                    ),
-                    Text(
-                      'En proceso',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
-                      ),
-                    ),
-                    Text(
-                      '(1)',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 22,
-                    ),
-                    Text(
-                      'Rechazadas',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(primaryDark),
-                      ),
-                    ),
+                    Tab(
+                     text:"En proceso",
+                    ), Tab(
+                     text:"Rechazadas",
+                    )
+                 
                   ],
+                  controller: _tabController,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: Color(primaryLight),
+                  indicatorWeight: 4.0,
+                  indicatorPadding: EdgeInsets.only(bottom: 10)
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-               
-               const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/1500", startDay: "29 Mayo", finishDay: "29 Mayo 2023"),
-                       const SizedBox(
-                  height: 10,
-                ), 
-                       const TablePlan(planName: "Plan Origen", termText: "Plazo de 12 meses:12%", mounted: "S/720", startDay: "29 Noviembre", finishDay: "29 Mayo 2023"),
-                       
-                     
-                      const SizedBox(
-                  height: 10,
-                ),
-                      const TablePlan(planName: "Plan Responsable", termText: "Plazo de 6 meses:8%", mounted: "S/5400", startDay: "13 Octubre", finishDay: "13 Abril 2023")
-                     
+              ],
+            ),
+          const SizedBox(height: 10,),
+            Expanded(
+              child: TabBarView(
+                children: [
+                ListView(
+                  children:[
+                const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/1500", startDay: "29 Mayo", finishDay: "29 Mayo 2023",state: "En Curso",imageLink: "assets/images/circle_green.png",),
+                const SizedBox(height: 9,),
+                const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/720", startDay: "29 Mayo", finishDay: "29 Mayo 2023",state: "En Curso",imageLink: "assets/images/circle_green.png"),
+                 const SizedBox(height: 9,),
+                const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/5400", startDay: "29 Mayo", finishDay: "13 Abril 2023",state: "En Curso",imageLink: "assets/images/circle_green.png"),
+                
+                 ] ),
+
+                
+                const TablePlan(planName: "Plan Estable", termText: "Plazo de 12 meses:14%", mounted: "S/1140", startDay: "29 Enero 2022", finishDay: "29 Enero 2023",state: "En Curso",imageLink: "assets/images/circle_purple.png",),
+                
+               const TablePlanProcess(planName:"Plan Origen S/800",termText: "Se esta validando tu transferencia", state: "En proceso", imageLink:"assets/images/blue_circle.png",),
+                  const TablePlanProcess(planName:"Plan Origen S/750",termText: "Tu inversión fue rechazada por el siguiente motivo:(escribir floro de explicación)", state: "Rechazado", imageLink:"assets/images/circle_red.png",),
+                ],
+                controller: _tabController,
+                
+              ),
+            ),
                         ]
                         
                         ),
                       ),
-                    ));
+                    );
               
         
   }
@@ -382,20 +348,19 @@ class TablePlan extends ConsumerWidget {
   final String mounted;
   final String startDay;
   final String finishDay;
+  final String state;
+  final String imageLink;
 
 
-
-  
   const TablePlan({super.key,
   required this.planName,
   required this.termText,
   required this.mounted,
   required this.startDay,
   required this.finishDay,
+  required this.state,
+   required this.imageLink,
 
-
-  
-  
   
   });
 
@@ -406,145 +371,256 @@ class TablePlan extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return  Padding(
       padding: const EdgeInsets.only(right: 10),
-      child: Container(
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        height: 110,
-                        decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 1,
-                                blurRadius: 7,
-                                offset: const Offset(
-                                    0, 3), // changes position of shadow
-                              ),
-                            ],
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryDark)
-                                : const Color(primaryLightAlternative),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Padding(
-                          padding: const EdgeInsets.all(13.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                   planName,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
-                                    ),
-                                  ),
-                                  const SizedBox(
-                                    width: 10,
-                                  ),
-                                  Text(
-                                   mounted,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(primaryLight)
-                                          : const Color(blackText),
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  Image.asset(
-                                    alignment: Alignment.center,
-                                    'assets/images/circle_green.png',
-                                    height: 15,
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'En curso',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                'Plazo de 12 meses: 14%',
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(graytextalternative)
-                                      : const Color(grayText),
+      child: SingleChildScrollView(
+        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 110,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 7,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Inicio',
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
+                              ],
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryDark)
+                                  : const Color(primaryLightAlternative),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(13.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                     planName,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    startDay,
-                                    style: TextStyle(
-                                      fontSize: 9,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
+                                    const SizedBox(
+                                      width: 10,
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width:
-                                        MediaQuery.of(context).size.width * 0.03,
-                                  ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  const Spacer(),
-                                  Text(
-                                    'Finaliza:',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
+                                    Text(
+                                     mounted,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryLight)
+                                            : const Color(blackText),
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    finishDay,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.bold,
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(whiteText)
-                                          : const Color(blackText),
+                                    const Spacer(),
+                                    Image.asset(
+                                      alignment: Alignment.center,
+                                     imageLink,
+                                      height: 15,
                                     ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      state,
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  'Plazo de 12 meses: 14%',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(graytextalternative)
+                                        : const Color(grayText),
                                   ),
-                                ],
-                              ),
-                            ],
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Inicio',
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
+                                    ),
+                                    Text(
+                                      startDay,
+                                      style: TextStyle(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width:
+                                          MediaQuery.of(context).size.width * 0.03,
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      'Finaliza:',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
+                                    ),
+                                    Text(
+                                      finishDay,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+      ),
     );}}
+
+
+
+    
+
+    class TablePlanProcess extends ConsumerWidget {
+  final String planName;
+  final String termText;
+  final String state;
+  final String imageLink;
+
+
+  const TablePlanProcess({super.key,
+  required this.planName,
+  required this.termText,
+  required this.state,
+   required this.imageLink,
+
+  
+  });
+
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    return  Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: SingleChildScrollView(
+        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          height: 110,
+                          decoration: BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.5),
+                                  spreadRadius: 1,
+                                  blurRadius: 7,
+                                  offset: const Offset(
+                                      0, 3), // changes position of shadow
+                                ),
+                              ],
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryDark)
+                                  : const Color(primaryLightAlternative),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Padding(
+                            padding: const EdgeInsets.all(13.0),
+                            child:Column(mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                     planName,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 10,
+                                    ),
+                                   
+                                    const Spacer(),
+                                    Image.asset(
+                                      alignment: Alignment.center,
+                                     imageLink,
+                                      height: 15,
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      state,
+                                      style: TextStyle(
+                                        fontSize: 11,
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(whiteText)
+                                            : const Color(blackText),
+                                      ),
+                                    ),
+                                 
+                                      ],
+                                    ),
+                              SizedBox(height: 10,),
+                           Text(
+                                 termText,
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(primaryLight)
+                                        : const Color(blackText),
+                                  ),
+                                ),  ]),
+                              
+                            ),
+                          ),
+      ),
+                      );
+    ;}}
