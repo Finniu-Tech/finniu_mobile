@@ -8,13 +8,15 @@ import 'package:intl/intl.dart';
 
 class Calendar extends StatefulWidget {
   @override
+
   _CalendarState createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
+      Locale myLocale = const Locale('es');
   DateTime _currentDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
-
+  
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
@@ -31,6 +33,7 @@ class _CalendarState extends State<Calendar> {
           padding: const EdgeInsets.only(right: 60),
           child: Container(width: 260,
             child: const Text(
+              
               'Calendario de mis inversiones🗓️',
               style: TextStyle(
              fontSize: 24.0,
@@ -40,7 +43,7 @@ class _CalendarState extends State<Calendar> {
           ),
         ),
           
-          SizedBox(height: 20,),
+          const SizedBox(height: 20,),
           Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color(gradient_secondary),),
             child: CalendarCarousel(
                    selectedDateTime: _selectedDate,
@@ -62,8 +65,9 @@ class _CalendarState extends State<Calendar> {
              bool isThisMonthDay,
              DateTime day,
                    ) {
-                    String dayOfWeek = DateFormat.E('es').format(day); // obtener el día de la semana en español
-  String dayOfMonth = day.day.toString().substring(0, 1); // obtener el primer dígito del día del mes
+                    String dateFormat = 'EEEE d MMMM';
+                  String dayOfWeek = DateFormat(dateFormat).format(day); // obtener el día de la semana en español
+String dayOfMonth = day.day.toString(); // obtener el primer dígito del día del mes
              if (isToday) {
                return Center(
                  child: Container(
@@ -73,24 +77,21 @@ class _CalendarState extends State<Calendar> {
                    ),
                    child: Center(
                      child: Text(
-                       '${day.day}',
+                      DateFormat('d', 'es').format(day),
                        style: const TextStyle(
-                         color: Color(whiteText),
+                        color: Color(whiteText),
                        ),
                      ),
                    ),
                  ),
                );
-            
-            
-            
-            
+          
              } else {
                return Container(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         border: Border.all(
-          color: Color(primaryDark),
+          color: const Color(primaryDark),
           width: 1,
         ),
       ),

@@ -152,6 +152,7 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                   Column(
               children: [
                 TabBar(
+                  isScrollable: true,
                   unselectedLabelColor: Colors.black,
                   labelColor: Colors.black,
                   tabs: const [
@@ -170,9 +171,9 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                   ],
                   controller: _tabController,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorColor: Color(primaryLight),
+                  indicatorColor: const Color(primaryLight),
                   indicatorWeight: 4.0,
-                  indicatorPadding: EdgeInsets.only(bottom: 10)
+                  indicatorPadding: const EdgeInsets.only(bottom: 10)
                 ),
               ],
             ),
@@ -623,4 +624,6 @@ class TablePlan extends ConsumerWidget {
                           ),
       ),
                       );
-    ;}}
+    
+    }
+    }
