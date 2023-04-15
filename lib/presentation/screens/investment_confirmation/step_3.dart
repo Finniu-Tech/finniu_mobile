@@ -19,7 +19,7 @@ class Step3 extends ConsumerWidget {
      Future.delayed(const Duration(seconds: 5), (){
     print("Wait for 5 seconds");
       
-      () =>calificationExperience(context);
+      calificationExperience(context);
       
 
     });
@@ -159,7 +159,7 @@ Widget build(BuildContext context, WidgetRef ref) {
                   
                   SizedBox(width: 260,
                     child: Text(
-                      'Como calificaria tu experiencia durante el proceso de inversion? ',
+                      '¿Cómo calificaría tu experiencia durante el proceso de inversión? ',
                       textAlign: TextAlign.justify,
                       
                       style: TextStyle(
@@ -328,10 +328,39 @@ Widget build(BuildContext context, WidgetRef ref) {
               
               ),
             ),
-            
+           
+           const SizedBox(height: 10,),
+            Row(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                      'Mala experiencia',
+                   
+                      
+                      style: TextStyle(
+                        height: 1.5,
+                        fontSize: 8,
+                     
+                        color: Color(blackText)
+                      ),
+                    ),
+                SizedBox(width:MediaQuery.of(context).size.width * 0.3,),
+               const Text(
+                      'Buena experiencia',
+                     
+                      
+                      style: TextStyle(
+                        height: 1.5,
+                        fontSize: 8,
+                     
+                        color: Color(blackText)
+                      ),
+                    ),
+              
+              
+              ],
+            ),
             const SizedBox(height: 10,),
             const SizedBox(width: 260,
-            
               child: Text(
                   '¿Tienes algun comentario o sugerencia para mejorar nuestro proceso?(Opcional)',
                   textAlign: TextAlign.justify,
