@@ -23,7 +23,7 @@ class Reinvest extends HookConsumerWidget {
                   children: [
                      SizedBox(width: 160,
                       child: Text(textAlign:TextAlign.justify,
-                        'Reinvierte tu inversion ',
+                        'Reinvierte tu inversión ',
                         style: TextStyle(
                           color: 
                            themeProvider.isDarkMode
@@ -138,7 +138,7 @@ class Reinvest extends HookConsumerWidget {
                                          Color(blackText),
                                     fontWeight: FontWeight.w500,
                                   ),
-                                  "Tu inversion generada",
+                                  "Tu inversión generada",
                                 ),
                              Text(
                                   textAlign: TextAlign.center,
@@ -190,7 +190,7 @@ class Reinvest extends HookConsumerWidget {
                        ),
                   const SizedBox(width: 10,),
                    Text( textAlign:TextAlign.justify,
-                                        'Elige tu metodo de reinvertir ',
+                                        'Elige tu método de reinvertir ',
                                         style: TextStyle(
                                           fontSize: 14,
                                       
@@ -248,7 +248,7 @@ class Reinvest extends HookConsumerWidget {
                           const SizedBox(width: 10,),
                         SizedBox(width: 140,
                            child: Text( textAlign:TextAlign.center,
-                                    'Si tienes otra opcion para reinvertir, escribenos al',
+                                    'Si tienes otra opción para reinvertir, escribenos al',
                                     style: TextStyle(
                                       fontSize: 11,
                                   

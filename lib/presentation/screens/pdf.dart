@@ -29,7 +29,7 @@ class _PdfPage  extends State<PdfPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Color(primaryLight),
+      appBar: AppBar(backgroundColor: const Color(primaryLight),
         title: const Text('Contrato Finniu',style:TextStyle(color: Color(primaryDark),fontWeight: FontWeight.bold)),
         actions: <Widget>[
           IconButton(
