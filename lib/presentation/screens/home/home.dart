@@ -335,7 +335,7 @@ class HomeBody extends ConsumerWidget {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pushNamed(context, '/reinvest_process');
+                        Navigator.pushNamed(context, '/transfers');
                       },
                     ),
                   ),

@@ -192,100 +192,100 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(width: 5),
-                            const Text(
-                              'Tu plan recomendado es',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(blackText),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            InkWell(
-                              onTap: () => showDialog<String>(
-                                barrierColor: Colors.transparent,
-                                context: context,
-                                builder: (BuildContext context) =>
-                                    ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    maxWidth: 100.0,
-                                    maxHeight: 250.0,
-                                  ),
-                                  child: AlertDialog(
-                                    backgroundColor: const Color(primaryDark),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15.0),
-                                    ),
-                                    content: SizedBox(
-                                      height: 300,
-                                      width: 350,
-                                      child: Column(
-                                        children: [
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                            child: IconButton(
-                                              alignment: Alignment.topRight,
-                                              icon: const Icon(Icons.close),
-                                              color: const Color(whiteText),
-                                              onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
-                                            ),
-                                          ),
-                                          Center(
-                                            child: Image.asset(
-                                              'assets/result/money.png',
-                                              width: 70,
-                                              height: 70,
-                                            ),
-                                          ),
-                                          Text(
-                                            planSimulation?.plan.name
-                                                    .toUpperCase() ??
-                                                '',
-                                            textAlign: TextAlign.justify,
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold,
-                                              color: Color(primaryLight),
-                                              height: 1.5,
-                                            ),
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          const Padding(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: Text(
-                                                textAlign: TextAlign.justify,
-                                                'Esta inversion prioriza la estabilidad generando una rentabilidad moderada.Si recien empiezas a invertir, este plan es perfecto para ti.',
-                                                style: TextStyle(
-                                                  fontSize: 12,
-                                                  color: Color(whiteText),
-                                                  height: 1.5,
-                                                )),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              child: const ImageIcon(
-                                AssetImage('assets/icons/questions.png'),
-                                color: Color(primaryDark),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const Text(
+                      children: const [
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: [
+                        //     const SizedBox(width: 5),
+                        //     const Text(
+                        //       'Tu plan recomendado es',
+                        //       textAlign: TextAlign.center,
+                        //       style: TextStyle(
+                        //         fontSize: 12,
+                        //         color: Color(blackText),
+                        //       ),
+                        //     ),
+                        //     const SizedBox(
+                        //       width: 5,
+                        //     ),
+                        //     InkWell(
+                        //       onTap: () => showDialog<String>(
+                        //         barrierColor: Colors.transparent,
+                        //         context: context,
+                        //         builder: (BuildContext context) =>
+                        //             ConstrainedBox(
+                        //           constraints: const BoxConstraints(
+                        //             maxWidth: 100.0,
+                        //             maxHeight: 250.0,
+                        //           ),
+                        //           child: AlertDialog(
+                        //             backgroundColor: const Color(primaryDark),
+                        //             shape: RoundedRectangleBorder(
+                        //               borderRadius: BorderRadius.circular(15.0),
+                        //             ),
+                        //             content: SizedBox(
+                        //               height: 300,
+                        //               width: 350,
+                        //               child: Column(
+                        //                 children: [
+                        //                   Align(
+                        //                     alignment: Alignment.topRight,
+                        //                     child: IconButton(
+                        //                       alignment: Alignment.topRight,
+                        //                       icon: const Icon(Icons.close),
+                        //                       color: const Color(whiteText),
+                        //                       onPressed: () {
+                        //                         Navigator.of(context).pop();
+                        //                       },
+                        //                     ),
+                        //                   ),
+                        //                   Center(
+                        //                     child: Image.asset(
+                        //                       'assets/result/money.png',
+                        //                       width: 70,
+                        //                       height: 70,
+                        //                     ),
+                        //                   ),
+                        //                   Text(
+                        //                     planSimulation?.plan.name
+                        //                             .toUpperCase() ??
+                        //                         '',
+                        //                     textAlign: TextAlign.justify,
+                        //                     style: TextStyle(
+                        //                       fontSize: 16,
+                        //                       fontWeight: FontWeight.bold,
+                        //                       color: Color(primaryLight),
+                        //                       height: 1.5,
+                        //                     ),
+                        //                   ),
+                        //                   const SizedBox(
+                        //                     height: 10,
+                        //                   ),
+                        //                   const Padding(
+                        //                     padding: EdgeInsets.all(10.0),
+                        //                     child: Text(
+                        //                         textAlign: TextAlign.justify,
+                        //                         'Esta inversion prioriza la estabilidad generando una rentabilidad moderada.Si recien empiezas a invertir, este plan es perfecto para ti.',
+                        //                         style: TextStyle(
+                        //                           fontSize: 12,
+                        //                           color: Color(whiteText),
+                        //                           height: 1.5,
+                        //                         )),
+                        //                   )
+                        //                 ],
+                        //               ),
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ),
+                        //       child: const ImageIcon(
+                        //         AssetImage('assets/icons/questions.png'),
+                        //         color: Color(primaryDark),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        Text(
                           'Plan Origen',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -299,9 +299,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ],
-              const SizedBox(
-                height: 10,
-              ),
+            
               SizedBox(
                 width: 200,
                 child: Text(
@@ -315,12 +313,16 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ),
-              Container(
+             
+             const SizedBox(height: 30,),
+              Container(width: 224,height: 50,
                 margin: const EdgeInsets.only(top: 10),
                 child: TextButton(
                   onPressed: () async {
                     planSimulation = await ref
                         .read(calculateInvestmentFutureProvider.future);
+                    
+                     Navigator.pushNamed(context, '/calculator_result');
                     setState(() {});
                   },
                   child: const Text(

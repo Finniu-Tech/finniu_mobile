@@ -132,7 +132,7 @@ class ResultCalculator extends HookConsumerWidget {
               width: 210,
               child: Text(
                 textAlign: TextAlign.center,
-                'Rentabilidad prioriza la estabilidad generando una rentabilidad moderada.Si recien empiezas a invertir, este plan es perfecto para ti.',
+                'Rentabilidad prioriza la estabilidad generando una rentabilidad moderada.Si recién empiezas a invertir, este plan es perfecto para ti.',
                 style: TextStyle(
                   height: 1.5,
                   color: currentTheme.isDarkMode
@@ -209,7 +209,7 @@ class ResultCalculator extends HookConsumerWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Declaracion a la Sunat 5%',
+                          'Declaración a la Sunat 5%',
                           style: TextStyle(
                             fontSize: 14,
                             height: 1.5,
@@ -300,7 +300,18 @@ class ResultCalculator extends HookConsumerWidget {
                 ],
               ),
             ),
-             CustomButton(text: "Comenzar a invertir"),
+           SizedBox(
+              width: 224,
+              height: 50,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/my_investment');
+                },
+                child: const Text(
+                  'Comenzar a invertir',
+                ),
+              ),
+            ),
             const SizedBox(
               height: 30,
             )

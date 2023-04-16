@@ -29,13 +29,13 @@ class _PdfPage  extends State<PdfPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('PDF Viewer',style:TextStyle(color: Color(blackText))),
+      appBar: AppBar(backgroundColor: const Color(primaryLight),
+        title: const Text('Contrato Finniu',style:TextStyle(color: Color(primaryDark),fontWeight: FontWeight.bold)),
         actions: <Widget>[
           IconButton(
             icon: const Icon(
               Icons.bookmark,
-              color: Colors.black,
+              color: Color(primaryDark),
               semanticLabel: 'Bookmark',
             ),
             onPressed: () {

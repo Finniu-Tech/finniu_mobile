@@ -469,14 +469,18 @@ class Step2 extends ConsumerWidget {
                         : const Color(blackText),
                   ),
                 ),
-                Text(
-                  ' Contrato de Inversion de Finniu ',
-                  style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+                GestureDetector(onTap: () {
+                            Navigator.pushNamed(context, '/pdf_page');
+                          },
+                  child: Text(
+                    ' Contrato de Inversion de Finniu ',
+                    style: TextStyle(
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ],
@@ -484,11 +488,17 @@ class Step2 extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            CustomButton(
-              text: "Finalizar mi proceso",
-              height: 50,
+           SizedBox(
               width: 224,
-              pushName: '/investment_step3',
+              height: 50,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/investment_step3');
+                },
+                child: const Text(
+                  'Finalizar mi proceso',
+                ),
+              ),
             ),
           ],
         ),

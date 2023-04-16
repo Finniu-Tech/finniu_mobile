@@ -64,3 +64,5 @@ const colorIcondark = 0xff428CA1;
 const colorblacklight = 0xff3F3F3F;
 const colorgreen =0xff388923;
 const colortext =0xfffff6ed;
+const graytextalternative=
+0xffBFBFBF;

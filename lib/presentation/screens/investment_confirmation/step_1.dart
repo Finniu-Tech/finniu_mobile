@@ -30,11 +30,11 @@ class Step1 extends HookConsumerWidget {
                   // height: 90,
                   // padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
                   Text(
-                    'Tu plan seleccionado',
+                    'Tu plan seleccionado:',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.bold,
                       color:
                           Color(Theme.of(context).colorScheme.secondary.value),
                     ),
@@ -42,9 +42,7 @@ class Step1 extends HookConsumerWidget {
                 ],
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
+           
             Container(
               // alignment: Alignment.topRight,
               width: 224,
@@ -146,23 +144,29 @@ class Step1 extends HookConsumerWidget {
               ),
             ),
             const SizedBox(
-              height: 15,
+              height: 10,
             ),
-            Text(
+            
+
+           
+          
+           
+           
+           Text(
               'Completa los siguientes datos',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: currentTheme.isDarkMode
                     ? const Color(whiteText)
                     : const Color(primaryDark),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+                fontSize: 14,
+               
                 height: 1.5,
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
+           SizedBox(height: 10,),
+
+
             SizedBox(
               width: 224,
               child: TextFormField(
@@ -222,7 +226,7 @@ class Step1 extends HookConsumerWidget {
                 ),
               ),
             ),
-            Padding(
+             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -232,7 +236,7 @@ class Step1 extends HookConsumerWidget {
                     height: 81,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: const Color(primaryLight),
+                      color: const Color(primaryLightAlternative),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
@@ -341,14 +345,16 @@ class _StepBarState extends ConsumerState<StepBar> {
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Column(
+      
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const SizedBox(height: 13,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 35,
-              width: 46,
+              height: 40,
+              width: 55,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: currentTheme.isDarkMode
@@ -368,9 +374,8 @@ class _StepBarState extends ConsumerState<StepBar> {
                 color: currentTheme.isDarkMode
                     ? const Color(primaryLight)
                     : const Color(primaryDark),
-                width: 10,
                 // fit:BoxFit.scaleDown,
-              ),
+                  fit: BoxFit.fitHeight,),
             ),
             SizedBox(
               width: 38,
@@ -386,8 +391,8 @@ class _StepBarState extends ConsumerState<StepBar> {
               ),
             ),
             Container(
-              height: 35,
-              width: 46,
+              height: 40,
+              width: 55,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: currentTheme.isDarkMode
@@ -408,7 +413,7 @@ class _StepBarState extends ConsumerState<StepBar> {
                 color: currentTheme.isDarkMode
                     ? const Color(primaryLight)
                     : const Color(primaryDark),
-                fit: BoxFit.scaleDown,
+                   fit: BoxFit.fitHeight,
               ),
             ),
             SizedBox(
@@ -424,9 +429,10 @@ class _StepBarState extends ConsumerState<StepBar> {
                 ],
               ),
             ),
-            Container(
-              height: 35,
-              width: 46,
+            
+         Container(
+              height: 40,
+              width: 55,
               decoration: BoxDecoration(
                 border: Border.all(
                   color: currentTheme.isDarkMode
@@ -447,12 +453,20 @@ class _StepBarState extends ConsumerState<StepBar> {
                 color: currentTheme.isDarkMode
                     ? const Color(primaryLight)
                     : const Color(primaryDark),
-                fit: BoxFit.scaleDown,
+                fit: BoxFit.fitHeight,
               ),
             ),
+            
+            
+        
           ],
         ),
       ],
-    );
+        );
+           
+            
+            
+          
+  
   }
 }
