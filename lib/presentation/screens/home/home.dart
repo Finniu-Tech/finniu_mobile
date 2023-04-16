@@ -218,9 +218,9 @@ class HomeBody extends ConsumerWidget {
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 7,
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 0,
                             offset: const Offset(
                                 0, 3), // changes position of shadow
                           ),
@@ -262,9 +262,9 @@ class HomeBody extends ConsumerWidget {
                         color: const Color(secondary),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 7,
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 0,
                             offset: const Offset(
                                 0, 3), // changes position of shadow
                           ),
@@ -305,9 +305,9 @@ class HomeBody extends ConsumerWidget {
                         color: const Color(secondary),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.grey.withOpacity(0.5),
-                            spreadRadius: 1,
-                            blurRadius: 7,
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 0,
                             offset: const Offset(
                                 0, 3), // changes position of shadow
                           ),

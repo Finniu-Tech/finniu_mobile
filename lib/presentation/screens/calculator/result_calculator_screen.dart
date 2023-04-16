@@ -153,84 +153,87 @@ class ResultCalculator extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  InkWell(
-                    onTap: () => showDialog<String>(
-                      barrierColor: Colors.transparent,
-                      context: context,
-                      builder: (BuildContext context) => ConstrainedBox(
-                        constraints: const BoxConstraints(),
-                        child: AlertDialog(
-                          backgroundColor: const Color(primaryLightAlternative),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          content: SizedBox(
-                            height: 200,
-                            width: 228,
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.topRight,
-                                  child: IconButton(
-                                    alignment: Alignment.topRight,
-                                    icon: const Icon(Icons.close),
-                                    color: const Color(blackText),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text(
-                                    'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      height: 1.5,
-                                      color: Color(blackText),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                InkWell(
+                  onTap: () => showDialog<String>(
+                    barrierColor: Colors.transparent,
+                    context: context,
+                    builder: (BuildContext context) => ConstrainedBox(
+                      constraints: const BoxConstraints(),
+                      child: AlertDialog(
+                        backgroundColor: const Color(primaryLightAlternative),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        content: Container(
+                          height: 200,
+                          width: 228,
+                           
+                          child: Column(
+                            children: [
+                              Align(
+                                alignment: Alignment.topRight,
+                            
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(left:60,bottom: 20),
+                                    child: IconButton(
+                                      alignment: Alignment.topRight,
+                                      icon: const Icon(Icons.close),
+                                      color: const Color(blackText),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
+                                
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.all(5.0),
+                                child: Text(
+                                  'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    height: 1.8,
+                                    color: Color(blackText),
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
                     ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Declaración a la Sunat 5%',
-                          style: TextStyle(
-                            fontSize: 14,
-                            height: 1.5,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(blackText),
-                          ),
-                        ),
-                        ImageIcon(
-      const AssetImage('assets/icons/questions.png'),
-                          size: 20,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),),
-                        
-                        const SizedBox(width: 5),
-                      ],
-                    ),
                   ),
-                ],
-              ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Declaración a la Sunat 5%',
+                        style: TextStyle(
+                          fontSize: 14,
+                          height: 1.5,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                        ),
+                      ),
+                      ImageIcon(
+      const AssetImage('assets/icons/questions.png'),
+                        size: 20,
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),),
+                      
+                      const SizedBox(width: 5),
+                    ],
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               width: 390,

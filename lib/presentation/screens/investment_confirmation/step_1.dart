@@ -55,9 +55,9 @@ class Step1 extends HookConsumerWidget {
                 color: const Color(cardBackgroundColorLight),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 1,
-                    blurRadius: 7,
+                    color: Colors.grey.withOpacity(0.6),
+                    spreadRadius: 0,
+                    blurRadius: 2,
                     offset: const Offset(0, 3), // changes position of shadow
                   ),
                 ],
@@ -239,9 +239,9 @@ class Step1 extends HookConsumerWidget {
                       color: const Color(primaryLightAlternative),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 0,
+                          blurRadius: 2,
                           offset:
                               const Offset(0, 3), // changes position of shadow
                         ),
@@ -279,9 +279,9 @@ class Step1 extends HookConsumerWidget {
                       color: const Color(secondary),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 7,
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 0,
+                          blurRadius: 2,
                           offset:
                               const Offset(0, 3), // changes position of shadow
                         ),
@@ -316,13 +316,25 @@ class Step1 extends HookConsumerWidget {
             const SizedBox(
               height: 20,
             ),
-            CustomButton(
-              text: "Continuar",
-              height: 50,
-              width: 224,
-              pushName: '/investment_step2',
-            ),
-          ],
+          
+       
+        SizedBox(
+                      width: 224,
+                      height: 50,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/investment_step2');
+                        },
+                        child: const Text(
+                          'Continuar',
+                        ),
+       
+       
+       
+       
+       
+       
+        ))],
         ),
       ),
     );

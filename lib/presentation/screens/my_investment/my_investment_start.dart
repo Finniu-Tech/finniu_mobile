@@ -52,6 +52,8 @@ class InvestmentStart extends HookConsumerWidget {
                       backgroundColor: MaterialStateProperty.all<Color>(Color(
                           currentTheme.isDarkMode ? secondary : primaryLight)),
                     ),
+                    
+                    
                     onPressed: () {},
                     child: const Text(
                       "Quiero conversar",
