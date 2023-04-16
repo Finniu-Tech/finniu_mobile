@@ -149,7 +149,84 @@ class Step1 extends HookConsumerWidget {
             
 
            
-            Padding(
+          
+           
+           
+           Text(
+              'Completa los siguientes datos',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
+                fontSize: 14,
+               
+                height: 1.5,
+              ),
+            ),
+           SizedBox(height: 10,),
+
+
+            SizedBox(
+              width: 224,
+              child: TextFormField(
+                controller: mountController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  // nickNameController.text = value.toString();
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Escriba su monto de inversion',
+                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                  label: Text("Monto"),
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            CustomSelectButton(
+              textEditingController: termController,
+              items: const ['6 meses', '1 año', '5 años'],
+              labelText: "Plazo",
+              hintText: "Seleccione su plazo de inversión",
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            CustomSelectButton(
+              textEditingController: termController,
+              items: const ['BCP', 'Interbank', 'Scotiabank'],
+              labelText: "Desde que banco realizas la transferencia",
+              hintText: "Seleccione su banco",
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: 224,
+              child: TextFormField(
+                controller: mountController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  // nickNameController.text = value.toString();
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Ingresa tu codigo',
+                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                  label: Text("Ingresa tu codigo promocional,si tienes uno"),
+                ),
+              ),
+            ),
+             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +236,7 @@ class Step1 extends HookConsumerWidget {
                     height: 81,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: const Color(primaryLight),
+                      color: const Color(primaryLightAlternative),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.5),
@@ -236,81 +313,6 @@ class Step1 extends HookConsumerWidget {
                 ],
               ),
             ),
-           
-           
-           Text(
-              'Ingresa tu monto y plazo',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                height: 1.5,
-              ),
-            ),
-           
-            SizedBox(
-              width: 224,
-              child: TextFormField(
-                controller: mountController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Este dato es requerido';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  // nickNameController.text = value.toString();
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Escriba su monto de inversion',
-                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
-                  label: Text("Monto"),
-                ),
-              ),
-            ),
-            const SizedBox(height: 15),
-            CustomSelectButton(
-              textEditingController: termController,
-              items: const ['6 meses', '1 año', '5 años'],
-              labelText: "Plazo",
-              hintText: "Seleccione su plazo de inversión",
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            CustomSelectButton(
-              textEditingController: termController,
-              items: const ['BCP', 'Interbank', 'Scotiabank'],
-              labelText: "Desde que banco realizas la transferencia",
-              hintText: "Seleccione su banco",
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            SizedBox(
-              width: 224,
-              child: TextFormField(
-                controller: mountController,
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Este dato es requerido';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  // nickNameController.text = value.toString();
-                },
-                decoration: const InputDecoration(
-                  hintText: 'Ingresa tu codigo',
-                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
-                  label: Text("Ingresa tu codigo promocional,si tienes uno"),
-                ),
-              ),
-            ),
-           
             const SizedBox(
               height: 20,
             ),
@@ -454,47 +456,9 @@ class _StepBarState extends ConsumerState<StepBar> {
                 fit: BoxFit.fitHeight,
               ),
             ),
-              SizedBox(
-              width: 38,
-              child: Column(
-                children: [
-                  Divider(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    thickness: 1,
-                  ),
-                ],
-              ),
-            ),
             
-           Container(
-              height: 40,
-              width: 55,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
-                  width: 2,
-                ),
-                shape: BoxShape.rectangle,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
-                ),
-              ),
-              child: Image.asset(
-                'assets/images/pencil.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                fit: BoxFit.fitHeight,
-              ),
-            )
-         
+            
+        
           ],
         ),
       ],
