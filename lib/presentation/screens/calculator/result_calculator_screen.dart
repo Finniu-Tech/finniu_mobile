@@ -373,7 +373,7 @@ class BodyScreen extends StatelessWidget {
             height: 50,
             child: TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/my_investment');
+                Navigator.pushNamed(context, '/plan_list');
               },
               child: const Text(
                 'Comenzar a invertir',

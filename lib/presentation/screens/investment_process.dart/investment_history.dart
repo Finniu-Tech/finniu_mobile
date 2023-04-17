@@ -22,6 +22,7 @@ class InvestmentHistoryState extends State<InvestmentHistory>
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
+      hideReturnButton: true,
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(

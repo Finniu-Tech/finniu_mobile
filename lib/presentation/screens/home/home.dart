@@ -230,7 +230,7 @@ class HomeBody extends ConsumerWidget {
                     height: 65,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/my_investment');
+                        Navigator.pushNamed(context, '/plan_list');
                       },
                       child: Container(
                         decoration: BoxDecoration(

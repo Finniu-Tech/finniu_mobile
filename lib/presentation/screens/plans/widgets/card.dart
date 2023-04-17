@@ -95,9 +95,7 @@ class CardCustom extends ConsumerWidget {
               fontSize: 16,
               fontWeight: FontWeight.bold,
               color: Color(
-                currentTheme.isDarkMode
-                    ? (primaryDark)
-                    : (primaryLightAlternative),
+                currentTheme.isDarkMode ? primaryDark : whiteText,
               ),
             ),
           ),
@@ -113,7 +111,7 @@ class CardCustom extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 10,
                   color: Color(
-                    currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                    currentTheme.isDarkMode ? primaryDark : whiteText,
                   ),
                 ),
               ),
@@ -367,6 +365,11 @@ class InitialCardBody extends ConsumerWidget {
                     width: 90, // Establecer el ancho de la imagen
                     height: 70, // Establecer el alto de la imagen
                   ),
+                  // child: Image.asset(
+                  //   image,
+                  //   width: 90, // Establecer el ancho de la imagen
+                  //   height: 70, // Establecer el alto de la imagen
+                  // ),
                 ),
               ),
               const SizedBox(width: 10),

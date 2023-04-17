@@ -24,7 +24,7 @@ import 'package:finniu/presentation/screens/languages/languages_screen.dart';
 import 'package:finniu/presentation/screens/login/email_screen.dart';
 import 'package:finniu/presentation/screens/login/forgot_password.dart';
 import 'package:finniu/presentation/screens/login/invalid_email.dart';
-import 'package:finniu/presentation/screens/my_investment/my_investment_start.dart';
+import 'package:finniu/presentation/screens/plans/plans_screen.dart';
 import 'package:finniu/presentation/screens/privacy/privacy_screen.dart';
 import 'package:finniu/presentation/screens/signup/email_screen.dart';
 import 'package:finniu/presentation/screens/login/start_screen.dart';
@@ -49,7 +49,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/home_home': (BuildContext context) => HomeScreen(),
     '/home_notification': (BuildContext context) => const NotificationScreen(),
     '/profile': (BuildContext context) => ProfileScreen(),
-    '/my_investment': (BuildContext context) => const InvestmentStart(),
+    '/plan_list': (BuildContext context) => const PlanListScreen(),
     '/privacy': (BuildContext context) => PrivacyScreen(),
     '/transfers': (BuildContext context) => TransfersScreen(),
     '/languages': (BuildContext context) => LanguagesStart(),

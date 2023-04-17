@@ -1,11 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CustomScaffoldStart extends ConsumerStatefulWidget {
   final dynamic body;
@@ -76,12 +78,13 @@ class CustomScaffoldReturn extends StatefulWidget {
   final int colorBoxdecoration;
   final int colorIcon;
 
-  const CustomScaffoldReturn(
-      {super.key,
-      required this.body,
-      this.backgroundColor = 0xffFFFFFF,
-      this.colorBoxdecoration = primaryDark,
-      this.colorIcon = primaryLight});
+  const CustomScaffoldReturn({
+    super.key,
+    required this.body,
+    this.backgroundColor = 0xffFFFFFF,
+    this.colorBoxdecoration = primaryDark,
+    this.colorIcon = primaryLight,
+  });
 
   @override
   State<CustomScaffoldReturn> createState() => _CustomScaffoldReturnState();
@@ -129,39 +132,43 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
 
 class CustomScaffoldReturnLogo extends ConsumerWidget {
   final dynamic body;
+  bool hideReturnButton;
 
-  const CustomScaffoldReturnLogo({super.key, required this.body});
+  CustomScaffoldReturnLogo({
+    required this.body,
+    this.hideReturnButton = false,
+  });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
-    // final themeProvider =
-    //     Provider.of<SettingsNotifierProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar
-      
-      (
-          backgroundColor: Theme.of(context).backgroundColor,
-          elevation: 0,
-          leading: themeProvider.isDarkMode
-              ? const CustomReturnButton(
-                  colorBoxdecoration: primaryDark,
-                  colorIcon: primaryDark,
-                )
-              : const CustomReturnButton(),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 14.0),
-              child: SizedBox(
-                width: 70,
-                height: 70,
-                child: themeProvider.isDarkMode
-                    ? Image.asset('assets/images/logo_small_dark.png')
-                    : Image.asset('assets/images/logo_small.png'),
-              ),
+      bottomNavigationBar: const BottomNavigationBarHome(),
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).backgroundColor,
+        elevation: 0,
+        leading: !hideReturnButton
+            ? (themeProvider.isDarkMode
+                ? const CustomReturnButton(
+                    colorBoxdecoration: primaryDark,
+                    colorIcon: primaryDark,
+                  )
+                : const CustomReturnButton())
+            : null,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 14.0),
+            child: SizedBox(
+              width: 70,
+              height: 70,
+              child: themeProvider.isDarkMode
+                  ? Image.asset('assets/images/logo_small_dark.png')
+                  : Image.asset('assets/images/logo_small.png'),
             ),
-          ]),
+          ),
+        ],
+      ),
       body: body,
     );
   }

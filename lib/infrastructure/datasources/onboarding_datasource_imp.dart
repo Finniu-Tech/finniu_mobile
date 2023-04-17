@@ -3,6 +3,7 @@ import 'package:finniu/domain/entities/onboarding_entities.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/infrastructure/mappers/onboarding_mapper.dart';
+import 'package:finniu/infrastructure/mappers/plan_mapper.dart';
 import 'package:finniu/infrastructure/models/onboarding_finish_response.dart';
 import 'package:finniu/infrastructure/models/onboarding_response.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';

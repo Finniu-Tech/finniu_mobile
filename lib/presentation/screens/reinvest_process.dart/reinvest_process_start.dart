@@ -43,7 +43,7 @@ class Reinvest extends HookConsumerWidget {
                       padding: const EdgeInsets.only(right: 10),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/my_investment');
+                          Navigator.pushNamed(context, '/plan_list');
                         },
                         child: Container(
                           width: 142,

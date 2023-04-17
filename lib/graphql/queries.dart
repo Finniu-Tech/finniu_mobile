@@ -64,4 +64,22 @@ class QueryRepository {
       }
     }
   ''';
+
+  static String get getPlans {
+    return '''
+      query getPlans{
+        planData{
+          uuid
+          name
+          description
+          minAmount
+          value
+          twelveMonthsReturn
+          sixMonthsReturn
+          returnDateEstimate
+          planImageUrl
+        }
+      }
+  ''';
+  }
 }

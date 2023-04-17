@@ -261,27 +261,36 @@ class BottomNavigationBarHome extends ConsumerWidget {
                           primaryLight,
                         )),
               onTap: () {
-                Navigator.pushNamed(context, '/home_home');
+                Navigator.pushReplacementNamed(context, '/home_home');
+                // Navigator.of(context).pushNamedAndRemoveUntil(
+                //   '/home_home',
+                //   (route) => true,
+                // );
               },
             ),
           ),
           BottomNavigationBarItem(
-              label: 'Planes',
-              icon: InkWell(
-                child: Image.asset(
-                  'assets/icons/square.png',
-                  width: 30,
-                  height: 30,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(
-                          primaryLight,
-                        ),
-                ),
-                onTap: () {
-                  Navigator.pushNamed(context, '/my_investment');
-                },
-              )),
+            label: 'Planes',
+            icon: InkWell(
+              child: Image.asset(
+                'assets/icons/square.png',
+                width: 30,
+                height: 30,
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryDark)
+                    : const Color(
+                        primaryLight,
+                      ),
+              ),
+              onTap: () {
+                // Navigator.of(context).pushNamedAndRemoveUntil(
+                //   '/plan_list',
+                //   (route) => true,
+                // );
+                Navigator.pushReplacementNamed(context, '/plan_list');
+              },
+            ),
+          ),
           BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
@@ -296,7 +305,12 @@ class BottomNavigationBarHome extends ConsumerWidget {
                         ),
                 ),
                 onTap: () {
-                  Navigator.pushNamed(context, '/process_investment');
+                  Navigator.pushReplacementNamed(
+                      context, '/process_investment');
+                  // Navigator.of(context).pushNamedAndRemoveUntil(
+                  //   '/process_investment',
+                  //   (route) => true,
+                  // );
                 },
               )),
         ],
