@@ -7,16 +7,18 @@ class PlanEntity {
   double? value;
   double? twelveMonthsReturn;
   double? sixMonthsReturn;
-  PlanEntity({
-    required this.uuid,
-    required this.name,
-    this.description,
-    this.imageUrl,
-    required this.minAmount,
-    this.value,
-    this.twelveMonthsReturn,
-    this.sixMonthsReturn,
-  });
+  DateTime? returnEstimatedDate = DateTime.now();
+
+  PlanEntity(
+      {required this.uuid,
+      required this.name,
+      this.description,
+      this.imageUrl,
+      required this.minAmount,
+      this.value,
+      this.twelveMonthsReturn,
+      this.sixMonthsReturn,
+      this.returnEstimatedDate});
 
   PlanEntity copyWith({
     String? uuid,
@@ -27,6 +29,7 @@ class PlanEntity {
     double? value,
     double? twelveMonthsReturn,
     double? sixMonthsReturn,
+    DateTime? returnEstimatedDate,
   }) {
     return PlanEntity(
       uuid: uuid ?? this.uuid,
@@ -37,6 +40,7 @@ class PlanEntity {
       value: value ?? this.value,
       twelveMonthsReturn: twelveMonthsReturn ?? this.twelveMonthsReturn,
       sixMonthsReturn: sixMonthsReturn ?? this.sixMonthsReturn,
+      returnEstimatedDate: returnEstimatedDate ?? this.returnEstimatedDate,
     );
   }
 }

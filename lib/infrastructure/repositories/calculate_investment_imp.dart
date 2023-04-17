@@ -16,8 +16,8 @@ class CalculateInvestmentRepositoryImp
     required GraphQLClient client,
     required int amount,
     required int months,
-  }) async {
-    return await dataSource.calculate(
+  }) {
+    return dataSource.calculate(
       client: client,
       amount: amount,
       months: months,

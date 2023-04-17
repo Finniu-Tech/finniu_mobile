@@ -12,6 +12,9 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
     required int amount,
     required int months,
   }) async {
+    print('vars!!!');
+    print(amount);
+    print(months);
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -25,9 +28,14 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
     );
     print('response!!!');
     print(response);
+
+    if (response.data == null) {
+      throw Exception(
+          'Error trying to calculate investment: ${response.exception}');
+    }
     final responseGraphQL = CalculateInvestmentResponse.fromJson(
-      response.data!,
+      response.data ?? {},
     );
-    return CalculateInvestmentMapper.toEntity(responseGraphQL);
+    return CalculateInvestmentMapper.toEntity(amount, months, responseGraphQL);
   }
 }

@@ -66,7 +66,8 @@ class CustomSelectButton extends HookConsumerWidget {
                 color: themeProvider.isDarkMode
                     ? const Color(primaryDarkAlternative)
                     : const Color(
-                        primaryLight), // Aquí especificas el color de borde deseado
+                        primaryLight,
+                      ), // Aquí especificas el color de borde deseado
               ),
             ),
             padding: const EdgeInsets.all(15),
@@ -127,7 +128,5 @@ class CustomSelectButton extends HookConsumerWidget {
         ),
       ),
     );
-
-    
   }
 }

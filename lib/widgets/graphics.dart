@@ -11,12 +11,14 @@ class LineReportCalculatorWidget extends ConsumerStatefulWidget {
   final double initialAmount;
   final double finalAmount;
   final double revenueAmount;
+  final int months;
 
   const LineReportCalculatorWidget({
     super.key,
     required this.initialAmount,
     required this.finalAmount,
     required this.revenueAmount,
+    required this.months,
   });
 
   @override
@@ -155,8 +157,8 @@ class _LineReportCalculatorWidgetState
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'En 6 meses tendrías',
+                    Text(
+                      'En ${widget.months} meses tendrías',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 10,

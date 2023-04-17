@@ -7,11 +7,20 @@ import 'package:finniu/infrastructure/models/onboarding_response.dart';
 
 class CalculateInvestmentMapper {
   static PlanSimulation toEntity(
-      CalculateInvestmentResponse investmentResponse) {
-    print('investmentResponse: $investmentResponse');
+    initialAmount,
+    months,
+    CalculateInvestmentResponse investmentResponse,
+  ) {
+    print(
+        'investmentResponse: {$investmentResponse.calculateInvestment?.plan}');
     final planModel = investmentResponse.calculateInvestment?.plan;
+    if (planModel == null) {
+      throw Exception('Invalid CalculateInvestmentResponse object');
+    }
 
     return PlanSimulation(
+      initialAmount: initialAmount,
+      months: months,
       profitability: investmentResponse
           .calculateInvestment!.profitability!.preInvestmentAmount
           ?.toDouble(),
@@ -23,36 +32,8 @@ class CalculateInvestmentMapper {
         twelveMonthsReturn: double.parse(planModel?.twelveMonthsReturn ?? '0'),
         sixMonthsReturn: double.parse(planModel?.sixMonthsReturn ?? '0'),
         description: planModel?.description ?? '',
+        returnEstimatedDate: planModel.returnDateEstimate,
       ),
     );
   }
 }
-
-// class OnboardingMapper {
-//   static OnboardingEntity toEntity(StartOnboardingGraphqlModel model) {
-//     return OnboardingEntity(
-//       totalQuestions: model.totalQuestions ?? 0,
-//       totalCompletedQuestions: model.questionsCompleted ?? 0,
-//       questions: model.questions!
-//           .map(
-//             (e) => OnboardingQuestionEntity(
-//               text: e.text ?? '',
-//               uuid: e.uuid ?? '',
-//               questionImageUrl: e.questionImageUrl ?? '',
-//               answers: e.answers!
-//                   .map(
-//                     (e) => AnswerEntity(
-//                       text: e.text ?? '',
-//                       uuid: e.uuid ?? '',
-//                       value: e.value ?? 0,
-//                     ),
-//                   )
-//                   .toList(),
-//               value: '',
-//             ),
-//           )
-//           .toList(),
-//     );
-//   }
-// }
-
