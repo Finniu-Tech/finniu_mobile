@@ -299,7 +299,6 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ],
-            
               SizedBox(
                 width: 200,
                 child: Text(
@@ -313,22 +312,30 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ),
-             
-             const SizedBox(height: 30,),
-              Container(width: 224,height: 50,
+              const SizedBox(
+                height: 30,
+              ),
+              Container(
+                width: 224,
+                height: 50,
                 margin: const EdgeInsets.only(top: 10),
                 child: TextButton(
                   onPressed: () async {
                     planSimulation = await ref
                         .read(calculateInvestmentFutureProvider.future);
-                    
-                     Navigator.pushNamed(context, '/calculator_result');
+
+                    Navigator.pushNamed(context, '/calculator_result');
                     setState(() {});
                   },
                   child: const Text(
                     'Continuar',
                   ),
                   style: ButtonStyle(
+                    elevation: MaterialStateProperty.all<double>(
+                        4), // Altura de la sombra
+
+                    shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+
                     padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                       const EdgeInsets.symmetric(
                         horizontal: 50,

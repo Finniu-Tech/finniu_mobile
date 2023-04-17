@@ -153,33 +153,34 @@ class ResultCalculator extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                InkWell(
-                  onTap: () => showDialog<String>(
-                    barrierColor: Colors.transparent,
-                    context: context,
-                    builder: (BuildContext context) => ConstrainedBox(
-                      constraints: const BoxConstraints(),
-                      child: AlertDialog(
-                        backgroundColor: const Color(primaryLightAlternative),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        content: Container(
-                          height: 200,
-                          width: 228,
-                           
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                            
+            Padding(
+              padding: const EdgeInsets.only(right: 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  InkWell(
+                    onTap: () => showDialog<String>(
+                      barrierColor: Colors.transparent,
+                      context: context,
+                      builder: (BuildContext context) => ConstrainedBox(
+                        constraints: const BoxConstraints(),
+                        child: AlertDialog(
+                          backgroundColor: const Color(primaryLightAlternative),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          content: Container(
+                            height: 200,
+                            width: 228,
+                            child: Column(
+                              children: [
+                                Align(
+                                  alignment: Alignment.bottomRight,
                                   child: Padding(
-                                    padding: const EdgeInsets.only(left:60,bottom: 20),
+                                    padding: const EdgeInsets.only(
+                                        left: 18, bottom: 18),
                                     child: IconButton(
-                                      alignment: Alignment.topRight,
+                                      alignment: Alignment.bottomRight,
                                       icon: const Icon(Icons.close),
                                       color: const Color(blackText),
                                       onPressed: () {
@@ -187,14 +188,8 @@ class ResultCalculator extends HookConsumerWidget {
                                       },
                                     ),
                                   ),
-                                
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(5.0),
-                                child: Text(
+                                ),
+                                const Text(
                                   'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
@@ -202,38 +197,38 @@ class ResultCalculator extends HookConsumerWidget {
                                     height: 1.8,
                                     color: Color(blackText),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Declaración a la Sunat 5%',
-                        style: TextStyle(
-                          fontSize: 14,
-                          height: 1.5,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Declaración a la Sunat 5%',
+                          style: TextStyle(
+                            fontSize: 14,
+                            height: 1.5,
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
+                          ),
                         ),
-                      ),
-                      ImageIcon(
-      const AssetImage('assets/icons/questions.png'),
-                        size: 20,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),),
-                      
-                      const SizedBox(width: 5),
-                    ],
+                        ImageIcon(
+                          const AssetImage('assets/icons/questions.png'),
+                          size: 20,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                        ),
+                        const SizedBox(width: 5),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             SizedBox(
               width: 390,
@@ -303,10 +298,16 @@ class ResultCalculator extends HookConsumerWidget {
                 ],
               ),
             ),
-           SizedBox(
+            SizedBox(
               width: 224,
               height: 50,
               child: TextButton(
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all<double>(
+                      4), // Altura de la sombra
+
+                  shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/my_investment');
                 },

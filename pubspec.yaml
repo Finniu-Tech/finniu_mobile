@@ -64,6 +64,7 @@ dependencies:
 
 
 
+
   # artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
   # json_annotation: ^3.1.0
   # equatable: ^1.2.5

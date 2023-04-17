@@ -229,28 +229,44 @@ class HomeBody extends ConsumerWidget {
                     width: 98,
                     height: 65,
                     child: GestureDetector(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icons/square.png', //Ruta de acceso de la imagen
-                            width: 15,
-                            height: 15,
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Planes',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color(blackText),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/my_investment');
                       },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 0,
+                              blurRadius: 0,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                          color: const Color(secondary),
+                        ),
+                        width: 98,
+                        height: 65,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icons/square.png',
+                              width: 15,
+                              height: 15,
+                            ),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'Planes',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color(blackText),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -259,7 +275,6 @@ class HomeBody extends ConsumerWidget {
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: const Color(secondary),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.6),
@@ -268,32 +283,49 @@ class HomeBody extends ConsumerWidget {
                             offset: const Offset(
                                 0, 3), // changes position of shadow
                           ),
-                        ]),
+                        ],
+                        color: const Color(secondary)),
                     width: 98,
                     height: 65,
                     child: GestureDetector(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icons/dollar.png', //Ruta de acceso de la imagen
-                            width: 15,
-                            height: 15,
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Mis inversiones',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color(blackText),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/process_investment');
                       },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 0,
+                              blurRadius: 0,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                          color: const Color(secondary),
+                        ),
+                        width: 98,
+                        height: 65,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icons/dollar.png',
+                              width: 15,
+                              height: 15,
+                            ),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'Mis inversiones',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color(blackText),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -302,7 +334,6 @@ class HomeBody extends ConsumerWidget {
                   Container(
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
-                        color: const Color(secondary),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.grey.withOpacity(0.6),
@@ -311,32 +342,49 @@ class HomeBody extends ConsumerWidget {
                             offset: const Offset(
                                 0, 3), // changes position of shadow
                           ),
-                        ]),
+                        ],
+                        color: const Color(secondary)),
                     width: 98,
                     height: 65,
                     child: GestureDetector(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            'assets/icons/transferences.png', //Ruta de acceso de la imagen
-                            width: 15,
-                            height: 15,
-                          ),
-                          const SizedBox(height: 5),
-                          const Text(
-                            'Transferencias',
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color(blackText),
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
                       onTap: () {
                         Navigator.pushNamed(context, '/transfers');
                       },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 0,
+                              blurRadius: 0,
+                              offset: const Offset(0, 3),
+                            ),
+                          ],
+                          color: const Color(secondary),
+                        ),
+                        width: 98,
+                        height: 65,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              'assets/icons/transferences.png',
+                              width: 15,
+                              height: 15,
+                            ),
+                            const SizedBox(height: 5),
+                            const Text(
+                              'Transferencias',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: Color(blackText),
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
