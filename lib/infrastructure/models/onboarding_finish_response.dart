@@ -47,6 +47,7 @@ class Plan {
     this.twelveMonthsReturn,
     this.sixMonthsReturn,
     this.description,
+    this.returnEstimatedDate,
   });
 
   String? uuid;
@@ -56,6 +57,7 @@ class Plan {
   String? twelveMonthsReturn;
   String? sixMonthsReturn;
   String? description;
+  DateTime? returnEstimatedDate = DateTime.now();
 
   factory Plan.fromJson(Map<String, dynamic> json) => Plan(
         uuid: json["uuid"],
@@ -65,6 +67,9 @@ class Plan {
         twelveMonthsReturn: json["twelveMonthsReturn"],
         sixMonthsReturn: json["sixMonthsReturn"],
         description: json["description"],
+        returnEstimatedDate: json["returnEstimatedDate"] == null
+            ? null
+            : DateTime.parse(json["returnEstimatedDate"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -75,6 +80,9 @@ class Plan {
         "twelveMonthsReturn": twelveMonthsReturn,
         "sixMonthsReturn": sixMonthsReturn,
         "description": description,
+        "returnEstimatedDate": returnEstimatedDate == null
+            ? null
+            : returnEstimatedDate!.toIso8601String(),
       };
 }
 

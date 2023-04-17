@@ -60,29 +60,15 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_step3': (BuildContext context) => const Step3(),
     '/set_new_password': (BuildContext context) => const NewPassword(),
     '/calculator_tool': (BuildContext context) => const Calculator(),
-    '/calculator_result': (BuildContext context) =>  const ResultCalculator (),
-    '/finance': (BuildContext context) =>  const FinanceScreen (),
+    '/calculator_result': (BuildContext context) => const ResultCalculator(),
+    '/finance': (BuildContext context) => const FinanceScreen(),
     '/finance_screen2': (BuildContext context) => Finance_Screen_2(),
     '/pdf_page': (BuildContext context) => const PdfPage(),
     '/calendar_page': (BuildContext context) => Calendar(),
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
     '/process_investment': (BuildContext context) => InvestmentProcess(),
-     '/investment_history': (BuildContext context) =>  InvestmentHistory(),
-     '/reinvest': (BuildContext context) => const Reinvest(),
-     '/reinvest_end': (BuildContext context) => const ReinvestEnd(),
-     
-  
-    
-  
-
-
-
-    
-    
-    
-   
-
-
-
+    '/investment_history': (BuildContext context) => InvestmentHistory(),
+    '/reinvest': (BuildContext context) => const Reinvest(),
+    '/reinvest_end': (BuildContext context) => const ReinvestEnd(),
   };
 }

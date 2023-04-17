@@ -29,52 +29,38 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  flutter:
-    sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
-  google_fonts: ^4.0.3
-  flutter_switch: ^0.3.2
   carousel_slider: ^4.2.1
-  shared_preferences: ^2.0.17
-  flutter_bloc: ^8.1.2
-  graphql_flutter: ^5.1.2
-  email_validator: '^2.1.16'
-  rounded_loading_button: ^2.1.0
-  loader_overlay: ^2.1.0
-  flutter_spinkit: ^5.1.0
+  circular_countdown_timer: ^0.2.3
+  cupertino_icons: ^1.0.2
+  dropdown_search: ^5.0.5
+  email_validator: ^2.1.16
+  equatable: ^2.0.5
   expandable_page_view: ^1.0.17
   expansion_tile_card: ^2.0.0
-  dropdown_search: ^5.0.5
-  percent_indicator: ^4.2.2
-  image_picker: ^0.8.6+2
-  hooks_riverpod: ^2.3.2
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.2
+  flutter_calendar_carousel: ^2.4.2
+  flutter_spinkit: ^5.1.0
+  flutter_svg: ^2.0.4
+  flutter_switch: ^0.3.2
   flutter_verification_code: ^1.1.6
-  circular_countdown_timer: ^0.2.3
   freezed: ^2.3.2
   freezed_annotation: ^2.2.0
-  json_annotation: ^4.8.0
-  flutter_svg: ^2.0.4
-  syncfusion_flutter_pdfviewer: ^21.1.35
-  flutter_calendar_carousel: ^2.4.2
+  google_fonts: ^4.0.3
+  graphql_flutter: ^5.1.2
+  hooks_riverpod: ^2.3.2
+  image_picker: ^0.8.6+2
   intl: ^0.18.0
-
-
-
-  # artemis: '>=6.0.0 <7.0.0' # only if you're using ArtemisClient!
-  # json_annotation: ^3.1.0
-  # equatable: ^1.2.5
-  # meta: '>=1.0.0 <2.0.0' # only if you have non nullable fields
-  # gql: '>=0.12.3 <1.0.0'
-  # intl: ^0.18.0
-
+  json_annotation: ^4.8.0
+  loader_overlay: ^2.1.0
+  percent_indicator: ^4.2.2
+  rounded_loading_button: ^2.1.0
+  shared_preferences: ^2.0.17
+  syncfusion_flutter_pdfviewer: ^21.1.35
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  build_runner: ^2.3.3
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -82,20 +68,16 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  build_runner: ^2.3.3
+  flutter_test:
+    sdk: flutter
   json_serializable: ^6.6.1
-  # artemis: '>=6.0.0 <7.0.0'
-  # build_runner: ^1.10.4
-  # json_serializable: ^3.5.0
 
 # dependency_overrides:
 #   meta: 1.6.0
 #   http: ^0.12.1
 #   collection: ^1.17.1
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-
 # The following section is specific to Flutter packages.
 flutter:
 
@@ -123,13 +105,10 @@ flutter:
     - assets/report_home/dark/
     - assets/report_home/light/
     - assets/icons/
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
-
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
-
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
