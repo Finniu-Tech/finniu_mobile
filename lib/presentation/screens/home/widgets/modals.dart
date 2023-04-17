@@ -251,74 +251,83 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        ItemSetting(
-                        
-                         image:'assets/icons/icon_profile.png',
-                          text: "Editar mi perfil",
+                        GestureDetector(
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/profile');
                           },
+                          child: ItemSetting(
+                            image: 'assets/icons/icon_profile.png',
+                            text: "Editar mi perfil",
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ItemSetting(
-                        
-                           image:'assets/icons/padlock.png',
-                          text: "Privacidad",
+                        GestureDetector(
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/privacy');
                           },
+                          child: ItemSetting(
+                            image: 'assets/icons/padlock.png',
+                            text: "Privacidad",
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ItemSetting(
-            
-                          image:'assets/icons/transferens.png',
-                         text: "Mis transferencias",
+                        GestureDetector(
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/transfers');
                           },
+                          child: ItemSetting(
+                            image: 'assets/icons/transferens.png',
+                            text: "Mis transferencias",
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ItemSetting(
-                       
-                         image:'assets/icons/lenguages.png',
-                          text: "Lenguajes",
+                        GestureDetector(
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/languages');
                           },
+                          child: ItemSetting(
+                            image: 'assets/icons/lenguages.png',
+                            text: "Lenguajes",
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ItemSetting(
-                          
-                          image:'assets/icons/questions.png',
-                          text: "Ayuda",
+                        GestureDetector(
                           onTap: () {
                             Navigator.of(ctx).pushNamed('/help');
                           },
+                          child: ItemSetting(
+                            image: 'assets/icons/questions.png',
+                            text: "Ayuda",
+                          ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
-                        ItemSetting(
-                         
-                        image:'assets/icons/sign_off.png',
-                          text: "Cerrar sesión",
+                        GestureDetector(
                           onTap: () {
-                            ref.invalidate(authTokenProvider);
-                            ref.invalidate(gqlClientProvider);
-                            ref.invalidate(userProfileFutureProvider);
-                            ref.invalidate(userProfileNotifierProvider);
-                            // logout(ref);
-                            Navigator.of(ctx).pushNamedAndRemoveUntil(
-                                '/login_start', (route) => false);
+                            Navigator.of(ctx).pushNamed('/login_start');
                           },
+                          child: ItemSetting(
+                            image: 'assets/icons/sign_off.png',
+                            text: "Cerrar sesión",
+                            onTap: () {
+                              ref.invalidate(authTokenProvider);
+                              ref.invalidate(gqlClientProvider);
+                              ref.invalidate(userProfileFutureProvider);
+                              ref.invalidate(userProfileNotifierProvider);
+                              // logout(ref);
+                              Navigator.of(ctx).pushNamedAndRemoveUntil(
+                                  '/login_start', (route) => false);
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -335,16 +344,15 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
 
 class ItemSetting extends ConsumerWidget {
   late String _image;
- 
+
   late String _text;
-  
+
   Function? _onTap;
 
   ItemSetting({
     required String image,
     required String text,
     Function? onTap,
-  
   }) {
     _image = image;
     _text = text;
@@ -362,17 +370,20 @@ class ItemSetting extends ConsumerWidget {
           height: 35,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color:themeProvider.isDarkMode
+            color: themeProvider.isDarkMode
                 ? const Color(primaryLight)
                 : const Color(primaryDarkAlternative),
-          
             borderRadius: BorderRadius.circular(5),
-          
           ),
           child: InkWell(
-            child: Image.asset(_image,color:themeProvider.isDarkMode
-                ? const Color(primaryDark)
-                : const Color(primaryLight),width: 18,height: 18,),
+            child: Image.asset(
+              _image,
+              color: themeProvider.isDarkMode
+                  ? const Color(primaryDark)
+                  : const Color(primaryLight),
+              width: 18,
+              height: 18,
+            ),
             onTap: _onTap as void Function()?,
           ),
         ),

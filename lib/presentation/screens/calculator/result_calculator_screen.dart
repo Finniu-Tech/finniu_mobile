@@ -154,7 +154,7 @@ class ResultCalculator extends HookConsumerWidget {
               height: 10,
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.only(right: 16),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -169,35 +169,33 @@ class ResultCalculator extends HookConsumerWidget {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15.0),
                           ),
-                          content: SizedBox(
+                          content: Container(
                             height: 200,
                             width: 228,
                             child: Column(
                               children: [
                                 Align(
-                                  alignment: Alignment.topRight,
-                                  child: IconButton(
-                                    alignment: Alignment.topRight,
-                                    icon: const Icon(Icons.close),
-                                    color: const Color(blackText),
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                    },
+                                  alignment: Alignment.bottomRight,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 18, bottom: 18),
+                                    child: IconButton(
+                                      alignment: Alignment.bottomRight,
+                                      icon: const Icon(Icons.close),
+                                      color: const Color(blackText),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Text(
-                                    'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      height: 1.5,
-                                      color: Color(blackText),
-                                    ),
+                                const Text(
+                                  'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    height: 1.8,
+                                    color: Color(blackText),
                                   ),
                                 )
                               ],
@@ -219,12 +217,12 @@ class ResultCalculator extends HookConsumerWidget {
                           ),
                         ),
                         ImageIcon(
-      const AssetImage('assets/icons/questions.png'),
+                          const AssetImage('assets/icons/questions.png'),
                           size: 20,
                           color: currentTheme.isDarkMode
                               ? const Color(primaryLight)
-                              : const Color(primaryDark),),
-                        
+                              : const Color(primaryDark),
+                        ),
                         const SizedBox(width: 5),
                       ],
                     ),
@@ -300,10 +298,16 @@ class ResultCalculator extends HookConsumerWidget {
                 ],
               ),
             ),
-           SizedBox(
+            SizedBox(
               width: 224,
               height: 50,
               child: TextButton(
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all<double>(
+                      4), // Altura de la sombra
+
+                  shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/my_investment');
                 },

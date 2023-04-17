@@ -11,9 +11,9 @@ class CustomButton extends ConsumerStatefulWidget {
   final String? image;
   final double width;
   final double height;
-  final Color? imageColor; 
+  final Color? imageColor;
 
-   CustomButton({
+  CustomButton({
     super.key,
     required this.text,
     this.colorBackground,
@@ -22,18 +22,17 @@ class CustomButton extends ConsumerStatefulWidget {
     this.width = 224,
     this.height = 50,
     this.image,
-   this.imageColor,
+    this.imageColor,
   });
 
   @override
- 
- _CustomButtonState createState() => _CustomButtonState();
+  _CustomButtonState createState() => _CustomButtonState();
 }
 
 class _CustomButtonState extends ConsumerState<CustomButton> {
   @override
   Widget build(BuildContext context) {
-      final themeProvider = ref.watch(settingsNotifierProvider);
+    final themeProvider = ref.watch(settingsNotifierProvider);
     Color colorBackground;
     if (widget.colorBackground == null) {
       colorBackground = Theme.of(context)
@@ -67,28 +66,25 @@ class _CustomButtonState extends ConsumerState<CustomButton> {
           Navigator.pushNamed(context, widget.pushName);
         }
       },
-     child: widget.image != null
+      child: widget.image != null
           ? Row(
-            
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                 Text(widget.text),
-                  SizedBox(width: 10),
+                Text(widget.text),
+                SizedBox(width: 10),
                 Image.asset(
                   widget.image!,
-                
                   width: 20,
                   height: 20,
                   color: widget.imageColor,
                 ),
-               
-               
               ],
             )
           : Text(widget.text),
     );
   }
 }
+
 class CustomReturnButton extends ConsumerWidget {
   final int colorBoxdecoration;
   final int colorIcon;
@@ -154,8 +150,7 @@ class CustomButtonRoundedDark extends ConsumerWidget {
         height: 28.67,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color:
-               Colors.transparent,
+          color: Colors.transparent,
           border: Border.all(
             color: const Color(primaryDark),
           ),
@@ -238,7 +233,6 @@ class BottomNavigationBarHome extends ConsumerWidget {
         elevation: 0.0,
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.transparent,
-        
         selectedItemColor: currentTheme.isDarkMode
             ? const Color(primaryDark)
             : const Color(
@@ -257,29 +251,33 @@ class BottomNavigationBarHome extends ConsumerWidget {
         items: [
           BottomNavigationBarItem(
             label: 'Home',
-            
             icon: InkWell(
-              child: Image.asset('assets/icons/home.png', width: 30,
-                        height: 30,color: currentTheme.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(
-                primaryLight,
-              )),
+              child: Image.asset('assets/icons/home.png',
+                  width: 30,
+                  height: 30,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(
+                          primaryLight,
+                        )),
               onTap: () {
                 Navigator.pushNamed(context, '/home_home');
               },
             ),
-           
           ),
           BottomNavigationBarItem(
               label: 'Planes',
               icon: InkWell(
-                child:  Image.asset('assets/icons/square.png', width: 30,
-                        height: 30,color:currentTheme.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(
-                primaryLight,
-              ) ,),
+                child: Image.asset(
+                  'assets/icons/square.png',
+                  width: 30,
+                  height: 30,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(
+                          primaryLight,
+                        ),
+                ),
                 onTap: () {
                   Navigator.pushNamed(context, '/my_investment');
                 },
@@ -287,18 +285,20 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
-                child:  Image.asset('assets/icons/dollar.png', width: 30,
-                        height: 30,color:currentTheme.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(
-                primaryLight,
-              ) ,),
+                child: Image.asset(
+                  'assets/icons/dollar.png',
+                  width: 30,
+                  height: 30,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(
+                          primaryLight,
+                        ),
+                ),
                 onTap: () {
                   Navigator.pushNamed(context, '/process_investment');
                 },
               )),
-         
-          
         ],
       ),
     );

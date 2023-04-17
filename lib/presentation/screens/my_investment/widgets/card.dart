@@ -80,227 +80,224 @@ class CardCustom extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return SizedBox(
-        width: 320,
-        // height: 62,
-        child: ExpansionTileCard(
-          onExpansionChanged: (value) {
-            isExpanded.value = value;
-          },
-          title: Padding(
-            padding: const EdgeInsets.only(left: 27),
-            child: Text(
-              textTiledCard,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Color(
-                  currentTheme.isDarkMode ? (primaryDark) : (primaryLightAlternative),
-                ),
+      width: 320,
+      // height: 62,
+      child: ExpansionTileCard(
+        onExpansionChanged: (value) {
+          isExpanded.value = value;
+        },
+        title: Padding(
+          padding: const EdgeInsets.only(left: 27),
+          child: Text(
+            textTiledCard,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(
+                currentTheme.isDarkMode
+                    ? (primaryDark)
+                    : (primaryLightAlternative),
               ),
             ),
           ),
-          trailing: SizedBox(
-            width: 80,
-            // height: 30,
-            child: Row(
+        ),
+        trailing: SizedBox(
+          width: 80,
+          // height: 30,
+          child: Row(
+            children: [
+              Text(
+                'Ver más',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 10,
+                  color: Color(
+                    currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              CircleAvatar(
+                radius: 15,
+                backgroundColor: Color(
+                  currentTheme.isDarkMode
+                      ? (primaryDark)
+                      : (primaryLightAlternative),
+                ),
+                child: Icon(
+                  Icons.arrow_drop_down,
+                  color: Color(
+                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        baseColor: Color(
+          currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+        ),
+        expandedColor: Color(
+          currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+        ),
+        elevation: 2.0,
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            color: Color(
+              currentTheme.isDarkMode ? primaryLightAlternative : colortext,
+            ),
+            width: 320,
+            height: 270,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  'Ver más',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: Color(
-                      currentTheme.isDarkMode ? (primaryDark) : (whiteText),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      children: [
+                        Image.asset(
+                          image,
+                          width: 90,
+                          height: 90,
+                        ),
+                      ],
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            const Icon(
+                              Icons
+                                  .monetization_on_outlined, // Icono que deseas utilizar
+                              size: 21.5, // Tamaño del icono
+                              color: Color(primaryDark), // Color del icono
+                            ),
+                            const Text(
+                              "Monto minimo",
+                              style: TextStyle(
+                                fontSize: 10, // Tamaño de fuente
+                                color: Color(primaryDark), // Color de texto
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            Text(
+                              textinvestment,
+                              style: const TextStyle(
+                                fontSize: 12, // Tamaño de fuente
+                                color: Color(primaryDark), // Color de texto
+                              ),
+                            )
+                          ],
+                        ),
+
+                        SizedBox(height: 20),
+
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/double_dollar.png',
+                              width: 25,
+                              height: 25,
+                            ),
+                            const Text(
+                              "Retorno anual",
+                              style: TextStyle(
+                                fontSize: 10, // Tamaño de fuente
+                                color: Color(primaryDark), // Color de texto
+                              ),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              textPercentage,
+                              style: const TextStyle(
+                                fontSize: 12, // Tamaño de fuente
+                                color: Color(primaryDark), // Color de texto
+                              ),
+                            )
+                          ],
+                        ),
+
+                        const SizedBox(height: 20),
+
+                        Row(
+                          children: [
+                            Image.asset(
+                              'assets/icons/percent.png',
+                              width: 20,
+                              height: 20,
+                            ),
+                            const Text(
+                              // textAlign: TextAlign.end,
+                              " Declaración a la Sunat",
+                              style: TextStyle(
+                                fontSize: 10, // Tamaño de fuente
+                                color: Color(primaryDark), // Color de texto
+                              ),
+                            ),
+                            SizedBox(width: 5),
+                            Text(
+                              textDeclaration,
+                              style: const TextStyle(
+                                fontSize: 12, // Tamaño de fuente
+                                color: Color(primaryDark), // Color de texto
+                              ),
+                            )
+                          ],
+                        ),
+
+                        // Aquí pueden ir otros widgets adicionales
+                      ],
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(
+                      25.0), // aquí puedes configurar la cantidad de padding
+                  child: Center(
+                    child: Text(
+                      textContainer,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Color(blackText),
+                        height: 2,
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                CircleAvatar(
-                  radius: 15,
-                  backgroundColor: Color(
-                    currentTheme.isDarkMode ? (primaryDark) : (primaryLightAlternative),
-                  ),
-                  child: Icon(
-                    Icons.arrow_drop_down,
-                    color: Color(
-                      currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.8,
+                  height: 3,
+                  decoration: const BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Color(gradient_secondary_option),
+                        width: 1.2,
+                      ),
                     ),
                   ),
-                )
+                ),
               ],
             ),
-          ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-          baseColor: Color(
-            currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-          ),
-          expandedColor: Color(
-            currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-          ),
-          elevation: 2.0,
-          children: [
-            Container(
-              alignment: Alignment.topLeft,
-              color: Color(
-                currentTheme.isDarkMode ? primaryLightAlternative : colortext,
-              ),
-              width: 320,
-              height: 270,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                // crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Image.asset(
-                            image,
-                            width: 90,
-                            height: 90,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            // mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              const Icon(
-                                Icons
-                                    .monetization_on_outlined, // Icono que deseas utilizar
-                                size: 21.5, // Tamaño del icono
-                                color: Color(primaryDark), // Color del icono
-                              ),
-                              const Text(
-                                "Monto minimo",
-                                style: TextStyle(
-                                  fontSize: 10, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                textinvestment,
-                                style: const TextStyle(
-                                  fontSize: 12, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
-                                ),
-                              )
-                            ],
-                          ),
-
-                          SizedBox(height: 20),
-
-                          Row(
-                            children: [
-                              Image.asset(
-      'assets/icons/double_dollar.png', 
-      width: 25,
-      height: 25, 
-    ),
-                              const Text(
-                                "Retorno anual",
-                                style: TextStyle(
-                                  fontSize: 10, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                textPercentage,
-                                style: const TextStyle(
-                                  fontSize: 12, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
-                                ),
-                              )
-                            ],
-                          ),
-
-                          const SizedBox(height: 20),
-
-                          Row(
-                            children: [
-                                  Image.asset(
-      'assets/icons/percent.png', 
-      width: 20,
-      height: 20, 
-    ),
-              
-                              const Text(
-                                // textAlign: TextAlign.end,
-                                " Declaración a la Sunat",
-                                style: TextStyle(
-                                  fontSize: 10, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
-                                ),
-                              ),
-                              SizedBox(width: 5),
-                              Text(
-                                textDeclaration,
-                                style: const TextStyle(
-                                  fontSize: 12, // Tamaño de fuente
-                                  color: Color(primaryDark), // Color de texto
-                                ),
-                              )
-                            ],
-                          ),
-
-                          // Aquí pueden ir otros widgets adicionales
-                        ],
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(
-                        25.0), // aquí puedes configurar la cantidad de padding
-                    child: Center(
-                      child: Text(
-                        textContainer,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Color(blackText),
-                          height: 2,
-                        ),
-                      ),
-                    ),
-                  ),
-                
-                
-                 Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 3,
-              decoration: const BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: Color(gradient_secondary_option),
-                    width: 1.2,
-                  ),
-                ),
-              ),
-            ),
-                
-                
-            
-                
-                
-                ],
-              ),
-            )
-          ],
-        ),
-        );
+          )
+        ],
+      ),
+    );
   }
 }
 
@@ -445,6 +442,14 @@ class InitialCardBody extends ConsumerWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.7),
+                  spreadRadius: 0,
+                  blurRadius: 3,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
               color: Color(primaryDark),
             ),
             child: Center(

@@ -383,7 +383,7 @@ Widget build(BuildContext context, WidgetRef ref) {
                   colorBackground:currentTheme.isDarkMode ? (primaryLight) : primaryDark ,
                   height: 38,
                   width: 134,
-                  pushName: '/investment_step4',
+                  pushName: '/finish_investment',
                 ),
         
             ],

@@ -3,171 +3,191 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
 import 'package:intl/intl.dart';
- 
-
 
 class Calendar extends StatefulWidget {
   @override
-
   _CalendarState createState() => _CalendarState();
 }
 
 class _CalendarState extends State<Calendar> {
-      Locale myLocale = const Locale('es');
+  Locale myLocale = const Locale('es');
   DateTime _currentDate = DateTime.now();
   DateTime _selectedDate = DateTime.now();
-  
+
   @override
   Widget build(BuildContext context) {
     return CustomScaffoldReturnLogo(
-     
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          
-          mainAxisAlignment: MainAxisAlignment.start,crossAxisAlignment: CrossAxisAlignment.center,
-          
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-         
-        Padding(
-          padding: const EdgeInsets.only(right: 60),
-          child: Container(width: 260,
-            child: const Text(
-              
-              'Calendario de mis inversiones🗓️',
-              style: TextStyle(
-             fontSize: 24.0,
-             fontWeight: FontWeight.bold,
+            Container(
+              width: 260,
+              child: const Text(
+                'Calendario de mis inversiones  🗓️',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-        ),
-          
-          const SizedBox(height: 20,),
-          Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(25),color: Color(gradient_secondary),),
-            child: CalendarCarousel(
-                   selectedDateTime: _selectedDate,
-                   onDayPressed: (DateTime date, List events) {
-             this.setState(() => _selectedDate = date);
-                   },
-                   weekendTextStyle: const TextStyle(
-             color: Color(primaryDark),
-                   ),
-                   thisMonthDayBorderColor: Colors.grey,
-                   customDayBuilder: (
-             bool isSelectable,
-             int index,
-             bool isSelectedDay,
-             bool isToday,
-             bool isPrevMonthDay,
-             TextStyle textStyle,
-             bool isNextMonthDay,
-             bool isThisMonthDay,
-             DateTime day,
-                   ) {
-                    String dateFormat = 'EEEE d MMMM';
-                  String dayOfWeek = DateFormat(dateFormat).format(day); // obtener el día de la semana en español
-String dayOfMonth = day.day.toString(); // obtener el primer dígito del día del mes
-             if (isToday) {
-               return Center(
-                 child: Container(
-                   decoration: BoxDecoration(
-                     color: Color(primaryDark),
-                     borderRadius: BorderRadius.circular(50.0),
-                   ),
-                   child: Center(
-                     child: Text(
-                      DateFormat('d', 'es').format(day),
-                       style: const TextStyle(
-                        color: Color(whiteText),
-                       ),
-                     ),
-                   ),
-                 ),
-               );
-          
-             } else {
-               return Container(
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: const Color(primaryDark),
-          width: 1,
-        ),
-      ),
-      child: Center(
-        child: Text(
-          '${day.day}',
-          style: textStyle,
-        ),
-      ),
-      );
-             }
-                   },
-                   height: 420.0,
-                   selectedDayTextStyle: const TextStyle(
-             color: Colors.yellow,
-                   ),
-                   selectedDayButtonColor: const Color(primaryDark),
-                   selectedDayBorderColor: Colors.transparent,
-                   todayTextStyle: const TextStyle(
-             color: Colors.white,
-                   ),
-                   showHeaderButton: true,
-                   iconColor: const Color(primaryDark),
-                   headerTextStyle: const TextStyle(
-             color: Color(primaryDark),
-                   ),
+            const SizedBox(
+              height: 20,
             ),
-          ),
-         
-        Padding(           padding: const EdgeInsets.all(12.0),
-       child: Container(alignment: Alignment.centerLeft,               child: const Text(
-   'Fechas importantes de Mayo',                  
-        style: TextStyle(
-            fontSize: 16,
-                        
-                           color: 
-                                Color(blackText),
-                         ),
-                       ),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                color: Color(gradient_secondary),
               ),
-             ),
-           
-           Padding(
-             padding: const EdgeInsets.only(right:28),
-             child: Container(alignment: Alignment.center,              width: 290,height: 75,decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),   color: Color(primaryLightAlternative),),
-             
-           
-                  child: Column(mainAxisAlignment:MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start,
-                  children:const [Text(
-                          '29 de Mayo',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: 
-                                 Color(blackText),
+              child: CalendarCarousel(
+                selectedDateTime: _selectedDate,
+                onDayPressed: (DateTime date, List events) {
+                  this.setState(() => _selectedDate = date);
+                },
+                weekendTextStyle: const TextStyle(
+                  color: Color(primaryDark),
+                ),
+                thisMonthDayBorderColor: Colors.grey,
+                customDayBuilder: (
+                  bool isSelectable,
+                  int index,
+                  bool isSelectedDay,
+                  bool isToday,
+                  bool isPrevMonthDay,
+                  TextStyle textStyle,
+                  bool isNextMonthDay,
+                  bool isThisMonthDay,
+                  DateTime day,
+                ) {
+                  String dateFormat = 'EEEE d MMMM';
+                  String dayOfWeek = DateFormat(dateFormat)
+                      .format(day); // obtener el día de la semana en español
+                  String dayOfMonth = day.day
+                      .toString(); // obtener el primer dígito del día del mes
+                  if (isToday) {
+                    return Center(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Color(primaryDark),
+                          borderRadius: BorderRadius.circular(50.0),
+                        ),
+                        child: Center(
+                          child: Text(
+                            DateFormat('d', 'es').format(day),
+                            style: const TextStyle(
+                              color: Color(whiteText),
+                            ),
                           ),
                         ),
-                  SizedBox(height: 4), // Agrega un espacio de 4 píxeles entre los dos textos
-                     Text(
-              'Fecha de pago de tu inversion Plan Estable',
-              style: TextStyle(
-              fontSize: 10,
-              color: Color(blackText),
-              ),
-                
-                
+                      ),
+                    );
+                  } else {
+                    return Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: const Color(primaryDark),
+                          width: 1,
+                        ),
+                      ),
+
+                      width: isToday
+                          ? 30
+                          : 36, // Ajusta el tamaño del contenedor según el día
+                      height: isToday ? 30 : 36,
+
+                      child: Center(
+                        child: Text(
+                          '${day.day}',
+                          style: textStyle,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                height: 420.0,
+                selectedDayTextStyle: const TextStyle(
+                  color: Colors.yellow,
                 ),
-              ],
+                selectedDayButtonColor: const Color(primaryDark),
+                selectedDayBorderColor: Colors.transparent,
+                todayTextStyle: const TextStyle(
+                  color: Colors.white,
+                ),
+                showHeaderButton: true,
+                iconColor: const Color(primaryDark),
+                headerTextStyle: const TextStyle(
+                  color: Color(primaryDark),
+                ),
               ),
-             
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Container(
+                alignment: Alignment.centerLeft,
+                child: const Text(
+                  'Fechas importantes de Mayo',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Color(blackText),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 28),
+              child: Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  width: 290,
+                  height: 75,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(primaryLightAlternative),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 0,
+                          blurRadius: 0,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ]),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: const [
+                      Text(
+                        '29 de Mayo',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(blackText),
+                        ),
+                      ),
+                      SizedBox(
+                          height:
+                              4), // Agrega un espacio de 4 píxeles entre los dos textos
+                      Text(
+                        'Fecha de pago de tu inversion Plan Estable',
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          color: Color(blackText),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      ],
-      ),
-      ),
-      );
+    );
   }
 }
 

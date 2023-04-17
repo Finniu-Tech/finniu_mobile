@@ -114,9 +114,9 @@ class Step2 extends ConsumerWidget {
                           color: const Color(primaryLight),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 7,
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 0,
+                              blurRadius: 2,
                               offset: const Offset(
                                   0, 3), // changes position of shadow
                             ),
@@ -153,9 +153,9 @@ class Step2 extends ConsumerWidget {
                           color: const Color(secondary),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 1,
-                              blurRadius: 7,
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 0,
+                              blurRadius: 2,
                               offset: const Offset(
                                   0, 3), // changes position of shadow
                             ),

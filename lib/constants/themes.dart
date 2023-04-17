@@ -25,6 +25,8 @@ class AppTheme {
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
+            elevation: MaterialStateProperty.all<double>(4),
+            shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
             // textStyle: MaterialStateProperty.resolveWith<TextStyle>(
             //   (_) {
             //     return const TextStyle(
