@@ -70,14 +70,18 @@ class _CalendarState extends State<Calendar> {
                     return Center(
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Color(primaryDark),
+                          color: Color(primaryLightAlternative),
                           borderRadius: BorderRadius.circular(50.0),
+                          border: Border.all(
+                            color: const Color(primaryLightAlternative),
+                            width: 2,
+                          ),
                         ),
                         child: Center(
                           child: Text(
                             DateFormat('d', 'es').format(day),
                             style: const TextStyle(
-                              color: Color(whiteText),
+                              color: Color(primaryDark),
                             ),
                           ),
                         ),
@@ -143,7 +147,7 @@ class _CalendarState extends State<Calendar> {
                 child: Container(
                   alignment: Alignment.center,
                   width: 290,
-                  height: 75,
+                  height: 70,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Color(primaryLightAlternative),
