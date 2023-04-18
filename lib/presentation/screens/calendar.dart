@@ -37,6 +37,8 @@ class _CalendarState extends State<Calendar> {
               height: 20,
             ),
             Container(
+              width: 300,
+              height: 360,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(25),
                 color: Color(gradient_secondary),
