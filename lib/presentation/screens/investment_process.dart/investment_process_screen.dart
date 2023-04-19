@@ -7,14 +7,15 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class InvestmentProcess extends StatefulWidget {
+class InvestmentProcess extends StatefulHookConsumerWidget {
   @override
   InvestmentProcessState createState() => InvestmentProcessState();
 }
 
-class InvestmentProcessState extends State<InvestmentProcess>
+class InvestmentProcessState extends ConsumerState<InvestmentProcess>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
+
   @override
   void initState() {
     _tabController = new TabController(length: 2, vsync: this);
@@ -23,6 +24,7 @@ class InvestmentProcessState extends State<InvestmentProcess>
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
       hideReturnButton: true,
       body: Padding(
@@ -60,7 +62,9 @@ class InvestmentProcessState extends State<InvestmentProcess>
                         'assets/icons/calendar.png',
                         width: 20,
                         height: 20,
-                        color: const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -78,8 +82,10 @@ class InvestmentProcessState extends State<InvestmentProcess>
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.45,
                         height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(primaryDark),
+                        decoration: BoxDecoration(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
@@ -87,13 +93,15 @@ class InvestmentProcessState extends State<InvestmentProcess>
                             bottomRight: Radius.circular(20),
                           ),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
                             "Rentabilidad",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Color(whiteText),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryDark)
+                                  : const Color(whiteText),
                             ),
                           ),
                         ),
@@ -106,8 +114,10 @@ class InvestmentProcessState extends State<InvestmentProcess>
                       child: Container(
                         width: MediaQuery.of(context).size.width * 0.45,
                         height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(primaryLightAlternative),
+                        decoration: BoxDecoration(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryDark)
+                              : const Color(primaryLightAlternative),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
@@ -115,13 +125,15 @@ class InvestmentProcessState extends State<InvestmentProcess>
                             bottomLeft: Radius.circular(20),
                           ),
                         ),
-                        child: const Center(
+                        child: Center(
                           child: Text(
                             "Mi historial",
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Color(primaryDark),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(primaryDark),
                             ),
                           ),
                         ),
@@ -150,18 +162,22 @@ class InvestmentProcessState extends State<InvestmentProcess>
                           color: const Color(primaryDark),
                         ),
                         shape: BoxShape.circle,
-                        color: const Color(primaryLight),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(primaryLight),
                       ),
                       // Si desea agregar un icono dentro del círculo
                     ),
                     const SizedBox(
                         width: 5), // Separación entre el círculo y el texto
-                    const Text(
+                    Text(
                       'Dinero invertido',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                       ),
                     ),
 
@@ -174,18 +190,22 @@ class InvestmentProcessState extends State<InvestmentProcess>
                         border: Border.all(
                             width: 1, color: const Color(primaryDark)),
                         shape: BoxShape.circle,
-                        color: const Color(secondary),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(secondary),
                       ),
                       // Si desea agregar un icono dentro del círculo
                     ),
                     // Separación entre el círculo y el texto
                     const SizedBox(width: 5),
-                    const Text(
+                    Text(
                       'Intereses generados',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                       ),
                     ),
                   ],
@@ -193,12 +213,14 @@ class InvestmentProcessState extends State<InvestmentProcess>
                 const SizedBox(
                   height: 10,
                 ),
-                const Text(
+                Text(
                   'Distribución de mi patrimonio',
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
-                    color: Color(blackText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
                 ),
                 Padding(
@@ -209,8 +231,12 @@ class InvestmentProcessState extends State<InvestmentProcess>
                     children: [
                       TabBar(
                         isScrollable: true,
-                        unselectedLabelColor: Colors.black,
-                        labelColor: Colors.black,
+                        unselectedLabelColor: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
+                        labelColor: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                         tabs: const [
                           Tab(
                             text: "Inversiones en curso",
@@ -221,7 +247,9 @@ class InvestmentProcessState extends State<InvestmentProcess>
                         ],
                         controller: _tabController,
                         indicatorSize: TabBarIndicatorSize.label,
-                        indicatorColor: const Color(primaryLight),
+                        indicatorColor: currentTheme.isDarkMode
+                            ? const Color(secondary)
+                            : const Color(primaryLight),
                         indicatorWeight: 6,
                         indicatorPadding: const EdgeInsets.only(bottom: 12),
                       )

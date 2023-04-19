@@ -66,3 +66,4 @@ const colorgreen = 0xff388923;
 const colortext = 0xfffff6ed;
 const graytextalternative = 0xffBFBFBF;
 const colorgreenlight = 0xff639F1D;
+const bluelight = 0xff3275A7;

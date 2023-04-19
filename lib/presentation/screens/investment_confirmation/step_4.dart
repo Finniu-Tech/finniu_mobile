@@ -109,7 +109,7 @@ class FinishInvestment extends ConsumerWidget {
                 colorBackground: primaryDark,
                 image: 'assets/icons/dollar.png',
                 imageColor: const Color(primaryLight),
-                pushName: '/process_investment',
+                pushName: '/investment_history',
               ),
             ],
           ),

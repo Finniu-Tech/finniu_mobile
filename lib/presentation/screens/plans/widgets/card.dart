@@ -154,11 +154,11 @@ class CardCustom extends ConsumerWidget {
                         : colortext,
                   ),
                   width: 350,
-                  height: 820,
+                  height: 1090,
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
@@ -306,56 +306,66 @@ class CardCustom extends ConsumerWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Image.asset(
-                              "assets/images/check.png",
-                              height: 24,
-                              width: 24,
-                            ),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            const Text(
-                              "La Transparencia ante todo",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(primaryDark)),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        const SizedBox(
-                          width: 190,
-                          child: Text(
-                            "¿A dónde van tus inversiones?",
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Color(primaryDark)),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                "assets/images/check.png",
+                                height: 24,
+                                width: 24,
+                              ),
+                              const SizedBox(
+                                width: 3,
+                              ),
+                              const Text(
+                                "La Transparencia ante todo",
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(primaryDark)),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(
                           height: 5,
                         ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 20),
+                          child: const SizedBox(
+                            width: 190,
+                            child: Text(
+                              "¿A dónde van tus inversiones?",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(primaryDark)),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 12,
+                        ),
                         Container(
                           width: 280,
-                          child: Column(
-                            children: const [
-                              Text(
-                                textAlign: TextAlign.justify,
-                                "Las inversiones realizadas en los Planes Finniu invierte en oportunidades rentables dentro de 3 sectores.",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(blackText)),
-                              ),
-                            ],
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Column(
+                              children: const [
+                                Text(
+                                  textAlign: TextAlign.justify,
+                                  "Las inversiones realizadas en los Planes Finniu invierte en oportunidades rentables dentro de 3 sectores.",
+                                  style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
+                                      color: Color(blackText)),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                         const SizedBox(
@@ -421,34 +431,160 @@ class CardCustom extends ConsumerWidget {
                           ],
                         ),
                         Image.asset(
-                          "assets/images/proyectosiembra.png",
-                          height: 224,
-                          width: 92,
+                          "assets/images/project.png",
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/home_home');
-                          },
-                          child: const Text(
-                            'Comenzar a invertir',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                                color: Color(whiteText)),
-                          ),
-                          style: ButtonStyle(
-                            elevation: MaterialStateProperty.all<double>(4),
-                            shadowColor:
-                                MaterialStateProperty.all<Color>(Colors.grey),
-                            padding:
-                                MaterialStateProperty.all<EdgeInsetsGeometry>(
-                              const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                // vertical: 10,
+                        Center(
+                          child: Container(
+                            width: 240,
+                            child: const Text(
+                              'Proyecto ubicado en la región de Tambogrande,Piura.Se dedica a la producción y comercialización de frutas como:plátanos,uva,pitahaya y arándanos.',
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w400,
+                                height: 1.5,
                               ),
                             ),
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              Color(primaryDark),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Image.asset(
+                          "assets/images/plantsgreen.png",
+                        ),
+                        Center(
+                          child: const Text(
+                            '¿Cómo reducen el riesgo el sector agrícola?.',
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                              height: 1.5,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                              const SizedBox(width: 5),
+                              const Text(
+                                'Control de cultivos',
+                                style: TextStyle(
+                                    fontSize: 9, color: Color(blackText)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                              const SizedBox(width: 5),
+                              const Text(
+                                'Alianza con proveedores para asegurar continuidad',
+                                style: TextStyle(
+                                    fontSize: 9, color: Color(blackText)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                              const SizedBox(width: 5),
+                              Container(
+                                width: 220,
+                                child: const Text(
+                                  'Sistemas de drenaje para evitar acumulación de aguas',
+                                  style: TextStyle(
+                                      fontSize: 9, color: Color(blackText)),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                              const SizedBox(width: 5),
+                              const Text(
+                                'Diversificación de la cadena de suministros',
+                                style: TextStyle(
+                                    fontSize: 9, color: Color(blackText)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 40),
+                          child: Row(
+                            children: [
+                              const Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                              const SizedBox(width: 5),
+                              const Text(
+                                'Investigación y desarrollo de tecnología agrícola',
+                                style: TextStyle(
+                                    fontSize: 9, color: Color(blackText)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/home_home');
+                            },
+                            child: const Text(
+                              'Comenzar a invertir',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(whiteText)),
+                            ),
+                            style: ButtonStyle(
+                              elevation: MaterialStateProperty.all<double>(4),
+                              shadowColor:
+                                  MaterialStateProperty.all<Color>(Colors.grey),
+                              padding:
+                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  // vertical: 10,
+                                ),
+                              ),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(primaryDark),
+                              ),
                             ),
                           ),
                         ),
