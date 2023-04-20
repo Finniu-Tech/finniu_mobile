@@ -4,7 +4,7 @@ const primaryDarkAlternative = 0xff164D7D;
 const primaryLightAlternative = 0xffDBF7FF;
 
 const backgroundColorLight = 0xffFFFFFF;
-const backgroundColorDark = 0xff2E2E2E;
+const backgroundColorDark = 0xff292727;
 
 const secondary = 0xffFFEEDD;
 const secondaryLight = 0xff0F5750;

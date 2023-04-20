@@ -5,6 +5,7 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TransfersScreen extends ConsumerWidget {
   @override
@@ -13,9 +14,11 @@ class TransfersScreen extends ConsumerWidget {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
         body: SingleChildScrollView(
-      child: Center(
-        child: ConstrainedBox(constraints: BoxConstraints(maxWidth:700,minWidth:400,maxHeight:1000,minHeight: 825 ),
-        child:Padding(
+            child: Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+            maxWidth: 700, minWidth: 400, maxHeight: 1000, minHeight: 825),
+        child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(children: [
               Row(
@@ -130,12 +133,21 @@ class TransferenceList extends ConsumerWidget {
             padding: const EdgeInsets.only(
               right: 18.0,
             ),
-            child: Image(
-              image: AssetImage(
-                'assets/transfers/wallet_change.png',
+            child: GestureDetector(
+              onTap: () async {
+                const url =
+                    'https://www.culturarecreacionydeporte.gov.co/es/bogotanitos/biodiverciudad/las-plantas'; // Reemplaza con la URL que deseas abrir
+                if (await canLaunch(url)) {
+                  await launch(url);
+                } else {
+                  throw 'No se pudo abrir la URL: $url';
+                }
+              },
+              child: Image(
+                image: AssetImage('assets/transfers/wallet_change.png'),
+                width: 24,
+                height: 24,
               ),
-              width: 24,
-              height: 24,
             ),
           ),
           Column(

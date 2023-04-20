@@ -7,7 +7,7 @@ class AppTheme {
         // useMaterial3: true,
         // primarySwatch:,
         appBarTheme: const AppBarTheme(color: Color(primaryDark)),
-        backgroundColor: const Color(backgroundColorDark),
+        backgroundColor: Color(backgroundColorDark),
         primaryColor: const Color(primaryDark), // usado para gradiente
         primaryColorLight: const Color(primaryLight), // usado para gradiente
         textTheme: const TextTheme(
