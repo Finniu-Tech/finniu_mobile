@@ -87,12 +87,12 @@ class PlanListBody extends StatelessWidget {
               height: 10,
             ),
             SizedBox(
-              width: double.infinity,
+              width: 330,
               child: Text(
-                'Nuestro planes de inversión',
+                'Nuestros planes de inversión',
                 style: TextStyle(
                   color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
+                      ? const Color(whiteText)
                       : const Color(primaryDark),
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -128,7 +128,7 @@ class PlanListBody extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 12,
+              height: 2,
             ),
             Expanded(
               child: ListView.builder(

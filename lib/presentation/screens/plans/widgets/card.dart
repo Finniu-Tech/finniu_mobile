@@ -123,7 +123,9 @@ class CardCustom extends ConsumerWidget {
                           : (primaryLightAlternative),
                     ),
                     child: Icon(
-                      Icons.arrow_drop_down,
+                      isExpanded.value
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
                       color: Color(
                         currentTheme.isDarkMode
                             ? (primaryLight)

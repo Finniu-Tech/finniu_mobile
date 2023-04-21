@@ -71,6 +71,7 @@ class CalendarState extends ConsumerState<Calendar> {
                         setState(() => _selectedDate = date);
                       },
                       locale: 'es', // Establece el idioma en español
+
                       customDayBuilder: (
                         bool isSelectable,
                         int index,
@@ -85,17 +86,44 @@ class CalendarState extends ConsumerState<Calendar> {
                         Color backgroundColor = Color(currentTheme.isDarkMode
                             ? (bluedarkalternative)
                             : (secondary));
-                        Color borderColor = Color((currentTheme.isDarkMode
-                            ? (primaryLight)
-                            : (primaryDark)));
-
+                        Color borderColor = isThisMonthDay && !isSelectable
+                            ? Color(
+                                currentTheme.isDarkMode ? graylight : graydark)
+                            : Color(currentTheme.isDarkMode
+                                ? primaryLight
+                                : blackText);
+                        if (isThisMonthDay &&
+                            !isSelectable &&
+                            !isSelectedDay &&
+                            !isPrevMonthDay &&
+                            !isNextMonthDay) {
+                          borderColor = Color(currentTheme.isDarkMode
+                              ? primaryLight
+                              : primaryDark);
+                        }
+                        if (!isThisMonthDay) {
+                          borderColor = Colors
+                              .transparent; // establece el color del borde en transparente para los días que no son del mes actual
+                        }
                         if (isSelectedDay) {
                           backgroundColor = Color((currentTheme.isDarkMode
                               ? (primaryLight)
                               : (primaryDark)));
-                          borderColor = Color((currentTheme.isDarkMode
-                              ? (primaryLight)
-                              : (primaryDark)));
+                          borderColor = Color(
+                            (currentTheme.isDarkMode
+                                ? (primaryLight)
+                                : (primaryDark)),
+                          );
+                        }
+
+                        if (!isThisMonthDay) {
+                          textStyle = TextStyle(
+                            color: currentTheme.isDarkMode
+                                ? Color(graydark)
+                                : Color(graylight),
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.bold,
+                          );
                         }
 
                         return Center(
@@ -109,6 +137,16 @@ class CalendarState extends ConsumerState<Calendar> {
                                 color: borderColor,
                                 width: 1.2,
                               ),
+                              boxShadow: isSelectedDay
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.9),
+                                        spreadRadius: 0,
+                                        blurRadius: 8,
+                                        offset: const Offset(0, 7),
+                                      )
+                                    ]
+                                  : null,
                             ),
                             child: Center(
                               child: Text(
