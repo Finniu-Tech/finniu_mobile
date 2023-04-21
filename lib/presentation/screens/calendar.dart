@@ -65,6 +65,7 @@ class CalendarState extends ConsumerState<Calendar> {
                   child: Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: CalendarCarousel(
+                      headerMargin: EdgeInsets.symmetric(vertical: 1.0),
                       selectedDateTime: _selectedDate,
                       onDayPressed: (DateTime date, List events) {
                         setState(() => _selectedDate = date);
@@ -99,14 +100,14 @@ class CalendarState extends ConsumerState<Calendar> {
 
                         return Center(
                           child: Container(
-                            width: 30,
-                            height: 30,
+                            width: 35,
+                            height: 35,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: backgroundColor,
                               border: Border.all(
                                 color: borderColor,
-                                width: 1,
+                                width: 1.2,
                               ),
                             ),
                             child: Center(
@@ -131,52 +132,54 @@ class CalendarState extends ConsumerState<Calendar> {
 
                       weekdayTextStyle: TextStyle(
                         color: currentTheme.isDarkMode
-                            ? Color(whiteText)
-                            : Color(primaryDark),
-                        fontSize: 14.0,
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
+                        fontSize: 12.0,
                         fontWeight: FontWeight.bold,
                       ),
+
                       weekendTextStyle: TextStyle(
                         color: currentTheme.isDarkMode
-                            ? Color(whiteText)
-                            : Color(primaryDark),
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
                         fontSize: 11.0,
                         fontWeight: FontWeight.bold,
                       ),
                       daysTextStyle: TextStyle(
                           color: currentTheme.isDarkMode
-                              ? Color(whiteText)
-                              : Color(primaryDark),
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
                           fontSize: 11.0,
                           fontWeight: FontWeight.bold),
-                      thisMonthDayBorderColor: Color(primaryLight),
+                      thisMonthDayBorderColor: const Color(primaryLight),
                       prevDaysTextStyle: TextStyle(
                           color: currentTheme.isDarkMode
-                              ? Color(whiteText)
-                              : Color(primaryDark),
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
                           fontSize: 11.0,
                           fontWeight: FontWeight.bold),
                       nextDaysTextStyle: TextStyle(
                           color: currentTheme.isDarkMode
-                              ? Color(whiteText)
-                              : Color(primaryDark),
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
                           fontSize: 11.0,
                           fontWeight: FontWeight.bold),
-                      prevMonthDayBorderColor: Color(primaryDark),
-                      nextMonthDayBorderColor: Color(primaryDark),
+                      prevMonthDayBorderColor: const Color(primaryDark),
+                      nextMonthDayBorderColor: const Color(primaryDark),
                       selectedDayTextStyle: TextStyle(
                         color: currentTheme.isDarkMode
-                            ? Color(primaryDark)
-                            : Color(whiteText),
+                            ? const Color(primaryDark)
+                            : const Color(whiteText),
                         fontSize: 11.0,
                       ),
                       selectedDayButtonColor: currentTheme.isDarkMode
-                          ? Color(primaryLight)
-                          : Color(primaryDark),
-                      selectedDayBorderColor: Color(primaryDark), width: 1,
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      selectedDayBorderColor: const Color(primaryDark),
+                      width: 1,
 
-                      weekDayFormat: WeekdayFormat.short,
-                      weekDayPadding: EdgeInsets.symmetric(horizontal: 1),
+                      weekDayFormat: WeekdayFormat.narrow,
+                      // weekDayPadding: const EdgeInsets.symmetric(horizontal: 1),
                     ),
                   ),
                 ),
@@ -198,7 +201,7 @@ class CalendarState extends ConsumerState<Calendar> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
             Padding(
@@ -209,19 +212,20 @@ class CalendarState extends ConsumerState<Calendar> {
                   width: 290,
                   height: 70,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryLightAlternative),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.6),
-                          spreadRadius: 0,
-                          blurRadius: 0,
-                          offset:
-                              const Offset(0, 3), // changes position of shadow
-                        ),
-                      ]),
+                    borderRadius: BorderRadius.circular(20),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryLightAlternative),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.6),
+                        spreadRadius: 0,
+                        blurRadius: 0,
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
