@@ -55,11 +55,11 @@ class CalendarState extends ConsumerState<Calendar> {
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
-                  height: 360,
+                  height: 400,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
+                        ? const Color(bluedarkalternative)
                         : const Color(secondary),
                   ),
                   child: Padding(
@@ -83,7 +83,7 @@ class CalendarState extends ConsumerState<Calendar> {
                         DateTime day,
                       ) {
                         Color backgroundColor = Color(currentTheme.isDarkMode
-                            ? (primaryDark)
+                            ? (bluedarkalternative)
                             : (secondary));
                         Color borderColor = Color((currentTheme.isDarkMode
                             ? (primaryLight)
