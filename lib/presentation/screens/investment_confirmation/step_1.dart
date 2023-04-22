@@ -42,7 +42,6 @@ class Step1 extends HookConsumerWidget {
                 ],
               ),
             ),
-           
             Container(
               // alignment: Alignment.topRight,
               width: 224,
@@ -146,13 +145,7 @@ class Step1 extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            
-
-           
-          
-           
-           
-           Text(
+            Text(
               'Completa los siguientes datos',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -160,13 +153,12 @@ class Step1 extends HookConsumerWidget {
                     ? const Color(whiteText)
                     : const Color(primaryDark),
                 fontSize: 14,
-               
                 height: 1.5,
               ),
             ),
-           SizedBox(height: 10,),
-
-
+            SizedBox(
+              height: 10,
+            ),
             SizedBox(
               width: 224,
               child: TextFormField(
@@ -226,7 +218,7 @@ class Step1 extends HookConsumerWidget {
                 ),
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -316,25 +308,18 @@ class Step1 extends HookConsumerWidget {
             const SizedBox(
               height: 20,
             ),
-          
-       
-        SizedBox(
-                      width: 224,
-                      height: 50,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/investment_step2');
-                        },
-                        child: const Text(
-                          'Continuar',
-                        ),
-       
-       
-       
-       
-       
-       
-        ))],
+            SizedBox(
+                width: 224,
+                height: 50,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/investment_step2');
+                  },
+                  child: const Text(
+                    'Continuar',
+                  ),
+                ))
+          ],
         ),
       ),
     );
@@ -357,75 +342,43 @@ class _StepBarState extends ConsumerState<StepBar> {
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Column(
-      
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 13,),
+        const SizedBox(
+          height: 13,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              height: 40,
-              width: 55,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
-                  width: 2,
-                ),
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
-                ),
-              ),
-              child: Image.asset(
-                'assets/icons/dollar.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                // fit:BoxFit.scaleDown,
-                  fit: BoxFit.fitHeight,),
-            ),
-            SizedBox(
-              width: 38,
-              child: Column(
-                children: [
-                  Divider(
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/investment_step1');
+              },
+              child: Container(
+                height: 40,
+                width: 55,
+                decoration: BoxDecoration(
+                  border: Border.all(
                     color: currentTheme.isDarkMode
                         ? const Color(primaryLight)
                         : const Color(primaryDark),
-                    thickness: 1,
+                    width: 2,
                   ),
-                ],
-              ),
-            ),
-            Container(
-              height: 40,
-              width: 55,
-              decoration: BoxDecoration(
-                border: Border.all(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                    bottomLeft: Radius.circular(4),
+                    bottomRight: Radius.circular(4),
+                  ),
+                ),
+                child: Image.asset(
+                  'assets/icons/dollar.png',
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
-                  width: 2,
+                  // fit:BoxFit.scaleDown,
+                  fit: BoxFit.fitHeight,
                 ),
-                shape: BoxShape.rectangle,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
-                ),
-              ),
-              child: Image.asset(
-                'assets/icons/paper.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                   fit: BoxFit.fitHeight,
               ),
             ),
             SizedBox(
@@ -441,44 +394,84 @@ class _StepBarState extends ConsumerState<StepBar> {
                 ],
               ),
             ),
-            
-         Container(
-              height: 40,
-              width: 55,
-              decoration: BoxDecoration(
-                border: Border.all(
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/investment_step2');
+              },
+              child: Container(
+                height: 40,
+                width: 55,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    width: 2,
+                  ),
+                  shape: BoxShape.rectangle,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                    bottomLeft: Radius.circular(4),
+                    bottomRight: Radius.circular(4),
+                  ),
+                ),
+                child: Image.asset(
+                  'assets/icons/paper.png',
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
-                  width: 2,
+                  fit: BoxFit.fitHeight,
                 ),
-                shape: BoxShape.rectangle,
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(5),
-                  topRight: Radius.circular(5),
-                  bottomLeft: Radius.circular(4),
-                  bottomRight: Radius.circular(4),
-                ),
-              ),
-              child: Image.asset(
-                'assets/icons/square2.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                fit: BoxFit.fitHeight,
               ),
             ),
-            
-            
-        
+            SizedBox(
+              width: 38,
+              child: Column(
+                children: [
+                  Divider(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    thickness: 1,
+                  ),
+                ],
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/investment_step3');
+              },
+              child: Container(
+                height: 40,
+                width: 55,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    width: 2,
+                  ),
+                  shape: BoxShape.rectangle,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(5),
+                    topRight: Radius.circular(5),
+                    bottomLeft: Radius.circular(4),
+                    bottomRight: Radius.circular(4),
+                  ),
+                ),
+                child: Image.asset(
+                  'assets/icons/square2.png',
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
           ],
         ),
       ],
-        );
-           
-            
-            
-          
-  
+    );
   }
 }
