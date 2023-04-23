@@ -315,6 +315,10 @@ class Step1 extends HookConsumerWidget {
                   onPressed: () {
                     Navigator.pushNamed(context, '/investment_step2');
                   },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all<double>(2),
+                    shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                  ),
                   child: const Text(
                     'Continuar',
                   ),

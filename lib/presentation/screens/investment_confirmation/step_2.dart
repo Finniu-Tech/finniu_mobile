@@ -469,9 +469,10 @@ class Step2 extends ConsumerWidget {
                         : const Color(blackText),
                   ),
                 ),
-                GestureDetector(onTap: () {
-                            Navigator.pushNamed(context, '/pdf_page');
-                          },
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/pdf_page');
+                  },
                   child: Text(
                     ' Contrato de Inversion de Finniu ',
                     style: TextStyle(
@@ -488,13 +489,17 @@ class Step2 extends ConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-           SizedBox(
+            SizedBox(
               width: 224,
               height: 50,
               child: TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/investment_step3');
                 },
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all<double>(2),
+                  shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                ),
                 child: const Text(
                   'Finalizar mi proceso',
                 ),

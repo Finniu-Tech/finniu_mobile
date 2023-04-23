@@ -91,7 +91,7 @@ class CalendarState extends ConsumerState<Calendar> {
                                 currentTheme.isDarkMode ? graylight : graydark)
                             : Color(currentTheme.isDarkMode
                                 ? primaryLight
-                                : blackText);
+                                : primaryDark);
                         if (isThisMonthDay &&
                             !isSelectable &&
                             !isSelectedDay &&
@@ -108,12 +108,8 @@ class CalendarState extends ConsumerState<Calendar> {
                         if (isSelectedDay) {
                           backgroundColor = Color((currentTheme.isDarkMode
                               ? (primaryLight)
-                              : (primaryDark)));
-                          borderColor = Color(
-                            (currentTheme.isDarkMode
-                                ? (primaryLight)
-                                : (primaryDark)),
-                          );
+                              : (primaryLightAlternative)));
+                          borderColor = Colors.transparent;
                         }
 
                         if (!isThisMonthDay) {
@@ -207,14 +203,14 @@ class CalendarState extends ConsumerState<Calendar> {
                       selectedDayTextStyle: TextStyle(
                         color: currentTheme.isDarkMode
                             ? const Color(primaryDark)
-                            : const Color(whiteText),
+                            : const Color(primaryDark),
                         fontSize: 11.0,
                       ),
                       selectedDayButtonColor: currentTheme.isDarkMode
                           ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      selectedDayBorderColor: const Color(primaryDark),
-                      width: 1,
+                          : const Color(primaryLight),
+                      selectedDayBorderColor: const Color(primaryLight),
+                      // width: 1,
 
                       weekDayFormat: WeekdayFormat.narrow,
                       // weekDayPadding: const EdgeInsets.symmetric(horizontal: 1),
