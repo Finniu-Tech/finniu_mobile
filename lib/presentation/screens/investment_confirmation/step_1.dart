@@ -354,35 +354,30 @@ class _StepBarState extends ConsumerState<StepBar> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/investment_step1');
-              },
-              child: Container(
-                height: 40,
-                width: 55,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    width: 2,
-                  ),
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(4),
-                    bottomRight: Radius.circular(4),
-                  ),
-                ),
-                child: Image.asset(
-                  'assets/icons/dollar.png',
+            Container(
+              height: 40,
+              width: 55,
+              decoration: BoxDecoration(
+                border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
-                  // fit:BoxFit.scaleDown,
-                  fit: BoxFit.fitHeight,
+                  width: 2,
                 ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
+              ),
+              child: Image.asset(
+                'assets/icons/dollar.png',
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+                // fit:BoxFit.scaleDown,
+                fit: BoxFit.fitHeight,
               ),
             ),
             SizedBox(
@@ -398,35 +393,30 @@ class _StepBarState extends ConsumerState<StepBar> {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/investment_step2');
-              },
-              child: Container(
-                height: 40,
-                width: 55,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    width: 2,
-                  ),
-                  shape: BoxShape.rectangle,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(4),
-                    bottomRight: Radius.circular(4),
-                  ),
-                ),
-                child: Image.asset(
-                  'assets/icons/paper.png',
+            Container(
+              height: 40,
+              width: 55,
+              decoration: BoxDecoration(
+                border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
-                  fit: BoxFit.fitHeight,
+                  width: 2,
                 ),
+                shape: BoxShape.rectangle,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
+              ),
+              child: Image.asset(
+                'assets/icons/paper.png',
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+                fit: BoxFit.fitHeight,
               ),
             ),
             SizedBox(
@@ -442,35 +432,30 @@ class _StepBarState extends ConsumerState<StepBar> {
                 ],
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/investment_step3');
-              },
-              child: Container(
-                height: 40,
-                width: 55,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    width: 2,
-                  ),
-                  shape: BoxShape.rectangle,
-                  borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(5),
-                    topRight: Radius.circular(5),
-                    bottomLeft: Radius.circular(4),
-                    bottomRight: Radius.circular(4),
-                  ),
-                ),
-                child: Image.asset(
-                  'assets/icons/square2.png',
+            Container(
+              height: 40,
+              width: 55,
+              decoration: BoxDecoration(
+                border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
-                  fit: BoxFit.fitHeight,
+                  width: 2,
                 ),
+                shape: BoxShape.rectangle,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
+              ),
+              child: Image.asset(
+                'assets/icons/square2.png',
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+                fit: BoxFit.fitHeight,
               ),
             ),
           ],

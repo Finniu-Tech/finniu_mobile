@@ -173,3 +173,35 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
     );
   }
 }
+
+class CustomScaffoldReturnDirect extends ConsumerWidget {
+  final dynamic body;
+  bool hideReturnButton;
+
+  CustomScaffoldReturnDirect({
+    required this.body,
+    this.hideReturnButton = false,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeProvider = ref.watch(settingsNotifierProvider);
+
+    return Scaffold(
+      // backgroundColor: Theme.of(context).backgroundColor,
+      bottomNavigationBar: const BottomNavigationBarHome(),
+      appBar: AppBar(
+        // backgroundColor: Theme.of(context).backgroundColor,
+        elevation: 0,
+        leading: !hideReturnButton
+            ? (themeProvider.isDarkMode
+                ? const CustomReturnButton(
+                    colorBoxdecoration: primaryDark,
+                    colorIcon: primaryDark,
+                  )
+                : const CustomReturnButton())
+            : null,
+      ),
+      body: body,
+    );
+  }
+}

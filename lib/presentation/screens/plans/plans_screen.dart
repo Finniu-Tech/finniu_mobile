@@ -145,7 +145,7 @@ class PlanListBody extends StatelessWidget {
                       textTiledCard: plans[index].name,
                       textPercentage: '${plans[index].twelveMonthsReturn}% ',
                       textDeclaration: '8%',
-                      textinvestment: 'S/${plans[index].minAmount}%',
+                      textinvestment: 'S/${plans[index].minAmount}',
                       textContainer: plans[index].description ?? '',
                     ),
                   );

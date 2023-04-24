@@ -103,12 +103,16 @@ class FinishInvestment extends ConsumerWidget {
               ),
               CustomButton(
                 text: "Ir a Mis Inversiones",
-                colorText: whiteText,
+                colorText:
+                    currentTheme.isDarkMode ? (primaryDark) : (whiteText),
                 width: 224,
                 height: 50,
-                colorBackground: primaryDark,
+                colorBackground:
+                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
                 image: 'assets/icons/dollar.png',
-                imageColor: const Color(primaryLight),
+                imageColor: currentTheme.isDarkMode
+                    ? const Color(primaryDark)
+                    : const Color(primaryLight),
                 pushName: '/investment_history',
               ),
             ],
