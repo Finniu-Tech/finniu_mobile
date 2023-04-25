@@ -136,7 +136,7 @@ class TransferenceList extends ConsumerWidget {
             child: GestureDetector(
               onTap: () async {
                 const url =
-                    'https://www.google.com/search?q=voucher+scotiabank&oq=voucher+scotiabank&aqs=chrome..69i57j0i22i30l4j0i15i22i30.-1j0j1&client=ms-android-xiaomi-rvo3&sourceid=chrome-mobile&ie=UTF-8#imgrc=JnGviGzGNKzQkM'; // Reemplaza con la URL que deseas abrir
+                    'https://www.rnp.gob.pe/clave-bancos/img/voucher-scb-internet.png'; // Reemplaza con la URL que deseas abrir
                 if (await canLaunch(url)) {
                   await launch(url);
                 } else {

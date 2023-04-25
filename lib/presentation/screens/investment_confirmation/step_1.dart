@@ -345,16 +345,28 @@ class StepBar extends ConsumerStatefulWidget {
 }
 
 class _StepBarState extends ConsumerState<StepBar> {
-  final double squareSize = 20.0;
-  final Color activeColor = const Color(primaryLight);
-  final Color inactiveColor = const Color(secondary);
-
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    Color backgroundColor = currentTheme.isDarkMode
+    final Color activeBackgroundColor = currentTheme.isDarkMode
         ? const Color(secondary)
         : const Color(primaryLight);
+    final Color inactiveBackgroundColor =
+        currentTheme.isDarkMode ? Colors.transparent : Colors.transparent;
+
+    final Color inactiveBorderColor = currentTheme.isDarkMode
+        ? const Color(primaryLight)
+        : const Color(primaryDark);
+    final Color activeBorderColor = Colors.transparent;
+    final Color activeIconColor =
+        currentTheme.isDarkMode ? Color(primaryDark) : Color(primaryDark);
+    final Color inactiveIconColor = currentTheme.isDarkMode
+        ? const Color(primaryLight)
+        : const Color(primaryDark);
+
+    // Color backgroundColor = currentTheme.isDarkMode
+    //     ? const Color(secondary)
+    //     : const Color(primaryLight);
     // Color containerColor = inactiveColor; // Color por defecto
 
     return Column(
@@ -370,11 +382,13 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 1 ? Color(primaryLight) : Colors.white,
+                color: widget.step == 1
+                    ? activeBackgroundColor
+                    : inactiveBackgroundColor,
                 border: Border.all(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: widget.step == 1
+                      ? activeBorderColor
+                      : inactiveBorderColor,
                   width: 2,
                 ),
                 borderRadius: const BorderRadius.only(
@@ -388,9 +402,8 @@ class _StepBarState extends ConsumerState<StepBar> {
                 padding: const EdgeInsets.all(4),
                 child: Image.asset(
                   'assets/icons/dollar.png',
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: widget.step == 1 ? activeIconColor : inactiveIconColor,
+
                   // fit:BoxFit.scaleDown,
                   fit: BoxFit.fitHeight,
                 ),
@@ -413,11 +426,13 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 2 ? Color(primaryLight) : Colors.white,
+                color: widget.step == 2
+                    ? activeBackgroundColor
+                    : inactiveBackgroundColor,
                 border: Border.all(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: widget.step == 2
+                      ? activeBorderColor
+                      : inactiveBorderColor,
                   width: 2,
                 ),
                 shape: BoxShape.rectangle,
@@ -432,9 +447,7 @@ class _StepBarState extends ConsumerState<StepBar> {
                 padding: const EdgeInsets.all(4.0),
                 child: Image.asset(
                   'assets/icons/paper.png',
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: widget.step == 2 ? activeIconColor : inactiveIconColor,
                   fit: BoxFit.fitHeight,
                 ),
               ),
@@ -456,11 +469,13 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 3 ? Color(primaryLight) : Colors.white,
+                color: widget.step == 3
+                    ? activeBackgroundColor
+                    : inactiveBackgroundColor,
                 border: Border.all(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: widget.step == 3
+                      ? activeBorderColor
+                      : inactiveBorderColor,
                   width: 2,
                 ),
                 shape: BoxShape.rectangle,
@@ -475,9 +490,7 @@ class _StepBarState extends ConsumerState<StepBar> {
                 padding: const EdgeInsets.all(4.0),
                 child: Image.asset(
                   'assets/icons/square2.png',
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: widget.step == 3 ? activeIconColor : inactiveIconColor,
                   fit: BoxFit.fitHeight,
                 ),
               ),

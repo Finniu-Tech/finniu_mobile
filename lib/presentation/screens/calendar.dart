@@ -67,6 +67,13 @@ class CalendarState extends ConsumerState<Calendar> {
                     child: CalendarCarousel(
                       headerMargin: EdgeInsets.symmetric(vertical: 1.0),
                       selectedDateTime: _selectedDate,
+                      prevMonthDayBorderColor: Colors.transparent,
+                      nextMonthDayBorderColor: Colors.transparent,
+                      thisMonthDayBorderColor: Colors.transparent,
+                      daysHaveCircularBorder: true,
+                      todayBorderColor: Colors.transparent,
+                      todayButtonColor: Colors.transparent,
+                      selectedDayButtonColor: Colors.transparent,
                       onDayPressed: (DateTime date, List events) {
                         setState(() => _selectedDate = date);
                       },
@@ -185,7 +192,6 @@ class CalendarState extends ConsumerState<Calendar> {
                               : const Color(primaryDark),
                           fontSize: 11.0,
                           fontWeight: FontWeight.bold),
-                      thisMonthDayBorderColor: const Color(primaryLight),
                       prevDaysTextStyle: TextStyle(
                           color: currentTheme.isDarkMode
                               ? const Color(whiteText)
@@ -198,17 +204,13 @@ class CalendarState extends ConsumerState<Calendar> {
                               : const Color(primaryDark),
                           fontSize: 11.0,
                           fontWeight: FontWeight.bold),
-                      prevMonthDayBorderColor: const Color(primaryDark),
-                      nextMonthDayBorderColor: const Color(primaryDark),
                       selectedDayTextStyle: TextStyle(
                         color: currentTheme.isDarkMode
                             ? const Color(primaryDark)
                             : const Color(whiteText),
                         fontSize: 11.0,
                       ),
-                      selectedDayButtonColor: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
+
                       selectedDayBorderColor: Colors.transparent,
                       // width: 1,
 
