@@ -23,7 +23,7 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
-      hideReturnButton: true,
+      hideReturnButton: false,
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(
@@ -68,7 +68,7 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(

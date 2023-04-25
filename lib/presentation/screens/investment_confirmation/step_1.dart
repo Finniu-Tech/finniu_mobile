@@ -20,7 +20,9 @@ class Step1 extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const StepBar(),
+            StepBar(
+              step: 1,
+            ),
             const SizedBox(height: 40),
             SizedBox(
               // width: 200,
@@ -331,15 +333,11 @@ class Step1 extends HookConsumerWidget {
 }
 
 class StepBar extends ConsumerStatefulWidget {
-  final int step1;
-  final int step2;
-  final int step3;
+  final int step;
 
   const StepBar({
     Key? key,
-    required this.step1,
-    required this.step2,
-    required this.step3,
+    required this.step,
   });
 
   @override
@@ -347,29 +345,17 @@ class StepBar extends ConsumerStatefulWidget {
 }
 
 class _StepBarState extends ConsumerState<StepBar> {
-  // final double squareSize = 20.0;
-  final Color activeColor = const Color(secondary);
-  final Color inactiveColor = const Color(primaryLight);
+  final double squareSize = 20.0;
+  final Color activeColor = const Color(primaryLight);
+  final Color inactiveColor = const Color(secondary);
 
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    Color containerColor = inactiveColor; // Color por defecto
-
-    if (widget.step1 == 1) {
-      containerColor =
-          Colors.lightBlue; // Si step1 es igual a 1, cambia el color a celeste
-    }
-
-    if (widget.step2 == 2) {
-      containerColor =
-          Colors.lightBlue; // Si step1 es igual a 1, cambia el color a celeste
-    }
-
-    if (widget.step3 == 3) {
-      containerColor =
-          Colors.lightBlue; // Si step1 es igual a 1, cambia el color a celeste
-    }
+    Color backgroundColor = currentTheme.isDarkMode
+        ? const Color(secondary)
+        : const Color(primaryLight);
+    // Color containerColor = inactiveColor; // Color por defecto
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -384,6 +370,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
+                color: widget.step == 1 ? Color(primaryLight) : Colors.white,
                 border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
@@ -426,6 +413,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
+                color: widget.step == 2 ? Color(primaryLight) : Colors.white,
                 border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
@@ -468,6 +456,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
+                color: widget.step == 3 ? Color(primaryLight) : Colors.white,
                 border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)

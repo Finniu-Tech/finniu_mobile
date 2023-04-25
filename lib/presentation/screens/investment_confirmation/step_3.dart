@@ -23,7 +23,9 @@ class Step3 extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const StepBar(),
+            const StepBar(
+              step: 3,
+            ),
             const SizedBox(
               height: 8,
             ),

@@ -9,12 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Step2 extends ConsumerWidget {
-   final int step2;
-  const Step2({super.key
-  required this.Step2,
-  
-  
-  });
+  const Step2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +19,9 @@ class Step2 extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const StepBar(),
+            const StepBar(
+              step: 2,
+            ),
             const SizedBox(height: 30),
             Container(
               alignment: Alignment.centerLeft,
