@@ -10,6 +10,7 @@ import 'package:finniu/presentation/screens/pdf.dart';
 import 'package:finniu/presentation/screens/reinvest_process.dart/reinvest_process_end.dart';
 import 'package:finniu/presentation/screens/reinvest_process.dart/reinvest_process_start.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
+import 'package:finniu/presentation/screens/settings/transfers_screen.dart';
 import 'package:finniu/presentation/screens/signup/confirmation_phone_screen.dart';
 import 'package:finniu/presentation/screens/help/help_screen.dart';
 import 'package:finniu/presentation/screens/home/home.dart';
@@ -29,7 +30,6 @@ import 'package:finniu/presentation/screens/privacy/privacy_screen.dart';
 import 'package:finniu/presentation/screens/signup/email_screen.dart';
 import 'package:finniu/presentation/screens/login/start_screen.dart';
 import 'package:finniu/presentation/screens/onboarding/start_onboarding.dart';
-import 'package:finniu/presentation/screens/transfers/transfers_screen.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_3.dart';
 import 'package:flutter/material.dart';
 

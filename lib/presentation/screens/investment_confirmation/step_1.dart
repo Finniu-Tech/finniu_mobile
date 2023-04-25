@@ -20,7 +20,9 @@ class Step1 extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            const StepBar(),
+            StepBar(
+              step: 1,
+            ),
             const SizedBox(height: 40),
             SizedBox(
               // width: 200,
@@ -42,7 +44,6 @@ class Step1 extends HookConsumerWidget {
                 ],
               ),
             ),
-           
             Container(
               // alignment: Alignment.topRight,
               width: 224,
@@ -146,13 +147,7 @@ class Step1 extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            
-
-           
-          
-           
-           
-           Text(
+            Text(
               'Completa los siguientes datos',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -160,13 +155,12 @@ class Step1 extends HookConsumerWidget {
                     ? const Color(whiteText)
                     : const Color(primaryDark),
                 fontSize: 14,
-               
                 height: 1.5,
               ),
             ),
-           SizedBox(height: 10,),
-
-
+            SizedBox(
+              height: 10,
+            ),
             SizedBox(
               width: 224,
               child: TextFormField(
@@ -226,7 +220,7 @@ class Step1 extends HookConsumerWidget {
                 ),
               ),
             ),
-             Padding(
+            Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -316,25 +310,22 @@ class Step1 extends HookConsumerWidget {
             const SizedBox(
               height: 20,
             ),
-          
-       
-        SizedBox(
-                      width: 224,
-                      height: 50,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/investment_step2');
-                        },
-                        child: const Text(
-                          'Continuar',
-                        ),
-       
-       
-       
-       
-       
-       
-        ))],
+            SizedBox(
+                width: 224,
+                height: 50,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/investment_step2');
+                  },
+                  style: ButtonStyle(
+                    elevation: MaterialStateProperty.all<double>(2),
+                    shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                  ),
+                  child: const Text(
+                    'Continuar',
+                  ),
+                ))
+          ],
         ),
       ),
     );
@@ -342,25 +333,36 @@ class Step1 extends HookConsumerWidget {
 }
 
 class StepBar extends ConsumerStatefulWidget {
-  const StepBar({Key? key}) : super(key: key);
+  final int step;
+
+  const StepBar({
+    Key? key,
+    required this.step,
+  });
 
   @override
   _StepBarState createState() => _StepBarState();
 }
 
 class _StepBarState extends ConsumerState<StepBar> {
-  final double squareSize = 30.0;
-  final Color activeColor = const Color(secondary);
-  final Color inactiveColor = const Color(primaryLight);
+  final double squareSize = 20.0;
+  final Color activeColor = const Color(primaryLight);
+  final Color inactiveColor = const Color(secondary);
 
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    Color backgroundColor = currentTheme.isDarkMode
+        ? const Color(secondary)
+        : const Color(primaryLight);
+    // Color containerColor = inactiveColor; // Color por defecto
+
     return Column(
-      
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 13,),
+        const SizedBox(
+          height: 13,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -368,6 +370,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
+                color: widget.step == 1 ? Color(primaryLight) : Colors.white,
                 border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
@@ -381,13 +384,17 @@ class _StepBarState extends ConsumerState<StepBar> {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Image.asset(
-                'assets/icons/dollar.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                // fit:BoxFit.scaleDown,
-                  fit: BoxFit.fitHeight,),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Image.asset(
+                  'assets/icons/dollar.png',
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  // fit:BoxFit.scaleDown,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
             ),
             SizedBox(
               width: 38,
@@ -406,6 +413,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
+                color: widget.step == 2 ? Color(primaryLight) : Colors.white,
                 border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
@@ -420,12 +428,15 @@ class _StepBarState extends ConsumerState<StepBar> {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Image.asset(
-                'assets/icons/paper.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                   fit: BoxFit.fitHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  'assets/icons/paper.png',
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
             SizedBox(
@@ -441,11 +452,11 @@ class _StepBarState extends ConsumerState<StepBar> {
                 ],
               ),
             ),
-            
-         Container(
+            Container(
               height: 40,
               width: 55,
               decoration: BoxDecoration(
+                color: widget.step == 3 ? Color(primaryLight) : Colors.white,
                 border: Border.all(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryLight)
@@ -460,25 +471,20 @@ class _StepBarState extends ConsumerState<StepBar> {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Image.asset(
-                'assets/icons/square2.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                fit: BoxFit.fitHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  'assets/icons/square2.png',
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
-            
-            
-        
           ],
         ),
       ],
-        );
-           
-            
-            
-          
-  
+    );
   }
 }

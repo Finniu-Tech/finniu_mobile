@@ -4,7 +4,7 @@ const primaryDarkAlternative = 0xff164D7D;
 const primaryLightAlternative = 0xffDBF7FF;
 
 const backgroundColorLight = 0xffFFFFFF;
-const backgroundColorDark = 0xff2E2E2E;
+const backgroundColorDark = 0xff292727;
 
 const secondary = 0xffFFEEDD;
 const secondaryLight = 0xff0F5750;
@@ -62,7 +62,11 @@ const colorIconlight = 0xff4C8DBE;
 const colorIcondark = 0xff428CA1;
 
 const colorblacklight = 0xff3F3F3F;
-const colorgreen =0xff388923;
-const colortext =0xfffff6ed;
-const graytextalternative=
-0xffBFBFBF;
+const colorgreen = 0xff388923;
+const colortext = 0xfffff6ed;
+const graytextalternative = 0xffBFBFBF;
+const colorgreenlight = 0xff639F1D;
+const bluelight = 0xff3275A7;
+const bluedarkalternative = 0xff164D7D;
+const graylight = 0xff7C7C7C;
+const graydark = 0xff969595;

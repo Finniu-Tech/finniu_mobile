@@ -7,6 +7,7 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlanListScreen extends HookConsumerWidget {
   const PlanListScreen({super.key});
@@ -16,7 +17,7 @@ class PlanListScreen extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
-        hideReturnButton: true,
+        hideReturnButton: false,
         body: HookBuilder(
           builder: (context) {
             final planList = ref.watch(planListFutureProvider);
@@ -58,6 +59,18 @@ class PlanListBody extends StatelessWidget {
     required this.currentTheme,
     required this.plans,
   });
+  _launchWhatsApp() async {
+    var whatsappNumber =
+        "51940206852"; // Reemplaza con el número de WhatsApp que deseas abrir
+    var whatsappMessage = Uri.encodeComponent('Hola,soy.... deseo reinvertir.');
+    var whatsappUrl = "https://wa.me/$whatsappNumber?text=$whatsappMessage";
+    ;
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'No se pudo abrir $whatsappUrl';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,12 +87,12 @@ class PlanListBody extends StatelessWidget {
               height: 10,
             ),
             SizedBox(
-              width: double.infinity,
+              width: 330,
               child: Text(
-                'Nuestro planes de inversión',
+                'Nuestros planes de inversión',
                 style: TextStyle(
                   color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
+                      ? const Color(whiteText)
                       : const Color(primaryDark),
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -101,7 +114,7 @@ class PlanListBody extends StatelessWidget {
                       Color(currentTheme.isDarkMode ? secondary : primaryLight),
                     ),
                   ),
-                  onPressed: () {},
+                  onPressed: _launchWhatsApp,
                   child: const Text(
                     "Quiero conversar",
                     style: TextStyle(
@@ -115,7 +128,7 @@ class PlanListBody extends StatelessWidget {
               ],
             ),
             const SizedBox(
-              height: 12,
+              height: 2,
             ),
             Expanded(
               child: ListView.builder(
@@ -132,7 +145,7 @@ class PlanListBody extends StatelessWidget {
                       textTiledCard: plans[index].name,
                       textPercentage: '${plans[index].twelveMonthsReturn}% ',
                       textDeclaration: '8%',
-                      textinvestment: 'S/${plans[index].minAmount}%',
+                      textinvestment: 'S/${plans[index].minAmount}',
                       textContainer: plans[index].description ?? '',
                     ),
                   );

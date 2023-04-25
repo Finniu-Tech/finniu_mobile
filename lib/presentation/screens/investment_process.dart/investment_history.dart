@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
-class InvestmentHistory extends StatefulWidget {
+class InvestmentHistory extends StatefulHookConsumerWidget {
   @override
   InvestmentHistoryState createState() => InvestmentHistoryState();
 }
 
-class InvestmentHistoryState extends State<InvestmentHistory>
+class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   @override
@@ -21,8 +21,9 @@ class InvestmentHistoryState extends State<InvestmentHistory>
 
   @override
   Widget build(BuildContext context) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
-      hideReturnButton: true,
+      hideReturnButton: false,
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(
@@ -58,14 +59,16 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                               'assets/icons/calendar.png',
                               width: 20,
                               height: 20,
-                              color: const Color(primaryDark),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -78,8 +81,10 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                         child: Container(
                           width: MediaQuery.of(context).size.width * 0.45,
                           height: 40,
-                          decoration: const BoxDecoration(
-                            color: Color(primaryLightAlternative),
+                          decoration: BoxDecoration(
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(primaryLightAlternative),
                             borderRadius: BorderRadius.only(
                               topRight: Radius.circular(20),
                               topLeft: Radius.circular(20),
@@ -87,13 +92,15 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                               bottomRight: Radius.circular(20),
                             ),
                           ),
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               "Rentabilidad",
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
-                                color: Color(primaryDark),
+                                color: currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(primaryDark),
                               ),
                             ),
                           ),
@@ -102,8 +109,10 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                       Container(
                         width: MediaQuery.of(context).size.width * 0.45,
                         height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(primaryDark),
+                        decoration: BoxDecoration(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
@@ -117,12 +126,14 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                                 Navigator.pushNamed(
                                     context, '/investment_history');
                               },
-                              child: const Text(
+                              child: Text(
                                 "Mi historial",
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  color: Color(whiteText),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(primaryDark)
+                                      : const Color(whiteText),
                                 ),
                               )),
                         ),
@@ -140,12 +151,14 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                     padding: const EdgeInsets.only(left: 10),
                     child: Container(
                       alignment: Alignment.centerLeft,
-                      child: const Text(
+                      child: Text(
                         'Estado de mis inversiones ',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
                         ),
                       ),
                     ),
@@ -154,9 +167,14 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                     children: [
                       TabBar(
                           isScrollable: true,
-                          unselectedLabelColor: Colors.black,
-                          labelColor: Colors.black,
-                          tabs: const [
+                          unselectedLabelColor: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                          labelColor: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                          labelStyle: TextStyle(fontSize: 12),
+                          tabs: [
                             Tab(
                               text: "En curso",
                             ),
@@ -164,15 +182,61 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                               text: "Finalizadas",
                             ),
                             Tab(
-                              text: "En proceso",
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'En proceso ',
+                                  style: TextStyle(
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(
+                                            blackText), // color del texto antes del paréntesis
+                                    fontSize: 12.0,
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: '(1)',
+                                      style: TextStyle(
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryLight)
+                                            : const Color(
+                                                bluelight), // color del texto dentro del paréntesis
+                                        fontSize: 12.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                             Tab(
-                              text: "Rechazadas",
+                              child: RichText(
+                                text: TextSpan(
+                                  text: 'Rechazados ',
+                                  style: TextStyle(
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(
+                                            blackText), // color del texto antes del paréntesis
+                                    fontSize: 12.0,
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: '(1)',
+                                      style: TextStyle(
+                                        color: Color(
+                                            redText), // color del texto dentro del paréntesis
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             )
                           ],
                           controller: _tabController,
                           indicatorSize: TabBarIndicatorSize.tab,
-                          indicatorColor: const Color(primaryLight),
+                          indicatorColor: currentTheme.isDarkMode
+                              ? const Color(secondary)
+                              : const Color(primaryLight),
                           indicatorWeight: 4.0,
                           indicatorPadding: const EdgeInsets.only(bottom: 10)),
                     ],
@@ -226,17 +290,17 @@ class InvestmentHistoryState extends State<InvestmentHistory>
                           imageLink: "assets/images/circle_purple.png",
                         ),
                         const TablePlanProcess(
-                          planName: "Plan Origen S/800",
+                          planName: "Plan Origen",
                           termText: "Se esta validando tu transferencia",
                           state: "En proceso",
-                          imageLink: "assets/images/blue_circle.png",
+                          mounted: "S/800",
                         ),
-                        const TablePlanProcess(
-                          planName: "Plan Origen S/750",
+                        const TablePlanProcessRejected(
+                          planName: "Plan Origen ",
+                          mounted: "S/750",
                           termText:
                               "Tu inversión fue rechazada por el siguiente motivo:(escribir floro de explicación)",
                           state: "Rechazado",
-                          imageLink: "assets/images/circle_red.png",
                         ),
                       ],
                       controller: _tabController,
@@ -318,17 +382,12 @@ class CircularImageSimulation extends ConsumerWidget {
               width: 15,
               height: 15,
               decoration: BoxDecoration(
-                border: Border.all(
-                  width: 1,
-                  color: themeProvider.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(primaryLight),
-                ),
-                shape: BoxShape.circle,
-                color: themeProvider.isDarkMode
-                    ? const Color(primaryDark)
-                    : const Color(primaryLight),
-              ),
+                  border: Border.all(
+                    width: 1,
+                    color: const Color(primaryLight),
+                  ),
+                  shape: BoxShape.circle,
+                  color: const Color(primaryLight)),
               // Si desea agregar un icono dentro del círculo
             ),
 
@@ -556,14 +615,14 @@ class TablePlanProcess extends ConsumerWidget {
   final String planName;
   final String termText;
   final String state;
-  final String imageLink;
+  final String mounted;
 
   const TablePlanProcess({
     super.key,
     required this.planName,
     required this.termText,
     required this.state,
-    required this.imageLink,
+    required this.mounted,
   });
 
   @override
@@ -610,14 +669,37 @@ class TablePlanProcess extends ConsumerWidget {
                               : const Color(blackText),
                         ),
                       ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        mounted,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(blackText),
+                        ),
+                      ),
                       const SizedBox(
                         width: 10,
                       ),
                       const Spacer(),
-                      Image.asset(
-                        alignment: Alignment.center,
-                        imageLink,
+                      Container(
+                        width: 15,
                         height: 15,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: const Color(primaryDark),
+                          ),
+                          shape: BoxShape.circle,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                        ),
+                        // Si desea agregar un icono dentro del círculo
                       ),
                       const SizedBox(
                         width: 5,
@@ -641,7 +723,129 @@ class TablePlanProcess extends ConsumerWidget {
                     style: TextStyle(
                       fontSize: 10,
                       color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
+                          ? const Color(whiteText)
+                          : const Color(blackText),
+                    ),
+                  ),
+                ]),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class TablePlanProcessRejected extends ConsumerWidget {
+  final String planName;
+  final String termText;
+  final String state;
+  final String mounted;
+
+  const TablePlanProcessRejected({
+    super.key,
+    required this.planName,
+    required this.termText,
+    required this.state,
+    required this.mounted,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    return SingleChildScrollView(
+      child: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 90,
+          decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.6),
+                  spreadRadius: 0,
+                  blurRadius: 2,
+                  offset: const Offset(0, 3), // changes position of shadow
+                ),
+              ],
+              color: currentTheme.isDarkMode
+                  ? const Color(primaryDark)
+                  : const Color(primaryLightAlternative),
+              borderRadius: BorderRadius.circular(25)),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        planName,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                        mounted,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(blackText),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Spacer(),
+                      Container(
+                        width: 15,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: 1,
+                            color: const Color(redText),
+                          ),
+                          shape: BoxShape.circle,
+                          color: Color(redText),
+                        ),
+                        // Si desea agregar un icono dentro del círculo
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        state,
+                        style: TextStyle(
+                          fontSize: 11,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    termText,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
                           : const Color(blackText),
                     ),
                   ),
