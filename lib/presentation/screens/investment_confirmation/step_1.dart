@@ -338,7 +338,7 @@ class StepBar extends ConsumerStatefulWidget {
 }
 
 class _StepBarState extends ConsumerState<StepBar> {
-  final double squareSize = 30.0;
+  // final double squareSize = 20.0;
   final Color activeColor = const Color(secondary);
   final Color inactiveColor = const Color(primaryLight);
 
@@ -371,13 +371,16 @@ class _StepBarState extends ConsumerState<StepBar> {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Image.asset(
-                'assets/icons/dollar.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                // fit:BoxFit.scaleDown,
-                fit: BoxFit.fitHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: Image.asset(
+                  'assets/icons/dollar.png',
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  // fit:BoxFit.scaleDown,
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
             SizedBox(
@@ -411,12 +414,15 @@ class _StepBarState extends ConsumerState<StepBar> {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Image.asset(
-                'assets/icons/paper.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                fit: BoxFit.fitHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  'assets/icons/paper.png',
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
             SizedBox(
@@ -450,12 +456,15 @@ class _StepBarState extends ConsumerState<StepBar> {
                   bottomRight: Radius.circular(4),
                 ),
               ),
-              child: Image.asset(
-                'assets/icons/square2.png',
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                fit: BoxFit.fitHeight,
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  'assets/icons/square2.png',
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  fit: BoxFit.fitHeight,
+                ),
               ),
             ),
           ],

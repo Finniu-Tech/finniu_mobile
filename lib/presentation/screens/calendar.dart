@@ -108,8 +108,8 @@ class CalendarState extends ConsumerState<Calendar> {
                         if (isSelectedDay) {
                           backgroundColor = Color((currentTheme.isDarkMode
                               ? (primaryLight)
-                              : (primaryLightAlternative)));
-                          borderColor = Colors.transparent;
+                              : (primaryDark)));
+                          // borderColor = Colors.transparent;
                         }
 
                         if (!isThisMonthDay) {
@@ -125,7 +125,7 @@ class CalendarState extends ConsumerState<Calendar> {
                         return Center(
                           child: Container(
                             width: 35,
-                            height: 35,
+                            // height: 35,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: backgroundColor,
@@ -138,11 +138,11 @@ class CalendarState extends ConsumerState<Calendar> {
                                       BoxShadow(
                                         color: Colors.grey.withOpacity(0.9),
                                         spreadRadius: 0,
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 7),
+                                        blurRadius: 0,
+                                        offset: const Offset(0, 5),
                                       )
                                     ]
-                                  : null,
+                                  : (isSelectable ? null : []),
                             ),
                             child: Center(
                               child: Text(
@@ -203,13 +203,13 @@ class CalendarState extends ConsumerState<Calendar> {
                       selectedDayTextStyle: TextStyle(
                         color: currentTheme.isDarkMode
                             ? const Color(primaryDark)
-                            : const Color(primaryDark),
+                            : const Color(whiteText),
                         fontSize: 11.0,
                       ),
                       selectedDayButtonColor: currentTheme.isDarkMode
                           ? const Color(primaryLight)
-                          : const Color(primaryLight),
-                      selectedDayBorderColor: const Color(primaryLight),
+                          : const Color(primaryDark),
+                      selectedDayBorderColor: Colors.transparent,
                       // width: 1,
 
                       weekDayFormat: WeekdayFormat.narrow,
@@ -252,7 +252,7 @@ class CalendarState extends ConsumerState<Calendar> {
                         : const Color(primaryLightAlternative),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
+                        color: Colors.grey.withOpacity(0.9),
                         spreadRadius: 0,
                         blurRadius: 0,
                         offset:

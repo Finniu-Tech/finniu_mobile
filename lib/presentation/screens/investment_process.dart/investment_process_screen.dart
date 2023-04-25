@@ -54,6 +54,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                   ),
                   GestureDetector(
                     onTap: () {
+                      // modalsPlan(context);
                       Navigator.pushNamed(context, '/calendar_page');
                     },
                     child: Padding(
@@ -86,7 +87,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                           color: currentTheme.isDarkMode
                               ? const Color(primaryLight)
                               : const Color(primaryDark),
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
                             bottomLeft: Radius.circular(20),
@@ -118,7 +119,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                           color: currentTheme.isDarkMode
                               ? const Color(primaryDark)
                               : const Color(primaryLightAlternative),
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -146,7 +147,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                   finalAmount: 583,
                   revenueAmount: 33,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -1357,4 +1358,66 @@ class TableCardInvest extends ConsumerWidget {
       ),
     );
   }
+}
+
+void modalsPlan(BuildContext ctx) {
+  showDialog(
+    context: ctx,
+    builder: (BuildContext context) => AlertDialog(
+      backgroundColor: Colors.transparent,
+      content: BackdropFilter(
+        filter: ImageFilter.blur(
+            sigmaX: 2,
+            sigmaY: 2), // Aquí se establece la cantidad de borrosidad
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.96,
+          height: 290,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(30),
+            color: Color(primaryLight),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                'assets/images/billsdollars.png',
+                width: 130,
+                height: 130,
+              ),
+              const SizedBox(
+                width: 260,
+                child: Text(
+                  '¿Quieres comenzar a construir tu patrimonio? ',
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontSize: 21,
+                    fontWeight: FontWeight.bold,
+                    color: Color(
+                      primaryDark,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                width: 150,
+                height: 45,
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/plan_list');
+                  },
+                  child: const Text(
+                    'Ver planes',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }

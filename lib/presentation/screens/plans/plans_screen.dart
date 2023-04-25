@@ -17,7 +17,7 @@ class PlanListScreen extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
-        hideReturnButton: true,
+        hideReturnButton: false,
         body: HookBuilder(
           builder: (context) {
             final planList = ref.watch(planListFutureProvider);
