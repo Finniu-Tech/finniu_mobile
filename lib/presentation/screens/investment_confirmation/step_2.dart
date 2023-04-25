@@ -9,7 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Step2 extends ConsumerWidget {
-  const Step2({super.key});
+   final int step2;
+  const Step2({super.key
+  required this.Step2,
+  
+  
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

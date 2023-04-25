@@ -331,7 +331,16 @@ class Step1 extends HookConsumerWidget {
 }
 
 class StepBar extends ConsumerStatefulWidget {
-  const StepBar({Key? key}) : super(key: key);
+  final int step1;
+  final int step2;
+  final int step3;
+
+  const StepBar({
+    Key? key,
+    required this.step1,
+    required this.step2,
+    required this.step3,
+  });
 
   @override
   _StepBarState createState() => _StepBarState();
@@ -345,6 +354,23 @@ class _StepBarState extends ConsumerState<StepBar> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    Color containerColor = inactiveColor; // Color por defecto
+
+    if (widget.step1 == 1) {
+      containerColor =
+          Colors.lightBlue; // Si step1 es igual a 1, cambia el color a celeste
+    }
+
+    if (widget.step2 == 2) {
+      containerColor =
+          Colors.lightBlue; // Si step1 es igual a 1, cambia el color a celeste
+    }
+
+    if (widget.step3 == 3) {
+      containerColor =
+          Colors.lightBlue; // Si step1 es igual a 1, cambia el color a celeste
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
