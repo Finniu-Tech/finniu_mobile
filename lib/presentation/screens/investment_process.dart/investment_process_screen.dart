@@ -26,7 +26,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
-      hideReturnButton: false,
+      hideReturnButton: true,
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(

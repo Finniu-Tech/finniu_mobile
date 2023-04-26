@@ -136,7 +136,7 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
 
   CustomScaffoldReturnLogo({
     required this.body,
-    this.hideReturnButton = false,
+    this.hideReturnButton = true,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
