@@ -220,43 +220,54 @@ class BodyScreen extends StatelessWidget {
             height: 10,
           ),
           Padding(
-            padding: const EdgeInsets.only(right: 20),
+            padding: const EdgeInsets.only(top: 8, right: 8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                InkWell(
-                  onTap: () => showDialog<String>(
-                    barrierColor: Colors.transparent,
-                    context: context,
-                    builder: (BuildContext context) => ConstrainedBox(
-                      constraints: const BoxConstraints(),
-                      child: AlertDialog(
-                        backgroundColor: const Color(primaryLightAlternative),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        content: SizedBox(
-                          height: 200,
-                          width: 228,
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.topRight,
-                                child: IconButton(
-                                  alignment: Alignment.topRight,
-                                  icon: const Icon(Icons.close),
-                                  color: const Color(blackText),
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: InkWell(
+                    onTap: () => showDialog<String>(
+                      barrierColor: Colors.transparent,
+                      context: context,
+                      builder: (BuildContext context) => ConstrainedBox(
+                        constraints: const BoxConstraints(),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 200, left: 90),
+                          child: AlertDialog(
+                            backgroundColor:
+                                const Color(primaryLightAlternative),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0),
+                            ),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      constraints:
+                                          const BoxConstraints(maxHeight: 40),
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: IconButton(
+                                          alignment: Alignment.topRight,
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          icon: const Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 30, bottom: 70),
+                                            child: Icon(Icons.close),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              const Padding(
-                                padding: EdgeInsets.all(10.0),
-                                child: Text(
+                                const SizedBox(height: 10),
+                                const Text(
                                   'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
@@ -264,36 +275,39 @@ class BodyScreen extends StatelessWidget {
                                     height: 1.5,
                                     color: Color(blackText),
                                   ),
-                                ),
-                              )
-                            ],
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      Text(
-                        'Declaración a la Sunat 5%',
-                        style: TextStyle(
-                          fontSize: 14,
-                          height: 1.5,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
-                        ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Declaración a la Sunat 5%',
+                            style: TextStyle(
+                              fontSize: 14,
+                              height: 1.5,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          ImageIcon(
+                            const AssetImage('assets/icons/questions.png'),
+                            size: 20,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
+                          ),
+                          const SizedBox(width: 5),
+                        ],
                       ),
-                      SizedBox(width: 5),
-                      ImageIcon(
-                        const AssetImage('assets/icons/questions.png'),
-                        size: 20,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                      const SizedBox(width: 5),
-                    ],
+                    ),
                   ),
                 ),
               ],
