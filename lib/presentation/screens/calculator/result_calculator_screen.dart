@@ -240,36 +240,43 @@ class BodyScreen extends StatelessWidget {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0),
                             ),
-                            content: SizedBox(
-                              height: 165,
-                              width: 400,
-                              child: Column(
-                                children: [
-                                  Align(
-                                    alignment: Alignment.topRight,
-                                    child: IconButton(
-                                      alignment: Alignment.bottomRight,
-                                      icon: const Icon(Icons.close),
-                                      color: const Color(blackText),
-                                      onPressed: () {
-                                        Navigator.of(context).pop();
-                                      },
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      constraints:
+                                          const BoxConstraints(maxHeight: 40),
+                                      child: Align(
+                                        alignment: Alignment.topRight,
+                                        child: IconButton(
+                                          alignment: Alignment.topRight,
+                                          onPressed: () =>
+                                              Navigator.of(context).pop(),
+                                          icon: const Padding(
+                                            padding: EdgeInsets.only(
+                                                left: 30, bottom: 70),
+                                            child: Icon(Icons.close),
+                                          ),
+                                        ),
+                                      ),
                                     ),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                const Text(
+                                  'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    height: 1.5,
+                                    color: Color(blackText),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Text(
-                                    'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      height: 1.5,
-                                      color: Color(blackText),
-                                    ),
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             ),
                           ),
                         ),
