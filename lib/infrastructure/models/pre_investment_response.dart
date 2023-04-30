@@ -1,0 +1,65 @@
+// To parse this JSON data, do
+//
+//     final scanModel = scanModelFromJson(jsonString);
+
+import 'dart:convert';
+
+// ScanModel scanModelFromJson(String str) => ScanModel.fromJson(json.decode(str));
+
+// String scanModelToJson(ScanModel data) => json.encode(data.toJson());
+
+// class ScanModel {
+//     PreInvestmentSaveResponse? data;
+
+//     ScanModel({
+//         this.data,
+//     });
+
+//     factory ScanModel.fromJson(Map<String, dynamic> json) => ScanModel(
+//         data: json["data"] == null ? null : PreInvestmentSaveResponse.fromJson(json["data"]),
+//     );
+
+//     Map<String, dynamic> toJson() => {
+//         "data": data?.toJson(),
+//     };
+// }
+
+class PreInvestmentSaveResponse {
+  SavePreInvestment? savePreInvestment;
+
+  PreInvestmentSaveResponse({
+    this.savePreInvestment,
+  });
+
+  factory PreInvestmentSaveResponse.fromJson(Map<String, dynamic> json) =>
+      PreInvestmentSaveResponse(
+        savePreInvestment: json["savePreInvestment"] == null
+            ? null
+            : SavePreInvestment.fromJson(json["savePreInvestment"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "savePreInvestment": savePreInvestment?.toJson(),
+      };
+}
+
+class SavePreInvestment {
+  bool? success;
+  String? preInvestmentUuid;
+
+  SavePreInvestment({
+    this.success,
+    this.preInvestmentUuid,
+  });
+
+  factory SavePreInvestment.fromJson(Map<String, dynamic> json) =>
+      SavePreInvestment(
+        success: json["success"],
+        preInvestmentUuid: json["preInvestmentUuid"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "success": success,
+        "preInvestmentUuid": preInvestmentUuid,
+      };
+}
