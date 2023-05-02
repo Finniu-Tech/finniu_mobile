@@ -2,7 +2,6 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +87,7 @@ class Step1Body extends StatelessWidget {
                 // height: 90,
                 // padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
                 Text(
-                  'Tu plan seleccionado:',
+                  'Tu plan seleccionado',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 24,
@@ -101,7 +100,8 @@ class Step1Body extends StatelessWidget {
           ),
           Container(
             // alignment: Alignment.topRight,
-            width: 224,
+            width: MediaQuery.of(context).size.width * 0.63,
+            constraints: const BoxConstraints(minWidth: 263, maxWidth: 263),
             height: 99,
             padding: const EdgeInsets.all(10),
             margin: const EdgeInsets.only(
@@ -122,33 +122,28 @@ class Step1Body extends StatelessWidget {
             child: Row(
               children: [
                 Container(
+                  alignment: Alignment.topLeft,
                   width: 100,
                   height: 100,
                   color: Colors.transparent,
-                  child: Center(
-                    child: SizedBox(
-                      width: 80,
-                      height: 80,
-                      child: Image(
-                        image: AssetImage('assets/result/money.png'),
-                        fit: BoxFit.contain,
-                      ),
-                      // child: plan.imageUrl != null
-                      //     ? Image.network(plan.imageUrl!)
-                      //     : Image(
-                      //         image: AssetImage('assets/result/money.png'),
-                      //         fit: BoxFit.contain,
-                      //       ),
+                  child: const SizedBox(
+                    width: 80,
+                    height: 90,
+                    child: Image(
+                      image: AssetImage('assets/result/money.png'),
+                      fit: BoxFit.contain,
                     ),
                   ),
                 ),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       // 'test',
                       plan.name,
                       textAlign: TextAlign.right,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(primaryDark),
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -160,7 +155,7 @@ class Step1Body extends StatelessWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: const <Widget>[
                         Image(
                           image: AssetImage('assets/icons/dollar.png'),
                           width: 12,
@@ -176,7 +171,7 @@ class Step1Body extends StatelessWidget {
                           style: TextStyle(
                             color: Color(primaryDark),
                             fontSize: 10,
-                            height: 1.5,
+                            height: 1,
                           ),
                         ),
                       ],
@@ -184,7 +179,7 @@ class Step1Body extends StatelessWidget {
                     const SizedBox(height: 6),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: const <Widget>[
                         Image(
                           image: AssetImage('assets/icons/double_dollar.png'),
                           width: 21, // ancho deseado de la imagen
@@ -224,7 +219,7 @@ class Step1Body extends StatelessWidget {
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 15,
           ),
           SizedBox(
             width: 224,
