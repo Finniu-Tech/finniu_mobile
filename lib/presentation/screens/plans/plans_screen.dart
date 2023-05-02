@@ -147,6 +147,7 @@ class PlanListBody extends StatelessWidget {
                       textDeclaration: '8%',
                       textinvestment: 'S/${plans[index].minAmount}',
                       textContainer: plans[index].description ?? '',
+                      planUuid: plans[index].uuid,
                     ),
                   );
                 },
