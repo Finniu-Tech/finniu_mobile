@@ -82,4 +82,19 @@ class QueryRepository {
       }
   ''';
   }
+
+  static String get getDeadLines {
+    return '''
+    query getDeadLines{
+      deadlines{
+        uuid
+        isActive
+        name
+        value
+        description
+        
+      }
+    }
+  ''';
+  }
 }

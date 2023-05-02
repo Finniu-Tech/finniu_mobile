@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
@@ -20,6 +21,9 @@ class Step1 extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final termController = useTextEditingController();
     final mountController = useTextEditingController();
+    final couponController = useTextEditingController();
+    final deadLineController = useTextEditingController();
+    final bankController = useTextEditingController();
     print('arguments');
     print(ModalRoute.of(context)!.settings.arguments);
     final uuidPlan = (ModalRoute.of(context)!.settings.arguments
@@ -34,7 +38,9 @@ class Step1 extends HookConsumerWidget {
             return Step1Body(
               currentTheme: currentTheme,
               mountController: mountController,
-              termController: termController,
+              deadLineController: deadLineController,
+              bankController: bankController,
+              couponController: couponController,
               plan: plans.firstWhere((element) => element.uuid == uuidPlan),
             );
           },
@@ -56,22 +62,27 @@ class Step1 extends HookConsumerWidget {
   }
 }
 
-class Step1Body extends StatelessWidget {
+class Step1Body extends ConsumerWidget {
   const Step1Body({
     super.key,
     required this.currentTheme,
     required this.mountController,
-    required this.termController,
+    required this.deadLineController,
+    required this.bankController,
+    required this.couponController,
     required this.plan,
   });
 
   final SettingsProviderState currentTheme;
   final TextEditingController mountController;
-  final TextEditingController termController;
+  final TextEditingController deadLineController;
+  final TextEditingController bankController;
+  final TextEditingController couponController;
   final PlanEntity plan;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final deadLineFuture = ref.watch(deadLineFutureProvider.future);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -243,8 +254,14 @@ class Step1Body extends StatelessWidget {
           ),
           const SizedBox(height: 15),
           CustomSelectButton(
-            textEditingController: termController,
-            items: const ['6 meses', '1 año', '5 años'],
+            asyncItems: (String filter) async {
+              final response = await deadLineFuture;
+              return response.map((e) => e.name).toList();
+            },
+            callbackOnChange: (value) async {
+              deadLineController.text = value;
+            },
+            textEditingController: deadLineController,
             labelText: "Plazo",
             hintText: "Seleccione su plazo de inversión",
           ),
@@ -252,7 +269,7 @@ class Step1Body extends StatelessWidget {
             height: 15,
           ),
           CustomSelectButton(
-            textEditingController: termController,
+            textEditingController: bankController,
             items: const ['BCP', 'Interbank', 'Scotiabank'],
             labelText: "Desde que banco realizas la transferencia",
             hintText: "Seleccione su banco",
@@ -263,7 +280,7 @@ class Step1Body extends StatelessWidget {
           SizedBox(
             width: 224,
             child: TextFormField(
-              controller: mountController,
+              controller: couponController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este dato es requerido';
