@@ -222,7 +222,7 @@ class Step1Body extends ConsumerWidget {
           ),
           Text(
             'Completa los siguientes datos',
-            textAlign: TextAlign.center,
+            textAlign: TextAlign.left,
             style: TextStyle(
               color: currentTheme.isDarkMode
                   ? const Color(whiteText)
@@ -234,8 +234,9 @@ class Step1Body extends ConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          SizedBox(
-            width: 224,
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
             child: TextFormField(
               controller: mountController,
               validator: (value) {
@@ -266,6 +267,7 @@ class Step1Body extends ConsumerWidget {
             textEditingController: deadLineController,
             labelText: "Plazo",
             hintText: "Seleccione su plazo de inversión",
+            width: MediaQuery.of(context).size.width * 0.8,
           ),
           const SizedBox(
             height: 15,
@@ -279,12 +281,15 @@ class Step1Body extends ConsumerWidget {
             // items: const ['BCP', 'Interbank', 'Scotiabank'],
             labelText: "Desde que banco realizas la transferencia",
             hintText: "Seleccione su banco",
+            width: MediaQuery.of(context).size.width * 0.8,
           ),
           const SizedBox(
             height: 15,
           ),
-          SizedBox(
-            width: 224,
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(
+                minWidth: 263, maxWidth: 400, maxHeight: 39, minHeight: 39),
             child: TextFormField(
               controller: couponController,
               validator: (value) {
@@ -296,9 +301,46 @@ class Step1Body extends ConsumerWidget {
               onChanged: (value) {
                 // nickNameController.text = value.toString();
               },
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
+                suffixIconConstraints: const BoxConstraints(
+                  maxHeight: 39,
+                  maxWidth: 150,
+                ),
+                suffixIcon: Container(
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(1),
+                  // padding: const EdgeInsets.only(right: 10, left: 10),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      // minimumSize: Size(80, 30),
+                      side: const BorderSide(
+                        width: 0.2,
+                        color: Color(primaryDark),
+                      ),
+                      primary: Color(primaryLight),
+                      shape: new RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.only(
+                        topRight: Radius.circular(25),
+                        bottomRight: Radius.circular(25),
+                      )),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "Aplicarlo",
+                        style: TextStyle(
+                          color: Color(primaryDark),
+                        ),
+                      ),
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
                 hintText: 'Ingresa tu codigo',
                 hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
                 label: Text("Ingresa tu codigo promocional,si tienes uno"),
               ),
             ),

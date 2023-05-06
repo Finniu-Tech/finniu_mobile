@@ -12,7 +12,9 @@ class CustomSelectButton extends HookConsumerWidget {
   final String labelText;
   final String? hintText;
   final String? identifier;
-  const CustomSelectButton({
+  double? width = 224;
+  double? height = 39;
+  CustomSelectButton({
     super.key,
     required this.textEditingController,
     this.items,
@@ -21,6 +23,8 @@ class CustomSelectButton extends HookConsumerWidget {
     this.hintText,
     this.asyncItems,
     this.identifier,
+    this.width = 224,
+    this.height = 39,
   });
 
   @override
@@ -31,8 +35,8 @@ class CustomSelectButton extends HookConsumerWidget {
     }
     final themeProvider = ref.watch(settingsNotifierProvider);
     return SizedBox(
-      width: 224,
-      height: 39,
+      width: width,
+      height: height,
       child: DropdownSearch<String>(
         selectedItem: textEditingController.text,
         key: Key(identifier ?? ''),
