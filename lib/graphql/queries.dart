@@ -97,4 +97,17 @@ class QueryRepository {
     }
   ''';
   }
+
+  static String get getBanks {
+    return '''
+      query getBanks{
+        banks{
+          uuid
+          isActive
+          bankName
+          bankLogo
+        }
+      }
+    ''';
+  }
 }

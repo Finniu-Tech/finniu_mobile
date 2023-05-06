@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -83,6 +84,7 @@ class Step1Body extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
+    final bankFuture = ref.watch(bankFutureProvider.future);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -270,7 +272,11 @@ class Step1Body extends ConsumerWidget {
           ),
           CustomSelectButton(
             textEditingController: bankController,
-            items: const ['BCP', 'Interbank', 'Scotiabank'],
+            asyncItems: (String filter) async {
+              final response = await bankFuture;
+              return response.map((e) => e.name).toList();
+            },
+            // items: const ['BCP', 'Interbank', 'Scotiabank'],
             labelText: "Desde que banco realizas la transferencia",
             hintText: "Seleccione su banco",
           ),
