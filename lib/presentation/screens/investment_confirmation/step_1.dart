@@ -1,14 +1,26 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/bank_entity.dart';
+import 'package:finniu/domain/entities/calculate_investment.dart';
+import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/pre_investment.dart';
+import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
+import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
+import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+
+import '../../../infrastructure/models/calculate_investment.dart';
 
 class Step1 extends HookConsumerWidget {
   // String planUuid;
@@ -20,71 +32,96 @@ class Step1 extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final termController = useTextEditingController();
     final mountController = useTextEditingController();
     final couponController = useTextEditingController();
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
-    print('arguments');
+    final bankNumberController = useTextEditingController();
     print(ModalRoute.of(context)!.settings.arguments);
     final uuidPlan = (ModalRoute.of(context)!.settings.arguments
         as Map<String, dynamic>)['planUuid'];
     print(uuidPlan);
 
-    return CustomScaffoldReturnLogo(body: HookBuilder(
-      builder: (context) {
-        final planList = ref.watch(planListFutureProvider);
-        return planList.when(
-          data: (plans) {
-            return Step1Body(
-              currentTheme: currentTheme,
-              mountController: mountController,
-              deadLineController: deadLineController,
-              bankController: bankController,
-              couponController: couponController,
-              plan: plans.firstWhere((element) => element.uuid == uuidPlan),
-            );
-          },
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
+    return CustomLoaderOverlay(
+      child: CustomScaffoldReturnLogo(body: HookBuilder(
+        builder: (context) {
+          final planList = ref.watch(planListFutureProvider);
+          return planList.when(
+            data: (plans) {
+              return Step1Body(
+                currentTheme: currentTheme,
+                mountController: mountController,
+                deadLineController: deadLineController,
+                bankTypeController: bankController,
+                couponController: couponController,
+                bankNumberController: bankNumberController,
+                plan: plans.firstWhere((element) => element.uuid == uuidPlan),
+              );
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (error, stack) => Center(
+              child: Text(error.toString()),
+            ),
+          );
+        },
+      )
+          // body: Step1Body(
+          //   currentTheme: currentTheme,
+          //   mountController: mountController,
+          //   termController: termController,
+          // ),
           ),
-          error: (error, stack) => Center(
-            child: Text(error.toString()),
-          ),
-        );
-      },
-    )
-        // body: Step1Body(
-        //   currentTheme: currentTheme,
-        //   mountController: mountController,
-        //   termController: termController,
-        // ),
-        );
+    );
   }
 }
 
-class Step1Body extends ConsumerWidget {
-  const Step1Body({
-    super.key,
+class Step1Body extends StatefulHookConsumerWidget {
+  Step1Body({
+    Key? key,
     required this.currentTheme,
     required this.mountController,
     required this.deadLineController,
-    required this.bankController,
+    required this.bankTypeController,
     required this.couponController,
+    required this.bankNumberController,
     required this.plan,
-  });
+  }) : super(key: key);
 
   final SettingsProviderState currentTheme;
   final TextEditingController mountController;
   final TextEditingController deadLineController;
-  final TextEditingController bankController;
+  final TextEditingController bankTypeController;
+  final TextEditingController bankNumberController;
   final TextEditingController couponController;
-  final PlanEntity plan;
+
+  PlanEntity plan;
+  double? profitability;
+  bool showInvestmentBoxes = false;
+  PlanSimulation? resultCalculator;
 
   @override
-  Widget build(BuildContext context, ref) {
+  _Step1BodyState createState() => _Step1BodyState();
+}
+
+class _Step1BodyState extends ConsumerState<Step1Body> {
+  late Future deadLineFuture;
+  late Future bankFuture;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   deadLineFuture = context.read(deadLineFutureProvider.future);
+  //   bankFuture = context.read(bankFutureProvider.future);
+  // }
+
+  @override
+  Widget build(BuildContext context) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
     final bankFuture = ref.watch(bankFutureProvider.future);
+    final themProvider = ref.watch(settingsNotifierProvider);
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -154,7 +191,7 @@ class Step1Body extends ConsumerWidget {
                   children: [
                     Text(
                       // 'test',
-                      plan.name,
+                      widget.plan.name,
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         color: Color(primaryDark),
@@ -168,7 +205,7 @@ class Step1Body extends ConsumerWidget {
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
+                      children: <Widget>[
                         Image(
                           image: AssetImage('assets/icons/dollar.png'),
                           width: 12,
@@ -178,8 +215,7 @@ class Step1Body extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          '1000',
-                          // plan.minAmount.toString(),
+                          'Desde S/. ${widget.plan.minAmount.toString()}',
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             color: Color(primaryDark),
@@ -192,16 +228,17 @@ class Step1Body extends ConsumerWidget {
                     const SizedBox(height: 6),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const <Widget>[
+                      children: <Widget>[
                         Image(
                           image: AssetImage('assets/icons/double_dollar.png'),
                           width: 21, // ancho deseado de la imagen
                           height: 21, // alto deseado de la imagen
                           color: Color(
-                              primaryDark), // color de la imagen si es necesario
+                            primaryDark,
+                          ), // color de la imagen si es necesario
                         ),
                         Text(
-                          '1000',
+                          '${widget.plan.twelveMonthsReturn.toString()}% anual',
                           // plan.twelveMonthsReturn.toString(),
                           textAlign: TextAlign.left,
                           style: TextStyle(
@@ -224,7 +261,7 @@ class Step1Body extends ConsumerWidget {
             'Completa los siguientes datos',
             textAlign: TextAlign.left,
             style: TextStyle(
-              color: currentTheme.isDarkMode
+              color: widget.currentTheme.isDarkMode
                   ? const Color(whiteText)
                   : const Color(primaryDark),
               fontSize: 14,
@@ -238,7 +275,7 @@ class Step1Body extends ConsumerWidget {
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
             child: TextFormField(
-              controller: mountController,
+              controller: widget.mountController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este dato es requerido';
@@ -262,9 +299,34 @@ class Step1Body extends ConsumerWidget {
               return response.map((e) => e.name).toList();
             },
             callbackOnChange: (value) async {
-              deadLineController.text = value;
+              widget.deadLineController.text = value;
+              context.loaderOverlay.show();
+              final inputCalculator = CalculatorInput(
+                amount: int.parse(widget.mountController.text),
+                months: int.parse(widget.deadLineController.text.split(' ')[0]),
+                coupon: widget.couponController.text,
+              );
+
+              final resultCalculator = await ref.watch(
+                calculateInvestmentFutureProvider(
+                  inputCalculator,
+                ).future,
+              );
+
+              setState(() {
+                if (resultCalculator!.plan != null) {
+                  widget.plan = resultCalculator!.plan!;
+                  widget.profitability = resultCalculator!.profitability;
+                  widget.showInvestmentBoxes = true;
+                  widget.resultCalculator = resultCalculator;
+                }
+              });
+              print('results Provider!!');
+              print(resultCalculator);
+
+              context.loaderOverlay.hide();
             },
-            textEditingController: deadLineController,
+            textEditingController: widget.deadLineController,
             labelText: "Plazo",
             hintText: "Seleccione su plazo de inversión",
             width: MediaQuery.of(context).size.width * 0.8,
@@ -273,12 +335,14 @@ class Step1Body extends ConsumerWidget {
             height: 15,
           ),
           CustomSelectButton(
-            textEditingController: bankController,
+            textEditingController: widget.bankTypeController,
             asyncItems: (String filter) async {
               final response = await bankFuture;
               return response.map((e) => e.name).toList();
             },
-            // items: const ['BCP', 'Interbank', 'Scotiabank'],
+            callbackOnChange: (value) {
+              widget.bankTypeController.text = value;
+            },
             labelText: "Desde que banco realizas la transferencia",
             hintText: "Seleccione su banco",
             width: MediaQuery.of(context).size.width * 0.8,
@@ -288,10 +352,34 @@ class Step1Body extends ConsumerWidget {
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+            child: TextFormField(
+              controller: widget.bankNumberController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Este dato es requerido';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                // nickNameController.text = value.toString();
+              },
+              decoration: const InputDecoration(
+                hintText: 'Escriba su número de cuenta',
+                hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                label: Text("Número de cuenta"),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(
                 minWidth: 263, maxWidth: 400, maxHeight: 39, minHeight: 39),
             child: TextFormField(
-              controller: couponController,
+              controller: widget.couponController,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este dato es requerido';
@@ -333,7 +421,35 @@ class Step1Body extends ConsumerWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      context.loaderOverlay.show();
+                      final inputCalculator = CalculatorInput(
+                        amount: int.parse(widget.mountController.text),
+                        months: int.parse(
+                            widget.deadLineController.text.split(' ')[0]),
+                        coupon: widget.couponController.text,
+                      );
+
+                      final resultCalculator = await ref.watch(
+                        calculateInvestmentFutureProvider(
+                          inputCalculator,
+                        ).future,
+                      );
+
+                      setState(() {
+                        if (resultCalculator!.plan != null) {
+                          widget.plan = resultCalculator!.plan!;
+                          widget.profitability =
+                              resultCalculator!.profitability;
+                          widget.showInvestmentBoxes = true;
+                          widget.resultCalculator = resultCalculator;
+                        }
+                      });
+                      print('results Provider!!');
+                      print(resultCalculator);
+
+                      context.loaderOverlay.hide();
+                    },
                   ),
                 ),
                 hintText: 'Ingresa tu codigo',
@@ -345,111 +461,143 @@ class Step1Body extends ConsumerWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 136,
-                  height: 81,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(primaryLightAlternative),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 0,
-                        blurRadius: 2,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        '6%',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(primaryDark),
+          if (widget.showInvestmentBoxes) ...[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 136,
+                    height: 81,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(primaryLightAlternative),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 0,
+                          blurRadius: 2,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
                         ),
-                      ),
-                      Text(
-                        '% de retorno',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(blackText),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${widget.plan.sixMonthsReturn}%',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 17),
-                Container(
-                  width: 136,
-                  height: 81,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: const Color(secondary),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.6),
-                        spreadRadius: 0,
-                        blurRadius: 2,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'S/583',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(primaryDark),
+                        Text(
+                          '% de retorno',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
                         ),
-                      ),
-                      Text(
-                        'En 6 meses tendrias',
-                        textAlign: TextAlign.right,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: Color(blackText),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: 17),
+                  Container(
+                    width: 136,
+                    height: 81,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(secondary),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 0,
+                          blurRadius: 2,
+                          offset:
+                              const Offset(0, 3), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'S/${widget.profitability}',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                        Text(
+                          'En 6 meses tendrias',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
           const SizedBox(
             height: 20,
           ),
           SizedBox(
-              width: 224,
-              height: 50,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/investment_step2');
-                },
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all<double>(2),
-                  shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
-                ),
-                child: const Text(
-                  'Continuar',
-                ),
-              ))
+            width: 224,
+            height: 50,
+            child: TextButton(
+              onPressed: () async {
+                final deadLineUuid = DeadLineEntity.getUuidByName(
+                    widget.deadLineController.text, await deadLineFuture);
+                print('dead line uuid');
+                print(deadLineUuid);
+                final bankUuid = BankEntity.getUuidByName(
+                    widget.bankTypeController.text, await bankFuture);
+                print('bank uuid');
+                print(bankUuid);
+                final preInvestment = PreInvestmentForm(
+                  amount: int.parse(widget.mountController.text),
+                  deadLineUuid: deadLineUuid,
+                  coupon: widget.couponController.text,
+                  planUuid: widget.plan.uuid,
+                  bankAccountTypeUuid: bankUuid,
+                  bankAccountNumber: widget.bankNumberController.text,
+                );
+
+                final preInvestmentEntity = await ref
+                    .watch(preInvestmentSaveProvider(preInvestment).future);
+                print('pre investment entity');
+                print(widget.resultCalculator);
+                Navigator.pushNamed(
+                  context,
+                  '/investment_step2',
+                  arguments: PreInvestmentStep2Arguments(
+                    plan: widget.plan,
+                    preInvestment: preInvestmentEntity,
+                    resultCalculator: widget.resultCalculator!,
+                  ),
+                );
+              },
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all<double>(2),
+                shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+              ),
+              child: const Text(
+                'Continuar',
+              ),
+            ),
+          )
         ],
       ),
     );

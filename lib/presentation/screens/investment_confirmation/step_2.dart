@@ -1,12 +1,29 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/calculate_investment.dart';
+import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+class PreInvestmentStep2Arguments {
+  final PlanEntity plan;
+  final PreInvestmentEntity preInvestment;
+  final PlanSimulation resultCalculator;
+
+  PreInvestmentStep2Arguments({
+    required this.plan,
+    required this.preInvestment,
+    required this.resultCalculator,
+  });
+}
 
 class Step2 extends ConsumerWidget {
   const Step2({super.key});
@@ -14,501 +31,534 @@ class Step2 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final args = ModalRoute.of(context)!.settings.arguments
+        as PreInvestmentStep2Arguments;
+    final PlanEntity plan = args.plan;
+    print('plan');
+    print(plan);
+    final PreInvestmentEntity preInvestment = args.preInvestment;
+    final PlanSimulation resultCalculator = args.resultCalculator;
 
-    return CustomScaffoldReturnLogo(
-      body: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            const StepBar(
-              step: 2,
-            ),
-            const SizedBox(height: 30),
-            Container(
-              alignment: Alignment.centerLeft,
-              width: 310,
-              height: 40,
-              child: Text(
-                'Plan Origen',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Color(Theme.of(context).colorScheme.secondary.value),
-                ),
+    return CustomLoaderOverlay(
+      child: CustomScaffoldReturnLogo(
+        body: Step2Body(
+          currentTheme: currentTheme,
+          plan: plan,
+          preInvestment: preInvestment,
+          resultCalculator: resultCalculator,
+        ),
+      ),
+    );
+  }
+}
+
+class Step2Body extends StatelessWidget {
+  final SettingsProviderState currentTheme;
+  final PlanEntity plan;
+  final PreInvestmentEntity preInvestment;
+  final PlanSimulation resultCalculator;
+
+  const Step2Body({
+    super.key,
+    required this.currentTheme,
+    required this.plan,
+    required this.preInvestment,
+    required this.resultCalculator,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          const StepBar(
+            step: 2,
+          ),
+          const SizedBox(height: 30),
+          Container(
+            alignment: Alignment.centerLeft,
+            width: 310,
+            height: 40,
+            child: Text(
+              plan.name,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Color(Theme.of(context).colorScheme.secondary.value),
               ),
             ),
-            const SizedBox(height: 15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  // height: 100,
-                  width: MediaQuery.of(context).size.width * 0.60,
-                  // width: double.maxFinite,
-                  alignment: Alignment.center,
+          ),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                // height: 100,
+                width: MediaQuery.of(context).size.width * 0.60,
+                // width: double.maxFinite,
+                alignment: Alignment.center,
 
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      const CircularImage(),
-                      Positioned(
-                        right: 108,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Container(
-                            width: 59.49,
-                            height: 31.15,
-                            // padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    const CircularImage(),
+                    Positioned(
+                      right: 108,
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 59.49,
+                          height: 31.15,
+                          // padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
+                            border: Border.all(
+                              width: 4,
                               color: currentTheme.isDarkMode
                                   ? const Color(primaryLight)
                                   : const Color(primaryDark),
-                              border: Border.all(
-                                width: 4,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
-                              ),
-                              borderRadius: BorderRadius.circular(10),
                             ),
-                            // color: Color(primaryDark),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          // color: Color(primaryDark),
 
-                            child: Column(
-                              children: [
-                                Center(
-                                  child: Text(
-                                    textAlign: TextAlign.left,
-                                    '6%',
-                                    style: TextStyle(
-                                      color: currentTheme.isDarkMode
-                                          ? const Color(primaryDark)
-                                          : const Color(primaryLight),
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  textAlign: TextAlign.center,
-                                  'Rentabilidad',
+                          child: Column(
+                            children: [
+                              Center(
+                                child: Text(
+                                  textAlign: TextAlign.left,
+                                  '${resultCalculator.months}%',
                                   style: TextStyle(
                                     color: currentTheme.isDarkMode
-                                        ? const Color(blackText)
-                                        : const Color(whiteText),
-                                    fontSize: 7,
+                                        ? const Color(primaryDark)
+                                        : const Color(primaryLight),
+                                    fontSize: 12,
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                textAlign: TextAlign.center,
+                                'Rentabilidad',
+                                style: TextStyle(
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(blackText)
+                                      : const Color(whiteText),
+                                  fontSize: 7,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 60,
-                      width: 116,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(primaryLight),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ]),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'S/550',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(primaryDark),
-                            ),
-                          ),
-                          Text(
-                            'Tu monto invertido',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color(blackText),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      height: 60,
-                      width: 116,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(secondary),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ]),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Text(
-                            'S/583',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(primaryDark),
-                            ),
-                          ),
-                          Text(
-                            'Monto que recibiras',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: Color(blackText),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 320,
-              child: Text(
-                'Realiza tu transferencia a la cuenta bancaria de Finniu: ',
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
-                ),
               ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Container(
-              width: 320,
-              height: 138,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(38),
-                ),
-                color: currentTheme.isDarkMode
-                    ? const Color(
-                        primaryDark,
-                      )
-                    : const Color(gradient_secondary),
-                border: Border.all(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(gradient_secondary),
-                  width: 1,
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(18.0),
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Finniu S.A.C',
-                        style: TextStyle(
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 60,
+                    width: 116,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(primaryLight),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 2,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ]),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'S/550',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            'RUC ',
-                            style: TextStyle(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(grayText),
-                              fontSize: 12,
-                            ),
+                        Text(
+                          'Tu monto invertido',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
                           ),
-                          Text(
-                            '20609327210',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(grayText),
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'N de cuenta Interbank ',
-                            style: TextStyle(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(grayText),
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            '2003004077570',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(grayText),
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          ImageIcon(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
-                            size: 18,
-                            AssetImage(
-                              'assets/icons/double_square.png',
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            'CCI ',
-                            style: TextStyle(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(grayText),
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            '003 200 00300407757039',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(grayText),
-                              fontSize: 12,
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          ImageIcon(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
-                            size: 18,
-                            const AssetImage(
-                              'assets/icons/double_square.png',
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  Container(
+                    height: 60,
+                    width: 116,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(secondary),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 2,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ]),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'S/583',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                        Text(
+                          'Monto que recibiras',
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: 320,
+            child: Text(
+              'Realiza tu transferencia a la cuenta bancaria de Finniu: ',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontSize: 14,
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
               ),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: 305,
-              // alignment: Alignment.centerLeft,
-              child: Text(
-                'Adjunta tu constancia de transferencia: ',
-                textAlign: TextAlign.justify,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
-                ),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Container(
+            width: 320,
+            height: 138,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                bottomRight: Radius.circular(38),
+              ),
+              color: currentTheme.isDarkMode
+                  ? const Color(
+                      primaryDark,
+                    )
+                  : const Color(gradient_secondary),
+              border: Border.all(
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryDark)
+                    : const Color(gradient_secondary),
+                width: 1,
               ),
             ),
-            const SizedBox(
-              height: 12,
-            ),
-            Container(
-              width: 320,
-              height: 73,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(21),
-                  topRight: Radius.circular(21),
-                  bottomLeft: Radius.circular(21),
-                  bottomRight: Radius.circular(21),
-                ),
-                color: const Color(primaryLightAlternative),
-                border: Border.all(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryLightAlternative),
-                  width: 1,
-                ),
-              ),
+            child: Padding(
+              padding: const EdgeInsets.all(18.0),
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: Container(
-                        alignment: Alignment.topRight,
-                        child: InkWell(
-                          onTap: () {
-                            origenPlan(context);
-                          },
-                          child: ImageIcon(
-                            const AssetImage('assets/icons/questions.png'),
-                            size: 20, // Tamaño de la imagen
-                            color: currentTheme.isDarkMode
-                                ? const Color(grayText)
-                                : const Color(
-                                    primaryDark), // Color de la imagen
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    ImageIcon(
-                      const AssetImage('assets/icons/photo.png'),
-                      color: currentTheme.isDarkMode
-                          ? const Color(grayText)
-                          : const Color(primaryDark),
-                    ),
-                    const SizedBox(width: 8),
                     Text(
-                      'Suba la foto nitida donde sea visible el código de operación',
+                      'Finniu S.A.C',
                       style: TextStyle(
                         color: currentTheme.isDarkMode
-                            ? const Color(grayText)
+                            ? const Color(primaryLight)
                             : const Color(primaryDark),
-                        fontSize: 8,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
                       ),
-                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          'RUC ',
+                          style: TextStyle(
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(grayText),
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          '20609327210',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(grayText),
+                            fontSize: 12,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'N de cuenta Interbank ',
+                          style: TextStyle(
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(grayText),
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          '2003004077570',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(grayText),
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        ImageIcon(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(grayText),
+                          size: 18,
+                          AssetImage(
+                            'assets/icons/double_square.png',
+                          ),
+                        )
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          'CCI ',
+                          style: TextStyle(
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(grayText),
+                            fontSize: 12,
+                          ),
+                        ),
+                        Text(
+                          '003 200 00300407757039',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(grayText),
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        ImageIcon(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(grayText),
+                          size: 18,
+                          const AssetImage(
+                            'assets/icons/double_square.png',
+                          ),
+                        )
+                      ],
                     ),
                   ],
                 ),
               ),
             ),
-            const SizedBox(
-              height: 10,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 305,
+            // alignment: Alignment.centerLeft,
+            child: Text(
+              'Adjunta tu constancia de transferencia: ',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontSize: 14,
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
+              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  width: 21,
-                  height: 21,
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(5),
-                        topRight: Radius.circular(5),
-                        bottomLeft: Radius.circular(5),
-                        bottomRight: Radius.circular(5),
+          ),
+          const SizedBox(
+            height: 12,
+          ),
+          Container(
+            width: 320,
+            height: 73,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(21),
+                topRight: Radius.circular(21),
+                bottomLeft: Radius.circular(21),
+                bottomRight: Radius.circular(21),
+              ),
+              color: const Color(primaryLightAlternative),
+              border: Border.all(
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryLightAlternative),
+                width: 1,
+              ),
+            ),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: Container(
+                      alignment: Alignment.topRight,
+                      child: InkWell(
+                        onTap: () {
+                          origenPlan(context);
+                        },
+                        child: ImageIcon(
+                          const AssetImage('assets/icons/questions.png'),
+                          size: 20, // Tamaño de la imagen
+                          color: currentTheme.isDarkMode
+                              ? const Color(grayText)
+                              : const Color(primaryDark), // Color de la imagen
+                        ),
                       ),
-                      border: Border.all(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      )),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  'He leido y acepto el ',
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                    ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/pdf_page');
-                  },
-                  child: Text(
-                    ' Contrato de Inversion de Finniu ',
+                  const SizedBox(width: 8),
+                  ImageIcon(
+                    const AssetImage('assets/icons/photo.png'),
+                    color: currentTheme.isDarkMode
+                        ? const Color(grayText)
+                        : const Color(primaryDark),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Suba la foto nitida donde sea visible el código de operación',
                     style: TextStyle(
+                      color: currentTheme.isDarkMode
+                          ? const Color(grayText)
+                          : const Color(primaryDark),
+                      fontSize: 8,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 21,
+                height: 21,
+                decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(5),
+                      topRight: Radius.circular(5),
+                      bottomLeft: Radius.circular(5),
+                      bottomRight: Radius.circular(5),
+                    ),
+                    border: Border.all(
                       color: currentTheme.isDarkMode
                           ? const Color(primaryLight)
                           : const Color(primaryDark),
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              width: 224,
-              height: 50,
-              child: TextButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/investment_step3');
-                },
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all<double>(2),
-                  shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
-                ),
-                child: const Text(
-                  'Finalizar mi proceso',
+                    )),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                'He leido y acepto el ',
+                style: TextStyle(
+                  fontSize: 10,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
                 ),
               ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/pdf_page');
+                },
+                child: Text(
+                  ' Contrato de Inversion de Finniu ',
+                  style: TextStyle(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    fontSize: 12,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 224,
+            height: 50,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/investment_step3');
+              },
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all<double>(2),
+                shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+              ),
+              child: const Text(
+                'Finalizar mi proceso',
+              ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

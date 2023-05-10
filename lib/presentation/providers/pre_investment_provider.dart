@@ -1,10 +1,11 @@
 import 'package:finniu/domain/entities/pre_investment.dart';
+import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_repository_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final preInvestmentSave =
-    FutureProvider.family<PreInvestmentEntity, PreInvestmentEntity>(
+final preInvestmentSaveProvider =
+    FutureProvider.family<PreInvestmentEntity, PreInvestmentForm>(
         (ref, preInvestmentEntity) async {
   try {
     final preInvestmentRepository = ref.read(preInvestmentRepositoryProvider);

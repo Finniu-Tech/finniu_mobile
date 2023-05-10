@@ -24,36 +24,36 @@ import 'dart:convert';
 //     };
 // }
 
+// class PreInvestmentSaveResponse {
+//   SavePreInvestment? savePreInvestment;
+
+//   PreInvestmentSaveResponse({
+//     this.savePreInvestment,
+//   });
+
+//   factory PreInvestmentSaveResponse.fromJson(Map<String, dynamic> json) =>
+//       PreInvestmentSaveResponse(
+//         savePreInvestment: json["savePreInvestment"] == null
+//             ? null
+//             : SavePreInvestment.fromJson(json["savePreInvestment"]),
+//       );
+
+//   Map<String, dynamic> toJson() => {
+//         "savePreInvestment": savePreInvestment?.toJson(),
+//       };
+// }
+
 class PreInvestmentSaveResponse {
-  SavePreInvestment? savePreInvestment;
-
-  PreInvestmentSaveResponse({
-    this.savePreInvestment,
-  });
-
-  factory PreInvestmentSaveResponse.fromJson(Map<String, dynamic> json) =>
-      PreInvestmentSaveResponse(
-        savePreInvestment: json["savePreInvestment"] == null
-            ? null
-            : SavePreInvestment.fromJson(json["savePreInvestment"]),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "savePreInvestment": savePreInvestment?.toJson(),
-      };
-}
-
-class SavePreInvestment {
   bool? success;
   String? preInvestmentUuid;
 
-  SavePreInvestment({
+  PreInvestmentSaveResponse({
     this.success,
     this.preInvestmentUuid,
   });
 
-  factory SavePreInvestment.fromJson(Map<String, dynamic> json) =>
-      SavePreInvestment(
+  factory PreInvestmentSaveResponse.fromJson(Map<String, dynamic> json) =>
+      PreInvestmentSaveResponse(
         success: json["success"],
         preInvestmentUuid: json["preInvestmentUuid"],
       );

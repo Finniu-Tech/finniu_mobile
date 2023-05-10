@@ -21,21 +21,24 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
         ),
         variables: {
           'amount': amount,
-          'bank_account_number': bankAccountNumber,
-          'bank_account_type_uuid': bankAccountTypeUuid,
-          'deadline_uuid': deadLineUuid,
-          'plan_uuid': planUuid,
+          'bankAccount': bankAccountNumber,
+          'uuidBank': bankAccountTypeUuid,
+          'uuidDeadline': deadLineUuid,
+          'uuidPlan': planUuid,
         },
       ),
     );
-
+    print('resposne data');
+    print(response);
     final responseGraphQL = response.data?['savePreInvestment'];
+    print('responseGraphQL');
+    print(responseGraphQL);
 
     final preInvestmentResponse =
         PreInvestmentSaveResponse.fromJson(responseGraphQL);
 
     return PreInvestmentEntity(
-      uuid: preInvestmentResponse.savePreInvestment!.preInvestmentUuid!,
+      uuid: preInvestmentResponse.preInvestmentUuid!,
       amount: amount,
       bankAccountNumber: bankAccountNumber,
       bankAccountTypeUuid: bankAccountTypeUuid,

@@ -12,4 +12,8 @@ class DeadLineEntity {
     required this.value,
     required this.description,
   });
+
+  static String getUuidByName(String name, List<DeadLineEntity> deadLines) {
+    return deadLines.firstWhere((element) => element.name == name).uuid;
+  }
 }

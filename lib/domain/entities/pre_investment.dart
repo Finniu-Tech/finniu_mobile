@@ -5,6 +5,7 @@ class PreInvestmentEntity {
   String bankAccountTypeUuid;
   String deadLineUuid;
   String planUuid;
+  String? coupon;
 
   PreInvestmentEntity({
     required this.uuid,
@@ -13,6 +14,7 @@ class PreInvestmentEntity {
     required this.bankAccountTypeUuid,
     required this.deadLineUuid,
     required this.planUuid,
+    this.coupon,
   });
 
   PreInvestmentEntity copyWith({
@@ -22,6 +24,7 @@ class PreInvestmentEntity {
     String? bankAccountTypeUuid,
     String? deadLineUuid,
     String? planUuid,
+    String? coupon,
   }) {
     return PreInvestmentEntity(
       uuid: uuid ?? this.uuid,
@@ -30,6 +33,7 @@ class PreInvestmentEntity {
       bankAccountTypeUuid: bankAccountTypeUuid ?? this.bankAccountTypeUuid,
       deadLineUuid: deadLineUuid ?? this.deadLineUuid,
       planUuid: planUuid ?? this.planUuid,
+      coupon: coupon ?? this.coupon,
     );
   }
 }
