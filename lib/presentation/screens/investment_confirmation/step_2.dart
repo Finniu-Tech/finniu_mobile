@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
@@ -8,10 +10,14 @@ import 'package:finniu/presentation/screens/calculator/result_calculator_screen.
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/checkbox.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PreInvestmentStep2Arguments {
   final PlanEntity plan;
@@ -52,7 +58,7 @@ class Step2 extends ConsumerWidget {
   }
 }
 
-class Step2Body extends StatelessWidget {
+class Step2Body extends HookConsumerWidget {
   final SettingsProviderState currentTheme;
   final PlanEntity plan;
   final PreInvestmentEntity preInvestment;
@@ -67,7 +73,10 @@ class Step2Body extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ImagePicker voucherImage = ImagePicker();
+    // final ValueNotifier<String> voucherPreview;
+    final voucherPreview = useState('');
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -348,13 +357,30 @@ class Step2Body extends StatelessWidget {
                         const SizedBox(
                           width: 5,
                         ),
-                        ImageIcon(
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(grayText),
-                          size: 18,
-                          const AssetImage(
-                            'assets/icons/double_square.png',
+                        InkWell(
+                          onTap: () {
+                            Clipboard.setData(
+                                    new ClipboardData(text: "2003004077570"))
+                                .then((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Copiado!'),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                          child: ImageIcon(
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(grayText),
+                            size: 18,
+                            const AssetImage(
+                              'assets/icons/double_square.png',
+                            ),
                           ),
                         )
                       ],
@@ -386,13 +412,30 @@ class Step2Body extends StatelessWidget {
                         const SizedBox(
                           width: 5,
                         ),
-                        ImageIcon(
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(grayText),
-                          size: 18,
-                          const AssetImage(
-                            'assets/icons/double_square.png',
+                        InkWell(
+                          onTap: () {
+                            Clipboard.setData(new ClipboardData(
+                                    text: "003 200 00300407757039"))
+                                .then((_) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Copiado!'),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                ),
+                              );
+                            });
+                          },
+                          child: ImageIcon(
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(grayText),
+                            size: 18,
+                            const AssetImage(
+                              'assets/icons/double_square.png',
+                            ),
                           ),
                         )
                       ],
@@ -451,7 +494,7 @@ class Step2Body extends StatelessWidget {
                       alignment: Alignment.topRight,
                       child: InkWell(
                         onTap: () {
-                          origenPlan(context);
+                          photoHelp(context);
                         },
                         child: ImageIcon(
                           const AssetImage('assets/icons/questions.png'),
@@ -464,11 +507,29 @@ class Step2Body extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  ImageIcon(
-                    const AssetImage('assets/icons/photo.png'),
-                    color: currentTheme.isDarkMode
-                        ? const Color(grayText)
-                        : const Color(primaryDark),
+                  InkWell(
+                    onTap: () async {
+                      Future<XFile?> ximage =
+                          voucherImage.pickImage(source: ImageSource.gallery);
+                      voucherPreview.value =
+                          await ximage.then((value) => value!.path);
+                      print('image value is ${voucherPreview.value}');
+                    },
+                    child: voucherPreview.value == ''
+                        ? ImageIcon(
+                            const AssetImage('assets/icons/photo.png'),
+                            color: currentTheme.isDarkMode
+                                ? const Color(grayText)
+                                : const Color(primaryDark),
+                          )
+                        : SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: Image.file(
+                              File(voucherPreview.value),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                   ),
                   const SizedBox(width: 8),
                   Text(
@@ -491,29 +552,7 @@ class Step2Body extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 21,
-                height: 21,
-                decoration: BoxDecoration(
-                    color: Colors.transparent,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(5),
-                      topRight: Radius.circular(5),
-                      bottomLeft: Radius.circular(5),
-                      bottomRight: Radius.circular(5),
-                    ),
-                    border: Border.all(
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                    )),
-              ),
-              const SizedBox(
-                height: 40,
-              ),
-              const SizedBox(
-                width: 10,
-              ),
+              SizedBox(width: 25, child: const CustomCheckBox()),
               Text(
                 'He leido y acepto el ',
                 style: TextStyle(
@@ -559,6 +598,7 @@ class Step2Body extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -616,13 +656,14 @@ class CircularCountdown extends ConsumerWidget {
                 Text(
                   'S/${resultCalculator.months}',
                   style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(
-                              primaryDark,
-                            )),
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.bold,
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(
+                            primaryDark,
+                          ),
+                  ),
                 ),
               ],
             ),
@@ -633,7 +674,7 @@ class CircularCountdown extends ConsumerWidget {
   }
 }
 
-void origenPlan(
+void photoHelp(
   BuildContext ctx,
 ) {
   showModalBottomSheet(
@@ -646,12 +687,12 @@ void origenPlan(
     ),
     elevation: 11,
     context: ctx,
-    builder: (ctx) => const OrigenPlan(),
+    builder: (ctx) => const PhotoHelp(),
   );
 }
 
-class OrigenPlan extends ConsumerWidget {
-  const OrigenPlan({key});
+class PhotoHelp extends ConsumerWidget {
+  const PhotoHelp({key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
