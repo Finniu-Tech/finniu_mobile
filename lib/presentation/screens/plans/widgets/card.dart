@@ -525,13 +525,13 @@ class CardCustom extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 40),
                       child: Row(
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             "•",
                             style: TextStyle(color: Color(blackText)),
                           ),
-                          const SizedBox(width: 5),
-                          const Text(
+                          SizedBox(width: 5),
+                          Text(
                             'Diversificación de la cadena de suministros',
                             style:
                                 TextStyle(fontSize: 9, color: Color(blackText)),
@@ -542,13 +542,13 @@ class CardCustom extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(left: 40),
                       child: Row(
-                        children: [
-                          const Text(
+                        children: const [
+                          Text(
                             "•",
                             style: TextStyle(color: Color(blackText)),
                           ),
-                          const SizedBox(width: 5),
-                          const Text(
+                          SizedBox(width: 5),
+                          Text(
                             'Investigación y desarrollo de tecnología agrícola',
                             style:
                                 TextStyle(fontSize: 9, color: Color(blackText)),

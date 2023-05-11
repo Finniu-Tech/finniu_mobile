@@ -406,15 +406,15 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           width: 0.2,
                           color: Color(primaryDark),
                         ),
-                        primary: Color(primaryLight),
+                        primary: const Color(primaryLight),
                         shape: new RoundedRectangleBorder(
                             borderRadius: new BorderRadius.only(
-                          topRight: Radius.circular(25),
-                          bottomRight: Radius.circular(25),
+                          topRight: const Radius.circular(25),
+                          bottomRight: const Radius.circular(25),
                         )),
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
                         child: Text(
                           "Aplicarlo",
                           style: TextStyle(
@@ -501,15 +501,21 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '${widget.plan.sixMonthsReturn}%',
+                          '${(() {
+                            if (widget.resultCalculator?.months == 6) {
+                              return widget.plan.sixMonthsReturn;
+                            } else {
+                              return widget.plan.twelveMonthsReturn;
+                            }
+                          })()}%',
                           textAlign: TextAlign.right,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(primaryDark),
                           ),
                         ),
-                        Text(
+                        const Text(
                           '% de retorno',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -543,14 +549,14 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         Text(
                           'S/${widget.profitability}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(primaryDark),
                           ),
                         ),
                         Text(
-                          'En 6 meses tendrias',
+                          'En ${widget.resultCalculator?.months} meses tendrías',
                           textAlign: TextAlign.right,
                           style: TextStyle(
                             fontSize: 10,

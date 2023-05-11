@@ -5,8 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
+import '../../../../domain/entities/calculate_investment.dart';
+
 class CircularImage extends ConsumerWidget {
-  const CircularImage({Key? key}) : super(key: key);
+  final int months;
+  const CircularImage({required this.months, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
@@ -39,7 +42,7 @@ class CircularImage extends ConsumerWidget {
               ),
               SizedBox(height: 8),
               Text(
-                "6 meses",
+                '$months%',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 12,
