@@ -426,7 +426,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       final inputCalculator = CalculatorInput(
                         amount: int.parse(widget.mountController.text),
                         months: int.parse(
-                            widget.deadLineController.text.split(' ')[0]),
+                          widget.deadLineController.text.split(' ')[0],
+                        ),
                         coupon: widget.couponController.text,
                       );
 

@@ -11,6 +11,7 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
     required GraphQLClient client,
     required int amount,
     required int months,
+    String? coupon,
   }) async {
     print('vars!!!');
     print(amount);
@@ -23,6 +24,7 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
         variables: {
           'amount': amount,
           'deadline': months,
+          'coupon': coupon,
         },
       ),
     );

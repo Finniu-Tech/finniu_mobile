@@ -17,6 +17,7 @@ final calculateInvestmentFutureProvider = FutureProvider.autoDispose
       client: client!,
       amount: calculatorInput.amount,
       months: calculatorInput.months,
+      coupon: calculatorInput.coupon,
     );
     return result;
   } catch (e, stack) {
