@@ -14,6 +14,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -399,58 +400,71 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   padding: const EdgeInsets.all(1),
                   // padding: const EdgeInsets.only(right: 10, left: 10),
                   child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      // minimumSize: Size(80, 30),
-                      side: const BorderSide(
-                        width: 0.2,
-                        color: Color(primaryDark),
-                      ),
-                      primary: Color(primaryLight),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.only(
-                        topRight: Radius.circular(25),
-                        bottomRight: Radius.circular(25),
-                      )),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        "Aplicarlo",
-                        style: TextStyle(
+                      style: ElevatedButton.styleFrom(
+                        // minimumSize: Size(80, 30),
+                        side: const BorderSide(
+                          width: 0.2,
                           color: Color(primaryDark),
                         ),
+                        primary: Color(primaryLight),
+                        shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
+                        )),
                       ),
-                    ),
-                    onPressed: () async {
-                      context.loaderOverlay.show();
-                      final inputCalculator = CalculatorInput(
-                        amount: int.parse(widget.mountController.text),
-                        months: int.parse(
-                            widget.deadLineController.text.split(' ')[0]),
-                        coupon: widget.couponController.text,
-                      );
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Aplicarlo",
+                          style: TextStyle(
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                      ),
+                      onPressed: () async {
+                        context.loaderOverlay.show();
+                        final inputCalculator = CalculatorInput(
+                          amount: int.parse(widget.mountController.text),
+                          months: int.parse(
+                              widget.deadLineController.text.split(' ')[0]),
+                          coupon: widget.couponController.text,
+                        );
 
-                      final resultCalculator = await ref.watch(
-                        calculateInvestmentFutureProvider(
-                          inputCalculator,
-                        ).future,
-                      );
+                        final resultCalculator = await ref.watch(
+                          calculateInvestmentFutureProvider(
+                            inputCalculator,
+                          ).future,
+                        );
 
-                      setState(() {
+                        setState(() {
+                          if (resultCalculator!.plan != null) {
+                            widget.plan = resultCalculator!.plan!;
+                            widget.profitability =
+                                resultCalculator!.profitability;
+                            widget.showInvestmentBoxes = true;
+                            widget.resultCalculator = resultCalculator;
+                          }
+                        });
+                        print('results Provider!!');
+                        print(resultCalculator);
+
+                        context.loaderOverlay.hide();
+
                         if (resultCalculator!.plan != null) {
-                          widget.plan = resultCalculator!.plan!;
-                          widget.profitability =
-                              resultCalculator!.profitability;
-                          widget.showInvestmentBoxes = true;
-                          widget.resultCalculator = resultCalculator;
+                          CustomSnackbar.show(
+                            context,
+                            'Exitoso',
+                            'success',
+                          );
+                        } else {
+                          CustomSnackbar.show(
+                            context,
+                            'Código inválido',
+                            'error',
+                          );
                         }
-                      });
-                      print('results Provider!!');
-                      print(resultCalculator);
-
-                      context.loaderOverlay.hide();
-                    },
-                  ),
+                      }),
                 ),
                 hintText: 'Ingresa tu codigo',
                 hintStyle: TextStyle(color: Color(grayText), fontSize: 11),

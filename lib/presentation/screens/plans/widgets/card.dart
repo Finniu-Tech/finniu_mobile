@@ -739,7 +739,7 @@ class InitialCardBody extends ConsumerWidget {
           )),
           Container(
             height: 32,
-            width: 152,
+            width: 132,
             alignment: Alignment.center,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(50),
@@ -764,11 +764,13 @@ class InitialCardBody extends ConsumerWidget {
                   },
                 );
               },
-              child: const Text(
+              child: Text(
                 "Comenzar a invertir",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(whiteText),
                   fontSize: 12.0,
                 ),
               ),

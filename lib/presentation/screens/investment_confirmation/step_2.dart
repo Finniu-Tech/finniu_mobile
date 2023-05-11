@@ -130,7 +130,8 @@ class Step2Body extends StatelessWidget {
                               Center(
                                 child: Text(
                                   textAlign: TextAlign.left,
-                                  '${resultCalculator.months}%',
+                                  // '${resultCalculator.months}%',
+                                  '${plan.sixMonthsReturn}%',
                                   style: TextStyle(
                                     color: currentTheme.isDarkMode
                                         ? const Color(primaryDark)
@@ -177,17 +178,17 @@ class Step2Body extends StatelessWidget {
                         ]),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
-                          'S/550',
+                          'S/${preInvestment.amount}',
                           textAlign: TextAlign.right,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(primaryDark),
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Tu monto invertido',
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -216,17 +217,17 @@ class Step2Body extends StatelessWidget {
                         ]),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
+                      children: [
                         Text(
-                          'S/583',
+                          'S/${resultCalculator.profitability}',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
                             color: Color(primaryDark),
                           ),
                         ),
-                        Text(
+                        const Text(
                           'Monto que recibiras',
                           textAlign: TextAlign.right,
                           style: TextStyle(
@@ -352,7 +353,7 @@ class Step2Body extends StatelessWidget {
                               ? const Color(primaryLight)
                               : const Color(grayText),
                           size: 18,
-                          AssetImage(
+                          const AssetImage(
                             'assets/icons/double_square.png',
                           ),
                         )
@@ -565,10 +566,16 @@ class Step2Body extends StatelessWidget {
 }
 
 class CircularCountdown extends ConsumerWidget {
-  const CircularCountdown({super.key});
+  final PlanSimulation resultCalculator;
+  const CircularCountdown({
+    Key? key,
+    required this.resultCalculator,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+
     return SizedBox(
       // alignment: Alignment.centerLeft,
       width: 125.41,
@@ -607,7 +614,7 @@ class CircularCountdown extends ConsumerWidget {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  '6 meses',
+                  'S/${resultCalculator.months}',
                   style: TextStyle(
                       fontSize: 14.0,
                       fontWeight: FontWeight.bold,

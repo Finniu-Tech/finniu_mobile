@@ -2,10 +2,16 @@ import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../constants/themes.dart';
+
 class CustomSnackbar {
-  static void show(BuildContext context, String message, String type) {
+  static void show(BuildContext context, String message, String type,
+      {bool isDarkMode = false}) {
+    final currentTheme =
+        isDarkMode ? AppTheme().darkTheme : AppTheme().lightTheme;
+
     final snackBar = SnackBar(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color(whiteText),
       elevation: 0,
       content: Container(
         alignment: Alignment.center,
