@@ -5,7 +5,7 @@ abstract class PreInvestmentRepository {
   Future<PreInvestmentEntity> save({
     required GraphQLClient client,
     required int amount,
-    required String bankAccountNumber,
+    // required String bankAccountNumber,
     required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,

@@ -9,7 +9,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
   Future<PreInvestmentEntity> save({
     required GraphQLClient client,
     required int amount,
-    required String bankAccountNumber,
+    // required String bankAccountNumber,
     required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
@@ -21,7 +21,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
         ),
         variables: {
           'amount': amount,
-          'bankAccount': bankAccountNumber,
+          // 'bankAccount': bankAccountNumber,
           'uuidBank': bankAccountTypeUuid,
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
@@ -40,7 +40,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     return PreInvestmentEntity(
       uuid: preInvestmentResponse.preInvestmentUuid!,
       amount: amount,
-      bankAccountNumber: bankAccountNumber,
+      // bankAccountNumber: bankAccountNumber,
       bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,

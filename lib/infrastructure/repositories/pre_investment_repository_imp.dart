@@ -14,7 +14,7 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
   Future<PreInvestmentEntity> save({
     required GraphQLClient client,
     required int amount,
-    required String bankAccountNumber,
+    // required String bankAccountNumber,
     required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
@@ -22,7 +22,7 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
     return await dataSource.save(
       client: client,
       amount: amount,
-      bankAccountNumber: bankAccountNumber,
+      // bankAccountNumber: bankAccountNumber,
       bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,

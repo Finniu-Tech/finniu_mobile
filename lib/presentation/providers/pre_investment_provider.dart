@@ -13,7 +13,7 @@ final preInvestmentSaveProvider =
     final result = await preInvestmentRepository.save(
       client: client!,
       amount: preInvestmentEntity.amount,
-      bankAccountNumber: preInvestmentEntity.bankAccountNumber,
+      // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
       bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
       deadLineUuid: preInvestmentEntity.deadLineUuid,
       planUuid: preInvestmentEntity.planUuid,

@@ -55,7 +55,7 @@ class Step1 extends HookConsumerWidget {
                 deadLineController: deadLineController,
                 bankTypeController: bankController,
                 couponController: couponController,
-                bankNumberController: bankNumberController,
+                // bankNumberController: bankNumberController,
                 plan: plans.firstWhere((element) => element.uuid == uuidPlan),
               );
             },
@@ -86,7 +86,7 @@ class Step1Body extends StatefulHookConsumerWidget {
     required this.deadLineController,
     required this.bankTypeController,
     required this.couponController,
-    required this.bankNumberController,
+    // required this.bankNumberController,
     required this.plan,
   }) : super(key: key);
 
@@ -94,7 +94,7 @@ class Step1Body extends StatefulHookConsumerWidget {
   final TextEditingController mountController;
   final TextEditingController deadLineController;
   final TextEditingController bankTypeController;
-  final TextEditingController bankNumberController;
+  // final TextEditingController bankNumberController;
   final TextEditingController couponController;
 
   PlanEntity plan;
@@ -270,7 +270,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             ),
           ),
           const SizedBox(
-            height: 15,
+            height: 10,
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -348,30 +348,28 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             hintText: "Seleccione su banco",
             width: MediaQuery.of(context).size.width * 0.8,
           ),
-          const SizedBox(
-            height: 15,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
-            child: TextFormField(
-              controller: widget.bankNumberController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Este dato es requerido';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                // nickNameController.text = value.toString();
-              },
-              decoration: const InputDecoration(
-                hintText: 'Escriba su número de cuenta',
-                hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
-                label: Text("Número de cuenta"),
-              ),
-            ),
-          ),
+
+          // Container(
+          //   width: MediaQuery.of(context).size.width * 0.8,
+          //   constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+          //   child: TextFormField(
+          //     controller: widget.bankNumberController,
+          //     validator: (value) {
+          //       if (value!.isEmpty) {
+          //         return 'Este dato es requerido';
+          //       }
+          //       return null;
+          //     },
+          //     onChanged: (value) {
+          //       // nickNameController.text = value.toString();
+          //     },
+          //     decoration: const InputDecoration(
+          //       hintText: 'Escriba su número de cuenta',
+          //       hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+          //       label: Text("Número de cuenta"),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
             height: 15,
           ),
@@ -602,7 +600,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   coupon: widget.couponController.text,
                   planUuid: widget.plan.uuid,
                   bankAccountTypeUuid: bankUuid,
-                  bankAccountNumber: widget.bankNumberController.text,
+                  // bankAccountNumber: widget.bankNumberController.text,
                 );
 
                 final preInvestmentEntity = await ref

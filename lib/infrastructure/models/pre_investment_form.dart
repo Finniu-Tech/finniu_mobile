@@ -1,6 +1,6 @@
 class PreInvestmentForm {
   int amount;
-  String bankAccountNumber;
+  // String bankAccountNumber;
   String bankAccountTypeUuid;
   String deadLineUuid;
   String planUuid;
@@ -8,7 +8,7 @@ class PreInvestmentForm {
 
   PreInvestmentForm({
     required this.amount,
-    required this.bankAccountNumber,
+    // required this.bankAccountNumber,
     required this.bankAccountTypeUuid,
     required this.deadLineUuid,
     required this.planUuid,
