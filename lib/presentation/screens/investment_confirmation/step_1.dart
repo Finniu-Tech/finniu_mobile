@@ -454,7 +454,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         if (resultCalculator!.plan != null) {
                           CustomSnackbar.show(
                             context,
-                            'Exitoso',
+                            'Cupón aplicado correctamente',
                             'success',
                           );
                         } else {
@@ -611,7 +611,10 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 'Continuar',
               ),
             ),
-          )
+          ),
+          SizedBox(
+            height: 40,
+          ),
         ],
       ),
     );
