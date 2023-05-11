@@ -207,7 +207,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Image(
+                        const Image(
                           image: AssetImage('assets/icons/dollar.png'),
                           width: 12,
                           height: 12,
@@ -218,7 +218,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         Text(
                           'Desde S/. ${widget.plan.minAmount.toString()}',
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(primaryDark),
                             fontSize: 10,
                             height: 1,
@@ -230,7 +230,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Image(
+                        const Image(
                           image: AssetImage('assets/icons/double_dollar.png'),
                           width: 21, // ancho deseado de la imagen
                           height: 21, // alto deseado de la imagen
@@ -242,7 +242,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           '${widget.plan.twelveMonthsReturn.toString()}% anual',
                           // plan.twelveMonthsReturn.toString(),
                           textAlign: TextAlign.left,
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Color(primaryDark),
                             fontSize: 10,
                             height: 1.5,
@@ -423,6 +423,15 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         ),
                       ),
                       onPressed: () async {
+                        if (widget.mountController.text.isEmpty ||
+                            widget.deadLineController.text.isEmpty) {
+                          CustomSnackbar.show(
+                            context,
+                            'Debes ingresar el monto y el plazo para aplicar el cupón',
+                            'error',
+                          );
+                          return; // Sale de la función para evitar que continúe el proceso
+                        }
                         context.loaderOverlay.show();
                         final inputCalculator = CalculatorInput(
                           amount: int.parse(widget.mountController.text),
@@ -467,8 +476,9 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       }),
                 ),
                 hintText: 'Ingresa tu codigo',
-                hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
-                border: OutlineInputBorder(
+                hintStyle:
+                    const TextStyle(color: Color(grayText), fontSize: 11),
+                border: const OutlineInputBorder(
                   borderRadius: BorderRadius.zero,
                 ),
                 label: Text("Ingresa tu codigo promocional,si tienes uno"),
@@ -558,7 +568,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         Text(
                           'En ${widget.resultCalculator?.months} meses tendrías',
                           textAlign: TextAlign.right,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 10,
                             color: Color(blackText),
                           ),
@@ -609,16 +619,31 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   ),
                 );
               },
-              style: ButtonStyle(
-                elevation: MaterialStateProperty.all<double>(2),
-                shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
-              ),
-              child: const Text(
-                'Continuar',
+              child: TextButton(
+                style: ButtonStyle(
+                  elevation: MaterialStateProperty.all<double>(2),
+                  shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                ),
+                onPressed: () {
+                  // Tu código aquí
+                  if (widget.mountController.text.isEmpty ||
+                      widget.deadLineController.text.isEmpty ||
+                      widget.bankTypeController.text.isEmpty) {
+                    CustomSnackbar.show(
+                      context,
+                      'Asegurate de haber completado los campos anteriores',
+                      'error',
+                    );
+                    return; // Sale de la función para evitar que continúe el proceso
+                  }
+                },
+                child: const Text(
+                  'Continuar',
+                ),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
         ],
