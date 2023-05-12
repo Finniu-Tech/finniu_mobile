@@ -586,6 +586,15 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             height: 50,
             child: TextButton(
               onPressed: () async {
+                if (widget.mountController.text.isEmpty ||
+                    widget.deadLineController.text.isEmpty) {
+                  CustomSnackbar.show(
+                    context,
+                    'Hubo un problema, asegúrate de haber completado los campos anteriores',
+                    'error',
+                  );
+                  return; // Sale de la función para evitar que continúe el proceso
+                }
                 final deadLineUuid = DeadLineEntity.getUuidByName(
                     widget.deadLineController.text, await deadLineFuture);
                 print('dead line uuid');
@@ -617,30 +626,12 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   ),
                 );
               },
-              child: TextButton(
-                style: ButtonStyle(
-                  elevation: MaterialStateProperty.all<double>(2),
-                  shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
-                ),
-                onPressed: () {
-                  // Tu código aquí
-                  if (widget.mountController.text.isEmpty ||
-                      widget.deadLineController.text.isEmpty ||
-                      widget.bankTypeController.text.isEmpty) {
-                    CustomSnackbar.show(
-                      context,
-                      'Asegurate de haber completado los campos anteriores',
-                      'error',
-                    );
-                    return; // Sale de la función para evitar que continúe el proceso
-                  }
-                },
-                child: const Text(
-                  'Continuar',
-                ),
+              child: const Text(
+                'Continuar',
               ),
             ),
           ),
+
           const SizedBox(
             height: 40,
           ),
