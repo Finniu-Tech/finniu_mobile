@@ -16,14 +16,15 @@ class TransfersScreen extends ConsumerWidget {
         body: SingleChildScrollView(
             child: Center(
       child: ConstrainedBox(
-        constraints: BoxConstraints(
+        constraints: const BoxConstraints(
             maxWidth: 700, minWidth: 400, maxHeight: 1000, minHeight: 825),
         child: Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Image.asset(
@@ -32,30 +33,33 @@ class TransfersScreen extends ConsumerWidget {
                     height: 90,
                   ),
                   // SizedBox(width: 10),
-                  Text(
-                    "Mis Transferencias",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Mis Transferencias",
+                      style: TextStyle(
+                        fontSize: 24,
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Container(
-                    child: Column(
+                child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        IconContainer(
+                        const IconContainer(
                           image: 'assets/transfers/wallet.png',
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         Text('Mis últimas transferencias',
@@ -68,7 +72,7 @@ class TransfersScreen extends ConsumerWidget {
                       ],
                     ),
                   ],
-                )),
+                ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -84,7 +88,7 @@ class TransfersScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
@@ -98,10 +102,10 @@ class TransfersScreen extends ConsumerWidget {
                           : const Color(blackText)),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              TransferenceList(),
+              const TransferenceList(),
               // EmptyTransference(),
             ])),
       ),
@@ -143,7 +147,7 @@ class TransferenceList extends ConsumerWidget {
                   throw 'No se pudo abrir la URL: $url';
                 }
               },
-              child: Image(
+              child: const Image(
                 image: AssetImage('assets/transfers/wallet_change.png'),
                 width: 24,
                 height: 24,
@@ -153,8 +157,8 @@ class TransferenceList extends ConsumerWidget {
           Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   'Transferencia de Plan Origen',
                   style: TextStyle(
                     fontSize: 12,
@@ -190,7 +194,7 @@ class EmptyTransference extends ConsumerWidget {
       alignment: Alignment.bottomLeft,
       // height: 270,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/transferences.png'),
           fit: BoxFit.contain,
@@ -199,8 +203,8 @@ class EmptyTransference extends ConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 150),
-          Container(
+          const SizedBox(height: 150),
+          const SizedBox(
             width: 210,
             child: Text(
               'Aún no tienes transferencias realizadas',
@@ -212,7 +216,7 @@ class EmptyTransference extends ConsumerWidget {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 210,
           ),
           Column(
@@ -229,7 +233,7 @@ class EmptyTransference extends ConsumerWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           CustomButton(

@@ -29,7 +29,8 @@ class CalendarState extends ConsumerState<Calendar> {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return CustomScaffoldReturnLogo(
-      body: Center(
+        body: SingleChildScrollView(
+      child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -55,7 +56,7 @@ class CalendarState extends ConsumerState<Calendar> {
                 padding: const EdgeInsets.all(20.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.95,
-                  height: 400,
+                  height: 313,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(25),
                     color: currentTheme.isDarkMode
@@ -293,6 +294,6 @@ class CalendarState extends ConsumerState<Calendar> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

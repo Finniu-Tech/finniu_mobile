@@ -360,6 +360,9 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ),
+              SizedBox(
+                height: 60,
+              )
             ],
           ),
         ),
