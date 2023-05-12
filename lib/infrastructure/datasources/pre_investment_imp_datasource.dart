@@ -14,6 +14,14 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required String deadLineUuid,
     required String planUuid,
   }) async {
+    print('amount');
+    print(amount);
+    print('bankAccountTypeUuid');
+    print(bankAccountTypeUuid);
+    print('deadLineUuid');
+    print(deadLineUuid);
+    print('planUuid');
+    print(planUuid);
     final response = await client.mutate(
       MutationOptions(
         document: gql(
