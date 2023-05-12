@@ -20,7 +20,7 @@ class PreInvestmentEntity {
   PreInvestmentEntity copyWith({
     String? uuid,
     int? amount,
-    String? bankAccountNumber,
+    // String? bankAccountNumber,
     String? bankAccountTypeUuid,
     String? deadLineUuid,
     String? planUuid,
