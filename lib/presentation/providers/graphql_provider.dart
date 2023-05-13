@@ -5,7 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final gqlClientProvider = FutureProvider<GraphQLClient>(
   (ref) async {
     final HttpLink httpLink = HttpLink(
-      'https://finniu.com/api/v1/graph/finniu/',
+      'https://www.finniu.com/api/v1/graph/finniu/',
     );
 
     final authLink = AuthLink(getToken: () async {
