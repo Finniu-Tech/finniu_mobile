@@ -611,11 +611,13 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   bankAccountTypeUuid: bankUuid,
                   // bankAccountNumber: widget.bankNumberController.text,
                 );
-
+                context.loaderOverlay.show();
                 final preInvestmentEntity = await ref
                     .watch(preInvestmentSaveProvider(preInvestment).future);
                 print('pre investment entity');
                 print(widget.resultCalculator);
+
+                context.loaderOverlay.hide();
                 Navigator.pushNamed(
                   context,
                   '/investment_step2',
