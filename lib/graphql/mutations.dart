@@ -196,4 +196,19 @@ class MutationRepository {
       }
     ''';
   }
+
+  static String updatePreInvestment() {
+    return '''
+      mutation updatePreinvestment(\$uuid: String!, \$readContract:Boolean!, \$boucher: String){
+        updatePreinvestment(
+          preInvestmentUuid: \$uuid,
+          userReadContract: \$readContract,
+          boucherTransaction: \$boucher
+        ){
+          success
+          preInvestmentUuid
+        }
+      }
+    ''';
+  }
 }

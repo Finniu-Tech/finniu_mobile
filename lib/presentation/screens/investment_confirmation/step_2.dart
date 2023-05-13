@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
@@ -6,6 +7,7 @@ import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
+import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
@@ -14,6 +16,7 @@ import 'package:finniu/presentation/screens/investment_confirmation/widgets/imag
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/checkbox.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -77,6 +80,7 @@ class Step2Body extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ImagePicker voucherImage = ImagePicker();
+    final voucherImageBase64 = useState('');
     // final ValueNotifier<String> voucherPreview;
     final voucherPreview = useState('');
     return SingleChildScrollView(
@@ -516,6 +520,12 @@ class Step2Body extends HookConsumerWidget {
                       voucherPreview.value =
                           await ximage.then((value) => value!.path);
                       print('image value is ${voucherPreview.value}');
+                      final File imageFile = File(voucherPreview.value);
+                      final List<int> imageBytes =
+                          await imageFile.readAsBytes();
+                      final _base64Image = base64Encode(imageBytes);
+                      print('base64Image is $_base64Image');
+                      voucherImageBase64.value = _base64Image;
                     },
                     child: voucherPreview.value == ''
                         ? ImageIcon(
@@ -595,8 +605,22 @@ class Step2Body extends HookConsumerWidget {
             width: 224,
             height: 50,
             child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/investment_step3');
+              onPressed: () async {
+                final base64Image = voucherImageBase64.value;
+                print('base64Image is $base64Image');
+                final status = PreInvestmentDataSourceImp().update(
+                  client: ref.watch(gqlClientProvider).value!,
+                  uuid: preInvestment.uuid,
+                  readContract: true,
+                  boucherScreenShot: base64Image,
+                );
+                if (status == true) {
+                  print('status is $status');
+                  Navigator.pushNamed(context, '/investment_step3');
+                } else {
+                  CustomSnackbar.show(context,
+                      'Error al actualizar finalizar inversión', 'error');
+                }
               },
               style: ButtonStyle(
                 elevation: MaterialStateProperty.all<double>(2),

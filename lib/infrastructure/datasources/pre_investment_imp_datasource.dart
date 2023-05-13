@@ -53,14 +53,29 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
     );
+  }
 
-    // return PreInvestmentEntity(
-    //   uuid: 'uuid',
-    //   amount: amount,
-    //   bankAccountNumber: bankAccountNumber,
-    //   bankAccountTypeUuid: bankAccountTypeUuid,
-    //   deadLineUuid: deadLineUuid,
-    //   planUuid: planUuid,
-    // );
+  @override
+  Future<bool> update({
+    required GraphQLClient client,
+    required String uuid,
+    required bool readContract,
+    required String boucherScreenShot,
+  }) async {
+    final response = await client.mutate(
+      MutationOptions(
+        document: gql(
+          MutationRepository.updatePreInvestment(),
+        ),
+        variables: {
+          'uuid': uuid,
+          'readContract': readContract,
+          'boucher': boucherScreenShot,
+        },
+      ),
+    );
+    print('resposne data');
+    print(response);
+    return response.data?['updatePreInvestment']['success'];
   }
 }

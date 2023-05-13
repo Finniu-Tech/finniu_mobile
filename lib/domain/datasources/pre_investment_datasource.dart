@@ -10,4 +10,11 @@ abstract class PreInvestmentDataSource {
     required String deadLineUuid,
     required String planUuid,
   });
+
+  Future<bool> update({
+    required GraphQLClient client,
+    required String uuid,
+    required bool readContract,
+    required String boucherScreenShot,
+  });
 }
