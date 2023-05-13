@@ -5,6 +5,8 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
+import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
@@ -563,8 +565,15 @@ class Step2Body extends HookConsumerWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, '/pdf_page');
+                onTap: () async {
+                  String contractURL = await ContractDataSourceImp()
+                      .getContract(
+                          uuid: preInvestment.uuid,
+                          client: ref.watch(gqlClientProvider).value!);
+                  print('contract url is $contractURL');
+                  Navigator.pushNamed(context, '/contract_view', arguments: {
+                    'contractURL': contractURL,
+                  });
                 },
                 child: Text(
                   ' Contrato de Inversion de Finniu ',

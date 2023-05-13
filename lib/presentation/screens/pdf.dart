@@ -2,23 +2,23 @@ import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-void main() {
-  runApp(
-    const MaterialApp(
-      title: 'Syncfusion PDF Viewer Demo',
-      home: PdfPage(),
-    ),
-  );
-}
+// void main() {
+//   runApp(
+//     const MaterialApp(
+//       title: 'Syncfusion PDF Viewer Demo',
+//       home: ContractViewPDF(),
+//     ),
+//   );
+// }
 
-class PdfPage extends StatefulWidget {
-  const PdfPage({super.key});
+class ContractViewPDF extends StatefulWidget {
+  const ContractViewPDF({super.key});
 
   @override
   _PdfPage createState() => _PdfPage();
 }
 
-class _PdfPage extends State<PdfPage> {
+class _PdfPage extends State<ContractViewPDF> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
 
   @override
@@ -28,6 +28,9 @@ class _PdfPage extends State<PdfPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+    print(args['contractURL']);
+    final String urlContract = args['contractURL'];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(backgroundColorDark),
@@ -37,7 +40,7 @@ class _PdfPage extends State<PdfPage> {
         actions: <Widget>[],
       ),
       body: SfPdfViewer.network(
-        'http://www.lineaverdemunicipal.com/Recursos-educacion-ambiental/Animales-Ecosistemas.pdf',
+        urlContract,
         key: _pdfViewerKey,
       ),
     );

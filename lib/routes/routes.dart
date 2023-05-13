@@ -63,7 +63,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/calculator_result': (BuildContext context) => const ResultCalculator(),
     '/finance': (BuildContext context) => const FinanceScreen(),
     '/finance_screen2': (BuildContext context) => Finance_Screen_2(),
-    '/pdf_page': (BuildContext context) => const PdfPage(),
+    '/contract_view': (BuildContext context) => const ContractViewPDF(),
     '/calendar_page': (BuildContext context) => Calendar(),
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
     '/process_investment': (BuildContext context) => InvestmentProcess(),

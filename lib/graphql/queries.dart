@@ -110,4 +110,14 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get contractUrl {
+    return '''
+      query getContract(\$uuid: String! ){
+        getContractPreinvestment(preInvestmentUuid: \$uuid){
+        contract
+        }
+      }
+    ''';
+  }
 }
