@@ -1,24 +1,23 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CustomCheckBox extends StatefulHookConsumerWidget {
-  final initialValueState;
-  final CallbackAction? callback;
-  const CustomCheckBox(
-      {super.key, required this.initialValueState, this.callback});
+class AcceptedTermCheckBox extends StatefulHookConsumerWidget {
+  const AcceptedTermCheckBox({
+    super.key,
+  });
 
   @override
-  ConsumerState<CustomCheckBox> createState() => _CustomCheckBoxState();
+  ConsumerState<AcceptedTermCheckBox> createState() => _CustomCheckBoxState();
 }
 
-class _CustomCheckBoxState extends ConsumerState<CustomCheckBox> {
-  bool isChecked = false;
-
+class _CustomCheckBoxState extends ConsumerState<AcceptedTermCheckBox> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    bool userAcceptedTerms = ref.watch(userAcceptedTermsProvider);
     Color getColor(Set<MaterialState> states) {
       return currentTheme.isDarkMode
           ? const Color(primaryLight)
@@ -28,12 +27,11 @@ class _CustomCheckBoxState extends ConsumerState<CustomCheckBox> {
     return Checkbox(
       checkColor: Colors.white,
       fillColor: MaterialStateProperty.resolveWith(getColor),
-      value: isChecked,
+      value: userAcceptedTerms,
       onChanged: (bool? value) {
-        setState(() {
-          isChecked = value!;
-          widget.initialValueState.value = isChecked;
-        });
+        ref
+            .read(userAcceptedTermsProvider.notifier)
+            .update((state) => state = value ?? false);
       },
     );
   }

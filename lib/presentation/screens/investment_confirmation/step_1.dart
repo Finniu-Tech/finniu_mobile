@@ -44,36 +44,33 @@ class Step1 extends HookConsumerWidget {
     print(uuidPlan);
 
     return CustomLoaderOverlay(
-      child: CustomScaffoldReturnLogo(body: HookBuilder(
-        builder: (context) {
-          final planList = ref.watch(planListFutureProvider);
-          return planList.when(
-            data: (plans) {
-              return Step1Body(
-                currentTheme: currentTheme,
-                mountController: mountController,
-                deadLineController: deadLineController,
-                bankTypeController: bankController,
-                couponController: couponController,
-                // bankNumberController: bankNumberController,
-                plan: plans.firstWhere((element) => element.uuid == uuidPlan),
-              );
-            },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (error, stack) => Center(
-              child: Text(error.toString()),
-            ),
-          );
-        },
-      )
-          // body: Step1Body(
-          //   currentTheme: currentTheme,
-          //   mountController: mountController,
-          //   termController: termController,
-          // ),
-          ),
+      child: CustomScaffoldReturnLogo(
+        hideNavBar: true,
+        body: HookBuilder(
+          builder: (context) {
+            final planList = ref.watch(planListFutureProvider);
+            return planList.when(
+              data: (plans) {
+                return Step1Body(
+                  currentTheme: currentTheme,
+                  mountController: mountController,
+                  deadLineController: deadLineController,
+                  bankTypeController: bankController,
+                  couponController: couponController,
+                  // bankNumberController: bankNumberController,
+                  plan: plans.firstWhere((element) => element.uuid == uuidPlan),
+                );
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stack) => Center(
+                child: Text(error.toString()),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -587,7 +584,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             child: TextButton(
               onPressed: () async {
                 if (widget.mountController.text.isEmpty ||
-                    widget.deadLineController.text.isEmpty) {
+                    widget.deadLineController.text.isEmpty ||
+                    widget.bankTypeController.text.isEmpty) {
                   CustomSnackbar.show(
                     context,
                     'Hubo un problema, asegúrate de haber completado los campos anteriores',
@@ -595,6 +593,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   );
                   return; // Sale de la función para evitar que continúe el proceso
                 }
+
                 final deadLineUuid = DeadLineEntity.getUuidByName(
                     widget.deadLineController.text, await deadLineFuture);
                 print('dead line uuid');

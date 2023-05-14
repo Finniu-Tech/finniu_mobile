@@ -23,3 +23,5 @@ final preInvestmentSaveProvider =
     return Future.error('Error: $e', stack);
   }
 });
+
+final userAcceptedTermsProvider = StateProvider<bool>((ref) => false);

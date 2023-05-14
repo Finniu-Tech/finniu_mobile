@@ -42,7 +42,7 @@ class CircularImage extends ConsumerWidget {
               ),
               SizedBox(height: 8),
               Text(
-                '$months%',
+                '$months meses',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 12,

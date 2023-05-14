@@ -9,12 +9,11 @@ import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
+import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
-import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/checkbox.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -52,6 +51,7 @@ class Step2 extends ConsumerWidget {
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturnLogo(
+        hideNavBar: true,
         body: Step2Body(
           currentTheme: currentTheme,
           plan: plan,
@@ -83,6 +83,9 @@ class Step2Body extends HookConsumerWidget {
     final voucherImageBase64 = useState('');
     // final ValueNotifier<String> voucherPreview;
     final voucherPreview = useState('');
+    final userReadContract = useState(false);
+    // final aceptedTerms = useState(false);
+    // ref.read(userAcceptedTermsProvider.notifier).update((state) => false);
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -146,7 +149,7 @@ class Step2Body extends HookConsumerWidget {
                                 child: Text(
                                   textAlign: TextAlign.left,
                                   // '${resultCalculator.months}%',
-                                  '${plan.sixMonthsReturn}%',
+                                  '${resultCalculator.months == 6 ? plan.sixMonthsReturn : plan.twelveMonthsReturn}%',
                                   style: TextStyle(
                                     color: currentTheme.isDarkMode
                                         ? const Color(primaryDark)
@@ -519,12 +522,10 @@ class Step2Body extends HookConsumerWidget {
                           voucherImage.pickImage(source: ImageSource.gallery);
                       voucherPreview.value =
                           await ximage.then((value) => value!.path);
-                      print('image value is ${voucherPreview.value}');
                       final File imageFile = File(voucherPreview.value);
                       final List<int> imageBytes =
                           await imageFile.readAsBytes();
                       final _base64Image = base64Encode(imageBytes);
-                      print('base64Image is $_base64Image');
                       voucherImageBase64.value = _base64Image;
                     },
                     child: voucherPreview.value == ''
@@ -564,7 +565,10 @@ class Step2Body extends HookConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(width: 25, child: const CustomCheckBox()),
+              SizedBox(
+                width: 25,
+                child: AcceptedTermCheckBox(),
+              ),
               Text(
                 'He leido y acepto el ',
                 style: TextStyle(
@@ -576,14 +580,24 @@ class Step2Body extends HookConsumerWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  String contractURL = await ContractDataSourceImp()
-                      .getContract(
-                          uuid: preInvestment.uuid,
-                          client: ref.watch(gqlClientProvider).value!);
+                  String contractURL =
+                      await ContractDataSourceImp().getContract(
+                    uuid: preInvestment.uuid,
+                    client: ref.watch(gqlClientProvider).value!,
+                  );
                   print('contract url is $contractURL');
-                  Navigator.pushNamed(context, '/contract_view', arguments: {
-                    'contractURL': contractURL,
-                  });
+
+                  if (contractURL.isNotEmpty) {
+                    userReadContract.value = true;
+
+                    Navigator.pushNamed(
+                      context,
+                      '/contract_view',
+                      arguments: {
+                        'contractURL': contractURL,
+                      },
+                    );
+                  }
                 },
                 child: Text(
                   ' Contrato de Inversion de Finniu ',
@@ -607,15 +621,30 @@ class Step2Body extends HookConsumerWidget {
             child: TextButton(
               onPressed: () async {
                 final base64Image = voucherImageBase64.value;
-                print('base64Image is $base64Image');
-                final status = PreInvestmentDataSourceImp().update(
+                if (base64Image == '') {
+                  CustomSnackbar.show(
+                      context,
+                      'Debe subir una imagen de la constancia de transferencia',
+                      'error');
+                  return;
+                }
+                print('user read contract is ${userReadContract.value}');
+                print(
+                    'user accepted terms is ${ref.watch(userAcceptedTermsProvider)}');
+                if (userReadContract.value == false ||
+                    ref.watch(userAcceptedTermsProvider) == false) {
+                  CustomSnackbar.show(
+                      context, 'Debe aceptar y leer el contrato', 'error');
+                  return;
+                }
+                final status = await PreInvestmentDataSourceImp().update(
                   client: ref.watch(gqlClientProvider).value!,
                   uuid: preInvestment.uuid,
-                  readContract: true,
+                  readContract: userReadContract.value,
                   boucherScreenShot: base64Image,
                 );
+                print(status);
                 if (status == true) {
-                  print('status is $status');
                   Navigator.pushNamed(context, '/investment_step3');
                 } else {
                   CustomSnackbar.show(context,

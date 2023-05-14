@@ -133,10 +133,12 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
 class CustomScaffoldReturnLogo extends ConsumerWidget {
   final dynamic body;
   bool hideReturnButton;
+  bool hideNavBar;
 
   CustomScaffoldReturnLogo({
     required this.body,
     this.hideReturnButton = true,
+    this.hideNavBar = false,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -144,7 +146,7 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: const BottomNavigationBarHome(),
+      bottomNavigationBar: !hideNavBar ? const BottomNavigationBarHome() : null,
       appBar: AppBar(
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0,

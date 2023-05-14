@@ -14,14 +14,6 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required String deadLineUuid,
     required String planUuid,
   }) async {
-    print('amount');
-    print(amount);
-    print('bankAccountTypeUuid');
-    print(bankAccountTypeUuid);
-    print('deadLineUuid');
-    print(deadLineUuid);
-    print('planUuid');
-    print(planUuid);
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -29,18 +21,14 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
         ),
         variables: {
           'amount': amount,
-          // 'bankAccount': bankAccountNumber,
           'uuidBank': bankAccountTypeUuid,
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
         },
       ),
     );
-    print('resposne data');
-    print(response);
+
     final responseGraphQL = response.data?['savePreInvestment'];
-    print('responseGraphQL');
-    print(responseGraphQL);
 
     final preInvestmentResponse =
         PreInvestmentSaveResponse.fromJson(responseGraphQL);
@@ -62,6 +50,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required bool readContract,
     required String boucherScreenShot,
   }) async {
+    final boucherFormatted = 'data:image/jpeg;base64,$boucherScreenShot';
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -70,12 +59,11 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
         variables: {
           'uuid': uuid,
           'readContract': readContract,
-          'boucher': boucherScreenShot,
+          'boucher': boucherFormatted,
         },
       ),
     );
-    print('resposne data');
-    print(response);
-    return response.data?['updatePreInvestment']['success'];
+
+    return response.data?['updatePreinvestment']['success'];
   }
 }

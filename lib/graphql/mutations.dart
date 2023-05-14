@@ -199,7 +199,7 @@ class MutationRepository {
 
   static String updatePreInvestment() {
     return '''
-      mutation updatePreinvestment(\$uuid: String!, \$readContract:Boolean!, \$boucher: String){
+      mutation updatePreinvestment(\$uuid: String!, \$readContract:Boolean!, \$boucher: String!){
         updatePreinvestment(
           preInvestmentUuid: \$uuid,
           userReadContract: \$readContract,
@@ -210,5 +210,20 @@ class MutationRepository {
         }
       }
     ''';
+  }
+
+  static String saveNPS() {
+    return '''
+      mutation sendNPS(\$question: String!, \$answer: String!, \$text:String) {
+        saveNps(
+          input:{
+            question: \$question,
+            answer: \$answer,
+            text: \$text
+          }
+        ){
+        success 
+        }
+      }''';
   }
 }
