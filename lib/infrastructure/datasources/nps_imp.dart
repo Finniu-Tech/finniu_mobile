@@ -10,12 +10,6 @@ class NPSDataSourceImpl implements NPSDataSource {
     required String answer,
     required String comment,
   }) async {
-    print('question');
-    print(question);
-    print('answer');
-    print(answer);
-    print('comment');
-    print(comment);
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -31,8 +25,7 @@ class NPSDataSourceImpl implements NPSDataSource {
     print('response');
     print(response);
     bool success = response.data?['saveNps']['success'];
-    print('success save nps');
-    print(success);
+
     return success;
   }
 }

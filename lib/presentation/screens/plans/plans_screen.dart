@@ -17,37 +17,27 @@ class PlanListScreen extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
-        hideReturnButton: false,
-        body: HookBuilder(
-          builder: (context) {
-            final planList = ref.watch(planListFutureProvider);
-            return planList.when(
-              data: (plans) {
-                return PlanListBody(
-                  currentTheme: currentTheme,
-                  plans: plans,
-                );
-                // return ListView.builder(
-                //   itemCount: data.length,
-                //   itemBuilder: (context, index) {
-                //     return PlanCard(
-                //       plan: data[index],
-                //       currentTheme: currentTheme,
-                //     );
-                //   },
-                // );
-              },
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              error: (error, stack) => Center(
-                child: Text(error.toString()),
-              ),
-            );
-          },
-        )
-        // body: PlanListBody(currentTheme: currentTheme),
-        );
+      hideReturnButton: false,
+      body: HookBuilder(
+        builder: (context) {
+          final planList = ref.watch(planListFutureProvider);
+          return planList.when(
+            data: (plans) {
+              return PlanListBody(
+                currentTheme: currentTheme,
+                plans: plans,
+              );
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator(),
+            ),
+            error: (error, stack) => Center(
+              child: Text(error.toString()),
+            ),
+          );
+        },
+      ),
+    );
   }
 }
 
@@ -132,14 +122,12 @@ class PlanListBody extends StatelessWidget {
             ),
             Expanded(
               child: ListView.builder(
-                // padding: const EdgeInsets.all(8),
                 shrinkWrap: true,
                 itemCount: plans.length,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: ExpandableCard(
-                      // image: 'assets/investment/billsmoney.png',
                       image: plans[index].imageUrl ??
                           'assets/investment/billsmoney.png',
                       textTiledCard: plans[index].name,
@@ -151,56 +139,6 @@ class PlanListBody extends StatelessWidget {
                     ),
                   );
                 },
-                // children: <Widget>[
-                //   Padding(
-                //     padding: const EdgeInsets.all(10.0),
-                //     child: ExpandableCard(
-                //       image: 'assets/investment/billsmoney.png',
-                //       textTiledCard: 'Plan Estable',
-                //       textPercentage: '14% ',
-                //       textDeclaration: '8%',
-                //       textinvestment: 'S/1,000 ',
-                //       textContainer:
-                //           ' Esta inversión busca relacion de riesgo-beneficio. Recomendable para personas que buscan otra alternativa de inversion de en el mercado.',
-                //     ),
-                //   ),
-                //   Padding(
-                //     padding: const EdgeInsets.all(10.0),
-                //     child: ExpandableCard(
-                //       image: 'assets/images/bills.png',
-                //       textTiledCard: 'Plan Responsable',
-                //       textPercentage: '16% ',
-                //       textDeclaration: '8%',
-                //       textinvestment: 'S/5,000 ',
-                //       textContainer:
-                //           ' Esta inversión brinda una rentabilidad atractiva mayor a fondos mutuos y factoring. Esencial para aquellos que buscan incrementar sus ahorros.',
-                //     ),
-                //   ),
-                //   Padding(
-                //     padding: const EdgeInsets.all(10.0),
-                //     child: ExpandableCard(
-                //       image: 'assets/images/increasemoney.png',
-                //       textTiledCard: 'Plan Crecimiento',
-                //       textPercentage: '18% ',
-                //       textDeclaration: '8%',
-                //       textinvestment: 'S/10,000 ',
-                //       textContainer:
-                //           ' Esta inversión se enfoca en brindar la mejor rentabilidad para aquellos inversionistas que buscan maximizar sus ganancias',
-                //     ),
-                //   ),
-                //   Padding(
-                //     padding: const EdgeInsets.all(10.0),
-                //     child: ExpandableCard(
-                //       image: 'assets/images/increasemoney.png',
-                //       textTiledCard: 'Plan Crecimiento',
-                //       textPercentage: '18% ',
-                //       textDeclaration: '8%',
-                //       textinvestment: 'S/10,000 ',
-                //       textContainer:
-                //           ' Esta inversión se enfoca en brindar la mejor rentabilidad para aquellos inversionistas que buscan maximizar sus ganancias',
-                //     ),
-                //   ),
-                // ],
               ),
             )
           ],

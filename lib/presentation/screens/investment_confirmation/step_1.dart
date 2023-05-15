@@ -11,7 +11,10 @@ import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
+import 'package:finniu/use_cases/ui/modals/complete_profile.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
@@ -24,10 +27,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 import '../../../infrastructure/models/calculate_investment.dart';
 
 class Step1 extends HookConsumerWidget {
-  // String planUuid;
   const Step1({
     super.key,
-    // required this.planUuid,
   });
 
   @override
@@ -38,10 +39,8 @@ class Step1 extends HookConsumerWidget {
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
     final bankNumberController = useTextEditingController();
-    print(ModalRoute.of(context)!.settings.arguments);
     final uuidPlan = (ModalRoute.of(context)!.settings.arguments
         as Map<String, dynamic>)['planUuid'];
-    print(uuidPlan);
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturnLogo(
@@ -119,6 +118,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
     final bankFuture = ref.watch(bankFutureProvider.future);
     final themProvider = ref.watch(settingsNotifierProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+
+    if (userProfile.firstName!.isNotEmpty && userProfile.lastName!.isNotEmpty) {
+      completeProfileDialog(context, ref);
+    }
 
     return SingleChildScrollView(
       child: Column(
@@ -131,9 +135,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             // width: 200,
             child: Stack(
               children: <Widget>[
-                // width: MediaQuery.of(context).size.width * 0.9,
-                // height: 90,
-                // padding: const EdgeInsets.only(left: 20, right: 20, top: 5),
                 Text(
                   'Tu plan seleccionado',
                   textAlign: TextAlign.center,
@@ -345,28 +346,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             hintText: "Seleccione su banco",
             width: MediaQuery.of(context).size.width * 0.8,
           ),
-
-          // Container(
-          //   width: MediaQuery.of(context).size.width * 0.8,
-          //   constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
-          //   child: TextFormField(
-          //     controller: widget.bankNumberController,
-          //     validator: (value) {
-          //       if (value!.isEmpty) {
-          //         return 'Este dato es requerido';
-          //       }
-          //       return null;
-          //     },
-          //     onChanged: (value) {
-          //       // nickNameController.text = value.toString();
-          //     },
-          //     decoration: const InputDecoration(
-          //       hintText: 'Escriba su número de cuenta',
-          //       hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
-          //       label: Text("Número de cuenta"),
-          //     ),
-          //   ),
-          // ),
           const SizedBox(
             height: 15,
           ),
@@ -583,6 +562,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             height: 50,
             child: TextButton(
               onPressed: () async {
+                if (userProfile.firstName!.isNotEmpty &&
+                    userProfile.lastName!.isNotEmpty) {
+                  completeProfileDialog(context, ref);
+                  return;
+                }
                 if (widget.mountController.text.isEmpty ||
                     widget.deadLineController.text.isEmpty ||
                     widget.bankTypeController.text.isEmpty) {
@@ -632,7 +616,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               ),
             ),
           ),
-
           const SizedBox(
             height: 40,
           ),

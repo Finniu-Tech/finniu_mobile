@@ -395,6 +395,11 @@ class ItemSetting extends ConsumerWidget {
 }
 
 void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
+  String textDescription = '''
+    Hola ${ref.watch(userProfileNotifierProvider).nickName}, recuerda que es muy importante tener todos tus
+    datos completos en la sección Editar perfil para que puedas continuar
+    con tu Proceso de inversión con éxito.
+  ''';
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   Future.delayed(
@@ -414,8 +419,6 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
         context: ctx,
         builder: (ctx) => SizedBox(
           height: MediaQuery.of(ctx).size.height * 0.90,
-          // height:\
-          //     width: MediaQuery.of(context).size.width,
           child: Center(
             child: SingleChildScrollView(
               child: Column(
@@ -439,39 +442,39 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                             ? Colors.white
                             : const Color(primaryDark),
                       ),
-                      "${ref.watch(userProfileNotifierProvider).nickName ?? ''}",
+                      textDescription,
                     ),
                   ),
                   const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(
-                        width: 132,
-                        height: 46,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all<Color>(
-                              themeProvider.isDarkMode
-                                  ? const Color(primaryDarkAlternative)
-                                  : const Color(0XFF68C3DE),
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pop(ctx);
-                            Preferences.showWelcomeModal = false;
-                            // themeProvider.setShowWelcomeModal(false);
-                          },
-                          child: Text(
-                            "Saltar",
-                            style: TextStyle(
-                              color: themeProvider.isDarkMode
-                                  ? Colors.white
-                                  : const Color(primaryDark),
-                            ),
-                          ),
-                        ),
-                      ),
+                      // SizedBox(
+                      //   width: 132,
+                      //   height: 46,
+                      //   child: TextButton(
+                      //     style: ButtonStyle(
+                      //       backgroundColor: MaterialStateProperty.all<Color>(
+                      //         themeProvider.isDarkMode
+                      //             ? const Color(primaryDarkAlternative)
+                      //             : const Color(0XFF68C3DE),
+                      //       ),
+                      //     ),
+                      //     onPressed: () {
+                      //       Navigator.pop(ctx);
+                      //       Preferences.showWelcomeModal = false;
+                      //       // themeProvider.setShowWelcomeModal(false);
+                      //     },
+                      //     child: Text(
+                      //       "Saltar",
+                      //       style: TextStyle(
+                      //         color: themeProvider.isDarkMode
+                      //             ? Colors.white
+                      //             : const Color(primaryDark),
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(width: 10),
                       SizedBox(
                         width: 132,
