@@ -3,6 +3,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/ubigeo.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/ubigeo_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -31,13 +32,18 @@ class ProfileScreen extends HookConsumerWidget {
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final showError = useState(false);
-    final namesController = useTextEditingController();
+    // final namesController = useTextEditingController();
+    final firstNameController = useTextEditingController();
+    final lastNameController = useTextEditingController();
     final docNumberController = useTextEditingController();
     final departmentController = useTextEditingController();
     final provinceController = useTextEditingController();
     final districtController = useTextEditingController();
     final addressController = useTextEditingController();
     final civilStateController = useTextEditingController();
+    final departmentCodeController = useTextEditingController();
+    final provinceCodeController = useTextEditingController();
+    final districtCodeController = useTextEditingController();
 
     final regionsFuture = ref.watch(regionsFutureProvider.future);
     final allProvincesFuture = ref.read(provincesFutureProvider.future);
@@ -53,8 +59,10 @@ class ProfileScreen extends HookConsumerWidget {
     final imageFile = useState('');
 
     String mapControllerKey(String key) {
-      if (key == 'names') {
-        return namesController.text;
+      if (key == 'firstName') {
+        return firstNameController.text;
+      } else if (key == 'lastName') {
+        return lastNameController.text;
       } else if (key == 'docNumber') {
         return docNumberController.text;
       } else if (key == 'department') {
@@ -183,8 +191,8 @@ class ProfileScreen extends HookConsumerWidget {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
-                    controller: namesController,
-                    key: const Key('names'),
+                    controller: firstNameController,
+                    key: const Key('firstName'),
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Este dato es requerido';
@@ -196,12 +204,38 @@ class ProfileScreen extends HookConsumerWidget {
                     //   // namesController.text = value.toString();
                     // },
                     onEditingComplete: () {
-                      _calculatePercentage('names');
+                      _calculatePercentage('firstName');
                     },
 
                     decoration: const InputDecoration(
-                      hintText: 'Escriba sus nombre completos',
-                      label: Text("Nombres completos"),
+                      hintText: 'Escriba sus nombres',
+                      label: Text("Nombres"),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 28),
+                SizedBox(
+                  width: 224,
+                  child: TextFormField(
+                    controller: lastNameController,
+                    key: const Key('lastName'),
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+                      return null;
+                    },
+                    // onChanged: (value) {
+                    //   _calculatePercentage('names', value);
+                    //   // namesController.text = value.toString();
+                    // },
+                    onEditingComplete: () {
+                      _calculatePercentage('lastName');
+                    },
+
+                    decoration: const InputDecoration(
+                      hintText: 'Escriba sus apellidos',
+                      label: Text("Apellidos"),
                     ),
                   ),
                 ),
@@ -260,6 +294,7 @@ class ProfileScreen extends HookConsumerWidget {
                       ref
                           .read(provincesStateNotifier.notifier)
                           .filterProvinces(codeRegion);
+                      departmentCodeController.text = codeRegion;
                       _calculatePercentage('department');
                     },
                   ),
@@ -292,6 +327,7 @@ class ProfileScreen extends HookConsumerWidget {
                           .filterDistricts(codeProvince, codeRegion);
                       _calculatePercentage('province');
                       provinceController.text = value;
+                      provinceCodeController.text = codeProvince;
                     },
                   ),
                 ),
@@ -306,38 +342,45 @@ class ProfileScreen extends HookConsumerWidget {
                     callbackOnChange: (value) {
                       _calculatePercentage('district');
                       districtController.text = value;
+                      districtCodeController.text =
+                          DistrictEntity.getCodeFromName(
+                        value,
+                        provinceCodeController.text,
+                        departmentCodeController.text,
+                        districts,
+                      );
                     },
                   ),
                 ),
                 const SizedBox(height: 28),
-                SizedBox(
-                  width: 224,
-                  // height: 38,
-                  child: TextFormField(
-                    key: const Key('address'),
-                    controller: addressController,
-                    onChanged: (value) {
-                      _calculatePercentage('address');
-                    },
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Este dato es requerido';
-                      }
-                      return null;
-                    },
-                    decoration: const InputDecoration(
-                      hintText: 'Escriba su dirección de domicilio',
-                      suffixIconConstraints: BoxConstraints(
-                        maxHeight: 38,
-                        minWidth: 38,
-                      ),
-                      label: Text(
-                        "Dirección de domicilio",
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 28),
+                // SizedBox(
+                //   width: 224,
+                //   // height: 38,
+                //   child: TextFormField(
+                //     key: const Key('address'),
+                //     controller: addressController,
+                //     onChanged: (value) {
+                //       _calculatePercentage('address');
+                //     },
+                //     validator: (value) {
+                //       if (value!.isEmpty) {
+                //         return 'Este dato es requerido';
+                //       }
+                //       return null;
+                //     },
+                //     decoration: const InputDecoration(
+                //       hintText: 'Escriba su dirección de domicilio',
+                //       suffixIconConstraints: BoxConstraints(
+                //         maxHeight: 38,
+                //         minWidth: 38,
+                //       ),
+                //       label: Text(
+                //         "Dirección de domicilio",
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                // const SizedBox(height: 28),
                 SizedBox(
                   width: 224,
                   height: 38,
@@ -408,13 +451,45 @@ class ProfileScreen extends HookConsumerWidget {
                 ),
                 const SizedBox(height: 15),
                 Container(
-                  margin: const EdgeInsets.only(top: 20),
-                  child:  CustomButton(
-                    text: 'Guardar',
-                    colorBackground: primaryDark,
-                    colorText: whiteText,
-                    pushName: '/home_home',
+                  // margin: const EdgeInsets.only(top: 20),
+                  width: 224,
+                  height: 50,
+                  child: TextButton(
+                    onPressed: () async {
+                      final userProfile =
+                          ref.watch(userProfileNotifierProvider);
+                      final success = await ref.read(
+                        updateUserProfileFutureProvider(
+                          userProfile.copyWith(
+                            firstName: firstNameController.text,
+                            lastName: lastNameController.text,
+                            documentNumber: docNumberController.text,
+                            region: departmentCodeController.text,
+                            provincia: provinceCodeController.text,
+                            distrito: districtCodeController.text,
+                            civilStatus: civilStateController.text,
+                          ),
+                        ).future,
+                      );
+                      print('success is $success');
+
+                      // Navigator.pushNamed(context, '/home_home');
+                    },
+                    child: const Text(
+                      'Completar',
+                      style: TextStyle(
+                        color: Color(whiteText),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
                   ),
+                  // child:  CustomButton(
+                  //   text: 'Guardar',
+                  //   colorBackground: primaryDark,
+                  //   colorText: whiteText,
+                  //   pushName: '/home_home',
+                  // ),
                 ),
               ],
             ),

@@ -1,4 +1,6 @@
+import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/graphql/queries.dart';
+import 'package:finniu/infrastructure/datasources/user_profile_datasource_imp.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
@@ -46,6 +48,28 @@ final userProfileFutureProvider =
     return userProfile;
   }
   return UserProfile();
+});
+
+final updateUserProfileFutureProvider = FutureProvider.autoDispose
+    .family<bool, UserProfile>((ref, UserProfile userProfile) async {
+  final success = await UserProfileDataSourceImp().update(
+    client: await ref.watch(gqlClientProvider.future),
+    userProfile: userProfile,
+  );
+  print('result update user profile');
+  print(success);
+  if (success == true) {
+    ref.read(userProfileNotifierProvider.notifier).updateFields(
+          id: userProfile.uuid,
+          nickName: userProfile.nickName,
+          email: userProfile.email,
+          firstName: userProfile.firstName,
+          lastName: userProfile.lastName,
+          phoneNumber: userProfile.phoneNumber,
+          imageProfileUrl: userProfile.imageProfileUrl,
+        );
+  }
+  return success;
 });
 
 final userProfileNotifierProvider =

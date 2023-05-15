@@ -226,4 +226,34 @@ class MutationRepository {
         }
       }''';
   }
+
+  static String updateUserProfile() {
+    return '''
+        mutation updateUserProfile(
+          \$firstName:String!,
+          \$lastName:String!,
+          \$docNumber: Int!,
+          \$region: String,
+          \$province: String,
+          \$distric: String,
+          \$civilStatus: String,
+          \$imageProfile: String
+        ){
+          updateUser(
+            input: {
+              firstName: \$firstName,
+              lastName: \$lastName,
+              documentNumber: \$docNumber,
+              region: \$region,
+              provincia: \$province,
+              distrito: \$distric,
+              civilStatus: \$civilStatus,
+              imageProfile: \$imageProfile
+            }
+          ){
+            success
+          }
+        }
+    ''';
+  }
 }

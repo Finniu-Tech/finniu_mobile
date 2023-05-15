@@ -104,7 +104,7 @@ class UserProfile {
   String? nickName;
   dynamic civilStatus;
   dynamic distrito;
-  int? documentNumber;
+  String? documentNumber;
   dynamic gender;
   bool? hasCompletedOnboarding;
   bool? isActive;
@@ -166,11 +166,14 @@ class UserProfile {
   UserProfile copyWith({
     String? firstName,
     String? lastName,
+    String? documentNumber,
     String? email,
     String? id,
     String? nickName,
     dynamic civilStatus,
-    dynamic distrito,
+    String? region,
+    String? provincia,
+    String? distrito,
     bool hasCompletedOnboarding = false,
     String? phoneNumber,
     String? password,
@@ -184,12 +187,15 @@ class UserProfile {
       id: id ?? this.id,
       nickName: nickName ?? this.nickName,
       civilStatus: civilStatus ?? this.civilStatus,
+      region: region ?? this.region,
+      provincia: provincia ?? this.provincia,
       distrito: distrito ?? this.distrito,
       hasCompletedOnboarding: hasCompletedOnboarding,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       password: password ?? this.password,
       imageProfileUrl: imageProfileUrl ?? this.imageProfileUrl,
       imageProfile: imageProfile ?? this.imageProfile,
+      documentNumber: documentNumber ?? this.documentNumber,
     );
   }
 }

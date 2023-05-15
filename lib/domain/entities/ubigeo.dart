@@ -64,4 +64,20 @@ class DistrictEntity {
     required this.name,
     required this.slug,
   });
+
+  static getCodeFromName(
+    String name,
+    String codeProvince,
+    String codeRegion,
+    List<DistrictEntity> districts,
+  ) {
+    return districts
+        .firstWhere(
+          (district) =>
+              district.name == name &&
+              district.codProvince == codeProvince &&
+              district.codRegion == codeRegion,
+        )
+        .cod;
+  }
 }
