@@ -4,9 +4,11 @@ import 'package:finniu/domain/entities/ubigeo.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/ubigeo_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/settings/constants/civil_state.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -398,7 +400,7 @@ class ProfileScreen extends HookConsumerWidget {
                         labelText: 'Estado civil',
                       ),
                     ),
-                    items: ['Soltero', 'Casado', 'Divorciado', 'Viudo'],
+                    items: MaritalStatusMapper().values,
                     popupProps: PopupProps.menu(
                       showSelectedItems: true,
                       itemBuilder: (context, item, isSelected) => Container(
@@ -456,6 +458,18 @@ class ProfileScreen extends HookConsumerWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
+                      if (firstNameController.text.isEmpty ||
+                          lastNameController.text.isEmpty ||
+                          docNumberController.text.isEmpty ||
+                          departmentController.text.isEmpty ||
+                          provinceController.text.isEmpty ||
+                          districtController.text.isEmpty ||
+                          civilStateController.text.isEmpty) {
+                        CustomSnackbar.show(context,
+                            'Por favor, complete todos los campos', 'error');
+                        return;
+                      }
+
                       final userProfile =
                           ref.watch(userProfileNotifierProvider);
                       final success = await ref.read(
@@ -469,11 +483,18 @@ class ProfileScreen extends HookConsumerWidget {
                                 '${departmentCodeController.text}${provinceCodeController.text}',
                             distrito:
                                 '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
-                            civilStatus: civilStateController.text,
+                            civilStatus: MaritalStatusMapper()
+                                .mapStatus(civilStateController.text),
                           ),
                         ).future,
                       );
                       print('success is $success');
+                      if (success) {
+                        CustomSnackbar.show(
+                            context,
+                            'Sus datos se actualizaron correctamente',
+                            'success');
+                      }
 
                       // Navigator.pushNamed(context, '/home_home');
                     },

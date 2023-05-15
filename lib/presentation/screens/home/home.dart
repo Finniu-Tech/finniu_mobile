@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/avatar.dart';
@@ -19,7 +20,9 @@ class HomeScreen extends HookConsumerWidget {
 
     // add flag to check if callback has already been added
     var hasPushedOnboarding = false;
-    // final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
+    final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
+    print('hasCompletedOnboarding');
+    print(hasCompletedOnboarding);
     // var hasCompletedOnboarding = true;
     return Scaffold(
       bottomNavigationBar: const BottomNavigationBarHome(),
@@ -29,8 +32,7 @@ class HomeScreen extends HookConsumerWidget {
 
           return userProfile.when(
             data: (profile) {
-              if (profile.hasCompletedOnboarding == false &&
-                  !hasPushedOnboarding) {
+              if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
                 hasPushedOnboarding = true; // set flag to true
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.of(context)

@@ -46,7 +46,7 @@ class UserProfileDataSourceImp extends UserProfileDataSource {
     );
     print('update profile datasource');
     print(response);
-    bool success = response.data?['updateUserProfile']['success'];
+    bool success = response.data?['updateUser']['success'];
     return success;
   }
 }
