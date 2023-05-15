@@ -198,4 +198,12 @@ class UserProfile {
       documentNumber: documentNumber ?? this.documentNumber,
     );
   }
+
+  bool hasRequiredData() {
+    print('firstName: $firstName');
+    print('lastName: $lastName');
+    if (firstName == null || firstName!.isEmpty) return false;
+    if (lastName == null || lastName!.isEmpty) return false;
+    return true;
+  }
 }

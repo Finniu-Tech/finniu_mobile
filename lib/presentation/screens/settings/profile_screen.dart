@@ -465,8 +465,10 @@ class ProfileScreen extends HookConsumerWidget {
                             lastName: lastNameController.text,
                             documentNumber: docNumberController.text,
                             region: departmentCodeController.text,
-                            provincia: provinceCodeController.text,
-                            distrito: districtCodeController.text,
+                            provincia:
+                                '${departmentCodeController.text}${provinceCodeController.text}',
+                            distrito:
+                                '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
                             civilStatus: civilStateController.text,
                           ),
                         ).future,

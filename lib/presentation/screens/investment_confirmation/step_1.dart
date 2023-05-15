@@ -120,7 +120,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final themProvider = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    if (userProfile.firstName!.isNotEmpty && userProfile.lastName!.isNotEmpty) {
+    if (userProfile.hasRequiredData() == false) {
       completeProfileDialog(context, ref);
     }
 
@@ -562,8 +562,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             height: 50,
             child: TextButton(
               onPressed: () async {
-                if (userProfile.firstName!.isNotEmpty &&
-                    userProfile.lastName!.isNotEmpty) {
+                if (userProfile.hasRequiredData() == false) {
                   completeProfileDialog(context, ref);
                   return;
                 }

@@ -20,7 +20,7 @@ class HomeScreen extends HookConsumerWidget {
     // add flag to check if callback has already been added
     var hasPushedOnboarding = false;
     // final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
-    var hasCompletedOnboarding = true;
+    // var hasCompletedOnboarding = true;
     return Scaffold(
       bottomNavigationBar: const BottomNavigationBarHome(),
       body: HookBuilder(
@@ -29,7 +29,8 @@ class HomeScreen extends HookConsumerWidget {
 
           return userProfile.when(
             data: (profile) {
-              if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
+              if (profile.hasCompletedOnboarding == false &&
+                  !hasPushedOnboarding) {
                 hasPushedOnboarding = true; // set flag to true
                 WidgetsBinding.instance.addPostFrameCallback((_) {
                   Navigator.of(context)
