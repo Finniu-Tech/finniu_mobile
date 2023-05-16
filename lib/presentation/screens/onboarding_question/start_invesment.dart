@@ -13,6 +13,7 @@ class StartInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
     // ref.watch(userProfileNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
@@ -68,10 +69,10 @@ class StartInvestment extends ConsumerWidget {
                           : const Color(primaryLightAlternative),
                       borderRadius: BorderRadius.circular(15),
                     ),
-                    child: const Text(
-                      'Hola,Mari queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversion para ti.',
+                    child: Text(
+                      'Hola, ${userProfile.nickName} queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversion para ti.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,

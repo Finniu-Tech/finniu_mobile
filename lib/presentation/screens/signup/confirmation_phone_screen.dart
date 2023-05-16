@@ -31,7 +31,7 @@ class ConfirmationPhone extends HookConsumerWidget {
         body: Form(
           key: formKey,
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             width: double.infinity,
             child: SingleChildScrollView(
               child: Column(
@@ -63,10 +63,10 @@ class ConfirmationPhone extends HookConsumerWidget {
                             color: const Color(gradient_secondary),
                             borderRadius: BorderRadius.circular(15),
                           ),
-                          child: const Text(
-                            'Hola Mari queremos enviarte un SMS de tu código de verificación por favor confirmanos tu numero telefonico.',
+                          child: Text(
+                            'Hola ${userProfileProvider.nickName} queremos enviarte un SMS de tu código de verificación por favor confirmanos tu numero telefonico.',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 11,
                               fontWeight: FontWeight.w400,

@@ -29,6 +29,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     );
 
     final responseGraphQL = response.data?['savePreInvestment'];
+    print('responseGraphQL: $responseGraphQL');
 
     final preInvestmentResponse =
         PreInvestmentSaveResponse.fromJson(responseGraphQL);
