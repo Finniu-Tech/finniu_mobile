@@ -10,7 +10,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final startOnBoardingFutureStateNotifierProvider =
     FutureProvider<OnboardingEntity>(
   (ref) async {
-    print('start onboarding ******');
     final client = ref.watch(gqlClientProvider).value;
     String userId = ref.watch(userProfileNotifierProvider).id!;
 
@@ -70,11 +69,7 @@ final finishOnboardingFutureStateNotifierProvider = FutureProvider<bool>(
     bool success = false;
     final data = await recommendedPlan;
     if (data.name.isNotEmpty) {
-      print('data is not empty');
       success = true;
-
-      // ref.invalidate(hasCompletedOnboardingProvider);
-      // ref.invalidate(userProfileNotifierProvider);
 
       ref.read(recommendedPlanStateNotifierProvider.notifier).updateFields(
             uuid: data.uuid,
@@ -86,8 +81,7 @@ final finishOnboardingFutureStateNotifierProvider = FutureProvider<bool>(
             twelveMonthsReturn: data.twelveMonthsReturn,
             sixMonthsReturn: data.sixMonthsReturn,
           );
-      ref.read(hasCompletedOnboardingProvider.notifier).state =
-          true; // ref.read(userProfileNotifierProvider.notifier).setOnboardingCompleted(true);
+      ref.read(hasCompletedOnboardingProvider.notifier).state = true;
     }
     return success;
   },

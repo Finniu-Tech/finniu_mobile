@@ -14,4 +14,5 @@ void logout(ref) {
   ref.invalidate(deadLineFutureProvider);
   ref.invalidate(hasCompletedOnboardingProvider);
   ref.invalidate(userAcceptedTermsProvider);
+  ref.invalidate(finishOnboardingFutureStateNotifierProvider);
 }

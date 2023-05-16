@@ -15,7 +15,7 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
   late TabController _tabController;
   @override
   void initState() {
-    _tabController = new TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 4, vsync: this);
     super.initState();
   }
 
@@ -27,286 +27,287 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    child: Row(
-                      children: [
-                        Text(
-                          ' Mis inversiones 💸 ',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            color: Color(
-                                Theme.of(context).colorScheme.secondary.value),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 80,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/calendar_page');
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: Image.asset(
-                              'assets/icons/calendar.png',
-                              width: 20,
-                              height: 20,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(
+                  child: Row(
                     children: [
+                      Text(
+                        ' Mis inversiones 💸 ',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Color(
+                              Theme.of(context).colorScheme.secondary.value),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 80,
+                      ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.pushNamed(context, '/process_investment');
+                          Navigator.pushNamed(context, '/calendar_page');
                         },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          height: 40,
-                          decoration: BoxDecoration(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Image.asset(
+                            'assets/icons/calendar.png',
+                            width: 20,
+                            height: 20,
                             color: currentTheme.isDarkMode
-                                ? const Color(primaryDark)
-                                : const Color(primaryLightAlternative),
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Rentabilidad",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(primaryDark),
-                              ),
-                            ),
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
                           ),
                         ),
                       ),
-                      Container(
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/process_investment');
+                      },
+                      child: Container(
                         width: MediaQuery.of(context).size.width * 0.45,
                         height: 40,
                         decoration: BoxDecoration(
                           color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
-                          borderRadius: BorderRadius.only(
+                              ? const Color(primaryDark)
+                              : const Color(primaryLightAlternative),
+                          borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
                             bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
                           ),
                         ),
                         child: Center(
-                          child: GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                    context, '/investment_history');
-                              },
-                              child: Text(
-                                "Mi historial",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryDark)
-                                      : const Color(whiteText),
-                                ),
-                              )),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const CircularImageSimulation(),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Estado de mis inversiones ',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
+                          child: Text(
+                            "Rentabilidad",
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(primaryDark),
+                            ),
+                          ),
                         ),
                       ),
                     ),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                        ),
+                      ),
+                      child: Center(
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                  context, '/investment_history');
+                            },
+                            child: Text(
+                              "Mi historial",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                color: currentTheme.isDarkMode
+                                    ? const Color(primaryDark)
+                                    : const Color(whiteText),
+                              ),
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const CircularImageSimulation(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Estado de mis inversiones ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                      ),
+                    ),
                   ),
-                  Column(
+                ),
+                Column(
+                  children: [
+                    TabBar(
+                        isScrollable: true,
+                        unselectedLabelColor: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                        labelColor: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                        labelStyle: const TextStyle(fontSize: 12),
+                        tabs: [
+                          const Tab(
+                            text: "En curso",
+                          ),
+                          const Tab(
+                            text: "Finalizadas",
+                          ),
+                          Tab(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'En proceso ',
+                                style: TextStyle(
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(
+                                          blackText), // color del texto antes del paréntesis
+                                  fontSize: 12.0,
+                                ),
+                                children: <TextSpan>[
+                                  TextSpan(
+                                    text: '(1)',
+                                    style: TextStyle(
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(primaryLight)
+                                          : const Color(
+                                              bluelight), // color del texto dentro del paréntesis
+                                      fontSize: 12.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Tab(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Rechazados ',
+                                style: TextStyle(
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(
+                                          blackText), // color del texto antes del paréntesis
+                                  fontSize: 12.0,
+                                ),
+                                children: <TextSpan>[
+                                  const TextSpan(
+                                    text: '(1)',
+                                    style: TextStyle(
+                                      color: Color(
+                                          redText), // color del texto dentro del paréntesis
+                                      fontSize: 16.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                        controller: _tabController,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicatorColor: currentTheme.isDarkMode
+                            ? const Color(secondary)
+                            : const Color(primaryLight),
+                        indicatorWeight: 4.0,
+                        indicatorPadding: const EdgeInsets.only(bottom: 10)),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: TabBarView(
                     children: [
-                      TabBar(
-                          isScrollable: true,
-                          unselectedLabelColor: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
-                          labelColor: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
-                          labelStyle: TextStyle(fontSize: 12),
-                          tabs: [
-                            Tab(
-                              text: "En curso",
-                            ),
-                            Tab(
-                              text: "Finalizadas",
-                            ),
-                            Tab(
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'En proceso ',
-                                  style: TextStyle(
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(
-                                            blackText), // color del texto antes del paréntesis
-                                    fontSize: 12.0,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '(1)',
-                                      style: TextStyle(
-                                        color: currentTheme.isDarkMode
-                                            ? const Color(primaryLight)
-                                            : const Color(
-                                                bluelight), // color del texto dentro del paréntesis
-                                        fontSize: 12.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Tab(
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'Rechazados ',
-                                  style: TextStyle(
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(
-                                            blackText), // color del texto antes del paréntesis
-                                    fontSize: 12.0,
-                                  ),
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: '(1)',
-                                      style: TextStyle(
-                                        color: Color(
-                                            redText), // color del texto dentro del paréntesis
-                                        fontSize: 16.0,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                          controller: _tabController,
-                          indicatorSize: TabBarIndicatorSize.tab,
-                          indicatorColor: currentTheme.isDarkMode
-                              ? const Color(secondary)
-                              : const Color(primaryLight),
-                          indicatorWeight: 4.0,
-                          indicatorPadding: const EdgeInsets.only(bottom: 10)),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: TabBarView(
-                      children: [
-                        ListView(children: [
-                          const TablePlan(
-                            planName: "Plan Estable",
-                            termText: "Plazo de 12 meses:14%",
-                            mounted: "S/1500",
-                            startDay: "29 Mayo",
-                            finishDay: "29 Mayo 2023",
-                            state: "En Curso",
-                            imageLink: "assets/images/circle_green.png",
-                          ),
-                          const SizedBox(
-                            height: 17,
-                          ),
-                          const TablePlan(
-                              planName: "Plan Estable",
-                              termText: "Plazo de 12 meses:14%",
-                              mounted: "S/720",
-                              startDay: "29 Mayo",
-                              finishDay: "29 Mayo 2023",
-                              state: "En Curso",
-                              imageLink: "assets/images/circle_green.png"),
-                          const SizedBox(
-                            height: 17,
-                          ),
-                          const TablePlan(
-                              planName: "Plan Estable",
-                              termText: "Plazo de 12 meses:14%",
-                              mounted: "S/5400",
-                              startDay: "29 Mayo",
-                              finishDay: "13 Abril 2023",
-                              state: "En Curso",
-                              imageLink: "assets/images/circle_green.png"),
-                        ]),
+                      ListView(children: [
                         const TablePlan(
                           planName: "Plan Estable",
                           termText: "Plazo de 12 meses:14%",
-                          mounted: "S/1140",
-                          startDay: "29 Enero 2022",
-                          finishDay: "29 Enero 2023",
-                          state: "Finalizado",
-                          imageLink: "assets/images/circle_purple.png",
+                          mounted: "S/1500",
+                          startDay: "29 Mayo",
+                          finishDay: "29 Mayo 2023",
+                          state: "En Curso",
+                          imageLink: "assets/images/circle_green.png",
                         ),
-                        const TablePlanProcess(
-                          planName: "Plan Origen",
-                          termText: "Se esta validando tu transferencia",
-                          state: "En proceso",
-                          mounted: "S/800",
+                        const SizedBox(
+                          height: 17,
                         ),
-                        const TablePlanProcessRejected(
-                          planName: "Plan Origen ",
-                          mounted: "S/750",
-                          termText:
-                              "Tu inversión fue rechazada por el siguiente motivo:(escribir floro de explicación)",
-                          state: "Rechazado",
+                        const TablePlan(
+                            planName: "Plan Estable",
+                            termText: "Plazo de 12 meses:14%",
+                            mounted: "S/720",
+                            startDay: "29 Mayo",
+                            finishDay: "29 Mayo 2023",
+                            state: "En Curso",
+                            imageLink: "assets/images/circle_green.png"),
+                        const SizedBox(
+                          height: 17,
                         ),
-                      ],
-                      controller: _tabController,
-                    ),
+                        const TablePlan(
+                            planName: "Plan Estable",
+                            termText: "Plazo de 12 meses:14%",
+                            mounted: "S/5400",
+                            startDay: "29 Mayo",
+                            finishDay: "13 Abril 2023",
+                            state: "En Curso",
+                            imageLink: "assets/images/circle_green.png"),
+                      ]),
+                      const TablePlan(
+                        planName: "Plan Estable",
+                        termText: "Plazo de 12 meses:14%",
+                        mounted: "S/1140",
+                        startDay: "29 Enero 2022",
+                        finishDay: "29 Enero 2023",
+                        state: "Finalizado",
+                        imageLink: "assets/images/circle_purple.png",
+                      ),
+                      const TablePlanProcess(
+                        planName: "Plan Origen",
+                        termText: "Se esta validando tu transferencia",
+                        state: "En proceso",
+                        mounted: "S/800",
+                      ),
+                      const TablePlanProcessRejected(
+                        planName: "Plan Origen ",
+                        mounted: "S/750",
+                        termText:
+                            "Tu inversión fue rechazada por el siguiente motivo:(escribir floro de explicación)",
+                        state: "Rechazado",
+                      ),
+                    ],
+                    controller: _tabController,
                   ),
-                ]),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -362,12 +363,12 @@ class CircularImageSimulation extends ConsumerWidget {
               ],
             ),
           ),
-          progressColor: Color(themeProvider.isDarkMode
-              ? gradient_secondary_option
-              : primaryDark),
-          backgroundColor: Color(themeProvider.isDarkMode
-              ? primaryLightAlternative
-              : primaryLight),
+          progressColor: Color(
+            themeProvider.isDarkMode ? gradient_secondary_option : primaryDark,
+          ),
+          backgroundColor: Color(
+            themeProvider.isDarkMode ? primaryLightAlternative : primaryLight,
+          ),
           fillColor: themeProvider.isDarkMode
               ? const Color(backgroundColorDark)
               : Colors.white,
@@ -382,12 +383,13 @@ class CircularImageSimulation extends ConsumerWidget {
               width: 15,
               height: 15,
               decoration: BoxDecoration(
-                  border: Border.all(
-                    width: 1,
-                    color: const Color(primaryLight),
-                  ),
-                  shape: BoxShape.circle,
-                  color: const Color(primaryLight)),
+                border: Border.all(
+                  width: 1,
+                  color: const Color(primaryLight),
+                ),
+                shape: BoxShape.circle,
+                color: const Color(primaryLight),
+              ),
               // Si desea agregar un icono dentro del círculo
             ),
 
@@ -415,9 +417,7 @@ class CircularImageSimulation extends ConsumerWidget {
                     ? const Color(gradient_secondary_option)
                     : const Color(primaryDark),
               ),
-              // Si desea agregar un icono dentro del círculo
             ),
-            // Separación entre el círculo y el texto
 
             const SizedBox(width: 5),
             Text(
@@ -669,7 +669,7 @@ class TablePlanProcess extends ConsumerWidget {
                               : const Color(blackText),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
                       Text(
@@ -715,7 +715,7 @@ class TablePlanProcess extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
@@ -793,7 +793,7 @@ class TablePlanProcessRejected extends ConsumerWidget {
                               : const Color(blackText),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 4,
                       ),
                       Text(
@@ -819,7 +819,7 @@ class TablePlanProcessRejected extends ConsumerWidget {
                             color: const Color(redText),
                           ),
                           shape: BoxShape.circle,
-                          color: Color(redText),
+                          color: const Color(redText),
                         ),
                         // Si desea agregar un icono dentro del círculo
                       ),
@@ -837,7 +837,7 @@ class TablePlanProcessRejected extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(

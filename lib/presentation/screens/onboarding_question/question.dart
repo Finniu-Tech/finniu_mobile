@@ -97,7 +97,8 @@ class _SelectRangeState extends ConsumerState<Questions> {
                         child: const Text('Finalizar'),
                         onPressed: () {
                           ref.watch(
-                              finishOnboardingFutureStateNotifierProvider);
+                            finishOnboardingFutureStateNotifierProvider,
+                          );
 
                           Navigator.of(context).pushNamed('/investment_result');
                         },
