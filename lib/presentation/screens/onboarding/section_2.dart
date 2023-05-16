@@ -24,12 +24,16 @@ class Section2 extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
         const SizedBox(height: 11),
-        const TextPoppins(
-          text:
-              'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
-          colorText: primaryDark,
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
+        Container(
+          width: MediaQuery.of(context).size.width * 0.5,
+          constraints: const BoxConstraints(maxWidth: 500),
+          child: const TextPoppins(
+            text:
+                'Puedes invertir en plazos de 6 y 12 meses con intereses mensuales. ',
+            colorText: primaryDark,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
         ),
         const SizedBox(height: 10),
       ],

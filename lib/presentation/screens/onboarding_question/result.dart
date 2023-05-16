@@ -290,7 +290,7 @@ class ResultInvestment extends ConsumerWidget {
                             : (primaryDark),
                         // colorBackground: primaryDark,
                         // colorText: white_text,
-                        pushName: '/investment_start',
+                        pushName: '/onboarding_questions_start',
                       ),
                     ),
                   ),

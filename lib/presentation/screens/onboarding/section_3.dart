@@ -24,11 +24,15 @@ class Section3 extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
         const SizedBox(height: 11),
-        const TextPoppins(
-          text: 'Invierte con nosotros desde S/500 y sin comisiones',
-          colorText: whiteText,
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
+        Container(
+          width: MediaQuery.of(context).size.width * 0.5,
+          constraints: const BoxConstraints(maxWidth: 300),
+          child: const TextPoppins(
+            text: 'Invierte con nosotros desde S/500 y sin comisiones',
+            colorText: whiteText,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
         ),
         const SizedBox(height: 10),
       ],

@@ -325,38 +325,45 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             ),
           ),
           const SizedBox(height: 15),
-          CustomSelectButton(
-            asyncItems: (String filter) async {
-              final response = await deadLineFuture;
-              return response.map((e) => e.name).toList();
-            },
-            callbackOnChange: (value) async {
-              widget.deadLineController.text = value;
-              if (widget.mountController.text.isNotEmpty &&
-                  widget.deadLineController.text.isNotEmpty) {
-                calculateInvestment(context, ref);
-              }
-            },
-            textEditingController: widget.deadLineController,
-            labelText: "Plazo",
-            hintText: "Seleccione su plazo de inversión",
+          Container(
             width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+            child: CustomSelectButton(
+              asyncItems: (String filter) async {
+                final response = await deadLineFuture;
+                return response.map((e) => e.name).toList();
+              },
+              callbackOnChange: (value) async {
+                widget.deadLineController.text = value;
+                if (widget.mountController.text.isNotEmpty &&
+                    widget.deadLineController.text.isNotEmpty) {
+                  calculateInvestment(context, ref);
+                }
+              },
+              textEditingController: widget.deadLineController,
+              labelText: "Plazo",
+              hintText: "Seleccione su plazo de inversión",
+            ),
           ),
           const SizedBox(
             height: 15,
           ),
-          CustomSelectButton(
-            textEditingController: widget.bankTypeController,
-            asyncItems: (String filter) async {
-              final response = await bankFuture;
-              return response.map((e) => e.name).toList();
-            },
-            callbackOnChange: (value) {
-              widget.bankTypeController.text = value;
-            },
-            labelText: "Desde que banco realizas la transferencia",
-            hintText: "Seleccione su banco",
+          Container(
             width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+            child: CustomSelectButton(
+              textEditingController: widget.bankTypeController,
+              asyncItems: (String filter) async {
+                final response = await bankFuture;
+                return response.map((e) => e.name).toList();
+              },
+              callbackOnChange: (value) {
+                widget.bankTypeController.text = value;
+              },
+              labelText: "Desde que banco realizas la transferencia",
+              hintText: "Seleccione su banco",
+              width: MediaQuery.of(context).size.width * 0.8,
+            ),
           ),
           const SizedBox(
             height: 15,
