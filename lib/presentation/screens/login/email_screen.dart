@@ -75,6 +75,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                         width: 224,
                         // height: 38,
                         child: TextFormField(
+                          autocorrect: false,
                           onChanged: (value) {
                             _email = value;
                           },
@@ -101,6 +102,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                         width: 224,
                         // height: 38,
                         child: TextFormField(
+                          autocorrect: false,
                           onChanged: (value) {
                             _password = value;
                           },

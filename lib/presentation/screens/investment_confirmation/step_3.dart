@@ -13,11 +13,14 @@ class Step3 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    bool delayedActionExecuted = false;
 
     Future.delayed(const Duration(seconds: 4), () {
+      if (delayedActionExecuted) return;
       ref
           .read(userAcceptedTermsProvider.notifier)
           .update((state) => state = false);
+      delayedActionExecuted = true;
       showExperienceEvaluation(context);
     });
 

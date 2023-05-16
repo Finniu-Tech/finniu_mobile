@@ -14,6 +14,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/use_cases/ui/modals/complete_profile.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -106,12 +107,33 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
   late Future deadLineFuture;
   late Future bankFuture;
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   deadLineFuture = context.read(deadLineFutureProvider.future);
-  //   bankFuture = context.read(bankFutureProvider.future);
-  // }
+  Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
+    if (widget.mountController.text.isNotEmpty) {
+      context.loaderOverlay.show();
+      final inputCalculator = CalculatorInput(
+        amount: int.parse(widget.mountController.text),
+        months: int.parse(widget.deadLineController.text.split(' ')[0]),
+        coupon: widget.couponController.text,
+      );
+
+      final resultCalculator = await ref.watch(
+        calculateInvestmentFutureProvider(inputCalculator).future,
+      );
+
+      setState(() {
+        if (resultCalculator.plan != null) {
+          widget.plan = resultCalculator.plan!;
+          widget.profitability = resultCalculator.profitability;
+          widget.showInvestmentBoxes = true;
+          widget.resultCalculator = resultCalculator;
+        }
+      });
+      print('results Provider!!');
+      print(resultCalculator);
+
+      context.loaderOverlay.hide();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,6 +141,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final bankFuture = ref.watch(bankFutureProvider.future);
     final themProvider = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
+    final _debouncer = Debouncer(milliseconds: 3000);
 
     if (userProfile.hasRequiredData() == false) {
       completeProfileDialog(context, ref);
@@ -283,6 +306,16 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               },
               onChanged: (value) {
                 // nickNameController.text = value.toString();
+                _debouncer.run(() {
+                  if (widget.mountController.text.isNotEmpty &&
+                      widget.deadLineController.text.isNotEmpty) {
+                    calculateInvestment(context, ref);
+                  }
+                });
+                // if (widget.mountController.text.isNotEmpty &&
+                //     widget.deadLineController.text.isNotEmpty) {
+                //   calculateInvestment(context, ref);
+                // }
               },
               decoration: const InputDecoration(
                 hintText: 'Escriba su monto de inversion',
@@ -299,31 +332,10 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             },
             callbackOnChange: (value) async {
               widget.deadLineController.text = value;
-              context.loaderOverlay.show();
-              final inputCalculator = CalculatorInput(
-                amount: int.parse(widget.mountController.text),
-                months: int.parse(widget.deadLineController.text.split(' ')[0]),
-                coupon: widget.couponController.text,
-              );
-
-              final resultCalculator = await ref.watch(
-                calculateInvestmentFutureProvider(
-                  inputCalculator,
-                ).future,
-              );
-
-              setState(() {
-                if (resultCalculator!.plan != null) {
-                  widget.plan = resultCalculator!.plan!;
-                  widget.profitability = resultCalculator!.profitability;
-                  widget.showInvestmentBoxes = true;
-                  widget.resultCalculator = resultCalculator;
-                }
-              });
-              print('results Provider!!');
-              print(resultCalculator);
-
-              context.loaderOverlay.hide();
+              if (widget.mountController.text.isNotEmpty &&
+                  widget.deadLineController.text.isNotEmpty) {
+                calculateInvestment(context, ref);
+              }
             },
             textEditingController: widget.deadLineController,
             labelText: "Plazo",
