@@ -490,6 +490,7 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                           onPressed: () {
                             Preferences.showWelcomeModal = false;
                             // themeProvider.setShowWelcomeModal(false);
+                            Navigator.pop(ctx);
                             Navigator.of(ctx).pushNamed('/profile');
                           },
                           child: Text(
