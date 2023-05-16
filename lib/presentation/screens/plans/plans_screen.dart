@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/plans/widgets/card.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -41,7 +42,7 @@ class PlanListScreen extends HookConsumerWidget {
   }
 }
 
-class PlanListBody extends StatelessWidget {
+class PlanListBody extends HookConsumerWidget {
   final SettingsProviderState currentTheme;
   final List<PlanEntity> plans;
   const PlanListBody({
@@ -49,21 +50,21 @@ class PlanListBody extends StatelessWidget {
     required this.currentTheme,
     required this.plans,
   });
-  _launchWhatsApp() async {
-    var whatsappNumber =
-        "51940206852"; // Reemplaza con el número de WhatsApp que deseas abrir
-    var whatsappMessage = Uri.encodeComponent('Hola,soy.... deseo reinvertir.');
-    var whatsappUrl = "https://wa.me/$whatsappNumber?text=$whatsappMessage";
-    ;
-    if (await canLaunch(whatsappUrl)) {
-      await launch(whatsappUrl);
-    } else {
-      throw 'No se pudo abrir $whatsappUrl';
-    }
+
+  _launchWhatsApp(userName) async {
+    var whatsappNumber = "51940206852";
+    var whatsappMessage = "Hola, soy $userName deseo invertir.";
+    var whatsappUrl = Uri.parse(
+        "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}");
+    print('whatsappUrl: $whatsappUrl');
+
+    await launchUrl(whatsappUrl);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final userProfile = ref.watch(userProfileNotifierProvider);
+
     return Align(
       alignment: Alignment.center,
       child: SizedBox(
@@ -104,7 +105,9 @@ class PlanListBody extends StatelessWidget {
                       Color(currentTheme.isDarkMode ? secondary : primaryLight),
                     ),
                   ),
-                  onPressed: _launchWhatsApp,
+                  onPressed: () {
+                    _launchWhatsApp(userProfile.nickName);
+                  },
                   child: const Text(
                     "Quiero conversar",
                     style: TextStyle(
