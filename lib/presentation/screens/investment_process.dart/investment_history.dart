@@ -46,10 +46,9 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
                                 Theme.of(context).colorScheme.secondary.value),
                           ),
                         ),
-                        const SizedBox(
-                          width: 80,
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.58,
                         ),
-                        Spacer(),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/calendar_page');

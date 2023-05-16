@@ -95,7 +95,7 @@ class CardCustom extends ConsumerWidget {
         },
         title: Text(
           textTiledCard,
-          textAlign: TextAlign.start,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
