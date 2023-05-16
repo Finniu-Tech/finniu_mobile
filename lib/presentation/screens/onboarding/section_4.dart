@@ -24,12 +24,16 @@ class Section4 extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
         const SizedBox(height: 11),
-        TextPoppins(
-          text:
-              'Recibe tu capital y tus intereses garantizado en la fecha establecida',
-          colorText: primaryDark,
-          fontSize: 16,
-          fontWeight: FontWeight.w400,
+        Container(
+          width: MediaQuery.of(context).size.width * 0.5,
+          constraints: const BoxConstraints(maxWidth: 400),
+          child: TextPoppins(
+            text:
+                'Recibe tu capital y tus intereses garantizado en la fecha establecida',
+            colorText: primaryDark,
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
         ),
 
         // const SizedBox(height: 10),

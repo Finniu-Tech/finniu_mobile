@@ -99,17 +99,18 @@ class BodyScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Container(
-            alignment: Alignment.centerLeft,
-            width: 300,
-            height: 40,
-            child: Text(
-              resultSimulation.plan!.name,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(Theme.of(context).colorScheme.secondary.value),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                resultSimulation.plan!.name,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(Theme.of(context).colorScheme.secondary.value),
+                ),
               ),
             ),
           ),
@@ -247,19 +248,26 @@ class BodyScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      constraints:
-                                          const BoxConstraints(maxHeight: 40),
+                                      width: 70,
+                                      // constraints:
+                                      //     const BoxConstraints(maxHeight: 10),
                                       child: Align(
                                         alignment: Alignment.topRight,
-                                        child: IconButton(
-                                          alignment: Alignment.topRight,
-                                          onPressed: () =>
+                                        child: InkWell(
+                                          onTap: () =>
                                               Navigator.of(context).pop(),
-                                          icon: const Padding(
-                                            padding: EdgeInsets.only(
-                                                left: 30, bottom: 70),
-                                            child: Icon(Icons.close,
-                                                color: Colors.black),
+                                          child: IconButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            alignment: Alignment.topRight,
+                                            icon: const Padding(
+                                              padding: EdgeInsets.only(
+                                                  left: 20, bottom: 20),
+                                              child: Icon(Icons.close,
+                                                  size: 30,
+                                                  color: Colors.black),
+                                            ),
                                           ),
                                         ),
                                       ),
@@ -267,13 +275,20 @@ class BodyScreen extends StatelessWidget {
                                   ],
                                 ),
                                 const SizedBox(height: 10),
-                                const Text(
-                                  'Este 5% es la tributación correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    height: 1.5,
-                                    color: Color(blackText),
+                                Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.3,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: const Text(
+                                      'Este 5% es la tributación correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        height: 1.5,
+                                        color: Color(blackText),
+                                      ),
+                                    ),
                                   ),
                                 )
                               ],

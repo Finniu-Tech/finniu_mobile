@@ -93,7 +93,10 @@ class PlanListBody extends HookConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Spacer(),
+                // const Spacer(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                ),
                 ElevatedButton(
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(

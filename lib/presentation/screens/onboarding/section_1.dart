@@ -1,7 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/rendering.dart';
 
 class Section1 extends StatelessWidget {
   const Section1({super.key});
@@ -14,9 +14,10 @@ class Section1 extends StatelessWidget {
           // const SizedBox(
           //   height: 100,
           // ),
-          SizedBox(
+          Container(
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 0.5,
+            constraints: const BoxConstraints(maxWidth: 500),
             // flex: BoxFit.fitWidth,
             child: Image.asset(
               'assets/welcome/welcome1.png',
@@ -31,12 +32,16 @@ class Section1 extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
           const SizedBox(height: 11),
-          const TextPoppins(
-            text:
-                'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
-            colorText: whiteText,
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
+          Container(
+            width: MediaQuery.of(context).size.width * 0.5,
+            constraints: const BoxConstraints(maxWidth: 500),
+            child: const TextPoppins(
+              text:
+                  'Somos un equipo con la misión de ayudar a jóvenes profesionales a invertir su dinero de forma sencilla y transparente. ',
+              colorText: whiteText,
+              fontSize: 16,
+              fontWeight: FontWeight.w400,
+            ),
           ),
           const SizedBox(height: 10),
         ],

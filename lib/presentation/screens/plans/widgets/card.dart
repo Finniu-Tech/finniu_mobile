@@ -95,7 +95,7 @@ class CardCustom extends ConsumerWidget {
         },
         title: Text(
           textTiledCard,
-          textAlign: TextAlign.start,
+          textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -568,7 +568,7 @@ class CardCustom extends ConsumerWidget {
                             },
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Comenzar a invertir',
                           style: TextStyle(
                               fontSize: 12,

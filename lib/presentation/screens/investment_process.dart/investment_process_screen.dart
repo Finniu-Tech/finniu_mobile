@@ -50,7 +50,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                     ),
                   ),
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.19,
+                    width: MediaQuery.of(context).size.width * 0.58,
                   ),
                   GestureDetector(
                     onTap: () {
