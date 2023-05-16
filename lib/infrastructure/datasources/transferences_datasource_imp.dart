@@ -4,13 +4,13 @@ import '../../domain/datasources/transferences_datasource.dart';
 import '../../graphql/queries.dart';
 import '../models/plan_response.dart';
 
-class TransferencesDataSourceImpl extends TransferencesDataSource {
+class TransferenceDataSourceImpl extends TransferenceDataSource {
   final GraphQLClient client;
 
-  TransferencesDataSourceImpl({required this.client});
+  TransferenceDataSourceImpl({required this.client});
 
   @override
-  Future<List<String>> getUserBouchers({required GraphQLClient client}) async {
+  Future<List<String>> getBoucherList({required GraphQLClient client}) async {
     final response = await client.query(
       QueryOptions(
         document: gql(

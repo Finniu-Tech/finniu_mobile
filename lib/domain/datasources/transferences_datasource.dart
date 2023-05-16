@@ -1,7 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-abstract class TransferencesDataSource {
-  Future<List<String>> getUserBouchers({
+abstract class TransferenceDataSource {
+  Future<List<String>> getBoucherList({
     required GraphQLClient client,
   });
 }
