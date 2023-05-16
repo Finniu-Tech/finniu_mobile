@@ -560,9 +560,15 @@ class CardCustom extends ConsumerWidget {
                     Center(
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/home_home');
+                          Navigator.pushNamed(
+                            context,
+                            '/investment_step1',
+                            arguments: {
+                              'planUuid': planUuid,
+                            },
+                          );
                         },
-                        child: const Text(
+                        child: Text(
                           'Comenzar a invertir',
                           style: TextStyle(
                               fontSize: 12,
@@ -745,13 +751,13 @@ class InitialCardBody extends ConsumerWidget {
               borderRadius: BorderRadius.circular(50),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.grey.withOpacity(0.7),
+                  color: Colors.grey.withOpacity(0.4),
                   spreadRadius: 0,
-                  blurRadius: 3,
+                  blurRadius: 4,
                   offset: const Offset(0, 3), // changes position of shadow
                 ),
               ],
-              color: Color(primaryDark),
+              // color: Color(primaryDark),
             ),
             child: Center(
                 child: TextButton(
