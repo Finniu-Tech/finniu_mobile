@@ -568,7 +568,7 @@ class CardCustom extends ConsumerWidget {
                             },
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Comenzar a invertir',
                           style: TextStyle(
                               fontSize: 12,

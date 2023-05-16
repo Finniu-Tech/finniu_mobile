@@ -99,17 +99,18 @@ class BodyScreen extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          Container(
-            alignment: Alignment.centerLeft,
-            width: 300,
-            height: 40,
-            child: Text(
-              resultSimulation.plan!.name,
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(Theme.of(context).colorScheme.secondary.value),
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Container(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                resultSimulation.plan!.name,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(Theme.of(context).colorScheme.secondary.value),
+                ),
               ),
             ),
           ),
@@ -248,7 +249,7 @@ class BodyScreen extends StatelessWidget {
                                   children: [
                                     Container(
                                       constraints:
-                                          const BoxConstraints(maxHeight: 40),
+                                          const BoxConstraints(maxHeight: 20),
                                       child: Align(
                                         alignment: Alignment.topRight,
                                         child: IconButton(

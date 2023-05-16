@@ -49,6 +49,7 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
                         const SizedBox(
                           width: 80,
                         ),
+                        Spacer(),
                         GestureDetector(
                           onTap: () {
                             Navigator.pushNamed(context, '/calendar_page');
