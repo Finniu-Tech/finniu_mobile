@@ -49,16 +49,17 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                       ),
                     ),
                   ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.58,
-                  ),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width * 0.58,
+                  // ),
+                  const Spacer(),
                   GestureDetector(
                     onTap: () {
                       // modalsPlan(context);
                       Navigator.pushNamed(context, '/calendar_page');
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
+                      padding: const EdgeInsets.all(5),
                       child: Image.asset(
                         'assets/icons/calendar.png',
                         width: 20,

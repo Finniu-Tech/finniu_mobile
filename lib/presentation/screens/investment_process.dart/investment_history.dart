@@ -46,15 +46,13 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
                               Theme.of(context).colorScheme.secondary.value),
                         ),
                       ),
-                      const SizedBox(
-                        width: 80,
-                      ),
+                      const Spacer(),
                       GestureDetector(
                         onTap: () {
                           Navigator.pushNamed(context, '/calendar_page');
                         },
                         child: Padding(
-                          padding: const EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.all(5),
                           child: Image.asset(
                             'assets/icons/calendar.png',
                             width: 20,
