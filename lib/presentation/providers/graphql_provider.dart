@@ -8,11 +8,13 @@ final gqlClientProvider = FutureProvider<GraphQLClient>(
       'https://www.finniu.com/api/v1/graph/finniu/',
     );
 
-    final authLink = AuthLink(getToken: () async {
-      final String token = await ref.watch(authTokenProvider);
+    final authLink = AuthLink(
+      getToken: () async {
+        final String token = await ref.watch(authTokenProvider);
 
-      return 'JWT $token';
-    });
+        return 'JWT $token';
+      },
+    );
     final link = authLink.concat(httpLink);
 
     return GraphQLClient(

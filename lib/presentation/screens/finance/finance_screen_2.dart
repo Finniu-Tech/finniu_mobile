@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
     final namesController = useTextEditingController();
     final amountController = useTextEditingController();
     final incomeController = useTextEditingController();
@@ -355,10 +357,10 @@ class Finance_Screen_2 extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment
                             .center, // alinear los textos a la izquierda
                         children: [
-                          const Padding(
+                          Padding(
                             padding: EdgeInsets.all(24.0),
                             child: Text(
-                              "Hola Mari, separar entre un 10 a 15% de tus ingresos mensuales es una buena forma de empezar a invertir tu dinero para cumplir tus metas.¿Deseas guardar tu presupuesto?",
+                              "Hola ${userProfile.nickName}, separar entre un 10 a 15% de tus ingresos mensuales es una buena forma de empezar a invertir tu dinero para cumplir tus metas.¿Deseas guardar tu presupuesto?",
                               textAlign: TextAlign.justify,
                               style: TextStyle(
                                 fontSize: 10,
@@ -368,7 +370,6 @@ class Finance_Screen_2 extends HookConsumerWidget {
                               ),
                             ),
                           ),
-                          // agregar un espacio vertical entre los textos
                           Padding(
                             padding: const EdgeInsets.only(right: 35),
                             child: Row(
