@@ -120,4 +120,14 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get userGetBouchers {
+    return '''
+    query {
+    userGetBouchers{
+    boucherImage
+      }
+    }
+   ''';
+  }
 }
