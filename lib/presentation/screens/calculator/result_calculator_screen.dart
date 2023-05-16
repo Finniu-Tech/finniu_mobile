@@ -258,7 +258,8 @@ class BodyScreen extends StatelessWidget {
                                           icon: const Padding(
                                             padding: EdgeInsets.only(
                                                 left: 30, bottom: 70),
-                                            child: Icon(Icons.close),
+                                            child: Icon(Icons.close,
+                                                color: Colors.black),
                                           ),
                                         ),
                                       ),
@@ -267,7 +268,7 @@ class BodyScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 const Text(
-                                  'Este 5% es la tributacion correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
+                                  'Este 5% es la tributación correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     fontSize: 14,
