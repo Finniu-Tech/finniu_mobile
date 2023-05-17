@@ -25,7 +25,7 @@ class Section3 extends StatelessWidget {
         ),
         const SizedBox(height: 11),
         Container(
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: MediaQuery.of(context).size.width * 0.7,
           constraints: const BoxConstraints(maxWidth: 300),
           child: const TextPoppins(
             text: 'Invierte con nosotros desde S/500 y sin comisiones',

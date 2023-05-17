@@ -33,7 +33,7 @@ class Section1 extends StatelessWidget {
           ),
           const SizedBox(height: 11),
           Container(
-            width: MediaQuery.of(context).size.width * 0.5,
+            width: MediaQuery.of(context).size.width * 0.7,
             constraints: const BoxConstraints(maxWidth: 500),
             child: const TextPoppins(
               text:

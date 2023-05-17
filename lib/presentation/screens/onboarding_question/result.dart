@@ -284,13 +284,13 @@ class ResultInvestment extends ConsumerWidget {
                         colorBackground: currentTheme.isDarkMode
                             ? (primaryDark)
                             : (primaryLight),
-                        text: 'Cambiar',
+                        text: 'Ver planes',
                         colorText: currentTheme.isDarkMode
                             ? (whiteText)
                             : (primaryDark),
                         // colorBackground: primaryDark,
                         // colorText: white_text,
-                        pushName: '/onboarding_questions_start',
+                        pushName: '/plan_list',
                       ),
                     ),
                   ),

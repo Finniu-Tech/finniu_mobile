@@ -252,14 +252,17 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
             label: 'Home',
             icon: InkWell(
-              child: Image.asset('assets/icons/home.png',
-                  width: 30,
-                  height: 30,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(
-                          primaryLight,
-                        )),
+              child: Padding(
+                padding: const EdgeInsets.only(right: 50, left: 50),
+                child: Image.asset('assets/icons/home.png',
+                    width: 30,
+                    height: 30,
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryDark)
+                        : const Color(
+                            primaryLight,
+                          )),
+              ),
               onTap: () {
                 Navigator.pushReplacementNamed(context, '/home_home');
                 // Navigator.of(context).pushNamedAndRemoveUntil(
@@ -272,15 +275,18 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
             label: 'Planes',
             icon: InkWell(
-              child: Image.asset(
-                'assets/icons/square.png',
-                width: 30,
-                height: 30,
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryDark)
-                    : const Color(
-                        primaryLight,
-                      ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 50, right: 50),
+                child: Image.asset(
+                  'assets/icons/square.png',
+                  width: 30,
+                  height: 30,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(
+                          primaryLight,
+                        ),
+                ),
               ),
               onTap: () {
                 // Navigator.of(context).pushNamedAndRemoveUntil(
@@ -294,15 +300,18 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
               label: 'Inversiones',
               icon: InkWell(
-                child: Image.asset(
-                  'assets/icons/dollar.png',
-                  width: 30,
-                  height: 30,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(
-                          primaryLight,
-                        ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 50, right: 50),
+                  child: Image.asset(
+                    'assets/icons/dollar.png',
+                    width: 30,
+                    height: 30,
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryDark)
+                        : const Color(
+                            primaryLight,
+                          ),
+                  ),
                 ),
                 onTap: () {
                   Navigator.pushReplacementNamed(
