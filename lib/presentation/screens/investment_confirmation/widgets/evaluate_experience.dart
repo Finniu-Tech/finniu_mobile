@@ -23,6 +23,7 @@ void showExperienceEvaluation(
     ),
     elevation: 11,
     context: ctx,
+    isDismissible: false,
     builder: (ctx) => const EvaluateExperienceWidget(),
   );
 }

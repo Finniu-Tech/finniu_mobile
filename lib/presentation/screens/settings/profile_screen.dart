@@ -16,7 +16,15 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfileScreen extends HookConsumerWidget {
+class ProfileScreen extends StatefulHookConsumerWidget {
+  ProfileScreen({
+    Key? key,
+  }) : super(key: key);
+  @override
+  ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final fieldValues = <String, dynamic>{
     'names': null,
     'docNumber': null,
@@ -26,11 +34,9 @@ class ProfileScreen extends HookConsumerWidget {
     'civilState': null,
   };
   final ImagePicker _picker = ImagePicker();
-
-  ProfileScreen({super.key});
-
+  bool editar = false;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final showError = useState(false);
@@ -59,7 +65,11 @@ class ProfileScreen extends HookConsumerWidget {
     final percentageString = useState('0%');
 
     final imageFile = useState('');
+    final userProfile = ref.watch(userProfileNotifierProvider);
 
+    // editar = userProfile.hasRequiredData() ? false : true;
+    print("iniciar");
+    // print("editar");
     String mapControllerKey(String key) {
       if (key == 'firstName') {
         return firstNameController.text;
@@ -160,7 +170,7 @@ class ProfileScreen extends HookConsumerWidget {
                                 await ximage.then((value) => value!.path);
                             print('image value is ${imageFile.value}');
                           },
-                          child: Icon(
+                          child: const Icon(
                             Icons.add_photo_alternate_outlined,
                             size: 13,
                           ),
@@ -193,6 +203,8 @@ class ProfileScreen extends HookConsumerWidget {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
+                    // readOnly: !editar,
+                    // showCursor: editar,
                     controller: firstNameController,
                     key: const Key('firstName'),
                     validator: (value) {
@@ -219,6 +231,8 @@ class ProfileScreen extends HookConsumerWidget {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
+                    // readOnly: !editar,
+                    // showCursor: editar,
                     controller: lastNameController,
                     key: const Key('lastName'),
                     validator: (value) {
@@ -245,6 +259,8 @@ class ProfileScreen extends HookConsumerWidget {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
+                    // readOnly: !editar,
+                    // showCursor: editar,
                     key: const Key('docNumber'),
                     controller: docNumberController,
                     validator: (value) {
@@ -458,6 +474,12 @@ class ProfileScreen extends HookConsumerWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
+                      setState(() {
+                        editar = true;
+                      });
+                      print("hola");
+                      print(editar);
+
                       if (firstNameController.text.isEmpty ||
                           lastNameController.text.isEmpty ||
                           docNumberController.text.isEmpty ||
@@ -499,7 +521,7 @@ class ProfileScreen extends HookConsumerWidget {
                       // Navigator.pushNamed(context, '/home_home');
                     },
                     child: const Text(
-                      'Completar',
+                      'Editar',
                       style: TextStyle(
                         color: Color(whiteText),
                         fontSize: 16,

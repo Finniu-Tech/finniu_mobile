@@ -16,6 +16,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
     context: ctx,
+    barrierDismissible: false,
     builder: (ctx) => Builder(builder: (BuildContext context) {
       return Dialog(
         insetAnimationDuration: const Duration(seconds: 1),
@@ -417,6 +418,7 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
             ? const Color(primaryDark)
             : const Color(primaryLight),
         context: ctx,
+        isDismissible: false,
         builder: (ctx) => SizedBox(
           height: MediaQuery.of(ctx).size.height * 0.90,
           child: Center(
