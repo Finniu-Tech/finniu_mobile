@@ -256,4 +256,19 @@ class MutationRepository {
         }
     ''';
   }
+
+  static String changePasswordLogued() {
+    return '''
+      mutation changePasswordLogued(\$oldPassword: String!, \$newPassword: String!){
+        changePassword(
+          input:{
+            oldPassword: \$oldPassword,
+            newPassword: \$newPassword
+          }
+        ){
+          success
+        }
+      }
+    ''';
+  }
 }
