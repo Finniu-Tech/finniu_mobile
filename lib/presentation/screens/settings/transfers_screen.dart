@@ -1,129 +1,186 @@
+import 'package:finniu/infrastructure/datasources/transferences_datasource_imp.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/transferences_provider.dart';
 import 'package:finniu/presentation/screens/settings/widgets.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:intl/intl.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
-class TransfersScreen extends ConsumerWidget {
+class TransfersScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
-        body: SingleChildScrollView(
-            child: Center(
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(
-            maxWidth: 700, minWidth: 400, maxHeight: 1000, minHeight: 825),
-        child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(children: [
-              Row(
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Image.asset(
+                  'assets/transfers/credit.png',
+                  width: 90,
+                  height: 90,
+                ),
+                // SizedBox(width: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    "Mis Transferencias",
+                    style: TextStyle(
+                      fontSize: 24,
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  const IconContainer(
+                    image: 'assets/transfers/wallet.png',
+                  ),
                   const SizedBox(
-                    height: 10,
+                    width: 7,
                   ),
-                  Image.asset(
-                    'assets/transfers/credit.png',
-                    width: 90,
-                    height: 90,
-                  ),
-                  // SizedBox(width: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Text(
-                      "Mis Transferencias",
-                      style: TextStyle(
-                        fontSize: 24,
+                  Text(
+                    'Mis últimas transferencias',
+                    style: TextStyle(
+                        fontSize: 14,
                         color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                        fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const IconContainer(
-                          image: 'assets/transfers/wallet.png',
-                        ),
-                        const SizedBox(
-                          width: 7,
-                        ),
-                        Text('Mis últimas transferencias',
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
-                                fontWeight: FontWeight.bold)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: MediaQuery.of(context).size.width * 0.8,
-                height: 3,
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(gradient_secondary_option),
-                      width: 2,
-                    ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 3,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(gradient_secondary_option),
+                    width: 2,
                   ),
                 ),
               ),
-              const SizedBox(height: 5),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'Tus últimas transferencias de inversion realizadas en Finniu',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                      fontSize: 12,
-                      height: 1.5,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText)),
+            ),
+            const SizedBox(height: 5),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                'Tus últimas transferencias de inversion realizadas en Finniu',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.5,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
                 ),
               ),
-              const SizedBox(
-                height: 5,
-              ),
-              const TransferenceList(),
-              // EmptyTransference(),
-            ])),
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            HookBuilder(
+              builder: (context) {
+                final transferences = ref.watch(transferenceFutureProvider);
+                return transferences.when(
+                  data: (transferences) {
+                    return Expanded(
+                      child: ListView.builder(
+                        itemCount: transferences.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: TransferenceItem(
+                              planName: transferences[index].planName,
+                              imageUrl: transferences[index].urlVoucher,
+                              dateSended: transferences[index].date,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  error: ((error, stackTrace) {
+                    return Center(
+                      child: Text(error.toString()),
+                    );
+                  }),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            )
+            // child: Expanded(
+            //   child: ListView.builder(
+            //     shrinkWrap: true,
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //         padding: const EdgeInsets.all(10.0),
+            //         child: TransferenceItem(),
+            //       );
+            //     },
+            //   ),
+            // ),
+
+            // EmptyTransference(),
+          ],
+        ),
       ),
-    )));
+    );
   }
 }
 
-class TransferenceList extends ConsumerWidget {
-  const TransferenceList({super.key});
+class TransferenceItem extends ConsumerWidget {
+  final String imageUrl;
+  final String planName;
+  final DateTime dateSended;
+  const TransferenceItem({
+    super.key,
+    required this.imageUrl,
+    required this.planName,
+    required this.dateSended,
+  });
 
   @override
   Widget build(BuildContext context, ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return Container(
+      height: 74,
+      width: MediaQuery.of(context).size.width * 0.8,
+      // padding: const EdgeInsets.all(20),
+      // margin: const EdgeInsets.only(bottom: 10),
       alignment: Alignment.centerRight,
-      width: 274.0,
-      height: 74.0,
       decoration: BoxDecoration(
         color: currentTheme.isDarkMode
             ? const Color(gradient_primary)
@@ -139,12 +196,12 @@ class TransferenceList extends ConsumerWidget {
             ),
             child: GestureDetector(
               onTap: () async {
-                const url =
-                    'https://www.rnp.gob.pe/clave-bancos/img/voucher-scb-internet.png'; // Reemplaza con la URL que deseas abrir
-                if (await canLaunch(url)) {
-                  await launch(url);
+                // Reemplaza con la URL que deseas abrir
+                if (imageUrl.isNotEmpty) {
+                  final url = Uri.parse(imageUrl);
+                  await launchUrl(url);
                 } else {
-                  throw 'No se pudo abrir la URL: $url';
+                  throw 'No se pudo abrir la URL: $imageUrl';
                 }
               },
               child: const Image(
@@ -155,28 +212,30 @@ class TransferenceList extends ConsumerWidget {
             ),
           ),
           Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Text(
-                  'Transferencia de Plan Origen',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Transferencia de ${planName}',
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
                 ),
-                SizedBox(
-                  height: 5,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Text(
+                // '29 de Mayo 2022',
+                DateFormat('dd MMMM y', 'es').format(dateSended),
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
                 ),
-                Text(
-                  '29 de Mayo 2022',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.black,
-                  ),
-                ),
-              ])
+              ),
+            ],
+          )
         ],
       ),
     );

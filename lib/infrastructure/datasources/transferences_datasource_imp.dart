@@ -1,16 +1,17 @@
+import 'package:finniu/domain/entities/transference_entity.dart';
+import 'package:finniu/infrastructure/mappers/transference_mapper.dart';
+import 'package:finniu/infrastructure/models/transference_response.dart';
 import 'package:graphql/client.dart';
 
 import '../../domain/datasources/transferences_datasource.dart';
 import '../../graphql/queries.dart';
-import '../models/plan_response.dart';
 
 class TransferenceDataSourceImpl extends TransferenceDataSource {
-  final GraphQLClient client;
-
-  TransferenceDataSourceImpl({required this.client});
+  TransferenceDataSourceImpl();
 
   @override
-  Future<List<String>> getBoucherList({required GraphQLClient client}) async {
+  Future<List<TransferenceEntity>> getBoucherList(
+      {required GraphQLClient client}) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -20,6 +21,7 @@ class TransferenceDataSourceImpl extends TransferenceDataSource {
     );
     print('get onboarding data******');
     print(response);
-    return [];
+    final responseBoucher = UserGetBoucherResponse.fromJson(response.data!);
+    return TransferenceMapper.listToEntity(responseBoucher);
   }
 }
