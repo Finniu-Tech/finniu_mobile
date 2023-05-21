@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -7,14 +8,24 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ReinvestEnd extends HookConsumerWidget {
-  const ReinvestEnd({super.key});
+class ReinvestEnd extends StatefulHookConsumerWidget {
+  ReinvestEnd({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final mountController = useTextEditingController();
-    final termController = useTextEditingController();
+  ConsumerState<ReinvestEnd> createState() => _ReinvestEndState();
+}
+
+class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
+  final amountController = useTextEditingController();
+  final monthsController = useTextEditingController();
+
+  // final rentabilityController = useTextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    PlanEntity? plan;
+
     return CustomScaffoldReturnLogo(
       body: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -186,15 +197,15 @@ class ReinvestEnd extends HookConsumerWidget {
                     SizedBox(
                       width: 224,
                       child: TextFormField(
-                        controller: mountController,
+                        controller: amountController,
+                        onChanged: (value) {
+                          _calculatePercentage('monto');
+                        },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Este dato es requerido';
                           }
                           return null;
-                        },
-                        onChanged: (value) {
-                          // nickNameController.text = value.toString();
                         },
                         decoration: const InputDecoration(
                           hintText: 'Escriba su monto de ganancia',
@@ -262,7 +273,7 @@ class ReinvestEnd extends HookConsumerWidget {
                       ),
                       Column(
                         children: [
-                          const Text(
+                          Text(
                             'Plan Origen',
                             textAlign: TextAlign.start,
                             style: TextStyle(
@@ -277,7 +288,7 @@ class ReinvestEnd extends HookConsumerWidget {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
+                            children: <Widget>[
                               Image(
                                 image: AssetImage('assets/icons/dollar.png'),
                                 width: 12, // ancho deseado de la imagen
@@ -286,7 +297,7 @@ class ReinvestEnd extends HookConsumerWidget {
                                     primaryDark), // color de la imagen si es necesario
                               ),
                               Text(
-                                'Monto minimo',
+                                'Monto minimo S/. ${plan?.minAmount.toString()}',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(primaryDark),
@@ -355,110 +366,113 @@ class ReinvestEnd extends HookConsumerWidget {
               const SizedBox(height: 15),
               Center(
                 child: CustomSelectButton(
-                  textEditingController: termController,
-                  items: const ['6 meses', '1 año', '5 años'],
+                  textEditingController: monthsController,
+                  items: const ['6 meses', '12 meses'],
                   labelText: "Plazo",
                   hintText: "Seleccione su plazo de inversión",
+                  callbackOnChange: (value) {
+                    monthsController.text = value;
+                  },
                 ),
               ),
               const SizedBox(
                 height: 15,
               ),
-              Center(
-                child: CustomSelectButton(
-                  textEditingController: termController,
-                  items: const ['BCP', 'Interbank', 'Scotiabank'],
-                  labelText: "Eleccion de Rentabilidad",
-                  hintText: "Seleccione su eleccion",
-                ),
-              ),
+              // Center(
+              //   child: CustomSelectButton(
+              //     textEditingController: rentabilityController,
+              //     items: const ['BCP', 'Interbank', 'Scotiabank'],
+              //     labelText: "Eleccion de Rentabilidad",
+              //     hintText: "Seleccione su eleccion",
+              //   ),
+              // ),
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 136,
-                    height: 81,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            spreadRadius: 0,
-                            blurRadius: 2,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                        color: const Color(primaryLight),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          textAlign: TextAlign.center,
-                          'Monto inicial',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.center,
-                          'S/583',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(blackText),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    width: 136,
-                    height: 81,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            spreadRadius: 0,
-                            blurRadius: 2,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                        color: const Color(secondary),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Text(
-                          textAlign: TextAlign.center,
-                          'En 6 meses tendrias',
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
-                        ),
-                        Text(
-                          textAlign: TextAlign.center,
-                          'S/617.983',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(blackText),
-                          ),
-                        ),
-                      ],
-                    ),
-                  )
-                ],
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+              //   children: [
+              //     Container(
+              //       width: 136,
+              //       height: 81,
+              //       decoration: BoxDecoration(
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Colors.grey.withOpacity(0.6),
+              //               spreadRadius: 0,
+              //               blurRadius: 2,
+              //               offset: const Offset(
+              //                   0, 3), // changes position of shadow
+              //             ),
+              //           ],
+              //           color: const Color(primaryLight),
+              //           borderRadius: BorderRadius.circular(10)),
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: const [
+              //           Text(
+              //             textAlign: TextAlign.center,
+              //             'Monto inicial',
+              //             style: TextStyle(
+              //               fontSize: 10,
+              //               color: Color(blackText),
+              //             ),
+              //           ),
+              //           Text(
+              //             textAlign: TextAlign.center,
+              //             'S/583',
+              //             style: TextStyle(
+              //               fontSize: 16,
+              //               fontWeight: FontWeight.bold,
+              //               color: Color(blackText),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //     const SizedBox(
+              //       width: 10,
+              //     ),
+              //     Container(
+              //       width: 136,
+              //       height: 81,
+              //       decoration: BoxDecoration(
+              //           boxShadow: [
+              //             BoxShadow(
+              //               color: Colors.grey.withOpacity(0.6),
+              //               spreadRadius: 0,
+              //               blurRadius: 2,
+              //               offset: const Offset(
+              //                   0, 3), // changes position of shadow
+              //             ),
+              //           ],
+              //           color: const Color(secondary),
+              //           borderRadius: BorderRadius.circular(10)),
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         children: const [
+              //           Text(
+              //             textAlign: TextAlign.center,
+              //             'En 6 meses tendrias',
+              //             style: TextStyle(
+              //               fontSize: 10,
+              //               color: Color(blackText),
+              //             ),
+              //           ),
+              //           Text(
+              //             textAlign: TextAlign.center,
+              //             'S/617.983',
+              //             style: TextStyle(
+              //               fontSize: 16,
+              //               fontWeight: FontWeight.bold,
+              //               color: Color(blackText),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     )
+              //   ],
+              // ),
               const SizedBox(
                 height: 20,
               ),
@@ -483,3 +497,5 @@ class ReinvestEnd extends HookConsumerWidget {
     );
   }
 }
+
+void _calculatePercentage(String s) {}
