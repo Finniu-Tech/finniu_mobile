@@ -747,20 +747,18 @@ class InitialCardBody extends ConsumerWidget {
             height: 32,
             width: 132,
             alignment: Alignment.center,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.4),
-                  spreadRadius: 0,
-                  blurRadius: 4,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ],
-              // color: Color(primaryDark),
-            ),
             child: Center(
                 child: TextButton(
+              style: ButtonStyle(
+                elevation: MaterialStateProperty.all<double>(4),
+                shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                  const EdgeInsets.symmetric(
+                    horizontal: 20,
+                    // vertical: 10,
+                  ),
+                ),
+              ),
               onPressed: () {
                 Navigator.pushNamed(
                   context,
