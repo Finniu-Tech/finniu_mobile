@@ -245,9 +245,6 @@ class BottomNavigationBarHome extends ConsumerWidget {
               ).withOpacity(.60),
         selectedFontSize: 14,
         unselectedFontSize: 14,
-        onTap: (value) {
-          // Respond to item press.
-        },
         items: [
           BottomNavigationBarItem(
             label: 'Home',

@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -19,25 +20,34 @@ class ReinvestEnd extends StatefulHookConsumerWidget {
 }
 
 class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
-  final amountController = useTextEditingController();
-  final monthsController = useTextEditingController();
-  late Future deadLineFuture;
-  Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
-    if (amountController.text.isNotEmpty && monthsController.text.isNotEmpty) {
-      context.loaderOverlay.show();
-      final inputCalculator = CalculatorInput(
-        amount: int.parse(amountController.text),
-        months: int.parse(monthsController.text.split(' ')[0]),
-      );
-    }
+  Future<PlanEntity> calculateInvestment(
+    BuildContext context,
+    WidgetRef ref,
+    TextEditingController amountController,
+    TextEditingController monthsController,
+  ) async {
+    print('amount controller: ${amountController.text}');
+    print('months controller: ${monthsController.text}');
+
+    final inputCalculator = CalculatorInput(
+      amount: int.parse(amountController.text),
+      months: int.parse(monthsController.text.split(' ')[0]),
+    );
+    print('inputCalculator: $inputCalculator');
+    final result = await ref
+        .watch(calculateInvestmentFutureProvider(inputCalculator).future);
+    print('result: ${result.plan?.name}');
+    return result.plan!;
   }
 
+  PlanEntity? plan;
   // final rentabilityController = useTextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final amountController = useTextEditingController();
+    final monthsController = useTextEditingController();
     final themeProvider = ref.watch(settingsNotifierProvider);
-    PlanEntity? plan;
 
     return CustomScaffoldReturnLogo(
       body: Padding(
@@ -293,7 +303,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                       Column(
                         children: [
                           Text(
-                            'Plan Origen',
+                            plan?.name ?? '',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               color: Color(primaryDark),
@@ -316,7 +326,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                     primaryDark), // color de la imagen si es necesario
                               ),
                               Text(
-                                'Monto minimo S/. ${plan?.minAmount.toString()}',
+                                'Monto mínimo',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(primaryDark),
@@ -328,7 +338,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                 width: 5,
                               ),
                               Text(
-                                'S/500',
+                                'S/ ${plan?.minAmount ?? ''}',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(primaryDark),
@@ -342,7 +352,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                           const SizedBox(height: 6),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const <Widget>[
+                            children: <Widget>[
                               Image(
                                 image: AssetImage(
                                     'assets/icons/double_dollar.png'),
@@ -364,7 +374,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                 width: 5,
                               ),
                               Text(
-                                '12 %',
+                                "${plan?.twelveMonthsReturn ?? ''} %",
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
                                   color: Color(primaryDark),
@@ -385,14 +395,25 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
               const SizedBox(height: 15),
               Center(
                 child: CustomSelectButton(
-                  asyncItems: (String filter) async {
-                    final response = await deadLineFuture;
-                    return response.map((e) => e.name).toList();
-                  },
+                  // asyncItems: (String filter) async {
+                  //   final response = await deadLineFuture;
+                  //   return response.map((e) => e.name).toList();
+                  // },
                   callbackOnChange: (value) async {
+                    monthsController.text = value;
                     if (amountController.text.isNotEmpty &&
                         monthsController.text.isNotEmpty) {
-                      calculateInvestment(context, ref);
+                      context.loaderOverlay.show();
+                      final result = await calculateInvestment(
+                        context,
+                        ref,
+                        amountController,
+                        monthsController,
+                      );
+                      setState(() {
+                        plan = result;
+                      });
+                      context.loaderOverlay.hide();
                     }
                   },
                   textEditingController: monthsController,
