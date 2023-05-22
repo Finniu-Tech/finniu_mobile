@@ -184,7 +184,7 @@ class CusttomButtonRoundedLight extends StatefulWidget {
 class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         if (widget.isReturn == true) {
           Navigator.of(context).pop();
@@ -210,7 +210,7 @@ class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
 }
 
 class BottomNavigationBarHome extends ConsumerWidget {
-  const BottomNavigationBarHome({super.key});
+  const BottomNavigationBarHome({Key? key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -252,31 +252,34 @@ class BottomNavigationBarHome extends ConsumerWidget {
           BottomNavigationBarItem(
             label: 'Home',
             icon: InkWell(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 50, left: 50),
-                child: Image.asset('assets/icons/home.png',
-                    width: 30,
-                    height: 30,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(
-                            primaryLight,
-                          )),
-              ),
               onTap: () {
                 Navigator.pushReplacementNamed(context, '/home_home');
-                // Navigator.of(context).pushNamedAndRemoveUntil(
-                //   '/home_home',
-                //   (route) => true,
-                // );
               },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                child: Image.asset(
+                  'assets/icons/home.png',
+                  width: 30,
+                  height: 30,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(
+                          primaryLight,
+                        ),
+                ),
+              ),
             ),
           ),
           BottomNavigationBarItem(
             label: 'Planes',
             icon: InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/plan_list');
+              },
               child: Padding(
-                padding: const EdgeInsets.only(left: 50, right: 50),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
                 child: Image.asset(
                   'assets/icons/square.png',
                   width: 30,
@@ -288,42 +291,152 @@ class BottomNavigationBarHome extends ConsumerWidget {
                         ),
                 ),
               ),
-              onTap: () {
-                // Navigator.of(context).pushNamedAndRemoveUntil(
-                //   '/plan_list',
-                //   (route) => true,
-                // );
-                Navigator.pushReplacementNamed(context, '/plan_list');
-              },
             ),
           ),
           BottomNavigationBarItem(
-              label: 'Inversiones',
-              icon: InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 50, right: 50),
-                  child: Image.asset(
-                    'assets/icons/dollar.png',
-                    width: 30,
-                    height: 30,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(
-                            primaryLight,
-                          ),
-                  ),
+            label: 'Inversiones',
+            icon: InkWell(
+              onTap: () {
+                Navigator.pushReplacementNamed(context, '/process_investment');
+              },
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                child: Image.asset(
+                  'assets/icons/dollar.png',
+                  width: 30,
+                  height: 30,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryDark)
+                      : const Color(
+                          primaryLight,
+                        ),
                 ),
-                onTap: () {
-                  Navigator.pushReplacementNamed(
-                      context, '/process_investment');
-                  // Navigator.of(context).pushNamedAndRemoveUntil(
-                  //   '/process_investment',
-                  //   (route) => true,
-                  // );
-                },
-              )),
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 }
+// class BottomNavigationBarHome extends ConsumerWidget {
+//   const BottomNavigationBarHome({super.key});
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final currentTheme = ref.watch(settingsNotifierProvider);
+//     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+//     return Container(
+//       decoration: BoxDecoration(
+//         borderRadius: const BorderRadius.only(
+//           topLeft: Radius.circular(20.0),
+//           topRight: Radius.circular(20.0),
+//           // adjust to your liking
+//         ),
+//         color: currentTheme.isDarkMode
+//             ? const Color(primaryLight)
+//             : const Color(
+//                 primaryDark,
+//               ),
+//       ),
+//       child: BottomNavigationBar(
+//         elevation: 0.0,
+//         type: BottomNavigationBarType.fixed,
+//         backgroundColor: Colors.transparent,
+//         selectedItemColor: currentTheme.isDarkMode
+//             ? const Color(primaryDark)
+//             : const Color(
+//                 primaryLight,
+//               ),
+//         unselectedItemColor: currentTheme.isDarkMode
+//             ? const Color(primaryDark)
+//             : const Color(
+//                 primaryLight,
+//               ).withOpacity(.60),
+//         selectedFontSize: 14,
+//         unselectedFontSize: 14,
+//         onTap: (value) {
+//           // Respond to item press.
+//         },
+//         items: [
+//           BottomNavigationBarItem(
+//             label: 'Home',
+//             icon: GestureDetector(
+//               onTap: () {
+//                 Navigator.pushReplacementNamed(context, '/home_home');
+//                 // Navigator.of(context).pushNamedAndRemoveUntil(
+//                 //   '/home_home',
+//                 //   (route) => true,
+//                 // );
+//               },
+//               child: Padding(
+//                 padding: const EdgeInsets.only(left: 50, right: 50),
+//                 child: Image.asset(
+//                   'assets/icons/home.png',
+//                   width: 30,
+//                   height: 30,
+//                   color: currentTheme.isDarkMode
+//                       ? const Color(primaryDark)
+//                       : const Color(
+//                           primaryLight,
+//                         ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//           BottomNavigationBarItem(
+//             label: 'Planes',
+//             icon: GestureDetector(
+//               child: Padding(
+//                 padding: const EdgeInsets.only(left: 50, right: 50),
+//                 child: Image.asset(
+//                   'assets/icons/square.png',
+//                   width: 30,
+//                   height: 30,
+//                   color: currentTheme.isDarkMode
+//                       ? const Color(primaryDark)
+//                       : const Color(
+//                           primaryLight,
+//                         ),
+//                 ),
+//               ),
+//               onTap: () {
+//                 // Navigator.of(context).pushNamedAndRemoveUntil(
+//                 //   '/plan_list',
+//                 //   (route) => true,
+//                 // );
+//                 Navigator.pushReplacementNamed(context, '/plan_list');
+//               },
+//             ),
+//           ),
+//           BottomNavigationBarItem(
+//               label: 'Inversiones',
+//               icon: GestureDetector(
+//                 child: Padding(
+//                   padding: const EdgeInsets.only(left: 50, right: 50),
+//                   child: Image.asset(
+//                     'assets/icons/dollar.png',
+//                     width: 30,
+//                     height: 30,
+//                     color: currentTheme.isDarkMode
+//                         ? const Color(primaryDark)
+//                         : const Color(
+//                             primaryLight,
+//                           ),
+//                   ),
+//                 ),
+//                 onTap: () {
+//                   Navigator.pushReplacementNamed(
+//                       context, '/process_investment');
+//                   // Navigator.of(context).pushNamedAndRemoveUntil(
+//                   //   '/process_investment',
+//                   //   (route) => true,
+//                   // );
+//                 },
+//               )),
+//         ],
+//       ),
+//     );
+//   }
+// }

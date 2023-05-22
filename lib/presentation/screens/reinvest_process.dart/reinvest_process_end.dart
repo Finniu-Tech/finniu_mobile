@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+
+import '../../../infrastructure/models/calculate_investment.dart';
 
 class ReinvestEnd extends StatefulHookConsumerWidget {
   ReinvestEnd({Key? key}) : super(key: key);
@@ -18,6 +21,16 @@ class ReinvestEnd extends StatefulHookConsumerWidget {
 class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
   final amountController = useTextEditingController();
   final monthsController = useTextEditingController();
+  late Future deadLineFuture;
+  Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
+    if (amountController.text.isNotEmpty && monthsController.text.isNotEmpty) {
+      context.loaderOverlay.show();
+      final inputCalculator = CalculatorInput(
+        amount: int.parse(amountController.text),
+        months: int.parse(monthsController.text.split(' ')[0]),
+      );
+    }
+  }
 
   // final rentabilityController = useTextEditingController();
 
@@ -198,15 +211,21 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                       width: 224,
                       child: TextFormField(
                         controller: amountController,
-                        onChanged: (value) {
-                          _calculatePercentage('monto');
-                        },
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Este dato es requerido';
                           }
                           return null;
                         },
+                        // onChanged: (value) {
+                        //   // nickNameController.text = value.toString();
+                        // _debouncer.run(() {
+                        //     if (amountController.text.isNotEmpty &&
+                        //         monthsController.text.isNotEmpty) {
+                        //       calculateInvestment(context, ref);
+                        //     }
+                        //   }); },
+
                         decoration: const InputDecoration(
                           hintText: 'Escriba su monto de ganancia',
                           hintStyle:
@@ -366,13 +385,20 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
               const SizedBox(height: 15),
               Center(
                 child: CustomSelectButton(
+                  asyncItems: (String filter) async {
+                    final response = await deadLineFuture;
+                    return response.map((e) => e.name).toList();
+                  },
+                  callbackOnChange: (value) async {
+                    if (amountController.text.isNotEmpty &&
+                        monthsController.text.isNotEmpty) {
+                      calculateInvestment(context, ref);
+                    }
+                  },
                   textEditingController: monthsController,
                   items: const ['6 meses', '12 meses'],
                   labelText: "Plazo",
                   hintText: "Seleccione su plazo de inversión",
-                  callbackOnChange: (value) {
-                    monthsController.text = value;
-                  },
                 ),
               ),
               const SizedBox(
