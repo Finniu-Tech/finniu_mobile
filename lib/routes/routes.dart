@@ -70,5 +70,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/investment_history': (BuildContext context) => InvestmentHistory(),
     '/reinvest': (BuildContext context) => const Reinvest(),
     '/reinvest_end': (BuildContext context) => ReinvestEnd(),
+    '/empty_transference': (BuildContext context) => EmptyTransference(),
   };
 }

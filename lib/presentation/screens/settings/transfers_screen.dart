@@ -113,21 +113,25 @@ class TransfersScreen extends HookConsumerWidget {
                 final transferences = ref.watch(transferenceFutureProvider);
                 return transferences.when(
                   data: (transferences) {
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: transferences.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: TransferenceItem(
-                              planName: transferences[index].planName,
-                              imageUrl: transferences[index].urlVoucher,
-                              dateSended: transferences[index].date,
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                    if (transferences.length == 0) {
+                      return EmptyTransference();
+                    } else {
+                      return Expanded(
+                        child: ListView.builder(
+                          itemCount: transferences.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: TransferenceItem(
+                                planName: transferences[index].planName,
+                                imageUrl: transferences[index].urlVoucher,
+                                dateSended: transferences[index].date,
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    }
                   },
                   error: ((error, stackTrace) {
                     return Center(
@@ -260,9 +264,9 @@ class EmptyTransference extends ConsumerWidget {
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(height: 150),
+          const SizedBox(height: 60),
           const SizedBox(
             width: 210,
             child: Text(
