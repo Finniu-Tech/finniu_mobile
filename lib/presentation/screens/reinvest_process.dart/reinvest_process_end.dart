@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
     final amountController = useTextEditingController();
     final monthsController = useTextEditingController();
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final _debouncer = Debouncer(milliseconds: 3000);
 
     return CustomScaffoldReturnLogo(
       body: Padding(
@@ -227,15 +229,15 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                           }
                           return null;
                         },
-                        // onChanged: (value) {
-                        //   // nickNameController.text = value.toString();
-                        // _debouncer.run(() {
-                        //     if (amountController.text.isNotEmpty &&
-                        //         monthsController.text.isNotEmpty) {
-                        //       calculateInvestment(context, ref);
-                        //     }
-                        //   }); },
-
+                        onChanged: (value) {
+                          _debouncer.run(() {
+                            if (amountController.text.isNotEmpty &&
+                                monthsController.text.isNotEmpty) {
+                              calculateInvestment(context, ref,
+                                  amountController, monthsController);
+                            }
+                          });
+                        },
                         decoration: const InputDecoration(
                           hintText: 'Escriba su monto de ganancia',
                           hintStyle:
