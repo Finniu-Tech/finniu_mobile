@@ -123,9 +123,14 @@ class QueryRepository {
 
   static String get userGetBouchers {
     return '''
-    query {
-    userGetBouchers{
-    boucherImage
+    query getBouchers{
+      userGetBouchers{
+        boucherImage
+        plan{
+          name
+        }
+        dateSended
+        
       }
     }
    ''';
