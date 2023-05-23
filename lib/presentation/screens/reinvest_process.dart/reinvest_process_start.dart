@@ -110,7 +110,7 @@ class Reinvest extends HookConsumerWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 35,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
@@ -123,7 +123,7 @@ class Reinvest extends HookConsumerWidget {
                           alignment: Alignment.center,
                           child: Container(
                             width: 185,
-                            height: 85,
+                            height: 95,
                             padding: const EdgeInsets.only(
                               left: 20,
                               top: 20,
@@ -190,85 +190,85 @@ class Reinvest extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 15,
                 ),
                 Row(
                   children: [
-                    Image.asset(
-                      alignment: Alignment.centerRight,
-                      'assets/images/money_dark.png',
-                      height: 24,
-                      width: 24,
-                      color: themeProvider.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      textAlign: TextAlign.justify,
-                      'Elige tu método de reinvertir ',
-                      style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w400,
-                        color: themeProvider.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(
-                                primaryDark,
-                              ),
-                      ),
-                    )
+                    // Image.asset(
+                    //   alignment: Alignment.centerRight,
+                    //   'assets/images/money_dark.png',
+                    //   height: 24,
+                    //   width: 24,
+                    //   color: themeProvider.isDarkMode
+                    //       ? const Color(primaryLight)
+                    //       : const Color(primaryDark),
+                    // ),
+                    // const SizedBox(
+                    //   width: 10,
+                    // ),
+                    // Text(
+                    //   textAlign: TextAlign.justify,
+                    //   'Elige tu método de reinvertir ',
+                    //   style: TextStyle(
+                    //     fontSize: 12,
+                    //     fontWeight: FontWeight.w400,
+                    //     color: themeProvider.isDarkMode
+                    //         ? const Color(whiteText)
+                    //         : const Color(
+                    //             primaryDark,
+                    //           ),
+                    //   ),
+                    // )
                   ],
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/reinvest_end');
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: 53,
-                      constraints: const BoxConstraints(
-                        maxWidth: 320,
-                      ),
-                      decoration: BoxDecoration(
-                          color: themeProvider.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 0,
-                              blurRadius: 0,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            )
-                          ]),
-                      child: Padding(
-                        padding: const EdgeInsets.all(19.0),
-                        child: Text(
-                          textAlign: TextAlign.center,
-                          'Reinvertir mi capital',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: themeProvider.isDarkMode
-                                ? const Color(primaryDark)
-                                : const Color(whiteText),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 10),
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.pushNamed(context, '/reinvest_end');
+                //     },
+                //     child: Container(
+                //       width: MediaQuery.of(context).size.width * 0.8,
+                //       height: 53,
+                //       constraints: const BoxConstraints(
+                //         maxWidth: 320,
+                //       ),
+                //       decoration: BoxDecoration(
+                //           color: themeProvider.isDarkMode
+                //               ? const Color(primaryLight)
+                //               : const Color(primaryDark),
+                //           borderRadius: BorderRadius.circular(20),
+                //           boxShadow: [
+                //             BoxShadow(
+                //               color: Colors.grey.withOpacity(0.6),
+                //               spreadRadius: 0,
+                //               blurRadius: 0,
+                //               offset: const Offset(
+                //                   0, 3), // changes position of shadow
+                //             )
+                //           ]),
+                //       child: Padding(
+                //         padding: const EdgeInsets.all(19.0),
+                //         child: Text(
+                //           textAlign: TextAlign.center,
+                //           'Reinvertir mi capital',
+                //           style: TextStyle(
+                //             fontSize: 12,
+                //             fontWeight: FontWeight.w500,
+                //             color: themeProvider.isDarkMode
+                //                 ? const Color(primaryDark)
+                //                 : const Color(whiteText),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 SizedBox(
                   child: Row(
@@ -288,9 +288,9 @@ class Reinvest extends HookConsumerWidget {
                         width: 140,
                         child: Text(
                           textAlign: TextAlign.center,
-                          'Si tienes otra opción para reinvertir, escribenos al',
+                          'Si deseas reinvertir, escribenos al',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: themeProvider.isDarkMode
                                 ? const Color(whiteText)

@@ -59,24 +59,27 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(
-                  width: 260,
-                  child: Text(
-                    question,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(
-                        primaryDark,
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(
+                    width: 260,
+                    child: Text(
+                      question,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(
+                          primaryDark,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -177,7 +180,7 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
             //   ),
             // ),
             const SizedBox(
-              height: 4,
+              height: 10,
             ),
             TextButton(
               onPressed: () async {
