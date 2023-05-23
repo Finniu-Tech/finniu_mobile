@@ -34,30 +34,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     'civilState': null,
   };
   final ImagePicker _picker = ImagePicker();
-  bool editar = false;
   @override
   Widget build(BuildContext context) {
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    print('userProfileNotifierProvider: ${userProfile.documentNumber}');
+
     final showError = useState(false);
     // final namesController = useTextEditingController();
-    final firstNameController = useTextEditingController();
-    final lastNameController = useTextEditingController();
-    final docNumberController = useTextEditingController();
-    final departmentController = useTextEditingController();
-    final provinceController = useTextEditingController();
-    final districtController = useTextEditingController();
+    final firstNameController =
+        useTextEditingController(text: userProfile.firstName);
+    final lastNameController =
+        useTextEditingController(text: userProfile.lastName);
+    final docNumberController =
+        useTextEditingController(text: userProfile.documentNumber);
+    final departmentController =
+        useTextEditingController(text: userProfile.region);
+    final provinceController =
+        useTextEditingController(text: userProfile.provincia);
+    final districtController =
+        useTextEditingController(text: userProfile.distrito);
     final addressController = useTextEditingController();
-    final civilStateController = useTextEditingController();
-    final departmentCodeController = useTextEditingController();
-    final provinceCodeController = useTextEditingController();
-    final districtCodeController = useTextEditingController();
+    final civilStateController =
+        useTextEditingController(text: userProfile.civilStatus);
 
     final regionsFuture = ref.watch(regionsFutureProvider.future);
     final allProvincesFuture = ref.read(provincesFutureProvider.future);
     final provinces = ref.watch(provincesStateNotifier);
     ref.read(districtsFutureProvider.future);
     final districts = ref.watch(districtsStateNotifier);
+    final departmentCodeController = useTextEditingController();
+    final provinceCodeController = useTextEditingController();
+    final districtCodeController = useTextEditingController();
 
     final _formKey = GlobalKey<FormState>();
 
@@ -65,11 +74,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final percentageString = useState('0%');
 
     final imageFile = useState('');
-    final userProfile = ref.watch(userProfileNotifierProvider);
 
-    // editar = userProfile.hasRequiredData() ? false : true;
-    print("iniciar");
-    // print("editar");
+    final editar = useState(userProfile.hasRequiredData() ? false : true);
+    print('editar: ${editar.value}');
+
     String mapControllerKey(String key) {
       if (key == 'firstName') {
         return firstNameController.text;
@@ -203,8 +211,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
-                    // readOnly: !editar,
-                    // showCursor: editar,
+                    readOnly: !editar.value,
+                    showCursor: !editar.value,
                     controller: firstNameController,
                     key: const Key('firstName'),
                     validator: (value) {
@@ -474,11 +482,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
-                      setState(() {
-                        editar = true;
-                      });
+                      // setState(() {
+                      //   editar.value = !editar.value;
+                      // });
+                      editar.value = !editar.value;
                       print("hola");
-                      print(editar);
+                      print(editar.value);
 
                       if (firstNameController.text.isEmpty ||
                           lastNameController.text.isEmpty ||
@@ -491,7 +500,28 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             'Por favor, complete todos los campos', 'error');
                         return;
                       }
-
+                      if (departmentCodeController.text.isEmpty ||
+                          provinceCodeController.text.isEmpty ||
+                          districtCodeController.text.isEmpty) {
+                        departmentCodeController.text =
+                            RegionEntity.getCodeFromName(
+                                departmentController.text, await regionsFuture);
+                        provinceCodeController.text =
+                            ProvinceEntity.getCodeFromName(
+                                provinceController.text,
+                                departmentCodeController.text,
+                                await allProvincesFuture);
+                        print('district is ${districtCodeController.text}');
+                        print('province is ${provinceCodeController.text}');
+                        print('department is ${departmentCodeController.text}');
+                        districtCodeController.text =
+                            DistrictEntity.getCodeFromName(
+                          districtController.text,
+                          provinceCodeController.text,
+                          departmentCodeController.text,
+                          await districts,
+                        );
+                      }
                       final userProfile =
                           ref.watch(userProfileNotifierProvider);
                       final success = await ref.read(
@@ -520,8 +550,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                       // Navigator.pushNamed(context, '/home_home');
                     },
-                    child: const Text(
-                      'Editar',
+                    child: Text(
+                      editar.value ? 'Guardar' : 'Editar',
                       style: TextStyle(
                         color: Color(whiteText),
                         fontSize: 16,

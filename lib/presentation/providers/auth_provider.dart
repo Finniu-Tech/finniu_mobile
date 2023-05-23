@@ -13,11 +13,7 @@ final authTokenMutationProvider =
   if (gqlClient == null) {
     throw Exception('GraphQL client is null');
   }
-  print('auth token provider******');
-  print('email');
-  print(login.email);
-  print('password');
-  print(login.password);
+
   final userData = await gqlClient.mutate(
     MutationOptions(
       document: gql(
@@ -29,8 +25,7 @@ final authTokenMutationProvider =
       },
     ),
   );
-  print('resposne token');
-  print(userData);
+
   ref.read(authTokenProvider.notifier).state =
       userData.data?['tokenAuth']['token'];
   return userData.data?['tokenAuth']['token'];

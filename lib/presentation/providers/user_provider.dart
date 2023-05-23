@@ -25,11 +25,15 @@ final userProfileFutureProvider =
   );
   print('result user profile');
   print(result);
-  if (result.hasException) {
-    throw result.exception!;
-  }
+  // if (result.hasException) {
+  //   throw result.exception!;
+  // }
+  print('before if');
   if (result.data?['userProfile'] != null) {
+    print('entre if ');
     final userProfile = UserProfile.fromJson(result.data?['userProfile']);
+    print('user profile zero!!!!!');
+    print(userProfile.documentNumber);
     if (userProfile.hasCompletedOnboarding == true) {
       ref.read(hasCompletedOnboardingProvider.notifier).state = true;
     }
@@ -42,8 +46,13 @@ final userProfileFutureProvider =
           firstName: userProfile.firstName,
           lastName: userProfile.lastName,
           phoneNumber: userProfile.phoneNumber,
+          documentNumber: userProfile.documentNumber,
           imageProfileUrl: userProfile.imageProfileUrl,
           hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
+          distrito: userProfile.distrito,
+          provincia: userProfile.provincia,
+          region: userProfile.region,
+          civilStatus: userProfile.civilStatus,
         );
     return userProfile;
   }
@@ -67,6 +76,11 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           lastName: userProfile.lastName,
           phoneNumber: userProfile.phoneNumber,
           imageProfileUrl: userProfile.imageProfileUrl,
+          documentNumber: userProfile.documentNumber,
+          distrito: userProfile.distrito,
+          provincia: userProfile.provincia,
+          region: userProfile.region,
+          civilStatus: userProfile.civilStatus,
         );
   }
   return success;
@@ -89,8 +103,16 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? phoneNumber,
     String? password,
     String? imageProfileUrl,
+    String? documentNumber,
+    String? distrito,
+    String? provincia,
+    String? region,
+    String? civilStatus,
     bool hasCompletedOnboarding = false,
   }) {
+    print('update fields user profile +++++++');
+    print('documentNumber');
+    print(documentNumber);
     state = state.copyWith(
       id: id,
       nickName: nickName,
@@ -101,6 +123,11 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       hasCompletedOnboarding: hasCompletedOnboarding,
       password: password,
       imageProfileUrl: imageProfileUrl,
+      documentNumber: documentNumber,
+      distrito: distrito,
+      provincia: provincia,
+      region: region,
+      civilStatus: civilStatus,
     );
   }
 
