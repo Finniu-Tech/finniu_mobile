@@ -35,6 +35,8 @@ class SnackBarBody extends HookConsumerWidget {
     final themeProvider = ref.watch(settingsNotifierProvider);
 
     return Container(
+      color:
+          themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
       alignment: Alignment.center,
       height: 110,
       width: 310,
@@ -61,15 +63,18 @@ class SnackBarBody extends HookConsumerWidget {
           Positioned(
             left: 110,
             top: 45,
-            child: SizedBox(
-              width: 200,
-              height: 50,
-              child: Text(
-                message,
-                style: TextStyle(
-                  color: themeProvider.isDarkMode ? Colors.white : Colors.black,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
+            child: Container(
+              child: SizedBox(
+                width: 200,
+                height: 50,
+                child: Text(
+                  message,
+                  style: TextStyle(
+                    color:
+                        themeProvider.isDarkMode ? Colors.white : Colors.black,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),

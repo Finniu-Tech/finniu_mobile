@@ -26,7 +26,7 @@ import 'package:finniu/presentation/screens/login/email_screen.dart';
 import 'package:finniu/presentation/screens/login/forgot_password.dart';
 import 'package:finniu/presentation/screens/login/invalid_email.dart';
 import 'package:finniu/presentation/screens/plans/plans_screen.dart';
-import 'package:finniu/presentation/screens/privacy/privacy_screen.dart';
+import 'package:finniu/presentation/screens/settings/privacy_screen.dart';
 import 'package:finniu/presentation/screens/signup/email_screen.dart';
 import 'package:finniu/presentation/screens/login/start_screen.dart';
 import 'package:finniu/presentation/screens/onboarding/start_onboarding.dart';
