@@ -358,7 +358,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                             .center, // alinear los textos a la izquierda
                         children: [
                           Padding(
-                            padding: EdgeInsets.all(24.0),
+                            padding: EdgeInsets.all(23.0),
                             child: Text(
                               "Hola ${userProfile.nickName}, separar entre un 10 a 15% de tus ingresos mensuales es una buena forma de empezar a invertir tu dinero para cumplir tus metas.¿Deseas guardar tu presupuesto?",
                               textAlign: TextAlign.justify,

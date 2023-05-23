@@ -59,22 +59,6 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              alignment: Alignment.topRight,
-              margin: const EdgeInsets.only(right: 20, top: 15),
-              child: IconButton(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(
-                        blackText,
-                      ),
-                alignment: Alignment.topRight,
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.of(context).pop(); // cerrar la pantalla modal
-                },
-              ),
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
