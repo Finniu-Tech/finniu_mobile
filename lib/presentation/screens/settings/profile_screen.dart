@@ -552,7 +552,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     },
                     child: Text(
                       editar.value ? 'Guardar' : 'Editar',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(whiteText),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,

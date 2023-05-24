@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -657,7 +656,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
             opacity: index == _currentPageIndex ? 1.0 : 0.0,
             child: Image.asset(
               image,
-              // height: MediaQuery.of(context).size.height * 0.4,
+              // height: MediaQuery.of(context).size.height * 0.32,
               width: MediaQuery.of(context).size.width * 0.9,
               fit: BoxFit.cover,
               gaplessPlayback: true,
