@@ -19,121 +19,123 @@ class TransfersScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              Image.asset(
-                'assets/transfers/credit.png',
-                width: 90,
-                height: 90,
-              ),
-              // SizedBox(width: 10),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Text(
-                  "Mis Transferencias",
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const IconContainer(
-                  image: 'assets/transfers/wallet.png',
-                ),
                 const SizedBox(
-                  width: 7,
+                  height: 10,
                 ),
-                Text(
-                  'Mis últimas transferencias',
-                  style: TextStyle(
-                      fontSize: 14,
+                Image.asset(
+                  'assets/transfers/credit.png',
+                  width: 90,
+                  height: 90,
+                ),
+                // SizedBox(width: 10),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10),
+                  child: Text(
+                    "Mis Transferencias",
+                    style: TextStyle(
+                      fontSize: 24,
                       color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
-                      fontWeight: FontWeight.bold),
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ],
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          // Container(
-          //   width: MediaQuery.of(context).size.width * 0.8,
-          //   height: 3,
-          //   decoration: BoxDecoration(
-          //     border: Border(
-          //       bottom: BorderSide(
-          //         color: currentTheme.isDarkMode
-          //             ? const Color(primaryLight)
-          //             : const Color(gradient_secondary_option),
-          //         width: 2,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // const SizedBox(height: 5),
-          // Padding(
-          //   padding: const EdgeInsets.all(20.0),
-          //   child: Text(
-          //     'Tus últimas transferencias de inversion realizadas en Finniu',
-          //     textAlign: TextAlign.left,
-          //     style: TextStyle(
-          //       fontSize: 12,
-          //       height: 1.5,
-          //       color: currentTheme.isDarkMode
-          //           ? const Color(whiteText)
-          //           : const Color(blackText),
-          //     ),
-          //   ),
-          // ),
-          const SizedBox(
-            height: 5,
-          ),
-          HookBuilder(
-            builder: (context) {
-              final transferences = ref.watch(transferenceFutureProvider);
-              return transferences.when(
-                data: (transferences) {
-                  if (transferences.length == 0) {
-                    print(EmptyTransference());
-                    return EmptyTransference();
-                  } else {
-                    print(transferences);
-                    return TransfersScreenListWidget(
-                      transferences: transferences,
+            const SizedBox(height: 20),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const IconContainer(
+                    image: 'assets/transfers/wallet.png',
+                  ),
+                  const SizedBox(
+                    width: 7,
+                  ),
+                  Text(
+                    'Mis últimas transferencias',
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
+                        fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.8,
+            //   height: 3,
+            //   decoration: BoxDecoration(
+            //     border: Border(
+            //       bottom: BorderSide(
+            //         color: currentTheme.isDarkMode
+            //             ? const Color(primaryLight)
+            //             : const Color(gradient_secondary_option),
+            //         width: 2,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 5),
+            // Padding(
+            //   padding: const EdgeInsets.all(20.0),
+            //   child: Text(
+            //     'Tus últimas transferencias de inversion realizadas en Finniu',
+            //     textAlign: TextAlign.left,
+            //     style: TextStyle(
+            //       fontSize: 12,
+            //       height: 1.5,
+            //       color: currentTheme.isDarkMode
+            //           ? const Color(whiteText)
+            //           : const Color(blackText),
+            //     ),
+            //   ),
+            // ),
+            const SizedBox(
+              height: 5,
+            ),
+            HookBuilder(
+              builder: (context) {
+                final transferences = ref.watch(transferenceFutureProvider);
+                return transferences.when(
+                  data: (transferences) {
+                    if (transferences.length == 0) {
+                      print(EmptyTransference());
+                      return EmptyTransference();
+                    } else {
+                      print(transferences);
+                      return TransfersScreenListWidget(
+                        transferences: transferences,
+                      );
+                    }
+                  },
+                  error: ((error, stackTrace) {
+                    return Center(
+                      child: Text(error.toString()),
                     );
-                  }
-                },
-                error: ((error, stackTrace) {
-                  return Center(
-                    child: Text(error.toString()),
-                  );
-                }),
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            },
-          )
-        ],
+                  }),
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
@@ -145,7 +147,6 @@ class TransfersScreenListWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-
     return Container(
       child: Column(
         children: [
@@ -166,20 +167,25 @@ class TransfersScreenListWidget extends HookConsumerWidget {
           const SizedBox(height: 5),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text(
-              'Tus últimas transferencias de inversión realizadas en Finniu',
-              textAlign: TextAlign.left,
-              style: TextStyle(
-                fontSize: 12,
-                height: 1.5,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(blackText),
+            child: Container(
+              width: 290,
+              child: Text(
+                'Tus últimas transferencias de inversión realizadas en Finniu',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.5,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
+                ),
               ),
             ),
           ),
-          Expanded(
+          SizedBox(
+            width: 310,
             child: ListView.builder(
+              shrinkWrap: true,
               itemCount: transferences.length,
               itemBuilder: (context, index) {
                 return Padding(

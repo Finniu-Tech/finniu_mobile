@@ -82,7 +82,7 @@ class Reinvest extends HookConsumerWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
