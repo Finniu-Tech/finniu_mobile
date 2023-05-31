@@ -135,4 +135,16 @@ class QueryRepository {
     }
    ''';
   }
+
+  static String get userHomeReport {
+    return '''
+      query getUserInvestmentTotalBalance{
+        userInfoInvestment{
+          totalBalanceAmmount
+          countPlanesActive
+          totalBalanceRentability
+        }
+      }
+    ''';
+  }
 }

@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:ui';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
+import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/avatar.dart';
@@ -72,45 +74,47 @@ class HomeBody extends ConsumerWidget {
             children: [
               const SizedBox(height: 70),
 
-              Row(children: [
-                InkWell(
-                  onTap: () {
-                    settingsDialog(context, ref);
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: const CircularPercentAvatarWidget(),
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Hola,${userProfile.nickName ?? ''}!",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
+              Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      settingsDialog(context, ref);
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      child: const CircularPercentAvatarWidget(),
                     ),
                   ),
-                ),
-                const Spacer(),
-                SizedBox(
-                  child: Image.asset(
-                    'assets/images/logo_small.png',
-                    width: 60,
-                    height: 60,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                  const SizedBox(
+                    width: 10,
                   ),
-                ),
-              ]),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Hola,${userProfile.nickName ?? ''}!",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    child: Image.asset(
+                      'assets/images/logo_small.png',
+                      width: 60,
+                      height: 60,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(width: 30),
 
               const SizedBox(height: 25),
@@ -130,10 +134,35 @@ class HomeBody extends ConsumerWidget {
                   ),
                 ),
               ),
-              const LineReportHomeWidget(
-                initialAmount: 550,
-                finalAmount: 583,
-                revenueAmount: 33,
+              HookBuilder(
+                builder: (context) {
+                  final homeReport = ref.watch(homeReportProvider);
+                  return homeReport.when(
+                    data: (homeReport) {
+                      return LineReportHomeWidget(
+                        initialAmount:
+                            homeReport["totalBalanceAmmount"].toDouble(),
+                        finalAmount: homeReport["totalBalanceAmmount"]
+                                .toDouble() +
+                            double.parse(homeReport["totalBalanceRentability"]),
+                        revenueAmount:
+                            double.parse(homeReport["totalBalanceRentability"]),
+                        totalPlans: homeReport["countPlanesActive"].toDouble(),
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator(
+                        color: Color(primaryDark),
+                      ),
+                    ),
+                    error: (error, _) => Center(child: Text(error.toString())),
+                  );
+                },
+                // child: LineReportHomeWidget(
+                //   initialAmount: homeReport["totalBalanceAmmount"],
+                //   finalAmount: 583,
+                //   revenueAmount: 33,
+                // ),
               ),
               // const Flexible(
               //   flex: 10,
@@ -507,12 +536,14 @@ class LineReportHomeWidget extends ConsumerStatefulWidget {
   final double initialAmount;
   final double finalAmount;
   final double revenueAmount;
+  final double totalPlans;
 
   const LineReportHomeWidget({
     super.key,
     required this.initialAmount,
     required this.finalAmount,
     required this.revenueAmount,
+    required this.totalPlans,
   });
 
   @override
@@ -595,7 +626,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'S/4050',
+                      'S/${widget.finalAmount}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -629,7 +660,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '2 planes',
+                      '${widget.totalPlans} planes',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 14,
