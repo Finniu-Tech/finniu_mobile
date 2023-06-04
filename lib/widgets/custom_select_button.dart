@@ -12,6 +12,7 @@ class CustomSelectButton extends HookConsumerWidget {
   final String labelText;
   final String? hintText;
   final String? identifier;
+  final bool? enabled;
   double? width = 224;
   double? height = 39;
   CustomSelectButton({
@@ -25,10 +26,12 @@ class CustomSelectButton extends HookConsumerWidget {
     this.identifier,
     this.width = 224,
     this.height = 39,
+    this.enabled = true,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const disabledColor = 0xffF4F4F4;
     // required this.currentStep,
     if (items == null && asyncItems == null) {
       throw ArgumentError("At least one of item and async must be provided.");
@@ -38,6 +41,7 @@ class CustomSelectButton extends HookConsumerWidget {
       width: width,
       height: height,
       child: DropdownSearch<String>(
+        enabled: enabled ?? false,
         selectedItem: textEditingController.text,
         key: Key(identifier ?? ''),
         onChanged: (value) => callbackOnChange(value),
@@ -45,6 +49,25 @@ class CustomSelectButton extends HookConsumerWidget {
           dropdownSearchDecoration: InputDecoration(
             labelText: labelText,
             hintText: hintText,
+            filled: true,
+            fillColor: enabled == true
+                ? Colors.white
+                : Color(disabledColor), // Customize the background color here
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1.0,
+                color: Color(primaryDark),
+              ),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1.0,
+                color: Color(
+                    primaryDark), // Set the disabled border color to PrimaryDark
+              ),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
           ),
         ),
         items: items ?? [],

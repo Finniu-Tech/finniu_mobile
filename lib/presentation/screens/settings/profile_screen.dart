@@ -26,11 +26,12 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   final fieldValues = <String, dynamic>{
-    'names': null,
+    'firstName': null,
+    'lastName': null,
     'docNumber': null,
+    'province': null,
     'department': null,
     'district': null,
-    'address': null,
     'civilState': null,
   };
   final ImagePicker _picker = ImagePicker();
@@ -39,7 +40,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
-    print('userProfileNotifierProvider: ${userProfile.documentNumber}');
 
     final showError = useState(false);
     // final namesController = useTextEditingController();
@@ -76,47 +76,111 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final imageFile = useState('');
 
     final editar = useState(userProfile.hasRequiredData() ? false : true);
-    print('editar: ${editar.value}');
+    const disabledBackground = 0xffF4F4F4;
+    final enabledBackground =
+        themeProvider.isDarkMode ? primaryDark : Colors.white.value;
 
-    String mapControllerKey(String key) {
-      if (key == 'firstName') {
-        return firstNameController.text;
-      } else if (key == 'lastName') {
-        return lastNameController.text;
-      } else if (key == 'docNumber') {
-        return docNumberController.text;
-      } else if (key == 'department') {
-        return departmentController.text;
-      } else if (key == 'province') {
-        return provinceController.text;
-      } else if (key == 'district') {
-        return districtController.text;
-      } else if (key == 'address') {
-        return addressController.text;
-      } else if (key == 'civilState') {
-        return civilStateController.text;
-      } else {
-        return '';
+    int mapControllerKey() {
+      int count = 0;
+      if (firstNameController.text.isNotEmpty) {
+        print(
+            'firstNameController.text.isNotEmpty: ${firstNameController.text.isNotEmpty}');
+        count += 1;
       }
+      if (lastNameController.text.isNotEmpty) {
+        print(
+            'lastNameController.text.isNotEmpty: ${lastNameController.text.isNotEmpty}');
+        count++;
+      }
+      if (docNumberController.text.isNotEmpty) {
+        print(
+            'docNumberController.text.isNotEmpty: ${docNumberController.text.isNotEmpty}');
+        count++;
+      }
+      if (departmentController.text.isNotEmpty) {
+        print(
+            'departmentController.text.isNotEmpty: ${departmentController.text.isNotEmpty}');
+        count++;
+      }
+      if (provinceController.text.isNotEmpty) {
+        print(
+            'provinceController.text.isNotEmpty: ${provinceController.text.isNotEmpty}');
+        count++;
+      }
+      if (districtController.text.isNotEmpty) {
+        print(
+            'districtController.text.isNotEmpty: ${districtController.text.isNotEmpty}');
+        count++;
+      }
+      if (addressController.text.isNotEmpty) {
+        print(
+            'addressController.text.isNotEmpty: ${addressController.text.isNotEmpty}');
+        count++;
+      }
+      if (civilStateController.text.isNotEmpty) {
+        print(
+            'civilStateController.text.isNotEmpty: ${civilStateController.text.isNotEmpty}');
+        count++;
+      }
+      return count;
     }
 
-    void _calculatePercentage(String key) {
-      fieldValues[key] = mapControllerKey(key);
-
+    void _calculatePercentage() {
       // Count the number of non-empty fields
-      int count = fieldValues.values
-          .where((value) => value != null && value.toString().isNotEmpty)
-          .length;
+      print('calculate percentage');
+      // int count = fieldValues.values
+      //     .where((value) => value != null && value.toString().isNotEmpty)
+      //     .length;
+      int count = mapControllerKey();
+      print('count: $count');
 
       // Update the progress bar with the percentage of completed fields
       if (count == 0) {
         percentage.value = 0.0;
       } else {
-        percentage.value = (count / 6.0);
+        percentage.value = (count / 7.0);
       }
+      print('percentage: ${percentage.value}');
       percentageString.value = '${(percentage.value * 100).round()}%';
     }
 
+    _calculatePercentage();
+
+    Future<void> filterSelects(WidgetRef ref) async {
+      if (departmentController.text.isNotEmpty) {
+        final regions = await regionsFuture;
+        final codeRegion = RegionEntity.getCodeFromName(
+          departmentController.text,
+          regions,
+        );
+        ref.read(provincesStateNotifier.notifier).filterProvinces(codeRegion);
+      }
+
+      if (provinceController.text.isNotEmpty) {
+        final allRegions = await regionsFuture;
+        final allProvinces = await allProvincesFuture;
+        final codeRegion = RegionEntity.getCodeFromName(
+          departmentController.text,
+          allRegions,
+        );
+        final codeProvince = ProvinceEntity.getCodeFromName(
+          provinceController.text,
+          codeRegion,
+          allProvinces,
+        );
+        ref
+            .read(districtsStateNotifier.notifier)
+            .filterDistricts(codeProvince, codeRegion);
+      }
+    }
+
+    useEffect(
+      () {
+        filterSelects(ref);
+        return () {}; // Return an empty dispose callback
+      },
+      const [],
+    );
     return CustomScaffoldReturn(
       body: SingleChildScrollView(
         child: Padding(
@@ -200,8 +264,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
                       color: themeProvider.isDarkMode
-                          ? Color(primaryLight)
-                          : Color(primaryDark),
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -221,17 +285,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       }
                       return null;
                     },
-                    // onChanged: (value) {
-                    //   _calculatePercentage('names', value);
-                    //   // namesController.text = value.toString();
-                    // },
                     onEditingComplete: () {
-                      _calculatePercentage('firstName');
+                      _calculatePercentage();
                     },
-
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(editar.value
+                          ? enabledBackground
+                          : disabledBackground),
                       hintText: 'Escriba sus nombres',
-                      label: Text("Nombres"),
+                      label: const Text("Nombres"),
                     ),
                   ),
                 ),
@@ -254,12 +317,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     //   // namesController.text = value.toString();
                     // },
                     onEditingComplete: () {
-                      _calculatePercentage('lastName');
+                      _calculatePercentage();
                     },
 
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Color(editar.value
+                          ? enabledBackground
+                          : disabledBackground),
                       hintText: 'Escriba sus apellidos',
-                      label: Text("Apellidos"),
+                      label: const Text("Apellidos"),
                     ),
                   ),
                 ),
@@ -285,16 +352,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     //   // phoneController.text = value;
                     // },
                     onEditingComplete: () {
-                      _calculatePercentage('docNumber');
+                      _calculatePercentage();
                     },
                     keyboardType: const TextInputType.numberWithOptions(
                         signed: true, decimal: true),
 
                     // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-                    decoration: const InputDecoration(
-                      hintText: 'Escriba su documento de indentificación',
-                      label: Text("Documento de indentifación"),
-                    ),
+                    decoration: InputDecoration(
+                        hintText: 'Escriba su documento de indentificación',
+                        label: const Text("Documento de indentifación"),
+                        filled: true,
+                        fillColor: Color(editar.value
+                            ? enabledBackground
+                            : disabledBackground)),
                   ),
                 ),
                 const SizedBox(height: 28),
@@ -302,6 +372,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   width: 224,
                   height: 39,
                   child: CustomSelectButton(
+                    enabled: editar.value,
                     textEditingController: departmentController,
                     labelText: 'Departamento',
                     asyncItems: (String filter) async {
@@ -321,7 +392,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           .read(provincesStateNotifier.notifier)
                           .filterProvinces(codeRegion);
                       departmentCodeController.text = codeRegion;
-                      _calculatePercentage('department');
+                      _calculatePercentage();
                     },
                   ),
                 ),
@@ -330,6 +401,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   width: 224,
                   height: 38,
                   child: CustomSelectButton(
+                    enabled: editar.value,
                     textEditingController: provinceController,
                     labelText: 'Provincia',
                     items: provinces.map((e) => e.name).toList(),
@@ -351,7 +423,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ref
                           .read(districtsStateNotifier.notifier)
                           .filterDistricts(codeProvince, codeRegion);
-                      _calculatePercentage('province');
+                      _calculatePercentage();
                       provinceController.text = value;
                       provinceCodeController.text = codeProvince;
                     },
@@ -362,11 +434,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   width: 224,
                   height: 38,
                   child: CustomSelectButton(
+                    enabled: editar.value,
                     textEditingController: districtController,
                     labelText: 'Distrito',
                     items: districts.map((e) => e.name).toList(),
                     callbackOnChange: (value) {
-                      _calculatePercentage('district');
+                      _calculatePercentage();
                       districtController.text = value;
                       districtCodeController.text =
                           DistrictEntity.getCodeFromName(
@@ -379,100 +452,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 28),
-                // SizedBox(
-                //   width: 224,
-                //   // height: 38,
-                //   child: TextFormField(
-                //     key: const Key('address'),
-                //     controller: addressController,
-                //     onChanged: (value) {
-                //       _calculatePercentage('address');
-                //     },
-                //     validator: (value) {
-                //       if (value!.isEmpty) {
-                //         return 'Este dato es requerido';
-                //       }
-                //       return null;
-                //     },
-                //     decoration: const InputDecoration(
-                //       hintText: 'Escriba su dirección de domicilio',
-                //       suffixIconConstraints: BoxConstraints(
-                //         maxHeight: 38,
-                //         minWidth: 38,
-                //       ),
-                //       label: Text(
-                //         "Dirección de domicilio",
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(height: 28),
                 SizedBox(
                   width: 224,
                   height: 38,
-                  child: DropdownSearch<String>(
-                    selectedItem: civilStateController.text != ''
-                        ? civilStateController.text
-                        : null,
-                    key: const Key('civilState'),
-                    onChanged: (value) {
-                      civilStateController.text = value.toString();
-                      _calculatePercentage('civilState');
-                    },
-                    dropdownDecoratorProps: const DropDownDecoratorProps(
-                      dropdownSearchDecoration: InputDecoration(
-                        labelText: 'Estado civil',
-                      ),
-                    ),
+                  child: CustomSelectButton(
+                    enabled: editar.value,
+                    textEditingController: civilStateController,
+                    labelText: 'Estado Civil',
                     items: MaritalStatusMapper().values,
-                    popupProps: PopupProps.menu(
-                      showSelectedItems: true,
-                      itemBuilder: (context, item, isSelected) => Container(
-                        decoration: BoxDecoration(
-                          color: Color(isSelected ? primaryDark : primaryLight),
-                          borderRadius: const BorderRadius.all(
-                            Radius.circular(20),
-                          ),
-                        ),
-                        padding: const EdgeInsets.all(15),
-                        margin: const EdgeInsets.only(
-                            top: 5, bottom: 5, right: 15, left: 15),
-                        child: Text(
-                          item.toString(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Color(
-                                isSelected ? Colors.white.value : primaryDark),
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                      menuProps: const MenuProps(
-                        backgroundColor: Color(primaryLightAlternative),
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            color: Color(primaryDark),
-                            width: 1.0,
-                          ),
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.circular(10),
-                          ),
-                        ),
-                      ),
-                      showSearchBox: true,
-                      searchFieldProps: const TextFieldProps(
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          suffixIcon: Icon(Icons.search),
-                          label: Text('Buscar'),
-                        ),
-                      ),
-                    ),
-                    dropdownButtonProps: const DropdownButtonProps(
-                      color: Color(primaryDark),
-                      padding: EdgeInsets.zero,
-                    ),
+                    callbackOnChange: (value) {
+                      civilStateController.text = value.toString();
+                      _calculatePercentage();
+                    },
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -482,13 +473,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
-                      // setState(() {
-                      //   editar.value = !editar.value;
-                      // });
-                      editar.value = !editar.value;
-                      print("hola");
-                      print(editar.value);
-
+                      if (!editar.value) {
+                        editar.value = !editar.value;
+                        return;
+                      }
                       if (firstNameController.text.isEmpty ||
                           lastNameController.text.isEmpty ||
                           docNumberController.text.isEmpty ||
@@ -552,19 +540,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     },
                     child: Text(
                       editar.value ? 'Guardar' : 'Editar',
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(whiteText),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
-                  // child:  CustomButton(
-                  //   text: 'Guardar',
-                  //   colorBackground: primaryDark,
-                  //   colorText: whiteText,
-                  //   pushName: '/home_home',
-                  // ),
                 ),
               ],
             ),
@@ -602,7 +584,7 @@ class CircularPercentAvatar extends ConsumerWidget {
             ? FileImage(
                 File(imageFile.value),
               )
-            : AssetImage(
+            : const AssetImage(
                 "assets/images/avatar_alone.png",
               ) as ImageProvider,
       ),

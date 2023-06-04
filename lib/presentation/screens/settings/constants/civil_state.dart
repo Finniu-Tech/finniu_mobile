@@ -5,10 +5,9 @@ class MaritalStatusMapper {
     'Soltero': 'SINGLE',
     'Casado': 'MARRIED',
     'Divorciado': 'DIVORCED',
-    'Viudo': 'WIDOWED'
   };
 
-  final List<String> values = ['Soltero', 'Casado', 'Divorciado', 'Viudo'];
+  final List<String> values = ['Soltero', 'Casado', 'Divorciado'];
 
   // List<DropdownMenuItem<String>> getDropdownItems() {
   //   return values.map((value) {
