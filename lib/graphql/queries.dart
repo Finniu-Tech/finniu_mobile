@@ -85,66 +85,191 @@ class QueryRepository {
 
   static String get getDeadLines {
     return '''
-    query getDeadLines{
-      deadlines{
-        uuid
-        isActive
-        name
-        value
-        description
-        
-      }
-    }
-  ''';
+        query getDeadLines{
+          deadlines{
+            uuid
+            isActive
+            name
+            value
+            description
+            
+          }
+        }
+      ''';
   }
 
   static String get getBanks {
     return '''
-      query getBanks{
-        banks{
-          uuid
-          isActive
-          bankName
-          bankLogo
-        }
-      }
-    ''';
+          query getBanks{
+            banks{
+              uuid
+              isActive
+              bankName
+              bankLogo
+            }
+          }
+        ''';
   }
 
   static String get contractUrl {
     return '''
-      query getContract(\$uuid: String! ){
-        getContractPreinvestment(preInvestmentUuid: \$uuid){
-        contract
-        }
-      }
-    ''';
+          query getContract(\$uuid: String! ){
+            getContractPreinvestment(preInvestmentUuid: \$uuid){
+            contract
+            }
+          }
+        ''';
   }
 
   static String get userGetBouchers {
     return '''
-    query getBouchers{
-      userGetBouchers{
-        boucherImage
-        plan{
-          name
+        query getBouchers{
+          userGetBouchers{
+            boucherImage
+            plan{
+              name
+            }
+            dateSended
+            
+          }
         }
-        dateSended
-        
-      }
-    }
-   ''';
+      ''';
   }
 
   static String get userHomeReport {
     return '''
-      query getUserInvestmentTotalBalance{
-        userInfoInvestment{
-          totalBalanceAmmount
-          countPlanesActive
-          totalBalanceRentability
+          query getUserInvestmentTotalBalance{
+            userInfoInvestment{
+              totalBalanceAmmount
+              countPlanesActive
+              totalBalanceRentability
+            }
+          }
+        ''';
+  }
+
+  static String get investmentRentabilityReport {
+    return '''
+          query {
+      userInfoInvestment{
+        totalBalanceAmmount
+        countPlanesActive
+        totalBalanceRentability
+        invesmentInCourse{
+          uuid
+          createdAt
+          isActive
+          amount
+          deadline{
+            uuid
+            name
+            value
+            description
+          }
+
+          depositBank{
+            bankName
+            bankLogo
+            slug
+          }
+          contract
+          boucherTransaction
+          status
+          startDateInvestment
+          finishDateInvestment
+          rentabilityAmmount
+          rentabilityPercent
+          planName
+
         }
+        invesmentFinished{
+          uuid
+          createdAt
+          isActive
+          amount
+          deadline{
+            uuid
+            name
+            value
+            description
+          }
+          depositBank{
+            bankName
+            bankLogo
+            slug
+          }
+          contract
+          boucherTransaction
+          status
+          startDateInvestment
+          finishDateInvestment
+          rentabilityAmmount
+          rentabilityPercent
+          planName
+        }
+        
       }
+    }
     ''';
+  }
+
+  static String get investmentHistoryReport {
+    return '''
+      query {
+  userInfoInvestment{
+    totalBalanceAmmount
+    countPlanesActive
+    totalBalanceRentability
+    invesmentInCourse{
+      uuid
+      createdAt
+      isActive
+      amount
+      deadline{
+        uuid
+        name
+        value
+        description
+      }
+      status
+      startDateInvestment
+      finishDateInvestment
+      rentabilityAmmount
+      rentabilityPercent
+    }
+    invesmentFinished{
+      uuid
+      createdAt
+      isActive
+      amount
+      deadline{
+        uuid
+        name
+        value
+        description
+      }
+      status
+      startDateInvestment
+      finishDateInvestment
+      rentabilityAmmount
+      rentabilityPercent
+    }
+    invesmentInProcess{
+      uuid
+      createdAt
+      isActive
+      amount
+      status
+    }
+    invesmentCanceled{
+      uuid
+      createdAt
+      isActive
+      amount
+    }
+    
+  }
+}
+''';
   }
 }

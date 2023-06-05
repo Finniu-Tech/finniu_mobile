@@ -38,7 +38,6 @@ class ProvinceEntity {
     String codeRegion,
     List<ProvinceEntity> provinces,
   ) {
-    print('name: $name, codeRegion: $codeRegion');
     return provinces
         .firstWhere(
           (province) =>
