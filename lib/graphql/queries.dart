@@ -268,4 +268,16 @@ class QueryRepository {
 }
 ''';
   }
+
+  static String get importantDays {
+    return '''
+      query getImportantDays{
+        importantDays{
+          month
+          date
+          description
+        }
+      }
+    ''';
+  }
 }

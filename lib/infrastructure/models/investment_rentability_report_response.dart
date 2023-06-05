@@ -6,7 +6,8 @@ class UserInfoInvestmentReportResponse {
   });
 
   factory UserInfoInvestmentReportResponse.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       UserInfoInvestmentReportResponse(
         userInfoInvestment: json["userInfoInvestment"] == null
             ? null
