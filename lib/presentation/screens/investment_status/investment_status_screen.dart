@@ -665,14 +665,6 @@ class TableCardInCourse extends ConsumerWidget {
                         child: const Text(
                           'Reinvertir',
                         ),
-                        style: ButtonStyle(
-                          elevation: MaterialStateProperty.all<double>(
-                            4,
-                          ), // Altura de la sombra
-
-                          shadowColor:
-                              MaterialStateProperty.all<Color>(Colors.grey),
-                        ),
                       ),
                     ),
                   )
