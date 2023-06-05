@@ -314,6 +314,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                     children: report.investmentsInCourse!
                         .map(
                           (investment) => TableCardInCourse(
+                            textButton: true,
                             planName: investment.planName!,
                             termText:
                                 'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
@@ -660,18 +661,17 @@ class TableCardInCourse extends ConsumerWidget {
                       child: TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/reinvest');
-
-                          ButtonStyle(
-                            elevation: MaterialStateProperty.all<double>(
-                              4,
-                            ), // Altura de la sombra
-
-                            shadowColor:
-                                MaterialStateProperty.all<Color>(Colors.grey),
-                          );
                         },
                         child: const Text(
                           'Reinvertir',
+                        ),
+                        style: ButtonStyle(
+                          elevation: MaterialStateProperty.all<double>(
+                            4,
+                          ), // Altura de la sombra
+
+                          shadowColor:
+                              MaterialStateProperty.all<Color>(Colors.grey),
                         ),
                       ),
                     ),
