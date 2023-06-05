@@ -614,110 +614,114 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
           );
         }).toList(),
         Positioned(
-            top: 30,
-            left: 16,
-            child: Column(children: [
-              Container(
-                // width: 130,
-                height: 56,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'S/${widget.initialAmount}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(primaryDark),
+          top: 30,
+          left: 16,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  // width: 130,
+                  height: 56,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'S/${widget.initialAmount}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 30,
-                        ),
-                        Text(
-                          'S/${widget.finalAmount}',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(primaryDark),
+                          SizedBox(
+                            width: 30,
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          'Dinero total',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(blackText),
+                          Text(
+                            'S/${widget.finalAmount}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 40,
-                        ),
-                        Text(
-                          'Intereses generados',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(blackText),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 125,
-                height: 60,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '${widget.totalPlans} planes',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        ],
                       ),
-                    ),
-                    Text(
-                      'Mis inversiones en Curso',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                      Row(
+                        children: [
+                          Text(
+                            'Dinero total',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 40,
+                          ),
+                          Text(
+                            'Intereses generados',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ]))
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 125,
+                  height: 60,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '${widget.totalPlans} planes',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                        ),
+                      ),
+                      Text(
+                        'Mis inversiones en Curso',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 10,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ]),
+        ),
       ],
     );
   }

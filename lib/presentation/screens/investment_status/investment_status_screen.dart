@@ -660,7 +660,10 @@ class TableCardInCourse extends ConsumerWidget {
                       height: 30,
                       child: TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/reinvest');
+                          Navigator.pushNamed(context, '/reinvest', arguments: {
+                            'planName': planName,
+                            'amountInvested': amountInvested,
+                          });
                         },
                         child: const Text(
                           'Reinvertir',
