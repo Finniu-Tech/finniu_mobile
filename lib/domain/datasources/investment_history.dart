@@ -7,7 +7,7 @@ abstract class InvestmentHistoryDataSource {
     required GraphQLClient client,
   });
 
-  // Future<InvestmentHistoryResumeEntity> getInvestmentHistoryReport({
-  //   required GraphQLClient client,
-  // });
+  Future<InvestmentHistoryResumeEntity> getInvestmentHistoryReport({
+    required GraphQLClient client,
+  });
 }

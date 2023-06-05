@@ -222,8 +222,6 @@ class QueryRepository {
     totalBalanceRentability
     invesmentInCourse{
       uuid
-      createdAt
-      isActive
       amount
       deadline{
         uuid
@@ -236,11 +234,10 @@ class QueryRepository {
       finishDateInvestment
       rentabilityAmmount
       rentabilityPercent
+      planName
     }
     invesmentFinished{
       uuid
-      createdAt
-      isActive
       amount
       deadline{
         uuid
@@ -253,19 +250,18 @@ class QueryRepository {
       finishDateInvestment
       rentabilityAmmount
       rentabilityPercent
+      planName
     }
     invesmentInProcess{
       uuid
-      createdAt
-      isActive
       amount
       status
+      planName
     }
     invesmentCanceled{
       uuid
-      createdAt
-      isActive
       amount
+      planName
     }
     
   }

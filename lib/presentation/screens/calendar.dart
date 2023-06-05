@@ -53,10 +53,10 @@ class CalendarState extends ConsumerState<Calendar> {
               ),
               Center(
                 child: Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: Container(
-                    width: MediaQuery.of(context).size.width * 0.95,
-                    height: 313,
+                    width: MediaQuery.of(context).size.width * 0.90,
+                    height: MediaQuery.of(context).size.height * 0.40,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25),
                       color: currentTheme.isDarkMode
@@ -64,7 +64,7 @@ class CalendarState extends ConsumerState<Calendar> {
                           : const Color(secondary),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(20.0),
                       child: CalendarCarousel(
                         headerMargin: EdgeInsets.symmetric(vertical: 1.0),
                         selectedDateTime: _selectedDate,
@@ -133,7 +133,7 @@ class CalendarState extends ConsumerState<Calendar> {
 
                           return Center(
                             child: Container(
-                              width: 35,
+                              width: 30,
                               // height: 35,
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,

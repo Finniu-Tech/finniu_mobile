@@ -23,7 +23,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
 
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -53,10 +53,6 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
           );
         },
       ),
-      // body: HookBuilder(
-      //   child: InvestmentStatusScreenBody(
-      //       currentTheme: currentTheme, tabController: _tabController),
-      // ),
     );
   }
 }
@@ -125,7 +121,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Navigator.pushNamed(context, '/process_investment');
+                    // Navigator.pushNamed(context, '/process_investment');
                   },
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.45,
