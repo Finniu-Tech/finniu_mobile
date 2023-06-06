@@ -155,11 +155,8 @@ class BodyScreen extends StatelessWidget {
                               Center(
                                 child: Text(
                                   resultSimulation.months == 12
-                                      ? resultSimulation
-                                          .plan!.twelveMonthsReturn
-                                          .toString()
-                                      : resultSimulation.plan!.sixMonthsReturn
-                                          .toString(),
+                                      ? '${resultSimulation.plan!.twelveMonthsReturn.toString()} %'
+                                      : '${resultSimulation.plan!.sixMonthsReturn.toString()} %',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: currentTheme.isDarkMode

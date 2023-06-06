@@ -38,7 +38,7 @@ class UserProfileDataSourceImp extends UserProfileDataSource {
           'docNumber': int.parse(userProfile.documentNumber ?? ''),
           'region': userProfile.region,
           'province': userProfile.provincia,
-          'district': userProfile.distrito,
+          'distric': userProfile.distrito,
           'civilStatus': userProfile.civilStatus,
           'imageProfile': userProfile.imageProfile
         },

@@ -276,7 +276,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   width: 224,
                   child: TextFormField(
                     readOnly: !editar.value,
-                    showCursor: !editar.value,
+                    showCursor: editar.value,
                     controller: firstNameController,
                     key: const Key('firstName'),
                     validator: (value) {
@@ -302,8 +302,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
-                    // readOnly: !editar,
-                    // showCursor: editar,
+                    readOnly: !editar.value,
+                    showCursor: editar.value,
                     controller: lastNameController,
                     key: const Key('lastName'),
                     validator: (value) {
@@ -334,8 +334,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 SizedBox(
                   width: 224,
                   child: TextFormField(
-                    // readOnly: !editar,
-                    // showCursor: editar,
+                    readOnly: !editar.value,
+                    showCursor: editar.value,
                     key: const Key('docNumber'),
                     controller: docNumberController,
                     validator: (value) {
@@ -359,12 +359,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                     decoration: InputDecoration(
-                        hintText: 'Escriba su documento de indentificación',
-                        label: const Text("Documento de indentifación"),
-                        filled: true,
-                        fillColor: Color(editar.value
-                            ? enabledBackground
-                            : disabledBackground)),
+                      hintText: 'Escriba su documento de indentificación',
+                      label: const Text("Documento de indentifación"),
+                      filled: true,
+                      fillColor: Color(
+                        editar.value ? enabledBackground : disabledBackground,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 28),
@@ -512,6 +513,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       }
                       final userProfile =
                           ref.watch(userProfileNotifierProvider);
+                      print('mapping results ${civilStateController.text}');
+                      print(MaritalStatusMapper()
+                          .mapStatus(civilStateController.text));
                       final success = await ref.read(
                         updateUserProfileFutureProvider(
                           userProfile.copyWith(

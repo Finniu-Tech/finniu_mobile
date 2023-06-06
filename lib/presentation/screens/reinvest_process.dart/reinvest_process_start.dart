@@ -1,28 +1,40 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Reinvest extends HookConsumerWidget {
   const Reinvest({super.key});
-  _launchWhatsApp() async {
-    var whatsappNumber =
-        "51940206852"; // Reemplaza con el número de WhatsApp que deseas abrir
-    var whatsappMessage = Uri.encodeComponent('Hola,soy.... deseo reinvertir.');
-    var whatsappUrl = "https://wa.me/$whatsappNumber?text=$whatsappMessage";
+  _launchWhatsApp(userName) async {
+    var whatsappNumber = "51940206852";
+    var whatsappMessage = "Hola, soy $userName deseo reinvertir.";
+    var whatsappUrlAndroid = Uri.parse(
+      "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
+    );
+    var whatsappUrlIphone =
+        Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
-    if (await canLaunch(whatsappUrl)) {
-      await launch(whatsappUrl);
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      await launchUrl(whatsappUrlAndroid);
     } else {
-      throw 'No se pudo abrir $whatsappUrl';
+      await launchUrl(whatsappUrlIphone);
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final Map<String, dynamic>? arguments =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+
+    final String planName = arguments?['planName'];
+    final String amountInvested = arguments?['amountInvested'];
+
     return CustomScaffoldReturnLogo(
       body: Padding(
         padding: const EdgeInsets.all(32.0),
@@ -97,7 +109,7 @@ class Reinvest extends HookConsumerWidget {
                       width: 170,
                       child: Text(
                         textAlign: TextAlign.justify,
-                        'Tu plan seleccionado a reinvertir es Plan Origen ',
+                        'Tu plan seleccionado a reinvertir es $planName',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
@@ -145,8 +157,8 @@ class Reinvest extends HookConsumerWidget {
                               ),
                             ),
                             child: Column(
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 14,
@@ -157,12 +169,12 @@ class Reinvest extends HookConsumerWidget {
                                 ),
                                 Text(
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 24,
                                     color: Color(primaryDark),
                                     fontWeight: FontWeight.bold,
                                   ),
-                                  "S/583",
+                                  amountInvested,
                                 ),
                               ],
                             ),
@@ -316,7 +328,7 @@ class Reinvest extends HookConsumerWidget {
                 ),
                 Center(
                   child: GestureDetector(
-                    onTap: _launchWhatsApp,
+                    onTap: () => _launchWhatsApp(userProfile.nickName),
                     child: Container(
                       width: 68,
                       height: 66,

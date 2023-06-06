@@ -630,7 +630,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       Row(
                         children: [
                           Text(
-                            'S/${widget.initialAmount}',
+                            'S/${widget.initialAmount.toStringAsFixed(2)}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
@@ -640,11 +640,11 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                                   : const Color(primaryDark),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 30,
                           ),
                           Text(
-                            'S/${widget.finalAmount}',
+                            'S/${widget.finalAmount.toStringAsFixed(2)}',
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 16,
@@ -697,7 +697,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${widget.totalPlans} planes',
+                        '${widget.totalPlans.toInt()} planes',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 14,
