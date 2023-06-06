@@ -31,7 +31,14 @@ class CustomSelectButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const disabledColor = 0xffF4F4F4;
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    Color disabledColor =
+        currentTheme.isDarkMode ? Color(grayText) : Color(0xffF4F4F4);
+    Color enableColor =
+        currentTheme.isDarkMode ? Color(backgroundColorDark) : Color(whiteText);
+    // color:
+    // currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText);
+
     // required this.currentStep,
     if (items == null && asyncItems == null) {
       throw ArgumentError("At least one of item and async must be provided.");
@@ -51,12 +58,13 @@ class CustomSelectButton extends HookConsumerWidget {
             hintText: hintText,
             filled: true,
             fillColor: enabled == true
-                ? Colors.white
-                : Color(disabledColor), // Customize the background color here
+                ? enableColor
+                : disabledColor, // Customize the background color here
+
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 width: 1.0,
-                color: Color(primaryDark),
+                color: Color(primaryLight),
               ),
               borderRadius: BorderRadius.circular(20.0),
             ),
