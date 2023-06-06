@@ -64,15 +64,22 @@ class CustomSelectButton extends HookConsumerWidget {
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 width: 1.0,
-                color: Color(primaryLight),
+                color: themeProvider.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(
+                        primaryDark,
+                      ),
               ),
               borderRadius: BorderRadius.circular(20.0),
             ),
             disabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 width: 1.0,
-                color: Color(
-                    primaryDark), // Set the disabled border color to PrimaryDark
+                color: themeProvider.isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(
+                        primaryDark,
+                      ), // Set the disabled border color to PrimaryDark
               ),
               borderRadius: BorderRadius.circular(20.0),
             ),

@@ -76,9 +76,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final imageFile = useState('');
 
     final editar = useState(userProfile.hasRequiredData() ? false : true);
-    const disabledBackground = 0xffF4F4F4;
-    final enabledBackground =
-        themeProvider.isDarkMode ? primaryDark : Colors.white.value;
+    // const disabledBackground = 0xffF4F4F4;
+    // final enabledBackground =
+    //     themeProvider.isDarkMode ? primaryDark : Colors.white.value;
+
+    Color disabledColor =
+        themeProvider.isDarkMode ? Color(grayText) : Color(0xffF4F4F4);
+    Color enableColor = themeProvider.isDarkMode
+        ? Color(backgroundColorDark)
+        : Color(whiteText);
 
     int mapControllerKey() {
       int count = 0;
@@ -290,9 +296,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     },
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Color(editar.value
-                          ? enabledBackground
-                          : disabledBackground),
+                      fillColor: (editar.value ? enableColor : disabledColor),
                       hintText: 'Escriba sus nombres',
                       label: const Text("Nombres"),
                     ),
@@ -322,9 +326,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
                     decoration: InputDecoration(
                       filled: true,
-                      fillColor: Color(editar.value
-                          ? enabledBackground
-                          : disabledBackground),
+                      fillColor: (editar.value ? enableColor : disabledColor),
                       hintText: 'Escriba sus apellidos',
                       label: const Text("Apellidos"),
                     ),
@@ -362,9 +364,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       hintText: 'Escriba su documento de indentificación',
                       label: const Text("Documento de indentifación"),
                       filled: true,
-                      fillColor: Color(
-                        editar.value ? enabledBackground : disabledBackground,
-                      ),
+                      fillColor: (editar.value ? enableColor : disabledColor),
                     ),
                   ),
                 ),
@@ -544,8 +544,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     },
                     child: Text(
                       editar.value ? 'Guardar' : 'Editar',
-                      style: const TextStyle(
-                        color: Color(whiteText),
+                      style: TextStyle(
+                        color: themeProvider.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(whiteText),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
