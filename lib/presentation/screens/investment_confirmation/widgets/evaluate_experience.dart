@@ -59,40 +59,27 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              alignment: Alignment.topRight,
-              margin: const EdgeInsets.only(right: 20, top: 15),
-              child: IconButton(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(
-                        blackText,
-                      ),
-                alignment: Alignment.topRight,
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  Navigator.of(context).pop(); // cerrar la pantalla modal
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                SizedBox(
-                  width: 260,
-                  child: Text(
-                    question,
-                    textAlign: TextAlign.justify,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Color(
-                        primaryDark,
+            Padding(
+              padding: const EdgeInsets.all(18.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  SizedBox(
+                    width: 260,
+                    child: Text(
+                      question,
+                      textAlign: TextAlign.justify,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: Color(
+                          primaryDark,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -193,7 +180,7 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
             //   ),
             // ),
             const SizedBox(
-              height: 4,
+              height: 10,
             ),
             TextButton(
               onPressed: () async {

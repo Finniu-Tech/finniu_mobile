@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
     final amountController = useTextEditingController();
     final monthsController = useTextEditingController();
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final _debouncer = Debouncer(milliseconds: 3000);
 
     return CustomScaffoldReturnLogo(
       body: Padding(
@@ -227,15 +229,15 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                           }
                           return null;
                         },
-                        // onChanged: (value) {
-                        //   // nickNameController.text = value.toString();
-                        // _debouncer.run(() {
-                        //     if (amountController.text.isNotEmpty &&
-                        //         monthsController.text.isNotEmpty) {
-                        //       calculateInvestment(context, ref);
-                        //     }
-                        //   }); },
-
+                        onChanged: (value) {
+                          _debouncer.run(() {
+                            if (amountController.text.isNotEmpty &&
+                                monthsController.text.isNotEmpty) {
+                              calculateInvestment(context, ref,
+                                  amountController, monthsController);
+                            }
+                          });
+                        },
                         decoration: const InputDecoration(
                           hintText: 'Escriba su monto de ganancia',
                           hintStyle:
@@ -264,8 +266,8 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
               Center(
                 child: Container(
                   // alignment: Alignment.topRight,
-                  width: 224,
-                  height: 99,
+                  width: 272,
+                  height: 136,
 
                   margin: const EdgeInsets.only(
                     top: 30,
@@ -301,11 +303,13 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                         ),
                       ),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
                             plan?.name ?? '',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
                               color: Color(primaryDark),
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
@@ -317,15 +321,16 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.end,
                             children: <Widget>[
-                              Image(
+                              const Image(
                                 image: AssetImage('assets/icons/dollar.png'),
                                 width: 12, // ancho deseado de la imagen
                                 height: 12, // alto deseado de la imagen
                                 color: Color(
                                     primaryDark), // color de la imagen si es necesario
                               ),
-                              Text(
+                              const Text(
                                 'Monto mínimo',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -334,13 +339,13 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                   height: 1.5,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 'S/ ${plan?.minAmount ?? ''}',
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(primaryDark),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 10,
@@ -349,11 +354,11 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: 15),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Image(
+                              const Image(
                                 image: AssetImage(
                                     'assets/icons/double_dollar.png'),
                                 width: 21, // ancho deseado de la imagen
@@ -361,7 +366,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                 color: Color(
                                     primaryDark), // color de la imagen si es necesario
                               ),
-                              Text(
+                              const Text(
                                 'Retorno anual',
                                 textAlign: TextAlign.left,
                                 style: TextStyle(
@@ -370,13 +375,13 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                   height: 1.5,
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 width: 5,
                               ),
                               Text(
                                 "${plan?.twelveMonthsReturn ?? ''} %",
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(primaryDark),
                                   fontWeight: FontWeight.bold,
                                   fontSize: 10,

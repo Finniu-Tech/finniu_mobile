@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/transference_entity.dart';
 import 'package:finniu/infrastructure/datasources/transferences_datasource_imp.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -18,8 +19,7 @@ class TransfersScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
+      body: SingleChildScrollView(
         child: Column(
           children: [
             Row(
@@ -76,35 +76,35 @@ class TransfersScreen extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              height: 3,
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(gradient_secondary_option),
-                    width: 2,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text(
-                'Tus últimas transferencias de inversion realizadas en Finniu',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 12,
-                  height: 1.5,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
-                ),
-              ),
-            ),
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.8,
+            //   height: 3,
+            //   decoration: BoxDecoration(
+            //     border: Border(
+            //       bottom: BorderSide(
+            //         color: currentTheme.isDarkMode
+            //             ? const Color(primaryLight)
+            //             : const Color(gradient_secondary_option),
+            //         width: 2,
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // const SizedBox(height: 5),
+            // Padding(
+            //   padding: const EdgeInsets.all(20.0),
+            //   child: Text(
+            //     'Tus últimas transferencias de inversion realizadas en Finniu',
+            //     textAlign: TextAlign.left,
+            //     style: TextStyle(
+            //       fontSize: 12,
+            //       height: 1.5,
+            //       color: currentTheme.isDarkMode
+            //           ? const Color(whiteText)
+            //           : const Color(blackText),
+            //     ),
+            //   ),
+            // ),
             const SizedBox(
               height: 5,
             ),
@@ -113,21 +113,15 @@ class TransfersScreen extends HookConsumerWidget {
                 final transferences = ref.watch(transferenceFutureProvider);
                 return transferences.when(
                   data: (transferences) {
-                    return Expanded(
-                      child: ListView.builder(
-                        itemCount: transferences.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: TransferenceItem(
-                              planName: transferences[index].planName,
-                              imageUrl: transferences[index].urlVoucher,
-                              dateSended: transferences[index].date,
-                            ),
-                          );
-                        },
-                      ),
-                    );
+                    if (transferences.length == 0) {
+                      print(EmptyTransference());
+                      return EmptyTransference();
+                    } else {
+                      print(transferences);
+                      return TransfersScreenListWidget(
+                        transferences: transferences,
+                      );
+                    }
                   },
                   error: ((error, stackTrace) {
                     return Center(
@@ -140,21 +134,72 @@ class TransfersScreen extends HookConsumerWidget {
                 );
               },
             )
-            // child: Expanded(
-            //   child: ListView.builder(
-            //     shrinkWrap: true,
-            //     itemBuilder: (context, index) {
-            //       return Padding(
-            //         padding: const EdgeInsets.all(10.0),
-            //         child: TransferenceItem(),
-            //       );
-            //     },
-            //   ),
-            // ),
-
-            // EmptyTransference(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TransfersScreenListWidget extends HookConsumerWidget {
+  final List<TransferenceEntity> transferences;
+  TransfersScreenListWidget({required this.transferences});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: 3,
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(gradient_secondary_option),
+                  width: 2,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 5),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+              width: 290,
+              child: Text(
+                'Tus últimas transferencias de inversión realizadas en Finniu',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontSize: 12,
+                  height: 1.5,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 310,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: transferences.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: TransferenceItem(
+                    planName: transferences[index].planName,
+                    imageUrl: transferences[index].urlVoucher,
+                    dateSended: transferences[index].date,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -217,19 +262,19 @@ class TransferenceItem extends ConsumerWidget {
             children: [
               Text(
                 'Transferencia de ${planName}',
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   color: Colors.black,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
                 // '29 de Mayo 2022',
                 DateFormat('dd MMMM y', 'es').format(dateSended),
                 textAlign: TextAlign.start,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 12,
                   color: Colors.black,
                 ),
@@ -250,55 +295,77 @@ class EmptyTransference extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return Container(
-      alignment: Alignment.bottomLeft,
-      // height: 270,
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('assets/images/transferences.png'),
-          fit: BoxFit.contain,
-        ),
-      ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          const SizedBox(height: 150),
-          const SizedBox(
-            width: 210,
-            child: Text(
-              'Aún no tienes transferencias realizadas',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+          Container(
+            alignment: Alignment.center,
+            // height: 270,
+            width: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/images/transferences.png'),
+                fit: BoxFit.contain,
               ),
+            ),
+            child: Column(
+              children: const [
+                SizedBox(height: 30),
+                SizedBox(
+                  width: 222,
+                  child: Text(
+                    'Aún no tienes transferencias realizadas',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 180,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
             ),
           ),
           const SizedBox(
-            height: 210,
+            height: 20,
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                'Te invitamos a conocer nuestros planes de inversion',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
+              SizedBox(
+                width: 220,
+                child: Text(
+                  'Te invitamos a conocer nuestros planes de inversion',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
+                  ),
                 ),
               ),
             ],
           ),
           const SizedBox(
-            height: 8,
+            height: 15,
           ),
-          CustomButton(
-            text: 'Ver planes',
+          SizedBox(
             width: 108,
             height: 32,
+            child: TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/plan_list');
+              },
+              child: const Text(
+                style: TextStyle(fontSize: 12),
+                'Ver planes',
+              ),
+            ),
           ),
         ],
       ),

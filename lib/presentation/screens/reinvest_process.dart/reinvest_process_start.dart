@@ -94,7 +94,7 @@ class Reinvest extends HookConsumerWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -122,7 +122,7 @@ class Reinvest extends HookConsumerWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 25,
+                  height: 35,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 20),
@@ -135,7 +135,7 @@ class Reinvest extends HookConsumerWidget {
                           alignment: Alignment.center,
                           child: Container(
                             width: 185,
-                            height: 85,
+                            height: 95,
                             padding: const EdgeInsets.only(
                               left: 20,
                               top: 20,
@@ -202,7 +202,7 @@ class Reinvest extends HookConsumerWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 15,
                 ),
                 // Row(
                 //   children: [
@@ -302,7 +302,7 @@ class Reinvest extends HookConsumerWidget {
                           textAlign: TextAlign.center,
                           'Si deseas reinvertir, escríbenos al',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: themeProvider.isDarkMode
                                 ? const Color(whiteText)
