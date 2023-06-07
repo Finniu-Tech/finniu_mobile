@@ -22,21 +22,20 @@ class TransfersScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Image.asset(
-                  'assets/transfers/credit.png',
-                  width: 90,
-                  height: 90,
-                ),
-                // SizedBox(width: 10),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10),
-                  child: Text(
+            Padding(
+              padding: const EdgeInsets.only(left: 40),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Image.asset(
+                    'assets/transfers/credit.png',
+                    width: 90,
+                    height: 90,
+                  ),
+                  // SizedBox(width: 10),
+                  Text(
                     "Mis Transferencias",
                     style: TextStyle(
                       fontSize: 24,
@@ -46,8 +45,8 @@ class TransfersScreen extends HookConsumerWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             const SizedBox(height: 20),
             SizedBox(
