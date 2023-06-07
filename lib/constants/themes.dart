@@ -15,7 +15,7 @@ class AppTheme {
             color: Color(skyBlueText),
           ),
           titleMedium: TextStyle(
-            color: Color(hintTextDarkColor),
+            color: Color(whiteText),
           ),
         ),
         colorScheme: const ColorScheme.dark(

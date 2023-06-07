@@ -64,7 +64,9 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
         },
       ),
     );
-
+    print("hola soy el contrato");
+    print(response);
+    print(response.data);
     return response.data?['updatePreinvestment']['success'];
   }
 }
