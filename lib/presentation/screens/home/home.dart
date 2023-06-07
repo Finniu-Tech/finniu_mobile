@@ -68,7 +68,7 @@ class HomeBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
       child: SingleChildScrollView(
         child: Column(
           children: [

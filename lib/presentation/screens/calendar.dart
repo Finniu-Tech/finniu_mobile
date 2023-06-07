@@ -31,6 +31,7 @@ class CalendarState extends ConsumerState<Calendar> {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return CustomScaffoldReturnLogo(
+      hideReturnButton: false,
       body: SingleChildScrollView(
         child: HookBuilder(
           builder: (context) {
@@ -58,7 +59,20 @@ class CalendarState extends ConsumerState<Calendar> {
   }
 }
 
-class CalendarBody extends StatelessWidget {
+// class CalendarBody extends StatelessWidget {
+//   final currentTheme;
+//   final currentDay;
+//   final selectedDay;
+//   final importantDays;
+//   const CalendarBody({
+//     super.key,
+//     required this.currentTheme,
+//     required this.currentDay,
+//     required this.selectedDay,
+//     required this.importantDays,
+//   });
+
+class CalendarBody extends StatefulWidget {
   final currentTheme;
   final currentDay;
   final selectedDay;
@@ -72,239 +86,298 @@ class CalendarBody extends StatelessWidget {
   });
 
   @override
+  _CalendarBodyState createState() => _CalendarBodyState();
+}
+
+class _CalendarBodyState extends State<CalendarBody> {
+  DateTime _currentDate = DateTime.now();
+  DateTime _selectedDate = DateTime.now();
+  late PageController _pageController;
+  String _selectedMonth = DateFormat('MMMM y', 'es').format(DateTime.now());
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController(
+      initialPage: _currentDate.month - 1,
+    );
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _handlePageChange(DateTime date) {
+    setState(() {
+      _currentDate = date;
+      _selectedMonth = DateFormat('MMMM y', 'es').format(date);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    String selectedMonth =
+        DateFormat('MMMM y', 'es').format(widget.selectedDay);
+
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 280,
-            child: Text(
-              'Calendario de mis inversiones  🗓️',
-              style: TextStyle(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                fontSize: 24.0,
-                fontWeight: FontWeight.bold,
+      child: SizedBox(
+        width: 350,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 400,
+              child: Text(
+                'Calendario de mis inversiones  🗓️',
+                style: TextStyle(
+                  color: widget.currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.90,
-                height: MediaQuery.of(context).size.height * 0.40,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  color: currentTheme.isDarkMode
-                      ? const Color(bluedarkalternative)
-                      : const Color(secondary),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: CalendarCarousel(
-                    headerMargin: const EdgeInsets.symmetric(vertical: 1.0),
-                    selectedDateTime: selectedDay,
-                    prevMonthDayBorderColor: Colors.transparent,
-                    nextMonthDayBorderColor: Colors.transparent,
-                    thisMonthDayBorderColor: Colors.transparent,
-                    daysHaveCircularBorder: true,
-                    todayBorderColor: Colors.transparent,
-                    todayButtonColor: Colors.transparent,
-                    selectedDayButtonColor: Colors.transparent,
-                    // onDayPressed: (DateTime date, List events) {
-                    //   setState(() => selectedDay = date);
-                    // },
-                    locale: 'es', // Establece el idioma en español
+            const SizedBox(
+              height: 10,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  constraints: BoxConstraints(
+                    maxWidth: 330,
+                    maxHeight: 350,
+                  ),
+                  width: MediaQuery.of(context).size.width * 0.90,
+                  height: MediaQuery.of(context).size.height * 0.40,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: widget.currentTheme.isDarkMode
+                        ? const Color(bluedarkalternative)
+                        : const Color(secondary),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: CalendarCarousel(
+                      onCalendarChanged: _handlePageChange,
+                      headerMargin: const EdgeInsets.symmetric(vertical: 1.0),
+                      selectedDateTime: widget.selectedDay,
+                      prevMonthDayBorderColor: Colors.transparent,
+                      nextMonthDayBorderColor: Colors.transparent,
+                      thisMonthDayBorderColor: Colors.transparent,
+                      daysHaveCircularBorder: true,
+                      todayBorderColor: Colors.transparent,
+                      todayButtonColor: Colors.transparent,
+                      selectedDayButtonColor: Colors.transparent,
+                      headerText: _selectedMonth,
+                      // onDayPressed: (DateTime date, List events) {
+                      //   setState(() => selectedDay = date);
+                      // },
+                      locale: 'es', // Establece el idioma en español
 
-                    customDayBuilder: (
-                      bool isSelectable,
-                      int index,
-                      bool isSelectedDay,
-                      bool isToday,
-                      bool isPrevMonthDay,
-                      TextStyle textStyle,
-                      bool isNextMonthDay,
-                      bool isThisMonthDay,
-                      DateTime day,
-                    ) {
-                      Color backgroundColor = Color(
-                        currentTheme.isDarkMode
-                            ? (bluedarkalternative)
-                            : (secondary),
-                      );
-                      Color borderColor = isThisMonthDay && !isSelectable
-                          ? Color(
-                              currentTheme.isDarkMode ? graylight : graydark)
-                          : Color(currentTheme.isDarkMode
+                      customDayBuilder: (
+                        bool isSelectable,
+                        int index,
+                        bool isSelectedDay,
+                        bool isToday,
+                        bool isPrevMonthDay,
+                        TextStyle textStyle,
+                        bool isNextMonthDay,
+                        bool isThisMonthDay,
+                        DateTime day,
+                      ) {
+                        Color backgroundColor = Color(
+                          widget.currentTheme.isDarkMode
+                              ? (bluedarkalternative)
+                              : (secondary),
+                        );
+                        Color borderColor = isThisMonthDay && !isSelectable
+                            ? Color(widget.currentTheme.isDarkMode
+                                ? graylight
+                                : graydark)
+                            : Color(widget.currentTheme.isDarkMode
+                                ? primaryLight
+                                : primaryDark);
+                        if (isThisMonthDay &&
+                            !isSelectable &&
+                            !isSelectedDay &&
+                            !isPrevMonthDay &&
+                            !isNextMonthDay) {
+                          borderColor = Color(widget.currentTheme.isDarkMode
                               ? primaryLight
                               : primaryDark);
-                      if (isThisMonthDay &&
-                          !isSelectable &&
-                          !isSelectedDay &&
-                          !isPrevMonthDay &&
-                          !isNextMonthDay) {
-                        borderColor = Color(currentTheme.isDarkMode
-                            ? primaryLight
-                            : primaryDark);
-                      }
-                      if (!isThisMonthDay) {
-                        borderColor = Colors
-                            .transparent; // establece el color del borde en transparente para los días que no son del mes actual
-                      }
-                      if (isSelectedDay) {
-                        backgroundColor = Color((currentTheme.isDarkMode
-                            ? (primaryLight)
-                            : (primaryDark)));
-                        // borderColor = Colors.transparent;
-                      }
+                        }
+                        if (!isThisMonthDay) {
+                          borderColor = Colors
+                              .transparent; // establece el color del borde en transparente para los días que no son del mes actual
+                        }
+                        if (isSelectedDay) {
+                          backgroundColor = Color(
+                              (widget.currentTheme.isDarkMode
+                                  ? (primaryLight)
+                                  : (primaryDark)));
+                          // borderColor = Colors.transparent;
+                        }
 
-                      if (!isThisMonthDay) {
-                        textStyle = TextStyle(
-                          color: currentTheme.isDarkMode
-                              ? Color(graydark)
-                              : Color(graylight),
-                          fontSize: 11.0,
-                          fontWeight: FontWeight.bold,
+                        if (!isThisMonthDay) {
+                          textStyle = TextStyle(
+                            color: widget.currentTheme.isDarkMode
+                                ? Color(graydark)
+                                : Color(graylight),
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.bold,
+                          );
+                        }
+
+                        return Center(
+                          child: Container(
+                            width: 30,
+                            // height: 35,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: backgroundColor,
+                              border: Border.all(
+                                color: borderColor,
+                                width: 1.2,
+                              ),
+                              boxShadow: isSelectedDay
+                                  ? [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.9),
+                                        spreadRadius: 0,
+                                        blurRadius: 0,
+                                        offset: const Offset(0, 5),
+                                      )
+                                    ]
+                                  : (isSelectable ? null : []),
+                            ),
+                            child: Center(
+                              child: Text(
+                                '${day.day}',
+                                style: textStyle,
+                              ),
+                            ),
+                          ),
                         );
-                      }
+                      },
 
-                      return Center(
-                        child: Container(
-                          width: 30,
-                          // height: 35,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: backgroundColor,
-                            border: Border.all(
-                              color: borderColor,
-                              width: 1.2,
-                            ),
-                            boxShadow: isSelectedDay
-                                ? [
-                                    BoxShadow(
-                                      color: Colors.grey.withOpacity(0.9),
-                                      spreadRadius: 0,
-                                      blurRadius: 0,
-                                      offset: const Offset(0, 5),
-                                    )
-                                  ]
-                                : (isSelectable ? null : []),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '${day.day}',
-                              style: textStyle,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                      headerTextStyle: TextStyle(
+                        color: widget.currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      // headerText:
+                      //     DateFormat('MMMM y', 'es').format(widget.selectedDay),
 
-                    headerTextStyle: TextStyle(
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    headerText: DateFormat('MMMM y', 'es').format(selectedDay),
+                      weekdayTextStyle: TextStyle(
+                        color: widget.currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                      ),
 
-                    weekdayTextStyle: TextStyle(
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-
-                    weekendTextStyle: TextStyle(
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
-                      fontSize: 11.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    daysTextStyle: TextStyle(
-                        color: currentTheme.isDarkMode
+                      weekendTextStyle: TextStyle(
+                        color: widget.currentTheme.isDarkMode
                             ? const Color(whiteText)
                             : const Color(primaryDark),
                         fontSize: 11.0,
-                        fontWeight: FontWeight.bold),
-                    prevDaysTextStyle: TextStyle(
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(primaryDark),
+                        fontWeight: FontWeight.bold,
+                      ),
+                      daysTextStyle: TextStyle(
+                          color: widget.currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                          fontSize: 11.0,
+                          fontWeight: FontWeight.bold),
+                      prevDaysTextStyle: TextStyle(
+                          color: widget.currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                          fontSize: 11.0,
+                          fontWeight: FontWeight.bold),
+                      nextDaysTextStyle: TextStyle(
+                          color: widget.currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(primaryDark),
+                          fontSize: 11.0,
+                          fontWeight: FontWeight.bold),
+                      selectedDayTextStyle: TextStyle(
+                        color: widget.currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(whiteText),
                         fontSize: 11.0,
-                        fontWeight: FontWeight.bold),
-                    nextDaysTextStyle: TextStyle(
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(primaryDark),
-                        fontSize: 11.0,
-                        fontWeight: FontWeight.bold),
-                    selectedDayTextStyle: TextStyle(
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryDark)
-                          : const Color(whiteText),
-                      fontSize: 11.0,
+                      ),
+
+                      selectedDayBorderColor: Colors.transparent,
+                      // width: 1,
+
+                      weekDayFormat: WeekdayFormat.narrow,
+                      // weekDayPadding: const EdgeInsets.symmetric(horizontal: 1),
                     ),
-
-                    selectedDayBorderColor: Colors.transparent,
-                    // width: 1,
-
-                    weekDayFormat: WeekdayFormat.narrow,
-                    // weekDayPadding: const EdgeInsets.symmetric(horizontal: 1),
                   ),
                 ),
               ),
             ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 35),
-              child: Text(
-                'Fechas importantes de Mayo',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 35),
+                child: Text(
+                  'Fechas importantes de $_selectedMonth',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: widget.currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 18,
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.25,
-            child: ListView(
-              children: importantDays!
-                  .map<Widget>((e) => ImportantDayCard(
-                        currentTheme: currentTheme,
-                        date: e['date'],
-                        description: e['description'],
-                      ))
-                  .toList(),
+            const SizedBox(
+              height: 18,
             ),
-          )
-        ],
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.25,
+              child: ListView.builder(
+                itemCount: widget.importantDays!.length,
+                itemBuilder: (context, index) {
+                  final item = widget.importantDays![index];
+                  final itemDate = DateTime.parse(item['date']);
+
+                  if (itemDate.month != _currentDate.month) {
+                    // Filter out items that do not match the selected month
+                    return Center(
+                      child: Container(
+                        child: Text('No  hay eventos importantes'),
+                      ),
+                    );
+                  }
+
+                  return ImportantDayCard(
+                    currentTheme: widget.currentTheme,
+                    date: itemDate,
+                    description: item['description'],
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
 class ImportantDayCard extends StatelessWidget {
-  String date;
+  DateTime date;
   String description;
   ImportantDayCard({
     super.key,
@@ -317,6 +390,7 @@ class ImportantDayCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    DateFormat dateFormat = DateFormat.MMMM('es');
     return Center(
       child: Container(
         margin: EdgeInsets.only(bottom: 10),
@@ -345,7 +419,7 @@ class ImportantDayCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              date,
+              '${date.day} de ${dateFormat.format(date)}',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
