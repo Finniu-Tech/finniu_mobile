@@ -581,6 +581,7 @@ class TableCardInCourse extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
+      constraints: const BoxConstraints(minWidth: 200, maxWidth: 200),
       width: MediaQuery.of(context).size.width * 0.8,
       height: 200,
       decoration: BoxDecoration(
