@@ -18,8 +18,7 @@ class ContractDataSourceImp extends ContractDataSource {
         },
       ),
     );
-    print('get contract data******');
-    print(response);
+
     return response.data?['getContractPreinvestment']['contract'];
   }
 }

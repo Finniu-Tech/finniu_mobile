@@ -19,10 +19,7 @@ class ChangePasswordLoguedDataSourceImp extends ChangePasswordLoguedDataSource {
         },
       ),
     );
-    print('response change password');
-    print(response);
-    print('result!!');
-    print(response.data?['changePassword']['success']);
+
     return response.data?['changePassword']['success'] ?? false;
   }
 }

@@ -22,6 +22,7 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class PreInvestmentStep2Arguments {
   final PlanEntity plan;
@@ -108,81 +109,86 @@ class Step2Body extends HookConsumerWidget {
             ),
           ),
           const SizedBox(height: 15),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                // height: 100,
-                width: MediaQuery.of(context).size.width * 0.60,
-                // width: double.maxFinite,
-                alignment: Alignment.center,
+          Container(
+            constraints: BoxConstraints(
+              maxWidth: 400,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  // height: 100,
+                  // width: MediaQuery.of(context).size.width * 0.60,
+                  // width: double.maxFinite,
+                  alignment: Alignment.center,
 
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    CircularImage(months: resultCalculator.months),
-                    Positioned(
-                      right: 108,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: 59.49,
-                          height: 31.15,
-                          // padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(primaryDark),
-                            border: Border.all(
-                              width: 4,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      CircularImage(months: resultCalculator.months),
+                      Positioned(
+                        right: 108,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            width: 59.49,
+                            height: 31.15,
+                            // padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
                               color: currentTheme.isDarkMode
                                   ? const Color(primaryLight)
                                   : const Color(primaryDark),
+                              border: Border.all(
+                                width: 4,
+                                color: currentTheme.isDarkMode
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          // color: Color(primaryDark),
+                            // color: Color(primaryDark),
 
-                          child: Column(
-                            children: [
-                              Center(
-                                child: Text(
-                                  textAlign: TextAlign.left,
-                                  // '${resultCalculator.months}%',
-                                  '${resultCalculator.months == 6 ? plan.sixMonthsReturn : plan.twelveMonthsReturn}%',
-                                  style: TextStyle(
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(primaryDark)
-                                        : const Color(primaryLight),
-                                    fontSize: 12,
+                            child: Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    textAlign: TextAlign.left,
+                                    // '${resultCalculator.months}%',
+                                    '${resultCalculator.months == 6 ? plan.sixMonthsReturn : plan.twelveMonthsReturn}%',
+                                    style: TextStyle(
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(primaryDark)
+                                          : const Color(primaryLight),
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text(
-                                textAlign: TextAlign.center,
-                                'Rentabilidad',
-                                style: TextStyle(
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(blackText)
-                                      : const Color(whiteText),
-                                  fontSize: 7,
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  'Rentabilidad',
+                                  style: TextStyle(
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(blackText)
+                                        : const Color(whiteText),
+                                    fontSize: 7,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    height: 60,
-                    width: 116,
-                    decoration: BoxDecoration(
+                const SizedBox(width: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 60,
+                      width: 116,
+                      decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: const Color(primaryLight),
                         boxShadow: [
@@ -193,72 +199,74 @@ class Step2Body extends HookConsumerWidget {
                             offset: const Offset(
                                 0, 3), // changes position of shadow
                           ),
-                        ]),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'S/${preInvestment.amount}',
-                          textAlign: TextAlign.right,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(primaryDark),
+                        ],
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'S/${preInvestment.amount}',
+                            textAlign: TextAlign.right,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(primaryDark),
+                            ),
                           ),
-                        ),
-                        const Text(
-                          'Tu monto invertido',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
+                          const Text(
+                            'Tu monto invertido',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(blackText),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    height: 60,
-                    width: 116,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(secondary),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            spreadRadius: 0,
-                            blurRadius: 2,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                    const SizedBox(height: 10),
+                    Container(
+                      height: 60,
+                      width: 116,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: const Color(secondary),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.6),
+                              spreadRadius: 0,
+                              blurRadius: 2,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ]),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'S/${resultCalculator.profitability}',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(primaryDark),
+                            ),
                           ),
-                        ]),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'S/${resultCalculator.profitability}',
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(primaryDark),
+                          const Text(
+                            'Monto que recibiras',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Color(blackText),
+                            ),
                           ),
-                        ),
-                        const Text(
-                          'Monto que recibiras',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontSize: 10,
-                            color: Color(blackText),
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
           SizedBox(
@@ -637,6 +645,7 @@ class Step2Body extends HookConsumerWidget {
                       context, 'Debe aceptar y leer el contrato', 'error');
                   return;
                 }
+                context.loaderOverlay.show();
                 final status = await PreInvestmentDataSourceImp().update(
                   client: ref.watch(gqlClientProvider).value!,
                   uuid: preInvestment.uuid,
@@ -645,8 +654,10 @@ class Step2Body extends HookConsumerWidget {
                 );
                 print(status);
                 if (status == true) {
+                  context.loaderOverlay.hide();
                   Navigator.pushNamed(context, '/investment_step3');
                 } else {
+                  context.loaderOverlay.hide();
                   CustomSnackbar.show(context,
                       'Error al actualizar finalizar inversión', 'error');
                 }

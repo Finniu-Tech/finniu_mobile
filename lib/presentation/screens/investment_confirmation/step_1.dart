@@ -143,9 +143,14 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final _debouncer = Debouncer(milliseconds: 3000);
 
-    if (userProfile.hasRequiredData() == false) {
-      completeProfileDialog(context, ref);
-    }
+    useEffect(
+      () {
+        if (userProfile.hasRequiredData() == false) {
+          completeProfileDialog(context, ref);
+        }
+      },
+      [userProfile],
+    );
 
     return SingleChildScrollView(
       child: Column(

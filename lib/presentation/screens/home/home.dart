@@ -5,6 +5,7 @@ import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -66,248 +67,195 @@ class HomeBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 70),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      settingsDialog(context, ref);
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: const CircularPercentAvatarWidget(),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Hola,${userProfile.nickName ?? ''}!",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  SizedBox(
-                    child: Image.asset(
-                      'assets/images/logo_small.png',
-                      width: 60,
-                      height: 60,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10),
-              HookBuilder(
-                builder: (context) {
-                  final homeReport = ref.watch(homeReportProvider);
-                  return homeReport.when(
-                    data: (homeReport) {
-                      print('home report!!!');
-                      print(homeReport);
-                      return LineReportHomeWidget(
-                        initialAmount:
-                            homeReport["totalBalanceAmmount"].toDouble(),
-                        finalAmount: homeReport["totalBalanceAmmount"]
-                                .toDouble() +
-                            double.parse(homeReport["totalBalanceRentability"]),
-                        revenueAmount:
-                            double.parse(homeReport["totalBalanceRentability"]),
-                        totalPlans: homeReport["countPlanesActive"].toDouble(),
-                      );
-                    },
-                    loading: () => const Center(
-                      child: CircularProgressIndicator(
-                        color: Color(primaryDark),
-                      ),
-                    ),
-                    error: (error, _) => SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.4,
-                      child: Center(
-                        child: EmptyReportMessage(),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              // const SizedBox(
-              //   height: 15,
-              // ),
-              const SizedBox(
-                height: 15,
-              ),
-              Container(
-                height: 2,
-                width: MediaQuery.of(context).size.width * 0.8,
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              SizedBox(
-                width: 330,
-                // height: ,
-                child: Center(
-                  child: Stack(
+    return Padding(
+      padding: const EdgeInsets.only(left: 15, right: 15, top: 20),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            // const SizedBox(height: 70),
+            Row(
+              children: [
+                InkWell(
+                  onTap: () {
+                    settingsDialog(context, ref);
+                  },
+                  child: Container(
                     alignment: Alignment.center,
-                    children: <Widget>[
-                      Container(
-                        constraints:
-                            const BoxConstraints(maxWidth: 330, maxHeight: 147),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLightAlternative)
-                              : const Color(primaryLightAlternative),
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Container(
-                          height: 144,
-                          width: 141,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20),
-                            ),
-                            image: DecorationImage(
-                              image: AssetImage("assets/home/person.png"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Container(
-                          width: 320,
-                          height: 147,
-                          padding: const EdgeInsets.only(
-                            left: 60,
-                            top: 20,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
-                              Text(
-                                "Simula tu inversión aquí",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(primaryDark),
-                                ),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Descubre como simular el",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(grayText2),
-                                ),
-                              ),
-                              Text(
-                                "retorno de tu inversión",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(grayText2),
-                                ),
-                              ),
-                              CustomButtonRoundedDark(
-                                pushName: '/calculator_tool',
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
+                    child: const CircularPercentAvatarWidget(),
                   ),
                 ),
-              ),
-              // const SizedBox(
-              //   height: 15,
-              // ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class EmptyReportMessage extends ConsumerWidget {
-  const EmptyReportMessage({super.key});
-
-  @override
-  Widget build(BuildContext context, ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: 162,
-      constraints: const BoxConstraints(
-        maxWidth: 330,
-        maxHeight: 162,
-      ),
-      decoration: BoxDecoration(
-        // color: const Color(0xffFFEEDD),
-        color: currentTheme.isDarkMode
-            ? const Color(primaryLightAlternative)
-            : const Color(0xffFFEEDD),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text(
-            'Comienza a multiplicar tu dinero con nosotros ',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Color(primaryDark),
+                const SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Hola,${userProfile.nickName ?? ''}!",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),
+                    ),
+                  ),
+                ),
+                const Spacer(),
+                SizedBox(
+                  child: Image.asset(
+                    'assets/images/logo_small.png',
+                    width: 60,
+                    height: 60,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Visita nuestros planes de inversión ',
-            style: TextStyle(fontSize: 11, color: Color(primaryDark)),
-          ),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              // Button action
-              Navigator.pushNamed(context, '/plan_list');
-            },
-            child: const Text('Ver Planes'),
-          ),
-        ],
+            const SizedBox(height: 10),
+            HookBuilder(
+              builder: (context) {
+                final homeReport = ref.watch(homeReportProvider);
+                return homeReport.when(
+                  data: (homeReport) {
+                    print('home report!!!');
+                    print(homeReport);
+                    return LineReportHomeWidget(
+                      initialAmount:
+                          homeReport["totalBalanceAmmount"].toDouble(),
+                      finalAmount: homeReport["totalBalanceAmmount"]
+                              .toDouble() +
+                          double.parse(homeReport["totalBalanceRentability"]),
+                      revenueAmount:
+                          double.parse(homeReport["totalBalanceRentability"]),
+                      totalPlans: homeReport["countPlanesActive"].toDouble(),
+                    );
+                  },
+                  loading: () => const Center(
+                    child: CircularProgressIndicator(
+                      color: Color(primaryDark),
+                    ),
+                  ),
+                  error: (error, _) => SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.4,
+                    child: Center(
+                      child: EmptyReportMessage(),
+                    ),
+                  ),
+                );
+              },
+            ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: 2,
+              width: MediaQuery.of(context).size.width * 0.8,
+              color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            SizedBox(
+              width: 330,
+              // height: ,
+              child: Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Container(
+                      constraints:
+                          const BoxConstraints(maxWidth: 330, maxHeight: 147),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLightAlternative)
+                            : const Color(primaryLightAlternative),
+                        borderRadius: BorderRadius.circular(18),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Container(
+                        height: 144,
+                        width: 141,
+                        decoration: const BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                          ),
+                          image: DecorationImage(
+                            image: AssetImage("assets/home/person.png"),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        width: 320,
+                        height: 147,
+                        padding: const EdgeInsets.only(
+                          left: 60,
+                          top: 20,
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Text(
+                              "Simula tu inversión aquí",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Color(primaryDark),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Descubre como simular el",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Color(grayText2),
+                              ),
+                            ),
+                            Text(
+                              "retorno de tu inversión",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Color(grayText2),
+                              ),
+                            ),
+                            CustomButtonRoundedDark(
+                              pushName: '/calculator_tool',
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // const SizedBox(
+            //   height: 15,
+            // ),
+          ],
+        ),
       ),
     );
   }

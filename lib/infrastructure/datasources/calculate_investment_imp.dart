@@ -13,9 +13,6 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
     required int months,
     String? coupon,
   }) async {
-    print('vars!!!');
-    print(amount);
-    print(months);
     final response = await client.mutate(
       MutationOptions(
         document: gql(
@@ -28,8 +25,6 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
         },
       ),
     );
-    print('response!!!');
-    print(response);
 
     if (response.data == null) {
       throw Exception(

@@ -6,6 +6,7 @@ import 'package:finniu/domain/entities/investment_rentability_report_entity.dart
 import 'package:finniu/infrastructure/mappers/calculate_investment_mapper.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -47,8 +48,11 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
             loading: () => const Center(
               child: CircularProgressIndicator(),
             ),
-            error: (error, stack) => Center(
-              child: Text(error.toString()),
+            error: (error, stack) => SizedBox(
+              height: MediaQuery.of(context).size.height * 0.4,
+              child: Center(
+                child: EmptyReportMessage(),
+              ),
             ),
           );
         },

@@ -13,7 +13,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void sendSMSModal(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
-  // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showModalBottomSheet(
     isDismissible: false,
     clipBehavior: Clip.antiAlias,
@@ -103,10 +102,6 @@ class SMSBody extends HookConsumerWidget {
           const SizedBox(height: 10),
           VerificationCode(
             onCompleted: (code) {
-              print('code');
-              print(code);
-              print('email');
-              print(userProfile.email);
               final futureIsValidCode = ref.watch(
                 otpValidatorFutureProvider(
                   OTPForm(
@@ -117,10 +112,12 @@ class SMSBody extends HookConsumerWidget {
                 ).future,
               );
               futureIsValidCode.then((status) {
-                print('status');
-                print(status);
                 if (status == true) {
-                  Navigator.of(ctx).pushNamed('/on_boarding_start');
+                  Navigator.pushNamedAndRemoveUntil(
+                    ctx,
+                    '/on_boarding_start',
+                    (route) => false, // Remove all the previous routes
+                  );
                 } else {
                   Navigator.of(ctx).pop();
                   CustomSnackbar.show(
@@ -128,11 +125,6 @@ class SMSBody extends HookConsumerWidget {
                     'No se pudo validar el código de verificación',
                     'error',
                   );
-                  // ScaffoldMessenger.of(ctx).showSnackBar(
-                  //   customSnackBar(
-                  //       'No se pudo validar el código de verificación',
-                  //       'error'),
-                  // );
                 }
               });
             },
@@ -203,16 +195,17 @@ class SMSBody extends HookConsumerWidget {
             SizedBox(
               width: 280,
               child: Text(
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    height: 1.5,
-                    color: themeProvider.isDarkMode
-                        ? Colors.white
-                        : const Color(primaryDark),
-                  ),
-                  "Reenviar el codigo en"),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w500,
+                  height: 1.5,
+                  color: themeProvider.isDarkMode
+                      ? Colors.white
+                      : const Color(primaryDark),
+                ),
+                "Reenviar el codigo en",
+              ),
             ),
             const SizedBox(height: 10),
             const CircularCountdown(),

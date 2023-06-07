@@ -17,8 +17,7 @@ class BankDataSourceImp extends BankDataSource {
         ),
       ),
     );
-    print('get onboarding data******');
-    print(response);
+
     final responseBanks = BankResponse.fromJson(
       response.data ?? {},
     );
