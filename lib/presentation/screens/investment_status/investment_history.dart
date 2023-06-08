@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/investment_history_entity.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/investment_status/widgets/empty_message.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -33,20 +34,24 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
           final historyFutureResponse =
               ref.watch(investmentHistoryReportFutureProvider);
           return historyFutureResponse.when(
-            data: (history) {
-              return InvestmentHistoryBody(
-                currentTheme: currentTheme,
-                tabController: _tabController,
-                history: history,
-              );
-            },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (error, stack) => Center(
-              child: Text(error.toString()),
-            ),
-          );
+              data: (history) {
+                return InvestmentHistoryBody(
+                  currentTheme: currentTheme,
+                  tabController: _tabController,
+                  history: history,
+                );
+              },
+              loading: () => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+              error: (error, stack) => SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    child: Center(
+                      child: EmptyHistoryMessage(
+                        is_history_screen: true,
+                      ),
+                    ),
+                  ));
         },
       ),
     );
