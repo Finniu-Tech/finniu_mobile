@@ -298,7 +298,7 @@ class HelpScreen extends ConsumerWidget {
                 height: 32,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.of(context).pushNamed('/confirmation');
+                    // Navigator.of(context).pushNamed('/');
                   },
                   child: Container(
                     color: currentTheme.isDarkMode

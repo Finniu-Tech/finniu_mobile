@@ -7,46 +7,66 @@ class EmptyReportMessage extends ConsumerWidget {
   const EmptyReportMessage({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
-      height: 162,
+      height: 180,
       constraints: const BoxConstraints(
-        maxWidth: 330,
-        maxHeight: 162,
+        maxWidth: 390,
+        maxHeight: 180,
       ),
       decoration: BoxDecoration(
-        // color: const Color(0xffFFEEDD),
         color: currentTheme.isDarkMode
             ? const Color(primaryLightAlternative)
             : const Color(0xffFFEEDD),
         borderRadius: BorderRadius.circular(20),
       ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Row(
         children: [
-          const Text(
-            'Comienza a multiplicar tu dinero con nosotros ',
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Color(primaryDark),
+          Padding(
+            padding: const EdgeInsets.only(top: 25),
+            child: Image.asset(
+              'assets/images/bomb.png',
+              width: 98,
+              height: 98,
             ),
           ),
-          const SizedBox(height: 20),
-          const Text(
-            'Visita nuestros planes de inversión ',
-            style: TextStyle(fontSize: 11, color: Color(primaryDark)),
-          ),
-          const SizedBox(height: 10),
-          TextButton(
-            onPressed: () {
-              // Button action
-              Navigator.pushNamed(context, '/plan_list');
-            },
-            child: const Text('Ver Planes'),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Comienza a multiplicar tu dinero con nosotros',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Color(blackText),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Visita nuestros planes de inversión',
+                    style: TextStyle(fontSize: 11, color: Color(blackText)),
+                  ),
+                  const SizedBox(height: 10),
+                  Container(
+                    alignment: Alignment.center,
+                    child: TextButton(
+                      onPressed: () {
+                        // Button action
+                        Navigator.pushNamed(context, '/plan_list');
+                      },
+                      child: const Text('Ver Planes'),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

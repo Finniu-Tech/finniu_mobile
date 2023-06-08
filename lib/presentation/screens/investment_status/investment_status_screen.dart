@@ -50,7 +50,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
             ),
             error: (error, stack) => SizedBox(
               height: MediaQuery.of(context).size.height * 0.4,
-              child: Center(
+              child: const Center(
                 child: EmptyReportMessage(),
               ),
             ),
