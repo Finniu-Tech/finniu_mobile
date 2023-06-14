@@ -11,10 +11,14 @@ class EmptyReportMessage extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return Container(
+        constraints: const BoxConstraints(
+          maxWidth: 964,
+          maxHeight: 912,
+        ),
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/layerblur.jpg'),
-            fit: BoxFit.cover,
+            fit: BoxFit.contain,
           ),
         ),
         child: Align(
