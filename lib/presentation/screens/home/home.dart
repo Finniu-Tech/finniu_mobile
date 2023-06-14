@@ -41,6 +41,7 @@ class HomeScreen extends HookConsumerWidget {
                       .pushReplacementNamed('/onboarding_questions_start');
                 });
               }
+
               return HomeBody(
                 currentTheme: currentTheme,
                 userProfile: profile,
