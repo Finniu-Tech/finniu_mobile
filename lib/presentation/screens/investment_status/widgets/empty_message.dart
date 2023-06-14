@@ -15,7 +15,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(10.0),
             child: SizedBox(
               child: Row(
                 children: [
@@ -51,7 +51,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 18,
           ),
           if (is_history_screen) ...[
             const HistorialButtons()
@@ -59,9 +59,35 @@ class EmptyHistoryMessage extends ConsumerWidget {
             const RentabilidadButtons()
           ],
           const SizedBox(
-            height: 50,
+            height: 26,
           ),
-          Container(
+          const Padding(
+            padding: EdgeInsets.all(16.0),
+            child: ContainerHome(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ContainerHome extends ConsumerWidget {
+  const ContainerHome({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    return Container(
+        height: MediaQuery.of(context).size.height * 0.30,
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/images/layerblur.jpg'),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Align(
+          alignment: Alignment.center,
+          child: Container(
             width: MediaQuery.of(context).size.width * 0.8,
             height: 180,
             constraints: const BoxConstraints(
@@ -123,9 +149,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
               ],
             ),
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
