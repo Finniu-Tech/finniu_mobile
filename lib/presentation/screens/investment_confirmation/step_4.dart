@@ -113,7 +113,7 @@ class FinishInvestment extends ConsumerWidget {
                 imageColor: currentTheme.isDarkMode
                     ? const Color(primaryDark)
                     : const Color(primaryLight),
-                pushName: '/investment_history',
+                pushName: '/process_investment',
               ),
             ],
           ),
