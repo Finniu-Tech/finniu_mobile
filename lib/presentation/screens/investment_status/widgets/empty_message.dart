@@ -59,10 +59,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
         const SizedBox(
           height: 26,
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: const ContainerHome(),
-        ),
+        const ContainerHome(),
       ],
     );
   }
@@ -76,6 +73,7 @@ class ContainerHome extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
         height: MediaQuery.of(context).size.height * 0.29,
+        width: MediaQuery.of(context).size.width * 0.96,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/layerblur.jpg'),
