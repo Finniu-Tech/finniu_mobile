@@ -11,62 +11,59 @@ class EmptyHistoryMessage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SizedBox(
-              child: Row(
-                children: [
-                  Text(
-                    ' Mis inversiones 💸 ',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color:
-                          Color(Theme.of(context).colorScheme.secondary.value),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SizedBox(
+            child: Row(
+              children: [
+                Text(
+                  ' Mis inversiones 💸 ',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                    color: Color(Theme.of(context).colorScheme.secondary.value),
+                  ),
+                ),
+                const Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/calendar_page');
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Image.asset(
+                      'assets/icons/calendar.png',
+                      width: 20,
+                      height: 20,
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     ),
                   ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/calendar_page');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Image.asset(
-                        'assets/icons/calendar.png',
-                        width: 20,
-                        height: 20,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
-          const SizedBox(
-            height: 18,
-          ),
-          if (is_history_screen) ...[
-            const HistorialButtons()
-          ] else ...[
-            const RentabilidadButtons()
-          ],
-          const SizedBox(
-            height: 26,
-          ),
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: ContainerHome(),
-          ),
+        ),
+        const SizedBox(
+          height: 18,
+        ),
+        if (is_history_screen) ...[
+          const HistorialButtons()
+        ] else ...[
+          const RentabilidadButtons()
         ],
-      ),
+        const SizedBox(
+          height: 26,
+        ),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: const ContainerHome(),
+        ),
+      ],
     );
   }
 }
@@ -78,7 +75,7 @@ class ContainerHome extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
-        height: MediaQuery.of(context).size.height * 0.30,
+        height: MediaQuery.of(context).size.height * 0.29,
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/layerblur.jpg'),
