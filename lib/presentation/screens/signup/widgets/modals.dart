@@ -27,6 +27,7 @@ void sendSMSModal(BuildContext ctx, WidgetRef ref) {
         ? const Color(primaryDark)
         : const Color(cardBackgroundColorLight),
     context: ctx,
+    isScrollControlled: true,
     builder: (ctx) => SMSBody(themeProvider: themeProvider),
   );
 }
