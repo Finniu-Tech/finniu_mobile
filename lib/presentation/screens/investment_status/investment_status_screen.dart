@@ -50,7 +50,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
               child: CircularProgressIndicator(),
             ),
             error: (error, stack) => SizedBox(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.6,
               child: Center(
                 child: EmptyHistoryMessage(
                   is_history_screen: false,
