@@ -27,6 +27,7 @@ class HomeScreen extends HookConsumerWidget {
 
     // var hasCompletedOnboarding = true;
     return Scaffold(
+      backgroundColor: Color(whiteText),
       bottomNavigationBar: const BottomNavigationBarHome(),
       body: HookBuilder(
         builder: (context) {
