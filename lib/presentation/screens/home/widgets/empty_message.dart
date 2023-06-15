@@ -11,7 +11,7 @@ class EmptyReportMessage extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return Container(
-      height: MediaQuery.of(context).size.height * 0.39,
+      height: MediaQuery.of(context).size.height * 0.40,
       decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('assets/images/layerblur.jpg'),
@@ -21,7 +21,7 @@ class EmptyReportMessage extends ConsumerWidget {
       child: Align(
         alignment: Alignment.center,
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.82,
+          width: MediaQuery.of(context).size.width * 0.93,
           height: 180,
           constraints: const BoxConstraints(
             maxWidth: 390,
