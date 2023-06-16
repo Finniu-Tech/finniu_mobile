@@ -747,7 +747,7 @@ class InitialCardBody extends ConsumerWidget {
           )),
           Container(
             height: 32,
-            width: 132,
+            width: 148,
             alignment: Alignment.center,
             child: Center(
                 child: TextButton(
@@ -772,13 +772,13 @@ class InitialCardBody extends ConsumerWidget {
               },
               child: Text(
                 "Comenzar a invertir",
-                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: currentTheme.isDarkMode
                       ? const Color(primaryDark)
                       : const Color(whiteText),
-                  fontSize: 12.0,
+                  fontSize: 11.0,
                 ),
+                maxLines: 1,
               ),
             )
                 // child: CustomButton(
