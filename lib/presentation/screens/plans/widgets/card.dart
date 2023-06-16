@@ -678,9 +678,8 @@ class InitialCardBody extends ConsumerWidget {
               ),
               const SizedBox(width: 10),
               Container(
-                  width: 82,
-                  // height: 34,
-                  padding: const EdgeInsets.all(3),
+                  width: 90,
+                  height: 40,
                   decoration: BoxDecoration(
                     border: Border.all(
                         color: Color(gradient_secondary), width: 2.0),
@@ -689,13 +688,16 @@ class InitialCardBody extends ConsumerWidget {
                   ),
                   child: Column(
                     children: [
-                      Text(
-                        textinvestment,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 12.0,
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text(
+                          textinvestment,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 12.0,
+                          ),
                         ),
                       ),
                       const Text(
@@ -710,9 +712,8 @@ class InitialCardBody extends ConsumerWidget {
                   )),
               const SizedBox(width: 12),
               Container(
-                width: 82,
-                // height: 34,
-                padding: const EdgeInsets.all(3),
+                width: 90,
+                height: 40,
                 decoration: BoxDecoration(
                   border: Border.all(
                       color: const Color(primaryLightAlternative), width: 2.0),
@@ -722,13 +723,16 @@ class InitialCardBody extends ConsumerWidget {
                 child: Center(
                   child: Column(
                     children: [
-                      Text(
-                        textPercentage,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 12.0,
+                      Padding(
+                        padding: const EdgeInsets.all(3.0),
+                        child: Text(
+                          textPercentage,
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 12.0,
+                          ),
                         ),
                       ),
                       const Text(
