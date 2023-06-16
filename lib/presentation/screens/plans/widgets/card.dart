@@ -693,6 +693,7 @@ class InitialCardBody extends ConsumerWidget {
                         textinvestment,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
                           fontSize: 12.0,
                         ),
@@ -725,6 +726,7 @@ class InitialCardBody extends ConsumerWidget {
                         textPercentage,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
+                          fontWeight: FontWeight.bold,
                           color: Colors.black,
                           fontSize: 12.0,
                         ),
