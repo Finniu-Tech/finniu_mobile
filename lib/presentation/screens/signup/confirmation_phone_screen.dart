@@ -153,12 +153,9 @@ class ConfirmationPhone extends HookConsumerWidget {
                               phoneController.text.toString(),
                             );
                             status.then((value) {
-                              print('status value $value');
                               if (value == false) {
-                                print('if!!');
                                 showError.value = true;
                               } else {
-                                print('else!!');
                                 accountCreated.value = true;
                                 context.loaderOverlay.hide();
                                 ref

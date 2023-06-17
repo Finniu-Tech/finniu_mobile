@@ -29,7 +29,6 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     );
 
     final responseGraphQL = response.data?['savePreInvestment'];
-    print('responseGraphQL: $responseGraphQL');
 
     final preInvestmentResponse =
         PreInvestmentSaveResponse.fromJson(responseGraphQL);
@@ -51,22 +50,23 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required bool readContract,
     required String boucherScreenShot,
   }) async {
-    final boucherFormatted = 'data:image/jpeg;base64,$boucherScreenShot';
-    final response = await client.mutate(
-      MutationOptions(
-        document: gql(
-          MutationRepository.updatePreInvestment(),
+    try {
+      final boucherFormatted = 'data:image/jpeg;base64,$boucherScreenShot';
+      final response = await client.mutate(
+        MutationOptions(
+          document: gql(
+            MutationRepository.updatePreInvestment(),
+          ),
+          variables: {
+            'uuid': uuid,
+            'readContract': readContract,
+            'boucher': boucherFormatted,
+          },
         ),
-        variables: {
-          'uuid': uuid,
-          'readContract': readContract,
-          'boucher': boucherFormatted,
-        },
-      ),
-    );
-    print("hola soy el contrato");
-    print(response);
-    print(response.data);
-    return response.data?['updatePreinvestment']['success'];
+      );
+      return response.data?['updatePreinvestment']['success'];
+    } catch (e) {
+      return false;
+    }
   }
 }

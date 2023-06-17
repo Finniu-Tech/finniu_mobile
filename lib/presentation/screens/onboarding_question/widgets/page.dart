@@ -99,10 +99,7 @@ class ButtonQuestion extends HookConsumerWidget {
         .watch(SelectedAnswerListStateNotifier.provider.notifier)
         .getSelectedAnswerForPageIndex(pageIndex)
         .answerIndex;
-    print('selected index!!!');
     // print(selectedAnswerIndex.value);
-    print('answer index!!!');
-    print(answerIndex);
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
       child: SizedBox(

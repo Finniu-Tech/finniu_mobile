@@ -34,7 +34,6 @@ final startOnBoardingFutureStateNotifierProvider =
 final updateOnboardingFutureStateNotifierProvider =
     FutureProvider.family<OnboardingEntity, UserAnswerEntity>(
   (ref, UserAnswerEntity userAnswer) async {
-    print('update onboarding state notifier provider');
     final client = ref.watch(gqlClientProvider).value;
     final userId = ref.watch(userProfileNotifierProvider).id;
 

@@ -20,8 +20,6 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
         ),
       ),
     );
-    print('investment resoonse');
-    print(response);
     final responseGraphRentability = UserInfoInvestmentReportResponse.fromJson(
       response.data ?? {},
     );

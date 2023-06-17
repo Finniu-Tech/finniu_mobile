@@ -326,8 +326,6 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   onPressed: () async {
                     // planSimulation = await ref
                     //     .read(calculateInvestmentFutureProvider.future);
-                    print('amountController.text: ${amountController.text}');
-                    print('monthsController.text: ${monthsController.text}');
 
                     Navigator.pushNamed(
                       context,

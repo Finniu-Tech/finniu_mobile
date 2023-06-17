@@ -27,17 +27,12 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
     TextEditingController amountController,
     TextEditingController monthsController,
   ) async {
-    print('amount controller: ${amountController.text}');
-    print('months controller: ${monthsController.text}');
-
     final inputCalculator = CalculatorInput(
       amount: int.parse(amountController.text),
       months: int.parse(monthsController.text.split(' ')[0]),
     );
-    print('inputCalculator: $inputCalculator');
     final result = await ref
         .watch(calculateInvestmentFutureProvider(inputCalculator).future);
-    print('result: ${result.plan?.name}');
     return result.plan!;
   }
 

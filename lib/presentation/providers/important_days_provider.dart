@@ -9,8 +9,6 @@ final importantDaysFutureProvider = FutureProvider<List<dynamic>>((ref) async {
     final result = await ImportantDaysDataSourceImp().getImportantDays(
       client: client!,
     );
-    print('result!! important days');
-    print(result);
     return result;
   } catch (e, stack) {
     return Future.error('Error: $e', stack);

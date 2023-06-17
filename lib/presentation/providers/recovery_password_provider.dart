@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final recoveryPasswordFutureProvider =
     FutureProvider.autoDispose.family<bool, String>(
   (ref, email) async {
-    print('future recovery email: $email');
     final recoveryPasswordRepository =
         ref.read(recoveryPasswordRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;
@@ -21,8 +20,6 @@ final setNewPasswordFutureProvider =
     FutureProvider.autoDispose.family<bool, String>(
   (ref, password) async {
     final userProfile = ref.watch(userProfileNotifierProvider);
-    print('future recovery email: ${userProfile.email}');
-    print('future recovery password: $password');
     final recoveryPasswordRepository =
         ref.read(recoveryPasswordRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;

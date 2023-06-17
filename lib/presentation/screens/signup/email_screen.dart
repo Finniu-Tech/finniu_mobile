@@ -90,7 +90,6 @@ class SignUpEmailScreen extends HookConsumerWidget {
                     viewportFraction: 0.8,
                     initialPage: ref.watch(indexAvatarSelectedStateProvider),
                     onPageChanged: (index, reason) {
-                      print('index: $index');
                       ref
                           .read(indexAvatarSelectedStateProvider.notifier)
                           .state = index;

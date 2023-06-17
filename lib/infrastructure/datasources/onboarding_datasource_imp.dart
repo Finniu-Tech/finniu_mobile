@@ -72,8 +72,6 @@ class OnboardingDataSourceImp extends OnboardingDataSource {
         },
       ),
     );
-    print('response graphql onboarding');
-    print(response);
 
     final responseGraphQl = FinishOnboardingResponseModel.fromJson(
       response.data!,

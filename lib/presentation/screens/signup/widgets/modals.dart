@@ -6,6 +6,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/signup/widgets/counter.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
@@ -114,6 +115,7 @@ class SMSBody extends HookConsumerWidget {
               );
               futureIsValidCode.then((status) {
                 if (status == true) {
+                  Preferences.username = userProfile.email!;
                   Navigator.pushNamedAndRemoveUntil(
                     ctx,
                     '/on_boarding_start',

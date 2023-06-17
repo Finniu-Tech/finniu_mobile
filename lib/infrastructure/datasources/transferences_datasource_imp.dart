@@ -19,8 +19,6 @@ class TransferenceDataSourceImpl extends TransferenceDataSource {
         ),
       ),
     );
-    print('get onboarding data******');
-    print(response);
     final responseBoucher = UserGetBoucherResponse.fromJson(response.data!);
     return TransferenceMapper.listToEntity(responseBoucher);
   }

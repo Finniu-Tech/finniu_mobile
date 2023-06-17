@@ -12,8 +12,6 @@ class ImportantDaysDataSourceImp {
         ),
       ),
     );
-    print('get onboarding data******');
-    print(response);
 
     return response.data?['importantDays'] ?? [];
   }

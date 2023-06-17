@@ -34,7 +34,6 @@ class ProvincesFilterNotifier extends StateNotifier<List<ProvinceEntity>> {
   ProvincesFilterNotifier(this._provinces) : super(_provinces.value ?? []);
 
   void filterProvinces(String codeRegion) {
-    print('code region is $codeRegion');
     final provinces = <ProvinceEntity>[];
     for (final province in _provinces.value ?? []) {
       if (province.codRegion == codeRegion) {
@@ -68,12 +67,10 @@ class DistrictsFilterNotifier extends StateNotifier<List<DistrictEntity>> {
   DistrictsFilterNotifier(this._districts) : super(_districts.value ?? []);
 
   void filterDistricts(String codeProvince, String codeRegion) {
-    print('code province 2222 is $codeProvince');
     final districts = <DistrictEntity>[];
     for (final district in _districts.value ?? []) {
       if (district.codProvince == codeProvince &&
           district.codRegion == codeRegion) {
-        print('pase if2');
         districts.add(district);
       }
     }

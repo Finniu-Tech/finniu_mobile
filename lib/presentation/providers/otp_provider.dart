@@ -23,13 +23,9 @@ final otpValidatorFutureProvider = FutureProvider.family(
             pollInterval: const Duration(seconds: 10),
           ),
         );
-        print('result otp code');
-        print(result);
         return result;
       },
     );
-    print('response!!!!!!');
-    print(response);
     if (response.data == null) {
       return false;
     }
@@ -44,7 +40,6 @@ final resendOTPCodeFutureProvider = FutureProvider((ref) async {
   final response = await ref.watch(gqlClientProvider.future).then(
     (client) async {
       final user = ref.watch(userProfileNotifierProvider);
-      print('user email {$user.email}');
       final QueryResult result = await client.query(
         QueryOptions(
           document: gql(
@@ -56,8 +51,6 @@ final resendOTPCodeFutureProvider = FutureProvider((ref) async {
           pollInterval: const Duration(seconds: 10),
         ),
       );
-      print('result!!');
-      print(result);
       return result;
     },
   );

@@ -5,7 +5,7 @@ import 'package:finniu/presentation/providers/pre_investment_repository_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final preInvestmentSaveProvider =
-    FutureProvider.family<PreInvestmentEntity, PreInvestmentForm>(
+    FutureProvider.family<PreInvestmentEntity?, PreInvestmentForm>(
         (ref, preInvestmentEntity) async {
   try {
     final preInvestmentRepository = ref.read(preInvestmentRepositoryProvider);
@@ -20,7 +20,7 @@ final preInvestmentSaveProvider =
     );
     return result;
   } catch (e, stack) {
-    return Future.error('Error: $e', stack);
+    return null;
   }
 });
 

@@ -22,8 +22,6 @@ class NPSDataSourceImpl implements NPSDataSource {
         },
       ),
     );
-    print('response');
-    print(response);
     bool success = response.data?['saveNps']['success'];
 
     return success;

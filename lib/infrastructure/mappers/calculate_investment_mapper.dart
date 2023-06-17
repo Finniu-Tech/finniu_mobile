@@ -11,8 +11,6 @@ class CalculateInvestmentMapper {
     months,
     CalculateInvestmentResponse investmentResponse,
   ) {
-    print(
-        'investmentResponse: {$investmentResponse.calculateInvestment?.plan}');
     final planModel = investmentResponse.calculateInvestment?.plan;
     if (planModel == null) {
       throw Exception('Invalid CalculateInvestmentResponse object');

@@ -23,17 +23,12 @@ final userProfileFutureProvider =
       return result;
     },
   );
-  print('result user profile');
-  print(result);
+
   // if (result.hasException) {
   //   throw result.exception!;
   // }
-  print('before if');
   if (result.data?['userProfile'] != null) {
-    print('entre if ');
     final userProfile = UserProfile.fromJson(result.data?['userProfile']);
-    print('user profile zero!!!!!');
-    print(userProfile.documentNumber);
     if (userProfile.hasCompletedOnboarding == true) {
       ref.read(hasCompletedOnboardingProvider.notifier).state = true;
     }
@@ -65,8 +60,6 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
     client: await ref.watch(gqlClientProvider.future),
     userProfile: userProfile,
   );
-  print('result update user profile');
-  print(success);
   if (success == true) {
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           id: userProfile.uuid,
@@ -110,9 +103,6 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? civilStatus,
     bool hasCompletedOnboarding = false,
   }) {
-    print('update fields user profile +++++++');
-    print('documentNumber');
-    print(documentNumber);
     state = state.copyWith(
       id: id,
       nickName: nickName,

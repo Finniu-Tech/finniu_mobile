@@ -17,8 +17,6 @@ class PlanDataSourceImp extends PlanDataSource {
         ),
       ),
     );
-    print('get onboarding data******');
-    print(response);
     final responsePlans = PlanListResponse.fromJson(
       response.data ?? {},
     );

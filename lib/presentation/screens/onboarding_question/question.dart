@@ -35,10 +35,6 @@ class _SelectRangeState extends ConsumerState<Questions> {
     return CustomScaffoldReturnLogo(
       body: HookBuilder(
         builder: (context) {
-          print('onboarding: $onboardingData');
-          print(onboardingData.totalQuestions);
-          print(onboardingData.totalCompletedQuestions);
-          print(onboardingData.questions);
           final questions = onboardingData.questions;
           if (questions.isEmpty) {
             return const Center(

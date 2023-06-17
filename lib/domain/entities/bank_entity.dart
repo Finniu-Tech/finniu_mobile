@@ -12,7 +12,6 @@ class BankEntity {
   });
 
   static String getUuidByName(String name, List<BankEntity> banks) {
-    print('bacnk anem $name');
     return banks.firstWhere((element) => element.name == name).uuid;
   }
 }

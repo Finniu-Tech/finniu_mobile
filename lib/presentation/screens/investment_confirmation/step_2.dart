@@ -45,8 +45,7 @@ class Step2 extends ConsumerWidget {
     final args = ModalRoute.of(context)!.settings.arguments
         as PreInvestmentStep2Arguments;
     final PlanEntity plan = args.plan;
-    print('plan');
-    print(plan);
+
     final PreInvestmentEntity preInvestment = args.preInvestment;
     final PlanSimulation resultCalculator = args.resultCalculator;
 
@@ -593,7 +592,6 @@ class Step2Body extends HookConsumerWidget {
                     uuid: preInvestment.uuid,
                     client: ref.watch(gqlClientProvider).value!,
                   );
-                  print('contract url is $contractURL');
 
                   if (contractURL.isNotEmpty) {
                     userReadContract.value = true;
@@ -636,9 +634,7 @@ class Step2Body extends HookConsumerWidget {
                       'error');
                   return;
                 }
-                print('user read contract is ${userReadContract.value}');
-                print(
-                    'user accepted terms is ${ref.watch(userAcceptedTermsProvider)}');
+
                 if (userReadContract.value == false ||
                     ref.watch(userAcceptedTermsProvider) == false) {
                   CustomSnackbar.show(
@@ -652,14 +648,13 @@ class Step2Body extends HookConsumerWidget {
                   readContract: userReadContract.value,
                   boucherScreenShot: base64Image,
                 );
-                print(status);
                 if (status == true) {
                   context.loaderOverlay.hide();
                   Navigator.pushNamed(context, '/investment_step3');
                 } else {
                   context.loaderOverlay.hide();
-                  CustomSnackbar.show(context,
-                      'Error al actualizar finalizar inversión', 'error');
+                  CustomSnackbar.show(
+                      context, 'Hubo un error al guardar', 'error');
                 }
               },
               style: ButtonStyle(

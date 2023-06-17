@@ -278,7 +278,6 @@ class PrivacyScreen extends HookConsumerWidget {
 
                   TextButton(
                     onPressed: () async {
-                      print('onpress');
                       if (newPasswordController.text.isEmpty ||
                           oldPasswordController.text.isEmpty) {
                         CustomSnackbar.show(
@@ -293,7 +292,6 @@ class PrivacyScreen extends HookConsumerWidget {
                         newPassword: newPasswordController.text,
                         oldPassword: oldPasswordController.text,
                       );
-                      print('success: $success');
                       if (success) {
                         CustomSnackbar.show(
                           context,

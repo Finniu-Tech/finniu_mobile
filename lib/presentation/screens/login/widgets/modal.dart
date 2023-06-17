@@ -104,10 +104,6 @@ class SMSBody extends HookConsumerWidget {
             const SizedBox(height: 10),
             VerificationCode(
               onCompleted: (code) {
-                print('code');
-                print(code);
-                print('email');
-                print(userProfile.email);
                 final futureIsValidCode = ref.watch(
                   otpValidatorFutureProvider(
                     OTPForm(
@@ -118,8 +114,6 @@ class SMSBody extends HookConsumerWidget {
                   ).future,
                 );
                 futureIsValidCode.then((status) {
-                  print('status');
-                  print(status);
                   if (status == true) {
                     Navigator.of(ctx).pushNamed('/set_new_password');
                   } else {

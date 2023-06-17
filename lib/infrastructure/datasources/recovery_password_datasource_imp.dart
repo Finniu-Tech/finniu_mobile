@@ -19,8 +19,6 @@ class RecoveryPasswordDataSourceImp extends RecoveryPasswordDataSource {
         },
       ),
     );
-    print('get onboarding data******');
-    print(response);
     final responseData = RecoveryPasswordData.fromJson(
       response.data ?? {},
     );
@@ -44,8 +42,6 @@ class RecoveryPasswordDataSourceImp extends RecoveryPasswordDataSource {
         },
       ),
     );
-    print('get onboarding data******');
-    print(response);
     final responseData = SetNewPasswordData.fromJson(
       response.data!,
     );

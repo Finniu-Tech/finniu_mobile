@@ -6,6 +6,7 @@ class Preferences {
   static bool _isDarkMode = false;
   static bool _showWelcomeModal = true;
   static String? _token = null;
+  static String? _username = null;
   // static String _authToken = '';
 
   static Future init() async {
@@ -37,6 +38,15 @@ class Preferences {
   static set token(String? token) {
     _token = token;
     _prefs.setString('token', token!);
+  }
+
+  static set username(String? username) {
+    _username = username;
+    _prefs.setString('username', username!);
+  }
+
+  static String? get username {
+    return _prefs.getString('username') ?? _username;
   }
 
   // static String get authToken {

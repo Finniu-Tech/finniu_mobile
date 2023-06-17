@@ -6,6 +6,5 @@ final homeReportProvider = FutureProvider<Map>((ref) async {
   final client = ref.watch(gqlClientProvider).value;
   final response =
       await ReportDataSourceImp().getUserReportHome(client: client!);
-  print('response is $response');
   return response;
 });

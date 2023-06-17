@@ -122,8 +122,6 @@ class HomeBody extends ConsumerWidget {
                 final homeReport = ref.watch(homeReportProvider);
                 return homeReport.when(
                   data: (homeReport) {
-                    print('home report!!!');
-                    print(homeReport);
                     return LineReportHomeWidget(
                       initialAmount:
                           homeReport["totalBalanceAmmount"].toDouble(),

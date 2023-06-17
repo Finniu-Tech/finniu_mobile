@@ -8,12 +8,8 @@ class SignUpService {
   }
 
   Future<bool> finishRegister(ref, phone) async {
-    print('start finish register');
     updatePhone(ref, phone);
-    print('passupdate');
     final userProfile = ref.watch(userProfileNotifierProvider);
-    print('passuserprofile');
-    print(userProfile);
     final userInput = RegisterUserModel(
       nickname: userProfile.nickName!,
       email: userProfile.email!,
@@ -22,7 +18,6 @@ class SignUpService {
     );
     final status = await ref.watch(registerMutationProvider(userInput).future);
 
-    print('passstatus');
     return status;
   }
 }

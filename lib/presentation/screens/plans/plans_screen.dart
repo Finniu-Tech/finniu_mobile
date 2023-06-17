@@ -59,8 +59,6 @@ class PlanListBody extends HookConsumerWidget {
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}");
     var whatsappUrlIphone =
         Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
-    print('whatsappUrl: $whatsappUrlAndroid');
-    print('whatsappUrl: $whatsappUrlIphone');
 
     if (defaultTargetPlatform == TargetPlatform.android) {
       await launchUrl(whatsappUrlAndroid);

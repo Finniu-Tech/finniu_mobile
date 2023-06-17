@@ -16,14 +16,9 @@ final registerMutationProvider = FutureProvider.family(
       throw Exception('GraphQL client is null');
     }
 
-    print('user input data ');
-    print(userInputData.phone);
     String avatarImage =
         await base64ImageFromIndex(ref.watch(indexAvatarSelectedStateProvider));
-    print(
-      'iamge final',
-    );
-    print(avatarImage);
+
     final response = await gqlClient.mutate(
       MutationOptions(
         document: gql(
@@ -38,19 +33,13 @@ final registerMutationProvider = FutureProvider.family(
         },
       ),
     );
-    print('response');
-    print(response);
     if (response.data == null) {
       return false;
     }
     final registerResponse =
         RegisterUser.fromJson(response.data?['registerUser']);
     final userResponse = registerResponse.user?.userProfile;
-    print('response mutation!!');
-    print(response);
-    // if (response != null &&
-    //     response.data?['registerUser']?['success'] == true) {
-    //   return true;
+
     if (userResponse != null) {
       ref.read(userProfileNotifierProvider.notifier).updateFields(
             nickName: userResponse.nickName,
@@ -69,7 +58,6 @@ final indexAvatarSelectedStateProvider = StateProvider((ref) => 0);
 
 Future<String> base64ImageFromIndex(int index) async {
   String pathAvatar = listAvatars[index];
-  print('avatar path $pathAvatar');
   ByteData bytes = await rootBundle.load(pathAvatar);
   var buffer = bytes.buffer;
   return 'data:image/png;base64,' + base64.encode(Uint8List.view(buffer));

@@ -17,8 +17,6 @@ class DeadLineDataSourceImp extends DeadLinesDataSource {
         ),
       ),
     );
-    print('get onboarding data******');
-    print(response);
     final responseDeadLines = DeadLineResponse.fromJson(
       response.data ?? {},
     );

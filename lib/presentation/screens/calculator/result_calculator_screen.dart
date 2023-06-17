@@ -89,8 +89,6 @@ class BodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(
-        'returnEstimatedDate!!!!: ${resultSimulation.plan?.returnEstimatedDate}');
     final returnDate = resultSimulation.plan?.returnEstimatedDate;
     final formattedReturnDate = returnDate != null
         ? DateFormat('d ' 'MMMM', 'es').format(returnDate)

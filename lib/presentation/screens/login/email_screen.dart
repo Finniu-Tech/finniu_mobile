@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/auth.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -13,7 +14,7 @@ import 'package:email_validator/email_validator.dart';
 
 class EmailLoginScreen extends HookConsumerWidget {
   EmailLoginScreen({super.key});
-  String _email = "";
+  String _email = Preferences.username ?? "";
   String _password = "";
 
   @override
@@ -191,6 +192,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                                   if (value != null) {
                                     ref.read(authTokenProvider.notifier).state =
                                         value;
+                                    Preferences.username = _email;
                                     Navigator.pushNamed(context, '/home_home');
                                   } else {
                                     showError.value = true;

@@ -128,8 +128,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           widget.resultCalculator = resultCalculator;
         }
       });
-      print('results Provider!!');
-      print(resultCalculator);
 
       context.loaderOverlay.hide();
     }
@@ -376,7 +374,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(
-                minWidth: 263, maxWidth: 400, maxHeight: 39, minHeight: 39),
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 39,
+              minHeight: 39,
+            ),
             child: TextFormField(
               controller: widget.couponController,
               validator: (value) {
@@ -398,80 +400,81 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   padding: const EdgeInsets.all(1),
                   // padding: const EdgeInsets.only(right: 10, left: 10),
                   child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        // minimumSize: Size(80, 30),
-                        side: const BorderSide(
-                          width: 0.2,
-                          color: Color(primaryDark),
-                        ),
-                        primary: const Color(primaryLight),
-                        shape: new RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.only(
+                    style: ElevatedButton.styleFrom(
+                      // minimumSize: Size(80, 30),
+                      side: const BorderSide(
+                        width: 0.2,
+                        color: Color(primaryDark),
+                      ),
+                      primary: const Color(primaryLight),
+                      shape: new RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.only(
                           topRight: const Radius.circular(25),
                           bottomRight: const Radius.circular(25),
-                        )),
-                      ),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text(
-                          "Aplicarlo",
-                          style: TextStyle(
-                            color: Color(primaryDark),
-                          ),
                         ),
                       ),
-                      onPressed: () async {
-                        if (widget.mountController.text.isEmpty ||
-                            widget.deadLineController.text.isEmpty) {
-                          CustomSnackbar.show(
-                            context,
-                            'Debes ingresar el monto y el plazo para aplicar el cupón',
-                            'error',
-                          );
-                          return; // Sale de la función para evitar que continúe el proceso
-                        }
-                        context.loaderOverlay.show();
-                        final inputCalculator = CalculatorInput(
-                          amount: int.parse(widget.mountController.text),
-                          months: int.parse(
-                              widget.deadLineController.text.split(' ')[0]),
-                          coupon: widget.couponController.text,
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Aplicarlo",
+                        style: TextStyle(
+                          color: Color(primaryDark),
+                        ),
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (widget.mountController.text.isEmpty ||
+                          widget.deadLineController.text.isEmpty) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debes ingresar el monto y el plazo para aplicar el cupón',
+                          'error',
                         );
+                        return; // Sale de la función para evitar que continúe el proceso
+                      }
+                      context.loaderOverlay.show();
+                      final inputCalculator = CalculatorInput(
+                        amount: int.parse(widget.mountController.text),
+                        months: int.parse(
+                          widget.deadLineController.text.split(' ')[0],
+                        ),
+                        coupon: widget.couponController.text,
+                      );
 
-                        final resultCalculator = await ref.watch(
-                          calculateInvestmentFutureProvider(
-                            inputCalculator,
-                          ).future,
-                        );
+                      final resultCalculator = await ref.watch(
+                        calculateInvestmentFutureProvider(
+                          inputCalculator,
+                        ).future,
+                      );
 
-                        setState(() {
-                          if (resultCalculator!.plan != null) {
-                            widget.plan = resultCalculator!.plan!;
-                            widget.profitability =
-                                resultCalculator!.profitability;
-                            widget.showInvestmentBoxes = true;
-                            widget.resultCalculator = resultCalculator;
-                          }
-                        });
-                        print('results Provider!!');
-                        print(resultCalculator);
-
-                        context.loaderOverlay.hide();
-
+                      setState(() {
                         if (resultCalculator!.plan != null) {
-                          CustomSnackbar.show(
-                            context,
-                            'Cupón aplicado correctamente',
-                            'success',
-                          );
-                        } else {
-                          CustomSnackbar.show(
-                            context,
-                            'Código inválido',
-                            'error',
-                          );
+                          widget.plan = resultCalculator!.plan!;
+                          widget.profitability =
+                              resultCalculator!.profitability;
+                          widget.showInvestmentBoxes = true;
+                          widget.resultCalculator = resultCalculator;
                         }
-                      }),
+                      });
+
+                      context.loaderOverlay.hide();
+
+                      if (resultCalculator!.plan != null) {
+                        CustomSnackbar.show(
+                          context,
+                          'Cupón aplicado correctamente',
+                          'success',
+                        );
+                      } else {
+                        CustomSnackbar.show(
+                          context,
+                          'Código inválido',
+                          'error',
+                        );
+                      }
+                    },
+                  ),
                 ),
                 hintText: 'Ingresa tu codigo',
                 hintStyle:
@@ -602,13 +605,13 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 }
 
                 final deadLineUuid = DeadLineEntity.getUuidByName(
-                    widget.deadLineController.text, await deadLineFuture);
-                print('dead line uuid');
-                print(deadLineUuid);
+                  widget.deadLineController.text,
+                  await deadLineFuture,
+                );
                 final bankUuid = BankEntity.getUuidByName(
-                    widget.bankTypeController.text, await bankFuture);
-                print('bank uuid');
-                print(bankUuid);
+                  widget.bankTypeController.text,
+                  await bankFuture,
+                );
                 final preInvestment = PreInvestmentForm(
                   amount: int.parse(widget.mountController.text),
                   deadLineUuid: deadLineUuid,
@@ -620,19 +623,28 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 context.loaderOverlay.show();
                 final preInvestmentEntity = await ref
                     .watch(preInvestmentSaveProvider(preInvestment).future);
-                print('pre investment entity');
-                print(widget.resultCalculator);
 
-                context.loaderOverlay.hide();
-                Navigator.pushNamed(
-                  context,
-                  '/investment_step2',
-                  arguments: PreInvestmentStep2Arguments(
-                    plan: widget.plan,
-                    preInvestment: preInvestmentEntity,
-                    resultCalculator: widget.resultCalculator!,
-                  ),
-                );
+                if (preInvestmentEntity == null) {
+                  context.loaderOverlay.hide();
+                  CustomSnackbar.show(
+                    context,
+                    'Hubo un problema, asegúrate de haber completado los campos anteriores',
+                    'error',
+                  );
+                  return; // Sale de la función para evitar que continúe el proceso
+                } else {
+                  context.loaderOverlay.hide();
+
+                  Navigator.pushNamed(
+                    context,
+                    '/investment_step2',
+                    arguments: PreInvestmentStep2Arguments(
+                      plan: widget.plan,
+                      preInvestment: preInvestmentEntity,
+                      resultCalculator: widget.resultCalculator!,
+                    ),
+                  );
+                }
               },
               child: const Text(
                 'Continuar',

@@ -113,10 +113,8 @@ class TransfersScreen extends HookConsumerWidget {
                 return transferences.when(
                   data: (transferences) {
                     if (transferences.length == 0) {
-                      print(EmptyTransference());
                       return EmptyTransference();
                     } else {
-                      print(transferences);
                       return TransfersScreenListWidget(
                         transferences: transferences,
                       );

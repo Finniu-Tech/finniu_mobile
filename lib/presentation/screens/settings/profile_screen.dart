@@ -89,43 +89,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     int mapControllerKey() {
       int count = 0;
       if (firstNameController.text.isNotEmpty) {
-        print(
-            'firstNameController.text.isNotEmpty: ${firstNameController.text.isNotEmpty}');
         count += 1;
       }
       if (lastNameController.text.isNotEmpty) {
-        print(
-            'lastNameController.text.isNotEmpty: ${lastNameController.text.isNotEmpty}');
         count++;
       }
       if (docNumberController.text.isNotEmpty) {
-        print(
-            'docNumberController.text.isNotEmpty: ${docNumberController.text.isNotEmpty}');
         count++;
       }
       if (departmentController.text.isNotEmpty) {
-        print(
-            'departmentController.text.isNotEmpty: ${departmentController.text.isNotEmpty}');
         count++;
       }
       if (provinceController.text.isNotEmpty) {
-        print(
-            'provinceController.text.isNotEmpty: ${provinceController.text.isNotEmpty}');
         count++;
       }
       if (districtController.text.isNotEmpty) {
-        print(
-            'districtController.text.isNotEmpty: ${districtController.text.isNotEmpty}');
         count++;
       }
       if (addressController.text.isNotEmpty) {
-        print(
-            'addressController.text.isNotEmpty: ${addressController.text.isNotEmpty}');
         count++;
       }
       if (civilStateController.text.isNotEmpty) {
-        print(
-            'civilStateController.text.isNotEmpty: ${civilStateController.text.isNotEmpty}');
         count++;
       }
       return count;
@@ -133,12 +117,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     void _calculatePercentage() {
       // Count the number of non-empty fields
-      print('calculate percentage');
       // int count = fieldValues.values
       //     .where((value) => value != null && value.toString().isNotEmpty)
       //     .length;
       int count = mapControllerKey();
-      print('count: $count');
 
       // Update the progress bar with the percentage of completed fields
       if (count == 0) {
@@ -146,7 +128,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       } else {
         percentage.value = (count / 7.0);
       }
-      print('percentage: ${percentage.value}');
       percentageString.value = '${(percentage.value * 100).round()}%';
     }
 
@@ -388,7 +369,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       final codeRegion =
                           RegionEntity.getCodeFromName(value, regions);
 
-                      print('code region is $codeRegion');
                       ref
                           .read(provincesStateNotifier.notifier)
                           .filterProvinces(codeRegion);
@@ -414,13 +394,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         departmentController.text,
                         allRegions,
                       );
-                      print('code province is $codeRegion');
                       final codeProvince = ProvinceEntity.getCodeFromName(
                         value,
                         codeRegion,
                         allProvinces,
                       );
-                      print('code province is $codeProvince');
                       ref
                           .read(districtsStateNotifier.notifier)
                           .filterDistricts(codeProvince, codeRegion);
@@ -500,9 +478,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 provinceController.text,
                                 departmentCodeController.text,
                                 await allProvincesFuture);
-                        print('district is ${districtCodeController.text}');
-                        print('province is ${provinceCodeController.text}');
-                        print('department is ${departmentCodeController.text}');
                         districtCodeController.text =
                             DistrictEntity.getCodeFromName(
                           districtController.text,
@@ -513,9 +488,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       }
                       final userProfile =
                           ref.watch(userProfileNotifierProvider);
-                      print('mapping results ${civilStateController.text}');
-                      print(MaritalStatusMapper()
-                          .mapStatus(civilStateController.text));
+
                       final success = await ref.read(
                         updateUserProfileFutureProvider(
                           userProfile.copyWith(
@@ -532,7 +505,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           ),
                         ).future,
                       );
-                      print('success is $success');
                       if (success) {
                         CustomSnackbar.show(
                             context,
