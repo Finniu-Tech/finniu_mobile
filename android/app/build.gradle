@@ -60,8 +60,8 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion 19
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 21
-        versionName "1.0.0"
+        versionCode 23
+        versionName "1.0.2"
     }
 
     signingConfigs {
@@ -85,4 +85,10 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+
+configurations.all {
+    exclude group: 'com.google.android.gms', module : 'play-services-ads'
+    exclude group: 'com.google.android.gms', module : 'play-services-ads-identifier'
+    exclude group: 'com.google.android.gms', module : 'play-services-ads-lite'
 }
