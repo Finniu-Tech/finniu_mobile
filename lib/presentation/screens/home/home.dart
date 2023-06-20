@@ -26,34 +26,38 @@ class HomeScreen extends HookConsumerWidget {
     final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
 
     // var hasCompletedOnboarding = true;
-    return Scaffold(
-      backgroundColor: Color(whiteText),
-      bottomNavigationBar: const BottomNavigationBarHome(),
-      body: HookBuilder(
-        builder: (context) {
-          final userProfile = ref.watch(userProfileFutureProvider);
+    return WillPopScope(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
+          backgroundColor: Color(whiteText),
+          bottomNavigationBar: const BottomNavigationBarHome(),
+          body: HookBuilder(
+            builder: (context) {
+              final userProfile = ref.watch(userProfileFutureProvider);
 
-          return userProfile.when(
-            data: (profile) {
-              if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
-                hasPushedOnboarding = true; // set flag to true
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  Navigator.of(context)
-                      .pushReplacementNamed('/onboarding_questions_start');
-                });
-              }
+              return userProfile.when(
+                data: (profile) {
+                  if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
+                    hasPushedOnboarding = true; // set flag to true
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.of(context)
+                          .pushReplacementNamed('/onboarding_questions_start');
+                    });
+                  }
 
-              return HomeBody(
-                currentTheme: currentTheme,
-                userProfile: profile,
+                  return HomeBody(
+                    currentTheme: currentTheme,
+                    userProfile: profile,
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, _) => Center(child: Text(error.toString())),
               );
             },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, _) => Center(child: Text(error.toString())),
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 }
 
