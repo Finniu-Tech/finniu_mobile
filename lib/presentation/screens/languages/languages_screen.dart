@@ -111,7 +111,7 @@ class LanguagesStart extends HookConsumerWidget {
             ),
             CustomSelectButton(
               textEditingController: languageController,
-              items: const ['Español', 'Portugués', 'Inglés'],
+              items: const ['Español'],
               labelText: "Idioma",
             ),
           ],
