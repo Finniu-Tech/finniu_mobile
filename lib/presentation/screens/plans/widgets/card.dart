@@ -159,7 +159,7 @@ class CardCustom extends ConsumerWidget {
                 currentTheme.isDarkMode ? primaryLightAlternative : colortext,
               ),
               width: 350,
-              height: 1090,
+              height: 930,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Column(
@@ -428,24 +428,24 @@ class CardCustom extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    Image.asset(
-                      "assets/images/project.png",
-                    ),
-                    Center(
-                      child: Container(
-                        width: 240,
-                        child: const Text(
-                          'Proyecto ubicado en la región de Tambogrande,Piura.Se dedica a la producción y comercialización de frutas como:plátanos,uva,pitahaya y arándanos.',
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w400,
-                            height: 1.5,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Image.asset(
+                    //   "assets/images/project.png",
+                    // ),
+                    // Center(
+                    //   child: Container(
+                    //     width: 240,
+                    //     child: const Text(
+                    //       'Proyecto ubicado en la región de Tambogrande,Piura.Se dedica a la producción y comercialización de frutas como:plátanos,uva,pitahaya y arándanos.',
+                    //       textAlign: TextAlign.justify,
+                    //       style: TextStyle(
+                    //         color: Colors.black,
+                    //         fontSize: 9,
+                    //         fontWeight: FontWeight.w400,
+                    //         height: 1.5,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 15,
                     ),
