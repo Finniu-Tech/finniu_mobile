@@ -355,7 +355,7 @@ class CardCustom extends ConsumerWidget {
                           children: const [
                             Text(
                               textAlign: TextAlign.justify,
-                              "Las inversiones realizadas en los Planes Finniu invierte en oportunidades rentables dentro de 3 sectores.",
+                              "Finniu diversifica el capital en los sectores de agroindustria, alimentos y suministros. Siendo la agroindustria el sector donde invertimos en gran porcentaje.Te contamos más:",
                               style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
