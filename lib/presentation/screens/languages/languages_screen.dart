@@ -15,6 +15,7 @@ class LanguagesStart extends HookConsumerWidget {
 
     final languageController = useTextEditingController();
     return CustomScaffoldReturnLogo(
+      hideReturnButton: false,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
