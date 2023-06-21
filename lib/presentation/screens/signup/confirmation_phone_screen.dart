@@ -64,7 +64,7 @@ class ConfirmationPhone extends HookConsumerWidget {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           child: Text(
-                            'Hola ${userProfileProvider.nickName} queremos enviarte un SMS de tu código de verificación por favor confirmanos tu numero telefonico.',
+                            'Hola ${userProfileProvider.nickName} queremos enviarte un SMS de tu código de verificación por favor confirmanos tu número telefónico.',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               color: Colors.black,
