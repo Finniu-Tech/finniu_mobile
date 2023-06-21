@@ -73,7 +73,7 @@ class FinishInvestment extends ConsumerWidget {
                         padding: const EdgeInsets.all(17.0),
                         child: Text(
                           textAlign: TextAlign.justify,
-                          'Recuerda que te enviaremos tu contrato a tu correo en maximo 30 minutos ',
+                          'Recuerda que te enviaremos tu contrato a tu correo en máximo 30 minutos ',
                           style: TextStyle(
                             fontSize: 12,
                             color: currentTheme.isDarkMode
