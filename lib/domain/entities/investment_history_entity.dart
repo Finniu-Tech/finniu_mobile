@@ -24,7 +24,7 @@ class InvestmentHistoryEntity {
   final int? deadLineValue;
   final DateTime? startDate;
   final DateTime? endDate;
-  final int? rentabilityPercent;
+  final double? rentabilityPercent;
 
   InvestmentHistoryEntity({
     required this.uuid,

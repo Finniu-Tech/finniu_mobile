@@ -1,6 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
+import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
@@ -10,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void settingsDialog(BuildContext ctx, WidgetRef ref, double initialAmount) {
+void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   final userProvider = ref.watch(userProfileNotifierProvider);
-  // final double initialAmount;
+  final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
 
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -184,7 +185,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref, double initialAmount) {
                       Column(
                         children: [
                           Text(
-                            'S/$initialAmount',
+                            userBalanceReport.totalBalance.toString(),
                             style: TextStyle(
                               height: 1.5,
                               fontSize: 14,
@@ -222,7 +223,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref, double initialAmount) {
                       Column(
                         children: [
                           Text(
-                            "2",
+                            userBalanceReport.totalPlans.toString(),
                             style: TextStyle(
                               height: 1.5,
                               fontSize: 14,

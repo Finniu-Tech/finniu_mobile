@@ -7,7 +7,7 @@ class InvestmentHistoryMapper {
     final history = response.userInfoInvestment;
     InvestmentHistoryResumeEntity historyResumeEntity =
         InvestmentHistoryResumeEntity(
-      totalAmount: history!.totalBalanceAmount!.toDouble(),
+      totalAmount: history!.totalBalanceAmount?.toDouble() ?? 0.0,
       totalPlans: history.countPlanesActive!,
     );
     final inCourseInvestment =
@@ -50,7 +50,7 @@ class InvestmentMapper {
       endDate: investment.finishDateInvestment,
       deadLineName: investment.deadline?.name!,
       deadLineValue: investment.deadline?.value!,
-      rentabilityPercent: investment.rentabilityPercent!,
+      rentabilityPercent: double.parse(investment.rentabilityPercent!),
     );
   }
 

@@ -20,6 +20,7 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
         ),
       ),
     );
+
     final responseGraphRentability = UserInfoInvestmentReportResponse.fromJson(
       response.data ?? {},
     );
@@ -42,6 +43,7 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
     final responseGraphHistory = HistoryInvestmentResponse.fromJson(
       response.data ?? {},
     );
+
     return InvestmentHistoryMapper.responseGraphToEntity(
       responseGraphHistory,
     );

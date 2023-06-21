@@ -22,7 +22,7 @@ class HomeScreen extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     // add flag to check if callback has already been added
-    var hasPushedOnboarding = false;
+    bool hasPushedOnboarding = false;
     final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
 
     // var hasCompletedOnboarding = true;
@@ -31,7 +31,8 @@ class HomeScreen extends HookConsumerWidget {
           return false;
         },
         child: Scaffold(
-          backgroundColor: Color(whiteText),
+          backgroundColor:
+              Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
           bottomNavigationBar: const BottomNavigationBarHome(),
           body: HookBuilder(
             builder: (context) {
@@ -48,10 +49,7 @@ class HomeScreen extends HookConsumerWidget {
                   }
 
                   return HomeBody(
-                    currentTheme: currentTheme,
-                    userProfile: profile,
-                    initialAmount: ,
-                  );
+                      currentTheme: currentTheme, userProfile: profile);
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => Center(child: Text(error.toString())),
@@ -63,13 +61,10 @@ class HomeScreen extends HookConsumerWidget {
 }
 
 class HomeBody extends ConsumerWidget {
-  double initialAmount;
-   
-   HomeBody({
+  HomeBody({
     super.key,
     required this.currentTheme,
     required this.userProfile,
-    required this. initialAmount,
   });
 
   final SettingsProviderState currentTheme;
@@ -87,7 +82,7 @@ class HomeBody extends ConsumerWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    settingsDialog(context, ref, initialAmount);
+                    settingsDialog(context, ref);
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -131,14 +126,10 @@ class HomeBody extends ConsumerWidget {
                 return homeReport.when(
                   data: (homeReport) {
                     return LineReportHomeWidget(
-                      initialAmount:
-                          homeReport["totalBalanceAmmount"].toDouble(),
-                      finalAmount: homeReport["totalBalanceAmmount"]
-                              .toDouble() +
-                          double.parse(homeReport["totalBalanceRentability"]),
-                      revenueAmount:
-                          double.parse(homeReport["totalBalanceRentability"]),
-                      totalPlans: homeReport["countPlanesActive"].toDouble(),
+                      initialAmount: homeReport.totalBalance,
+                      finalAmount: homeReport.totalRevenue,
+                      revenueAmount: homeReport.totalRevenue,
+                      totalPlans: homeReport.totalPlans.toDouble(),
                     );
                   },
                   loading: () => const Center(

@@ -7,7 +7,7 @@ class InvestmentRentabilityReportMapper {
     final userInvestmentData = response.userInfoInvestment;
     InvestmentRentabilityResumeEntity resumeEntity =
         InvestmentRentabilityResumeEntity(
-      totalAmount: userInvestmentData!.totalBalanceAmmount!.toDouble(),
+      totalAmount: userInvestmentData!.totalBalanceAmmount?.toDouble() ?? 0.0,
       totalRentabilityAmount:
           double.parse(userInvestmentData.totalBalanceRentability!),
       totalPlans: userInvestmentData.countPlanesActive!,
@@ -46,8 +46,8 @@ class InvestmentRentabilityMapper {
       statusInvestment: investment.status!,
       startDateInvestment: investment.startDateInvestment,
       endDateInvestment: investment.finishDateInvestment,
-      rentabilityAmount: investment.rentabilityAmmount!.toDouble(),
-      rentabilityPercent: investment.rentabilityPercent!.toDouble(),
+      rentabilityAmount: double.parse(investment.rentabilityAmmount!),
+      rentabilityPercent: double.parse(investment.rentabilityPercent!),
     );
   }
 }

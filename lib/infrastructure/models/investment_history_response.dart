@@ -114,8 +114,8 @@ class InvesmentFinishedElement {
   String? status;
   DateTime? startDateInvestment;
   DateTime? finishDateInvestment;
-  int? rentabilityAmmount;
-  int? rentabilityPercent;
+  String? rentabilityAmmount;
+  String? rentabilityPercent;
   String? planName;
 
   InvesmentFinishedElement({
