@@ -454,7 +454,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${widget.totalPlans.toInt()} planes',
+                            '${widget.totalPlans.toInt()} ${widget.totalPlans.toInt() == 1 ? "plan" : "planes"}',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 14,
