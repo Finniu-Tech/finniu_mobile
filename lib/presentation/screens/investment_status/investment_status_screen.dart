@@ -40,11 +40,22 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
           final reportFuture = ref.watch(investmentStatusReportFutureProvider);
           return reportFuture.when(
             data: (report) {
-              return InvestmentStatusScreenBody(
-                currentTheme: currentTheme,
-                tabController: _tabController,
-                report: report,
-              );
+              if (report.totalPlans == 0) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: EmptyHistoryMessage(
+                      is_history_screen: false,
+                    ),
+                  ),
+                );
+              } else {
+                return InvestmentStatusScreenBody(
+                  currentTheme: currentTheme,
+                  tabController: _tabController,
+                  report: report,
+                );
+              }
             },
             loading: () => const Center(
               child: CircularProgressIndicator(),
