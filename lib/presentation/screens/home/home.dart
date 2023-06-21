@@ -50,6 +50,7 @@ class HomeScreen extends HookConsumerWidget {
                   return HomeBody(
                     currentTheme: currentTheme,
                     userProfile: profile,
+                    initialAmount: ,
                   );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
@@ -62,10 +63,13 @@ class HomeScreen extends HookConsumerWidget {
 }
 
 class HomeBody extends ConsumerWidget {
-  const HomeBody({
+  double initialAmount;
+   
+   HomeBody({
     super.key,
     required this.currentTheme,
     required this.userProfile,
+    required this. initialAmount,
   });
 
   final SettingsProviderState currentTheme;
@@ -83,7 +87,7 @@ class HomeBody extends ConsumerWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    settingsDialog(context, ref);
+                    settingsDialog(context, ref, initialAmount);
                   },
                   child: Container(
                     alignment: Alignment.center,

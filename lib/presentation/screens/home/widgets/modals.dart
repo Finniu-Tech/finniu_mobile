@@ -10,9 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void settingsDialog(BuildContext ctx, WidgetRef ref) {
+void settingsDialog(BuildContext ctx, WidgetRef ref, double initialAmount) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   final userProvider = ref.watch(userProfileNotifierProvider);
+  // final double initialAmount;
+
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
     context: ctx,
@@ -182,7 +184,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                       Column(
                         children: [
                           Text(
-                            "S/4050",
+                            'S/$initialAmount',
                             style: TextStyle(
                               height: 1.5,
                               fontSize: 14,

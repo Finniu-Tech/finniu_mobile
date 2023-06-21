@@ -17,6 +17,7 @@ class HelpScreen extends ConsumerWidget {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldReturnLogo(
+      hideReturnButton: false,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: SingleChildScrollView(

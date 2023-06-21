@@ -15,6 +15,7 @@ class LanguagesStart extends HookConsumerWidget {
 
     final languageController = useTextEditingController();
     return CustomScaffoldReturnLogo(
+      hideReturnButton: false,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
@@ -110,7 +111,7 @@ class LanguagesStart extends HookConsumerWidget {
             ),
             CustomSelectButton(
               textEditingController: languageController,
-              items: const ['Español', 'Portugués', 'Inglés'],
+              items: const ['Español'],
               labelText: "Idioma",
             ),
           ],

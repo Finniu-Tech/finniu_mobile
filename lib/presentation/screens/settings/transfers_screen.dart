@@ -19,6 +19,7 @@ class TransfersScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
+      hideReturnButton: false,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -337,7 +338,7 @@ class EmptyTransference extends ConsumerWidget {
               SizedBox(
                 width: 220,
                 child: Text(
-                  'Te invitamos a conocer nuestros planes de inversion',
+                  'Te invitamos a conocer nuestros planes de inversión',
                   style: TextStyle(
                     fontSize: 14,
                     color: currentTheme.isDarkMode
