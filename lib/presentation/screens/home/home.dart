@@ -123,14 +123,24 @@ class HomeBody extends ConsumerWidget {
             HookBuilder(
               builder: (context) {
                 final homeReport = ref.watch(homeReportProvider);
+
                 return homeReport.when(
                   data: (homeReport) {
-                    return LineReportHomeWidget(
-                      initialAmount: homeReport.totalBalance,
-                      finalAmount: homeReport.totalRevenue,
-                      revenueAmount: homeReport.totalRevenue,
-                      totalPlans: homeReport.totalPlans.toDouble(),
-                    );
+                    if (homeReport.totalBalance == 0) {
+                      return SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: Center(
+                          child: EmptyReportMessage(),
+                        ),
+                      );
+                    } else {
+                      return LineReportHomeWidget(
+                        initialAmount: homeReport.totalBalance,
+                        finalAmount: homeReport.totalRevenue,
+                        revenueAmount: homeReport.totalRevenue,
+                        totalPlans: homeReport.totalPlans.toDouble(),
+                      );
+                    }
                   },
                   loading: () => const Center(
                     child: CircularProgressIndicator(
@@ -146,9 +156,10 @@ class HomeBody extends ConsumerWidget {
                 );
               },
             ),
-            // const SizedBox(
-            //   height: 15,
-            // ),
+// const SizedBox(
+//   height: 15,
+// ),
+
             const SizedBox(
               height: 15,
             ),

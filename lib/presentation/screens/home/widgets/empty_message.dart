@@ -9,12 +9,17 @@ class EmptyReportMessage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final themeProvider = ref.watch(settingsNotifierProvider);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.40,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/layerblur.jpg'),
+          image: AssetImage(
+            themeProvider.isDarkMode
+                ? 'assets/images/darkmode_layerblur.jpg'
+                : 'assets/images/layerblur.jpg',
+          ),
           fit: BoxFit.contain,
         ),
       ),
