@@ -144,7 +144,7 @@ class PlanListBody extends HookConsumerWidget {
                           'assets/investment/billsmoney.png',
                       textTiledCard: plans[index].name,
                       textPercentage: '${plans[index].twelveMonthsReturn}% ',
-                      textDeclaration: '8%',
+                      textDeclaration: '5%',
                       textinvestment: 'S/${plans[index].minAmount}',
                       textContainer: plans[index].description ?? '',
                       planUuid: plans[index].uuid,
