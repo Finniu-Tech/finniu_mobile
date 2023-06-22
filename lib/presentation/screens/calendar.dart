@@ -129,7 +129,7 @@ class _CalendarBodyState extends State<CalendarBody> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 400,
+              width: 320,
               child: Text(
                 'Calendario de mis inversiones  🗓️',
                 style: TextStyle(
@@ -166,6 +166,7 @@ class _CalendarBodyState extends State<CalendarBody> {
                       onCalendarChanged: _handlePageChange,
                       headerMargin: const EdgeInsets.symmetric(vertical: 1.0),
                       selectedDateTime: widget.selectedDay,
+
                       prevMonthDayBorderColor: Colors.transparent,
                       nextMonthDayBorderColor: Colors.transparent,
                       thisMonthDayBorderColor: Colors.transparent,
