@@ -35,14 +35,16 @@ class SnackBarBody extends HookConsumerWidget {
     final themeProvider = ref.watch(settingsNotifierProvider);
 
     return Align(
+        child: FractionallySizedBox(
+      widthFactor: 0.94,
       child: Container(
-        height: 100,
-        width: 370,
+        // height: 100,
+        // width: 370,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
-              topRight: Radius.circular(72),
-              bottomRight: Radius.circular(100),
-              bottomLeft: Radius.circular(90),
+              topRight: Radius.circular(40),
+              bottomRight: Radius.circular(50),
+              bottomLeft: Radius.circular(50),
               topLeft: Radius.circular(90)),
           color: themeProvider.isDarkMode
               ? Color(backgroundColorDark)
@@ -72,18 +74,23 @@ class SnackBarBody extends HookConsumerWidget {
             Positioned(
               left: 110,
               top: 45,
-              child: Container(
-                child: SizedBox(
-                  width: 200,
-                  height: 50,
-                  child: Text(
-                    message,
-                    style: TextStyle(
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : Colors.black,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
+              child: Center(
+                child: Container(
+                  child: SizedBox(
+                    width: 200,
+                    height: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 4),
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -105,7 +112,7 @@ class SnackBarBody extends HookConsumerWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 
   static Color _getColor(String type) {

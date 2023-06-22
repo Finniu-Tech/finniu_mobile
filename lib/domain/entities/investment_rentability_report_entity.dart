@@ -29,6 +29,7 @@ class InvestmentRentabilityEntity {
   String deadLineUuid;
   String deadLineName;
   int deadLineValue;
+  bool? reinvestmentAvailable;
   // String? paymentTypeUuid;
   // String? paymentTypeName;
   // String? paymentTypeValue;
@@ -50,6 +51,8 @@ class InvestmentRentabilityEntity {
     required this.deadLineUuid,
     required this.deadLineName,
     required this.deadLineValue,
+    this.reinvestmentAvailable,
+
     // this.paymentTypeUuid,
     // this.paymentTypeName,
     // this.paymentTypeValue,

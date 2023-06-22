@@ -77,6 +77,7 @@ class Investment {
   String? rentabilityAmmount;
   String? rentabilityPercent;
   String? planName;
+  bool? reinvestmentAvailable;
 
   Investment({
     this.uuid,
@@ -93,6 +94,7 @@ class Investment {
     this.rentabilityAmmount,
     this.rentabilityPercent,
     this.planName,
+    this.reinvestmentAvailable,
   });
 
   factory Investment.fromJson(Map<String, dynamic> json) => Investment(
@@ -120,6 +122,8 @@ class Investment {
         rentabilityAmmount: json["rentabilityAmmount"],
         rentabilityPercent: json["rentabilityPercent"],
         planName: json["planName"],
+        reinvestmentAvailable:
+            json["reinvestmentAvailable"] == null ? false : true,
       );
 
   Map<String, dynamic> toJson() => {

@@ -332,7 +332,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                     children: report.investmentsInCourse!
                         .map(
                           (investment) => TableCardInCourse(
-                            textButton: true,
+                            textButton: investment.reinvestmentAvailable,
                             planName: investment.planName!,
                             termText:
                                 'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
