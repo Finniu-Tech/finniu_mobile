@@ -14,6 +14,7 @@ class LanguagesStart extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     final languageController = useTextEditingController();
+    languageController.text = 'Español';
     return CustomScaffoldReturnLogo(
       hideReturnButton: false,
       body: Padding(
