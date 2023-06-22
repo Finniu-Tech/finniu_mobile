@@ -123,7 +123,7 @@ class Investment {
         rentabilityPercent: json["rentabilityPercent"],
         planName: json["planName"],
         reinvestmentAvailable:
-            json["reinvestmentAvailable"] == null ? false : true,
+            json["reinvestmentAvailable"] == true ? true : false,
       );
 
   Map<String, dynamic> toJson() => {
