@@ -271,18 +271,15 @@ class BodyScreen extends StatelessWidget {
                                 ),
                                 const SizedBox(height: 10),
                                 Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: const Text(
-                                      'Este 5% es la tributación correspondiente por renta de 2da categoria(inversiones).Aplica sobre tus intereses ganados. ',
-                                      textAlign: TextAlign.justify,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        height: 1.5,
-                                        color: Color(blackText),
-                                      ),
+                                  // width:
+                                  //     MediaQuery.of(context).size.width * 0.3,
+                                  child: const Text(
+                                    'Este 5% es la tributación correspondiente por renta de 2da categoria (inversiones).Aplica sobre tus intereses ganados. ',
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      height: 1.5,
+                                      color: Color(blackText),
                                     ),
                                   ),
                                 )
