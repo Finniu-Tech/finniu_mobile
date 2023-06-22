@@ -243,7 +243,7 @@ class BodyScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      width: 70,
+                                      width: 90,
                                       // constraints:
                                       //     const BoxConstraints(maxHeight: 10),
                                       child: Align(
