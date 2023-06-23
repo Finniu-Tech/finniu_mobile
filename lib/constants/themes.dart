@@ -7,10 +7,8 @@ class AppTheme {
   get darkTheme => ThemeData(
         pageTransitionsTheme: PageTransitionsTheme(
           builders: {
-            TargetPlatform.android:
-                CupertinoPageTransitionsBuilderCustomBackGestureWidth(),
-            TargetPlatform.iOS:
-                CupertinoPageTransitionsBuilderCustomBackGestureWidth(),
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
         appBarTheme: const AppBarTheme(color: Color(primaryDark)),
@@ -95,6 +93,12 @@ class AppTheme {
   get lightTheme => ThemeData(
         // useMaterial3: true,
         // primarySwatch: Colors.grey,
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+            TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          },
+        ),
         backgroundColor: const Color(backgroundColorLight),
         primaryColor: const Color(primaryLight), // usado para gradiente
         primaryColorLight: const Color(secondary), // usado para gradiente

@@ -13,56 +13,54 @@ class EmptyHistoryMessage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
-    return WillPopScope(
-        onWillPop: () => Future.value(false),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Row(
-                children: [
-                  Text(
-                    'Mis inversiones 💸',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-                  ),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.28,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/calendar_page');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Image.asset(
-                        'assets/icons/calendar.png',
-                        width: 20,
-                        height: 20,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                    ),
-                  ),
-                ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Row(
+            children: [
+              Text(
+                'Mis inversiones 💸',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
               ),
-            ),
-            const SizedBox(height: 18),
-            if (is_history_screen) ...[
-              const HistorialButtons()
-            ] else ...[
-              const RentabilidadButtons()
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.28,
+              ),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, '/calendar_page');
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(5),
+                  child: Image.asset(
+                    'assets/icons/calendar.png',
+                    width: 20,
+                    height: 20,
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                  ),
+                ),
+              ),
             ],
-            const SizedBox(height: 22),
-            EmptyReportMessage(),
-          ],
-        ));
+          ),
+        ),
+        const SizedBox(height: 18),
+        if (is_history_screen) ...[
+          const HistorialButtons()
+        ] else ...[
+          const RentabilidadButtons()
+        ],
+        const SizedBox(height: 22),
+        EmptyReportMessage(),
+      ],
+    );
   }
 }
 

@@ -73,7 +73,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final percentage = useState(0.0);
     final percentageString = useState('0%');
 
-    final imageFile = useState('');
+    final imageFile = useState(userProfile.imageProfileUrl ??
+        "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png");
 
     final editar = useState(userProfile.hasRequiredData() ? false : true);
     // const disabledBackground = 0xffF4F4F4;
@@ -472,18 +473,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           districtCodeController.text.isEmpty) {
                         departmentCodeController.text =
                             RegionEntity.getCodeFromName(
-                                departmentController.text, await regionsFuture);
+                          departmentController.text,
+                          await regionsFuture,
+                        );
                         provinceCodeController.text =
                             ProvinceEntity.getCodeFromName(
-                                provinceController.text,
-                                departmentCodeController.text,
-                                await allProvincesFuture);
+                          provinceController.text,
+                          departmentCodeController.text,
+                          await allProvincesFuture,
+                        );
                         districtCodeController.text =
                             DistrictEntity.getCodeFromName(
                           districtController.text,
                           provinceCodeController.text,
                           departmentCodeController.text,
-                          await districts,
+                          districts,
                         );
                       }
                       final userProfile =
@@ -537,41 +541,40 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
 class CircularPercentAvatar extends ConsumerWidget {
   const CircularPercentAvatar({
-    super.key,
+    Key? key,
     required this.percentage,
     required this.imageFile,
-  });
+  }) : super(key: key);
 
   final ValueNotifier<double> percentage;
   final ValueNotifier<String> imageFile;
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final imageUrl = imageFile.value;
+
     return CircularPercentIndicator(
       radius: 50.0,
       lineWidth: 10.0,
       circularStrokeCap: CircularStrokeCap.round,
-
-      // startAngle: 45.0,
-      // header:
       percent: percentage.value,
       center: CircleAvatar(
         radius: 40, // Image radius
-        backgroundImage: imageFile.value != ''
-            ? FileImage(
-                File(imageFile.value),
-              )
-            : const AssetImage(
-                "assets/images/avatar_alone.png",
-              ) as ImageProvider,
+        backgroundImage: imageUrl.isNotEmpty
+            ? _isNetworkUrl(imageUrl)
+                ? NetworkImage(imageUrl) as ImageProvider
+                : FileImage(File(imageUrl))
+            : Image.asset("assets/images/avatar_alone.png") as ImageProvider,
       ),
-
       progressColor:
           Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
       backgroundColor:
           Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
-      // fillColor: Color(primaryLight),
     );
+  }
+
+  bool _isNetworkUrl(String url) {
+    return url.startsWith('http://') || url.startsWith('https://');
   }
 }

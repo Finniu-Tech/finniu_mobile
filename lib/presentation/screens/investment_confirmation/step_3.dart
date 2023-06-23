@@ -22,7 +22,7 @@ class _Step3State extends ConsumerState<Step3> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 12), () {
+    Future.delayed(const Duration(seconds: 7), () {
       if (!delayedActionExecuted) {
         delayedActionExecuted = true;
         // final ref = ProviderContainer().read;
@@ -74,7 +74,7 @@ class _Step3State extends ConsumerState<Step3> {
                       width: 300,
                       child: Text(
                         textAlign: TextAlign.justify,
-                        "Hola ${userPofile.nickName}, la validación de tu transferencia será confirmada en 30 min, te enviaremos una notificación cuando validemos tu inversión.",
+                        "Hola ${userPofile.nickName}, la validación de tu transferencia será confirmada en 30 minutos, te enviaremos una notificación cuando validemos tu inversión.",
                         style: TextStyle(
                           height: 1.9,
                           color: Colors.white,

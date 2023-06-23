@@ -33,43 +33,47 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
-    return CustomScaffoldReturnLogo(
-      hideReturnButton: true,
-      body: HookBuilder(
-        builder: (context) {
-          final reportFuture = ref.watch(investmentStatusReportFutureProvider);
-          return reportFuture.when(
-            data: (report) {
-              if (report.totalPlans == 0) {
-                return SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.6,
-                  child: Center(
-                    child: EmptyHistoryMessage(
-                      is_history_screen: false,
+    return WillPopScope(
+      onWillPop: () => Future.value(false),
+      child: CustomScaffoldReturnLogo(
+        hideReturnButton: true,
+        body: HookBuilder(
+          builder: (context) {
+            final reportFuture =
+                ref.watch(investmentStatusReportFutureProvider);
+            return reportFuture.when(
+              data: (report) {
+                if (report.totalPlans == 0) {
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.6,
+                    child: Center(
+                      child: EmptyHistoryMessage(
+                        is_history_screen: false,
+                      ),
                     ),
+                  );
+                } else {
+                  return InvestmentStatusScreenBody(
+                    currentTheme: currentTheme,
+                    tabController: _tabController,
+                    report: report,
+                  );
+                }
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stack) => SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: Center(
+                  child: EmptyHistoryMessage(
+                    is_history_screen: false,
                   ),
-                );
-              } else {
-                return InvestmentStatusScreenBody(
-                  currentTheme: currentTheme,
-                  tabController: _tabController,
-                  report: report,
-                );
-              }
-            },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (error, stack) => SizedBox(
-              height: MediaQuery.of(context).size.height * 0.6,
-              child: Center(
-                child: EmptyHistoryMessage(
-                  is_history_screen: false,
                 ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

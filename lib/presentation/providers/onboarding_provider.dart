@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final startOnBoardingFutureStateNotifierProvider =
-    FutureProvider<OnboardingEntity>(
+    FutureProvider.autoDispose<OnboardingEntity>(
   (ref) async {
     final client = ref.watch(gqlClientProvider).value;
     String userId = ref.watch(userProfileNotifierProvider).id!;
@@ -32,7 +32,7 @@ final startOnBoardingFutureStateNotifierProvider =
 );
 
 final updateOnboardingFutureStateNotifierProvider =
-    FutureProvider.family<OnboardingEntity, UserAnswerEntity>(
+    FutureProvider.autoDispose.family<OnboardingEntity, UserAnswerEntity>(
   (ref, UserAnswerEntity userAnswer) async {
     final client = ref.watch(gqlClientProvider).value;
     final userId = ref.watch(userProfileNotifierProvider).id;
@@ -58,7 +58,8 @@ final updateOnboardingFutureStateNotifierProvider =
   },
 );
 
-final finishOnboardingFutureStateNotifierProvider = FutureProvider<bool>(
+final finishOnboardingFutureStateNotifierProvider =
+    FutureProvider.autoDispose<bool>(
   (ref) async {
     final client = ref.watch(gqlClientProvider).value;
     final userId = ref.watch(userProfileNotifierProvider).id;

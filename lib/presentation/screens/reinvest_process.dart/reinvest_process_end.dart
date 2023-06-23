@@ -94,7 +94,9 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                 spreadRadius: 0,
                                 blurRadius: 2,
                                 offset: const Offset(
-                                    0, 3), // changes position of shadow
+                                  0,
+                                  3,
+                                ), // changes position of shadow
                               ),
                             ],
                             color: const Color(secondary),
@@ -228,8 +230,12 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                           _debouncer.run(() {
                             if (amountController.text.isNotEmpty &&
                                 monthsController.text.isNotEmpty) {
-                              calculateInvestment(context, ref,
-                                  amountController, monthsController);
+                              calculateInvestment(
+                                context,
+                                ref,
+                                amountController,
+                                monthsController,
+                              );
                             }
                           });
                         },
@@ -323,7 +329,8 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                 width: 12, // ancho deseado de la imagen
                                 height: 12, // alto deseado de la imagen
                                 color: Color(
-                                    primaryDark), // color de la imagen si es necesario
+                                  primaryDark,
+                                ), // color de la imagen si es necesario
                               ),
                               const Text(
                                 'Monto mínimo',
@@ -355,11 +362,13 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                             children: <Widget>[
                               const Image(
                                 image: AssetImage(
-                                    'assets/icons/double_dollar.png'),
+                                  'assets/icons/double_dollar.png',
+                                ),
                                 width: 21, // ancho deseado de la imagen
                                 height: 21, // alto deseado de la imagen
                                 color: Color(
-                                    primaryDark), // color de la imagen si es necesario
+                                  primaryDark,
+                                ), // color de la imagen si es necesario
                               ),
                               const Text(
                                 'Retorno anual',

@@ -58,7 +58,8 @@ class SMSBody extends HookConsumerWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: Color(
-                      themeProvider.isDarkMode ? primaryLight : primaryDark),
+                    themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  ),
                   borderRadius: BorderRadius.circular(25),
                 ),
               ),
@@ -119,9 +120,10 @@ class SMSBody extends HookConsumerWidget {
                   } else {
                     Navigator.of(ctx).pop();
                     CustomSnackbar.show(
-                        ctx,
-                        'No se pudo validar el código de verificación',
-                        'error');
+                      ctx,
+                      'No se pudo validar el código de verificación',
+                      'error',
+                    );
                     // ScaffoldMessenger.of(ctx).showSnackBar(
                     //   customSnackBar(
                     //       'No se pudo validar el código de verificación',
@@ -166,7 +168,10 @@ class SMSBody extends HookConsumerWidget {
                           .startTimer(first: true);
                     } else {
                       CustomSnackbar.show(
-                          ctx, 'No se pudo reenviar el correo', "error");
+                        ctx,
+                        'No se pudo reenviar el correo',
+                        "error",
+                      );
                       // ScaffoldMessenger.of(ctx).showSnackBar(
                       //   customSnackBar('No se pudo reenviar el correo', 'error'),
                       // );
@@ -176,7 +181,8 @@ class SMSBody extends HookConsumerWidget {
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
                   backgroundColor: Color(
-                      themeProvider.isDarkMode ? primaryLight : primaryDark),
+                    themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  ),
                 ),
                 child: Text(
                   'Reenviar código',
@@ -194,16 +200,17 @@ class SMSBody extends HookConsumerWidget {
               SizedBox(
                 width: 280,
                 child: Text(
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      height: 1.5,
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : const Color(primaryDark),
-                    ),
-                    "Reenviar el codigo en"),
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                    color: themeProvider.isDarkMode
+                        ? Colors.white
+                        : const Color(primaryDark),
+                  ),
+                  "Reenviar el codigo en",
+                ),
               ),
               const SizedBox(height: 10),
               const CircularCountdown(),

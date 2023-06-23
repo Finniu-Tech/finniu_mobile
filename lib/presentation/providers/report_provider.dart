@@ -7,8 +7,7 @@ final homeReportProvider = FutureProvider<UserProfileBalance>((ref) async {
   final client = ref.watch(gqlClientProvider).value;
   final response =
       await ReportDataSourceImp().getUserReportHome(client: client!);
-  print('response2222');
-  print(response);
+
   ref.read(userProfileBalanceNotifierProvider.notifier).updateFields(
         totalPlans: response.totalPlans,
         totalBalance: response.totalBalance,
@@ -17,7 +16,7 @@ final homeReportProvider = FutureProvider<UserProfileBalance>((ref) async {
   return response;
 });
 
-final userProfileBalanceNotifierProvider = StateNotifierProvider.autoDispose<
+final userProfileBalanceNotifierProvider = StateNotifierProvider<
     UserProfileBalanceStateNotifierProvider, UserProfileBalance>((ref) {
   return UserProfileBalanceStateNotifierProvider(
     UserProfileBalance(

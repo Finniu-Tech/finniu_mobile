@@ -10,24 +10,25 @@ import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 
-void logout(ref) {
-  ref.invalidate(authTokenProvider);
-  ref.invalidate(gqlClientProvider);
-  ref.invalidate(userProfileFutureProvider);
-  ref.invalidate(bankFutureProvider);
-  ref.invalidate(deadLineFutureProvider);
-  ref.invalidate(hasCompletedOnboardingProvider);
-  ref.invalidate(userAcceptedTermsProvider);
-  ref.invalidate(finishOnboardingFutureStateNotifierProvider);
-  ref.invalidate(importantDaysFutureProvider);
-  ref.invalidate(startOnBoardingFutureStateNotifierProvider);
-  ref.invalidate(updateOnboardingFutureStateNotifierProvider);
-  ref.invalidate(onBoardingStateNotifierProvider);
-  ref.invalidate(recommendedPlanStateNotifierProvider);
-  ref.invalidate(otpValidatorFutureProvider);
-  ref.invalidate(otpResendCodeProvider);
-  ref.invalidate(planListFutureProvider);
-  ref.invalidate(preInvestmentSaveProvider);
-  ref.invalidate(homeReportProvider);
-  ref.invalidate(userProfileNotifierProvider);
-}
+// void logout(ref) {
+//   ref.invalidate(authTokenProvider);
+//   ref.invalidate(gqlClientProvider);
+//   ref.invalidate(userProfileFutureProvider);
+//   ref.invalidate(bankFutureProvider);
+//   ref.invalidate(deadLineFutureProvider);
+//   ref.invalidate(hasCompletedOnboardingProvider);
+//   ref.invalidate(userAcceptedTermsProvider);
+//   ref.invalidate(finishOnboardingFutureStateNotifierProvider);
+//   ref.invalidate(importantDaysFutureProvider);
+//   ref.invalidate(startOnBoardingFutureStateNotifierProvider);
+//   ref.invalidate(updateOnboardingFutureStateNotifierProvider);
+//   ref.invalidate(onBoardingStateNotifierProvider);
+//   ref.invalidate(recommendedPlanStateNotifierProvider);
+//   ref.invalidate(otpValidatorFutureProvider);
+//   ref.invalidate(otpResendCodeProvider);
+//   ref.invalidate(planListFutureProvider);
+//   ref.invalidate(preInvestmentSaveProvider);
+//   ref.invalidate(homeReportProvider);
+//   ref.invalidate(userProfileNotifierProvider);
+//   ref.invalidate(userProfileBalanceNotifierProvider);
+// }

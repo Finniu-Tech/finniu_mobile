@@ -27,6 +27,7 @@ final userProfileFutureProvider =
   // if (result.hasException) {
   //   throw result.exception!;
   // }
+
   if (result.data?['userProfile'] != null) {
     final userProfile = UserProfile.fromJson(result.data?['userProfile']);
     if (userProfile.hasCompletedOnboarding == true) {
@@ -74,6 +75,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           provincia: userProfile.provincia,
           region: userProfile.region,
           civilStatus: userProfile.civilStatus,
+          hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
         );
   }
   return success;
