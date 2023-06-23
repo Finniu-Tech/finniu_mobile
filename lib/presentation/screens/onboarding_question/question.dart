@@ -33,6 +33,7 @@ class _SelectRangeState extends ConsumerState<Questions> {
   Widget build(BuildContext context) {
     final onboardingData = ref.watch(onBoardingStateNotifierProvider);
     return CustomScaffoldReturnLogo(
+      hideNavBar: true,
       body: HookBuilder(
         builder: (context) {
           final questions = onboardingData.questions;

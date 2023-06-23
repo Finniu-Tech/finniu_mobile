@@ -401,8 +401,7 @@ class ItemSetting extends ConsumerWidget {
 void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
   String textDescription = '''
     Hola ${ref.watch(userProfileNotifierProvider).nickName}, recuerda que es muy importante tener todos tus
-    datos completos en la sección Editar perfil para que puedas continuar
-    con tu Proceso de inversión con éxito.
+    datos completos en la sección Editar perfil para que puedas continuar con tu proceso de inversión con éxito.
   ''';
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);

@@ -29,10 +29,10 @@ class PageQuestion extends HookConsumerWidget {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return Column(
       children: [
-        const SizedBox(height: 30),
+        const SizedBox(height: 20),
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.8,
-          height: 95,
+          height: 90,
           child: Text(
             question.text,
             textAlign: TextAlign.center,
@@ -45,16 +45,16 @@ class PageQuestion extends HookConsumerWidget {
             ),
           ),
         ),
-        Center(
-          child: SizedBox(
-            width: 120,
-            height: 90,
-            child: Image.network(
-              question.questionImageUrl,
-              fit: BoxFit.contain,
-            ),
-          ),
-        ),
+        // Center(
+        //   child: SizedBox(
+        //     width: 120,
+        //     height: 90,
+        //     child: Image.network(
+        //       question.questionImageUrl,
+        //       fit: BoxFit.contain,
+        //     ),
+        //   ),
+        // ),
         const SizedBox(
           height: 10,
         ),

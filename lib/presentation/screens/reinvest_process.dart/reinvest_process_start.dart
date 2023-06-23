@@ -47,7 +47,7 @@ class Reinvest extends HookConsumerWidget {
                 Row(
                   children: [
                     SizedBox(
-                      width: 160,
+                      width: 140,
                       child: Text(
                         textAlign: TextAlign.justify,
                         'Reinvierte tu inversión ',
@@ -55,7 +55,7 @@ class Reinvest extends HookConsumerWidget {
                           color: themeProvider.isDarkMode
                               ? const Color(primaryLight)
                               : const Color(primaryDark),
-                          fontSize: 24,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

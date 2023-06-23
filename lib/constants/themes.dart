@@ -1,11 +1,18 @@
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:flutter/cupertino.dart';
 
 class AppTheme {
   get darkTheme => ThemeData(
-        // useMaterial3: true,
-        // primarySwatch:,
+        pageTransitionsTheme: PageTransitionsTheme(
+          builders: {
+            TargetPlatform.android:
+                CupertinoPageTransitionsBuilderCustomBackGestureWidth(),
+            TargetPlatform.iOS:
+                CupertinoPageTransitionsBuilderCustomBackGestureWidth(),
+          },
+        ),
         appBarTheme: const AppBarTheme(color: Color(primaryDark)),
         backgroundColor: Color(backgroundColorDark),
         primaryColor: const Color(primaryDark), // usado para gradiente

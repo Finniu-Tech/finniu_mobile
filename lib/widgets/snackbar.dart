@@ -34,67 +34,85 @@ class SnackBarBody extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
 
-    return Container(
-      color:
-          themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
-      alignment: Alignment.center,
-      height: 110,
-      width: 310,
-      child: Stack(
+    return Align(
+        child: FractionallySizedBox(
+      widthFactor: 0.94,
+      child: Container(
+        // height: 100,
+        // width: 370,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topRight: Radius.circular(40),
+              bottomRight: Radius.circular(50),
+              bottomLeft: Radius.circular(50),
+              topLeft: Radius.circular(90)),
+          color: themeProvider.isDarkMode
+              ? Color(backgroundColorDark)
+              : Colors.white,
+        ),
         alignment: Alignment.center,
-        children: [
-          SvgPicture.asset(
-            _getBackgroundImage(type),
-            semanticsLabel: 'Error',
-          ),
-          Positioned(
-            left: 50,
-            child: SizedBox(
-              height: 55,
-              width: 45,
-              child: Image.asset(_getImage(type)),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            SvgPicture.asset(
+              _getBackgroundImage(type),
+              semanticsLabel: 'Error',
             ),
-          ),
-          Positioned(
-            left: 120,
-            top: 20,
-            child: _getTitle(type),
-          ),
-          Positioned(
-            left: 110,
-            top: 45,
-            child: Container(
+            Positioned(
+              left: 50,
               child: SizedBox(
-                width: 200,
-                height: 50,
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color:
-                        themeProvider.isDarkMode ? Colors.white : Colors.black,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
+                height: 55,
+                width: 45,
+                child: Image.asset(_getImage(type)),
+              ),
+            ),
+            Positioned(
+              left: 120,
+              top: 20,
+              child: _getTitle(type),
+            ),
+            Positioned(
+              left: 110,
+              top: 45,
+              child: Center(
+                child: Container(
+                  child: SizedBox(
+                    width: 200,
+                    height: 50,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 4),
+                      child: Text(
+                        message,
+                        style: TextStyle(
+                          color: themeProvider.isDarkMode
+                              ? Colors.white
+                              : Colors.black,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            right: 5,
-            top: 2,
-            child: InkWell(
-              onTap: () {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              },
-              child: const SizedBox(
-                width: 40,
-                height: 40,
+            Positioned(
+              right: 5,
+              top: 2,
+              child: InkWell(
+                onTap: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+                child: const SizedBox(
+                  width: 40,
+                  height: 40,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
-    );
+    ));
   }
 
   static Color _getColor(String type) {
