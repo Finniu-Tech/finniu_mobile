@@ -48,6 +48,7 @@ class InvestmentRentabilityMapper {
       endDateInvestment: investment.finishDateInvestment,
       rentabilityAmount: double.parse(investment.rentabilityAmmount!),
       rentabilityPercent: double.parse(investment.rentabilityPercent!),
+      reinvestmentAvailable: investment.reinvestmentAvailable,
     );
   }
 }

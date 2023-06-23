@@ -140,7 +140,7 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
           const SizedBox(
             width: 260,
             child: Text(
-              '¿Tienes algun comentario o sugerencia para mejorar nuestro proceso?(Opcional)',
+              '¿Tienes algún comentario o sugerencia para mejorar nuestro proceso?(Opcional)',
               textAlign: TextAlign.justify,
               style: TextStyle(
                 height: 1.5,

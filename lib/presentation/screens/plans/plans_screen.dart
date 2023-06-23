@@ -18,28 +18,31 @@ class PlanListScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
-    return CustomScaffoldReturnLogo(
-      hideReturnButton: true,
-      body: HookBuilder(
-        builder: (context) {
-          final planList = ref.watch(planListFutureProvider);
-          return planList.when(
-            data: (plans) {
-              return PlanListBody(
-                currentTheme: currentTheme,
-                plans: plans,
+
+    return WillPopScope(
+        onWillPop: () => Future.value(false),
+        child: CustomScaffoldReturnLogo(
+          hideReturnButton: true,
+          body: HookBuilder(
+            builder: (context) {
+              final planList = ref.watch(planListFutureProvider);
+              return planList.when(
+                data: (plans) {
+                  return PlanListBody(
+                    currentTheme: currentTheme,
+                    plans: plans,
+                  );
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                error: (error, stack) => Center(
+                  child: Text(error.toString()),
+                ),
               );
             },
-            loading: () => const Center(
-              child: CircularProgressIndicator(),
-            ),
-            error: (error, stack) => Center(
-              child: Text(error.toString()),
-            ),
-          );
-        },
-      ),
-    );
+          ),
+        ));
   }
 }
 

@@ -157,6 +157,7 @@ class QueryRepository {
         totalBalanceRentability
         invesmentInCourse{
           uuid
+          reinvestmentAvailable
           createdAt
           isActive
           amount

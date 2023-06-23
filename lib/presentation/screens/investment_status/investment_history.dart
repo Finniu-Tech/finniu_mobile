@@ -35,7 +35,7 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
               ref.watch(investmentHistoryReportFutureProvider);
           return historyFutureResponse.when(
               data: (history) {
-                if (history.totalPlans == 0) {
+                if (history.countTotalHistory() == 0) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: Center(

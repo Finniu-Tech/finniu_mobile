@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HelpScreen extends ConsumerWidget {
   const HelpScreen({super.key});
@@ -299,7 +300,8 @@ class HelpScreen extends ConsumerWidget {
                 height: 32,
                 child: TextButton(
                   onPressed: () {
-                    // Navigator.of(context).pushNamed('/');
+                    launch(
+                        'https://diegomallqui.notion.site/Finniu-FAQ-s-cd27189be3dd430b95b84dd2751de67a');
                   },
                   child: Container(
                     color: currentTheme.isDarkMode
