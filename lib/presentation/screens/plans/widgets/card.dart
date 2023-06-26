@@ -60,6 +60,14 @@ class ExpandableCard extends HookConsumerWidget {
   }
 }
 
+Widget loadImage(String imagePath) {
+  if (imagePath.startsWith('http') || imagePath.startsWith('https')) {
+    return Image.network(imagePath, width: 90, height: 90);
+  } else {
+    return Image.asset(imagePath, width: 90, height: 90);
+  }
+}
+
 class CardCustom extends ConsumerWidget {
   const CardCustom({
     Key? key,
@@ -664,10 +672,10 @@ class InitialCardBody extends ConsumerWidget {
                 height: 70,
                 child: Transform.translate(
                   offset: const Offset(0.0, -30.0),
-                  child: Image.asset(
+                  child: loadImage(
                     image,
-                    width: 90, // Establecer el ancho de la imagen
-                    height: 70, // Establecer el alto de la imagen
+                    // width: 90, // Establecer el ancho de la imagen
+                    // height: 70, // Establecer el alto de la imagen
                   ),
                   // child: Image.asset(
                   //   image,
