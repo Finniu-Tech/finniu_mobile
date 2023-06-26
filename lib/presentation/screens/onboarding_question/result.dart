@@ -313,7 +313,7 @@ class ResultInvestment extends ConsumerWidget {
 
                           Navigator.pushNamed(context, '/home_home');
                         },
-                        child: Text(
+                        child: const Text(
                           'Gracias',
                         ),
                       ),
