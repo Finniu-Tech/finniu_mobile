@@ -153,7 +153,8 @@ class Step2Body extends HookConsumerWidget {
                                   child: Text(
                                     textAlign: TextAlign.left,
                                     // '${resultCalculator.months}%',
-                                    '${resultCalculator.months == 6 ? plan.sixMonthsReturn : plan.twelveMonthsReturn}%',
+                                    '${resultCalculator.finalRentability?.toString() ?? 0}% ',
+                                    // '${resultCalculator.months == 6 ? plan.sixMonthsReturn : plan.twelveMonthsReturn}%',
                                     style: TextStyle(
                                       color: currentTheme.isDarkMode
                                           ? const Color(primaryDark)

@@ -5,11 +5,13 @@ class PlanSimulation {
   final int months;
   final double? profitability;
   final PlanEntity? plan;
+  final double? finalRentability;
 
   PlanSimulation({
     required this.initialAmount,
     required this.months,
     required this.profitability,
     required this.plan,
+    required this.finalRentability,
   });
 }

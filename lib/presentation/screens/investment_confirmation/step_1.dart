@@ -512,13 +512,14 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '${(() {
-                            if (widget.resultCalculator?.months == 6) {
-                              return widget.plan.sixMonthsReturn;
-                            } else {
-                              return widget.plan.twelveMonthsReturn;
-                            }
-                          })()}%',
+                          // '${(() {
+                          //   if (widget.resultCalculator?.months == 6) {
+                          //     return widget.plan.sixMonthsReturn;
+                          //   } else {
+                          //     return widget.plan.twelveMonthsReturn;
+                          //   }
+                          // })()}%',
+                          '${widget.resultCalculator?.finalRentability?.toString() ?? 0}% ',
                           textAlign: TextAlign.right,
                           style: const TextStyle(
                             fontSize: 16,

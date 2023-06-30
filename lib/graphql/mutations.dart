@@ -161,6 +161,7 @@ class MutationRepository {
                 coupon: \$coupon
               }
             ){
+              finalRestabilityPercent
               success
               profitability{
                 preInvestmentAmount

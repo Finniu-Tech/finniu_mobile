@@ -22,6 +22,10 @@ class CalculateInvestmentMapper {
       profitability: investmentResponse
           .calculateInvestment!.profitability!.preInvestmentAmount
           ?.toDouble(),
+      finalRentability: investmentResponse
+              .calculateInvestment?.finalRestabilityPercent
+              ?.toDouble() ??
+          0,
       plan: PlanEntity(
         uuid: planModel?.uuid ?? '',
         name: planModel?.name ?? '',

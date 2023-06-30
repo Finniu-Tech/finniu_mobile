@@ -34,11 +34,13 @@ class CalculateInvestment {
     this.success,
     this.profitability,
     this.plan,
+    this.finalRestabilityPercent,
   });
 
   bool? success;
   Profitability? profitability;
   Plan? plan;
+  double? finalRestabilityPercent;
 
   factory CalculateInvestment.fromJson(Map<String, dynamic> json) =>
       CalculateInvestment(
@@ -47,12 +49,14 @@ class CalculateInvestment {
             ? null
             : Profitability.fromJson(json["profitability"]),
         plan: json["plan"] == null ? null : Plan.fromJson(json["plan"]),
+        finalRestabilityPercent: double.parse(json["finalRestabilityPercent"]),
       );
 
   Map<String, dynamic> toJson() => {
         "success": success,
         "profitability": profitability?.toJson(),
         "plan": plan?.toJson(),
+        "finalRestabilityPercent": finalRestabilityPercent
       };
 }
 
