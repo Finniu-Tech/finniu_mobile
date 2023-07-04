@@ -636,12 +636,11 @@ class Step2Body extends HookConsumerWidget {
                   return;
                 }
 
-                // if (userReadContract.value == false ||
-                //     ref.watch(userAcceptedTermsProvider) == false) {
-                //   CustomSnackbar.show(
-                //       context, 'Debe aceptar y leer el contrato', 'error');
-                //   return;
-                // }
+                if (ref.watch(userAcceptedTermsProvider) == false) {
+                  CustomSnackbar.show(
+                      context, 'Debe aceptar y leer el contrato', 'error');
+                  return;
+                }
                 context.loaderOverlay.show();
                 final status = await PreInvestmentDataSourceImp().update(
                   client: ref.watch(gqlClientProvider).value!,
