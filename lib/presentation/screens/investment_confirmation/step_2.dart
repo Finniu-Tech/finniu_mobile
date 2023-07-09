@@ -645,7 +645,7 @@ class Step2Body extends HookConsumerWidget {
                 final status = await PreInvestmentDataSourceImp().update(
                   client: ref.watch(gqlClientProvider).value!,
                   uuid: preInvestment.uuid,
-                  readContract: userReadContract.value,
+                  readContract: ref.watch(userAcceptedTermsProvider),
                   boucherScreenShot: base64Image,
                 );
                 if (status == true) {
