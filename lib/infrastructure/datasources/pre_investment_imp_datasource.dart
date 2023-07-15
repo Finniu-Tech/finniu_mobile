@@ -13,6 +13,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
+    String? coupon,
   }) async {
     final response = await client.mutate(
       MutationOptions(
@@ -24,10 +25,10 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           'uuidBank': bankAccountTypeUuid,
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
+          'coupon': coupon
         },
       ),
     );
-
     final responseGraphQL = response.data?['savePreInvestment'];
 
     final preInvestmentResponse =

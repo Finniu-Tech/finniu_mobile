@@ -1,9 +1,6 @@
 import 'package:finniu/domain/entities/calculate_investment.dart';
-import 'package:finniu/domain/entities/onboarding_entities.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/infrastructure/models/calculate_investment_response.dart';
-import 'package:finniu/infrastructure/models/onboarding_finish_response.dart';
-import 'package:finniu/infrastructure/models/onboarding_response.dart';
 
 class CalculateInvestmentMapper {
   static PlanSimulation toEntity(
@@ -27,13 +24,13 @@ class CalculateInvestmentMapper {
               ?.toDouble() ??
           0,
       plan: PlanEntity(
-        uuid: planModel?.uuid ?? '',
-        name: planModel?.name ?? '',
-        minAmount: double.parse(planModel?.minAmount ?? '0'),
-        value: planModel?.value?.toDouble() ?? 0,
-        twelveMonthsReturn: double.parse(planModel?.twelveMonthsReturn ?? '0'),
-        sixMonthsReturn: double.parse(planModel?.sixMonthsReturn ?? '0'),
-        description: planModel?.description ?? '',
+        uuid: planModel.uuid ?? '',
+        name: planModel.name ?? '',
+        minAmount: double.parse(planModel.minAmount ?? '0'),
+        value: planModel.value?.toDouble() ?? 0,
+        twelveMonthsReturn: double.parse(planModel.twelveMonthsReturn ?? '0'),
+        sixMonthsReturn: double.parse(planModel.sixMonthsReturn ?? '0'),
+        description: planModel.description ?? '',
         returnEstimatedDate: planModel.returnDateEstimate,
       ),
     );

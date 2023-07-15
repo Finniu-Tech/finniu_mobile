@@ -9,6 +9,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
+bool hasImportantDates(List<dynamic> importantDays, DateTime selectedDate) {
+  for (final item in importantDays) {
+    final itemDate = item['date'];
+    if (itemDate.month == selectedDate.month &&
+        itemDate.year == selectedDate.year) {
+      return true;
+    }
+  }
+  return false;
+}
+
 class Calendar extends StatefulHookConsumerWidget {
   const Calendar({super.key});
 
@@ -36,6 +47,7 @@ class CalendarState extends ConsumerState<Calendar> {
         child: HookBuilder(
           builder: (context) {
             final importantDays = ref.watch(importantDaysFutureProvider);
+
             return importantDays.when(
               data: (data) {
                 return CalendarBody(
@@ -64,6 +76,7 @@ class CalendarBody extends StatefulWidget {
   final currentDay;
   final selectedDay;
   final importantDays;
+
   const CalendarBody({
     super.key,
     required this.currentTheme,
@@ -81,7 +94,7 @@ class _CalendarBodyState extends State<CalendarBody> {
   DateTime _selectedDate = DateTime.now();
   late PageController _pageController;
   String _selectedMonth = DateFormat('MMMM y', 'es').format(DateTime.now());
-  List _currentImportantDates = [];
+  List<DateTime> markedDays = [];
 
   @override
   void initState() {
@@ -89,6 +102,16 @@ class _CalendarBodyState extends State<CalendarBody> {
     _pageController = PageController(
       initialPage: _currentDate.month - 1,
     );
+    markedDays = extractDates(widget.importantDays);
+  }
+
+  List<DateTime> extractDates(List<dynamic> importantDays) {
+    List<DateTime> dates = [];
+    for (final item in importantDays) {
+      final itemDate = item['date'];
+      dates.add(itemDate);
+    }
+    return dates;
   }
 
   @override
@@ -102,17 +125,6 @@ class _CalendarBodyState extends State<CalendarBody> {
       _currentDate = date;
       _selectedMonth = DateFormat('MMMM y', 'es').format(date);
     });
-  }
-
-  bool hasImportantDates(List<dynamic> importantDays, DateTime selectedDate) {
-    for (final item in importantDays) {
-      final itemDate = item['date'];
-      if (itemDate.month == selectedDate.month &&
-          itemDate.year == selectedDate.year) {
-        return true;
-      }
-    }
-    return false;
   }
 
   @override
@@ -190,6 +202,7 @@ class _CalendarBodyState extends State<CalendarBody> {
                         bool isThisMonthDay,
                         DateTime day,
                       ) {
+                        final isMarkedDay = markedDays.contains(day);
                         Color backgroundColor = Color(
                           widget.currentTheme.isDarkMode
                               ? (bluedarkalternative)
@@ -222,6 +235,19 @@ class _CalendarBodyState extends State<CalendarBody> {
                                 : (primaryDark)),
                           );
                           // borderColor = Colors.transparent;
+                        }
+                        if (isMarkedDay) {
+                          backgroundColor = Color(
+                            (widget.currentTheme.isDarkMode
+                                ? (primaryLight)
+                                : (primaryDark)),
+                          );
+                          borderColor = Colors.black;
+                          textStyle = TextStyle(
+                            color: Colors.white,
+                            fontSize: 11.0,
+                            fontWeight: FontWeight.bold,
+                          );
                         }
 
                         if (!isThisMonthDay) {

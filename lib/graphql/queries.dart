@@ -281,4 +281,16 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get paymentDays {
+    return '''
+      query getPaymentDays{
+        paymentDays{
+          month
+          date
+          description
+        }
+      }
+    ''';
+  }
 }

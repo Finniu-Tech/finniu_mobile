@@ -10,8 +10,9 @@ class TransferenceDataSourceImpl extends TransferenceDataSource {
   TransferenceDataSourceImpl();
 
   @override
-  Future<List<TransferenceEntity>> getBoucherList(
-      {required GraphQLClient client}) async {
+  Future<List<TransferenceEntity>> getBoucherList({
+    required GraphQLClient client,
+  }) async {
     final response = await client.query(
       QueryOptions(
         document: gql(

@@ -18,6 +18,7 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
     required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
+    String? coupon,
   }) async {
     return await dataSource.save(
       client: client,
@@ -26,6 +27,7 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
       bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
+      coupon: coupon,
     );
   }
 }

@@ -20,7 +20,6 @@ class InvestmentHistoryResumeEntity {
     int countInvesmentsFinished = this.investmentsFinished?.length ?? 0;
     int countInvesmentsInProcess = this.investmentsInProcess?.length ?? 0;
     int countInvestmentsCanceled = this.investmentsCanceled?.length ?? 0;
-    print({"contador"});
     return countInCourse +
         countInvesmentsFinished +
         countInvesmentsInProcess +

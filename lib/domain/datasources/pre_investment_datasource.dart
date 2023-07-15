@@ -9,6 +9,7 @@ abstract class PreInvestmentDataSource {
     required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
+    String? coupon,
   });
 
   Future<bool> update({

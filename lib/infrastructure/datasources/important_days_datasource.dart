@@ -16,3 +16,18 @@ class ImportantDaysDataSourceImp {
     return response.data?['importantDays'] ?? [];
   }
 }
+
+class PaymentDaysDataSourceImp {
+  Future<List<dynamic>> getPaymentDays({
+    required GraphQLClient client,
+  }) async {
+    final response = await client.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.paymentDays,
+        ),
+      ),
+    );
+    return response.data?['paymentDays'] ?? [];
+  }
+}
