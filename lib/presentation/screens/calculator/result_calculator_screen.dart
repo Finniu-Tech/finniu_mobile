@@ -22,7 +22,6 @@ class ResultCalculator extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final input = ModalRoute.of(context)!.settings.arguments;
-    print('args: $input');
 
     return Scaffold(
       backgroundColor: currentTheme.isDarkMode

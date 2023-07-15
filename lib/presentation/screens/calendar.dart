@@ -59,19 +59,6 @@ class CalendarState extends ConsumerState<Calendar> {
   }
 }
 
-// class CalendarBody extends StatelessWidget {
-//   final currentTheme;
-//   final currentDay;
-//   final selectedDay;
-//   final importantDays;
-//   const CalendarBody({
-//     super.key,
-//     required this.currentTheme,
-//     required this.currentDay,
-//     required this.selectedDay,
-//     required this.importantDays,
-//   });
-
 class CalendarBody extends StatefulWidget {
   final currentTheme;
   final currentDay;
@@ -94,6 +81,7 @@ class _CalendarBodyState extends State<CalendarBody> {
   DateTime _selectedDate = DateTime.now();
   late PageController _pageController;
   String _selectedMonth = DateFormat('MMMM y', 'es').format(DateTime.now());
+  List _currentImportantDates = [];
 
   @override
   void initState() {
@@ -114,6 +102,17 @@ class _CalendarBodyState extends State<CalendarBody> {
       _currentDate = date;
       _selectedMonth = DateFormat('MMMM y', 'es').format(date);
     });
+  }
+
+  bool hasImportantDates(List<dynamic> importantDays, DateTime selectedDate) {
+    for (final item in importantDays) {
+      final itemDate = item['date'];
+      if (itemDate.month == selectedDate.month &&
+          itemDate.year == selectedDate.year) {
+        return true;
+      }
+    }
+    return false;
   }
 
   @override
@@ -148,7 +147,7 @@ class _CalendarBodyState extends State<CalendarBody> {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Container(
-                  constraints: BoxConstraints(
+                  constraints: const BoxConstraints(
                     maxWidth: 330,
                     maxHeight: 350,
                   ),
@@ -218,17 +217,18 @@ class _CalendarBodyState extends State<CalendarBody> {
                         }
                         if (isSelectedDay) {
                           backgroundColor = Color(
-                              (widget.currentTheme.isDarkMode
-                                  ? (primaryLight)
-                                  : (primaryDark)));
+                            (widget.currentTheme.isDarkMode
+                                ? (primaryLight)
+                                : (primaryDark)),
+                          );
                           // borderColor = Colors.transparent;
                         }
 
                         if (!isThisMonthDay) {
                           textStyle = TextStyle(
                             color: widget.currentTheme.isDarkMode
-                                ? Color(graydark)
-                                : Color(graylight),
+                                ? const Color(graydark)
+                                : const Color(graylight),
                             fontSize: 11.0,
                             fontWeight: FontWeight.bold,
                           );
@@ -327,18 +327,15 @@ class _CalendarBodyState extends State<CalendarBody> {
               ),
             ),
             Container(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 35),
-                child: Text(
-                  'Fechas importantes de $_selectedMonth',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: widget.currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
-                  ),
+              alignment: Alignment.center,
+              child: Text(
+                'Fechas importantes de $_selectedMonth',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: widget.currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
                 ),
               ),
             ),
@@ -347,29 +344,45 @@ class _CalendarBodyState extends State<CalendarBody> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.25,
-              child: ListView.builder(
-                itemCount: widget.importantDays!.length,
-                itemBuilder: (context, index) {
-                  final item = widget.importantDays![index];
-                  final itemDate = DateTime.parse(item['date']);
+              child: hasImportantDates(widget.importantDays, _currentDate)
+                  ? ListView.builder(
+                      itemCount: widget.importantDays!.length,
+                      itemBuilder: (context, index) {
+                        final item = widget.importantDays![index];
+                        // final itemDate = DateTime.parse(item['date']);
+                        final itemDate = item['date'];
 
-                  if (itemDate.month != _currentDate.month) {
-                    // Filter out items that do not match the selected month
-                    return Center(
-                      child: Container(
-                        child: Text('No  hay eventos importantes'),
+                        if (itemDate.month == _currentDate.month &&
+                            itemDate.year == _currentDate.year) {
+                          return ImportantDayCard(
+                            currentTheme: widget.currentTheme,
+                            date: itemDate,
+                            description: item['description'],
+                          );
+                        }
+
+                        return Container();
+                      },
+                    )
+                  : Container(
+                      alignment: Alignment.topCenter,
+                      child: Text(
+                        "No hay fechas importantes para este mes.",
+                        style: TextStyle(fontSize: 16),
                       ),
-                    );
-                  }
-
-                  return ImportantDayCard(
-                    currentTheme: widget.currentTheme,
-                    date: itemDate,
-                    description: item['description'],
-                  );
-                },
-              ),
+                    ),
             ),
+            // if (_currentDate.month != null &&
+            //     importantDates.isEmpty) // Check the flag to show the message
+            //   ...[
+            //   Container(
+            //     alignment: Alignment.center,
+            //     child: Text(
+            //       "There are no important dates for this month.",
+            //       style: TextStyle(fontSize: 16),
+            //     ),
+            //   )
+            // ],
           ],
         ),
       ),
@@ -394,7 +407,7 @@ class ImportantDayCard extends StatelessWidget {
     DateFormat dateFormat = DateFormat.MMMM('es');
     return Center(
       child: Container(
-        margin: EdgeInsets.only(bottom: 10),
+        margin: const EdgeInsets.only(bottom: 10),
         alignment: Alignment.center,
         width: 290,
         height: 70,
@@ -421,7 +434,7 @@ class ImportantDayCard extends StatelessWidget {
           children: [
             Text(
               '${date.day} de ${dateFormat.format(date)}',
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: Color(blackText),
@@ -432,7 +445,7 @@ class ImportantDayCard extends StatelessWidget {
             ), // Agrega un espacio de 4 píxeles entre los dos textos
             Text(
               description,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 10,
                 fontWeight: FontWeight.w500,
                 color: Color(blackText),

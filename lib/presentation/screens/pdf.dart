@@ -29,7 +29,6 @@ class _PdfPage extends State<ContractViewPDF> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
-    print(args['contractURL']);
     final String urlContract = args['contractURL'];
     return Scaffold(
       appBar: AppBar(

@@ -228,7 +228,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 _picker.pickImage(source: ImageSource.gallery);
                             imageFile.value =
                                 await ximage.then((value) => value!.path);
-                            print('image value is ${imageFile.value}');
                           },
                           child: const Icon(
                             Icons.add_photo_alternate_outlined,

@@ -179,7 +179,7 @@ class CardCustom extends ConsumerWidget {
                       children: [
                         Column(
                           children: [
-                            Image.asset(
+                            Image.network(
                               image,
                               width: 90,
                               height: 90,

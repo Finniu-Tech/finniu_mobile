@@ -17,6 +17,7 @@ final preInvestmentSaveProvider =
       bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
       deadLineUuid: preInvestmentEntity.deadLineUuid,
       planUuid: preInvestmentEntity.planUuid,
+      coupon: preInvestmentEntity.coupon,
     );
     return result;
   } catch (e, stack) {

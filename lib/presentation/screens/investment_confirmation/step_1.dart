@@ -449,10 +449,9 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       );
 
                       setState(() {
-                        if (resultCalculator!.plan != null) {
-                          widget.plan = resultCalculator!.plan!;
-                          widget.profitability =
-                              resultCalculator!.profitability;
+                        if (resultCalculator.plan != null) {
+                          widget.plan = resultCalculator.plan!;
+                          widget.profitability = resultCalculator.profitability;
                           widget.showInvestmentBoxes = true;
                           widget.resultCalculator = resultCalculator;
                         }
@@ -460,7 +459,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
 
                       context.loaderOverlay.hide();
 
-                      if (resultCalculator!.plan != null) {
+                      if (resultCalculator.plan != null) {
                         CustomSnackbar.show(
                           context,
                           'Cupón aplicado correctamente',
