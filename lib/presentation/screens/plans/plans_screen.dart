@@ -5,6 +5,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/plans/widgets/card.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/switch.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -75,13 +76,13 @@ class PlanListBody extends HookConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
     return Align(
-      alignment: Alignment.center,
+      // alignment: Alignment.center,
       child: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width * 0.9,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 10,
@@ -100,12 +101,11 @@ class PlanListBody extends HookConsumerWidget {
               ),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                // const Spacer(),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                ),
+                const SizedBox(
+                    // width: MediaQuery.of(context).size.width * 0.15,
+                    ),
                 ElevatedButton(
                   style: ButtonStyle(
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -129,6 +129,12 @@ class PlanListBody extends HookConsumerWidget {
                       fontSize: 12,
                     ),
                   ),
+                ),
+                Spacer(),
+                SwitchMoney(
+                  switchHeight: 34,
+                  switchWidth: 67,
+                  switchText: "S/",
                 ),
               ],
             ),
