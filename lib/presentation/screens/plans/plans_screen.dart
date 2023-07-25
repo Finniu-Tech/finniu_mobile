@@ -131,7 +131,7 @@ class PlanListBody extends HookConsumerWidget {
                   ),
                 ),
                 Spacer(),
-                SwitchMoney(
+                const SwitchMoney(
                   switchHeight: 34,
                   switchWidth: 67,
                   switchText: "S/",
