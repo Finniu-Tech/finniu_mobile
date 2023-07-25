@@ -23,6 +23,7 @@ class SwitchMoney extends StatefulHookConsumerWidget {
 
 class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
   bool isSoles = true;
+
   bool isDarkMode = false;
   Color daySolesColor = Color(primaryDark);
   Color dayDollarsColor = Color(whiteText);
@@ -61,8 +62,8 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
               toggleSize: 20,
               onToggle: (value) {
                 setState(() {
-                  isSoles = !isSoles;
                   isDarkMode = currentTheme.isDarkMode;
+                  isSoles = !isSoles;
                 });
                 Preferences.isDarkMode = value;
               },
