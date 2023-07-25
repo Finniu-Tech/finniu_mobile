@@ -39,6 +39,7 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
     isDarkMode = currentTheme.isDarkMode;
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Stack(
           alignment: Alignment.center,

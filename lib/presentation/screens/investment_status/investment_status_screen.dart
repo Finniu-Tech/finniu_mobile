@@ -9,6 +9,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/empty_message.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -206,6 +207,12 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 10),
+            const SwitchMoney(
+              switchHeight: 34,
+              switchWidth: 67,
+              switchText: "S/",
             ),
             const SizedBox(
               height: 10,
@@ -445,7 +452,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 1,
       child: Stack(
-        alignment: Alignment.center,
+        alignment: Alignment.centerRight,
         children: [
           ...images.map((image) {
             int index = images.indexOf(image);
