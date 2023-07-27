@@ -25,14 +25,14 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
   bool isSoles = true;
 
   bool isDarkMode = false;
-  Color daySolesColor = Color(primaryDark);
-  Color dayDollarsColor = Color(whiteText);
-  Color nightSolesColor = Color(primaryDark);
-  Color nightDollarsColor = Color(primaryLight);
+  // Color daySolesColor = const Color(primaryDark);
+  // Color dayDollarsColor = const Color(whiteText);
+  // Color nightSolesColor = const Color(primaryDark);
+  // Color nightDollarsColor = const Color(whiteText);
 
-  Color get symbolColor => isSoles
-      ? (isDarkMode ? nightSolesColor : daySolesColor)
-      : (isDarkMode ? nightDollarsColor : dayDollarsColor);
+  // Color get symbolColor => isSoles
+  //     ? (isDarkMode ? nightSolesColor : daySolesColor)
+  //     : (isDarkMode ? nightDollarsColor : dayDollarsColor);
 
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
@@ -40,9 +40,10 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Stack(
-          alignment: Alignment.center,
+          alignment: isSoles ? Alignment.centerRight : Alignment.centerLeft,
           children: [
             FlutterSwitch(
               width: widget.switchWidth,
@@ -69,12 +70,21 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
                 Preferences.isDarkMode = value;
               },
             ),
-            Text(
-              isSoles ? 'S/' : '\$',
-              style: TextStyle(
-                color: symbolColor,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+            Positioned(
+              left: isSoles ? null : 0, // Colocar a la izquierda si es dólares
+              right: isSoles ? 0 : null, // Colocar a la derecha si es soles
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  isSoles ? 'S/' : '\$',
+                  style: TextStyle(
+                    color: isSoles
+                        ? const Color(primaryDark)
+                        : const Color(whiteText),
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],

@@ -354,7 +354,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                         : const Color(primaryDark),
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 const SwitchMoney(
                   switchHeight: 34,
                   switchWidth: 67,
