@@ -13,7 +13,7 @@ class CustomButton extends ConsumerStatefulWidget {
   final double height;
   final Color? imageColor;
 
-  CustomButton({
+  const CustomButton({
     super.key,
     required this.text,
     this.colorBackground,
@@ -71,7 +71,7 @@ class _CustomButtonState extends ConsumerState<CustomButton> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(widget.text),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Image.asset(
                   widget.image!,
                   width: 20,

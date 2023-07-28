@@ -9,6 +9,7 @@ import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -341,15 +342,25 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
           padding: const EdgeInsets.only(left: 15),
           child: Container(
             alignment: Alignment.centerLeft,
-            child: Text(
-              'Resumen de mis inversiones',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w500,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
-              ),
+            child: Row(
+              children: [
+                Text(
+                  'Resumen de mis inversiones',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
+                  ),
+                ),
+                Spacer(),
+                const SwitchMoney(
+                  switchHeight: 34,
+                  switchWidth: 67,
+                  switchText: "S/",
+                )
+              ],
             ),
           ),
         ),

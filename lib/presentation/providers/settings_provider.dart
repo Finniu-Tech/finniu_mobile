@@ -56,6 +56,8 @@ class SettingsNotifierProvider extends StateNotifier<SettingsProviderState> {
       showWelcomeModal: value,
     );
   }
+
+  void toggleTheme() {}
 }
 
 final settingsNotifierProvider =
