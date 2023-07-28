@@ -143,16 +143,16 @@ class _CalculatorState extends ConsumerState<Calculator> {
               const SizedBox(
                 height: 30,
               ),
-              CustomSelectButton(
-                textEditingController: monthsController,
-                items: const ['s/', '\$'],
-                labelText: "Moneda",
-                hintText: 'Seleccione su moneda',
-                callbackOnChange: (value) {
-                  monthsController.text = value;
-                },
-              ),
-              const SizedBox(height: 30),
+              // CustomSelectButton(
+              //   textEditingController: monthsController,
+              //   items: const ['s/', '\$'],
+              //   labelText: "Moneda",
+              //   hintText: 'Seleccione su moneda',
+              //   callbackOnChange: (value) {
+              //     monthsController.text = value;
+              //   },
+              // ),
+              // const SizedBox(height: 30),
               // Text(
               //   '',
               //   textAlign: TextAlign.left,
