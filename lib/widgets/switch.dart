@@ -1,5 +1,7 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/colors_provider_switch.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/switch_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
@@ -25,18 +27,12 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
   bool isSoles = true;
 
   bool isDarkMode = false;
-  // Color daySolesColor = const Color(primaryDark);
-  // Color dayDollarsColor = const Color(whiteText);
-  // Color nightSolesColor = const Color(primaryDark);
-  // Color nightDollarsColor = const Color(whiteText);
-
-  // Color get symbolColor => isSoles
-  //     ? (isDarkMode ? nightSolesColor : daySolesColor)
-  //     : (isDarkMode ? nightDollarsColor : dayDollarsColor);
 
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     isDarkMode = currentTheme.isDarkMode;
+    final switchValue = ref.watch(switchMoneyProvider);
+    final currencyColors = ref.watch(currencyColorsProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -64,23 +60,24 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
               toggleSize: 20,
               onToggle: (value) {
                 setState(() {
-                  isDarkMode = currentTheme.isDarkMode;
-                  isSoles = !isSoles;
+                  // isDarkMode = currentTheme.isDarkMode;
+                  isSoles = value;
+                  ref.read(switchMoneyProvider.notifier).toggleSwitch(value);
                 });
                 Preferences.isDarkMode = value;
               },
             ),
             Positioned(
-              left: isSoles ? null : 0, // Colocar a la izquierda si es dólares
-              right: isSoles ? 0 : null, // Colocar a la derecha si es soles
+              left: isSoles ? null : 0,
+              right: isSoles ? 0 : null,
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: Text(
                   isSoles ? 'S/' : '\$',
                   style: TextStyle(
                     color: isSoles
-                        ? const Color(primaryDark)
-                        : const Color(whiteText),
+                        ? currencyColors.solesColor
+                        : currencyColors.dollarsColor,
                     fontSize: 15,
                     fontWeight: FontWeight.bold,
                   ),
