@@ -10,13 +10,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SwitchMoney extends StatefulHookConsumerWidget {
   final double switchWidth;
   final double switchHeight;
-  final String switchText;
+  // final String switchText;
 
   const SwitchMoney({
     Key? key,
     required this.switchWidth,
     required this.switchHeight,
-    required this.switchText,
+    // required this.switchText,
   }) : super(key: key);
 
   @override
@@ -31,8 +31,10 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     isDarkMode = currentTheme.isDarkMode;
-    final switchValue = ref.watch(switchMoneyProvider);
-    final currencyColors = ref.watch(currencyColorsProvider);
+    isSoles = ref.watch(isSolesStateProvider);
+    final colorTextSoles = isDarkMode ? Color(primaryDark) : Color(whiteText);
+    final colorTextDollars = isDarkMode ? Color(whiteText) : Color(primaryDark);
+    // final currencyColors = ref.watch(currencyColorsProvider);
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -44,7 +46,7 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
             FlutterSwitch(
               width: widget.switchWidth,
               height: widget.switchHeight,
-              value: Preferences.isDarkMode,
+              value: isSoles,
               inactiveColor: currentTheme.isDarkMode
                   ? const Color(primaryDark)
                   : const Color(primaryLight),
@@ -62,23 +64,21 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
                 setState(() {
                   // isDarkMode = currentTheme.isDarkMode;
                   isSoles = value;
-                  ref.read(switchMoneyProvider.notifier).toggleSwitch(value);
+                  ref.read(isSolesStateProvider.notifier).toggleSwitch(value);
                 });
-                Preferences.isDarkMode = value;
+                // Preferences.isDarkMode = value;
               },
             ),
             Positioned(
-              left: isSoles ? null : 0,
-              right: isSoles ? 0 : null,
+              left: isSoles ? 0 : null,
+              right: isSoles ? null : 0,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Text(
                   isSoles ? 'S/' : '\$',
                   style: TextStyle(
-                    color: isSoles
-                        ? currencyColors.solesColor
-                        : currencyColors.dollarsColor,
-                    fontSize: 15,
+                    color: isSoles ? colorTextSoles : colorTextDollars,
+                    fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

@@ -212,7 +212,6 @@ class InvestmentStatusScreenBody extends StatelessWidget {
             const SwitchMoney(
               switchHeight: 34,
               switchWidth: 67,
-              switchText: "S/",
             ),
             const SizedBox(
               height: 10,
