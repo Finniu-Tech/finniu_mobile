@@ -9,6 +9,7 @@ import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -320,6 +321,27 @@ class _CalculatorState extends ConsumerState<Calculator> {
               // const SizedBox(
               //   height: 30,
               // ),
+
+              Padding(
+                padding: const EdgeInsets.only(right: 77, left: 85),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: const [
+                    Text(
+                      // textAlign: TextAlign.start,
+                      "Moneda",
+                      style: TextStyle(fontSize: 13),
+                    ),
+                    Spacer(),
+                    SwitchMoney(
+                      switchHeight: 34,
+                      switchWidth: 67,
+                    ),
+                  ],
+                ),
+              ),
+
               Container(
                 width: 224,
                 height: 50,
@@ -333,7 +355,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                         'Recuerda que el monto mínimo de inversión es de S/500 y el máximo es de S/100000',
                         'error',
                       );
-                    } else
+                    } else {
                       Navigator.pushNamed(
                         context,
                         '/calculator_result',
@@ -343,6 +365,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                               int.parse(monthsController.text.split(' ')[0]),
                         ),
                       );
+                    }
                     setState(() {});
                   },
                   child: const Text(
@@ -363,7 +386,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 60,
               )
             ],

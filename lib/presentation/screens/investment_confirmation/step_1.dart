@@ -19,6 +19,7 @@ import 'package:finniu/use_cases/ui/modals/complete_profile.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/widgets/switch.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -583,6 +584,25 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           ],
           const SizedBox(
             height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 30, left: 42),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: const [
+                Text(
+                  // textAlign: TextAlign.start,
+                  "Moneda",
+                  style: TextStyle(fontSize: 13),
+                ),
+                Spacer(),
+                SwitchMoney(
+                  switchHeight: 34,
+                  switchWidth: 67,
+                ),
+              ],
+            ),
           ),
           SizedBox(
             width: 224,
