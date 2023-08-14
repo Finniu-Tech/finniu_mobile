@@ -1,3 +1,24 @@
+class UserProfileReport {
+  final UserProfileBalance solesBalance;
+  final UserProfileBalance dolarBalance;
+
+  UserProfileReport({
+    required this.solesBalance,
+    required this.dolarBalance,
+  });
+
+  factory UserProfileReport.fromJson(Map<String, dynamic> json) {
+    return UserProfileReport(
+      solesBalance: UserProfileBalance.fromJson(
+        json['invesmentInSoles'][0] ?? {},
+      ),
+      dolarBalance: UserProfileBalance.fromJson(
+        json['invesmentInDolares'][0] ?? {},
+      ),
+    );
+  }
+}
+
 class UserProfileBalance {
   final int totalPlans;
   final double totalBalance;
@@ -10,6 +31,7 @@ class UserProfileBalance {
   });
 
   factory UserProfileBalance.fromJson(Map<String, dynamic> json) {
+    print('json $json');
     return UserProfileBalance(
       totalPlans: json['countPlanesActive'] ?? 0,
       totalBalance: json['totalBalanceAmmount']?.toDouble() ?? 0.0,

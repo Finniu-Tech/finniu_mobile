@@ -16,6 +16,13 @@ final homeReportProvider = FutureProvider<UserProfileBalance>((ref) async {
   return response;
 });
 
+final homeReportProviderV2 = FutureProvider<UserProfileReport>((ref) async {
+  final client = ref.watch(gqlClientProvider).value;
+  final response =
+      await ReportDataSourceImp().getUserReportHomeV2(client: client!);
+  return response;
+});
+
 final userProfileBalanceNotifierProvider = StateNotifierProvider<
     UserProfileBalanceStateNotifierProvider, UserProfileBalance>((ref) {
   return UserProfileBalanceStateNotifierProvider(

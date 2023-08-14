@@ -20,9 +20,20 @@ class ReportDataSourceImp extends ReportDataSource {
     );
 
     return balance;
-    // return response.then((value) => value.data!['userInfoInvestment'] as Map);
-    // return response.then(
-    //   (value) => UserProfileBalance.fromJson(value.data!['userInfoInvestment']),
-    // );
+  }
+
+  Future<UserProfileReport> getUserReportHomeV2(
+      {required GraphQLClient client}) async {
+    final response = await client.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.userHomeReportV2,
+        ),
+      ),
+    );
+    final balance = UserProfileReport.fromJson(
+      response.data!['userInfoAllInvestment'] ?? {},
+    );
+    return balance;
   }
 }

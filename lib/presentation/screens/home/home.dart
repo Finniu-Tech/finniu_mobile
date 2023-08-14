@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -73,6 +74,7 @@ class HomeBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final isSoles = ref.watch(isSolesStateProvider);
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
       child: SingleChildScrollView(
@@ -123,14 +125,19 @@ class HomeBody extends ConsumerWidget {
             const SizedBox(height: 10),
             HookBuilder(
               builder: (context) {
-                final homeReport = ref.watch(homeReportProvider);
+                final homeReport = ref.watch(homeReportProviderV2);
 
                 return homeReport.when(
-                  data: (homeReport) {
-                    if (homeReport.totalBalance == 0) {
+                  data: (data) {
+                    var reportSoles = data.solesBalance;
+                    var reportDolar = data.dolarBalance;
+                    var homeReport =
+                        isSoles ? data.solesBalance : data.dolarBalance;
+                    if (reportSoles.totalBalance == 0 &&
+                        reportDolar.totalBalance == 0) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
-                        child: Center(
+                        child: const Center(
                           child: EmptyReportMessage(),
                         ),
                       );
@@ -140,6 +147,7 @@ class HomeBody extends ConsumerWidget {
                         finalAmount: homeReport.totalRevenue,
                         revenueAmount: homeReport.totalRevenue,
                         totalPlans: homeReport.totalPlans.toDouble(),
+                        isSoles: isSoles,
                       );
                     }
                   },
@@ -277,6 +285,7 @@ class LineReportHomeWidget extends ConsumerStatefulWidget {
   final double finalAmount;
   final double revenueAmount;
   final double totalPlans;
+  final bool isSoles;
 
   const LineReportHomeWidget({
     super.key,
@@ -284,6 +293,7 @@ class LineReportHomeWidget extends ConsumerStatefulWidget {
     required this.finalAmount,
     required this.revenueAmount,
     required this.totalPlans,
+    required this.isSoles,
   });
 
   @override
@@ -336,6 +346,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final theme = ref.watch(settingsNotifierProvider);
     final images = theme.isDarkMode ? _darkImages : _lightImages;
+    final String moneySymbol = widget.isSoles ? 'S/' : '\$';
     return Column(
       children: [
         Padding(
@@ -397,7 +408,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                           Row(
                             children: [
                               Text(
-                                'S/${widget.initialAmount.toStringAsFixed(2)}',
+                                '$moneySymbol ${widget.initialAmount.toStringAsFixed(2)}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16,
@@ -411,7 +422,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                                 width: 30,
                               ),
                               Text(
-                                'S/${widget.finalAmount.toStringAsFixed(2)}',
+                                '$moneySymbol ${widget.finalAmount.toStringAsFixed(2)}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 16,

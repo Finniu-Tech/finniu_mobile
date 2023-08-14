@@ -148,6 +148,26 @@ class QueryRepository {
         ''';
   }
 
+  static String get userHomeReportV2 {
+    return '''
+      query getUserInvestmentTotalBalanceV2{
+        userInfoAllInvestment{
+          invesmentInDolares{
+              totalBalanceAmmount
+              countPlanesActive
+              totalBalanceRentability
+          },
+          invesmentInSoles{
+            totalBalanceAmmount
+            countPlanesActive
+            totalBalanceRentability
+          }
+
+        }
+      }
+    ''';
+  }
+
   static String get investmentRentabilityReport {
     return '''
           query {
