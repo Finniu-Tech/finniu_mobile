@@ -1,3 +1,24 @@
+class InvestmentHistoryReport {
+  InvestmentHistoryResumeEntity solesHistory;
+  InvestmentHistoryResumeEntity dollarsHistory;
+
+  InvestmentHistoryReport({
+    required this.solesHistory,
+    required this.dollarsHistory,
+  });
+
+  // factory InvestmentHistoryReport.fromJson(Map<String, dynamic> json) {
+  //   return InvestmentHistoryReport(
+  //     solesHistory: InvestmentHistoryResumeEntity.fromJson(
+  //       json['invesmentInSoles'][0] ?? {},
+  //     ),
+  //     dollarsHistory: InvestmentHistoryResumeEntity.fromJson(
+  //       json['invesmentInDolares'][0] ?? {},
+  //     ),
+  //   );
+  // }
+}
+
 class InvestmentHistoryResumeEntity {
   double totalAmount;
   int totalPlans;
@@ -25,6 +46,13 @@ class InvestmentHistoryResumeEntity {
         countInvesmentsInProcess +
         countInvestmentsCanceled;
   }
+
+  // fromJson(Map<String, dynamic> json) {
+  //   return InvestmentHistoryResumeEntity(
+  //     totalAmount: json['totalBalanceAmmount']?.toDouble() ?? 0.0,
+  //     totalPlans: json['countPlanesActive'] ?? 0,
+  //   );
+  // }
 }
 
 class InvestmentHistoryEntity {

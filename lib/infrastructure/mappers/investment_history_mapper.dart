@@ -7,18 +7,18 @@ class InvestmentHistoryMapper {
     final history = response.userInfoInvestment;
     InvestmentHistoryResumeEntity historyResumeEntity =
         InvestmentHistoryResumeEntity(
-      totalAmount: history!.totalBalanceAmount?.toDouble() ?? 0.0,
-      totalPlans: history.countPlanesActive!,
+      totalAmount: history?.totalBalanceAmount?.toDouble() ?? 0.0,
+      totalPlans: history?.countPlanesActive ?? 0,
     );
     final inCourseInvestment =
-        InvestmentMapper.responseListToEntity(history.invesmentInCourse!);
+        InvestmentMapper.responseListToEntity(history?.invesmentInCourse ?? []);
     final finishedInvestment =
-        InvestmentMapper.responseListToEntity(history.invesmentFinished!);
+        InvestmentMapper.responseListToEntity(history?.invesmentFinished ?? []);
     final inProcessInvestment = InvestmentMapper.responseListCanceledToEntity(
-      history.invesmentInProcess!,
+      history?.invesmentInProcess ?? [],
     );
     final canceledInvestment = InvestmentMapper.responseListCanceledToEntity(
-      history.invesmentCanceled!,
+      history?.invesmentCanceled ?? [],
     );
     historyResumeEntity.investmentsInCourse = inCourseInvestment;
     historyResumeEntity.investmentsFinished = finishedInvestment;

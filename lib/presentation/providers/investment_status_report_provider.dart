@@ -18,7 +18,7 @@ final investmentStatusReportFutureProvider =
 });
 
 final investmentHistoryReportFutureProvider =
-    FutureProvider.autoDispose<InvestmentHistoryResumeEntity>((ref) async {
+    FutureProvider.autoDispose<InvestmentHistoryReport>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
     final result =

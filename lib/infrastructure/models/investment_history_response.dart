@@ -7,9 +7,8 @@ class HistoryInvestmentResponse {
 
   factory HistoryInvestmentResponse.fromJson(Map<String, dynamic> json) =>
       HistoryInvestmentResponse(
-        userInfoInvestment: json["userInfoInvestment"] == null
-            ? null
-            : UserInfoInvestment.fromJson(json["userInfoInvestment"]),
+        userInfoInvestment:
+            json == null ? null : UserInfoInvestment.fromJson(json),
       );
 
   Map<String, dynamic> toJson() => {

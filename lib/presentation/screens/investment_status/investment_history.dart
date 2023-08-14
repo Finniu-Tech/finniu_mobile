@@ -1,6 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/investment_history_entity.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/empty_message.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -28,15 +29,21 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
     return CustomScaffoldReturnLogo(
       hideReturnButton: true,
       body: HookBuilder(
         builder: (context) {
           final historyFutureResponse =
               ref.watch(investmentHistoryReportFutureProvider);
+
           return historyFutureResponse.when(
-              data: (history) {
-                if (history.countTotalHistory() == 0) {
+              data: (data) {
+                final historySoles = data.solesHistory;
+                final historyDollars = data.dollarsHistory;
+                final history = isSoles ? historySoles : historyDollars;
+                if (historySoles.countTotalHistory() == 0 &&
+                    historyDollars.countTotalHistory() == 0) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: Center(
@@ -47,10 +54,10 @@ class InvestmentHistoryState extends ConsumerState<InvestmentHistory>
                   );
                 } else {
                   return InvestmentHistoryBody(
-                    currentTheme: currentTheme,
-                    tabController: _tabController,
-                    history: history,
-                  );
+                      currentTheme: currentTheme,
+                      tabController: _tabController,
+                      history: history,
+                      isSoles: isSoles);
                 }
               },
               loading: () => const Center(
@@ -74,11 +81,13 @@ class InvestmentHistoryBody extends StatelessWidget {
   final SettingsProviderState currentTheme;
   final TabController _tabController;
   final InvestmentHistoryResumeEntity history;
+  final bool isSoles;
 
   InvestmentHistoryBody({
     required this.currentTheme,
     required TabController tabController,
     required this.history,
+    required this.isSoles,
   }) : _tabController = tabController;
 
   @override
@@ -207,7 +216,8 @@ class InvestmentHistoryBody extends StatelessWidget {
             // const SizedBox(
             //   height: 20,
             // ),
-            CircularImageSimulation(amount: history.totalAmount),
+            CircularImageSimulation(
+                amount: history.totalAmount, isSoles: isSoles),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Container(
@@ -331,6 +341,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                             finishDay:
                                 '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
                             imageStatus: 'assets/images/circle_green.png',
+                            isSoles: isSoles,
                           ),
                         )
                         .toList(),
@@ -348,6 +359,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                             finishDay:
                                 '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
                             imageStatus: 'assets/images/circle_purple.png',
+                            isSoles: isSoles,
                           ),
                         )
                         .toList(),
@@ -360,6 +372,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                             termText: 'Se esta validando tu transferencia',
                             state: 'En proceso',
                             mounted: e.totalAmount.toString(),
+                            isSoles: isSoles,
                           ),
                         )
                         .toList(),
@@ -372,6 +385,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                             termText: 'Su inversión ha sido rechazada',
                             state: 'Rechazado',
                             mounted: e.totalAmount.toString(),
+                            isSoles: isSoles,
                           ),
                         )
                         .toList(),
@@ -410,12 +424,18 @@ class InvestmentHistoryBody extends StatelessWidget {
 
 class CircularImageSimulation extends ConsumerWidget {
   final double amount;
-  const CircularImageSimulation({super.key, required this.amount});
+  final bool isSoles;
+  const CircularImageSimulation({
+    super.key,
+    required this.amount,
+    required this.isSoles,
+  });
   // const CircularImageSimulation({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final moneySymbol = isSoles ? "S/" : "\$";
     return Column(
       children: [
         CircularPercentIndicator(
@@ -446,7 +466,7 @@ class CircularImageSimulation extends ConsumerWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "S/ $amount",
+                  "$moneySymbol$amount",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 16,
@@ -541,6 +561,7 @@ class InCourseInvestmentCard extends ConsumerWidget {
   final String startDay;
   final String finishDay;
   final String imageStatus;
+  final bool isSoles;
 
   const InCourseInvestmentCard({
     super.key,
@@ -550,14 +571,16 @@ class InCourseInvestmentCard extends ConsumerWidget {
     required this.startDay,
     required this.finishDay,
     required this.imageStatus,
+    required this.isSoles,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final moneySymbol = isSoles ? "S/" : "\$";
     return Center(
       child: Container(
-        margin: EdgeInsets.only(bottom: 10),
+        margin: const EdgeInsets.only(bottom: 10),
         width: MediaQuery.of(context).size.width * 0.9,
         height: 110,
         decoration: BoxDecoration(
@@ -599,7 +622,7 @@ class InCourseInvestmentCard extends ConsumerWidget {
                     width: 10,
                   ),
                   Text(
-                    'S/ $initialAmount.',
+                    '$moneySymbol$initialAmount',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -706,6 +729,7 @@ class TablePlanProcess extends ConsumerWidget {
   final String termText;
   final String state;
   final String mounted;
+  final bool isSoles;
 
   const TablePlanProcess({
     super.key,
@@ -713,11 +737,13 @@ class TablePlanProcess extends ConsumerWidget {
     required this.termText,
     required this.state,
     required this.mounted,
+    required this.isSoles,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final moneySymbol = isSoles ? "S/" : "\$";
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -764,7 +790,7 @@ class TablePlanProcess extends ConsumerWidget {
                       width: 4,
                     ),
                     Text(
-                      'S/ $mounted',
+                      '$moneySymbol$mounted',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

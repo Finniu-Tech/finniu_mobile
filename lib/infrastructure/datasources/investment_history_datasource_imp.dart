@@ -30,22 +30,50 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
     // InvestmentRentabilityR.toEntity(responseGraphRentability);
   }
 
-  Future<InvestmentHistoryResumeEntity> getInvestmentHistoryReport({
+  // Future<InvestmentHistoryResumeEntity> getInvestmentHistoryReport({
+  //   required GraphQLClient client,
+  // }) async {
+  //   final response = await client.query(
+  //     QueryOptions(
+  //       document: gql(
+  //         QueryRepository.investmentHistoryReport,
+  //       ),
+  //     ),
+  //   );
+  //   final responseGraphHistory = HistoryInvestmentResponse.fromJson(
+  //     response.data ?? {},
+  //   );
+
+  //   return InvestmentHistoryMapper.responseGraphToEntity(
+  //     responseGraphHistory,
+  //   );
+  // }
+
+  Future<InvestmentHistoryReport> getInvestmentHistoryReport({
     required GraphQLClient client,
   }) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
-          QueryRepository.investmentHistoryReport,
+          QueryRepository.investmentHistoryReportV2,
         ),
       ),
     );
-    final responseGraphHistory = HistoryInvestmentResponse.fromJson(
-      response.data ?? {},
+    final data = response.data?['userInfoAllInvestment'];
+    print('data: $data');
+    final solesHistoryResponse = HistoryInvestmentResponse.fromJson(
+      data['invesmentInSoles'][0] ?? {},
     );
-
-    return InvestmentHistoryMapper.responseGraphToEntity(
-      responseGraphHistory,
+    print('solesHistoryResponse: $solesHistoryResponse');
+    final dollarsHistoryResponse = HistoryInvestmentResponse.fromJson(
+      data['invesmentInDolares'][0] ?? {},
+    );
+    print('dollarsHistoryResponse: $dollarsHistoryResponse');
+    return InvestmentHistoryReport(
+      dollarsHistory:
+          InvestmentHistoryMapper.responseGraphToEntity(dollarsHistoryResponse),
+      solesHistory:
+          InvestmentHistoryMapper.responseGraphToEntity(solesHistoryResponse),
     );
   }
 }

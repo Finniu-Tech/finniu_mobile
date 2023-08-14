@@ -237,57 +237,178 @@ class QueryRepository {
   static String get investmentHistoryReport {
     return '''
       query {
-  userInfoInvestment{
-    totalBalanceAmmount
-    countPlanesActive
-    totalBalanceRentability
-    invesmentInCourse{
-      uuid
-      amount
-      deadline{
-        uuid
-        name
-        value
-        description
+        userInfoInvestment{
+          totalBalanceAmmount
+          countPlanesActive
+          totalBalanceRentability
+          invesmentInCourse{
+            uuid
+            amount
+            deadline{
+              uuid
+              name
+              value
+              description
+            }
+            status
+            startDateInvestment
+            finishDateInvestment
+            rentabilityAmmount
+            rentabilityPercent
+            planName
+          }
+          invesmentFinished{
+            uuid
+            amount
+            deadline{
+              uuid
+              name
+              value
+              description
+            }
+            status
+            startDateInvestment
+            finishDateInvestment
+            rentabilityAmmount
+            rentabilityPercent
+            planName
+          }
+          invesmentInProcess{
+            uuid
+            amount
+            status
+            planName
+          }
+          invesmentCanceled{
+            uuid
+            amount
+            planName
+          }
+          
+        }
       }
-      status
-      startDateInvestment
-      finishDateInvestment
-      rentabilityAmmount
-      rentabilityPercent
-      planName
-    }
-    invesmentFinished{
-      uuid
-      amount
-      deadline{
-        uuid
-        name
-        value
-        description
-      }
-      status
-      startDateInvestment
-      finishDateInvestment
-      rentabilityAmmount
-      rentabilityPercent
-      planName
-    }
-    invesmentInProcess{
-      uuid
-      amount
-      status
-      planName
-    }
-    invesmentCanceled{
-      uuid
-      amount
-      planName
-    }
-    
+    ''';
   }
-}
-''';
+
+  static String get investmentHistoryReportV2 {
+    return '''
+      query {
+        userInfoAllInvestment {
+          invesmentInDolares {
+            totalBalanceAmmount
+            countPlanesActive
+            totalBalanceRentability
+            invesmentInCourse {
+              uuid
+              reinvestmentAvailable
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
+            invesmentFinished {
+              uuid
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
+          }
+          invesmentInSoles {
+            totalBalanceAmmount
+            countPlanesActive
+            totalBalanceRentability
+            invesmentInCourse {
+              uuid
+              reinvestmentAvailable
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
+            invesmentFinished {
+              uuid
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
+          }
+        }
+      }
+    ''';
   }
 
   static String get importantDays {
