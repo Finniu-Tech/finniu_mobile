@@ -5,6 +5,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/infrastructure/mappers/calculate_investment_mapper.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/empty_message.dart';
@@ -33,6 +34,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
 
     return WillPopScope(
       onWillPop: () => Future.value(false),
@@ -43,8 +45,12 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
             final reportFuture =
                 ref.watch(investmentStatusReportFutureProvider);
             return reportFuture.when(
-              data: (report) {
-                if (report.totalPlans == 0) {
+              data: (data) {
+                final reportSoles = data.solesRentability;
+                final reportDollars = data.dollarsRentability;
+                final report = isSoles ? reportSoles : reportDollars;
+                if (reportSoles.totalPlans == 0 &&
+                    reportDollars.totalPlans == 0) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: Center(
@@ -58,6 +64,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                     currentTheme: currentTheme,
                     tabController: _tabController,
                     report: report,
+                    isSoles: isSoles,
                   );
                 }
               },
@@ -86,15 +93,18 @@ class InvestmentStatusScreenBody extends StatelessWidget {
     required this.currentTheme,
     required TabController tabController,
     required this.report,
+    required this.isSoles,
   }) : _tabController = tabController;
 
   final SettingsProviderState currentTheme;
   final TabController _tabController;
   final InvestmentRentabilityResumeEntity report;
+  final bool isSoles;
 
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat.MMMM('es');
+    final moneySymbol = isSoles ? 'S/' : '\$';
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -220,6 +230,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
               totalAmount: report.totalAmount,
               revenueAmount: report.totalRentabilityAmount,
               planCount: report.totalPlans,
+              isSoles: isSoles,
             ),
             const SizedBox(
               height: 10,
@@ -346,11 +357,11 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                             planName: investment.planName!,
                             termText:
                                 'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                            amountInvested: 'S/ ${investment.amount}',
+                            amountInvested: '$moneySymbol${investment.amount}',
                             interestGenerated:
-                                'S/ ${investment.rentabilityAmount}',
+                                '$moneySymbol${investment.rentabilityAmount}',
                             currentMoney:
-                                'S/ ${investment.amount + investment.rentabilityAmount}',
+                                '$moneySymbol${investment.amount + investment.rentabilityAmount}',
                             moneyGrowth: '+${investment.rentabilityPercent}%',
                             startDate:
                                 '${investment.startDateInvestment?.day} ${dateFormat.format(investment.startDateInvestment!)}',
@@ -367,9 +378,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                             planName: investment.planName!,
                             endDate:
                                 '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
-                            amountInvested: 'S/ ${investment.amount}',
+                            amountInvested: '$moneySymbol${investment.amount}',
                             totalRevenue:
-                                'S/ ${investment.rentabilityAmount + investment.amount}',
+                                '$moneySymbol${investment.rentabilityAmount + investment.amount}',
                             growText:
                                 '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
                           ),
@@ -390,12 +401,14 @@ class LineReportHomeWidget extends ConsumerStatefulWidget {
   final double totalAmount;
   final double revenueAmount;
   final int planCount;
+  final bool isSoles;
 
   const LineReportHomeWidget({
     super.key,
     required this.totalAmount,
     required this.revenueAmount,
     required this.planCount,
+    required this.isSoles,
   });
 
   @override
@@ -448,6 +461,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final theme = ref.watch(settingsNotifierProvider);
     final images = theme.isDarkMode ? _darkImages : _lightImages;
+    final moneySymbol = widget.isSoles ? 'S/' : '\$';
     return SizedBox(
       width: MediaQuery.of(context).size.width * 1,
       child: Stack(
@@ -478,7 +492,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 Row(
                   children: [
                     Text(
-                      'S/${widget.totalAmount.toStringAsFixed(2)}',
+                      '${moneySymbol}${widget.totalAmount.toStringAsFixed(2)}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
@@ -492,7 +506,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       width: 22,
                     ),
                     Text(
-                      'S/${widget.revenueAmount.toStringAsFixed(2)}',
+                      '${moneySymbol}${widget.revenueAmount.toStringAsFixed(2)}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,

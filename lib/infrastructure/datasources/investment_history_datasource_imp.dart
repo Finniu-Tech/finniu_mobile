@@ -10,23 +10,37 @@ import 'package:finniu/infrastructure/models/investment_rentability_report_respo
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
-  Future<InvestmentRentabilityResumeEntity> getRentabilityReport({
+  Future<InvestmentRentabilityReport> getRentabilityReport({
     required GraphQLClient client,
   }) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
-          QueryRepository.investmentRentabilityReport,
+          QueryRepository.investmentRentabilityReportV2,
         ),
       ),
     );
+    final data = response.data?['userInfoAllInvestment'];
+    final solesResponse = UserInfoInvestmentReportResponse.fromJson(
+      data['invesmentInSoles'][0] ?? {},
+    );
+    final dollarsResponse = UserInfoInvestmentReportResponse.fromJson(
+      data['invesmentInDolares'][0] ?? {},
+    );
+    // final responseGraphRentability = UserInfoInvestmentReportResponse.fromJson(
+    //   response.data ?? {},
+    // );
 
-    final responseGraphRentability = UserInfoInvestmentReportResponse.fromJson(
-      response.data ?? {},
+    return InvestmentRentabilityReport(
+      solesRentability: InvestmentRentabilityReportMapper.graphResponseToEntity(
+        solesResponse,
+      ),
+      dollarsRentability:
+          InvestmentRentabilityReportMapper.graphResponseToEntity(
+        dollarsResponse,
+      ),
     );
-    return InvestmentRentabilityReportMapper.graphResponseToEntity(
-      responseGraphRentability,
-    );
+
     // InvestmentRentabilityR.toEntity(responseGraphRentability);
   }
 

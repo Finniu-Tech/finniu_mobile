@@ -3,6 +3,16 @@ class StatusInvestmentEnum {
   static const String finished = 'finished';
 }
 
+class InvestmentRentabilityReport {
+  final InvestmentRentabilityResumeEntity solesRentability;
+  final InvestmentRentabilityResumeEntity dollarsRentability;
+
+  InvestmentRentabilityReport({
+    required this.solesRentability,
+    required this.dollarsRentability,
+  });
+}
+
 class InvestmentRentabilityResumeEntity {
   double totalAmount;
   double totalRentabilityAmount;

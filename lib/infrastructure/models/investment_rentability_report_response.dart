@@ -9,9 +9,8 @@ class UserInfoInvestmentReportResponse {
     Map<String, dynamic> json,
   ) =>
       UserInfoInvestmentReportResponse(
-        userInfoInvestment: json["userInfoInvestment"] == null
-            ? null
-            : UserInfoInvestment.fromJson(json["userInfoInvestment"]),
+        userInfoInvestment:
+            json == null ? null : UserInfoInvestment.fromJson(json),
       );
 
   Map<String, dynamic> toJson() => {
