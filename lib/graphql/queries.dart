@@ -83,6 +83,42 @@ class QueryRepository {
   ''';
   }
 
+  static String get getPlansSoles {
+    return '''
+        query getPlansSoles{
+            planSoles{
+                uuid
+                  name
+                  description
+                  minAmount
+                  value
+                  twelveMonthsReturn
+                  sixMonthsReturn
+                  returnDateEstimate
+                  planImageUrl
+            }
+        }
+    ''';
+  }
+
+  static String get getPlansDolar {
+    return '''
+        query getPlansDolar{
+            planDolar{
+                uuid
+                  name
+                  description
+                  minAmount
+                  value
+                  twelveMonthsReturn
+                  sixMonthsReturn
+                  returnDateEstimate
+                  planImageUrl
+            }
+        }
+    ''';
+  }
+
   static String get getDeadLines {
     return '''
         query getDeadLines{

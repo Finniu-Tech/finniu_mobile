@@ -343,7 +343,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                     decoration: InputDecoration(
                       hintText: 'Escriba su documento de indentificación',
-                      label: const Text("Documento de indentifación"),
+                      label: const Text("Documento de indentificación"),
                       filled: true,
                       fillColor: (editar.value ? enableColor : disabledColor),
                     ),

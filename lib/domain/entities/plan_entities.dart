@@ -1,3 +1,10 @@
+class PlanList {
+  List<PlanEntity> soles;
+  List<PlanEntity> dolar;
+
+  PlanList({required this.soles, required this.dolar});
+}
+
 class PlanEntity {
   String uuid;
   String name;

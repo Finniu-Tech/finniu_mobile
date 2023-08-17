@@ -9,6 +9,7 @@ import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
@@ -84,6 +85,9 @@ class Step2Body extends HookConsumerWidget {
     // final ValueNotifier<String> voucherPreview;
     final voucherPreview = useState('');
     final userReadContract = useState(false);
+    final isSoles = ref.watch(isSolesStateProvider);
+    final String textCurrency = isSoles ? 'soles' : 'dólares';
+    final String moneySymbol = isSoles ? 'S/' : "\$";
     // final aceptedTerms = useState(false);
     // ref.read(userAcceptedTermsProvider.notifier).update((state) => false);
     return SingleChildScrollView(
@@ -205,7 +209,7 @@ class Step2Body extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'S/${preInvestment.amount}',
+                            '$moneySymbol ${preInvestment.amount}',
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               fontSize: 16,
@@ -244,7 +248,7 @@ class Step2Body extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'S/${resultCalculator.profitability}',
+                            '$moneySymbol ${resultCalculator.profitability}',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
@@ -287,7 +291,7 @@ class Step2Body extends HookConsumerWidget {
           ),
           Container(
             width: 320,
-            height: 138,
+            height: 150,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(38),
@@ -353,7 +357,7 @@ class Step2Body extends HookConsumerWidget {
                     Row(
                       children: [
                         Text(
-                          'N de cuenta Interbank ',
+                          'N de cuenta $textCurrency Interbank ',
                           style: TextStyle(
                             color: currentTheme.isDarkMode
                                 ? const Color(whiteText)
@@ -361,8 +365,12 @@ class Step2Body extends HookConsumerWidget {
                             fontSize: 12,
                           ),
                         ),
+                      ],
+                    ),
+                    Row(
+                      children: [
                         Text(
-                          '2003004077570',
+                          isSoles ? '2003004077570' : '2003004754309',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
@@ -377,8 +385,11 @@ class Step2Body extends HookConsumerWidget {
                         InkWell(
                           onTap: () {
                             Clipboard.setData(
-                                    new ClipboardData(text: "2003004077570"))
-                                .then((_) {
+                              new ClipboardData(
+                                text:
+                                    isSoles ? "2003004077570" : "2003004754309",
+                              ),
+                            ).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text('Copiado!'),
@@ -417,7 +428,9 @@ class Step2Body extends HookConsumerWidget {
                           ),
                         ),
                         Text(
-                          '003 200 00300407757039',
+                          isSoles
+                              ? '003 200 00300407757039'
+                              : '003 0000300475430932',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
@@ -432,7 +445,9 @@ class Step2Body extends HookConsumerWidget {
                         InkWell(
                           onTap: () {
                             Clipboard.setData(new ClipboardData(
-                                    text: "003 200 00300407757039"))
+                                    text: isSoles
+                                        ? "003 200 00300407757039"
+                                        : '003 20000300475430932'))
                                 .then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

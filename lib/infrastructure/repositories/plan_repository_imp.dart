@@ -13,7 +13,7 @@ class PlanRepositoryImp implements PlanRepository {
   final PlanDataSourceImp dataSource;
 
   @override
-  Future<List<PlanEntity>> getAll({
+  Future<PlanList> getAll({
     required GraphQLClient client,
   }) async {
     return await dataSource.getAll(

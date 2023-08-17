@@ -33,12 +33,10 @@ class PlanListResponse {
 
   List<PlanDatum>? planData;
 
-  factory PlanListResponse.fromJson(Map<String, dynamic> json) =>
-      PlanListResponse(
-        planData: json["planData"] == null
+  factory PlanListResponse.fromJson(List<dynamic> json) => PlanListResponse(
+        planData: json == null
             ? []
-            : List<PlanDatum>.from(
-                json["planData"]!.map((x) => PlanDatum.fromJson(x))),
+            : List<PlanDatum>.from(json!.map((x) => PlanDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

@@ -13,6 +13,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
+    required String currency,
     String? coupon,
   }) async {
     final response = await client.mutate(
@@ -25,7 +26,8 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           'uuidBank': bankAccountTypeUuid,
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
-          'coupon': coupon
+          'coupon': coupon,
+          'currency': currency
         },
       ),
     );

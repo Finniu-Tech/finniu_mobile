@@ -5,6 +5,7 @@ class PreInvestmentForm {
   String deadLineUuid;
   String planUuid;
   String? coupon;
+  String currency;
 
   PreInvestmentForm({
     required this.amount,
@@ -12,6 +13,10 @@ class PreInvestmentForm {
     required this.bankAccountTypeUuid,
     required this.deadLineUuid,
     required this.planUuid,
+    required this.currency,
     this.coupon,
   });
 }
+
+const String currencyNuevoSol = 'nuevo sol';
+const String currencyDollar = 'dolar';

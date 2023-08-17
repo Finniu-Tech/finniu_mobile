@@ -8,6 +8,7 @@ import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -43,6 +44,7 @@ class Step1 extends HookConsumerWidget {
     final bankNumberController = useTextEditingController();
     final uuidPlan = (ModalRoute.of(context)!.settings.arguments
         as Map<String, dynamic>)['planUuid'];
+    final isSoles = ref.watch(isSolesStateProvider);
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturnLogo(
@@ -52,6 +54,7 @@ class Step1 extends HookConsumerWidget {
             final planList = ref.watch(planListFutureProvider);
             return planList.when(
               data: (plans) {
+                final _plans = isSoles ? plans.soles : plans.dolar;
                 return Step1Body(
                   currentTheme: currentTheme,
                   mountController: mountController,
@@ -59,7 +62,8 @@ class Step1 extends HookConsumerWidget {
                   bankTypeController: bankController,
                   couponController: couponController,
                   // bankNumberController: bankNumberController,
-                  plan: plans.firstWhere((element) => element.uuid == uuidPlan),
+                  plan:
+                      _plans.firstWhere((element) => element.uuid == uuidPlan),
                 );
               },
               loading: () => const Center(
@@ -140,6 +144,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final bankFuture = ref.watch(bankFutureProvider.future);
     final themProvider = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
+    final moneySymbol = isSoles ? "S/" : "\$";
     final _debouncer = Debouncer(milliseconds: 3000);
 
     useEffect(
@@ -241,7 +247,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           ),
                         ),
                         Text(
-                          'Desde S/. ${widget.plan.minAmount.toString()}',
+                          'Desde $moneySymbol ${widget.plan.minAmount.toString()}',
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                             color: Color(primaryDark),
@@ -559,7 +565,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'S/${widget.profitability}',
+                          '$moneySymbol ${widget.profitability}',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 16,
@@ -585,25 +591,25 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           const SizedBox(
             height: 20,
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 30, left: 42),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text(
-                  // textAlign: TextAlign.start,
-                  "Moneda",
-                  style: TextStyle(fontSize: 13),
-                ),
-                Spacer(),
-                SwitchMoney(
-                  switchHeight: 34,
-                  switchWidth: 67,
-                ),
-              ],
-            ),
-          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(right: 30, left: 42),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: const [
+          //       Text(
+          //         // textAlign: TextAlign.start,
+          //         "Moneda",
+          //         style: TextStyle(fontSize: 13),
+          //       ),
+          //       Spacer(),
+          //       SwitchMoney(
+          //         switchHeight: 34,
+          //         switchWidth: 67,
+          //       ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(
             width: 224,
             height: 50,
@@ -633,13 +639,14 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   await bankFuture,
                 );
                 final preInvestment = PreInvestmentForm(
-                  amount: int.parse(widget.mountController.text),
-                  deadLineUuid: deadLineUuid,
-                  coupon: widget.couponController.text,
-                  planUuid: widget.plan.uuid,
-                  bankAccountTypeUuid: bankUuid,
-                  // bankAccountNumber: widget.bankNumberController.text,
-                );
+                    amount: int.parse(widget.mountController.text),
+                    deadLineUuid: deadLineUuid,
+                    coupon: widget.couponController.text,
+                    planUuid: widget.plan.uuid,
+                    bankAccountTypeUuid: bankUuid,
+                    currency: isSoles ? currencyNuevoSol : currencyDollar
+                    // bankAccountNumber: widget.bankNumberController.text,
+                    );
                 context.loaderOverlay.show();
                 final preInvestmentEntity = await ref
                     .watch(preInvestmentSaveProvider(preInvestment).future);

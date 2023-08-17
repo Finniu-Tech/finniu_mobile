@@ -11,14 +11,14 @@ final preInvestmentSaveProvider =
     final preInvestmentRepository = ref.read(preInvestmentRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;
     final result = await preInvestmentRepository.save(
-      client: client!,
-      amount: preInvestmentEntity.amount,
-      // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
-      bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
-      deadLineUuid: preInvestmentEntity.deadLineUuid,
-      planUuid: preInvestmentEntity.planUuid,
-      coupon: preInvestmentEntity.coupon,
-    );
+        client: client!,
+        amount: preInvestmentEntity.amount,
+        // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
+        bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
+        deadLineUuid: preInvestmentEntity.deadLineUuid,
+        planUuid: preInvestmentEntity.planUuid,
+        coupon: preInvestmentEntity.coupon,
+        currency: preInvestmentEntity.currency);
     return result;
   } catch (e, stack) {
     return null;

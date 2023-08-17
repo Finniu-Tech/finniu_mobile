@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -18,6 +19,7 @@ class PlanListScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return WillPopScope(
@@ -31,7 +33,7 @@ class PlanListScreen extends HookConsumerWidget {
                 data: (plans) {
                   return PlanListBody(
                     currentTheme: currentTheme,
-                    plans: plans,
+                    plans: isSoles ? plans.soles : plans.dolar,
                   );
                 },
                 loading: () => const Center(
@@ -74,6 +76,8 @@ class PlanListBody extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
+    final moneySymbol = isSoles ? "S/" : "\$";
 
     return Align(
       // alignment: Alignment.center,
@@ -153,7 +157,7 @@ class PlanListBody extends HookConsumerWidget {
                       textTiledCard: plans[index].name,
                       textPercentage: '${plans[index].twelveMonthsReturn}% ',
                       textDeclaration: '5%',
-                      textinvestment: 'S/${plans[index].minAmount}',
+                      textinvestment: '$moneySymbol ${plans[index].minAmount}',
                       textContainer: plans[index].description ?? '',
                       planUuid: plans[index].uuid,
                     ),

@@ -184,12 +184,13 @@ class MutationRepository {
 
   static String savePreInvestment() {
     return '''
-      mutation savePreInvestmentMutation(\$amount: Int!,\$uuidBank: String!, \$uuidDeadline: String!, \$uuidPlan: String!, \$coupon: String){
+      mutation savePreInvestmentMutation(\$amount: Int!,\$uuidBank: String!, \$uuidDeadline: String!, \$uuidPlan: String!,  \$currency: String!, \$coupon: String){
           savePreInvestment(
               amount: \$amount,
               uuidBank:\$uuidBank,
               uuidDeadline: \$uuidDeadline,
               uuidPlan: \$uuidPlan,
+              currency: \$currency,
               couponCode:  \$coupon
           ){
             success,

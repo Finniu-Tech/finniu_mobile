@@ -74,7 +74,7 @@ class _Step3State extends ConsumerState<Step3> {
                       width: 300,
                       child: Text(
                         textAlign: TextAlign.justify,
-                        "Hola ${userPofile.nickName}, la validación de tu transferencia será confirmada en 30 minutos, te enviaremos una notificación cuando validemos tu inversión.",
+                        "Gracias por invertir en Finniu!. Recuerda que las transferencias se confirmarán en un plazo de 24 horas si son directas y en un plazo de máximo 72 horas si son interbancarios!",
                         style: TextStyle(
                           height: 1.9,
                           color: Colors.white,

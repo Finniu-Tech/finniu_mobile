@@ -3,7 +3,7 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/plan_repository_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final planListFutureProvider = FutureProvider<List<PlanEntity>>((ref) async {
+final planListFutureProvider = FutureProvider<PlanList>((ref) async {
   try {
     final planRepository = ref.read(planRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;

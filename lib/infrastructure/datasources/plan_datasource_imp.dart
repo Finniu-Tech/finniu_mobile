@@ -6,20 +6,46 @@ import 'package:finniu/infrastructure/models/plan_response.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class PlanDataSourceImp extends PlanDataSource {
-  @override
-  Future<List<PlanEntity>> getAll({
-    required GraphQLClient client,
-  }) async {
-    final response = await client.query(
+  // @override
+  // Future<List<PlanEntity>> getAll({
+  //   required GraphQLClient client,
+  // }) async {
+  //   final response = await client.query(
+  //     QueryOptions(
+  //       document: gql(
+  //         QueryRepository.getPlans,
+  //       ),
+  //     ),
+  //   );
+  //   final responsePlans = PlanListResponse.fromJson(
+  //     response.data ?? {},
+  //   );
+  //   return PlanMapper.listToEntity(responsePlans);
+  // }
+
+  Future<PlanList> getAll({required GraphQLClient client}) async {
+    final solesResponse = await client.query(
       QueryOptions(
         document: gql(
-          QueryRepository.getPlans,
+          QueryRepository.getPlansSoles,
         ),
       ),
     );
-    final responsePlans = PlanListResponse.fromJson(
-      response.data ?? {},
+    final dolarResponse = await client.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.getPlansDolar,
+        ),
+      ),
     );
-    return PlanMapper.listToEntity(responsePlans);
+    final plansSolesResponse = PlanListResponse.fromJson(
+      solesResponse.data?['planSoles'] ?? {},
+    );
+    final plansDolarResponse =
+        PlanListResponse.fromJson(dolarResponse.data?['planDolar'] ?? {});
+
+    final solesMapped = PlanMapper.listToEntity(plansSolesResponse);
+    final dolarMapped = PlanMapper.listToEntity(plansDolarResponse);
+    return PlanList(soles: solesMapped, dolar: dolarMapped);
   }
 }

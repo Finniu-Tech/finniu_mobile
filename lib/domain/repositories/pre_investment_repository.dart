@@ -8,6 +8,7 @@ abstract class PreInvestmentRepository {
     // required String bankAccountNumber,
     required String bankAccountTypeUuid,
     required String deadLineUuid,
+    required String currency,
     required String planUuid,
   });
 }
