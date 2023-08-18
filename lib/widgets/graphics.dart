@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -76,6 +77,8 @@ class _LineReportCalculatorWidgetState
   Widget build(BuildContext context) {
     final theme = ref.watch(settingsNotifierProvider);
     final images = theme.isDarkMode ? _darkImages : _lightImages;
+    final isSoles = ref.watch(isSolesStateProvider);
+    final String moneySymbol = isSoles ? "S/" : "\$";
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -125,7 +128,7 @@ class _LineReportCalculatorWidgetState
                       ),
                     ),
                     Text(
-                      'S/ ${widget.initialAmount}',
+                      '${moneySymbol} ${widget.initialAmount}',
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         fontSize: 16,
@@ -166,7 +169,7 @@ class _LineReportCalculatorWidgetState
                       ),
                     ),
                     Text(
-                      'S/ ${widget.finalAmount}',
+                      '$moneySymbol ${widget.finalAmount}',
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         fontSize: 16,
@@ -187,7 +190,7 @@ class _LineReportCalculatorWidgetState
             children: [
               const Text('Intereses ganados'),
               Text(
-                'S/ ${widget.revenueAmount}',
+                '$moneySymbol ${widget.revenueAmount}',
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,

@@ -11,6 +11,7 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
     required GraphQLClient client,
     required int amount,
     required int months,
+    required String currency,
     String? coupon,
   }) async {
     final response = await client.mutate(
@@ -22,6 +23,7 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
           'amount': amount,
           'deadline': months,
           'coupon': coupon,
+          'currency': currency
         },
       ),
     );

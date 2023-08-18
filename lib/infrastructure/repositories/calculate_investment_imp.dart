@@ -16,13 +16,14 @@ class CalculateInvestmentRepositoryImp
     required GraphQLClient client,
     required int amount,
     required int months,
+    required String currency,
     String? coupon,
   }) {
     return dataSource.calculate(
-      client: client,
-      amount: amount,
-      months: months,
-      coupon: coupon,
-    );
+        client: client,
+        amount: amount,
+        months: months,
+        coupon: coupon,
+        currency: currency);
   }
 }

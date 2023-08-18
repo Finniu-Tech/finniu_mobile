@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/graphics.dart';
@@ -22,6 +23,7 @@ class ResultCalculator extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final input = ModalRoute.of(context)!.settings.arguments;
+    final isSoles = ref.watch(isSolesStateProvider);
 
     return Scaffold(
       backgroundColor: currentTheme.isDarkMode
@@ -60,8 +62,9 @@ class ResultCalculator extends HookConsumerWidget {
           return resultsProvider.when(
             data: (resultSimulation) {
               return BodyScreen(
-                  currentTheme: currentTheme,
-                  resultSimulation: resultSimulation);
+                currentTheme: currentTheme,
+                resultSimulation: resultSimulation,
+              );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (error, _) => Padding(

@@ -61,6 +61,7 @@ class Step1 extends HookConsumerWidget {
                   deadLineController: deadLineController,
                   bankTypeController: bankController,
                   couponController: couponController,
+                  isSoles: isSoles,
                   // bankNumberController: bankNumberController,
                   plan:
                       _plans.firstWhere((element) => element.uuid == uuidPlan),
@@ -88,6 +89,7 @@ class Step1Body extends StatefulHookConsumerWidget {
     required this.deadLineController,
     required this.bankTypeController,
     required this.couponController,
+    required this.isSoles,
     // required this.bankNumberController,
     required this.plan,
   }) : super(key: key);
@@ -98,6 +100,7 @@ class Step1Body extends StatefulHookConsumerWidget {
   final TextEditingController bankTypeController;
   // final TextEditingController bankNumberController;
   final TextEditingController couponController;
+  final bool isSoles;
 
   PlanEntity plan;
   double? profitability;
@@ -116,10 +119,10 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     if (widget.mountController.text.isNotEmpty) {
       context.loaderOverlay.show();
       final inputCalculator = CalculatorInput(
-        amount: int.parse(widget.mountController.text),
-        months: int.parse(widget.deadLineController.text.split(' ')[0]),
-        coupon: widget.couponController.text,
-      );
+          amount: int.parse(widget.mountController.text),
+          months: int.parse(widget.deadLineController.text.split(' ')[0]),
+          coupon: widget.couponController.text,
+          currency: widget.isSoles ? currencyNuevoSol : currencyDollar);
 
       final resultCalculator = await ref.watch(
         calculateInvestmentFutureProvider(inputCalculator).future,
@@ -446,6 +449,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         months: int.parse(
                           widget.deadLineController.text.split(' ')[0],
                         ),
+                        currency: isSoles ? currencyNuevoSol : currencyDollar,
                         coupon: widget.couponController.text,
                       );
 

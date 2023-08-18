@@ -6,5 +6,6 @@ abstract class CalculateInvestmentRepository {
     required GraphQLClient client,
     required int amount,
     required int months,
+    required String currency,
   });
 }

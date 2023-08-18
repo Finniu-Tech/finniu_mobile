@@ -2,7 +2,9 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
+import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -27,6 +29,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final monthsController = useTextEditingController();
     final amountController = useTextEditingController();
+    final isSoles = ref.watch(isSolesStateProvider);
     // PlanSimulation? planSimulation;
 
     List<Color> dayColors = [
@@ -185,143 +188,6 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ),
-              // if (planSimulation != null) ...[
-              //   Container(
-              //     width: 224,
-              //     height: 67,
-              //     decoration: BoxDecoration(
-              //       color: const Color(primaryLightAlternative),
-              //       borderRadius: BorderRadius.circular(
-              //         15.0,
-              //       ), // Cambia el valor para ajustar el radio
-              //     ),
-              //     child: Padding(
-              //       padding: const EdgeInsets.all(10.0),
-              //       child: Column(
-              //         children: const [
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: [
-              //     const SizedBox(width: 5),
-              //     const Text(
-              //       'Tu plan recomendado es',
-              //       textAlign: TextAlign.center,
-              //       style: TextStyle(
-              //         fontSize: 12,
-              //         color: Color(blackText),
-              //       ),
-              //     ),
-              //     const SizedBox(
-              //       width: 5,
-              //     ),
-              //     InkWell(
-              //       onTap: () => showDialog<String>(
-              //         barrierColor: Colors.transparent,
-              //         context: context,
-              //         builder: (BuildContext context) =>
-              //             ConstrainedBox(
-              //           constraints: const BoxConstraints(
-              //             maxWidth: 100.0,
-              //             maxHeight: 250.0,
-              //           ),
-              //           child: AlertDialog(
-              //             backgroundColor: const Color(primaryDark),
-              //             shape: RoundedRectangleBorder(
-              //               borderRadius: BorderRadius.circular(15.0),
-              //             ),
-              //             content: SizedBox(
-              //               height: 300,
-              //               width: 350,
-              //               child: Column(
-              //                 children: [
-              //                   Align(
-              //                     alignment: Alignment.topRight,
-              //                     child: IconButton(
-              //                       alignment: Alignment.topRight,
-              //                       icon: const Icon(Icons.close),
-              //                       color: const Color(whiteText),
-              //                       onPressed: () {
-              //                         Navigator.of(context).pop();
-              //                       },
-              //                     ),
-              //                   ),
-              //                   Center(
-              //                     child: Image.asset(
-              //                       'assets/result/money.png',
-              //                       width: 70,
-              //                       height: 70,
-              //                     ),
-              //                   ),
-              //                   Text(
-              //                     planSimulation?.plan.name
-              //                             .toUpperCase() ??
-              //                         '',
-              //                     textAlign: TextAlign.justify,
-              //                     style: TextStyle(
-              //                       fontSize: 16,
-              //                       fontWeight: FontWeight.bold,
-              //                       color: Color(primaryLight),
-              //                       height: 1.5,
-              //                     ),
-              //                   ),
-              //                   const SizedBox(
-              //                     height: 10,
-              //                   ),
-              //                   const Padding(
-              //                     padding: EdgeInsets.all(10.0),
-              //                     child: Text(
-              //                         textAlign: TextAlign.justify,
-              //                         'Esta inversion prioriza la estabilidad generando una rentabilidad moderada.Si recien empiezas a invertir, este plan es perfecto para ti.',
-              //                         style: TextStyle(
-              //                           fontSize: 12,
-              //                           color: Color(whiteText),
-              //                           height: 1.5,
-              //                         )),
-              //                   )
-              //                 ],
-              //               ),
-              //             ),
-              //           ),
-              //         ),
-              //       ),
-              //       child: const ImageIcon(
-              //         AssetImage('assets/icons/questions.png'),
-              //         color: Color(primaryDark),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              //           Text(
-              //             'Plan Origen',
-              //             textAlign: TextAlign.center,
-              //             style: TextStyle(
-              //               fontSize: 12,
-              //               fontWeight: FontWeight.bold,
-              //               color: Color(primaryDark),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ),
-              //   ),
-              // ],
-              // SizedBox(
-              //   width: 200,
-              //   child: Text(
-              //     '*Recuerda que puedes retirar tus intereses desde el 1er mes',
-              //     textAlign: TextAlign.justify,
-              //     style: TextStyle(
-              //       fontSize: 10,
-              //       color: currentTheme.isDarkMode
-              //           ? const Color(whiteText)
-              //           : const Color(blackText),
-              //     ),
-              //   ),
-              // ),
-              // const SizedBox(
-              //   height: 30,
-              // ),
-
               Padding(
                 padding: const EdgeInsets.only(right: 77, left: 85),
                 child: Row(
@@ -341,7 +207,6 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ],
                 ),
               ),
-
               Container(
                 width: 224,
                 height: 50,
@@ -363,6 +228,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                           amount: int.parse(amountController.text),
                           months:
                               int.parse(monthsController.text.split(' ')[0]),
+                          currency: isSoles ? currencyNuevoSol : currencyDollar,
                         ),
                       );
                     }

@@ -1,6 +1,8 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
@@ -27,9 +29,11 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
     TextEditingController amountController,
     TextEditingController monthsController,
   ) async {
+    final isSoles = ref.watch(isSolesStateProvider);
     final inputCalculator = CalculatorInput(
       amount: int.parse(amountController.text),
       months: int.parse(monthsController.text.split(' ')[0]),
+      currency: isSoles ? currencyNuevoSol : currencyDollar,
     );
     final result = await ref
         .watch(calculateInvestmentFutureProvider(inputCalculator).future);
