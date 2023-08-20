@@ -541,8 +541,12 @@ class Step2Body extends HookConsumerWidget {
                   const SizedBox(width: 8),
                   InkWell(
                     onTap: () async {
-                      Future<XFile?> ximage =
-                          voucherImage.pickImage(source: ImageSource.gallery);
+                      Future<XFile?> ximage = voucherImage.pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: 70,
+                        maxHeight: 852,
+                        maxWidth: 393,
+                      );
                       voucherPreview.value =
                           await ximage.then((value) => value!.path);
                       final File imageFile = File(voucherPreview.value);

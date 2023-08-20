@@ -36,7 +36,6 @@ final updateOnboardingFutureStateNotifierProvider =
   (ref, UserAnswerEntity userAnswer) async {
     final client = ref.watch(gqlClientProvider).value;
     final userId = ref.watch(userProfileNotifierProvider).id;
-
     final onboardingData =
         ref.watch(onboardingRepositoryProvider).updateOnboardingData(
               client: client!,
@@ -46,6 +45,7 @@ final updateOnboardingFutureStateNotifierProvider =
             );
     onboardingData.then(
       (value) {
+        print('value questions: ${value.questions}');
         ref.read(onBoardingStateNotifierProvider.notifier).updateFields(
               totalQuestions: value.totalQuestions,
               totalCompletedQuestions: value.totalCompletedQuestions,

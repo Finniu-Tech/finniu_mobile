@@ -5,13 +5,16 @@ import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/signup_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignUpEmailScreen extends HookConsumerWidget {
   @override
@@ -27,6 +30,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
     final emailController = useTextEditingController(text: user.email);
     final passwordController = useTextEditingController(text: user.password);
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final userAcceptedTerms = useState(false);
     CarouselController buttonCarouselController = CarouselController();
 
     final formKey = GlobalKey<FormState>();
@@ -82,11 +86,11 @@ class SignUpEmailScreen extends HookConsumerWidget {
               ),
               const SizedBox(height: 15),
               SizedBox(
-                width: 224,
+                width: 180,
                 child: CarouselSlider(
                   carouselController: buttonCarouselController,
                   options: CarouselOptions(
-                    height: 145.0,
+                    height: 120.0,
                     viewportFraction: 0.8,
                     initialPage: ref.watch(indexAvatarSelectedStateProvider),
                     onPageChanged: (index, reason) {
@@ -225,7 +229,68 @@ class SignUpEmailScreen extends HookConsumerWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 15),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 25,
+                    child: Checkbox(
+                      checkColor: Colors.white,
+                      side: BorderSide(
+                        color: themeProvider.isDarkMode
+                            ? Color(primaryLight)
+                            : Color(primaryDark), // Border color
+                        width: 1.5, // Border width
+                      ),
+                      fillColor: MaterialStateProperty.resolveWith<Color?>(
+                        (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.selected)) {
+                            return themeProvider.isDarkMode
+                                ? Color(primaryLight)
+                                : Color(
+                                    primaryDark); // Color when checkbox is selected (checked)
+                          }
+                          return themeProvider.isDarkMode
+                              ? Color(primaryLight)
+                              : Colors
+                                  .transparent; // Color when checkbox is not selected (unchecked)
+                        },
+                      ),
+                      value: userAcceptedTerms.value,
+                      onChanged: (value) {
+                        userAcceptedTerms.value = value!;
+                      },
+                    ),
+                  ),
+                  Text(
+                    'Acepto las',
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: themeProvider.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      Uri politicasURL =
+                          Uri.parse('https://finniu.com/terminos/');
+                      launchUrl(politicasURL);
+                    },
+                    child: Text(
+                      ' Las políticas de privacidad ',
+                      style: TextStyle(
+                        color: themeProvider.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
               if (showError.value) ...[
                 const Text(
                   'No se pudo completar el registro',
@@ -241,6 +306,13 @@ class SignUpEmailScreen extends HookConsumerWidget {
                 height: 50,
                 child: TextButton(
                   onPressed: () async {
+                    if (!userAcceptedTerms.value) {
+                      return CustomSnackbar.show(
+                        context,
+                        'Necesita aceptar las políticas de privacidad',
+                        'error',
+                      );
+                    }
                     if (formKey.currentState!.validate()) {
                       ref
                           .read(userProfileNotifierProvider.notifier)
