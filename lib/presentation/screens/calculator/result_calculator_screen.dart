@@ -231,63 +231,7 @@ class BodyScreen extends StatelessWidget {
                         constraints: const BoxConstraints(),
                         child: Padding(
                           padding: const EdgeInsets.only(top: 200, left: 90),
-                          child: AlertDialog(
-                            backgroundColor:
-                                const Color(primaryLightAlternative),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 90,
-                                      // constraints:
-                                      //     const BoxConstraints(maxHeight: 10),
-                                      child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: InkWell(
-                                          onTap: () =>
-                                              Navigator.of(context).pop(),
-                                          child: IconButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            alignment: Alignment.topRight,
-                                            icon: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  left: 20, bottom: 20),
-                                              child: Icon(Icons.close,
-                                                  size: 30,
-                                                  color: Colors.black),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(height: 10),
-                                Container(
-                                  // width:
-                                  //     MediaQuery.of(context).size.width * 0.3,
-                                  child: const Text(
-                                    'Este 5% es la tributación correspondiente por renta de 2da categoria (inversiones).Aplica sobre tus intereses ganados. ',
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      height: 1.5,
-                                      color: Color(blackText),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                          child: DialogInfoInvestmentWidget(),
                         ),
                       ),
                     ),
@@ -405,6 +349,68 @@ class BodyScreen extends StatelessWidget {
           ),
           const SizedBox(
             height: 30,
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class DialogInfoInvestmentWidget extends StatelessWidget {
+  const DialogInfoInvestmentWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      backgroundColor: const Color(primaryLightAlternative),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 90,
+                // constraints:
+                //     const BoxConstraints(maxHeight: 10),
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).pop(),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      alignment: Alignment.topRight,
+                      icon: const Padding(
+                        padding: EdgeInsets.only(left: 20, bottom: 20),
+                        child: Icon(Icons.close, size: 30, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Container(
+            // width:
+            //     MediaQuery.of(context).size.width * 0.3,
+            child: const Text(
+              'Este 5% es la tributación correspondiente por renta de 2da categoria (inversiones).Aplica sobre tus intereses ganados. ',
+              textAlign: TextAlign.justify,
+              style: TextStyle(
+                fontSize: 14,
+                height: 1.5,
+                color: Color(blackText),
+              ),
+            ),
           )
         ],
       ),
