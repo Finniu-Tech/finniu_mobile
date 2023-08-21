@@ -193,14 +193,16 @@ class _CalculatorState extends ConsumerState<Calculator> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
-                    Text(
+                  children: [
+                    const Text(
                       // textAlign: TextAlign.start,
                       "Moneda",
                       style: TextStyle(fontSize: 13),
                     ),
-                    Spacer(),
-                    SwitchMoney(
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.1,
+                    ),
+                    const SwitchMoney(
                       switchHeight: 34,
                       switchWidth: 67,
                     ),

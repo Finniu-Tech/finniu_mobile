@@ -33,7 +33,6 @@ class Step1 extends HookConsumerWidget {
   const Step1({
     super.key,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
