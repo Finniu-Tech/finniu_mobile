@@ -29,9 +29,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
                   color: Theme.of(context).colorScheme.secondary,
                 ),
               ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.28,
-              ),
+              const Spacer(),
               GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, '/calendar_page');

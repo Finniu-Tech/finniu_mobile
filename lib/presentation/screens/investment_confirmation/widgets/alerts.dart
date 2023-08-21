@@ -29,7 +29,7 @@ class HelpContract extends StatelessWidget {
                       height: 60,
                       child: Image.asset('assets/images/magnifying_glass.png'),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 260,
                       child: Text(
                         "Hola Mari, de acuerdo al artículo 1646 del Código Civil, el pago de los intereses del contrato de mutuo se deben realizar en la misma cuenta bancaria desde donde se realizó la transferencia, por eso es importante, para nosotros, conocer tu cuenta bancaria a CCI.",
@@ -37,7 +37,7 @@ class HelpContract extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 12,
                           height: 1.5,
-                          color: const Color(primaryLight),
+                          color: Color(primaryLight),
                         ),
                       ),
                     ),
