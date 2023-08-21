@@ -65,6 +65,7 @@ dependencies:
   url_launcher: ^6.0.3
   firebase_crashlytics: ^3.0.17
   firebase_analytics: ^10.4.3
+  package_info_plus: ^4.1.0
 
 
 dev_dependencies:

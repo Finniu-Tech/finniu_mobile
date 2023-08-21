@@ -592,4 +592,15 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get appLastVersion {
+    return '''
+      query getLastVersion{
+        lastVersion{
+          minValue
+          maxValue
+        }
+      }
+    ''';
+  }
 }
