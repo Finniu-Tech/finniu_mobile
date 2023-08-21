@@ -56,7 +56,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
           const RentabilidadButtons()
         ],
         const SizedBox(height: 22),
-        EmptyReportMessage(),
+        const EmptyReportMessage(),
       ],
     );
   }

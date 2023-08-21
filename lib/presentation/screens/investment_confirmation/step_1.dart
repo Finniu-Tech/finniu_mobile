@@ -292,15 +292,17 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           const SizedBox(
             height: 10,
           ),
-          Text(
-            'Completa los siguientes datos',
-            textAlign: TextAlign.left,
-            style: TextStyle(
-              color: widget.currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(primaryDark),
-              fontSize: 14,
-              height: 1.5,
+          Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Text(
+              'Completa los siguientes datos',
+              style: TextStyle(
+                color: widget.currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
+                fontSize: 14,
+                height: 1.5,
+              ),
             ),
           ),
           const SizedBox(
