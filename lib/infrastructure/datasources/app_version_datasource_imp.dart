@@ -15,10 +15,9 @@ class AppVersionDataSourceImp extends AppVersionDataSource {
         ),
       ),
     );
-    print('response !!!');
-    print(response.data);
+
     return AppVersionEntity.fromJson(
-      response.data ?? {},
+      response.data?['lastVersion'] ?? {},
     );
   }
 }

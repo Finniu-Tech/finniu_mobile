@@ -1,4 +1,7 @@
 import 'dart:async';
+import 'package:finniu/domain/entities/app_version_entity.dart';
+import 'package:finniu/infrastructure/datasources/app_version_datasource_imp.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/upgrade_modal.dart';
@@ -16,43 +19,55 @@ class IntroScreen extends ConsumerStatefulWidget {
 }
 
 class _IntroScreenState extends ConsumerState<IntroScreen> {
-  String appVersion = '';
+  String appCurrentVersion = '';
+  late AppVersionEntity appVersion;
   _IntroScreenState();
 
   @override
-  void initState() {
+  initState() {
     super.initState();
-    _getAppVersion();
+    _getCurrentAppVersion();
   }
 
-  void _showUpdateModal(BuildContext context, String appVersion) {
+  void _showUpdateModal(BuildContext context, bool isForceUpgrade) {
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
-        return UpgradeAppDialog(appVersion: appVersion);
+        return UpgradeAppDialog(forcedUpgrade: isForceUpgrade);
       },
     );
   }
 
-  Future<void> _getAppVersion() async {
+  Future<void> _getCurrentAppVersion() async {
     PackageInfo packageInfo = await PackageInfo.fromPlatform();
     setState(() {
-      appVersion = packageInfo.version;
+      appCurrentVersion = packageInfo.version;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final client = ref.watch(gqlClientProvider).value;
 
-    Timer(
-        const Duration(seconds: 3), () => _showUpdateModal(context, appVersion)
-        // () => Navigator.of(context).pushReplacement(
-        //   MaterialPageRoute(
-        //     builder: (BuildContext context) => StartLoginScreen(),
-        //   ),
-        // ),
+    Timer(const Duration(seconds: 3), () async {
+      appVersion =
+          await AppVersionDataSourceImp().getLastVersion(client: client!);
+      appVersion.currentVersion = appCurrentVersion;
+      String statusVersion = appVersion.getStatusVersion();
+      if (statusVersion == StatusVersion.upgrade) {
+        _showUpdateModal(context, false);
+      } else if (statusVersion == StatusVersion.forceUpgrade) {
+        _showUpdateModal(context, true);
+      } else {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (BuildContext context) => StartLoginScreen(),
+          ),
         );
+      }
+    });
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
