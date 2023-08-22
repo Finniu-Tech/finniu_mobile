@@ -11,7 +11,6 @@ import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:intl/intl.dart';
-
 import 'package:url_launcher/url_launcher.dart';
 
 class TransfersScreen extends HookConsumerWidget {
@@ -76,35 +75,6 @@ class TransfersScreen extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            // Container(
-            //   width: MediaQuery.of(context).size.width * 0.8,
-            //   height: 3,
-            //   decoration: BoxDecoration(
-            //     border: Border(
-            //       bottom: BorderSide(
-            //         color: currentTheme.isDarkMode
-            //             ? const Color(primaryLight)
-            //             : const Color(gradient_secondary_option),
-            //         width: 2,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(height: 5),
-            // Padding(
-            //   padding: const EdgeInsets.all(20.0),
-            //   child: Text(
-            //     'Tus últimas transferencias de inversion realizadas en Finniu',
-            //     textAlign: TextAlign.left,
-            //     style: TextStyle(
-            //       fontSize: 12,
-            //       height: 1.5,
-            //       color: currentTheme.isDarkMode
-            //           ? const Color(whiteText)
-            //           : const Color(blackText),
-            //     ),
-            //   ),
-            // ),
             const SizedBox(
               height: 5,
             ),
@@ -113,8 +83,8 @@ class TransfersScreen extends HookConsumerWidget {
                 final transferences = ref.watch(transferenceFutureProvider);
                 return transferences.when(
                   data: (transferences) {
-                    if (transferences.length == 0) {
-                      return EmptyTransference();
+                    if (transferences.isEmpty) {
+                      return const EmptyTransference();
                     } else {
                       return TransfersScreenListWidget(
                         transferences: transferences,
@@ -142,9 +112,11 @@ class TransfersScreen extends HookConsumerWidget {
 class TransfersScreenListWidget extends HookConsumerWidget {
   final List<TransferenceEntity> transferences;
   TransfersScreenListWidget({required this.transferences});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+
     return Container(
       child: Column(
         children: [
@@ -182,8 +154,9 @@ class TransfersScreenListWidget extends HookConsumerWidget {
           ),
           SizedBox(
             width: 310,
+            height: MediaQuery.of(context).size.height *
+                0.5, // Ajusta la altura según tus necesidades
             child: ListView.builder(
-              shrinkWrap: true,
               itemCount: transferences.length,
               itemBuilder: (context, index) {
                 return Padding(
