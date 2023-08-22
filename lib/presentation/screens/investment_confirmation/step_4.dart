@@ -34,7 +34,7 @@ class FinishInvestment extends ConsumerWidget {
                       maxHeight: 212,
                     ),
                     child: Image.asset(
-                      'assets/images/hands_shake.png', // Agregar nueva imagen aquí
+                      'assets/images/hands_shake.png',
                     ),
                   ),
                   Positioned(
@@ -63,17 +63,18 @@ class FinishInvestment extends ConsumerWidget {
                       width: 252,
                       height: 75,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(primaryDark),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
+                        border: Border.all(
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(17.0),
                         child: Text(
                           textAlign: TextAlign.justify,
-                          'Recuerda que te enviaremos tu contrato a tu correo en máximo 30 minutos ',
+                          'Recuerda que te enviaremos tu contrato luego de confirmar tu transferencia',
                           style: TextStyle(
                             fontSize: 12,
                             color: currentTheme.isDarkMode
