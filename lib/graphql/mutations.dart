@@ -241,7 +241,8 @@ class MutationRepository {
           \$province: String,
           \$distric: String,
           \$civilStatus: String,
-          \$imageProfile: String
+          \$imageProfile: String,
+          \$address: String
         ){
           updateUser(
             input: {
@@ -252,7 +253,8 @@ class MutationRepository {
               provincia: \$province,
               distrito: \$distric,
               civilStatus: \$civilStatus,
-              imageProfile: \$imageProfile
+              imageProfile: \$imageProfile,
+              address: \$address
             }
           ){
             success

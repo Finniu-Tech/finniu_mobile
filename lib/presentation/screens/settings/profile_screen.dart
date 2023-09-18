@@ -33,6 +33,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     'department': null,
     'district': null,
     'civilState': null,
+    'address': null,
   };
   final ImagePicker _picker = ImagePicker();
   @override
@@ -55,7 +56,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         useTextEditingController(text: userProfile.provincia);
     final districtController =
         useTextEditingController(text: userProfile.distrito);
-    final addressController = useTextEditingController();
+    print('address!!!');
+    print(userProfile.address);
+    final addressController =
+        useTextEditingController(text: userProfile.address);
     final civilStateController =
         useTextEditingController(text: userProfile.civilStatus);
 
@@ -113,6 +117,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (civilStateController.text.isNotEmpty) {
         count++;
       }
+      if (addressController.text.isNotEmpty) {
+        count++;
+      }
       return count;
     }
 
@@ -127,7 +134,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (count == 0) {
         percentage.value = 0.0;
       } else {
-        percentage.value = (count / 7.0);
+        percentage.value = (count / 8.0);
+      }
+      if (percentage.value >= 1.0) {
+        percentage.value = 1.0;
       }
       percentageString.value = '${(percentage.value * 100).round()}%';
     }
@@ -434,6 +444,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 SizedBox(
                   width: 224,
                   height: 38,
+                  child: TextFormField(
+                    readOnly: !editar.value,
+                    showCursor: editar.value,
+                    key: const Key('address'),
+                    controller: addressController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+
+                      return null;
+                    },
+                    // onChanged: (value) {
+                    //   _calculatePercentage('docNumber', value);
+                    //   // phoneController.text = value;
+                    // },
+                    onEditingComplete: () {
+                      _calculatePercentage();
+                    },
+
+                    // inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+                    decoration: InputDecoration(
+                      hintText: 'Escriba su dirección',
+                      label: const Text("Dirección"),
+                      filled: true,
+                      fillColor: (editar.value ? enableColor : disabledColor),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 28),
+                SizedBox(
+                  width: 224,
+                  height: 38,
                   child: CustomSelectButton(
                     enabled: editar.value,
                     textEditingController: civilStateController,
@@ -505,6 +548,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
                             civilStatus: MaritalStatusMapper()
                                 .mapStatus(civilStateController.text),
+                            address: addressController.text,
                           ),
                         ).future,
                       );

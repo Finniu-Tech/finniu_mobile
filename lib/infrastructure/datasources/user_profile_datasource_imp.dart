@@ -21,7 +21,8 @@ class UserProfileDataSourceImp extends UserProfileDataSource {
           'province': userProfile.provincia,
           'distric': userProfile.distrito,
           'civilStatus': userProfile.civilStatus,
-          'imageProfile': userProfile.imageProfile
+          'imageProfile': userProfile.imageProfile,
+          'address': userProfile.address,
         },
       ),
     );

@@ -49,6 +49,7 @@ final userProfileFutureProvider =
           provincia: userProfile.provincia,
           region: userProfile.region,
           civilStatus: userProfile.civilStatus,
+          address: userProfile.address,
         );
     return userProfile;
   }
@@ -76,6 +77,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           region: userProfile.region,
           civilStatus: userProfile.civilStatus,
           hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
+          address: userProfile.address,
         );
   }
   return success;
@@ -104,6 +106,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? region,
     String? civilStatus,
     bool hasCompletedOnboarding = false,
+    String? address,
   }) {
     state = state.copyWith(
       id: id,
@@ -120,6 +123,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       provincia: provincia,
       region: region,
       civilStatus: civilStatus,
+      address: address,
     );
   }
 

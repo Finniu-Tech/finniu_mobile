@@ -409,7 +409,7 @@ class CardCustom extends ConsumerWidget {
                                   ),
                                 ),
                                 Text(
-                                  'Invertimos tu dinero en la agroindustria a través del proyecto Siembra.El sector agrícola tiene una demanda creciente año tras años y varias frutas tiene gran potencial de exportación.',
+                                  'Invertimos tu dinero en la agroindustria. El sector agrícola tiene una demanda creciente año tras años y varias frutas tiene gran potencial de exportación.',
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
                                     color: Colors.black,

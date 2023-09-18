@@ -20,6 +20,7 @@ class QueryRepository {
         typeDocument
         uuid
         imageProfileUrl
+        address
       }
     }
   ''';
