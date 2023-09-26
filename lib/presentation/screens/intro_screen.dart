@@ -50,20 +50,22 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
           await AppVersionDataSourceImp().getLastVersion(client: client);
       appVersion.currentVersion = appCurrentVersion;
       String statusVersion = appVersion.getStatusVersion();
-
-      if (statusVersion == StatusVersion.upgrade) {
-        _modalShown = true;
-        _showUpdateModal(context, false);
-      } else if (statusVersion == StatusVersion.forceUpgrade) {
-        _modalShown = true;
-        _showUpdateModal(context, true);
-      } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (BuildContext context) => StartLoginScreen(),
-          ),
-        );
-      }
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (BuildContext context) => StartLoginScreen(),
+      ));
+      // if (statusVersion == StatusVersion.upgrade) {
+      //   _modalShown = true;
+      //   _showUpdateModal(context, false);
+      // } else if (statusVersion == StatusVersion.forceUpgrade) {
+      //   _modalShown = true;
+      //   _showUpdateModal(context, true);
+      // } else {
+      //   Navigator.of(context).pushReplacement(
+      //     MaterialPageRoute(
+      //       builder: (BuildContext context) => StartLoginScreen(),
+      //     ),
+      //   );
+      // }
     }
   }
 

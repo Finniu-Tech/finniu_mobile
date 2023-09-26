@@ -430,7 +430,7 @@ class Step2Body extends HookConsumerWidget {
                         Text(
                           isSoles
                               ? '003 200 00300407757039'
-                              : '003 0000300475430932',
+                              : '003 20000300475430932',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: currentTheme.isDarkMode
