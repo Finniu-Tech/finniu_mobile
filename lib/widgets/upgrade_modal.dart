@@ -21,7 +21,7 @@ class UpgradeAppDialog extends HookConsumerWidget {
 
   Future<void> _openAppStore() async {
     if (Platform.isAndroid) {
-      launchUrl(playStoreUrl);
+      launchUrl(playStoreUrl, mode: LaunchMode.externalApplication);
     } else if (Platform.isIOS) {
       launchUrl(appStoreUrl);
     }
