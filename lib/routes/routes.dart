@@ -1,3 +1,5 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/signup/activate_account.dart';
 import 'package:finniu/presentation/screens/calculator/calculator_screen.dart';
 import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
 import 'package:finniu/presentation/screens/calendar.dart';
@@ -54,7 +56,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/transfers': (BuildContext context) => TransfersScreen(),
     '/languages': (BuildContext context) => LanguagesStart(),
     '/help': (BuildContext context) => const HelpScreen(),
-    '/confirmation': (BuildContext context) => const ConfirmationPhone(),
+    '/send_code': (BuildContext context) => SendCode(),
     '/investment_step1': (BuildContext context) => Step1(),
     '/investment_step2': (BuildContext context) => const Step2(),
     '/investment_step3': (BuildContext context) => const Step3(),
@@ -71,5 +73,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/reinvest': (BuildContext context) => const Reinvest(),
     '/reinvest_end': (BuildContext context) => ReinvestEnd(),
     '/empty_transference': (BuildContext context) => EmptyTransference(),
+    '/activate_account': (BuildContext context) => ActivateAccount()
   };
 }
