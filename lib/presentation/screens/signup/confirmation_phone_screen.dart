@@ -194,7 +194,8 @@ class SendCode extends ConsumerWidget {
               height: 71,
               child: TextPoppins(
                 text: "Tu seguridad es primero",
-                colorText: themeProvider.isDarkMode ? whiteText : primaryDark,
+                colorText:
+                    themeProvider.isDarkMode ? primaryLight : primaryDark,
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),

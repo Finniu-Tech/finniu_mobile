@@ -95,517 +95,442 @@ class CardCustom extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return SizedBox(
-      width: 350,
-      // height: double.infinity,
-      child: ExpansionTileCard(
-        onExpansionChanged: (value) {
-          isExpanded.value = value;
-        },
-        title: Text(
-          textTiledCard,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Color(
-              currentTheme.isDarkMode ? primaryDark : whiteText,
+        width: 350,
+        // height: double.infinity,
+        child: ExpansionTileCard(
+            onExpansionChanged: (value) {
+              isExpanded.value = value;
+            },
+            title: Text(
+              textTiledCard,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                color: Color(
+                  currentTheme.isDarkMode ? primaryDark : whiteText,
+                ),
+              ),
             ),
-          ),
-        ),
-        trailing: SizedBox(
-          width: 80,
-          // height: 30,
-          child: Row(
+            trailing: SizedBox(
+              width: 80,
+              // height: 30,
+              child: Row(
+                children: [
+                  Text(
+                    'Ver más',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: Color(
+                        currentTheme.isDarkMode ? primaryDark : whiteText,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  CircleAvatar(
+                    radius: 15,
+                    backgroundColor: Color(
+                      currentTheme.isDarkMode
+                          ? (primaryDark)
+                          : (primaryLightAlternative),
+                    ),
+                    child: Icon(
+                      isExpanded.value
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                      color: Color(
+                        currentTheme.isDarkMode
+                            ? (primaryLight)
+                            : (primaryDark),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            baseColor: Color(
+              currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+            ),
+            expandedColor: Color(
+              currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+            ),
+            elevation: 2.0,
             children: [
-              Text(
-                'Ver más',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontSize: 10,
+              Container(
+                  alignment: Alignment.topLeft,
                   color: Color(
-                    currentTheme.isDarkMode ? primaryDark : whiteText,
+                    currentTheme.isDarkMode
+                        ? primaryLightAlternative
+                        : colortext,
                   ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              CircleAvatar(
-                radius: 15,
-                backgroundColor: Color(
-                  currentTheme.isDarkMode
-                      ? (primaryDark)
-                      : (primaryLightAlternative),
-                ),
-                child: Icon(
-                  isExpanded.value
-                      ? Icons.arrow_drop_up
-                      : Icons.arrow_drop_down,
-                  color: Color(
-                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
-        baseColor: Color(
-          currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-        ),
-        expandedColor: Color(
-          currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-        ),
-        elevation: 2.0,
-        children: [
-          Container(
-              alignment: Alignment.topLeft,
-              color: Color(
-                currentTheme.isDarkMode ? primaryLightAlternative : colortext,
-              ),
-              width: 350,
-              height: 930,
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                  width: 350,
+                  height: 750,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Column(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Image.network(
-                              image,
-                              width: 90,
-                              height: 90,
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              // mainAxisAlignment: MainAxisAlignment.end,
+                            Column(
                               children: [
-                                const Icon(
-                                  Icons
-                                      .monetization_on_outlined, // Icono que deseas utilizar
-                                  size: 21.5, // Tamaño del icono
-                                  color: Color(primaryDark), // Color del icono
+                                Image.network(
+                                  image,
+                                  width: 90,
+                                  height: 90,
                                 ),
-                                const Text(
-                                  "Monto minimo",
-                                  style: TextStyle(
-                                    fontSize: 10, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
                                 const SizedBox(
-                                  width: 5,
+                                  height: 5,
                                 ),
-                                Text(
-                                  textinvestment,
-                                  style: const TextStyle(
-                                    fontSize: 12, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                )
+                                Row(
+                                  // mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    const Icon(
+                                      Icons
+                                          .monetization_on_outlined, // Icono que deseas utilizar
+                                      size: 21.5, // Tamaño del icono
+                                      color:
+                                          Color(primaryDark), // Color del icono
+                                    ),
+                                    const Text(
+                                      "Monto minimo",
+                                      style: TextStyle(
+                                        fontSize: 10, // Tamaño de fuente
+                                        color: Color(
+                                            primaryDark), // Color de texto
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      textinvestment,
+                                      style: const TextStyle(
+                                        fontSize: 12, // Tamaño de fuente
+                                        color: Color(
+                                            primaryDark), // Color de texto
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+                                SizedBox(height: 20),
+
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/double_dollar.png',
+                                      width: 25,
+                                      height: 25,
+                                    ),
+                                    const Text(
+                                      "Retorno anual",
+                                      style: TextStyle(
+                                        fontSize: 10, // Tamaño de fuente
+                                        color: Color(
+                                            primaryDark), // Color de texto
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      textPercentage,
+                                      style: const TextStyle(
+                                        fontSize: 12, // Tamaño de fuente
+                                        color: Color(
+                                            primaryDark), // Color de texto
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+                                const SizedBox(height: 20),
+
+                                Row(
+                                  children: [
+                                    Image.asset(
+                                      'assets/icons/percent.png',
+                                      width: 20,
+                                      height: 20,
+                                    ),
+                                    const Text(
+                                      // textAlign: TextAlign.end,
+                                      " Declaración a la Sunat",
+                                      style: TextStyle(
+                                        fontSize: 10, // Tamaño de fuente
+                                        color: Color(
+                                            primaryDark), // Color de texto
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                      textDeclaration,
+                                      style: const TextStyle(
+                                        fontSize: 12, // Tamaño de fuente
+                                        color: Color(
+                                            primaryDark), // Color de texto
+                                      ),
+                                    )
+                                  ],
+                                ),
+
+                                // Aquí pueden ir otros widgets adicionales
                               ],
                             ),
-
-                            SizedBox(height: 20),
-
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/double_dollar.png',
-                                  width: 25,
-                                  height: 25,
-                                ),
-                                const Text(
-                                  "Retorno anual",
-                                  style: TextStyle(
-                                    fontSize: 10, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  textPercentage,
-                                  style: const TextStyle(
-                                    fontSize: 12, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                )
-                              ],
-                            ),
-
-                            const SizedBox(height: 20),
-
-                            Row(
-                              children: [
-                                Image.asset(
-                                  'assets/icons/percent.png',
-                                  width: 20,
-                                  height: 20,
-                                ),
-                                const Text(
-                                  // textAlign: TextAlign.end,
-                                  " Declaración a la Sunat",
-                                  style: TextStyle(
-                                    fontSize: 10, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  textDeclaration,
-                                  style: const TextStyle(
-                                    fontSize: 12, // Tamaño de fuente
-                                    color: Color(primaryDark), // Color de texto
-                                  ),
-                                )
-                              ],
-                            ),
-
-                            // Aquí pueden ir otros widgets adicionales
                           ],
                         ),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(
-                          25.0), // aquí puedes configurar la cantidad de padding
-                      child: Center(
-                        child: Text(
-                          textContainer,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Color(blackText),
-                            height: 2,
+                        Padding(
+                          padding: const EdgeInsets.all(
+                              25.0), // aquí puedes configurar la cantidad de padding
+                          child: Center(
+                            child: Text(
+                              textContainer,
+                              style: const TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Color(blackText),
+                                height: 2,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: 3,
-                      decoration: const BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            color: Color(gradient_secondary_option),
-                            width: 1.2,
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height: 3,
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Color(gradient_secondary_option),
+                                width: 1.2,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            "assets/images/check.png",
-                            height: 24,
-                            width: 24,
-                          ),
-                          const SizedBox(
-                            width: 3,
-                          ),
-                          const Text(
-                            "La Transparencia ante todo",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(primaryDark)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 20),
-                      child: const SizedBox(
-                        width: 190,
-                        child: Text(
-                          "¿A dónde van tus inversiones?",
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color(primaryDark)),
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 12,
-                    ),
-                    Container(
-                      width: 280,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: Column(
-                          children: const [
-                            Text(
-                              textAlign: TextAlign.justify,
-                              "Finniu diversifica el capital en los sectores de agroindustria, alimentos y suministros. Siendo la agroindustria el sector donde invertimos en gran porcentaje.Te contamos más:",
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/icons/star.png",
+                              height: 24,
+                              width: 24,
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            const Text(
+                              "Objetivo",
                               style: TextStyle(
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w400,
-                                  height: 1.5,
-                                  color: Color(blackText)),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(primaryDark)),
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Stack(
-                      children: <Widget>[
-                        Align(
-                          alignment: Alignment.center,
+                        Center(
                           child: Container(
-                            alignment: Alignment.center,
-                            width: 270,
-                            height: 122,
-                            padding: const EdgeInsets.all(15),
-                            margin: const EdgeInsets.only(top: 65),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: const Color(colorgreenlight),
-                                  width: 2),
-                              color: currentTheme.isDarkMode
-                                  ? const Color(0xffFFEEDD)
-                                  : Colors.transparent,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              children: const [
-                                Text(
-                                  'Sector Agrícola',
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    height: 1.5,
-                                  ),
+                            width: 236,
+                            height: 75,
+                            child: Padding(
+                              padding: const EdgeInsets.only(),
+                              child: Center(
+                                child: Column(
+                                  children: const [
+                                    Text(
+                                      textAlign: TextAlign.justify,
+                                      " Inversión en un producto diversificado enfocado en apalancar operaciones dentro del mercado peruano.Pagadas por empresas medianas y pequeñas que requieren financiamiento en soles.",
+                                      style: TextStyle(
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w400,
+                                          height: 1.5,
+                                          color: Color(blackText)),
+                                    ),
+                                  ],
                                 ),
-                                Text(
-                                  'Invertimos tu dinero en la agroindustria. El sector agrícola tiene una demanda creciente año tras años y varias frutas tiene gran potencial de exportación.',
-                                  textAlign: TextAlign.justify,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 9,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.5,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ),
                         ),
-                        Positioned(
-                          // top: -8,
-                          // left: 100,
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Image.asset(
-                              "assets/images/plants.png",
-                              width: 90,
-                              height: 80,
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/icons/shield-tick.png",
+                              height: 24,
+                              width: 24,
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            const Text(
+                              "Características del fondo",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(primaryDark)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Center(
+                          child: Container(
+                            width: 236,
+                            child: Center(
+                              child: Row(
+                                children: const [
+                                  Text(
+                                    "•",
+                                    style: TextStyle(color: Color(blackText)),
+                                  ),
+                                  Text(
+                                    'Más de S/1.5 M invertidos',
+                                    style: TextStyle(
+                                        fontSize: 9, color: Color(blackText)),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 35),
+                          child: Row(
+                            children: const [
+                              Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                              Text(
+                                'Pago de intereses mensuales',
+                                style: TextStyle(
+                                    fontSize: 9, color: Color(blackText)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 35),
+                          child: Row(
+                            children: const [
+                              Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                              Text(
+                                'Devolución de capital al final del plazo',
+                                style: TextStyle(
+                                    fontSize: 9, color: Color(blackText)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 8,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/icons/star.png",
+                              height: 24,
+                              width: 24,
+                            ),
+                            const SizedBox(
+                              width: 7,
+                            ),
+                            const Text(
+                              "Distribución del Fondo soles",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(primaryDark)),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Center(
+                          child: Column(
+                            children: [
+                              // Texto encima de la imagen
+                              Container(
+                                width: 150,
+                                height: 150,
+                                child: Image.asset(
+                                  "assets/images/circle.png",
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(
+                            height: 20), // Espacio entre los textos y el botón
+                        Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                context,
+                                '/investment_step1',
+                                arguments: {
+                                  'planUuid': planUuid,
+                                },
+                              );
+                            },
+                            child: const Text(
+                              'Comenzar a invertir',
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Color(whiteText)),
+                            ),
+                            style: ButtonStyle(
+                              elevation: MaterialStateProperty.all<double>(4),
+                              shadowColor:
+                                  MaterialStateProperty.all<Color>(Colors.grey),
+                              padding:
+                                  MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                const EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  // vertical: 10,
+                                ),
+                              ),
+                              backgroundColor: MaterialStateProperty.all<Color>(
+                                Color(primaryDark),
+                              ),
                             ),
                           ),
                         ),
                       ],
                     ),
-                    // Image.asset(
-                    //   "assets/images/project.png",
-                    // ),
-                    // Center(
-                    //   child: Container(
-                    //     width: 240,
-                    //     child: const Text(
-                    //       'Proyecto ubicado en la región de Tambogrande,Piura.Se dedica a la producción y comercialización de frutas como:plátanos,uva,pitahaya y arándanos.',
-                    //       textAlign: TextAlign.justify,
-                    //       style: TextStyle(
-                    //         color: Colors.black,
-                    //         fontSize: 9,
-                    //         fontWeight: FontWeight.w400,
-                    //         height: 1.5,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Image.asset(
-                      "assets/images/plantsgreen.png",
-                    ),
-                    Center(
-                      child: const Text(
-                        '¿Cómo reducen el riesgo el sector agrícola?.',
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 10,
-                          fontWeight: FontWeight.w500,
-                          height: 1.5,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "•",
-                            style: TextStyle(color: Color(blackText)),
-                          ),
-                          const SizedBox(width: 5),
-                          const Text(
-                            'Control de cultivos',
-                            style:
-                                TextStyle(fontSize: 9, color: Color(blackText)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "•",
-                            style: TextStyle(color: Color(blackText)),
-                          ),
-                          const SizedBox(width: 5),
-                          const Text(
-                            'Alianza con proveedores para asegurar continuidad',
-                            style:
-                                TextStyle(fontSize: 9, color: Color(blackText)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40),
-                      child: Row(
-                        children: [
-                          const Text(
-                            "•",
-                            style: TextStyle(color: Color(blackText)),
-                          ),
-                          const SizedBox(width: 5),
-                          Container(
-                            width: 220,
-                            child: const Text(
-                              'Sistemas de drenaje para evitar acumulación de aguas',
-                              style: TextStyle(
-                                  fontSize: 9, color: Color(blackText)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40),
-                      child: Row(
-                        children: const [
-                          Text(
-                            "•",
-                            style: TextStyle(color: Color(blackText)),
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            'Diversificación de la cadena de suministros',
-                            style:
-                                TextStyle(fontSize: 9, color: Color(blackText)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 40),
-                      child: Row(
-                        children: const [
-                          Text(
-                            "•",
-                            style: TextStyle(color: Color(blackText)),
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            'Investigación y desarrollo de tecnología agrícola',
-                            style:
-                                TextStyle(fontSize: 9, color: Color(blackText)),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Center(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/investment_step1',
-                            arguments: {
-                              'planUuid': planUuid,
-                            },
-                          );
-                        },
-                        child: const Text(
-                          'Comenzar a invertir',
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w500,
-                              color: Color(whiteText)),
-                        ),
-                        style: ButtonStyle(
-                          elevation: MaterialStateProperty.all<double>(4),
-                          shadowColor:
-                              MaterialStateProperty.all<Color>(Colors.grey),
-                          padding:
-                              MaterialStateProperty.all<EdgeInsetsGeometry>(
-                            const EdgeInsets.symmetric(
-                              horizontal: 20,
-                              // vertical: 10,
-                            ),
-                          ),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                            Color(primaryDark),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ))
-        ],
-      ),
-    );
+                  ))
+            ]));
   }
 }
 
