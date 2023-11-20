@@ -178,6 +178,8 @@ import '../../providers/settings_provider.dart';
 // }
 
 class SendCode extends ConsumerWidget {
+  const SendCode({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
