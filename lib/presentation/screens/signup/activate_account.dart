@@ -1,8 +1,8 @@
-
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,21 +26,19 @@ class ActivateAccount extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const SizedBox(height: 15),
               SizedBox(
-                width: 88, // ancho deseado
-                height: 6,
+                width: 291,
+                height: 92,
+                child: TextPoppins(
+                  text: "Activa tu cuenta en segundos", //
+                  fontWeight: FontWeight.w600,
+                  fontSize: 24,
+                  colorText: themeProvider.isDarkMode ? whiteText : primaryDark,
 
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(
-                        themeProvider.isDarkMode ? primaryLight : primaryDark),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
+                  // Aquí añade el texto dentro de 'text'
                 ),
               ),
-              const SizedBox(height: 20),
-              // alto deseado
+
               SizedBox(
                 width: 90,
                 height: 90,
@@ -62,6 +60,10 @@ class ActivateAccount extends HookConsumerWidget {
                   "Ingresa el codigo de verificacion",
                 ),
               ),
+
+              const SizedBox(
+                height: 20,
+              ),
               SizedBox(
                 width: 280,
                 child: Text(
@@ -76,7 +78,7 @@ class ActivateAccount extends HookConsumerWidget {
                     ),
                     "Te hemos enviado un SMS a tu numero para confirmar la operacion"),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 90),
               // VerificationCode(
               //   onCompleted: (code) {
               //     final futureIsValidCode = ref.watch(
