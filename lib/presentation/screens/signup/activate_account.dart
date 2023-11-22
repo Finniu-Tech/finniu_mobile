@@ -1,198 +1,153 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/signup/widgets/counter.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ActivateAccount extends HookConsumerWidget {
   const ActivateAccount({
-    Key? key, // Corregir aquí
-    // Required this.themeProvider,
-  }) : super(key: key); // Corregir aquí
-
-  // final SettingsProviderState themeProvider; // Si no se usa, puedes eliminar esta línea
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
-    final UserProfile userProfile = ref.watch(userProfileNotifierProvider);
 
     return CustomScaffoldReturn(
-      body: Center(
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              SizedBox(
-                width: 291,
-                height: 92,
-                child: TextPoppins(
-                  text: "Activa tu cuenta en segundos", //
-                  fontWeight: FontWeight.w600,
-                  fontSize: 24,
-                  colorText: themeProvider.isDarkMode ? whiteText : primaryDark,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                SizedBox(
+                  width: 291,
+                  height: 92,
+                  child: TextPoppins(
+                    text: "Activa tu cuenta en segundos", //
+                    fontWeight: FontWeight.w600,
+                    fontSize: 24,
+                    colorText:
+                        themeProvider.isDarkMode ? primaryLight : primaryDark,
 
-                  // Aquí añade el texto dentro de 'text'
-                ),
-              ),
-
-              SizedBox(
-                width: 90,
-                height: 90,
-                child: Image.asset('assets/images/padlock.png'),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: 280,
-                child: Text(
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    height: 1.5,
-                    color: themeProvider.isDarkMode
-                        ? Colors.white
-                        : const Color(primaryDark),
+                    // Aquí añade el texto dentro de 'text'
                   ),
-                  "Ingresa el codigo de verificacion",
                 ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: 280,
-                child: Text(
+                SizedBox(
+                  width: 90,
+                  height: 90,
+                  child: Image.asset('assets/images/padlock.png'),
+                ),
+                const SizedBox(height: 20),
+                SizedBox(
+                  width: 280,
+                  child: Text(
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                       height: 1.5,
                       color: themeProvider.isDarkMode
                           ? Colors.white
                           : const Color(primaryDark),
                     ),
-                    "Te hemos enviado un SMS a tu numero para confirmar la operacion"),
-              ),
-              const SizedBox(height: 90),
-              // VerificationCode(
-              //   onCompleted: (code) {
-              //     final futureIsValidCode = ref.watch(
-              //       otpValidatorFutureProvider(
-              //         OTPForm(
-              //           email: userProfile.email!,
-              //           otp: code,
-              //           action: 'register',
-              //         ),
-              //       ).future,
-              //     );
-              //     futureIsValidCode.then((status) {
-              //       if (status == true) {
-              //         Preferences.username = userProfile.email!;
-              //         Navigator.pushNamedAndRemoveUntil(
-              //           ctx,
-              //           '/on_boarding_start',
-              //           (route) => false, // Remove all the previous routes
-              //         );
-              //       } else {
-              //         Navigator.of(ctx).pop();
-              //         CustomSnackbar.show(
-              //           ctx,
-              //           'No se pudo validar el código de verificación',
-              //           'error',
-              //         );
-              //       }
-              //     });
-              //   },
-              //   onEditing: (value) {},
-              //   textStyle: TextStyle(
-              //     fontSize: 20,
-              //     fontWeight: FontWeight.bold,
-              //     color: themeProvider.isDarkMode
-              //         ? Colors.white
-              //         : const Color(blackText),
-              //   ),
-
-              //   keyboardType: TextInputType.number,
-              //   underlineColor: const Color(
-              //     0xff9381FF,
-              //   ), // If this is null it will use primaryColor: Colors.red from Theme
-              //   underlineUnfocusedColor: Color(
-              //     themeProvider.isDarkMode ? primaryLight : primaryDark,
-              //   ),
-              //   length: 4,
-              //   fullBorder: true,
-              //   cursorColor:
-              //       Colors.blue, // If this is null it will default to the ambient
-              //   itemSize: 70,
-              // ),
-
-              // const SizedBox(height: 15),
-              // if (ref.watch(timerCounterDownProvider) == 0) ...[
-              //   TextButton(
-              //     onPressed: () {
-              //       ref.read(timerCounterDownProvider.notifier).resetTimer();
-
-              //       ref.read(resendOTPCodeFutureProvider.future).then((status) {
-              //         if (status == true) {
-              //           ref
-              //               .read(timerCounterDownProvider.notifier)
-              //               .startTimer(first: true);
-              //         } else {
-              //           CustomSnackbar.show(
-              //             ctx,
-              //             'No se pudo reenviar el correo',
-              //             'error',
-              //           );
-              //           // ScaffoldMessenger.of(ctx).showSnackBar(
-              //           //   customSnackBar('No se pudo reenviar el correo', 'error'),
-              //           // );
-              //         }
-              //       });
-              //     },
-              // style: TextButton.styleFrom(
-              //   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-              //   backgroundColor: Color(
-              //       themeProvider.isDarkMode ? primaryLight : primaryDark),
-              // ),
-              //       child: Text(
-              //         'Reenviar código',
-              //         style: TextStyle(
-              //           fontSize: 11,
-              //           fontWeight: FontWeight.w500,
-              //           height: 1.5,
-              //           color: themeProvider.isDarkMode
-              //               ? Color(primaryDark)
-              //               : Colors.white,
-              //         ),
-              //       ),
-              //     ),
-              //   ] else ...[
-              //     SizedBox(
-              //       width: 280,
-              //       child: Text(
-              //         textAlign: TextAlign.center,
-              //         style: TextStyle(
-              //           fontSize: 11,
-              //           fontWeight: FontWeight.w500,
-              //           height: 1.5,
-              //           color: themeProvider.isDarkMode
-              //               ? Colors.white
-              //               : const Color(primaryDark),
-              //         ),
-              //         "Reenviar el codigo en",
-              //       ),
-              //     ),
-              //     const SizedBox(height: 10),
-              //     const CircularCountdown(),
-              //   ],
-              // ],
-            ]),
+                    "Ingresa el código de verificación",
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 280,
+                  child: Text(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        height: 1.5,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : const Color(primaryDark),
+                      ),
+                      "Te hemos enviado un SMS a tu numero para confirmar la operacion"),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                VerificationCodeWidget(),
+                const SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  width: 133,
+                  child: Text(
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w400,
+                        height: 1.5,
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : const Color(primaryDark),
+                      ),
+                      "Reenviar el código en "),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                const CircularCountdown(),
+              ],
+            ),
+          ),
+        ),
       ),
     );
+  }
+}
+
+class VerificationCodeWidget extends HookConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    String _code = '';
+    final themeProvider = ref.watch(settingsNotifierProvider);
+
+    return Center(
+        child: Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.transparent,
+        ),
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: VerificationCode(
+        fullBorder: true,
+        textStyle: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          color: themeProvider.isDarkMode
+              ? Colors.white
+              : const Color(primaryDark),
+        ),
+        keyboardType: TextInputType.number,
+        underlineColor: const Color(
+          0xff9381FF,
+        ),
+        underlineUnfocusedColor: Color(
+          themeProvider.isDarkMode ? primaryLight : primaryDark,
+        ),
+        length: 4,
+        itemSize: 50,
+        cursorColor: Colors.blue,
+        onCompleted: (String value) {
+          _code = value;
+        },
+        onEditing: (bool value) {},
+      ),
+    ));
   }
 }
