@@ -323,10 +323,10 @@ class SignUpEmailScreen extends HookConsumerWidget {
                             phoneNumber: phoneController.text,
                           );
 
-                      Navigator.of(context).pushNamed('/confirmation');
+                      Navigator.of(context).pushNamed('/send_code');
                     }
                   },
-                  child: const Text('Continuar'),
+                  child: const Text('Crear registro'),
                 ),
               ),
               const SizedBox(height: 10),

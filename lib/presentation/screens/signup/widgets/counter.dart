@@ -11,8 +11,8 @@ class CircularCountdown extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return SizedBox(
-      width: 70.0,
-      height: 70.0,
+      width: 92.0,
+      height: 91.0,
       child: Stack(
         alignment: Alignment.topCenter,
         children: [
@@ -26,14 +26,15 @@ class CircularCountdown extends ConsumerWidget {
                 : const Color(primaryDark),
             ringColor: Color(0xff9381FF),
             isReverse: true,
+
             // isReverseAnimation: true,
             // backgroundColor: const Color(cardBackgroundColorLight),
             backgroundColor: currentTheme.isDarkMode
                 ? const Color(primaryDark)
-                : const Color(cardBackgroundColorLight),
+                : const Color(whiteText),
             strokeWidth: 6.0,
             textStyle: TextStyle(
-              fontSize: 25.0,
+              fontSize: 15.0,
               // color: Color(primaryDark),
               color: currentTheme.isDarkMode
                   ? const Color(whiteText)
@@ -49,7 +50,7 @@ class CircularCountdown extends ConsumerWidget {
             padding: const EdgeInsets.all(9.0),
             child: Icon(
               Icons.alarm,
-              size: 12.0,
+              size: 24.0,
               color: currentTheme.isDarkMode
                   ? const Color(primaryLight)
                   : const Color(primaryDark),
