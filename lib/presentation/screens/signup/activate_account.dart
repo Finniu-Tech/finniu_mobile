@@ -1,8 +1,13 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/infrastructure/models/otp.dart';
+import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/signup/widgets/counter.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -115,6 +120,7 @@ class VerificationCodeWidget extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     String _code = '';
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
 
     return Center(
         child: Container(
@@ -143,8 +149,33 @@ class VerificationCodeWidget extends HookConsumerWidget {
         length: 4,
         itemSize: 50,
         cursorColor: Colors.blue,
-        onCompleted: (String value) {
-          _code = value;
+        onCompleted: (code) {
+          final futureIsValidCode = ref.watch(
+            otpValidatorFutureProvider(
+              OTPForm(
+                email: userProfile.email!,
+                otp: code,
+                action: 'register',
+              ),
+            ).future,
+          );
+          futureIsValidCode.then((status) {
+            if (status == true) {
+              Preferences.username = userProfile.email!;
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/on_boarding_start',
+                (route) => false, // Remove all the previous routes
+              );
+            } else {
+              Navigator.of(context).pop();
+              CustomSnackbar.show(
+                context,
+                'No se pudo validar el código de verificación',
+                'error',
+              );
+            }
+          });
         },
         onEditing: (bool value) {},
       ),

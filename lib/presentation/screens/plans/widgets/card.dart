@@ -167,6 +167,18 @@ class CardCustom extends ConsumerWidget {
             ),
             width: 350,
             height: 750,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: Color(
+                  currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+                ),
+                width: 2.0,
+              ),
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(12.0),
               child: Column(

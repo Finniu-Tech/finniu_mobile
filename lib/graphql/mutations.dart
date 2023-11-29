@@ -74,6 +74,17 @@ class MutationRepository {
     ''';
   }
 
+  static String sendEmailOTPCode() {
+    return '''
+      mutation sendEmailOTPCode(\$email: String!){
+        sendMailOtp(input: {email: \$email}){
+          success
+          successResendCode
+        }
+      }
+    ''';
+  }
+
   static String startOnboardingQuestions() {
     return '''
       mutation startOnboarding(\$user_id: ID!, \$question_id: String,  \$answer_id: String){
