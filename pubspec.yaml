@@ -47,7 +47,7 @@ dependencies:
   loader_overlay: ^2.1.0
   flutter_spinkit: ^5.1.0
   expandable_page_view: ^1.0.17
-  expansion_tile_card: ^2.0.0
+  expansion_tile_card: ^3.0.0
   dropdown_search: ^5.0.5
   percent_indicator: ^4.2.2
   image_picker: ^0.8.6+2

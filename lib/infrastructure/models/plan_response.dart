@@ -57,12 +57,18 @@ class PlanDatum {
     this.sixMonthsReturn,
     this.returnDateEstimate,
     this.planImageUrl,
+    this.objective,
+    this.imgDistribution,
+    this.features = const [],
   });
 
   String? uuid;
   String? name;
   String? description;
   String? minAmount;
+  String? objective;
+  String? imgDistribution;
+  List<String> features = [];
   int? value;
   String? twelveMonthsReturn;
   String? sixMonthsReturn;
@@ -81,6 +87,18 @@ class PlanDatum {
             ? null
             : DateTime.parse(json["returnDateEstimate"]),
         planImageUrl: json["planImageUrl"],
+        objective: json["objective"],
+        imgDistribution: json["imgDistribution"],
+        features: json["characteristics"] == null
+            ? []
+            : List<String>.from(
+                json["characteristics"]
+                    .where((x) => x["isActive"] == true)
+                    .toList()
+                    // ..sort((a, b) =>
+                    //         (a["order"] as int).compareTo(b["order"] as int))
+                    .map((x) => x["text"]),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -94,5 +112,8 @@ class PlanDatum {
         "returnDateEstimate":
             "${returnDateEstimate!.year.toString().padLeft(4, '0')}-${returnDateEstimate!.month.toString().padLeft(2, '0')}-${returnDateEstimate!.day.toString().padLeft(2, '0')}",
         "planImageUrl": planImageUrl,
+        "objective": objective,
+        "imgDistribution": imgDistribution,
+        "features": List<dynamic>.from(features.map((x) => x)),
       };
 }

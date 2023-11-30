@@ -31,6 +31,9 @@ class PlanMapper {
             sixMonthsReturn: double.parse(e.sixMonthsReturn ?? '0'),
             description: e.description ?? '',
             imageUrl: e.planImageUrl,
+            objective: e.objective,
+            imgDistribution: e.imgDistribution,
+            features: e.features,
           ),
         )
         .toList();
