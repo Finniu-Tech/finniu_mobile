@@ -98,7 +98,7 @@ class QueryRepository {
               sixMonthsReturn
               returnDateEstimate
               planImageUrl
-              imgDistribution
+              distributionImageUrl
               characteristics{
                 text
                 isActive
@@ -126,7 +126,7 @@ class QueryRepository {
                   sixMonthsReturn
                   returnDateEstimate
                   planImageUrl
-                  imgDistribution
+                  distributionImageUrl
                   characteristics{
                     text
                     isActive

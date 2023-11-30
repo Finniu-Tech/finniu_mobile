@@ -88,7 +88,7 @@ class PlanDatum {
             : DateTime.parse(json["returnDateEstimate"]),
         planImageUrl: json["planImageUrl"],
         objective: json["objective"],
-        imgDistribution: json["imgDistribution"],
+        imgDistribution: json["distributionImageUrl"],
         features: json["characteristics"] == null
             ? []
             : List<String>.from(
@@ -113,7 +113,7 @@ class PlanDatum {
             "${returnDateEstimate!.year.toString().padLeft(4, '0')}-${returnDateEstimate!.month.toString().padLeft(2, '0')}-${returnDateEstimate!.day.toString().padLeft(2, '0')}",
         "planImageUrl": planImageUrl,
         "objective": objective,
-        "imgDistribution": imgDistribution,
+        "distributionImageUrl": imgDistribution,
         "features": List<dynamic>.from(features.map((x) => x)),
       };
 }

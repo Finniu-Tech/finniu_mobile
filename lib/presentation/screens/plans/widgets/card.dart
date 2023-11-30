@@ -183,7 +183,7 @@ class CardCustom extends ConsumerWidget {
           Container(
             alignment: Alignment.topLeft,
             width: 350,
-            height: 750,
+            height: 800,
             decoration: BoxDecoration(
               color: Color(
                 currentTheme.isDarkMode ? primaryLightAlternative : colortext,
@@ -480,12 +480,17 @@ class CardCustom extends ConsumerWidget {
                         children: [
                           // Texto encima de la imagen
                           SizedBox(
-                            width: 150,
-                            height: 150,
-                            child: Image.asset(
-                              "assets/images/circle.png",
-                              fit: BoxFit.cover,
-                            ),
+                            width: double.infinity,
+                            // height: 150,
+                            child: imgDistribution != ""
+                                ? Image.network(
+                                    imgDistribution!,
+                                    width: double.infinity,
+                                    // Establecer el ancho de la imagen
+                                    // height:
+                                    //     150, // Establecer el alto de la imagen
+                                  )
+                                : const Text(""),
                           ),
                         ],
                       ),
