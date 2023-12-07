@@ -182,97 +182,245 @@ class HomeBody extends ConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            SizedBox(
-              width: 330,
-              // height: ,
-              child: Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: <Widget>[
-                    Container(
-                      constraints:
-                          const BoxConstraints(maxWidth: 330, maxHeight: 147),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLightAlternative)
-                            : const Color(primaryLightAlternative),
-                        borderRadius: BorderRadius.circular(18),
+            //card with outline blue border with transparent background and two buttons inside
+            PendingInvestmentCardWidget(currentTheme: currentTheme),
+            const SizedBox(
+              height: 15,
+            ),
+            SimulationCardWidget(currentTheme: currentTheme),
+            // const SizedBox(
+            //   height: 15,
+            // ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PendingInvestmentCardWidget extends StatelessWidget {
+  const PendingInvestmentCardWidget({
+    super.key,
+    required this.currentTheme,
+  });
+
+  final SettingsProviderState currentTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    bool showCard = true;
+    return Container(
+      height: 135,
+      width: 330,
+      padding: const EdgeInsets.only(top: 15, bottom: 15),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(
+          width: 1,
+          color: currentTheme.isDarkMode
+              ? const Color(primaryLight)
+              : const Color(primaryDark),
+        ),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              //ROUNDED CONTAINER with purple background
+              Container(
+                width: 15,
+                height: 15,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Color(0xff9381FF),
+                ),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Text(
+                "Tienes una inversión pendiente",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w800,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            '¿Deseas continuar con tu proceso de inversión?',
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(primaryDark),
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // outline button with an x icon and text "descartar"
+              ElevatedButton.icon(
+                icon: Icon(Icons.close, color: Colors.red),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                  backgroundColor: Colors.transparent,
+                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                onPressed: () {},
+                label: Text(
+                  "Descartar",
+                  style: TextStyle(
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+
+              const SizedBox(
+                width: 10,
+              ),
+              ElevatedButton.icon(
+                icon: Icon(Icons.check, color: Colors.green),
+                style: ElevatedButton.styleFrom(
+                  elevation: 4,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  foregroundColor: Colors.white,
+                  backgroundColor: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
+                onPressed: () {},
+                label: Text(
+                  "Continuar",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    color: currentTheme.isDarkMode
+                        ? Color(primaryDark)
+                        : Colors.white,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SimulationCardWidget extends StatelessWidget {
+  const SimulationCardWidget({
+    super.key,
+    required this.currentTheme,
+  });
+
+  final SettingsProviderState currentTheme;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 330,
+      // height: ,
+      child: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              constraints: const BoxConstraints(maxWidth: 330, maxHeight: 147),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: currentTheme.isDarkMode
+                    ? const Color(primaryLightAlternative)
+                    : const Color(primaryLightAlternative),
+                borderRadius: BorderRadius.circular(18),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                height: 144,
+                width: 141,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+                  image: DecorationImage(
+                    image: AssetImage("assets/home/person.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.center,
+              child: Container(
+                width: 320,
+                height: 147,
+                padding: const EdgeInsets.only(
+                  left: 60,
+                  top: 20,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      "Simula tu inversión aquí",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Color(primaryDark),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        height: 144,
-                        width: 141,
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
-                          ),
-                          image: DecorationImage(
-                            image: AssetImage("assets/home/person.png"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Descubre como simular el",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Color(grayText2),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 320,
-                        height: 147,
-                        padding: const EdgeInsets.only(
-                          left: 60,
-                          top: 20,
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
-                            Text(
-                              "Simula tu inversión aquí",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(primaryDark),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              "Descubre como simular el",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Color(grayText2),
-                              ),
-                            ),
-                            Text(
-                              "retorno de tu inversión",
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Color(grayText2),
-                              ),
-                            ),
-                            CustomButtonRoundedDark(
-                              pushName: '/calculator_tool',
-                            )
-                          ],
-                        ),
+                    Text(
+                      "retorno de tu inversión",
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w400,
+                        color: Color(grayText2),
                       ),
                     ),
+                    CustomButtonRoundedDark(
+                      pushName: '/calculator_tool',
+                    )
                   ],
                 ),
               ),
             ),
-            // const SizedBox(
-            //   height: 15,
-            // ),
           ],
         ),
       ),
