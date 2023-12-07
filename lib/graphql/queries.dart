@@ -87,18 +87,28 @@ class QueryRepository {
   static String get getPlansSoles {
     return '''
         query getPlansSoles{
-            planSoles{
+          planSoles{
+              uuid
+              name
+              description
+              objective
+              minAmount
+              value
+              twelveMonthsReturn
+              sixMonthsReturn
+              returnDateEstimate
+              planImageUrl
+              distributionImageUrl
+              characteristics{
+                text
+                isActive
                 uuid
-                  name
-                  description
-                  minAmount
-                  value
-                  twelveMonthsReturn
-                  sixMonthsReturn
-                  returnDateEstimate
-                  planImageUrl
-            }
-        }
+                text
+                order
+                
+              }
+          }
+      }
     ''';
   }
 
@@ -109,12 +119,22 @@ class QueryRepository {
                 uuid
                   name
                   description
+                  objective
                   minAmount
                   value
                   twelveMonthsReturn
                   sixMonthsReturn
                   returnDateEstimate
                   planImageUrl
+                  distributionImageUrl
+                  characteristics{
+                    text
+                    isActive
+                    uuid
+                    text
+                    order
+                    
+                  }
             }
         }
     ''';

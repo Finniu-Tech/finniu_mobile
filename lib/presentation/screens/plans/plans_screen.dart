@@ -160,6 +160,9 @@ class PlanListBody extends HookConsumerWidget {
                       textinvestment: '$moneySymbol ${plans[index].minAmount}',
                       textContainer: plans[index].description ?? '',
                       planUuid: plans[index].uuid,
+                      objective: plans[index].objective ?? '',
+                      imgDistribution: plans[index].imgDistribution ?? '',
+                      features: plans[index].features,
                     ),
                   );
                 },

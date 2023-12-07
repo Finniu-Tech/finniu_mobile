@@ -14,6 +14,9 @@ class ExpandableCard extends HookConsumerWidget {
   final String textDeclaration;
   final String textContainer;
   final String planUuid;
+  final String? objective;
+  final String? imgDistribution;
+  List<String?> features = [];
 
   ExpandableCard({
     super.key,
@@ -24,6 +27,9 @@ class ExpandableCard extends HookConsumerWidget {
     required this.textContainer,
     required this.textDeclaration,
     required this.planUuid,
+    this.objective,
+    this.imgDistribution,
+    this.features = const [],
   });
 
   @override
@@ -44,6 +50,9 @@ class ExpandableCard extends HookConsumerWidget {
             textTiledCard: textTiledCard,
             textDeclaration: textDeclaration,
             planUuid: planUuid,
+            objective: objective,
+            imgDistribution: imgDistribution,
+            features: features,
           ),
           if (!isExpanded.value) ...[
             InitialCardBody(
@@ -68,7 +77,7 @@ Widget loadImage(String imagePath) {
 }
 
 class CardCustom extends ConsumerWidget {
-  const CardCustom({
+  CardCustom({
     Key? key,
     required this.isExpanded,
     required this.image,
@@ -78,6 +87,9 @@ class CardCustom extends ConsumerWidget {
     required this.textContainer,
     required this.textDeclaration,
     required this.planUuid,
+    this.objective,
+    this.imgDistribution,
+    this.features = const [],
   }) : super(key: key);
 
   final String image;
@@ -87,11 +99,16 @@ class CardCustom extends ConsumerWidget {
   final String textContainer;
   final String textDeclaration;
   final String planUuid;
+  final String? objective;
+  final String? imgDistribution;
+  List<String?> features = [];
   final ValueNotifier<bool> isExpanded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    print('objective!!!');
+    print(objective);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return SizedBox(
       width: 350,
@@ -151,6 +168,9 @@ class CardCustom extends ConsumerWidget {
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
+
+          // bottomLeft: Radius.circular(30),
+          // bottomRight: Radius.circular(30),
         ),
         baseColor: Color(
           currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
@@ -162,13 +182,25 @@ class CardCustom extends ConsumerWidget {
         children: [
           Container(
             alignment: Alignment.topLeft,
-            color: Color(
-              currentTheme.isDarkMode ? primaryLightAlternative : colortext,
-            ),
             width: 350,
-            height: 750,
+            height: 800,
+            decoration: BoxDecoration(
+              color: Color(
+                currentTheme.isDarkMode ? primaryLightAlternative : colortext,
+              ),
+              border: Border.all(
+                color: Color(
+                  currentTheme.isDarkMode ? primaryLightAlternative : colortext,
+                ),
+                width: 2.0,
+              ),
+              // borderRadius: const BorderRadius.only(
+              //   bottomLeft: Radius.circular(30),
+              //   bottomRight: Radius.circular(30),
+              // ),
+            ),
             child: Padding(
-              padding: const EdgeInsets.all(12.0),
+              padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -311,208 +343,197 @@ class CardCustom extends ConsumerWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/star.png",
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      const Text(
-                        "Objetivo",
-                        style: TextStyle(
+                  if (objective != '') ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/star.png",
+                          height: 24,
+                          width: 24,
+                        ),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        const Text(
+                          "Objetivo",
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
-                            color: Color(primaryDark)),
-                      ),
-                    ],
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 236,
-                      height: 75,
-                      child: Padding(
-                        padding: const EdgeInsets.only(),
-                        child: Center(
-                          child: Column(
-                            children: const [
-                              Text(
-                                textAlign: TextAlign.justify,
-                                " Inversión en un producto diversificado enfocado en apalancar operaciones dentro del mercado peruano.Pagadas por empresas medianas y pequeñas que requieren financiamiento en soles.",
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    height: 1.5,
-                                    color: Color(blackText)),
-                              ),
-                            ],
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: 236,
+                        height: 75,
+                        child: Padding(
+                          padding: const EdgeInsets.only(),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Text(
+                                  objective!,
+                                  textAlign: TextAlign.justify,
+                                  style: const TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w400,
+                                      height: 1.5,
+                                      color: Color(blackText)),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                   const SizedBox(
                     height: 5,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/shield-tick.png",
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      const Text(
-                        "Características del fondo",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(primaryDark)),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Center(
-                    child: SizedBox(
-                      width: 236,
-                      child: Center(
+                  if (features.isNotEmpty) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          "assets/icons/shield-tick.png",
+                          height: 24,
+                          width: 24,
+                        ),
+                        const SizedBox(
+                          width: 7,
+                        ),
+                        const Text(
+                          "Características del fondo",
+                          style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(primaryDark)),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+
+                    for (var feature in features) ...[
+                      Padding(
+                        padding: const EdgeInsets.only(left: 35),
                         child: Row(
-                          children: const [
+                          children: [
+                            if (features.length > 1) ...[
+                              const Text(
+                                "•",
+                                style: TextStyle(color: Color(blackText)),
+                              ),
+                            ],
+                            // const Text(
+                            //   "•",
+                            //   style: TextStyle(color: Color(blackText)),
+                            // ),
                             Text(
-                              "•",
-                              style: TextStyle(color: Color(blackText)),
-                            ),
-                            Text(
-                              'Más de S/1.5 M invertidos',
+                              feature!,
                               style: TextStyle(
                                   fontSize: 9, color: Color(blackText)),
                             ),
                           ],
                         ),
                       ),
+                    ],
+
+                    const SizedBox(
+                      height: 8,
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 35),
-                    child: Row(
-                      children: const [
-                        Text(
-                          "•",
-                          style: TextStyle(color: Color(blackText)),
-                        ),
-                        Text(
-                          'Pago de intereses mensuales',
-                          style:
-                              TextStyle(fontSize: 9, color: Color(blackText)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 35),
-                    child: Row(
-                      children: const [
-                        Text(
-                          "•",
-                          style: TextStyle(color: Color(blackText)),
-                        ),
-                        Text(
-                          'Devolución de capital al final del plazo',
-                          style:
-                              TextStyle(fontSize: 9, color: Color(blackText)),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/icons/star.png",
-                        height: 24,
-                        width: 24,
-                      ),
-                      const SizedBox(
-                        width: 7,
-                      ),
-                      const Text(
-                        "Distribución del Fondo soles",
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: Color(primaryDark)),
+
+                    if (imgDistribution != "") ...[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "assets/icons/graph.png",
+                            height: 24,
+                            width: 24,
+                          ),
+                          const SizedBox(
+                            width: 7,
+                          ),
+                          const Text(
+                            "Distribución del Fondo",
+                            style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                color: Color(primaryDark)),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                    child: Column(
-                      children: [
-                        // Texto encima de la imagen
-                        SizedBox(
-                          width: 150,
-                          height: 150,
-                          child: Image.asset(
-                            "assets/images/circle.png",
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ],
+                    const SizedBox(
+                      height: 20,
                     ),
-                  ),
-
-                  const SizedBox(
-                      height: 20), // Espacio entre los textos y el botón
-                  Center(
-                    child: TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/investment_step1',
-                          arguments: {
-                            'planUuid': planUuid,
-                          },
-                        );
-                      },
-                      child: Text('Comenzar a invertir',
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Color(whiteText),
-                          )),
-                      style: ButtonStyle(
-                        elevation: MaterialStateProperty.all<double>(4),
-                        shadowColor:
-                            MaterialStateProperty.all<Color>(Colors.grey),
-                        padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-                          const EdgeInsets.symmetric(
-                            horizontal: 20,
-                            // vertical: 10,
+                    Center(
+                      child: Column(
+                        children: [
+                          // Texto encima de la imagen
+                          SizedBox(
+                            width: double.infinity,
+                            // height: 150,
+                            child: imgDistribution != ""
+                                ? Image.network(
+                                    imgDistribution!,
+                                    width: double.infinity,
+                                    // Establecer el ancho de la imagen
+                                    // height:
+                                    //     150, // Establecer el alto de la imagen
+                                  )
+                                : const Text(""),
                           ),
-                        ),
-                        backgroundColor: MaterialStateProperty.all<Color>(
-                          const Color(primaryDark),
+                        ],
+                      ),
+                    ),
+
+                    const SizedBox(
+                      height: 20,
+                    ), // Espacio entre los textos y el botón
+                    Center(
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/investment_step1',
+                            arguments: {
+                              'planUuid': planUuid,
+                            },
+                          );
+                        },
+                        child: Text('Comenzar a invertir',
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: Color(whiteText),
+                            )),
+                        style: ButtonStyle(
+                          elevation: MaterialStateProperty.all<double>(4),
+                          shadowColor:
+                              MaterialStateProperty.all<Color>(Colors.grey),
+                          padding:
+                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                            const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              // vertical: 10,
+                            ),
+                          ),
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                            const Color(primaryDark),
+                          ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
