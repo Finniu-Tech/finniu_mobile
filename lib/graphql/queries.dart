@@ -624,4 +624,31 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get hasInvestmentInProcess {
+    return '''
+      query{
+        userProfile{
+          haveInvestmentDraft
+        }
+      }
+    ''';
+  }
+
+  static String get lastPreInvestment {
+    return '''
+      query getLastPreInvestment(\$email: String!){
+        getLastPreInvestment(clientEmail: \$email){
+          uuidPreInvestment
+          amount
+          uuidPlan
+          uuidBank
+          uuidDeadline
+          currency
+          couponCode
+          countMonths
+        }
+      }
+    ''';
+  }
 }

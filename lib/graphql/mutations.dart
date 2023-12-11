@@ -153,7 +153,7 @@ class MutationRepository {
 
   static String calculateInvestment() {
     return '''
-        mutation calculateInvestment(\$amount: Int!, \$deadline: Int!,  \$currency: String!, \$coupon: String){
+        mutation calculateInvestment(\$amount: Int!, \$deadline: Int!,  \$currency: String, \$coupon: String){
             calculateInvestment(
               input: {
                 ammount: \$amount,
@@ -272,6 +272,16 @@ class MutationRepository {
             newPassword: \$newPassword
           }
         ){
+          success
+        }
+      }
+    ''';
+  }
+
+  static String discardPreInvestment() {
+    return '''
+      mutation discardPreInvestment(\$preInvestmentUUID: String!){
+        discardPreInvestment(preInvestmentUuid: \$preInvestmentUUID){
           success
         }
       }

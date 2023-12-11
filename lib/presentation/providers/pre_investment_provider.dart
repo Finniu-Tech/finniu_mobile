@@ -26,3 +26,5 @@ final preInvestmentSaveProvider =
 });
 
 final userAcceptedTermsProvider = StateProvider<bool>((ref) => false);
+
+final hasPreInvestmentProvider = StateProvider<bool>((ref) => false);

@@ -1,13 +1,21 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/pre_investment.dart';
+import 'package:finniu/infrastructure/models/calculate_investment.dart';
+import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/infrastructure/repositories/investment_repository.dart';
+import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
+import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/switch.dart';
@@ -198,7 +206,7 @@ class HomeBody extends ConsumerWidget {
   }
 }
 
-class PendingInvestmentCardWidget extends StatelessWidget {
+class PendingInvestmentCardWidget extends StatefulHookConsumerWidget {
   const PendingInvestmentCardWidget({
     super.key,
     required this.currentTheme,
@@ -207,8 +215,85 @@ class PendingInvestmentCardWidget extends StatelessWidget {
   final SettingsProviderState currentTheme;
 
   @override
+  ConsumerState<PendingInvestmentCardWidget> createState() =>
+      PendingInvestmentCardWidgetState();
+}
+
+class PendingInvestmentCardWidgetState
+    extends ConsumerState<PendingInvestmentCardWidget> {
+  // bool hasInvestmentInProcess = false;
+  bool isLoading = false;
+  PreInvestmentForm? preInvestmentForm;
+
+  @override
   Widget build(BuildContext context) {
-    bool showCard = true;
+    final gqlClient = ref.watch(gqlClientProvider).value;
+    final userProfileProvider = ref.watch(userProfileFutureProvider).value;
+    final hasPreInvestmentState = ref.watch(hasPreInvestmentProvider);
+
+    useEffect(
+      () {
+        setState(() {
+          isLoading = true;
+        });
+        InvestmentRepository()
+            .userHasInvestmentInProcess(client: gqlClient!)
+            .then(
+              (success) => setState(() {
+                ref.read(hasPreInvestmentProvider.notifier).state = success;
+                if (success) {
+                  InvestmentRepository()
+                      .getLastPreInvestment(
+                    client: gqlClient,
+                    email: userProfileProvider!.email!,
+                  )
+                      .then((value) {
+                    setState(() {
+                      preInvestmentForm = value;
+                      isLoading = false;
+                    });
+                  });
+                } else {
+                  isLoading = false;
+                }
+              }),
+            );
+      },
+      [],
+    );
+
+    if (isLoading) {
+      return const SizedBox(
+        height: 135,
+        width: 330,
+        child: Center(
+          child: CircularProgressIndicator(
+            color: Color(primaryDark),
+          ),
+        ),
+      );
+    } else if (hasPreInvestmentState) {
+      return PendingInvestmentCard(
+        currentTheme: widget.currentTheme,
+        preInvestmentForm: preInvestmentForm!,
+      );
+    } else {
+      return const SizedBox.shrink();
+    }
+  }
+}
+
+class PendingInvestmentCard extends HookConsumerWidget {
+  PendingInvestmentCard({
+    super.key,
+    required this.currentTheme,
+    required this.preInvestmentForm,
+  });
+  final currentTheme;
+  PreInvestmentForm preInvestmentForm;
+  @override
+  Widget build(BuildContext context, ref) {
+    final hasPreInvestmentState = ref.read(hasPreInvestmentProvider.notifier);
     return Container(
       height: 135,
       width: 330,
@@ -280,7 +365,19 @@ class PendingInvestmentCardWidget extends StatelessWidget {
                       : const Color(primaryDark),
                   backgroundColor: Colors.transparent,
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                onPressed: () {},
+                onPressed: () {
+                  // here we discard the preinvestment
+                  InvestmentRepository()
+                      .discardPreInvestment(
+                    client: ref.watch(gqlClientProvider).value!,
+                    preInvestmentUUID: preInvestmentForm.uuid!,
+                  )
+                      .then((value) {
+                    if (value) {
+                      hasPreInvestmentState.state = false;
+                    }
+                  });
+                },
                 label: Text(
                   "Descartar",
                   style: TextStyle(
@@ -308,7 +405,39 @@ class PendingInvestmentCardWidget extends StatelessWidget {
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
-                onPressed: () {},
+                onPressed: () async {
+                  final preInvestment = PreInvestmentEntity(
+                    uuid: preInvestmentForm.uuid!,
+                    amount: preInvestmentForm.amount,
+                    bankAccountTypeUuid: preInvestmentForm.bankAccountTypeUuid,
+                    deadLineUuid: preInvestmentForm.deadLineUuid,
+                    planUuid: preInvestmentForm.planUuid,
+                    coupon: preInvestmentForm.coupon,
+                  );
+
+                  final inputCalculator = CalculatorInput(
+                    amount: preInvestmentForm.amount,
+                    months: preInvestmentForm.months!,
+                    coupon: preInvestmentForm.coupon,
+                    currency: preInvestmentForm.currency,
+                  );
+
+                  final calculatorResult = await ref.watch(
+                    calculateInvestmentFutureProvider(
+                      inputCalculator,
+                    ).future,
+                  );
+
+                  Navigator.pushNamed(
+                    context,
+                    '/investment_step2',
+                    arguments: PreInvestmentStep2Arguments(
+                      plan: calculatorResult.plan!,
+                      preInvestment: preInvestment,
+                      resultCalculator: calculatorResult,
+                    ),
+                  );
+                },
                 label: Text(
                   "Continuar",
                   style: TextStyle(

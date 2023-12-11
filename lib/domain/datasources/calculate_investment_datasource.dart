@@ -6,6 +6,6 @@ abstract class CalculateInvestmentDataSource {
     required GraphQLClient client,
     required int amount,
     required int months,
-    required String currency,
+    String? currency,
   });
 }

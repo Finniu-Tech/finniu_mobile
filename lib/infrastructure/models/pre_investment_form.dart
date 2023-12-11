@@ -1,4 +1,5 @@
 class PreInvestmentForm {
+  String? uuid;
   int amount;
   // String bankAccountNumber;
   String bankAccountTypeUuid;
@@ -6,6 +7,7 @@ class PreInvestmentForm {
   String planUuid;
   String? coupon;
   String currency;
+  int? months;
 
   PreInvestmentForm({
     required this.amount,
@@ -15,6 +17,8 @@ class PreInvestmentForm {
     required this.planUuid,
     required this.currency,
     this.coupon,
+    this.uuid,
+    this.months,
   });
 }
 
