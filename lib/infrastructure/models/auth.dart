@@ -99,3 +99,15 @@ class RegisterUserModel with _$RegisterUserModel {
   }) = _RegisterUserModel;
   const RegisterUserModel._();
 }
+
+// NEW CODE
+
+class LoginResponseAPI {
+  final bool success;
+  final String? error;
+
+  LoginResponseAPI({
+    required this.success,
+    this.error,
+  });
+}

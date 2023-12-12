@@ -297,4 +297,22 @@ currency: \$currency,
       }
     ''';
   }
+
+  static String loginUser() {
+    return '''
+      mutation loginUserMutation(\$username: String!, \$password: String!){
+        loginUser(input:{
+          username: \$username,
+          password: \$password
+        }){
+          success
+    			messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
 }
