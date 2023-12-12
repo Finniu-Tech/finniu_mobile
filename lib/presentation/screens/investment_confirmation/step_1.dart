@@ -652,14 +652,16 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     // bankAccountNumber: widget.bankNumberController.text,
                     );
                 context.loaderOverlay.show();
-                final preInvestmentEntity = await ref
+                final preInvestmentEntityResponse = await ref
                     .watch(preInvestmentSaveProvider(preInvestment).future);
 
-                if (preInvestmentEntity == null) {
+                if (preInvestmentEntityResponse?.success == false) {
                   context.loaderOverlay.hide();
+                  // CHECK HERE
                   CustomSnackbar.show(
                     context,
-                    'Hubo un problema, asegúrate de haber completado los campos anteriores',
+                    preInvestmentEntityResponse?.error ??
+                        'Hubo un problema, intenta nuevamente',
                     'error',
                   );
                   return; // Sale de la función para evitar que continúe el proceso
@@ -671,7 +673,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     '/investment_step2',
                     arguments: PreInvestmentStep2Arguments(
                       plan: widget.plan,
-                      preInvestment: preInvestmentEntity,
+                      preInvestment:
+                          preInvestmentEntityResponse!.preInvestment!,
                       resultCalculator: widget.resultCalculator!,
                     ),
                   );

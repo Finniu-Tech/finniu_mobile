@@ -6,7 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 
 class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
   @override
-  Future<PreInvestmentEntity> save({
+  Future<PreInvestmentResponseAPI> save({
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,
@@ -36,7 +36,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     final preInvestmentResponse =
         PreInvestmentSaveResponse.fromJson(responseGraphQL);
 
-    return PreInvestmentEntity(
+    final preInvestment = PreInvestmentEntity(
       uuid: preInvestmentResponse.preInvestmentUuid!,
       amount: amount,
       // bankAccountNumber: bankAccountNumber,
@@ -44,10 +44,15 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
     );
+    return PreInvestmentResponseAPI(
+      preInvestment: preInvestment,
+      success: preInvestmentResponse.success!,
+      error: preInvestmentResponse.errorMessage,
+    );
   }
 
   @override
-  Future<bool> update({
+  Future<PreInvestmentUpdateResponseAPI> update({
     required GraphQLClient client,
     required String uuid,
     required bool readContract,
@@ -67,9 +72,16 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           },
         ),
       );
-      return response.data?['updatePreinvestment']['success'];
+      // return response.data?['updatePreinvestment']['success'];
+      return PreInvestmentUpdateResponseAPI(
+        success: response.data?['updatePreinvestment']['success'],
+        error: response.data?['updatePreinvestment']['messages']?[0]['message'],
+      );
     } catch (e) {
-      return false;
+      return PreInvestmentUpdateResponseAPI(
+        success: false,
+        error: 'Error al actualizar la preinversión',
+      );
     }
   }
 }

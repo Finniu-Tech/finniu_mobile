@@ -11,7 +11,7 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
   final PreInvestmentDataSourceImp dataSource;
 
   @override
-  Future<PreInvestmentEntity> save({
+  Future<PreInvestmentResponseAPI> save({
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,

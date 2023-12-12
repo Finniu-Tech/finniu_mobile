@@ -5,20 +5,21 @@ import 'package:finniu/presentation/providers/pre_investment_repository_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final preInvestmentSaveProvider =
-    FutureProvider.family<PreInvestmentEntity?, PreInvestmentForm>(
+    FutureProvider.family<PreInvestmentResponseAPI?, PreInvestmentForm>(
         (ref, preInvestmentEntity) async {
   try {
     final preInvestmentRepository = ref.read(preInvestmentRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;
     final result = await preInvestmentRepository.save(
-        client: client!,
-        amount: preInvestmentEntity.amount,
-        // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
-        bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
-        deadLineUuid: preInvestmentEntity.deadLineUuid,
-        planUuid: preInvestmentEntity.planUuid,
-        coupon: preInvestmentEntity.coupon,
-        currency: preInvestmentEntity.currency);
+      client: client!,
+      amount: preInvestmentEntity.amount,
+      // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
+      bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
+      deadLineUuid: preInvestmentEntity.deadLineUuid,
+      planUuid: preInvestmentEntity.planUuid,
+      coupon: preInvestmentEntity.coupon,
+      currency: preInvestmentEntity.currency,
+    );
     return result;
   } catch (e, stack) {
     return null;

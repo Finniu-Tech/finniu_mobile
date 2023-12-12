@@ -2,7 +2,7 @@ import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 abstract class PreInvestmentRepository {
-  Future<PreInvestmentEntity> save({
+  Future<PreInvestmentResponseAPI> save({
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,

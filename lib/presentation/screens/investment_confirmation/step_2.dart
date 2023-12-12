@@ -661,19 +661,22 @@ class Step2Body extends HookConsumerWidget {
                   return;
                 }
                 context.loaderOverlay.show();
-                final status = await PreInvestmentDataSourceImp().update(
+                final response = await PreInvestmentDataSourceImp().update(
                   client: ref.watch(gqlClientProvider).value!,
                   uuid: preInvestment.uuid,
                   readContract: ref.watch(userAcceptedTermsProvider),
                   boucherScreenShot: base64Image,
                 );
-                if (status == true) {
+                if (response.success == true) {
                   context.loaderOverlay.hide();
                   Navigator.pushNamed(context, '/investment_step3');
                 } else {
                   context.loaderOverlay.hide();
                   CustomSnackbar.show(
-                      context, 'Hubo un error al guardar', 'error');
+                    context,
+                    response.error ?? 'Hubo un problema al guardar',
+                    'error',
+                  );
                 }
               },
               style: ButtonStyle(

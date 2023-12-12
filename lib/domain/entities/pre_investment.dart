@@ -1,3 +1,25 @@
+class PreInvestmentResponseAPI {
+  PreInvestmentEntity? preInvestment;
+  String? error;
+  bool success = false;
+
+  PreInvestmentResponseAPI({
+    this.preInvestment,
+    this.error,
+    this.success = false,
+  });
+}
+
+class PreInvestmentUpdateResponseAPI {
+  String? error;
+  bool success = false;
+
+  PreInvestmentUpdateResponseAPI({
+    this.error,
+    this.success = false,
+  });
+}
+
 class PreInvestmentEntity {
   String uuid;
   int amount;

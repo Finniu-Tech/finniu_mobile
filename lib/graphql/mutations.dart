@@ -191,11 +191,16 @@ class MutationRepository {
               uuidBank:\$uuidBank,
               uuidDeadline: \$uuidDeadline,
               uuidPlan: \$uuidPlan,
-              currency: \$currency,
+currency: \$currency,
               couponCode:  \$coupon
           ){
             success,
             preInvestmentUuid
+            messages{
+              field
+              message
+              errorCode
+            }
           }
       }
     ''';
@@ -211,6 +216,11 @@ class MutationRepository {
         ){
           success
           preInvestmentUuid
+          messages{
+              field
+              message
+              errorCode
+            }
         }
       }
     ''';

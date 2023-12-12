@@ -20,10 +20,11 @@ class CalculateInvestmentRepositoryImp
     String? coupon,
   }) {
     return dataSource.calculate(
-        client: client,
-        amount: amount,
-        months: months,
-        coupon: coupon,
-        currency: currency);
+      client: client,
+      amount: amount,
+      months: months,
+      coupon: coupon,
+      currency: currency,
+    );
   }
 }
