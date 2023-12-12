@@ -52,6 +52,7 @@ class Step2 extends ConsumerWidget {
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturnLogo(
+        hideReturnButton: false,
         hideNavBar: true,
         body: Step2Body(
           currentTheme: currentTheme,

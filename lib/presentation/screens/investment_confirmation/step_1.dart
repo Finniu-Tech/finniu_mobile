@@ -48,6 +48,7 @@ class Step1 extends HookConsumerWidget {
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturnLogo(
+        hideReturnButton: false,
         hideNavBar: true,
         body: HookBuilder(
           builder: (context) {

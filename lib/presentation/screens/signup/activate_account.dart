@@ -70,16 +70,17 @@ class ActivateAccount extends HookConsumerWidget {
                 SizedBox(
                   width: 280,
                   child: Text(
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w500,
-                        height: 1.5,
-                        color: themeProvider.isDarkMode
-                            ? Colors.white
-                            : const Color(primaryDark),
-                      ),
-                      "Te hemos enviado un SMS a tu numero para confirmar la operacion"),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
+                    ),
+                    "Te hemos enviado el código a tu correo para confirmar la operacion",
+                  ),
                 ),
                 const SizedBox(
                   height: 30,
