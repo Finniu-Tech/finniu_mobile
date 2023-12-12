@@ -92,3 +92,18 @@ class ResendOtpCode {
         "successResendCode": successResendCode,
       };
 }
+
+class EmailOTPCodeResponse {
+  bool? success;
+  bool? successResendCode;
+  EmailOTPCodeResponse({
+    this.success,
+    this.successResendCode,
+  });
+
+  factory EmailOTPCodeResponse.fromJson(Map<String, dynamic> json) =>
+      EmailOTPCodeResponse(
+        success: json["success"],
+        successResendCode: json["successResendCode"],
+      );
+}

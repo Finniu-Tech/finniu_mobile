@@ -3,12 +3,12 @@ import 'package:finniu/presentation/providers/signup_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 
 class SignUpService {
-  void updatePhone(ref, String phone) {
-    ref.read(userProfileNotifierProvider.notifier).setPhone(phone);
-  }
+  // void updatePhone(ref, String phone) {
+  //   ref.read(userProfileNotifierProvider.notifier).setPhone(phone);
+  // }
 
-  Future<bool> finishRegister(ref, phone) async {
-    updatePhone(ref, phone);
+  Future<bool> finishRegister(ref) async {
+    // updatePhone(ref, phone);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final userInput = RegisterUserModel(
       nickname: userProfile.nickName!,
