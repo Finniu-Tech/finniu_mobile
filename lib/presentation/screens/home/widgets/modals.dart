@@ -4,6 +4,7 @@ import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/important_days_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
@@ -22,6 +23,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   final userProvider = ref.watch(userProfileNotifierProvider);
   final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
+  final currency = ref.watch(isSolesStateProvider);
 
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -192,7 +194,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                       Column(
                         children: [
                           Text(
-                            userBalanceReport.totalBalance.toString(),
+                            currency
+                                ? 'S/ ${userBalanceReport.totalBalance.toString()}'
+                                : '\$ ${userBalanceReport.totalBalance.toString()}',
                             style: TextStyle(
                               height: 1.5,
                               fontSize: 14,
