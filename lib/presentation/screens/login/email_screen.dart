@@ -4,6 +4,7 @@ import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/services/secure_storage.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -11,6 +12,7 @@ import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:email_validator/email_validator.dart';
@@ -18,7 +20,8 @@ import 'package:email_validator/email_validator.dart';
 class EmailLoginScreen extends HookConsumerWidget {
   EmailLoginScreen({super.key});
   String _email = Preferences.username ?? "";
-  String _password = "";
+  final secureStorage = const FlutterSecureStorage();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -27,6 +30,7 @@ class EmailLoginScreen extends HookConsumerWidget {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
     final graphqlProvider = ref.watch(gqlClientProvider.future);
+    final rememberPassword = useState(Preferences.rememberMe);
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
@@ -60,7 +64,7 @@ class EmailLoginScreen extends HookConsumerWidget {
               ),
               const SizedBox(height: 30),
               SizedBox(
-                width: 224,
+                width: 250,
                 child: Form(
                   key: formKey,
                   child: Column(
@@ -106,63 +110,32 @@ class EmailLoginScreen extends HookConsumerWidget {
                       SizedBox(
                         width: 224,
                         // height: 38,
-                        child: TextFormField(
-                          autocorrect: false,
-                          onChanged: (value) {
-                            _password = value;
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor ingrese algún valor';
-                            }
-                            return null;
-                          },
-                          obscureText:
-                              isHidden.value, // esto oculta la contrasenia
-                          obscuringCharacter:
-                              '*', //el caracter el cual reemplaza la contrasenia
-                          decoration: InputDecoration(
-                            suffixIconConstraints: const BoxConstraints(
-                              maxHeight: 38,
-                              minWidth: 38,
-                            ),
-                            suffixIcon: IconButton(
-                              splashRadius: 20,
-                              padding: EdgeInsets.zero,
-                              icon: Icon(
-                                isHidden.value
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                size: 23.20,
-                              ),
-                              alignment: Alignment.center,
-                              onPressed: () {
-                                isHidden.value = !isHidden.value;
-                              },
-                            ),
-                            label: const Text(
-                              "Contraseña",
-                            ),
-                          ),
-                          controller: TextEditingController(text: _password),
+                        child: PasswordField(
+                          passwordController: passwordController,
+                          secureStorage: secureStorage,
                         ),
                       ),
                       const SizedBox(height: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/login_forgot');
-                        },
-                        child: Align(
-                          alignment: Alignment.topRight,
-                          child: TextPoppins(
-                            text: '¿Olvidaste tu contraseña?',
-                            colorText: themeProvider.isDarkMode
-                                ? whiteText
-                                : blackText,
-                            fontSize: 11,
-                            fontWeight: FontWeight.w400,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/login_forgot');
+                            },
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child: TextPoppins(
+                                text: 'Olvidé mi contraseña',
+                                colorText: themeProvider.isDarkMode
+                                    ? skyBlueText
+                                    : primaryDark,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                       const SizedBox(height: 10),
                       if (showError.value) ...[
@@ -190,7 +163,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                               final loginResponse = AuthRepository().login(
                                 client: await graphqlProvider,
                                 username: _email,
-                                password: _password,
+                                password: passwordController.value.text,
                               );
                               loginResponse.then((value) {
                                 if (value.success == true) {
@@ -198,20 +171,31 @@ class EmailLoginScreen extends HookConsumerWidget {
                                     authTokenMutationProvider(
                                       LoginModel(
                                         email: _email,
-                                        password: _password,
+                                        password: passwordController.value.text,
                                       ),
                                     ).future,
                                   );
                                   token.then(
-                                    (value) {
+                                    (value) async {
                                       if (value != null) {
                                         ref
                                             .read(authTokenProvider.notifier)
                                             .state = value;
                                         Preferences.username = _email;
                                         context.loaderOverlay.hide();
+                                        if (rememberPassword.value) {
+                                          print('secureStorage.write');
+                                          // print(password.value);
+                                          await secureStorage.write(
+                                            key: 'password',
+                                            value:
+                                                passwordController.value.text,
+                                          );
+                                        }
                                         Navigator.pushNamed(
-                                            context, '/home_home');
+                                          context,
+                                          '/home_home',
+                                        );
                                       } else {
                                         showError.value = true;
                                       }
@@ -269,6 +253,103 @@ class EmailLoginScreen extends HookConsumerWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PasswordField extends StatefulWidget {
+  final TextEditingController passwordController;
+
+  final FlutterSecureStorage secureStorage;
+  final sharedPreferences = Preferences();
+  // add passwordController and secureStorage parameter as required
+  // const PasswordField({
+  //   passwordController,
+  //   secureStorage
+  // })
+
+  PasswordField({
+    Key? key,
+    required this.passwordController,
+    required this.secureStorage,
+  }) : super(key: key);
+
+  @override
+  _PasswordFieldState createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<PasswordField> {
+  bool _obscureText = true;
+  bool rememberPassword = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final _password = await widget.secureStorage.read(key: 'password');
+      if (_password != null && _password.isNotEmpty && Preferences.rememberMe) {
+        widget.passwordController.text = _password;
+        setState(() {
+          rememberPassword = Preferences.rememberMe;
+        });
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TextFormField(
+          autocorrect: false,
+          controller: widget.passwordController,
+          obscureText: _obscureText,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              // validation logic
+            }
+          },
+          decoration: InputDecoration(
+            label: const Text(
+              "Contraseña",
+            ),
+            hintText: 'Escriba su contraseña',
+            constraints: const BoxConstraints(
+              maxHeight: 38,
+            ),
+            suffixIcon: rememberPassword
+                ? null
+                : IconButton(
+                    icon: Icon(
+                      _obscureText ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                  ),
+          ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Checkbox(
+              value: rememberPassword,
+              onChanged: (bool? value) {
+                setState(() {
+                  rememberPassword = value!;
+                  Preferences.rememberMe = value;
+                  if (!rememberPassword) {
+                    widget.passwordController.clear();
+                  }
+                });
+              },
+            ),
+            const Text('Recordarme'),
+          ],
+        ),
+      ],
     );
   }
 }

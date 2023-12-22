@@ -5,6 +5,7 @@ class Preferences {
   // static String _name = '';
   static bool _isDarkMode = false;
   static bool _showWelcomeModal = true;
+  static bool _rememberMe = false;
   static String? _token = null;
   static String? _username = null;
   // static String _authToken = '';
@@ -47,6 +48,15 @@ class Preferences {
 
   static String? get username {
     return _prefs.getString('username') ?? _username;
+  }
+
+  static bool get rememberMe {
+    return _prefs.getBool('rememberMe') ?? _rememberMe;
+  }
+
+  static set rememberMe(bool value) {
+    _rememberMe = value;
+    _prefs.setBool('rememberMe', value);
   }
 
   // static String get authToken {
