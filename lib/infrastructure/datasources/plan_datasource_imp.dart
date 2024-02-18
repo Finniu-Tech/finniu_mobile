@@ -43,7 +43,6 @@ class PlanDataSourceImp extends PlanDataSource {
     );
     final plansDolarResponse =
         PlanListResponse.fromJson(dolarResponse.data?['planDolar'] ?? {});
-
     final solesMapped = PlanMapper.listToEntity(plansSolesResponse);
     final dolarMapped = PlanMapper.listToEntity(plansDolarResponse);
     return PlanList(soles: solesMapped, dolar: dolarMapped);

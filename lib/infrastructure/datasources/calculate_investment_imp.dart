@@ -19,7 +19,12 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
         document: gql(
           MutationRepository.calculateInvestment(),
         ),
-        variables: {'amount': amount, 'deadline': months, 'coupon': coupon},
+        variables: {
+          'amount': amount,
+          'deadline': months,
+          'coupon': coupon,
+          'currency': currency
+        },
       ),
     );
 
