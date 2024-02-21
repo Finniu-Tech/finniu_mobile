@@ -41,11 +41,11 @@ class UserInfoInvestment {
         invesmentInCourse: json["invesmentInCourse"] == null
             ? []
             : List<Investment>.from(
-                json["invesmentInCourse"]!.map((x) => Investment.fromJson(x))),
+                json["invesmentInCourse"]!.map((x) => Investment.fromJson(x)),),
         invesmentFinished: json["invesmentFinished"] == null
             ? []
             : List<Investment>.from(
-                json["invesmentFinished"]!.map((x) => Investment.fromJson(x))),
+                json["invesmentFinished"]!.map((x) => Investment.fromJson(x)),),
       );
 
   Map<String, dynamic> toJson() => {

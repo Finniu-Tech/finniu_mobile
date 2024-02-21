@@ -5,19 +5,17 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/ubigeo_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/settings/constants/civil_state.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:dropdown_search/dropdown_search.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
-  ProfileScreen({
+  const ProfileScreen({
     Key? key,
   }) : super(key: key);
   @override
@@ -34,6 +32,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     'district': null,
     'civilState': null,
     'address': null,
+    'occupation': null,
   };
   final ImagePicker _picker = ImagePicker();
   @override
@@ -42,7 +41,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    final showError = useState(false);
     // final namesController = useTextEditingController();
     final firstNameController =
         useTextEditingController(text: userProfile.firstName);
@@ -56,12 +54,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         useTextEditingController(text: userProfile.provincia);
     final districtController =
         useTextEditingController(text: userProfile.distrito);
-    print('address!!!');
-    print(userProfile.address);
     final addressController =
         useTextEditingController(text: userProfile.address);
     final civilStateController =
         useTextEditingController(text: userProfile.civilStatus);
+    
+    final occupationController =
+        useTextEditingController(text: userProfile.occupation);
 
     final regionsFuture = ref.watch(regionsFutureProvider.future);
     final allProvincesFuture = ref.read(provincesFutureProvider.future);
@@ -72,13 +71,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final provinceCodeController = useTextEditingController();
     final districtCodeController = useTextEditingController();
 
-    final _formKey = GlobalKey<FormState>();
+    final formKey = GlobalKey<FormState>();
 
     final percentage = useState(0.0);
     final percentageString = useState('0%');
 
     final imageFile = useState(userProfile.imageProfileUrl ??
-        "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png");
+        "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",);
 
     final editar = useState(userProfile.hasRequiredData() ? false : true);
     // const disabledBackground = 0xffF4F4F4;
@@ -88,8 +87,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     Color disabledColor =
         themeProvider.isDarkMode ? Color(grayText) : Color(0xffF4F4F4);
     Color enableColor = themeProvider.isDarkMode
-        ? Color(backgroundColorDark)
-        : Color(whiteText);
+        ? const Color(backgroundColorDark)
+        : const Color(whiteText);
 
     int mapControllerKey() {
       int count = 0;
@@ -120,6 +119,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (addressController.text.isNotEmpty) {
         count++;
       }
+      if (occupationController.text.isNotEmpty) {
+        count++;
+      }
       return count;
     }
 
@@ -134,7 +136,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       if (count == 0) {
         percentage.value = 0.0;
       } else {
-        percentage.value = (count / 8.0);
+        percentage.value = (count / 9.0);
       }
       if (percentage.value >= 1.0) {
         percentage.value = 1.0;
@@ -184,7 +186,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         child: Padding(
           padding: const EdgeInsets.all(25),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               children: [
                 Container(
@@ -489,8 +491,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 15),
+
+                SizedBox(
+                  width: 224,
+                  height: 38,
+                  child: TextFormField(
+                    readOnly: !editar.value,
+                    showCursor: editar.value,
+                    key: const Key('occupation'),
+                    controller: occupationController,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+
+                      return null;
+                    },
+     
+                    onEditingComplete: () {
+                      _calculatePercentage();
+                    },
+
+                    decoration: InputDecoration(
+                      hintText: 'Escriba su ocupación',
+                      label: const Text("Ocupación"),
+                      filled: true,
+                      fillColor: (editar.value ? enableColor : disabledColor),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 28),
+
                 Container(
-                  // margin: const EdgeInsets.only(top: 20),
                   width: 224,
                   height: 50,
                   child: TextButton(
@@ -505,6 +538,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           departmentController.text.isEmpty ||
                           provinceController.text.isEmpty ||
                           districtController.text.isEmpty ||
+                          addressController.text.isEmpty ||
+                          occupationController.text.isEmpty ||
                           civilStateController.text.isEmpty) {
                         CustomSnackbar.show(context,
                             'Por favor, complete todos los campos', 'error');
@@ -549,6 +584,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             civilStatus: MaritalStatusMapper()
                                 .mapStatus(civilStateController.text),
                             address: addressController.text,
+                            occupation: occupationController.text,
                           ),
                         ).future,
                       );

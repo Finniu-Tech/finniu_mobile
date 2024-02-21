@@ -2,6 +2,8 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
 
 class CustomButton extends ConsumerStatefulWidget {
   final int? colorBackground;
@@ -167,273 +169,86 @@ class CustomButtonRoundedDark extends ConsumerWidget {
   }
 }
 
-class CusttomButtonRoundedLight extends StatefulWidget {
-  @override
-  final String pushName;
-  final bool isReturn;
 
-  const CusttomButtonRoundedLight({
-    super.key,
-    this.pushName = "",
-    this.isReturn = false,
-  });
-  _CusttomButtonRoundedLightState createState() =>
-      _CusttomButtonRoundedLightState();
-}
+final navigatorStateProvider = StateProvider<int>((ref) => 0);
+class BottomNavigationBarHome extends HookConsumerWidget {
+  const BottomNavigationBarHome({Key? key}) : super(key: key);
 
-class _CusttomButtonRoundedLightState extends State<CusttomButtonRoundedLight> {
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        if (widget.isReturn == true) {
-          Navigator.of(context).pop();
-        } else {
-          Navigator.pushNamed(context, widget.pushName);
-        }
-      },
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        width: 40,
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: const Color(primaryLight),
-        ),
-        child: const Center(
-          child: Icon(
-              size: 20, color: Color(primaryDark), Icons.arrow_back_outlined),
-        ),
-      ),
-    );
-  }
-}
-
-class BottomNavigationBarHome extends ConsumerWidget {
-  const BottomNavigationBarHome({Key? key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
-    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20.0),
           topRight: Radius.circular(20.0),
-          // adjust to your liking
         ),
-        color: currentTheme.isDarkMode
-            ? const Color(primaryLight)
-            : const Color(
-                primaryDark,
-              ),
+        color: Theme.of(context).primaryColor,
       ),
-      child: BottomNavigationBar(
-        elevation: 0.0,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.transparent,
-        selectedItemColor: currentTheme.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(
-                primaryLight,
-              ),
-        unselectedItemColor: currentTheme.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(
-                primaryLight,
-              ).withOpacity(.60),
-        selectedFontSize: 14,
-        unselectedFontSize: 14,
-        items: [
-          BottomNavigationBarItem(
-            label: 'Home',
-            icon: InkWell(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/home_home');
-              },
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                child: Image.asset(
-                  'assets/icons/home.png',
-                  width: 30,
-                  height: 30,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(
-                          primaryLight,
-                        ),
-                ),
-              ),
+      child: HookBuilder(builder: (context) {
+        final selectedIndex = ref.watch(navigatorStateProvider);
+        return BottomNavigationBar(
+          elevation: 0.0,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor:  Color(isDarkMode ? primaryLight : primaryDark),
+          selectedItemColor: Color(isDarkMode ? primaryDark : primaryLight),
+          unselectedItemColor: Color(isDarkMode ? primaryDark : primaryLight).withOpacity(0.6),
+          selectedFontSize: 14,
+          unselectedFontSize: 14,
+          currentIndex: selectedIndex,
+          onTap: (index) {
+            ref.read(navigatorStateProvider.notifier).state = index;
+            _navigate(context, index);
+          },
+          items: [
+            BottomNavigationBarItem(
+              label: 'Home',
+              icon: _buildIcon('assets/icons/home.png', context, selectedIndex, 0, isDarkMode),
             ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Planes',
-            icon: InkWell(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/plan_list');
-              },
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                child: Image.asset(
-                  'assets/icons/square.png',
-                  width: 30,
-                  height: 30,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(
-                          primaryLight,
-                        ),
-                ),
-              ),
+            BottomNavigationBarItem(
+              label: 'Planes',
+              icon: _buildIcon('assets/icons/square.png', context, selectedIndex, 1, isDarkMode),
             ),
-          ),
-          BottomNavigationBarItem(
-            label: 'Inversiones',
-            icon: InkWell(
-              onTap: () {
-                Navigator.pushReplacementNamed(context, '/process_investment');
-              },
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-                child: Image.asset(
-                  'assets/icons/dollar.png',
-                  width: 30,
-                  height: 30,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(
-                          primaryLight,
-                        ),
-                ),
-              ),
+            BottomNavigationBarItem(
+              label: 'Inversiones',
+              icon: _buildIcon('assets/icons/dollar.png', context, selectedIndex, 2, isDarkMode),
             ),
-          ),
-        ],
+          ],
+        );
+      }),
+    );
+  }
+
+  void _navigate(BuildContext context, int index) {
+  switch (index) {
+    case 0:
+      Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
+      break;
+    case 1:
+      Navigator.of(context).pushNamedAndRemoveUntil('/plan_list', (route) => false);
+      break;
+    case 2:
+      Navigator.of(context).pushNamedAndRemoveUntil('/process_investment', (route) => false);
+      break;
+    default:
+  }
+}
+
+
+  Widget _buildIcon(String imagePath, BuildContext context, int selectedIndex, int index, bool isDarkMode) {
+    Color iconColor = isDarkMode ? Color(primaryDark) : Color(primaryLight);
+    final isSelected = selectedIndex == index;
+    iconColor = isSelected ? iconColor : iconColor.withOpacity(0.6);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+      child: Image.asset(
+        imagePath,
+        width: 30,
+        height: 30,
+        color: iconColor,
       ),
     );
   }
 }
-// class BottomNavigationBarHome extends ConsumerWidget {
-//   const BottomNavigationBarHome({super.key});
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final currentTheme = ref.watch(settingsNotifierProvider);
-//     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
-//     return Container(
-//       decoration: BoxDecoration(
-//         borderRadius: const BorderRadius.only(
-//           topLeft: Radius.circular(20.0),
-//           topRight: Radius.circular(20.0),
-//           // adjust to your liking
-//         ),
-//         color: currentTheme.isDarkMode
-//             ? const Color(primaryLight)
-//             : const Color(
-//                 primaryDark,
-//               ),
-//       ),
-//       child: BottomNavigationBar(
-//         elevation: 0.0,
-//         type: BottomNavigationBarType.fixed,
-//         backgroundColor: Colors.transparent,
-//         selectedItemColor: currentTheme.isDarkMode
-//             ? const Color(primaryDark)
-//             : const Color(
-//                 primaryLight,
-//               ),
-//         unselectedItemColor: currentTheme.isDarkMode
-//             ? const Color(primaryDark)
-//             : const Color(
-//                 primaryLight,
-//               ).withOpacity(.60),
-//         selectedFontSize: 14,
-//         unselectedFontSize: 14,
-//         onTap: (value) {
-//           // Respond to item press.
-//         },
-//         items: [
-//           BottomNavigationBarItem(
-//             label: 'Home',
-//             icon: GestureDetector(
-//               onTap: () {
-//                 Navigator.pushReplacementNamed(context, '/home_home');
-//                 // Navigator.of(context).pushNamedAndRemoveUntil(
-//                 //   '/home_home',
-//                 //   (route) => true,
-//                 // );
-//               },
-//               child: Padding(
-//                 padding: const EdgeInsets.only(left: 50, right: 50),
-//                 child: Image.asset(
-//                   'assets/icons/home.png',
-//                   width: 30,
-//                   height: 30,
-//                   color: currentTheme.isDarkMode
-//                       ? const Color(primaryDark)
-//                       : const Color(
-//                           primaryLight,
-//                         ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//           BottomNavigationBarItem(
-//             label: 'Planes',
-//             icon: GestureDetector(
-//               child: Padding(
-//                 padding: const EdgeInsets.only(left: 50, right: 50),
-//                 child: Image.asset(
-//                   'assets/icons/square.png',
-//                   width: 30,
-//                   height: 30,
-//                   color: currentTheme.isDarkMode
-//                       ? const Color(primaryDark)
-//                       : const Color(
-//                           primaryLight,
-//                         ),
-//                 ),
-//               ),
-//               onTap: () {
-//                 // Navigator.of(context).pushNamedAndRemoveUntil(
-//                 //   '/plan_list',
-//                 //   (route) => true,
-//                 // );
-//                 Navigator.pushReplacementNamed(context, '/plan_list');
-//               },
-//             ),
-//           ),
-//           BottomNavigationBarItem(
-//               label: 'Inversiones',
-//               icon: GestureDetector(
-//                 child: Padding(
-//                   padding: const EdgeInsets.only(left: 50, right: 50),
-//                   child: Image.asset(
-//                     'assets/icons/dollar.png',
-//                     width: 30,
-//                     height: 30,
-//                     color: currentTheme.isDarkMode
-//                         ? const Color(primaryDark)
-//                         : const Color(
-//                             primaryLight,
-//                           ),
-//                   ),
-//                 ),
-//                 onTap: () {
-//                   Navigator.pushReplacementNamed(
-//                       context, '/process_investment');
-//                   // Navigator.of(context).pushNamedAndRemoveUntil(
-//                   //   '/process_investment',
-//                   //   (route) => true,
-//                   // );
-//                 },
-//               )),
-//         ],
-//       ),
-//     );
-//   }
-// }

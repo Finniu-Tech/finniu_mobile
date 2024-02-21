@@ -23,6 +23,7 @@ import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Importa este paquete
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -125,20 +126,30 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           coupon: widget.couponController.text,
           currency: widget.isSoles ? currencyNuevoSol : currencyDollar);
 
-      final resultCalculator = await ref.watch(
-        calculateInvestmentFutureProvider(inputCalculator).future,
-      );
+      try{
+        final resultCalculator = await ref.watch(
+          calculateInvestmentFutureProvider(inputCalculator).future,
+        );
 
-      setState(() {
-        if (resultCalculator.plan != null) {
-          widget.plan = resultCalculator.plan!;
-          widget.profitability = resultCalculator.profitability;
-          widget.showInvestmentBoxes = true;
-          widget.resultCalculator = resultCalculator;
-        }
-      });
+        setState(() {
+          if (resultCalculator.plan != null) {
+            widget.plan = resultCalculator.plan!;
+            widget.profitability = resultCalculator.profitability;
+            widget.showInvestmentBoxes = true;
+            widget.resultCalculator = resultCalculator;
+          }
+        });
+        context.loaderOverlay.hide();
+      }catch (e) {
+        context.loaderOverlay.hide();
+        CustomSnackbar.show(
+          context,
+          'Hubo un problema, intenta nuevamente',
+          'error',
+        );
+      }
 
-      context.loaderOverlay.hide();
+      
     }
   }
 
@@ -319,23 +330,22 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 return null;
               },
               onChanged: (value) {
-                // nickNameController.text = value.toString();
                 _debouncer.run(() {
                   if (widget.mountController.text.isNotEmpty &&
                       widget.deadLineController.text.isNotEmpty) {
                     calculateInvestment(context, ref);
                   }
                 });
-                // if (widget.mountController.text.isNotEmpty &&
-                //     widget.deadLineController.text.isNotEmpty) {
-                //   calculateInvestment(context, ref);
-                // }
               },
               decoration: const InputDecoration(
                 hintText: 'Escriba su monto de inversion',
                 hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
                 label: Text("Monto"),
               ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'^[0-9]*$'),), // Solo permite números
+              ],
+              keyboardType: TextInputType.number, 
             ),
           ),
           const SizedBox(height: 15),
@@ -453,7 +463,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         currency: isSoles ? currencyNuevoSol : currencyDollar,
                         coupon: widget.couponController.text,
                       );
-
+                
                       final resultCalculator = await ref.watch(
                         calculateInvestmentFutureProvider(
                           inputCalculator,

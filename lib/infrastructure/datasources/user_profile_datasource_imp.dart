@@ -16,13 +16,14 @@ class UserProfileDataSourceImp extends UserProfileDataSource {
         variables: {
           'firstName': userProfile.firstName,
           'lastName': userProfile.lastName,
-          'docNumber': int.parse(userProfile.documentNumber ?? ''),
+          'docNumber': userProfile.documentNumber,
           'region': userProfile.region,
           'province': userProfile.provincia,
           'distric': userProfile.distrito,
           'civilStatus': userProfile.civilStatus,
           'imageProfile': userProfile.imageProfile,
           'address': userProfile.address,
+          'occupation': userProfile.occupation,
         },
       ),
     );

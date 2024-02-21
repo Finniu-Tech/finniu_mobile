@@ -105,292 +105,300 @@ class InvestmentStatusScreenBody extends StatelessWidget {
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat.MMMM('es');
     final moneySymbol = isSoles ? 'S/' : '\$';
-    return Center(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            Row(children: [
-              SizedBox(
-                child: Text(
-                  ' Mis inversiones 💸 ',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                    color: Color(Theme.of(context).colorScheme.secondary.value),
+    int maxLength = report.investmentsInCourse!.length > report.investmentsFinished!.length
+    ? report.investmentsInCourse!.length
+    : report.investmentsFinished!.length;
+
+    double columnHeight = maxLength * 230.0; 
+    return SingleChildScrollView(
+      child: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Row(children: [
+                SizedBox(
+                  child: Text(
+                    ' Mis inversiones 💸 ',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w600,
+                      color: Color(Theme.of(context).colorScheme.secondary.value),
+                    ),
                   ),
                 ),
-              ),
-              // SizedBox(
-              //   width: MediaQuery.of(context).size.width * 0.58,
-              // ),
-              const Spacer(),
-              GestureDetector(
-                onTap: () {
-                  // modalsPlan(context);
-                  Navigator.pushNamed(context, '/calendar_page');
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Image.asset(
-                    'assets/icons/calendar.png',
-                    width: 20,
-                    height: 20,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                  ),
-                ),
-              ),
-            ]),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+                // SizedBox(
+                //   width: MediaQuery.of(context).size.width * 0.58,
+                // ),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    // Navigator.pushNamed(context, '/process_investment');
+                    // modalsPlan(context);
+                    Navigator.pushNamed(context, '/calendar_page');
                   },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    height: 40,
-                    decoration: BoxDecoration(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Image.asset(
+                      'assets/icons/calendar.png',
+                      width: 20,
+                      height: 20,
                       color: currentTheme.isDarkMode
                           ? const Color(primaryLight)
                           : const Color(primaryDark),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
                     ),
-                    child: Center(
-                      child: Text(
-                        "Rentabilidad",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryDark)
-                              : const Color(whiteText),
+                  ),
+                ),
+              ],),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // Navigator.pushNamed(context, '/process_investment');
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Rentabilidad",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(whiteText),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, '/investment_history');
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    height: 40,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/investment_history');
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(primaryLightAlternative),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Mi historial",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(primaryDark),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+              const SwitchMoney(
+                switchHeight: 34,
+                switchWidth: 67,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              LineReportHomeWidget(
+                totalAmount: report.totalAmount,
+                revenueAmount: report.totalRentabilityAmount,
+                planCount: report.totalPlans,
+                isSoles: isSoles,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment
+                    .start, // Alinear widgets en el centro horizontalmente
+                children: [
+                  Container(
+                    width: 15,
+                    height: 15,
                     decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1,
+                        color: const Color(primaryDark),
+                      ),
+                      shape: BoxShape.circle,
                       color: currentTheme.isDarkMode
                           ? const Color(primaryDark)
-                          : const Color(primaryLightAlternative),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                      ),
+                          : const Color(primaryLight),
                     ),
-                    child: Center(
-                      child: Text(
-                        "Mi historial",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: currentTheme.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(primaryDark),
+                    // Si desea agregar un icono dentro del círculo
+                  ),
+                  const SizedBox(
+                      width: 5), // Separación entre el círculo y el texto
+                  Text(
+                    'Dinero invertido',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
+                    ),
+                  ),
+    
+                  const Spacer(),
+    
+                  Container(
+                    width: 15,
+                    height: 15,
+                    decoration: BoxDecoration(
+                      border:
+                          Border.all(width: 1, color: const Color(primaryDark)),
+                      shape: BoxShape.circle,
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(secondary),
+                    ),
+                    // Si desea agregar un icono dentro del círculo
+                  ),
+                  // Separación entre el círculo y el texto
+                  const SizedBox(width: 5),
+                  Text(
+                    'Intereses generados',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Distribución de mi patrimonio',
+                style: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TabBar(
+                      isScrollable: true,
+                      unselectedLabelColor: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),
+                      labelColor: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
+                      tabs: const [
+                        Tab(
+                          text: "Inversiones en curso",
                         ),
-                      ),
-                    ),
-                  ),
+                        Tab(
+                          text: "Inversiones finalizadas",
+                        )
+                      ],
+                      controller: _tabController,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      indicatorColor: currentTheme.isDarkMode
+                          ? const Color(secondary)
+                          : const Color(primaryLight),
+                      indicatorWeight: 6,
+                      indicatorPadding: const EdgeInsets.only(bottom: 12),
+                    )
+                  ],
                 ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const SwitchMoney(
-              switchHeight: 34,
-              switchWidth: 67,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            LineReportHomeWidget(
-              totalAmount: report.totalAmount,
-              revenueAmount: report.totalRentabilityAmount,
-              planCount: report.totalPlans,
-              isSoles: isSoles,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment
-                  .start, // Alinear widgets en el centro horizontalmente
-              children: [
-                Container(
-                  width: 15,
-                  height: 15,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: const Color(primaryDark),
-                    ),
-                    shape: BoxShape.circle,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(primaryLight),
-                  ),
-                  // Si desea agregar un icono dentro del círculo
-                ),
-                const SizedBox(
-                    width: 5), // Separación entre el círculo y el texto
-                Text(
-                  'Dinero invertido',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
-                  ),
-                ),
-
-                const Spacer(),
-
-                Container(
-                  width: 15,
-                  height: 15,
-                  decoration: BoxDecoration(
-                    border:
-                        Border.all(width: 1, color: const Color(primaryDark)),
-                    shape: BoxShape.circle,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(secondary),
-                  ),
-                  // Si desea agregar un icono dentro del círculo
-                ),
-                // Separación entre el círculo y el texto
-                const SizedBox(width: 5),
-                Text(
-                  'Intereses generados',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Distribución de mi patrimonio',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 16,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(blackText),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TabBar(
-                    isScrollable: true,
-                    unselectedLabelColor: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
-                    labelColor: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    tabs: const [
-                      Tab(
-                        text: "Inversiones en curso",
-                      ),
-                      Tab(
-                        text: "Inversiones finalizadas",
-                      )
-                    ],
-                    controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.label,
-                    indicatorColor: currentTheme.isDarkMode
-                        ? const Color(secondary)
-                        : const Color(primaryLight),
-                    indicatorWeight: 6,
-                    indicatorPadding: const EdgeInsets.only(bottom: 12),
-                  )
-                ],
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  ListView(
-                    children: report.investmentsInCourse!
-                        .map(
-                          (investment) => TableCardInCourse(
-                            textButton: investment.reinvestmentAvailable,
-                            planName: investment.planName!,
-                            termText:
+              Container(
+                height: columnHeight,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    Column(
+                      children: report.investmentsInCourse!
+                        .expand((investment) => [
+                            TableCardInCourse(
+                              textButton: investment.reinvestmentAvailable,
+                              planName: investment.planName!,
+                              termText:
                                 'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                            amountInvested: '$moneySymbol${investment.amount}',
-                            interestGenerated:
+                              amountInvested: '$moneySymbol${investment.amount}',
+                              interestGenerated:
                                 '$moneySymbol${investment.rentabilityAmount}',
-                            currentMoney:
+                              currentMoney:
                                 '$moneySymbol${investment.amount + investment.rentabilityAmount}',
-                            moneyGrowth: '+${investment.rentabilityPercent}%',
-                            startDate:
+                              moneyGrowth: '+${investment.rentabilityPercent}%',
+                              startDate:
                                 '${investment.startDateInvestment?.day} ${dateFormat.format(investment.startDateInvestment!)}',
-                            endDate:
+                              endDate:
                                 '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
-                          ),
-                        )
+                            ),
+                        ],)
                         .toList(),
-                  ),
-                  ListView(
-                    children: report.investmentsFinished!
-                        .map(
-                          (investment) => TableCardInvestFinished(
-                            planName: investment.planName!,
-                            endDate:
-                                '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
-                            amountInvested: '$moneySymbol${investment.amount}',
-                            totalRevenue:
-                                '$moneySymbol${investment.rentabilityAmount + investment.amount}',
-                            growText:
-                                '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                          ),
-                        )
-                        .toList(),
-                  )
-                ],
+                    ),
+                    Column(
+                      children: report.investmentsFinished!
+                          .map(
+                            (investment) => TableCardInvestFinished(
+                              planName: investment.planName!,
+                              endDate:
+                                  '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
+                              amountInvested: '$moneySymbol${investment.amount}',
+                              totalRevenue:
+                                  '$moneySymbol${investment.rentabilityAmount + investment.amount}',
+                              growText:
+                                  '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
+                            ),
+                          )
+                          .toList(),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -623,8 +631,8 @@ class TableCardInCourse extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
-      constraints: const BoxConstraints(minWidth: 200, maxWidth: 200),
-      width: MediaQuery.of(context).size.width * 0.8,
+      constraints: const BoxConstraints(minWidth: 200, maxWidth: 600),
+      width: MediaQuery.of(context).size.width * 0.9,
       height: 200,
       decoration: BoxDecoration(
         color: currentTheme.isDarkMode
@@ -985,7 +993,8 @@ class TableCardInvestFinished extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
-      width: MediaQuery.of(context).size.width * 0.87,
+      width: MediaQuery.of(context).size.width * 0.9,
+      constraints: const BoxConstraints(minWidth: 200, maxWidth: 600),
       margin: const EdgeInsets.only(bottom: 10),
       height: 200,
       decoration: BoxDecoration(
