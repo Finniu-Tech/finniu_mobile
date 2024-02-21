@@ -184,6 +184,7 @@ class UserProfile {
     String? imageProfileUrl,
     String? imageProfile,
     String? address,
+    String? occupation,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -202,6 +203,7 @@ class UserProfile {
       imageProfile: imageProfile ?? this.imageProfile,
       documentNumber: documentNumber ?? this.documentNumber,
       address: address ?? this.address,
+      occupation: occupation ?? this.occupation,
     );
   }
 

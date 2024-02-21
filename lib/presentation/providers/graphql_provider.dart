@@ -6,6 +6,9 @@ final gqlClientProvider = FutureProvider<GraphQLClient>(
   (ref) async {
     final HttpLink httpLink = HttpLink(
       'https://www.finniu.com/api/v1/graph/finniu/',
+      defaultHeaders: {
+        'Content-Type': 'application/json; charset=utf-8',
+      },
     );
 
     final authLink = AuthLink(

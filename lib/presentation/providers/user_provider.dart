@@ -24,10 +24,6 @@ final userProfileFutureProvider =
     },
   );
 
-  // if (result.hasException) {
-  //   throw result.exception!;
-  // }
-
   if (result.data?['userProfile'] != null) {
     final userProfile = UserProfile.fromJson(result.data?['userProfile']);
     if (userProfile.hasCompletedOnboarding == true) {
@@ -50,6 +46,7 @@ final userProfileFutureProvider =
           region: userProfile.region,
           civilStatus: userProfile.civilStatus,
           address: userProfile.address,
+          occupation: userProfile.occupation,
         );
     return userProfile;
   }
@@ -78,6 +75,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           civilStatus: userProfile.civilStatus,
           hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
           address: userProfile.address,
+          occupation: userProfile.occupation,
         );
   }
   return success;
@@ -107,6 +105,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? civilStatus,
     bool hasCompletedOnboarding = false,
     String? address,
+    String? occupation,
   }) {
     state = state.copyWith(
       id: id,
@@ -124,6 +123,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       region: region,
       civilStatus: civilStatus,
       address: address,
+      occupation: occupation,
     );
   }
 
@@ -155,5 +155,8 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
 
   void setPassword(String? password) {
     state = state.copyWith(password: password);
+  }
+  void setOcupation(String? occupation) {
+    state = state.copyWith(occupation: occupation);
   }
 }

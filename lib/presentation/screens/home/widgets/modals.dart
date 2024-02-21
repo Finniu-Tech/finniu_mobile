@@ -138,14 +138,14 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   padding: 2,
                                   width: 35,
                                   height: 16,
-                                  value: Preferences.isDarkMode,
+                                  value: Preferences.isDarkMode ,
                                   inactiveColor: const Color(primaryDark),
                                   activeColor: const Color(primaryLight),
                                   inactiveToggleColor:
                                       const Color(primaryLight),
                                   activeToggleColor: const Color(primaryDark),
                                   onToggle: (value) {
-                                    Navigator.of(context).pop();
+                                   
                                     value
                                         ? ref
                                             .read(settingsNotifierProvider
@@ -156,6 +156,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                                 .notifier)
                                             .setLightMode();
                                     Preferences.isDarkMode = value;
+                                    Navigator.of(context).pop();
                                   },
                                 ),
                               ],

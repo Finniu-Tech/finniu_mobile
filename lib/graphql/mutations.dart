@@ -257,13 +257,14 @@ currency: \$currency,
         mutation updateUserProfile(
           \$firstName:String!,
           \$lastName:String!,
-          \$docNumber: Int!,
+          \$docNumber: String!,
           \$region: String,
           \$province: String,
           \$distric: String,
           \$civilStatus: String,
           \$imageProfile: String,
-          \$address: String
+          \$address: String,
+          \$occupation: String
         ){
           updateUser(
             input: {
@@ -276,6 +277,7 @@ currency: \$currency,
               civilStatus: \$civilStatus,
               imageProfile: \$imageProfile,
               address: \$address
+              occupation: \$occupation
             }
           ){
             success
