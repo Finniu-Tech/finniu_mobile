@@ -644,7 +644,9 @@ class CircularPercentAvatar extends ConsumerWidget {
             ? _isNetworkUrl(imageUrl)
                 ? NetworkImage(imageUrl) as ImageProvider
                 : FileImage(File(imageUrl))
-            : Image.asset("assets/images/avatar_alone.png") as ImageProvider,
+            : const AssetImage(
+                'assets/images/avatar_alone_v2.png',
+              ),
       ),
       progressColor:
           Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
