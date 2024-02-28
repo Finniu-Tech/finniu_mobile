@@ -7,18 +7,15 @@ class MaritalStatusMapper {
     'Divorciado': 'DIVORCED',
   };
 
-  final List<String> values = ['Soltero', 'Casado', 'Divorciado'];
 
-  // List<DropdownMenuItem<String>> getDropdownItems() {
-  //   return values.map((value) {
-  //     return DropdownMenuItem<String>(
-  //       value: value,
-  //       child: Text(value),
-  //     );
-  //   }).toList();
-  // }
+  final List<String> values = ['Soltero', 'Casado', 'Divorciado'];
 
   String mapStatus(String selectValue) {
     return mapping[selectValue] ?? '';
   }
+
+  String mapStatusToText(String selectValue) {
+    return values.firstWhere((element) => mapStatus(element) == selectValue);
+  }
+
 }

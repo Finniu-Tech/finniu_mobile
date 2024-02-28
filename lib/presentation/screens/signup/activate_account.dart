@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/otp.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/signup/widgets/counter.dart';
 import 'package:finniu/services/share_preferences_service.dart';
@@ -106,7 +107,49 @@ class ActivateAccount extends HookConsumerWidget {
                 const SizedBox(
                   height: 15,
                 ),
+                if (ref.watch(timerCounterDownProvider) == 0) ...[
+                  TextButton(
+                    onPressed: () {
+                      ref.read(timerCounterDownProvider.notifier).resetTimer();
+
+                      ref.read(resendOTPCodeFutureProvider.future).then((status) {
+                        if (status == true) {
+                          ref
+                              .read(timerCounterDownProvider.notifier)
+                              .startTimer(first: true);
+                        } else {
+                          CustomSnackbar.show(
+                            context,
+                            'No se pudo reenviar el correo',
+                            'error',
+                          );
+                        }
+                      });
+                    },
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                      backgroundColor: Color(
+                          themeProvider.isDarkMode ? primaryLight : primaryDark),
+                    ),
+                    child: Text(
+                      'Reenviar código',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        height: 1.5,
+                        color: themeProvider.isDarkMode
+                            ? Color(primaryDark)
+                            : Colors.white,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                ] else ...[
                 const CircularCountdown(),
+
+                ]
               ],
             ),
           ),
