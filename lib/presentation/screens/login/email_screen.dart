@@ -4,6 +4,7 @@ import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/services/secure_storage.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -31,6 +32,7 @@ class EmailLoginScreen extends HookConsumerWidget {
     final formKey = GlobalKey<FormState>();
     final graphqlProvider = ref.watch(gqlClientProvider.future);
     final rememberPassword = useState(Preferences.rememberMe);
+   
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
@@ -207,12 +209,25 @@ class EmailLoginScreen extends HookConsumerWidget {
                                   );
                                 } else {
                                   context.loaderOverlay.hide();
-                                  CustomSnackbar.show(
-                                    context,
-                                    value.error ??
-                                        'No se pudo validar sus credenciales',
-                                    'error',
-                                  );
+                                  if (value.error == 'Su usuario no a sido activado'){
+                                    CustomSnackbar.show(
+                                      context,
+                                      value.error ??
+                                          'Su usuario no a sido activado',
+                                      'error',
+                                    );
+                                    ref.read(userProfileNotifierProvider.notifier).updateFields(email: _email, password: passwordController.value.text);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                                    Future.delayed(const Duration(seconds: 3), () {
+                                      Navigator.pushNamed(context, '/send_code');
+                                    });
+                                  }else{
+                                    CustomSnackbar.show(
+                                      context,
+                                      value.error ??
+                                          'No se pudo validar sus credenciales',
+                                      'error',
+                                    );
+                                  }
                                 }
                               });
                             }
