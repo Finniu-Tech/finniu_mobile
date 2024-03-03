@@ -9,7 +9,8 @@ import '../../../../domain/entities/calculate_investment.dart';
 
 class CircularImage extends ConsumerWidget {
   final int months;
-  const CircularImage({required this.months, Key? key}) : super(key: key);
+  final String? planImageUrl;
+  const CircularImage({required this.months, Key? key,  this.planImageUrl}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
@@ -24,7 +25,7 @@ class CircularImage extends ConsumerWidget {
         center: CircleAvatar(
           radius: 50,
           backgroundColor: themeProvider.isDarkMode
-              ? Color(backgroundColorDark)
+              ? const Color(backgroundColorDark)
               : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -32,13 +33,20 @@ class CircularImage extends ConsumerWidget {
             children: [
               Container(
                 alignment: Alignment.topCenter,
-                child: SizedBox(
-                  child: Image.asset(
-                    'assets/result/money.png',
-                    width: 55,
-                    height: 60,
-                  ),
-                ),
+                child: planImageUrl != null 
+                    ? Image.network(
+                        planImageUrl!,
+                        width: 55,
+                        height: 60,
+                      )
+                    : SizedBox(
+                        child: Image.asset(
+                          'assets/result/money.png',
+                          width: 55,
+                          height: 60,
+                        ),
+                      ),
+
               ),
               SizedBox(height: 8),
               Text(

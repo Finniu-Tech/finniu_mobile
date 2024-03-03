@@ -162,7 +162,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final isSoles = ref.watch(isSolesStateProvider);
     final moneySymbol = isSoles ? "S/" : "\$";
     final _debouncer = Debouncer(milliseconds: 3000);
-
     useEffect(
       () {
         if (userProfile.hasRequiredData() == false) {
@@ -223,13 +222,20 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   width: 100,
                   height: 100,
                   color: Colors.transparent,
-                  child: const SizedBox(
+                  child:  SizedBox(
                     width: 80,
                     height: 90,
-                    child: Image(
-                      image: AssetImage('assets/result/money.png'),
-                      fit: BoxFit.contain,
-                    ),
+                    child: widget.plan.imageUrl != null
+                        ? Image.network(
+                            widget.plan.imageUrl!,
+                            width: 80,
+                            height: 90,
+                          )
+                        : const Image(
+                            image: AssetImage('assets/result/money.png'),
+                            fit: BoxFit.contain,
+                          ),
+ 
                   ),
                 ),
                 Column(

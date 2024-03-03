@@ -129,7 +129,7 @@ class Step2Body extends HookConsumerWidget {
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      CircularImage(months: resultCalculator.months),
+                      CircularImage(months: resultCalculator.months, planImageUrl: plan.imageUrl),
                       Positioned(
                         right: 108,
                         child: Align(
