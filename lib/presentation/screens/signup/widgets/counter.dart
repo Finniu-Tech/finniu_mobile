@@ -44,6 +44,7 @@ class CircularCountdown extends ConsumerWidget {
             textFormat: CountdownTextFormat.S,
             onComplete: () {
               debugPrint('Countdown Ended');
+             ref.read(timerCounterDownProvider.notifier).resetTimer();
             },
           ),
           Padding(

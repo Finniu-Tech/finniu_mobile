@@ -32,6 +32,7 @@ class CalculateInvestmentMapper {
         sixMonthsReturn: double.parse(planModel.sixMonthsReturn ?? '0'),
         description: planModel.description ?? '',
         returnEstimatedDate: planModel.returnDateEstimate,
+        imageUrl: planModel.planImageUrl ?? '',
       ),
     );
   }

@@ -128,7 +128,9 @@ class UserProfile {
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
         distrito: json["distrito"],
-        documentNumber: json["documentNumber"].toString(),
+        documentNumber: json["documentNumber"].toString() == 'null'
+            ? ''
+            : json["documentNumber"].toString(),
         gender: json["gender"],
         hasCompletedOnboarding: json["hasCompletedOnboarding"],
         isActive: json["isActive"],

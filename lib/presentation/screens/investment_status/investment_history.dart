@@ -13,6 +13,8 @@ import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class InvestmentHistory extends StatefulHookConsumerWidget {
+  const InvestmentHistory({super.key});
+
   @override
   InvestmentHistoryState createState() => InvestmentHistoryState();
 }
@@ -217,7 +219,7 @@ class InvestmentHistoryBody extends StatelessWidget {
             //   height: 20,
             // ),
             CircularImageSimulation(
-                amount: history.totalAmount, isSoles: isSoles),
+                amount: history.totalAmount, isSoles: isSoles,),
             Padding(
               padding: const EdgeInsets.only(left: 10),
               child: Container(
@@ -270,18 +272,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                                       blackText), // color del texto antes del paréntesis
                               fontSize: 12.0,
                             ),
-                            // children: <TextSpan>[
-                            //   TextSpan(
-                            //     text: '(1)',
-                            //     style: TextStyle(
-                            //       color: currentTheme.isDarkMode
-                            //           ? const Color(primaryLight)
-                            //           : const Color(
-                            //               bluelight), // color del texto dentro del paréntesis
-                            //       fontSize: 12.0,
-                            //     ),
-                            //   ),
-                            // ],
+
                           ),
                         ),
                       ),
@@ -298,16 +289,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                                       blackText), // color del texto antes del paréntesis
                               fontSize: 12.0,
                             ),
-                            // children: <TextSpan>[
-                            //   const TextSpan(
-                            //     text: '(1)',
-                            //     style: TextStyle(
-                            //       color: Color(
-                            //           redText), // color del texto dentro del paréntesis
-                            //       fontSize: 16.0,
-                            //     ),
-                            //   ),
-                            // ],
+
                           ),
                         ),
                       )
@@ -342,6 +324,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                                 '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
                             imageStatus: 'assets/images/circle_green.png',
                             isSoles: isSoles,
+                            state: 'En curso',
                           ),
                         )
                         .toList(),
@@ -360,6 +343,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                                 '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
                             imageStatus: 'assets/images/circle_purple.png',
                             isSoles: isSoles,
+                            state: 'Finalizado',
                           ),
                         )
                         .toList(),
@@ -390,28 +374,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                         )
                         .toList(),
                   )
-                  // const InCourseInvestmentCard(
-                  //   planName: "Plan Estable",
-                  //   termText: "Plazo de 12 meses:14%",
-                  //   initialAmount: "S/1140",
-                  //   startDay: "29 Enero 2022",
-                  //   finishDay: "29 Enero 2023",
-                  //   state: "Finalizado",
-                  //   imageLink: "assets/images/circle_purple.png",
-                  // ),
-                  // const TablePlanProcess(
-                  //   planName: "Plan Origen",
-                  //   termText: "Se esta validando tu transferencia",
-                  //   state: "En proceso",
-                  //   mounted: "S/800",
-                  // ),
-                  // const TablePlanProcessRejected(
-                  //   planName: "Plan Origen ",
-                  //   mounted: "S/750",
-                  //   termText:
-                  //       "Tu inversión fue rechazada por el siguiente motivo:(escribir floro de explicación)",
-                  //   state: "Rechazado",
-                  // ),
+
                 ],
               ),
             ),
@@ -562,6 +525,7 @@ class InCourseInvestmentCard extends ConsumerWidget {
   final String finishDay;
   final String imageStatus;
   final bool isSoles;
+  final String state;
 
   const InCourseInvestmentCard({
     super.key,
@@ -572,6 +536,7 @@ class InCourseInvestmentCard extends ConsumerWidget {
     required this.finishDay,
     required this.imageStatus,
     required this.isSoles,
+    required this.state,
   });
 
   @override
@@ -641,7 +606,7 @@ class InCourseInvestmentCard extends ConsumerWidget {
                     width: 5,
                   ),
                   Text(
-                    'En curso',
+                    state,
                     style: TextStyle(
                       fontSize: 11,
                       color: currentTheme.isDarkMode

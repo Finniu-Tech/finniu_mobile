@@ -22,6 +22,9 @@ class CircularPercentAvatarWidget extends ConsumerWidget {
           ref.watch(userProfileNotifierProvider).imageProfileUrl ??
               "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
         ),
+      onBackgroundImageError: (exception, stackTrace) {
+         const AssetImage('assets/images/avatar_alone_v2.png');
+      },
       ),
 
       progressColor:

@@ -18,17 +18,6 @@ class TimerCounterDownProvider extends StateNotifier<int> {
     });
   }
 
-  // void startTimer() {
-  //   state = _initialTime;
-  //   Future<void>.delayed(const Duration(seconds: 1), () {
-  //     if (state > 0) {
-  //       state--;
-
-  //       startTimer();
-  //     }
-  //   });
-  // }
-
   get isTimeOut => state == 0;
   get isTimeNotOut => state > 0;
 
