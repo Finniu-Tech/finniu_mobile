@@ -82,9 +82,12 @@ class Step2Body extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ImagePicker voucherImage = ImagePicker();
-    final voucherImageBase64 = useState('');
+    // final voucherImageBase64 = useState('');
     // final ValueNotifier<String> voucherPreview;
-    final voucherPreview = useState('');
+    // final voucherPreview = useState('');
+    ValueNotifier<List<String>> voucherImageBase64 = ValueNotifier<List<String>>([]);
+    ValueNotifier<List<String>> voucherPreview = ValueNotifier<List<String>>([]);
+
     final userReadContract = useState(false);
     final isSoles = ref.watch(isSolesStateProvider);
     final String textCurrency = isSoles ? 'soles' : 'dólares';
@@ -114,7 +117,7 @@ class Step2Body extends HookConsumerWidget {
           ),
           const SizedBox(height: 15),
           Container(
-            constraints: BoxConstraints(
+            constraints: const BoxConstraints(
               maxWidth: 400,
             ),
             child: Row(
@@ -518,73 +521,128 @@ class Step2Body extends HookConsumerWidget {
             ),
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Container(
-                      alignment: Alignment.topRight,
-                      child: InkWell(
-                        onTap: () {
-                          photoHelp(context);
-                        },
-                        child: ImageIcon(
-                          const AssetImage('assets/icons/questions.png'),
-                          size: 20, // Tamaño de la imagen
-                          color: currentTheme.isDarkMode
-                              ? const Color(grayText)
-                              : const Color(primaryDark), // Color de la imagen
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  InkWell(
-                    onTap: () async {
-                      Future<XFile?> ximage = voucherImage.pickImage(
-                        source: ImageSource.gallery,
-                        imageQuality: 70,
-                        maxHeight: 852,
-                        maxWidth: 393,
-                      );
-                      voucherPreview.value =
-                          await ximage.then((value) => value!.path);
-                      final File imageFile = File(voucherPreview.value);
-                      final List<int> imageBytes =
-                          await imageFile.readAsBytes();
-                      final _base64Image = base64Encode(imageBytes);
-                      voucherImageBase64.value = _base64Image;
-                    },
-                    child: voucherPreview.value == ''
-                        ? ImageIcon(
-                            const AssetImage('assets/icons/photo.png'),
-                            color: currentTheme.isDarkMode
-                                ? const Color(grayText)
-                                : const Color(primaryDark),
-                          )
-                        : SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: Image.file(
-                              File(voucherPreview.value),
-                              fit: BoxFit.cover,
-                            ),
+              child:Stack(
+  children: [
+    Align(
+      alignment: Alignment.topRight,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 10, top: 10),
+        child: InkWell(
+          onTap: () {
+            photoHelp(context);
+          },
+          child: ImageIcon(
+            const AssetImage('assets/icons/questions.png'),
+            size: 20, // Tamaño de la imagen
+            color: currentTheme.isDarkMode
+                ? const Color(grayText)
+                : const Color(primaryDark), // Color de la imagen
+          ),
+        ),
+      ),
+    ),
+    Align(
+      alignment: Alignment.center,
+      child: InkWell(
+        onTap: () async {
+          // Tu código para seleccionar imágenes aquí
+          final ImagePicker _picker = ImagePicker();
+                      final List<XFile>? images = await _picker.pickMultiImage();
+
+                      if (images != null) {
+                        print('if images');
+                        for (var image in images) {
+                          final File imageFile = File(image.path);
+                          final List<int> imageBytes = await imageFile.readAsBytes();
+                          final _base64Image = base64Encode(imageBytes);
+
+                          // Añade las imágenes a las listas y notifica a los oyentes
+                          voucherImageBase64.value = List.from(voucherImageBase64.value)..add(_base64Image);
+                          voucherPreview.value = List.from(voucherPreview.value)..add(image.path);
+                          print('voucherImageBase64.value ${voucherImageBase64.value}');
+                          print('voucherPreview.value ${voucherPreview.value.length}');
+
+                        }
+                      }
+        },
+        child: ValueListenableBuilder<List<String>>(
+          valueListenable: voucherPreview,
+          builder: (context, value, child) {
+            return value.isEmpty
+                ? ImageIcon(
+                    const AssetImage('assets/icons/photo.png'),
+                    color: currentTheme.isDarkMode
+                        ? const Color(grayText)
+                        : const Color(primaryDark),
+                  )
+                : SizedBox(
+                    height: 60, // Ajusta este valor según tus necesidades
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal, // Hace que la lista sea horizontal
+                      itemCount: value.length,
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(right: 10), // Añade un espacio a la derecha de cada imagen
+                          child: Stack(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                child: Image.file(
+                                  File(value[index]),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 10, ),
+                                child: Align(
+                                  alignment: Alignment.bottomLeft,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      // Código para eliminar la imagen
+                                    },
+                                    child: Container(
+                                      width: 16,
+                                      height: 16,
+                                      decoration: BoxDecoration(
+                                        color: Colors.black38, // Color semitransparente
+                                        shape: BoxShape.circle, // Forma redonda
+                                      ),
+                                      child: Icon(Icons.close, size: 8, color: Colors.white), // Icono de "x"
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                  ),
-                  const SizedBox(width: 8),
-                  Text(
-                    'Suba la foto nitida donde sea visible el código de operación',
-                    style: TextStyle(
-                      color: currentTheme.isDarkMode
-                          ? const Color(grayText)
-                          : const Color(primaryDark),
-                      fontSize: 8,
+                        );
+                      },
                     ),
-                    textAlign: TextAlign.center,
+                  );
+          },
+        ),
+      ),
+    ),
+    Padding(
+
+      padding: const EdgeInsets.only(bottom: 5),
+      child: Align(
+        alignment: Alignment.bottomCenter,
+        child: Text(
+                  'Suba la foto nitida donde sea visible el código de operación',
+                  style: TextStyle(
+                    color: currentTheme.isDarkMode
+                        ? const Color(grayText)
+                        : const Color(primaryDark),
+                    fontSize: 8,
                   ),
-                ],
-              ),
+                  textAlign: TextAlign.center,
+                ),
+      ),
+    )
+  ],
+),
             ),
           ),
           const SizedBox(
@@ -666,7 +724,7 @@ class Step2Body extends HookConsumerWidget {
                   client: ref.watch(gqlClientProvider).value!,
                   uuid: preInvestment.uuid,
                   readContract: ref.watch(userAcceptedTermsProvider),
-                  boucherScreenShot: base64Image,
+                  boucherScreenShot: 'base64Image', //TODO cambiar por la lista de imagenes
                 );
                 if (response.success == true) {
                   context.loaderOverlay.hide();
