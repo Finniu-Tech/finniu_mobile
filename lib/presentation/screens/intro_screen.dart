@@ -50,6 +50,8 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
           await AppVersionDataSourceImp().getLastVersion(client: client);
       appVersion.currentVersion = appCurrentVersion;
       String statusVersion = appVersion.getStatusVersion();
+      print('Status Version: $statusVersion');
+      print('Current Version: $appCurrentVersion');
 
       if (statusVersion == StatusVersion.upgrade) {
         _modalShown = true;

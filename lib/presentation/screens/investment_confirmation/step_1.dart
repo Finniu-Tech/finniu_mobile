@@ -432,12 +432,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       side: const BorderSide(
                         width: 0.2,
                         color: Color(primaryDark),
-                      ),
-                      primary: const Color(primaryLight),
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.only(
-                          topRight: const Radius.circular(25),
-                          bottomRight: const Radius.circular(25),
+                      ), backgroundColor: const Color(primaryLight),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
                         ),
                       ),
                     ),
