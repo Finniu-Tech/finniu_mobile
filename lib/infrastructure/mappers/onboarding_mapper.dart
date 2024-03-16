@@ -1,6 +1,4 @@
 import 'package:finniu/domain/entities/onboarding_entities.dart';
-import 'package:finniu/domain/entities/plan_entities.dart';
-import 'package:finniu/infrastructure/models/onboarding_finish_response.dart';
 import 'package:finniu/infrastructure/models/onboarding_response.dart';
 
 class OnboardingMapper {

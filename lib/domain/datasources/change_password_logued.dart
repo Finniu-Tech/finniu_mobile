@@ -1,4 +1,3 @@
-import 'package:finniu/graphql/mutations.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 abstract class ChangePasswordLoguedDataSource {

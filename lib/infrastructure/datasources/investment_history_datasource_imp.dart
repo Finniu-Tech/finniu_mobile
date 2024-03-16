@@ -2,7 +2,6 @@ import 'package:finniu/domain/datasources/investment_history.dart';
 import 'package:finniu/domain/entities/investment_history_entity.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/graphql/queries.dart';
-import 'package:finniu/infrastructure/mappers/calculate_investment_mapper.dart';
 import 'package:finniu/infrastructure/mappers/investment_history_mapper.dart';
 import 'package:finniu/infrastructure/mappers/investment_rentability_report_mapper.dart';
 import 'package:finniu/infrastructure/models/investment_history_response.dart';
@@ -35,33 +34,11 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
       solesRentability: InvestmentRentabilityReportMapper.graphResponseToEntity(
         solesResponse,
       ),
-      dollarsRentability:
-          InvestmentRentabilityReportMapper.graphResponseToEntity(
+      dollarsRentability: InvestmentRentabilityReportMapper.graphResponseToEntity(
         dollarsResponse,
       ),
     );
-
-    // InvestmentRentabilityR.toEntity(responseGraphRentability);
   }
-
-  // Future<InvestmentHistoryResumeEntity> getInvestmentHistoryReport({
-  //   required GraphQLClient client,
-  // }) async {
-  //   final response = await client.query(
-  //     QueryOptions(
-  //       document: gql(
-  //         QueryRepository.investmentHistoryReport,
-  //       ),
-  //     ),
-  //   );
-  //   final responseGraphHistory = HistoryInvestmentResponse.fromJson(
-  //     response.data ?? {},
-  //   );
-
-  //   return InvestmentHistoryMapper.responseGraphToEntity(
-  //     responseGraphHistory,
-  //   );
-  // }
 
   Future<InvestmentHistoryReport> getInvestmentHistoryReport({
     required GraphQLClient client,
@@ -84,10 +61,8 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
     );
     print('dollarsHistoryResponse: $dollarsHistoryResponse');
     return InvestmentHistoryReport(
-      dollarsHistory:
-          InvestmentHistoryMapper.responseGraphToEntity(dollarsHistoryResponse),
-      solesHistory:
-          InvestmentHistoryMapper.responseGraphToEntity(solesHistoryResponse),
+      dollarsHistory: InvestmentHistoryMapper.responseGraphToEntity(dollarsHistoryResponse),
+      solesHistory: InvestmentHistoryMapper.responseGraphToEntity(solesHistoryResponse),
     );
   }
 }
