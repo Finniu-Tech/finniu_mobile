@@ -26,7 +26,6 @@ class TimerCounterDownProvider extends StateNotifier<int> {
   }
 }
 
-final timerCounterDownProvider =
-    StateNotifierProvider<TimerCounterDownProvider, int>(
+final timerCounterDownProvider = StateNotifierProvider<TimerCounterDownProvider, int>(
   (ref) => TimerCounterDownProvider(120),
 );

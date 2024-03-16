@@ -23,10 +23,11 @@ class EmailLoginScreen extends HookConsumerWidget {
   String _email = Preferences.username ?? "";
   final secureStorage = const FlutterSecureStorage();
   final passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isHidden = useState(true);
     final showError = useState(false);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
@@ -88,7 +89,11 @@ class EmailLoginScreen extends HookConsumerWidget {
                         child: TextFormField(
                           autocorrect: false,
                           onChanged: (value) {
-                            _email = value;
+                            // Actualiza _email y el texto del controlador
+                            _email = value.toLowerCase();
+                            _emailController.text = _email;
+                            // Mueve el cursor al final del texto
+                            _emailController.selection = TextSelection.fromPosition(TextPosition(offset: _emailController.text.length));
                           },
                           decoration: const InputDecoration(
                             hintText: 'Escriba su correo electrónico',
@@ -96,7 +101,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                               "Correo electrónico",
                             ),
                           ),
-                          controller: TextEditingController(text: _email),
+                          controller: _emailController,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return 'Por favor ingrese un correo';

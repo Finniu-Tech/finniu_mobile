@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -6,6 +7,7 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql/src/graphql_client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../providers/settings_provider.dart';
@@ -17,6 +19,8 @@ class SendCode extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final userProfileProvider = ref.watch(userProfileNotifierProvider);
+    final graphQLClient = ref.watch(gqlClientProvider);
+
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
         body: Center(
@@ -31,8 +35,7 @@ class SendCode extends ConsumerWidget {
                 height: 71,
                 child: TextPoppins(
                   text: "Tu seguridad es primero",
-                  colorText:
-                      themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  colorText: themeProvider.isDarkMode ? primaryLight : primaryDark,
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
@@ -60,9 +63,7 @@ class SendCode extends ConsumerWidget {
                   'Te enviaremos el código de verificación por correo',
                   style: TextStyle(
                     fontSize: 14,
-                    color: themeProvider.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
+                    color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -72,40 +73,25 @@ class SendCode extends ConsumerWidget {
                 child: TextButton(
                   onPressed: () async {
                     context.loaderOverlay.show();
-                    print('userProfile!!!!!');
-                    print(userProfileProvider.email);
-                    // Future<bool> status = await resendOTPCodeFutureProvider.future;
 
-                    ref
-                        .read(sendEmailOTPCodeFutureProvider.future)
-                        .then((status) {
-                      if (status == true) {
-                        context.loaderOverlay.hide();
-                        Navigator.of(context).pushNamed('/activate_account');
-                      } else {
-                        CustomSnackbar.show(
-                          context,
-                          'No se pudo enviar el correo',
-                          "error",
-                        );
-                        // ScaffoldMessenger.of(ctx).showSnackBar(
-                        //   customSnackBar('No se pudo reenviar el correo', 'error'),
-                        // );
-                      }
-                    });
+                    graphQLClient.when(
+                      data: (client) async {
+                        final result = await sendEmailOTPCode(userProfileProvider.email!, client);
 
-                    //     .then((value) async {
-                    //   if (value == false) {
-                    //     context.loaderOverlay.hide();
-                    //     Navigator.of(context).pushNamed('/activate_account');
-
-                    //   } else {
-                    //     context.loaderOverlay.hide();
-                    //     await sendEmailModal(context, ref);
-                    //   }
-                    // });
-
-                    // Navigator.of(context).pushNamed('/activate_account');
+                        if (result == true) {
+                          context.loaderOverlay.hide();
+                          Navigator.of(context).pushNamed('/activate_account');
+                        } else {
+                          CustomSnackbar.show(
+                            context,
+                            'No se pudo enviar el correo',
+                            "error",
+                          );
+                        }
+                      },
+                      loading: () => null,
+                      error: (error, stackTrace) => null,
+                    );
                   },
                   child: const Text(
                     'Recibir Código',

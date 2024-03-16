@@ -57,37 +57,29 @@ final resendOTPCodeFutureProvider = FutureProvider((ref) async {
   if (response.data == null) {
     return false;
   }
-  final otpResendModel =
-      ResendOtpCode.fromJson(response.data?['resendOtpCode']);
+  final otpResendModel = ResendOtpCode.fromJson(response.data?['resendOtpCode']);
   return otpResendModel.success;
 });
 
-final sendEmailOTPCodeFutureProvider = FutureProvider((ref) async {
-  final response = await ref.watch(gqlClientProvider.future).then(
-    (client) async {
-      final user = ref.watch(userProfileNotifierProvider);
-      final QueryResult result = await client.query(
-        QueryOptions(
-          document: gql(
-            MutationRepository.sendEmailOTPCode(),
-          ), // this is the query string you just created
-          variables: {
-            'email': user.email,
-          },
-          // pollInterval: const Duration(seconds: 10),
-        ),
-      );
-      return result;
-    },
+Future<bool> sendEmailOTPCode(String email, GraphQLClient client) async {
+  final QueryResult result = await client.query(
+    QueryOptions(
+      document: gql(
+        MutationRepository.sendEmailOTPCode(),
+      ), // this is the query string you just created
+      variables: {
+        'email': email,
+      },
+      fetchPolicy: FetchPolicy.noCache,
+      // pollInterval: const Duration(seconds: 10),
+    ),
   );
-  if (response.data == null) {
+  if (result.data == null) {
     return false;
   }
-  final otpResendModel =
-      EmailOTPCodeResponse.fromJson(response.data?['sendMailOtp']);
-  if (otpResendModel.successResendCode == false ||
-      otpResendModel.success == false) {
+  final otpResendModel = EmailOTPCodeResponse.fromJson(result.data?['sendMailOtp']);
+  if (otpResendModel.successResendCode == false || otpResendModel.success == false) {
     return false;
   }
-  return otpResendModel.success;
-});
+  return otpResendModel.success ?? false;
+}

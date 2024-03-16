@@ -5,7 +5,6 @@ import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/signup_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/use_cases/user/signup.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -53,9 +52,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                   child: Image(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      themeProvider.isDarkMode
-                          ? "assets/images/logo_small_dark.png"
-                          : "assets/images/logo_small.png",
+                      themeProvider.isDarkMode ? "assets/images/logo_small_dark.png" : "assets/images/logo_small.png",
                     ),
                   ),
                 ),
@@ -70,11 +67,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                         alignment: Alignment.topLeft,
                         child: TextPoppins(
                           text: 'Crea tu cuenta en Finniu y guarda tus datos',
-                          colorText: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .color!
-                              .value,
+                          colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -99,9 +92,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       viewportFraction: 0.8,
                       initialPage: ref.watch(indexAvatarSelectedStateProvider),
                       onPageChanged: (index, reason) {
-                        ref
-                            .read(indexAvatarSelectedStateProvider.notifier)
-                            .state = index;
+                        ref.read(indexAvatarSelectedStateProvider.notifier).state = index;
                         // currentPage = index;
                         // setState((){});
                       },
@@ -160,9 +151,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       // phoneController.text = value;
                     },
                     keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
-                    ],
+                    inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                     decoration: const InputDecoration(
                       hintText: 'Escriba su número telefónico',
                       label: Text("Número telefónico"),
@@ -184,7 +173,12 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       return null;
                     },
                     onChanged: (value) {
-                      // emailController.text = value.toString();
+                      // Transforma el texto a minúsculas y actualiza el controlador
+                      String lowerCaseValue = value.toLowerCase();
+                      emailController.text = lowerCaseValue;
+                      // Mueve el cursor al final del texto
+                      emailController.selection =
+                          TextSelection.fromPosition(TextPosition(offset: lowerCaseValue.length));
                     },
                     decoration: const InputDecoration(
                       hintText: 'Escriba su correo electrónico',
@@ -218,9 +212,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       suffixIcon: IconButton(
                         splashRadius: 20,
                         icon: Icon(
-                          isHidden.value
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          isHidden.value ? Icons.visibility : Icons.visibility_off,
                           size: 23.20,
                         ),
                         alignment: Alignment.center,
@@ -242,9 +234,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       child: Checkbox(
                         checkColor: Colors.white,
                         side: BorderSide(
-                          color: themeProvider.isDarkMode
-                              ? Color(primaryLight)
-                              : Color(primaryDark), // Border color
+                          color: themeProvider.isDarkMode ? Color(primaryLight) : Color(primaryDark), // Border color
                           width: 1.5, // Border width
                         ),
                         fillColor: MaterialStateProperty.resolveWith<Color?>(
@@ -252,13 +242,11 @@ class SignUpEmailScreen extends HookConsumerWidget {
                             if (states.contains(MaterialState.selected)) {
                               return themeProvider.isDarkMode
                                   ? Color(primaryLight)
-                                  : Color(
-                                      primaryDark); // Color when checkbox is selected (checked)
+                                  : Color(primaryDark); // Color when checkbox is selected (checked)
                             }
                             return themeProvider.isDarkMode
                                 ? Color(primaryLight)
-                                : Colors
-                                    .transparent; // Color when checkbox is not selected (unchecked)
+                                : Colors.transparent; // Color when checkbox is not selected (unchecked)
                           },
                         ),
                         value: userAcceptedTerms.value,
@@ -271,23 +259,18 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       'Acepto las',
                       style: TextStyle(
                         fontSize: 10,
-                        color: themeProvider.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                       ),
                     ),
                     GestureDetector(
                       onTap: () async {
-                        Uri politicasURL =
-                            Uri.parse('https://finniu.com/terminos/');
+                        Uri politicasURL = Uri.parse('https://finniu.com/terminos/');
                         launchUrl(politicasURL);
                       },
                       child: Text(
                         ' Las políticas de privacidad ',
                         style: TextStyle(
-                          color: themeProvider.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -320,17 +303,14 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       }
                       context.loaderOverlay.show();
                       if (formKey.currentState!.validate()) {
-                        ref
-                            .read(userProfileNotifierProvider.notifier)
-                            .updateFields(
+                        ref.read(userProfileNotifierProvider.notifier).updateFields(
                               nickName: nickNameController.text,
                               password: passwordController.text,
                               email: emailController.text,
                               phoneNumber: phoneController.text,
                             );
 
-                        Future<bool> status =
-                            SignUpService().finishRegister(ref);
+                        Future<bool> status = SignUpService().finishRegister(ref);
                         status.then((value) {
                           print('finish registerxxxx');
                           if (value) {
@@ -364,9 +344,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
-                      foregroundColor: themeProvider.isDarkMode
-                          ? const Color(skyBlueText)
-                          : const Color(primaryDark),
+                      foregroundColor: themeProvider.isDarkMode ? const Color(skyBlueText) : const Color(primaryDark),
                     ),
                     child: const Text('Iniciar sesión'),
                     onPressed: () {

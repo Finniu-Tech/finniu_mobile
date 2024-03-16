@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/otp.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
@@ -11,6 +12,7 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
+import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ActivateAccount extends HookConsumerWidget {
@@ -21,6 +23,8 @@ class ActivateAccount extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
+    final user = ref.watch(userProfileNotifierProvider);
+    final client = ref.watch(gqlClientProvider);
 
     return CustomScaffoldReturn(
       body: SingleChildScrollView(
@@ -38,8 +42,7 @@ class ActivateAccount extends HookConsumerWidget {
                     text: "Activa tu cuenta en segundos", //
                     fontWeight: FontWeight.w600,
                     fontSize: 24,
-                    colorText:
-                        themeProvider.isDarkMode ? primaryLight : primaryDark,
+                    colorText: themeProvider.isDarkMode ? primaryLight : primaryDark,
 
                     // Aquí añade el texto dentro de 'text'
                   ),
@@ -58,9 +61,7 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       height: 1.5,
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : const Color(primaryDark),
+                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                     ),
                     "Ingresa el código de verificación",
                   ),
@@ -76,9 +77,7 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : const Color(primaryDark),
+                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                     ),
                     "Te hemos enviado el código a tu correo para confirmar la operacion",
                   ),
@@ -98,9 +97,7 @@ class ActivateAccount extends HookConsumerWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w400,
                         height: 1.5,
-                        color: themeProvider.isDarkMode
-                            ? Colors.white
-                            : const Color(primaryDark),
+                        color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                       ),
                       "Reenviar el código en "),
                 ),
@@ -109,27 +106,30 @@ class ActivateAccount extends HookConsumerWidget {
                 ),
                 if (ref.watch(timerCounterDownProvider) == 0) ...[
                   TextButton(
-                    onPressed: () {
+                    onPressed: () async {
                       ref.read(timerCounterDownProvider.notifier).resetTimer();
 
-                      ref.read(resendOTPCodeFutureProvider.future).then((status) {
-                        if (status == true) {
-                          ref
-                              .read(timerCounterDownProvider.notifier)
-                              .startTimer(first: true);
-                        } else {
-                          CustomSnackbar.show(
-                            context,
-                            'No se pudo reenviar el correo',
-                            'error',
-                          );
-                        }
-                      });
+                      client.when(
+                        data: (client) async {
+                          final result = await (sendEmailOTPCode(user.email!, client));
+
+                          if (result == true) {
+                            ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
+                          } else {
+                            CustomSnackbar.show(
+                              context,
+                              'No se pudo reenviar el correo',
+                              'error',
+                            );
+                          }
+                        },
+                        error: (error, stackTrace) => null,
+                        loading: () => null,
+                      );
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                      backgroundColor: Color(
-                          themeProvider.isDarkMode ? primaryLight : primaryDark),
+                      backgroundColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
                     ),
                     child: Text(
                       'Reenviar código',
@@ -137,9 +137,7 @@ class ActivateAccount extends HookConsumerWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: themeProvider.isDarkMode
-                            ? Color(primaryDark)
-                            : Colors.white,
+                        color: themeProvider.isDarkMode ? Color(primaryDark) : Colors.white,
                       ),
                     ),
                   ),
@@ -147,8 +145,7 @@ class ActivateAccount extends HookConsumerWidget {
                     height: 15,
                   ),
                 ] else ...[
-                const CircularCountdown(),
-
+                  const CircularCountdown(),
                 ]
               ],
             ),
@@ -162,7 +159,6 @@ class ActivateAccount extends HookConsumerWidget {
 class VerificationCodeWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    String _code = '';
     final themeProvider = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
 
@@ -179,9 +175,7 @@ class VerificationCodeWidget extends HookConsumerWidget {
         textStyle: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.bold,
-          color: themeProvider.isDarkMode
-              ? Colors.white
-              : const Color(primaryDark),
+          color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
         ),
         keyboardType: TextInputType.number,
         underlineColor: const Color(
