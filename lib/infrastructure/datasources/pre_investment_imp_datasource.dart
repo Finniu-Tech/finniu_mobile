@@ -33,8 +33,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     );
     final responseGraphQL = response.data?['savePreInvestment'];
 
-    final preInvestmentResponse =
-        PreInvestmentSaveResponse.fromJson(responseGraphQL);
+    final preInvestmentResponse = PreInvestmentSaveResponse.fromJson(responseGraphQL);
 
     final preInvestment = PreInvestmentEntity(
       uuid: preInvestmentResponse.preInvestmentUuid!,
@@ -56,7 +55,8 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required GraphQLClient client,
     required String uuid,
     required bool readContract,
-    required String boucherScreenShot,
+    required List<String> files,
+    String? boucherScreenShot,
   }) async {
     try {
       final boucherFormatted = 'data:image/jpeg;base64,$boucherScreenShot';
@@ -65,11 +65,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           document: gql(
             MutationRepository.updatePreInvestment(),
           ),
-          variables: {
-            'uuid': uuid,
-            'readContract': readContract,
-            'boucher': boucherFormatted,
-          },
+          variables: {'uuid': uuid, 'readContract': readContract, 'boucher': boucherFormatted, 'files': files},
         ),
       );
       // return response.data?['updatePreinvestment']['success'];

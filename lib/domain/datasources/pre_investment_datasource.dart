@@ -17,6 +17,7 @@ abstract class PreInvestmentDataSource {
     required GraphQLClient client,
     required String uuid,
     required bool readContract,
-    required String boucherScreenShot,
+    String? boucherScreenShot,
+    required List<String> files,
   });
 }

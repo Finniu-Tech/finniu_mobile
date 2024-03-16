@@ -43,8 +43,7 @@ class Step2 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final args = ModalRoute.of(context)!.settings.arguments
-        as PreInvestmentStep2Arguments;
+    final args = ModalRoute.of(context)!.settings.arguments as PreInvestmentStep2Arguments;
     final PlanEntity plan = args.plan;
 
     final PreInvestmentEntity preInvestment = args.preInvestment;
@@ -139,17 +138,13 @@ class Step2Body extends HookConsumerWidget {
                           alignment: Alignment.center,
                           child: Container(
                             width: 59.49,
-                            height: 31.15,
+                            height: 35,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
+                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               border: Border.all(
                                 width: 4,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -175,9 +170,7 @@ class Step2Body extends HookConsumerWidget {
                                   textAlign: TextAlign.center,
                                   'Rentabilidad',
                                   style: TextStyle(
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(blackText)
-                                        : const Color(whiteText),
+                                    color: currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText),
                                     fontSize: 7,
                                   ),
                                 ),
@@ -204,8 +197,7 @@ class Step2Body extends HookConsumerWidget {
                             color: Colors.grey.withOpacity(0.6),
                             spreadRadius: 0,
                             blurRadius: 2,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
+                            offset: const Offset(0, 3), // changes position of shadow
                           ),
                         ],
                       ),
@@ -244,8 +236,7 @@ class Step2Body extends HookConsumerWidget {
                               color: Colors.grey.withOpacity(0.6),
                               spreadRadius: 0,
                               blurRadius: 2,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
+                              offset: const Offset(0, 3), // changes position of shadow
                             ),
                           ]),
                       child: Column(
@@ -284,9 +275,7 @@ class Step2Body extends HookConsumerWidget {
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 14,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
               ),
             ),
           ),
@@ -295,7 +284,7 @@ class Step2Body extends HookConsumerWidget {
           ),
           Container(
             width: 320,
-            height: 150,
+            height: 154,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(
                 bottomRight: Radius.circular(38),
@@ -306,9 +295,7 @@ class Step2Body extends HookConsumerWidget {
                     )
                   : const Color(gradient_secondary),
               border: Border.all(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryDark)
-                    : const Color(gradient_secondary),
+                color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(gradient_secondary),
                 width: 1,
               ),
             ),
@@ -323,9 +310,7 @@ class Step2Body extends HookConsumerWidget {
                     Text(
                       'Finniu S.A.C',
                       style: TextStyle(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
@@ -337,9 +322,7 @@ class Step2Body extends HookConsumerWidget {
                         Text(
                           'RUC ',
                           style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -347,9 +330,7 @@ class Step2Body extends HookConsumerWidget {
                           '20609327210',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -363,9 +344,7 @@ class Step2Body extends HookConsumerWidget {
                         Text(
                           'N de cuenta $textCurrency Interbank ',
                           style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -377,9 +356,7 @@ class Step2Body extends HookConsumerWidget {
                           isSoles ? '2003004077570' : '2003004754309',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -390,8 +367,7 @@ class Step2Body extends HookConsumerWidget {
                           onTap: () {
                             Clipboard.setData(
                               new ClipboardData(
-                                text:
-                                    isSoles ? "2003004077570" : "2003004754309",
+                                text: isSoles ? "2003004077570" : "2003004754309",
                               ),
                             ).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -406,9 +382,7 @@ class Step2Body extends HookConsumerWidget {
                             });
                           },
                           child: ImageIcon(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             size: 18,
                             const AssetImage(
                               'assets/icons/double_square.png',
@@ -425,21 +399,15 @@ class Step2Body extends HookConsumerWidget {
                         Text(
                           'CCI ',
                           style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
                         Text(
-                          isSoles
-                              ? '003 200 00300407757039'
-                              : '003 20000300475430932',
+                          isSoles ? '003 200 00300407757039' : '003 20000300475430932',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -449,9 +417,7 @@ class Step2Body extends HookConsumerWidget {
                         InkWell(
                           onTap: () {
                             Clipboard.setData(new ClipboardData(
-                                    text: isSoles
-                                        ? "003 200 00300407757039"
-                                        : '003 20000300475430932'))
+                                    text: isSoles ? "003 200 00300407757039" : '003 20000300475430932'))
                                 .then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -465,9 +431,7 @@ class Step2Body extends HookConsumerWidget {
                             });
                           },
                           child: ImageIcon(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             size: 18,
                             const AssetImage(
                               'assets/icons/double_square.png',
@@ -492,9 +456,7 @@ class Step2Body extends HookConsumerWidget {
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 14,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
               ),
             ),
           ),
@@ -513,136 +475,127 @@ class Step2Body extends HookConsumerWidget {
               ),
               color: const Color(primaryLightAlternative),
               border: Border.all(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryLightAlternative),
+                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLightAlternative),
                 width: 1,
               ),
             ),
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.8,
-              child:Stack(
-  children: [
-    Align(
-      alignment: Alignment.topRight,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 10, top: 10),
-        child: InkWell(
-          onTap: () {
-            photoHelp(context);
-          },
-          child: ImageIcon(
-            const AssetImage('assets/icons/questions.png'),
-            size: 20, // Tamaño de la imagen
-            color: currentTheme.isDarkMode
-                ? const Color(grayText)
-                : const Color(primaryDark), // Color de la imagen
-          ),
-        ),
-      ),
-    ),
-    Align(
-      alignment: Alignment.center,
-      child: InkWell(
-        onTap: () async {
-          // Tu código para seleccionar imágenes aquí
-          final ImagePicker _picker = ImagePicker();
-                      final List<XFile>? images = await _picker.pickMultiImage();
-
-                      if (images != null) {
-                        print('if images');
-                        for (var image in images) {
-                          final File imageFile = File(image.path);
-                          final List<int> imageBytes = await imageFile.readAsBytes();
-                          final _base64Image = base64Encode(imageBytes);
-
-                          // Añade las imágenes a las listas y notifica a los oyentes
-                          voucherImageBase64.value = List.from(voucherImageBase64.value)..add(_base64Image);
-                          voucherPreview.value = List.from(voucherPreview.value)..add(image.path);
-                          print('voucherImageBase64.value ${voucherImageBase64.value}');
-                          print('voucherPreview.value ${voucherPreview.value.length}');
-
-                        }
-                      }
-        },
-        child: ValueListenableBuilder<List<String>>(
-          valueListenable: voucherPreview,
-          builder: (context, value, child) {
-            return value.isEmpty
-                ? ImageIcon(
-                    const AssetImage('assets/icons/photo.png'),
-                    color: currentTheme.isDarkMode
-                        ? const Color(grayText)
-                        : const Color(primaryDark),
-                  )
-                : SizedBox(
-                    height: 60, // Ajusta este valor según tus necesidades
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal, // Hace que la lista sea horizontal
-                      itemCount: value.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 10), // Añade un espacio a la derecha de cada imagen
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: 40,
-                                height: 40,
-                                child: Image.file(
-                                  File(value[index]),
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 10, ),
-                                child: Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      // Código para eliminar la imagen
-                                    },
-                                    child: Container(
-                                      width: 16,
-                                      height: 16,
-                                      decoration: BoxDecoration(
-                                        color: Colors.black38, // Color semitransparente
-                                        shape: BoxShape.circle, // Forma redonda
-                                      ),
-                                      child: Icon(Icons.close, size: 8, color: Colors.white), // Icono de "x"
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
+              child: Stack(
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 10, top: 10),
+                      child: InkWell(
+                        onTap: () {
+                          photoHelp(context);
+                        },
+                        child: ImageIcon(
+                          const AssetImage('assets/icons/questions.png'),
+                          size: 20, // Tamaño de la imagen
+                          color: currentTheme.isDarkMode
+                              ? const Color(grayText)
+                              : const Color(primaryDark), // Color de la imagen
+                        ),
+                      ),
                     ),
-                  );
-          },
-        ),
-      ),
-    ),
-    Padding(
-
-      padding: const EdgeInsets.only(bottom: 5),
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Text(
-                  'Suba la foto nitida donde sea visible el código de operación',
-                  style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(grayText)
-                        : const Color(primaryDark),
-                    fontSize: 8,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-      ),
-    )
-  ],
-),
+                  Align(
+                    alignment: Alignment.center,
+                    child: InkWell(
+                      onTap: () async {
+                        final ImagePicker picker = ImagePicker();
+                        final List<XFile> images = await picker.pickMultiImage();
+
+                        if (images.isNotEmpty) {
+                          for (var image in images) {
+                            final File imageFile = File(image.path);
+                            final List<int> imageBytes = await imageFile.readAsBytes();
+                            final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+
+                            voucherImageBase64.value = List.from(voucherImageBase64.value)..add(base64Image);
+                            voucherPreview.value = List.from(voucherPreview.value)..add(image.path);
+                          }
+                        }
+                      },
+                      child: ValueListenableBuilder<List<String>>(
+                        valueListenable: voucherPreview,
+                        builder: (context, value, child) {
+                          return value.isEmpty
+                              ? ImageIcon(
+                                  const AssetImage('assets/icons/photo.png'),
+                                  color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
+                                )
+                              : SizedBox(
+                                  height: 60, // Ajusta este valor según tus necesidades
+                                  child: ListView.builder(
+                                    scrollDirection: Axis.horizontal, // Hace que la lista sea horizontal
+                                    itemCount: value.length,
+                                    shrinkWrap: true,
+                                    itemBuilder: (context, index) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 10), // Añade un espacio a la derecha de cada imagen
+                                        child: Stack(
+                                          children: [
+                                            Container(
+                                              width: 40,
+                                              height: 40,
+                                              child: Image.file(
+                                                File(value[index]),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 10,
+                                              ),
+                                              child: Align(
+                                                alignment: Alignment.bottomLeft,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    // Código para eliminar la imagen
+                                                  },
+                                                  child: Container(
+                                                    width: 16,
+                                                    height: 16,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.black38, // Color semitransparente
+                                                      shape: BoxShape.circle, // Forma redonda
+                                                    ),
+                                                    child:
+                                                        Icon(Icons.close, size: 8, color: Colors.white), // Icono de "x"
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Text(
+                        'Suba la foto nitida donde sea visible el código de operación',
+                        style: TextStyle(
+                          color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
           const SizedBox(
@@ -659,15 +612,12 @@ class Step2Body extends HookConsumerWidget {
                 'He leido y acepto el ',
                 style: TextStyle(
                   fontSize: 10,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
               GestureDetector(
                 onTap: () async {
-                  String contractURL =
-                      await ContractDataSourceImp().getContract(
+                  String contractURL = await ContractDataSourceImp().getContract(
                     uuid: preInvestment.uuid,
                     client: ref.watch(gqlClientProvider).value!,
                   );
@@ -687,9 +637,7 @@ class Step2Body extends HookConsumerWidget {
                 child: Text(
                   ' Contrato de Inversion de Finniu ',
                   style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
@@ -707,25 +655,20 @@ class Step2Body extends HookConsumerWidget {
               onPressed: () async {
                 final base64Image = voucherImageBase64.value;
                 if (base64Image == '') {
-                  CustomSnackbar.show(
-                      context,
-                      'Debe subir una imagen de la constancia de transferencia',
-                      'error');
+                  CustomSnackbar.show(context, 'Debe subir una imagen de la constancia de transferencia', 'error');
                   return;
                 }
 
                 if (ref.watch(userAcceptedTermsProvider) == false) {
-                  CustomSnackbar.show(
-                      context, 'Debe aceptar y leer el contrato', 'error');
+                  CustomSnackbar.show(context, 'Debe aceptar y leer el contrato', 'error');
                   return;
                 }
                 context.loaderOverlay.show();
                 final response = await PreInvestmentDataSourceImp().update(
-                  client: ref.watch(gqlClientProvider).value!,
-                  uuid: preInvestment.uuid,
-                  readContract: ref.watch(userAcceptedTermsProvider),
-                  boucherScreenShot: 'base64Image', //TODO cambiar por la lista de imagenes
-                );
+                    client: ref.watch(gqlClientProvider).value!,
+                    uuid: preInvestment.uuid,
+                    readContract: ref.watch(userAcceptedTermsProvider),
+                    files: base64Image);
                 if (response.success == true) {
                   context.loaderOverlay.hide();
                   Navigator.pushNamed(context, '/investment_step3');
@@ -778,9 +721,7 @@ class CircularCountdown extends ConsumerWidget {
             duration: 60,
             ringColor: const Color(primaryLight),
             fillColor: const Color(primaryDark),
-            backgroundColor: currentTheme.isDarkMode
-                ? const Color(backgroundColorDark)
-                : const Color(whiteText),
+            backgroundColor: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
             strokeWidth: 6.0,
             textStyle: const TextStyle(
               fontSize: 10.0,

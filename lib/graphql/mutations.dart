@@ -219,11 +219,12 @@ currency: \$currency,
 
   static String updatePreInvestment() {
     return '''
-      mutation updatePreinvestment(\$uuid: String!, \$readContract:Boolean!, \$boucher: String!){
+      mutation updatePreinvestment(\$uuid: String!, \$readContract:Boolean!, \$boucher: String, \$files: [String] ){
         updatePreinvestment(
           preInvestmentUuid: \$uuid,
           userReadContract: \$readContract,
-          boucherTransaction: \$boucher
+          boucherTransaction: \$boucher,
+          filesTransaction: \$files
         ){
           success
           preInvestmentUuid
