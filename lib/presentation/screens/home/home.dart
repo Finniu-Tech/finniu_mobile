@@ -295,7 +295,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final hasPreInvestmentState = ref.read(hasPreInvestmentProvider.notifier);
     return Container(
-      height: 135,
+      height: 140,
       width: 330,
       padding: const EdgeInsets.only(top: 15, bottom: 15),
       decoration: BoxDecoration(

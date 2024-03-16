@@ -129,7 +129,7 @@ class CardCustom extends ConsumerWidget {
           ),
         ),
         trailing: SizedBox(
-          width: 80,
+          width: 85,
           // height: 30,
           child: Row(
             children: [
@@ -624,7 +624,7 @@ class InitialCardBody extends ConsumerWidget {
                 const SizedBox(width: 10),
                 Container(
                   width: 90,
-                  height: 40,
+                  height: 45,
                   decoration: BoxDecoration(
                     border: Border.all(
                         color: const Color(gradient_secondary), width: 2.0),
@@ -659,11 +659,11 @@ class InitialCardBody extends ConsumerWidget {
                 const SizedBox(width: 12),
                 Container(
                   width: 90,
-                  height: 40,
+                  height: 45,
                   decoration: BoxDecoration(
                     border: Border.all(
                         color: const Color(primaryLightAlternative),
-                        width: 2.0),
+                        width: 2.0,),
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                     color: const Color(primaryLightAlternative),
                   ),
