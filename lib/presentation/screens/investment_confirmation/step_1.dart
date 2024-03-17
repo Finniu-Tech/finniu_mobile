@@ -474,17 +474,17 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       });
 
                       context.loaderOverlay.hide();
-
-                      if (resultCalculator?.plan != null) {
+                      if (resultCalculator?.error == null) {
                         CustomSnackbar.show(
                           context,
                           'Cupón aplicado correctamente',
                           'success',
                         );
                       } else {
+                        widget.couponController.clear();
                         CustomSnackbar.show(
                           context,
-                          'Código inválido',
+                          resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
                           'error',
                         );
                       }

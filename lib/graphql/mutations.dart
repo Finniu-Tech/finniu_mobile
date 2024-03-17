@@ -189,6 +189,11 @@ class MutationRepository {
                 returnDateEstimate
                 planImageUrl
               }
+              messages{
+                field
+                message
+                errorCode
+              }
             }
         }
     ''';

@@ -12,17 +12,12 @@ class CalculateInvestmentMapper {
     if (planModel == null) {
       throw Exception('Invalid CalculateInvestmentResponse object');
     }
-
     return PlanSimulation(
       initialAmount: initialAmount,
       months: months,
-      profitability: investmentResponse
-          .calculateInvestment!.profitability!.preInvestmentAmount
-          ?.toDouble(),
-      finalRentability: investmentResponse
-              .calculateInvestment?.finalRestabilityPercent
-              ?.toDouble() ??
-          0,
+      error: investmentResponse.errorMessage,
+      profitability: investmentResponse.calculateInvestment!.profitability!.preInvestmentAmount?.toDouble(),
+      finalRentability: investmentResponse.calculateInvestment?.finalRestabilityPercent?.toDouble() ?? 0,
       plan: PlanEntity(
         uuid: planModel.uuid ?? '',
         name: planModel.name ?? '',

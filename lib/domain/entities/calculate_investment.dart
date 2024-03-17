@@ -6,6 +6,7 @@ class PlanSimulation {
   final double? profitability;
   final PlanEntity? plan;
   final double? finalRentability;
+  final String? error;
 
   PlanSimulation({
     required this.initialAmount,
@@ -13,5 +14,6 @@ class PlanSimulation {
     required this.profitability,
     required this.plan,
     required this.finalRentability,
+    this.error,
   });
 }

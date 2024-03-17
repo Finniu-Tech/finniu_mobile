@@ -4,28 +4,31 @@
 
 import 'dart:convert';
 
-CalculateInvestmentResponse scanModelFromJson(String str) =>
-    CalculateInvestmentResponse.fromJson(json.decode(str));
+CalculateInvestmentResponse scanModelFromJson(String str) => CalculateInvestmentResponse.fromJson(json.decode(str));
 
-String scanModelToJson(CalculateInvestmentResponse data) =>
-    json.encode(data.toJson());
+String scanModelToJson(CalculateInvestmentResponse data) => json.encode(data.toJson());
 
 class CalculateInvestmentResponse {
   CalculateInvestmentResponse({
     this.calculateInvestment,
+    this.errorMessage,
   });
 
   CalculateInvestment? calculateInvestment;
+  String? errorMessage;
 
-  factory CalculateInvestmentResponse.fromJson(Map<String, dynamic> json) =>
-      CalculateInvestmentResponse(
-        calculateInvestment: json["calculateInvestment"] == null
-            ? null
-            : CalculateInvestment.fromJson(json["calculateInvestment"]),
-      );
+  factory CalculateInvestmentResponse.fromJson(Map<String, dynamic> json) {
+    print('json mapper $json');
+    return CalculateInvestmentResponse(
+      calculateInvestment:
+          json["calculateInvestment"] == null ? null : CalculateInvestment.fromJson(json["calculateInvestment"]),
+      errorMessage: json["calculateInvestment"]["messages"]?[0]["message"],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
         "calculateInvestment": calculateInvestment?.toJson(),
+        "errorMessage": errorMessage,
       };
 }
 
@@ -42,12 +45,9 @@ class CalculateInvestment {
   Plan? plan;
   double? finalRestabilityPercent;
 
-  factory CalculateInvestment.fromJson(Map<String, dynamic> json) =>
-      CalculateInvestment(
+  factory CalculateInvestment.fromJson(Map<String, dynamic> json) => CalculateInvestment(
         success: json["success"],
-        profitability: json["profitability"] == null
-            ? null
-            : Profitability.fromJson(json["profitability"]),
+        profitability: json["profitability"] == null ? null : Profitability.fromJson(json["profitability"]),
         plan: json["plan"] == null ? null : Plan.fromJson(json["plan"]),
         finalRestabilityPercent: double.parse(json["finalRestabilityPercent"]),
       );
@@ -91,9 +91,7 @@ class Plan {
         value: json["value"],
         twelveMonthsReturn: json["twelveMonthsReturn"],
         sixMonthsReturn: json["sixMonthsReturn"],
-        returnDateEstimate: json["returnDateEstimate"] == null
-            ? null
-            : DateTime.parse(json["returnDateEstimate"]),
+        returnDateEstimate: json["returnDateEstimate"] == null ? null : DateTime.parse(json["returnDateEstimate"]),
         planImageUrl: json["planImageUrl"],
       );
 

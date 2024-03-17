@@ -35,8 +35,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
       months: int.parse(monthsController.text.split(' ')[0]),
       currency: isSoles ? currencyNuevoSol : currencyDollar,
     );
-    final result = await ref
-        .watch(calculateInvestmentFutureProvider(inputCalculator).future);
+    final result = await ref.watch(calculateInvestmentFutureProvider(inputCalculator).future);
     return result.plan!;
   }
 
@@ -64,9 +63,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                   textAlign: TextAlign.justify,
                   'Reinvierte tu inversión ',
                   style: TextStyle(
-                    color: themeProvider.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -109,8 +106,8 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                               color: const Color(secondary),
                             ),
                           ),
-                          child: Column(
-                            children: const [
+                          child: const Column(
+                            children: [
                               Text(
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
@@ -169,9 +166,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                           top: 20,
                         ),
                         decoration: BoxDecoration(
-                          color: themeProvider.isDarkMode
-                              ? Colors.transparent
-                              : const Color(whiteText),
+                          color: themeProvider.isDarkMode ? Colors.transparent : const Color(whiteText),
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                             color: const Color(gradient_secondary_option),
@@ -185,9 +180,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: themeProvider.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(primaryDark),
+                                  color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                                   fontWeight: FontWeight.w500,
                                 ),
                                 "Seleccionaste la opción reinvertir tu capital + intereses",
@@ -232,8 +225,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                         },
                         onChanged: (value) {
                           _debouncer.run(() {
-                            if (amountController.text.isNotEmpty &&
-                                monthsController.text.isNotEmpty) {
+                            if (amountController.text.isNotEmpty && monthsController.text.isNotEmpty) {
                               calculateInvestment(
                                 context,
                                 ref,
@@ -245,8 +237,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                         },
                         decoration: const InputDecoration(
                           hintText: 'Escriba su monto de ganancia',
-                          hintStyle:
-                              TextStyle(color: Color(grayText), fontSize: 11),
+                          hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
                           label: Text("Monto de ganancia"),
                         ),
                       ),
@@ -258,9 +249,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 12,
-                        color: themeProvider.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                         fontWeight: FontWeight.w500,
                       ),
                       "Plan recomendado por el monto",
@@ -284,8 +273,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                         color: Colors.grey.withOpacity(0.6),
                         spreadRadius: 0,
                         blurRadius: 2,
-                        offset:
-                            const Offset(0, 3), // changes position of shadow
+                        offset: const Offset(0, 3), // changes position of shadow
                       ),
                     ],
                     borderRadius: BorderRadius.circular(15),
@@ -414,8 +402,7 @@ class _ReinvestEndState extends ConsumerState<ReinvestEnd> {
                   // },
                   callbackOnChange: (value) async {
                     monthsController.text = value;
-                    if (amountController.text.isNotEmpty &&
-                        monthsController.text.isNotEmpty) {
+                    if (amountController.text.isNotEmpty && monthsController.text.isNotEmpty) {
                       context.loaderOverlay.show();
                       final result = await calculateInvestment(
                         context,
