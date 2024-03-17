@@ -4,6 +4,7 @@ import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
+import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
@@ -27,9 +28,11 @@ class _CalculatorState extends ConsumerState<Calculator> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final monthsController = useTextEditingController();
+    // final monthsController = useTextEditingController();
+    final deadLineController = useTextEditingController();
     final amountController = useTextEditingController();
     final isSoles = ref.watch(isSolesStateProvider);
+    final deadLineFuture = ref.watch(deadLineFutureProvider.future);
     // PlanSimulation? planSimulation;
 
     List<Color> dayColors = [const Color(gradient_primary), const Color(gradient_secondary)];
@@ -153,14 +156,29 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   ),
                 ),
               ),
+              // CustomSelectButton(
+              //   textEditingController: monthsController,
+              //   items: const ['6 meses', '12 meses'],
+              //   labelText: "Plazo",
+              //   hintText: 'Seleccione su plazo de inversion',
+              //   callbackOnChange: (value) {
+              //     monthsController.text = value;
+              //   },
+              // ),
               CustomSelectButton(
-                textEditingController: monthsController,
-                items: const ['6 meses', '12 meses'],
-                labelText: "Plazo",
-                hintText: 'Seleccione su plazo de inversion',
-                callbackOnChange: (value) {
-                  monthsController.text = value;
+                asyncItems: (String filter) async {
+                  final response = await deadLineFuture;
+                  return response.map((e) => e.name).toList();
                 },
+                callbackOnChange: (value) async {
+                  deadLineController.text = value;
+                  // if (widget.mountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
+                  //   calculateInvestment(context, ref);
+                  // }
+                },
+                textEditingController: deadLineController,
+                labelText: "Plazo",
+                hintText: "Seleccione su plazo de inversión",
               ),
               const SizedBox(height: 5),
               Padding(
@@ -196,11 +214,17 @@ class _CalculatorState extends ConsumerState<Calculator> {
               ),
               Container(
                 width: 224,
-                height: 50,
+                height: 55,
                 margin: const EdgeInsets.only(top: 10),
                 child: TextButton(
                   onPressed: () async {
-                    if (int.parse(amountController.text) < 500 || int.parse(amountController.text) > 100000) {
+                    if (amountController.text.isEmpty || deadLineController.text.isEmpty) {
+                      CustomSnackbar.show(
+                        context,
+                        'Recuerda que todos los campos son requeridos',
+                        'error',
+                      );
+                    } else if (int.parse(amountController.text) < 500 || int.parse(amountController.text) > 100000) {
                       CustomSnackbar.show(
                         context,
                         'Recuerda que el monto mínimo de inversión es de S/500 y el máximo es de S/100000',
@@ -212,7 +236,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                         '/calculator_result',
                         arguments: CalculatorInput(
                           amount: int.parse(amountController.text),
-                          months: int.parse(monthsController.text.split(' ')[0]),
+                          months: int.parse(deadLineController.text.split(' ')[0]),
                           currency: isSoles ? currencyNuevoSol : currencyDollar,
                         ),
                       );

@@ -1,13 +1,11 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/auth.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
-import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/onboarding/section_1.dart';
 import 'package:finniu/presentation/screens/onboarding/section_2.dart';
 import 'package:finniu/presentation/screens/onboarding/section_3.dart';
 import 'package:finniu/presentation/screens/onboarding/section_4.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/step_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -311,8 +309,7 @@ class _StartOnboardingState extends ConsumerState<StartOnboarding> {
   @override
   Widget build(BuildContext context) {
     final userProfile = ref.watch(userProfileNotifierProvider);
-    final login =
-        LoginModel(email: userProfile.email!, password: userProfile.password!);
+    final login = LoginModel(email: userProfile.email!, password: userProfile.password!);
     ref.read(
       authTokenMutationProvider(
         login,
@@ -336,12 +333,7 @@ class _StartOnboardingState extends ConsumerState<StartOnboarding> {
                 ),
                 child: PageView(
                   controller: _controller,
-                  children: const [
-                    Section1(),
-                    Section2(),
-                    Section3(),
-                    Section4()
-                  ],
+                  children: const [Section1(), Section2(), Section3(), Section4()],
                   onPageChanged: (page) {
                     setState(() {
                       _currentStep = page;
