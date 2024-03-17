@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
@@ -25,7 +24,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 
 class HomeScreen extends HookConsumerWidget {
-  HomeScreen({super.key});
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,39 +35,40 @@ class HomeScreen extends HookConsumerWidget {
     final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
 
     // var hasCompletedOnboarding = true;
-    return WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: Scaffold(
-          backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
-          bottomNavigationBar: const BottomNavigationBarHome(),
-          body: HookBuilder(
-            builder: (context) {
-              final userProfile = ref.watch(userProfileFutureProvider);
+    return PopScope(
+      // onWillPop: () async {
+      //   return false;
+      // },
+      child: Scaffold(
+        backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
+        bottomNavigationBar: const BottomNavigationBarHome(),
+        body: HookBuilder(
+          builder: (context) {
+            final userProfile = ref.watch(userProfileFutureProvider);
 
-              return userProfile.when(
-                data: (profile) {
-                  if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
-                    hasPushedOnboarding = true; // set flag to true
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
-                    });
-                  }
+            return userProfile.when(
+              data: (profile) {
+                if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
+                  hasPushedOnboarding = true; // set flag to true
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+                  });
+                }
 
-                  return HomeBody(currentTheme: currentTheme, userProfile: profile);
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, _) => Center(child: Text(error.toString())),
-              );
-            },
-          ),
-        ));
+                return HomeBody(currentTheme: currentTheme, userProfile: profile);
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) => Center(child: Text(error.toString())),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
 class HomeBody extends ConsumerWidget {
-  HomeBody({
+  const HomeBody({
     super.key,
     required this.currentTheme,
     required this.userProfile,
@@ -157,7 +157,7 @@ class HomeBody extends ConsumerWidget {
                   ),
                   error: (error, _) => SizedBox(
                     height: MediaQuery.of(context).size.height * 0.4,
-                    child: Center(
+                    child: const Center(
                       child: EmptyReportMessage(),
                     ),
                   ),
@@ -243,6 +243,7 @@ class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCa
                 }
               }),
             );
+        return null;
       },
       [],
     );
@@ -275,7 +276,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
     required this.preInvestmentForm,
   });
   final currentTheme;
-  PreInvestmentForm preInvestmentForm;
+  final PreInvestmentForm preInvestmentForm;
   @override
   Widget build(BuildContext context, ref) {
     final hasPreInvestmentState = ref.read(hasPreInvestmentProvider.notifier);
@@ -550,16 +551,20 @@ class LineReportHomeWidget extends ConsumerStatefulWidget {
 
 class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
   final List<String> _darkImages = [
-    "assets/report_home/dark/step_1.png",
-    "assets/report_home/dark/step_2.png",
-    "assets/report_home/dark/step_3.png",
-    "assets/report_home/dark/step_4.png",
+    "assets/reports/night/step_1.png",
+    "assets/reports/night/step_3.png",
+    "assets/reports/night/step_3.png",
+    "assets/reports/night/step_4.png",
+    "assets/reports/night/step_5.png",
+    "assets/reports/night/step_6.png",
   ];
   final List<String> _lightImages = [
-    "assets/report_home/light/step_1.png",
-    "assets/report_home/light/step_2.png",
-    "assets/report_home/light/step_3.png",
-    "assets/report_home/light/step_4.png",
+    "assets/reports/light/step_1.png",
+    "assets/reports/light/step_2.png",
+    "assets/reports/light/step_3.png",
+    "assets/reports/light/step_4.png",
+    "assets/reports/light/step_5.png",
+    "assets/reports/light/step_6.png",
   ];
   int _currentPageIndex = 0;
   Timer? _timer;
@@ -574,7 +579,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
     //     : _lightImages;
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
-        if (_currentPageIndex < 3) {
+        if (_currentPageIndex < 5) {
           _currentPageIndex++;
         } else {
           _currentPageIndex = 0;
@@ -611,7 +616,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 const SwitchMoney(
                   switchHeight: 34,
                   switchWidth: 67,
@@ -641,98 +646,99 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
               top: 30,
               left: 16,
               child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      // width: 130,
-                      height: 56,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                '$moneySymbol ${widget.initialAmount.toStringAsFixed(2)}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                                ),
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    // width: 130,
+                    height: 56,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '$moneySymbol ${widget.initialAmount.toStringAsFixed(2)}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               ),
-                              const SizedBox(
-                                width: 30,
-                              ),
-                              Text(
-                                '$moneySymbol ${widget.finalAmount.toStringAsFixed(2)}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Dinero total',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 40,
-                              ),
-                              Text(
-                                'Intereses generados',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      width: 125,
-                      height: 60,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${widget.totalPlans.toInt()} ${widget.totalPlans.toInt() == 1 ? "plan" : "planes"}',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                             ),
-                          ),
-                          Text(
-                            'Mis inversiones en Curso',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 10,
-                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                            const SizedBox(
+                              width: 30,
                             ),
-                          ),
-                        ],
-                      ),
+                            Text(
+                              '$moneySymbol ${widget.finalAmount.toStringAsFixed(2)}',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Dinero total',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 40,
+                            ),
+                            Text(
+                              'Intereses generados',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ]),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  SizedBox(
+                    width: 125,
+                    height: 60,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          '${widget.totalPlans.toInt()} ${widget.totalPlans.toInt() == 1 ? "plan" : "planes"}',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          ),
+                        ),
+                        Text(
+                          'Mis inversiones en Curso',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -795,16 +801,17 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
           children: [
             Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.6),
-                      spreadRadius: 0,
-                      blurRadius: 0,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                  color: const Color(secondary)),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.6),
+                    spreadRadius: 0,
+                    blurRadius: 0,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+                color: const Color(secondary),
+              ),
               width: 98,
               height: 65,
               child: GestureDetector(
@@ -853,16 +860,17 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
             ),
             Container(
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.6),
-                      spreadRadius: 0,
-                      blurRadius: 0,
-                      offset: const Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                  color: const Color(secondary)),
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.6),
+                    spreadRadius: 0,
+                    blurRadius: 0,
+                    offset: const Offset(0, 3), // changes position of shadow
+                  ),
+                ],
+                color: const Color(secondary),
+              ),
               width: 98,
               height: 65,
               child: GestureDetector(

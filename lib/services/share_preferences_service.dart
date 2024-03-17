@@ -6,8 +6,8 @@ class Preferences {
   static bool _isDarkMode = false;
   static bool _showWelcomeModal = true;
   static bool _rememberMe = false;
-  static String? _token = null;
-  static String? _username = null;
+  static String? _token;
+  static String? _username;
   // static String _authToken = '';
 
   static Future init() async {

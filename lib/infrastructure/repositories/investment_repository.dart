@@ -1,15 +1,13 @@
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class InvestmentRepository {
   InvestmentRepository();
 
   @override
-  Future<bool> userHasInvestmentInProcess(
-      {required GraphQLClient client}) async {
+  Future<bool> userHasInvestmentInProcess({required GraphQLClient client}) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -38,8 +36,7 @@ class InvestmentRepository {
     if (lastPreInvestmentResponse != null) {
       return PreInvestmentForm(
         uuid: lastPreInvestmentResponse['uuidPreInvestment'],
-        amount: double.parse(lastPreInvestmentResponse['amount'].toString())
-            .round(),
+        amount: double.parse(lastPreInvestmentResponse['amount'].toString()).round(),
         currency: lastPreInvestmentResponse['currency'],
         bankAccountTypeUuid: lastPreInvestmentResponse['uuidBank'],
         deadLineUuid: lastPreInvestmentResponse['uuidDeadline'],

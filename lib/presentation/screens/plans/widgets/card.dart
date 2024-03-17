@@ -149,14 +149,10 @@ class CardCustom extends ConsumerWidget {
               CircleAvatar(
                 radius: 15,
                 backgroundColor: Color(
-                  currentTheme.isDarkMode
-                      ? (primaryDark)
-                      : (primaryLightAlternative),
+                  currentTheme.isDarkMode ? (primaryDark) : (primaryLightAlternative),
                 ),
                 child: Icon(
-                  isExpanded.value
-                      ? Icons.arrow_drop_up
-                      : Icons.arrow_drop_down,
+                  isExpanded.value ? Icons.arrow_drop_up : Icons.arrow_drop_down,
                   color: Color(
                     currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
                   ),
@@ -228,8 +224,7 @@ class CardCustom extends ConsumerWidget {
                             // mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               const Icon(
-                                Icons
-                                    .monetization_on_outlined, // Icono que deseas utilizar
+                                Icons.monetization_on_outlined, // Icono que deseas utilizar
                                 size: 21.5, // Tamaño del icono
                                 color: Color(primaryDark), // Color del icono
                               ),
@@ -314,8 +309,7 @@ class CardCustom extends ConsumerWidget {
                     ],
                   ),
                   Padding(
-                    padding: const EdgeInsets.all(
-                        25.0), // aquí puedes configurar la cantidad de padding
+                    padding: const EdgeInsets.all(25.0), // aquí puedes configurar la cantidad de padding
                     child: Center(
                       child: Text(
                         textContainer,
@@ -379,10 +373,7 @@ class CardCustom extends ConsumerWidget {
                                   objective!,
                                   textAlign: TextAlign.justify,
                                   style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w400,
-                                      height: 1.5,
-                                      color: Color(blackText)),
+                                      fontSize: 10, fontWeight: FontWeight.w400, height: 1.5, color: Color(blackText)),
                                 ),
                               ],
                             ),
@@ -409,10 +400,7 @@ class CardCustom extends ConsumerWidget {
                         ),
                         const Text(
                           "Características del fondo",
-                          style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Color(primaryDark)),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(primaryDark)),
                         ),
                       ],
                     ),
@@ -437,8 +425,7 @@ class CardCustom extends ConsumerWidget {
                             // ),
                             Text(
                               feature!,
-                              style: TextStyle(
-                                  fontSize: 9, color: Color(blackText)),
+                              style: TextStyle(fontSize: 9, color: Color(blackText)),
                             ),
                           ],
                         ),
@@ -464,10 +451,7 @@ class CardCustom extends ConsumerWidget {
                           ),
                           const Text(
                             "Distribución del Fondo",
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: Color(primaryDark)),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(primaryDark)),
                           ),
                         ],
                       ),
@@ -518,10 +502,8 @@ class CardCustom extends ConsumerWidget {
                             )),
                         style: ButtonStyle(
                           elevation: MaterialStateProperty.all<double>(4),
-                          shadowColor:
-                              MaterialStateProperty.all<Color>(Colors.grey),
-                          padding:
-                              MaterialStateProperty.all<EdgeInsetsGeometry>(
+                          shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
                             const EdgeInsets.symmetric(
                               horizontal: 20,
                               // vertical: 10,
@@ -568,22 +550,10 @@ class InitialCardBody extends ConsumerWidget {
       decoration: BoxDecoration(
         // border: Border.all(color: Color(primaryDark), width: 2.0),
         border: Border(
-          top: BorderSide(
-              color: Color(
-                  currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-              width: 2.0),
-          left: BorderSide(
-              color: Color(
-                  currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-              width: 2.0),
-          right: BorderSide(
-              color: Color(
-                  currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-              width: 2.0),
-          bottom: BorderSide(
-              color: Color(
-                  currentTheme.isDarkMode ? (primaryLight) : (primaryDark)),
-              width: 2.0),
+          top: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+          left: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+          right: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
+          bottom: BorderSide(color: Color(currentTheme.isDarkMode ? (primaryLight) : (primaryDark)), width: 2.0),
         ),
 
         borderRadius: const BorderRadius.only(
@@ -626,8 +596,7 @@ class InitialCardBody extends ConsumerWidget {
                   width: 90,
                   height: 45,
                   decoration: BoxDecoration(
-                    border: Border.all(
-                        color: const Color(gradient_secondary), width: 2.0),
+                    border: Border.all(color: const Color(gradient_secondary), width: 2.0),
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                     color: const Color(gradient_secondary),
                   ),
@@ -662,8 +631,9 @@ class InitialCardBody extends ConsumerWidget {
                   height: 45,
                   decoration: BoxDecoration(
                     border: Border.all(
-                        color: const Color(primaryLightAlternative),
-                        width: 2.0,),
+                      color: const Color(primaryLightAlternative),
+                      width: 2.0,
+                    ),
                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                     color: const Color(primaryLightAlternative),
                   ),
@@ -725,9 +695,7 @@ class InitialCardBody extends ConsumerWidget {
                 child: Text(
                   "Comenzar a invertir",
                   style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(whiteText),
+                    color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                     fontSize: 11.0,
                   ),
                   maxLines: 1,

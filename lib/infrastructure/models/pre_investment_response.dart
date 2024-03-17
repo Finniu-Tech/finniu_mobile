@@ -1,9 +1,3 @@
-// To parse this JSON data, do
-//
-//     final scanModel = scanModelFromJson(jsonString);
-
-import 'dart:convert';
-
 class PreInvestmentSaveResponse {
   bool? success;
   String? preInvestmentUuid;
@@ -15,8 +9,7 @@ class PreInvestmentSaveResponse {
     this.errorMessage,
   });
 
-  factory PreInvestmentSaveResponse.fromJson(Map<String, dynamic> json) =>
-      PreInvestmentSaveResponse(
+  factory PreInvestmentSaveResponse.fromJson(Map<String, dynamic> json) => PreInvestmentSaveResponse(
         success: json["success"],
         preInvestmentUuid: json["preInvestmentUuid"],
         errorMessage: json["messages"]?[0]["message"],

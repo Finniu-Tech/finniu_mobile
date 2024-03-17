@@ -1,8 +1,6 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,8 +32,7 @@ class StartInvestment extends ConsumerWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
-                      color:
-                          Color(Theme.of(context).colorScheme.secondary.value),
+                      color: Color(Theme.of(context).colorScheme.secondary.value),
                     ),
                   ),
                 ),
@@ -64,9 +61,7 @@ class StartInvestment extends ConsumerWidget {
                     padding: const EdgeInsets.all(15),
                     margin: const EdgeInsets.only(top: 65),
                     decoration: BoxDecoration(
-                      color: currentTheme.isDarkMode
-                          ? const Color(0xffFFEEDD)
-                          : const Color(primaryLightAlternative),
+                      color: currentTheme.isDarkMode ? const Color(0xffFFEEDD) : const Color(primaryLightAlternative),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Text(
@@ -92,12 +87,9 @@ class StartInvestment extends ConsumerWidget {
                       child: CircleAvatar(
                         radius: 43,
                         // foregroundColor: Colors.red,
-                        backgroundColor: currentTheme.isDarkMode
-                            ? const Color(backgroundColorDark)
-                            : Colors.white,
+                        backgroundColor: currentTheme.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
                         child: const CircleAvatar(
-                          backgroundImage:
-                              AssetImage('assets/investment/avatar.png'),
+                          backgroundImage: AssetImage('assets/investment/avatar.png'),
                           radius: 35,
                         ),
                       ),
