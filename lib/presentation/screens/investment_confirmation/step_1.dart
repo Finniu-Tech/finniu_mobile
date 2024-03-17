@@ -3,7 +3,6 @@ import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
-import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
@@ -16,14 +15,12 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
-import 'package:finniu/use_cases/ui/modals/complete_profile.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
-import 'package:finniu/widgets/switch.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Importa este paquete
+import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -81,8 +78,8 @@ class Step1 extends HookConsumerWidget {
 }
 
 class Step1Body extends StatefulHookConsumerWidget {
-  Step1Body({
-    Key? key,
+  const Step1Body({
+    super.key,
     required this.currentTheme,
     required this.mountController,
     required this.deadLineController,
@@ -91,7 +88,7 @@ class Step1Body extends StatefulHookConsumerWidget {
     required this.isSoles,
     // required this.bankNumberController,
     required this.plan,
-  }) : super(key: key);
+  });
 
   final SettingsProviderState currentTheme;
   final TextEditingController mountController;
@@ -101,10 +98,7 @@ class Step1Body extends StatefulHookConsumerWidget {
   final TextEditingController couponController;
   final bool isSoles;
 
-  PlanEntity plan;
-  double? profitability;
-  bool showInvestmentBoxes = false;
-  PlanSimulation? resultCalculator;
+  final PlanEntity plan;
 
   @override
   _Step1BodyState createState() => _Step1BodyState();
@@ -113,6 +107,10 @@ class Step1Body extends StatefulHookConsumerWidget {
 class _Step1BodyState extends ConsumerState<Step1Body> {
   late Future deadLineFuture;
   late Future bankFuture;
+  late double? profitability;
+  late bool showInvestmentBoxes = false;
+  late PlanSimulation? resultCalculator;
+  late PlanEntity? selectedPlan;
 
   Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
     if (widget.mountController.text.isNotEmpty) {
@@ -124,16 +122,15 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           currency: widget.isSoles ? currencyNuevoSol : currencyDollar);
 
       try {
-        final resultCalculator = await ref.watch(
+        resultCalculator = await ref.watch(
           calculateInvestmentFutureProvider(inputCalculator).future,
         );
 
         setState(() {
-          if (resultCalculator.plan != null) {
-            widget.plan = resultCalculator.plan!;
-            widget.profitability = resultCalculator.profitability;
-            widget.showInvestmentBoxes = true;
-            widget.resultCalculator = resultCalculator;
+          if (resultCalculator?.plan != null) {
+            selectedPlan = resultCalculator!.plan!;
+            profitability = resultCalculator!.profitability;
+            showInvestmentBoxes = true;
           }
         });
         context.loaderOverlay.hide();
@@ -158,9 +155,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final _debouncer = Debouncer(milliseconds: 3000);
     useEffect(
       () {
+        selectedPlan = widget.plan;
         if (userProfile.hasRequiredData() == false) {
           completeProfileDialog(context, ref);
         }
+
         return null;
       },
       [userProfile],
@@ -214,15 +213,15 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               children: [
                 Container(
                   alignment: Alignment.topLeft,
-                  width: 100,
+                  width: 90,
                   height: 100,
                   color: Colors.transparent,
                   child: SizedBox(
                     width: 80,
                     height: 90,
-                    child: widget.plan.imageUrl != null
+                    child: selectedPlan?.imageUrl != null
                         ? Image.network(
-                            widget.plan.imageUrl!,
+                            selectedPlan!.imageUrl!,
                             width: 80,
                             height: 90,
                           )
@@ -238,7 +237,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   children: [
                     Text(
                       // 'test',
-                      widget.plan.name,
+                      selectedPlan!.name,
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         color: Color(primaryDark),
@@ -262,7 +261,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           ),
                         ),
                         Text(
-                          'Desde $moneySymbol ${widget.plan.minAmount.toString()}',
+                          'Desde $moneySymbol ${selectedPlan!.minAmount.toString()}',
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                             color: Color(primaryDark),
@@ -285,7 +284,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           ), // color de la imagen si es necesario
                         ),
                         Text(
-                          '${widget.plan.twelveMonthsReturn.toString()}% anual',
+                          '${selectedPlan!.twelveMonthsReturn.toString()}% anual',
                           // plan.twelveMonthsReturn.toString(),
                           textAlign: TextAlign.left,
                           style: const TextStyle(
@@ -461,24 +460,22 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         coupon: widget.couponController.text,
                       );
 
-                      final resultCalculator = await ref.watch(
+                      resultCalculator = await ref.watch(
                         calculateInvestmentFutureProvider(
                           inputCalculator,
                         ).future,
                       );
-
                       setState(() {
-                        if (resultCalculator.plan != null) {
-                          widget.plan = resultCalculator.plan!;
-                          widget.profitability = resultCalculator.profitability;
-                          widget.showInvestmentBoxes = true;
-                          widget.resultCalculator = resultCalculator;
+                        if (resultCalculator?.plan != null) {
+                          selectedPlan = resultCalculator!.plan!;
+                          profitability = resultCalculator!.profitability;
+                          showInvestmentBoxes = true;
                         }
                       });
 
                       context.loaderOverlay.hide();
 
-                      if (resultCalculator.plan != null) {
+                      if (resultCalculator?.plan != null) {
                         CustomSnackbar.show(
                           context,
                           'Cupón aplicado correctamente',
@@ -503,7 +500,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               ),
             ),
           ),
-          if (widget.showInvestmentBoxes) ...[
+          if (showInvestmentBoxes) ...[
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -535,7 +532,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           //     return widget.plan.twelveMonthsReturn;
                           //   }
                           // })()}%',
-                          '${widget.resultCalculator?.finalRentability?.toString() ?? 0}% ',
+                          '${resultCalculator?.finalRentability?.toString() ?? 0}% ',
                           textAlign: TextAlign.right,
                           style: const TextStyle(
                             fontSize: 16,
@@ -574,7 +571,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '$moneySymbol ${widget.profitability}',
+                          '$moneySymbol ${profitability}',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 16,
@@ -583,7 +580,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           ),
                         ),
                         Text(
-                          'En ${widget.resultCalculator?.months} meses tendrías',
+                          'En ${resultCalculator?.months} meses tendrías',
                           textAlign: TextAlign.right,
                           style: const TextStyle(
                             fontSize: 10,
@@ -670,14 +667,13 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   return; // Sale de la función para evitar que continúe el proceso
                 } else {
                   context.loaderOverlay.hide();
-
                   Navigator.pushNamed(
                     context,
                     '/investment_step2',
                     arguments: PreInvestmentStep2Arguments(
                       plan: widget.plan,
                       preInvestment: preInvestmentEntityResponse!.preInvestment!,
-                      resultCalculator: widget.resultCalculator!,
+                      resultCalculator: resultCalculator!,
                     ),
                   );
                 }

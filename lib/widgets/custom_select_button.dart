@@ -13,9 +13,9 @@ class CustomSelectButton extends HookConsumerWidget {
   final String? hintText;
   final String? identifier;
   final bool? enabled;
-  double? width = 224;
-  double? height = 39;
-  CustomSelectButton({
+  final double? width; //224
+  final double? height; //39
+  const CustomSelectButton({
     super.key,
     required this.textEditingController,
     this.items,
@@ -24,18 +24,16 @@ class CustomSelectButton extends HookConsumerWidget {
     this.hintText,
     this.asyncItems,
     this.identifier,
-    this.width = 224,
-    this.height = 39,
     this.enabled = true,
+    this.width,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    Color disabledColor =
-        currentTheme.isDarkMode ? Color(grayText) : Color(0xffF4F4F4);
-    Color enableColor =
-        currentTheme.isDarkMode ? Color(backgroundColorDark) : Color(whiteText);
+    Color disabledColor = currentTheme.isDarkMode ? const Color(grayText) : const Color(0xffF4F4F4);
+    Color enableColor = currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
     // color:
     // currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText);
 
@@ -45,8 +43,8 @@ class CustomSelectButton extends HookConsumerWidget {
     }
     final themeProvider = ref.watch(settingsNotifierProvider);
     return SizedBox(
-      width: width,
-      height: height,
+      width: width ?? 224.0,
+      height: height ?? 39.0,
       child: DropdownSearch<String>(
         enabled: enabled ?? false,
         selectedItem: textEditingController.text,
@@ -57,9 +55,7 @@ class CustomSelectButton extends HookConsumerWidget {
             labelText: labelText,
             hintText: hintText,
             filled: true,
-            fillColor: enabled == true
-                ? enableColor
-                : disabledColor, // Customize the background color here
+            fillColor: enabled == true ? enableColor : disabledColor, // Customize the background color here
 
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -93,12 +89,8 @@ class CustomSelectButton extends HookConsumerWidget {
             decoration: BoxDecoration(
               color: Color(
                 isSelected
-                    ? (themeProvider.isDarkMode
-                        ? primaryLight
-                        : primaryDarkAlternative)
-                    : (themeProvider.isDarkMode
-                        ? primaryDarkAlternative
-                        : primaryLight),
+                    ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative)
+                    : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
@@ -125,12 +117,8 @@ class CustomSelectButton extends HookConsumerWidget {
               style: TextStyle(
                 color: Color(
                   isSelected
-                      ? (themeProvider.isDarkMode
-                          ? primaryDark
-                          : Colors.white.value)
-                      : (themeProvider.isDarkMode
-                          ? Colors.white.value
-                          : primaryDark),
+                      ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value)
+                      : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
                 ),
                 fontWeight: FontWeight.w500,
               ),

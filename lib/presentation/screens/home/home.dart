@@ -41,8 +41,7 @@ class HomeScreen extends HookConsumerWidget {
           return false;
         },
         child: Scaffold(
-          backgroundColor:
-              Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
+          backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
           bottomNavigationBar: const BottomNavigationBarHome(),
           body: HookBuilder(
             builder: (context) {
@@ -53,13 +52,11 @@ class HomeScreen extends HookConsumerWidget {
                   if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
                     hasPushedOnboarding = true; // set flag to true
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      Navigator.of(context)
-                          .pushReplacementNamed('/onboarding_questions_start');
+                      Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
                     });
                   }
 
-                  return HomeBody(
-                      currentTheme: currentTheme, userProfile: profile);
+                  return HomeBody(currentTheme: currentTheme, userProfile: profile);
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: (error, _) => Center(child: Text(error.toString())),
@@ -111,9 +108,7 @@ class HomeBody extends ConsumerWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -123,9 +118,7 @@ class HomeBody extends ConsumerWidget {
                     'assets/images/logo_small.png',
                     width: 60,
                     height: 60,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
               ],
@@ -139,10 +132,8 @@ class HomeBody extends ConsumerWidget {
                   data: (data) {
                     var reportSoles = data.solesBalance;
                     var reportDolar = data.dolarBalance;
-                    var homeReport =
-                        isSoles ? data.solesBalance : data.dolarBalance;
-                    if (reportSoles.totalBalance == 0 &&
-                        reportDolar.totalBalance == 0) {
+                    var homeReport = isSoles ? data.solesBalance : data.dolarBalance;
+                    if (reportSoles.totalBalance == 0 && reportDolar.totalBalance == 0) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: const Center(
@@ -183,9 +174,7 @@ class HomeBody extends ConsumerWidget {
             Container(
               height: 2,
               width: MediaQuery.of(context).size.width * 0.8,
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
             ),
             const SizedBox(
               height: 15,
@@ -215,12 +204,10 @@ class PendingInvestmentCardWidget extends StatefulHookConsumerWidget {
   final SettingsProviderState currentTheme;
 
   @override
-  ConsumerState<PendingInvestmentCardWidget> createState() =>
-      PendingInvestmentCardWidgetState();
+  ConsumerState<PendingInvestmentCardWidget> createState() => PendingInvestmentCardWidgetState();
 }
 
-class PendingInvestmentCardWidgetState
-    extends ConsumerState<PendingInvestmentCardWidget> {
+class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCardWidget> {
   // bool hasInvestmentInProcess = false;
   bool isLoading = false;
   PreInvestmentForm? preInvestmentForm;
@@ -236,9 +223,7 @@ class PendingInvestmentCardWidgetState
         setState(() {
           isLoading = true;
         });
-        InvestmentRepository()
-            .userHasInvestmentInProcess(client: gqlClient!)
-            .then(
+        InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
               (success) => setState(() {
                 ref.read(hasPreInvestmentProvider.notifier).state = success;
                 if (success) {
@@ -302,9 +287,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           width: 1,
-          color: currentTheme.isDarkMode
-              ? const Color(primaryLight)
-              : const Color(primaryDark),
+          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
         ),
       ),
       child: Column(
@@ -330,9 +313,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                 ),
               ),
             ],
@@ -345,9 +326,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
             ),
           ),
           const SizedBox(
@@ -360,9 +339,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
               ElevatedButton.icon(
                 icon: Icon(Icons.close, color: Colors.red),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  foregroundColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                   backgroundColor: Colors.transparent,
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                 onPressed: () {
@@ -381,9 +358,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 label: Text(
                   "Descartar",
                   style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
@@ -401,9 +376,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   foregroundColor: Colors.white,
-                  backgroundColor: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  backgroundColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                 onPressed: () async {
                   final preInvestment = PreInvestmentEntity(
@@ -442,9 +415,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
                   "Continuar",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: currentTheme.isDarkMode
-                        ? Color(primaryDark)
-                        : Colors.white,
+                    color: currentTheme.isDarkMode ? const Color(primaryDark) : Colors.white,
                     fontSize: 12,
                   ),
                 ),
@@ -637,9 +608,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                   ),
                 ),
                 Spacer(),
@@ -690,9 +659,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryLight)
-                                      : const Color(primaryDark),
+                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                                 ),
                               ),
                               const SizedBox(
@@ -704,9 +671,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryLight)
-                                      : const Color(primaryDark),
+                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                                 ),
                               ),
                             ],
@@ -718,9 +683,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 10,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
+                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                                 ),
                               ),
                               const SizedBox(
@@ -731,9 +694,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
                                   fontSize: 10,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
+                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                                 ),
                               ),
                             ],
@@ -757,9 +718,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                             style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.bold,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
+                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                             ),
                           ),
                           Text(
@@ -767,9 +726,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 10,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),
+                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                             ),
                           ),
                         ],
@@ -782,8 +739,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
         Padding(
           padding: const EdgeInsets.only(right: 30, top: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment
-                .end, // Alinear widgets en el centro horizontalmente
+            mainAxisAlignment: MainAxisAlignment.end, // Alinear widgets en el centro horizontalmente
             children: [
               Container(
                 width: 12,
@@ -791,26 +747,19 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryDark),
                   ),
                   shape: BoxShape.circle,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(primaryLight),
+                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
                 ),
                 // Si desea agregar un icono dentro del círculo
               ),
-              const SizedBox(
-                  width: 5), // Separación entre el círculo y el texto
+              const SizedBox(width: 5), // Separación entre el círculo y el texto
               Text(
                 'Dinero invertido',
                 style: TextStyle(
                   fontSize: 10,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
               const SizedBox(
@@ -822,9 +771,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: const Color(primaryDark)),
                   shape: BoxShape.circle,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(secondary),
+                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
                 ),
                 // Si desea agregar un icono dentro del círculo
               ),
@@ -834,9 +781,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 'Intereses generados',
                 style: TextStyle(
                   fontSize: 10,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
             ],
