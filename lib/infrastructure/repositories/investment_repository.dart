@@ -6,7 +6,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class InvestmentRepository {
   InvestmentRepository();
 
-  @override
   Future<bool> userHasInvestmentInProcess({required GraphQLClient client}) async {
     final response = await client.query(
       QueryOptions(
@@ -29,9 +28,10 @@ class InvestmentRepository {
         variables: {
           'email': email,
         },
-        fetchPolicy: FetchPolicy.networkOnly,
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
+    print('response!!!! last pre investment $response');
     dynamic lastPreInvestmentResponse = response.data?['getLastPreInvestment'];
     if (lastPreInvestmentResponse != null) {
       return PreInvestmentForm(
@@ -61,6 +61,7 @@ class InvestmentRepository {
         variables: {
           'preInvestmentUUID': preInvestmentUUID,
         },
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
     return response.data?['discardPreInvestment']['success'] ?? false;

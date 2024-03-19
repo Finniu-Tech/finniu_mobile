@@ -218,31 +218,35 @@ class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCa
     final userProfileProvider = ref.watch(userProfileFutureProvider).value;
     final hasPreInvestmentState = ref.watch(hasPreInvestmentProvider);
 
+    void checkInvestmentProcess() {
+      setState(() {
+        isLoading = true;
+      });
+      InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
+            (success) => setState(() {
+              ref.read(hasPreInvestmentProvider.notifier).state = success;
+              if (success) {
+                InvestmentRepository()
+                    .getLastPreInvestment(
+                  client: gqlClient,
+                  email: userProfileProvider!.email!,
+                )
+                    .then((value) {
+                  setState(() {
+                    preInvestmentForm = value;
+                    isLoading = false;
+                  });
+                });
+              } else {
+                isLoading = false;
+              }
+            }),
+          );
+    }
+
     useEffect(
       () {
-        setState(() {
-          isLoading = true;
-        });
-        InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
-              (success) => setState(() {
-                ref.read(hasPreInvestmentProvider.notifier).state = success;
-                if (success) {
-                  InvestmentRepository()
-                      .getLastPreInvestment(
-                    client: gqlClient,
-                    email: userProfileProvider!.email!,
-                  )
-                      .then((value) {
-                    setState(() {
-                      preInvestmentForm = value;
-                      isLoading = false;
-                    });
-                  });
-                } else {
-                  isLoading = false;
-                }
-              }),
-            );
+        checkInvestmentProcess();
         return null;
       },
       [],
@@ -262,6 +266,7 @@ class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCa
       return PendingInvestmentCard(
         currentTheme: widget.currentTheme,
         preInvestmentForm: preInvestmentForm!,
+        checkInvestmentProcess: checkInvestmentProcess,
       );
     } else {
       return const SizedBox.shrink();
@@ -270,16 +275,17 @@ class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCa
 }
 
 class PendingInvestmentCard extends HookConsumerWidget {
-  PendingInvestmentCard({
+  const PendingInvestmentCard({
     super.key,
     required this.currentTheme,
     required this.preInvestmentForm,
+    required this.checkInvestmentProcess,
   });
   final currentTheme;
   final PreInvestmentForm preInvestmentForm;
+  final void Function() checkInvestmentProcess;
   @override
   Widget build(BuildContext context, ref) {
-    final hasPreInvestmentState = ref.read(hasPreInvestmentProvider.notifier);
     return Container(
       height: 140,
       width: 330,
@@ -352,7 +358,8 @@ class PendingInvestmentCard extends HookConsumerWidget {
                   )
                       .then((value) {
                     if (value) {
-                      hasPreInvestmentState.state = false;
+                      //call here again to check if there is a preinvestment
+                      checkInvestmentProcess();
                     }
                   });
                 },
