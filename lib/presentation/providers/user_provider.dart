@@ -1,15 +1,12 @@
-import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/infrastructure/datasources/user_profile_datasource_imp.dart';
 import 'package:finniu/infrastructure/models/user.dart';
-import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userProfileFutureProvider =
-    FutureProvider.autoDispose<UserProfile>((ref) async {
+final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) async {
   final result = await ref.watch(gqlClientProvider.future).then(
     (client) async {
       final QueryResult result = await client.query(
@@ -53,8 +50,8 @@ final userProfileFutureProvider =
   return UserProfile();
 });
 
-final updateUserProfileFutureProvider = FutureProvider.autoDispose
-    .family<bool, UserProfile>((ref, UserProfile userProfile) async {
+final updateUserProfileFutureProvider =
+    FutureProvider.autoDispose.family<bool, UserProfile>((ref, UserProfile userProfile) async {
   final success = await UserProfileDataSourceImp().update(
     client: await ref.watch(gqlClientProvider.future),
     userProfile: userProfile,
@@ -81,8 +78,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
   return success;
 });
 
-final userProfileNotifierProvider =
-    StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
+final userProfileNotifierProvider = StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
   (ref) => UserProfileStateNotifierProvider(UserProfile()),
 );
 
@@ -156,6 +152,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
   void setPassword(String? password) {
     state = state.copyWith(password: password);
   }
+
   void setOcupation(String? occupation) {
     state = state.copyWith(occupation: occupation);
   }

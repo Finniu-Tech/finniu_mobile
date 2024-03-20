@@ -1,6 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
+import 'package:finniu/presentation/providers/bank_repository_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/important_days_provider.dart';
@@ -21,7 +22,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
-  final userProvider = ref.watch(userProfileNotifierProvider);
   final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
   final currency = ref.watch(isSolesStateProvider);
 
@@ -29,372 +29,338 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
   showDialog(
     context: ctx,
     barrierDismissible: false,
-    builder: (ctx) => Builder(builder: (BuildContext context) {
-      return Dialog(
-        insetAnimationDuration: const Duration(seconds: 1),
-        insetAnimationCurve: Curves.easeInOutCubic,
-        backgroundColor: themeProvider.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(secondary),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        insetPadding: EdgeInsets.zero,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(
-            maxWidth: 350,
-            minWidth: 350,
-            maxHeight: 600,
-            minHeight: 325,
+    builder: (ctx) => Builder(
+      builder: (BuildContext context) {
+        return Dialog(
+          insetAnimationDuration: const Duration(seconds: 1),
+          insetAnimationCurve: Curves.easeInOutCubic,
+          backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(secondary),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
           ),
-          child: SizedBox(
-            child: Padding(
-              padding: const EdgeInsets.only(
-                top: 10.0,
-                left: 20,
-                right: 20,
-                bottom: 20,
-              ),
-              child: Column(
-                // mainAxisSize: MainAxisSize.min,
-                children: [
-                  Align(
-                    alignment: Alignment.topRight,
-                    child: Container(
-                      height: 23,
-                      width: 23,
-                      padding: EdgeInsets.zero,
-                      decoration: BoxDecoration(
-                        color: themeProvider.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                      child: InkWell(
-                        child: Icon(
-                          size: 17,
-                          Icons.close,
-                          color: themeProvider.isDarkMode
-                              ? const Color(primaryDark)
-                              : const Color(primaryLight),
+          insetPadding: EdgeInsets.zero,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 350,
+              minWidth: 350,
+              maxHeight: 600,
+              minHeight: 325,
+            ),
+            child: SizedBox(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10.0,
+                  left: 20,
+                  right: 20,
+                  bottom: 20,
+                ),
+                child: Column(
+                  // mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(
+                      alignment: Alignment.topRight,
+                      child: Container(
+                        height: 23,
+                        width: 23,
+                        padding: EdgeInsets.zero,
+                        decoration: BoxDecoration(
+                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          borderRadius: BorderRadius.circular(7),
                         ),
-                        onTap: () {
-                          Navigator.of(ctx).pop();
-                        },
+                        child: InkWell(
+                          child: Icon(
+                            size: 17,
+                            Icons.close,
+                            color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+                          ),
+                          onTap: () {
+                            Navigator.of(ctx).pop();
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Column(
-                        children: const [
-                          SizedBox(
-                            height: 50,
-                            width: 50,
-                            child: CircularPercentAvatarWidget(),
-                          )
-                        ],
-                      ),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const Column(
                           children: [
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                SizedBox(
-                                  width: 120,
-                                  child: Text(
-                                    ref
-                                            .watch(userProfileNotifierProvider)
-                                            .nickName ??
-                                        '',
-                                    style: TextStyle(
-                                      height: 1.5,
-                                      fontSize: 16,
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.white
-                                          : Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                const Spacer(),
-                                TextPoppins(
-                                  text: 'Light mode',
-                                  colorText: themeProvider.isDarkMode
-                                      ? Colors.white.value
-                                      : Colors.black.value,
-                                  // colorText: ,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                                const SizedBox(width: 5),
-                                FlutterSwitch(
-                                  padding: 2,
-                                  width: 35,
-                                  height: 16,
-                                  value: Preferences.isDarkMode ,
-                                  inactiveColor: const Color(primaryDark),
-                                  activeColor: const Color(primaryLight),
-                                  inactiveToggleColor:
-                                      const Color(primaryLight),
-                                  activeToggleColor: const Color(primaryDark),
-                                  onToggle: (value) {
-                                   
-                                    value
-                                        ? ref
-                                            .read(settingsNotifierProvider
-                                                .notifier)
-                                            .setDarkMode()
-                                        : ref
-                                            .read(settingsNotifierProvider
-                                                .notifier)
-                                            .setLightMode();
-                                    Preferences.isDarkMode = value;
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                              ],
-                            ),
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  ref
-                                          .watch(userProfileNotifierProvider)
-                                          .email ??
-                                      '',
-                                  style: TextStyle(
-                                    height: 1.5,
-                                    fontSize: 12,
-                                    color: themeProvider.isDarkMode
-                                        ? const Color(primaryLight)
-                                        : const Color(grayText1),
-                                  ),
-                                )
-                              ],
+                            SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: CircularPercentAvatarWidget(),
                             )
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 22,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            currency
-                                ? 'S/ ${userBalanceReport.totalBalance.toString()}'
-                                : '\$ ${userBalanceReport.totalBalance.toString()}',
-                            style: TextStyle(
-                              height: 1.5,
-                              fontSize: 14,
-                              color: themeProvider.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            "Total invertido",
-                            style: TextStyle(
-                              height: 1.5,
-                              fontSize: 14,
-                              color: themeProvider.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Container(
-                        height: 60,
-                        width: 2,
-                        color: themeProvider.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            userBalanceReport.totalPlans.toString(),
-                            style: TextStyle(
-                              height: 1.5,
-                              fontSize: 14,
-                              color: themeProvider.isDarkMode
-                                  ? Colors.white
-                                  : Colors.black,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          Text(
-                            "Planes invertidos",
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              height: 1.5,
-                              fontSize: 14,
-                              color: themeProvider.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  SingleChildScrollView(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(ctx).pushNamed('/profile');
-                          },
-                          child: ItemSetting(
-                            image: 'assets/icons/icon_profile.png',
-                            text: "Editar mi perfil",
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(ctx).pushNamed('/privacy');
-                          },
-                          child: ItemSetting(
-                            image: 'assets/icons/padlock.png',
-                            text: "Privacidad",
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(ctx).pushNamed('/transfers');
-                          },
-                          child: ItemSetting(
-                            image: 'assets/icons/transferens.png',
-                            text: "Mis transferencias",
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(ctx).pushNamed('/languages');
-                          },
-                          child: ItemSetting(
-                            image: 'assets/icons/lenguages.png',
-                            text: "Lenguajes",
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(ctx).pushNamed('/help');
-                          },
-                          child: ItemSetting(
-                            image: 'assets/icons/questions.png',
-                            text: "Ayuda",
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(ctx).pushNamed('/login_start');
-                          },
-                          child: ItemSetting(
-                            image: 'assets/icons/sign_off.png',
-                            text: "Cerrar sesión",
-                            onTap: () {
-                              ref.invalidate(authTokenProvider);
-                              ref.invalidate(gqlClientProvider);
-                              ref.invalidate(userProfileFutureProvider);
-                              ref.invalidate(bankFutureProvider);
-                              ref.invalidate(deadLineFutureProvider);
-                              ref.invalidate(hasCompletedOnboardingProvider);
-                              ref.invalidate(userAcceptedTermsProvider);
-                              ref.invalidate(
-                                  finishOnboardingFutureStateNotifierProvider);
-                              ref.invalidate(importantDaysFutureProvider);
-                              ref.invalidate(
-                                  startOnBoardingFutureStateNotifierProvider);
-                              ref.invalidate(
-                                  updateOnboardingFutureStateNotifierProvider);
-                              ref.invalidate(onBoardingStateNotifierProvider);
-                              ref.invalidate(
-                                  recommendedPlanStateNotifierProvider);
-                              ref.invalidate(otpValidatorFutureProvider);
-                              ref.invalidate(otpResendCodeProvider);
-                              ref.invalidate(planListFutureProvider);
-                              ref.invalidate(preInvestmentSaveProvider);
-                              ref.invalidate(homeReportProvider);
-                              ref.invalidate(userProfileNotifierProvider);
-                              ref.invalidate(
-                                  userProfileBalanceNotifierProvider);
-                              // logout(ref);
-                              Navigator.of(ctx).pushNamedAndRemoveUntil(
-                                  '/login_start', (route) => false);
-                            },
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  SizedBox(
+                                    width: 120,
+                                    child: Text(
+                                      ref.watch(userProfileNotifierProvider).nickName ?? '',
+                                      style: TextStyle(
+                                        height: 1.5,
+                                        fontSize: 16,
+                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  TextPoppins(
+                                    text: 'Light mode',
+                                    colorText: themeProvider.isDarkMode ? Colors.white.value : Colors.black.value,
+                                    // colorText: ,
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  const SizedBox(width: 5),
+                                  FlutterSwitch(
+                                    padding: 2,
+                                    width: 35,
+                                    height: 16,
+                                    value: Preferences.isDarkMode,
+                                    inactiveColor: const Color(primaryDark),
+                                    activeColor: const Color(primaryLight),
+                                    inactiveToggleColor: const Color(primaryLight),
+                                    activeToggleColor: const Color(primaryDark),
+                                    onToggle: (value) {
+                                      value
+                                          ? ref.read(settingsNotifierProvider.notifier).setDarkMode()
+                                          : ref.read(settingsNotifierProvider.notifier).setLightMode();
+                                      Preferences.isDarkMode = value;
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  Text(
+                                    ref.watch(userProfileNotifierProvider).email ?? '',
+                                    style: TextStyle(
+                                      height: 1.5,
+                                      fontSize: 12,
+                                      color:
+                                          themeProvider.isDarkMode ? const Color(primaryLight) : const Color(grayText1),
+                                    ),
+                                  )
+                                ],
+                              )
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      height: 22,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              currency
+                                  ? 'S/ ${userBalanceReport.totalBalance.toString()}'
+                                  : '\$ ${userBalanceReport.totalBalance.toString()}',
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 14,
+                                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "Total invertido",
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 14,
+                                color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          height: 60,
+                          width: 2,
+                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              userBalanceReport.totalPlans.toString(),
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 14,
+                                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "Planes invertidos",
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                height: 1.5,
+                                fontSize: 14,
+                                color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    SingleChildScrollView(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(ctx).pushNamed('/profile');
+                            },
+                            child: const ItemSetting(
+                              image: 'assets/icons/icon_profile.png',
+                              text: "Editar mi perfil",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(ctx).pushNamed('/privacy');
+                            },
+                            child: const ItemSetting(
+                              image: 'assets/icons/padlock.png',
+                              text: "Privacidad",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(ctx).pushNamed('/transfers');
+                            },
+                            child: const ItemSetting(
+                              image: 'assets/icons/transferens.png',
+                              text: "Mis transferencias",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(ctx).pushNamed('/languages');
+                            },
+                            child: const ItemSetting(
+                              image: 'assets/icons/lenguages.png',
+                              text: "Lenguajes",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(ctx).pushNamed('/help');
+                            },
+                            child: const ItemSetting(
+                              image: 'assets/icons/questions.png',
+                              text: "Ayuda",
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          GestureDetector(
+                            // onTap: () {
+                            //   Navigator.of(ctx).pushNamed('/login_start');
+                            // },
+                            child: ItemSetting(
+                              image: 'assets/icons/sign_off.png',
+                              text: "Cerrar sesión",
+                              onTap: () {
+                                print('cerrar sesion xxxxx');
+                                ref.invalidate(authTokenProvider);
+                                ref.invalidate(gqlClientProvider);
+                                ref.invalidate(userProfileFutureProvider);
+                                ref.invalidate(bankFutureProvider);
+                                ref.invalidate(deadLineFutureProvider);
+                                ref.invalidate(hasCompletedOnboardingProvider);
+                                ref.invalidate(userAcceptedTermsProvider);
+                                ref.invalidate(finishOnboardingFutureStateNotifierProvider);
+                                ref.invalidate(importantDaysFutureProvider);
+                                ref.invalidate(startOnBoardingFutureStateNotifierProvider);
+                                ref.invalidate(updateOnboardingFutureStateNotifierProvider);
+                                ref.invalidate(onBoardingStateNotifierProvider);
+                                ref.invalidate(recommendedPlanStateNotifierProvider);
+                                ref.invalidate(otpValidatorFutureProvider);
+                                ref.invalidate(otpResendCodeProvider);
+                                ref.invalidate(planListFutureProvider);
+                                ref.invalidate(preInvestmentSaveProvider);
+                                ref.invalidate(homeReportProvider);
+                                ref.invalidate(userProfileNotifierProvider);
+                                ref.invalidate(userProfileBalanceNotifierProvider);
+                                ref.invalidate(settingsNotifierProvider);
+                                ref.invalidate(isSolesStateProvider);
+                                ref.invalidate(homeReportProviderV2);
+                                ref.invalidate(bankRepositoryProvider);
+                                // logout(ref);
+                                Navigator.of(ctx).pushNamedAndRemoveUntil('/login_start', (route) => true);
+                                // Navigator.of(ctx).pushNamed('/login_start');
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-      );
-    }),
+        );
+      },
+    ),
   );
 }
 
 class ItemSetting extends ConsumerWidget {
-  late String _image;
+  final String _image;
 
-  late String _text;
+  final String _text;
 
-  Function? _onTap;
+  final Function? _onTap;
 
-  ItemSetting({
+  const ItemSetting({
+    super.key,
     required String image,
     required String text,
     Function? onTap,
-  }) {
-    _image = image;
-    _text = text;
-    _onTap = onTap;
-  }
+  })  : _image = image,
+        _text = text,
+        _onTap = onTap;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -407,21 +373,17 @@ class ItemSetting extends ConsumerWidget {
           height: 35,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: themeProvider.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDarkAlternative),
+            color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDarkAlternative),
             borderRadius: BorderRadius.circular(5),
           ),
           child: InkWell(
+            onTap: _onTap as void Function()?,
             child: Image.asset(
               _image,
-              color: themeProvider.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
+              color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
               width: 18,
               height: 18,
             ),
-            onTap: _onTap as void Function()?,
           ),
         ),
         const SizedBox(width: 10),
@@ -449,9 +411,7 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
           ),
         ),
         elevation: 10,
-        backgroundColor: themeProvider.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(primaryLight),
+        backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
         context: ctx,
         isDismissible: false,
         builder: (ctx) => SizedBox(
@@ -475,9 +435,7 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: themeProvider.isDarkMode
-                            ? Colors.white
-                            : const Color(primaryDark),
+                        color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                       ),
                       textDescription,
                     ),
@@ -533,9 +491,7 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                           child: Text(
                             "Completar",
                             style: TextStyle(
-                              color: themeProvider.isDarkMode
-                                  ? const Color(primaryDark)
-                                  : Colors.white,
+                              color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
                             ),
                           ),
                         ),

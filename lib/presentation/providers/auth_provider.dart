@@ -7,8 +7,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final authTokenProvider = StateProvider<String>((ref) => '');
 
-final authTokenMutationProvider =
-    FutureProvider.autoDispose.family<String?, LoginModel>((ref, login) async {
+final authTokenMutationProvider = FutureProvider.autoDispose.family<String?, LoginModel>((ref, login) async {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     throw Exception('GraphQL client is null');
@@ -26,8 +25,7 @@ final authTokenMutationProvider =
     ),
   );
 
-  ref.read(authTokenProvider.notifier).state =
-      userData.data?['tokenAuth']['token'];
+  ref.read(authTokenProvider.notifier).state = userData.data?['tokenAuth']['token'];
   return userData.data?['tokenAuth']['token'];
 });
 

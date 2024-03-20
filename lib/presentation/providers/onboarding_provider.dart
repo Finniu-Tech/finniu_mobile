@@ -4,20 +4,17 @@ import 'package:finniu/infrastructure/models/onboarding_finish_response.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_repository_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final startOnBoardingFutureStateNotifierProvider =
-    FutureProvider.autoDispose<OnboardingEntity>(
+final startOnBoardingFutureStateNotifierProvider = FutureProvider.autoDispose<OnboardingEntity>(
   (ref) async {
     final client = ref.watch(gqlClientProvider).value;
     String userId = ref.watch(userProfileNotifierProvider).id!;
 
-    final onboardingData =
-        ref.watch(onboardingRepositoryProvider).getOnboardingData(
-              client: client!,
-              userId: userId,
-            );
+    final onboardingData = ref.watch(onboardingRepositoryProvider).getOnboardingData(
+          client: client!,
+          userId: userId,
+        );
     onboardingData.then(
       (value) {
         ref.read(onBoardingStateNotifierProvider.notifier).updateFields(
@@ -35,14 +32,12 @@ final updateOnboardingFutureStateNotifierProvider =
     FutureProvider.autoDispose.family<OnboardingEntity, UserAnswerEntity>(
   (ref, UserAnswerEntity userAnswer) async {
     final client = ref.watch(gqlClientProvider).value;
-    final userId = ref.watch(userProfileNotifierProvider).id;
-    final onboardingData =
-        ref.watch(onboardingRepositoryProvider).updateOnboardingData(
-              client: client!,
-              userId: userAnswer.userID,
-              questionId: userAnswer.questionUuid,
-              answerId: userAnswer.answerUuid,
-            );
+    final onboardingData = ref.watch(onboardingRepositoryProvider).updateOnboardingData(
+          client: client!,
+          userId: userAnswer.userID,
+          questionId: userAnswer.questionUuid,
+          answerId: userAnswer.answerUuid,
+        );
     onboardingData.then(
       (value) {
         print('value questions: ${value.questions}');
@@ -58,14 +53,11 @@ final updateOnboardingFutureStateNotifierProvider =
   },
 );
 
-final finishOnboardingFutureStateNotifierProvider =
-    FutureProvider.autoDispose<bool>(
+final finishOnboardingFutureStateNotifierProvider = FutureProvider.autoDispose<bool>(
   (ref) async {
     final client = ref.watch(gqlClientProvider).value;
     final userId = ref.watch(userProfileNotifierProvider).id;
-    final recommendedPlan = ref
-        .watch(onboardingRepositoryProvider)
-        .finishOnboarding(client: client!, userId: userId!);
+    final recommendedPlan = ref.watch(onboardingRepositoryProvider).finishOnboarding(client: client!, userId: userId!);
     bool success = false;
     final data = await recommendedPlan;
     if (data.name.isNotEmpty) {
@@ -87,8 +79,7 @@ final finishOnboardingFutureStateNotifierProvider =
   },
 );
 
-final onBoardingStateNotifierProvider =
-    StateNotifierProvider<OnboardingStateNotifier, OnboardingEntity>(
+final onBoardingStateNotifierProvider = StateNotifierProvider<OnboardingStateNotifier, OnboardingEntity>(
   (ref) => OnboardingStateNotifier(
     OnboardingEntity(
       totalQuestions: 0,
@@ -99,7 +90,7 @@ final onBoardingStateNotifierProvider =
 );
 
 class OnboardingStateNotifier extends StateNotifier<OnboardingEntity> {
-  OnboardingStateNotifier(OnboardingEntity state) : super(state);
+  OnboardingStateNotifier(super.state);
 
   void updateFields({
     int? totalQuestions,
@@ -114,8 +105,7 @@ class OnboardingStateNotifier extends StateNotifier<OnboardingEntity> {
   }
 }
 
-final recommendedPlanStateNotifierProvider =
-    StateNotifierProvider<RecommendedPlanStateNotifier, PlanEntity>(
+final recommendedPlanStateNotifierProvider = StateNotifierProvider<RecommendedPlanStateNotifier, PlanEntity>(
   (ref) => RecommendedPlanStateNotifier(
     PlanEntity(
       uuid: '',
@@ -131,7 +121,7 @@ final recommendedPlanStateNotifierProvider =
 );
 
 class RecommendedPlanStateNotifier extends StateNotifier<PlanEntity> {
-  RecommendedPlanStateNotifier(PlanEntity state) : super(state);
+  RecommendedPlanStateNotifier(super.state);
 
   void updateFields({
     String? uuid,
@@ -160,7 +150,7 @@ class RecommendedPlanStateNotifier extends StateNotifier<PlanEntity> {
 //     StateProvider<List<SelectedAnswer>>((ref) => []);
 
 class SelectedAnswerStateNotifier extends StateNotifier<SelectedAnswer> {
-  SelectedAnswerStateNotifier(SelectedAnswer state) : super(state);
+  SelectedAnswerStateNotifier(super.state);
 
   void updateFields({
     int? pageIndex,
@@ -174,31 +164,28 @@ class SelectedAnswerStateNotifier extends StateNotifier<SelectedAnswer> {
 }
 
 // StateNotifier to provide methods for getting and updating SelectedAnswerList state
-class SelectedAnswerListStateNotifier
-    extends StateNotifier<List<SelectedAnswer>> {
+class SelectedAnswerListStateNotifier extends StateNotifier<List<SelectedAnswer>> {
   SelectedAnswerListStateNotifier(List<SelectedAnswer> state) : super(state);
-  static final provider = StateNotifierProvider<SelectedAnswerListStateNotifier,
-      List<SelectedAnswer>>((ref) {
+  static final provider = StateNotifierProvider<SelectedAnswerListStateNotifier, List<SelectedAnswer>>((ref) {
     return SelectedAnswerListStateNotifier([]);
   });
 
   // Method to get the SelectedAnswer for a given page index
   SelectedAnswer getSelectedAnswerForPageIndex(int pageIndex) {
     return state.firstWhere(
-        (selectedAnswer) => selectedAnswer.pageIndex == pageIndex,
-        orElse: () => SelectedAnswer(-1, -1));
+      (selectedAnswer) => selectedAnswer.pageIndex == pageIndex,
+      orElse: () => SelectedAnswer(-1, -1),
+    );
   }
 
   // Method to update the SelectedAnswer for a given page index
   void updateSelectedAnswerForPageIndex(int pageIndex, int answerIndex) {
-    final selectedAnswerIndex = state
-        .indexWhere((selectedAnswer) => selectedAnswer.pageIndex == pageIndex);
+    final selectedAnswerIndex = state.indexWhere((selectedAnswer) => selectedAnswer.pageIndex == pageIndex);
     if (selectedAnswerIndex == -1) {
       state = [...state, SelectedAnswer(pageIndex, answerIndex)];
     } else {
       final selectedAnswer = state[selectedAnswerIndex];
-      state[selectedAnswerIndex] =
-          selectedAnswer.copyWith(answerIndex: answerIndex);
+      state[selectedAnswerIndex] = selectedAnswer.copyWith(answerIndex: answerIndex);
     }
   }
 }

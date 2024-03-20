@@ -28,11 +28,11 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('HomeScreen ffff');
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     // add flag to check if callback has already been added
-    bool hasPushedOnboarding = false;
-    final hasCompletedOnboarding = ref.watch(hasCompletedOnboardingProvider);
+    // bool hasPushedOnboarding = false;
 
     // var hasCompletedOnboarding = true;
     return PopScope(
@@ -45,16 +45,12 @@ class HomeScreen extends HookConsumerWidget {
         body: HookBuilder(
           builder: (context) {
             final userProfile = ref.watch(userProfileFutureProvider);
+            // if (hasCompletedOnboarding == true) {
+            //   hasPushedOnboarding = true;
+            // }
 
             return userProfile.when(
               data: (profile) {
-                if (hasCompletedOnboarding == false && !hasPushedOnboarding) {
-                  hasPushedOnboarding = true; // set flag to true
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
-                  });
-                }
-
                 return HomeBody(currentTheme: currentTheme, userProfile: profile);
               },
               loading: () => const Center(child: CircularProgressIndicator()),
@@ -67,7 +63,7 @@ class HomeScreen extends HookConsumerWidget {
   }
 }
 
-class HomeBody extends ConsumerWidget {
+class HomeBody extends HookConsumerWidget {
   const HomeBody({
     super.key,
     required this.currentTheme,
@@ -78,7 +74,21 @@ class HomeBody extends ConsumerWidget {
   final UserProfile userProfile;
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    useEffect(
+      () {
+        final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
+        print('hasCompletedOnboarding: $hasCompletedOnboarding');
+        if (hasCompletedOnboarding == false) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+          });
+        }
+        return null;
+      },
+      [],
+    );
+
     final isSoles = ref.watch(isSolesStateProvider);
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),

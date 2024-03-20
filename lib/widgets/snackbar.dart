@@ -6,8 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 
-import '../constants/themes.dart';
-
 class CustomSnackbar {
   static void show(BuildContext context, String message, String type) {
     final snackBar = SnackBar(
@@ -46,9 +44,7 @@ class SnackBarBody extends HookConsumerWidget {
               bottomRight: Radius.circular(50),
               bottomLeft: Radius.circular(50),
               topLeft: Radius.circular(90)),
-          color: themeProvider.isDarkMode
-              ? Color(backgroundColorDark)
-              : Colors.white,
+          color: themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
         ),
         alignment: Alignment.center,
         child: Stack(
@@ -84,9 +80,7 @@ class SnackBarBody extends HookConsumerWidget {
                       child: Text(
                         message,
                         style: TextStyle(
-                          color: themeProvider.isDarkMode
-                              ? Colors.white
-                              : Colors.black,
+                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),

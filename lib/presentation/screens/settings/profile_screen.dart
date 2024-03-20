@@ -43,25 +43,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
     // final namesController = useTextEditingController();
-    final firstNameController =
-        useTextEditingController(text: userProfile.firstName);
-    final lastNameController =
-        useTextEditingController(text: userProfile.lastName);
+    final firstNameController = useTextEditingController(text: userProfile.firstName);
+    final lastNameController = useTextEditingController(text: userProfile.lastName);
     final docNumberController =
         useTextEditingController(text: userProfile.documentNumber == null ? '' : userProfile.documentNumber);
-    final departmentController =
-        useTextEditingController(text: userProfile.region);
-    final provinceController =
-        useTextEditingController(text: userProfile.provincia);
-    final districtController =
-        useTextEditingController(text: userProfile.distrito);
-    final addressController =
-        useTextEditingController(text: userProfile.address);
-    final civilStateController =
-        useTextEditingController(text: userProfile.civilStatus);
-    
-    final occupationController =
-        useTextEditingController(text: userProfile.occupation);
+    final departmentController = useTextEditingController(text: userProfile.region);
+    final provinceController = useTextEditingController(text: userProfile.provincia);
+    final districtController = useTextEditingController(text: userProfile.distrito);
+    final addressController = useTextEditingController(text: userProfile.address);
+    final civilStateController = useTextEditingController(text: userProfile.civilStatus);
+
+    final occupationController = useTextEditingController(text: userProfile.occupation);
 
     final regionsFuture = ref.watch(regionsFutureProvider.future);
     final allProvincesFuture = ref.read(provincesFutureProvider.future);
@@ -77,16 +69,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final percentage = useState(0.0);
     final percentageString = useState('0%');
 
-    final imageFile = useState(userProfile.imageProfileUrl ??
-        "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",);
+    final imageFile = useState(
+      userProfile.imageProfileUrl ??
+          "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
+    );
 
     final editar = useState(userProfile.hasRequiredData() ? false : true);
 
-    Color disabledColor =
-        themeProvider.isDarkMode ? Color(grayText) : const Color(0xffF4F4F4);
-    Color enableColor = themeProvider.isDarkMode
-        ? const Color(backgroundColorDark)
-        : const Color(whiteText);
+    Color disabledColor = themeProvider.isDarkMode ? Color(grayText) : const Color(0xffF4F4F4);
+    Color enableColor = themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
 
     int mapControllerKey() {
       int count = 0;
@@ -124,7 +115,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     }
 
     void _calculatePercentage() {
-
       int count = mapControllerKey();
 
       if (count == 0) {
@@ -142,13 +132,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     Future<void> filterSelects(WidgetRef ref) async {
       final String departmentValue = departmentController.text;
-      String departmentName = ''; // this value 
+      String departmentName = ''; // this value
       String departmentCode = '';
 
       final String provinceValue = provinceController.text;
       String provinceName = '';
       String provinceCode = '';
-
 
       final String districtValue = districtController.text;
       String districtName = '';
@@ -168,7 +157,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             );
           }
           departmentCode = departmentValue;
-        }else{
+        } else {
           departmentName = departmentValue;
           departmentCode = RegionEntity.getCodeFromName(
             departmentName,
@@ -187,7 +176,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
               await allProvincesFuture,
             );
             provinceCode = provinceValue.substring(provinceValue.length - 2);
-
           } else {
             provinceName = ProvinceEntity.getNameFromCode(
               provinceValue,
@@ -196,8 +184,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             );
             provinceCode = provinceValue;
           }
-          
-        }else{
+        } else {
           provinceName = provinceValue;
           provinceCode = ProvinceEntity.getCodeFromName(
             provinceName,
@@ -216,9 +203,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
           codeRegion,
           allProvinces,
         );
-        ref
-            .read(districtsStateNotifier.notifier)
-            .filterDistricts(codeProvince, codeRegion);
+        ref.read(districtsStateNotifier.notifier).filterDistricts(codeProvince, codeRegion);
       }
 
       if (districtValue.isNotEmpty) {
@@ -240,8 +225,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             );
             districtCode = districtValue;
           }
-          
-        }else{
+        } else {
           districtName = districtValue;
 
           districtCode = DistrictEntity.getCodeFromName(
@@ -253,13 +237,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
         }
       }
 
-
       departmentController.text = departmentName;
       provinceController.text = provinceName;
       districtController.text = districtName;
-       // to map the correct value to the civil state controller
+      // to map the correct value to the civil state controller
       civilStateController.text = MaritalStatusMapper().mapStatusToText(civilStateController.text);
-
     }
 
     useEffect(
@@ -329,10 +311,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           bottom: 25,
                           child: InkWell(
                             onTap: () async {
-                              Future<XFile?> ximage =
-                                  _picker.pickImage(source: ImageSource.gallery);
-                              imageFile.value =
-                                  await ximage.then((value) => value!.path);
+                              Future<XFile?> ximage = _picker.pickImage(source: ImageSource.gallery);
+                              imageFile.value = await ximage.then((value) => value!.path);
                             },
                             child: const Icon(
                               Icons.add_photo_alternate_outlined,
@@ -355,9 +335,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         height: 1.5,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: themeProvider.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -402,11 +380,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         }
                         return null;
                       },
-       
                       onEditingComplete: () {
                         _calculatePercentage();
                       },
-    
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: (editar.value ? enableColor : disabledColor),
@@ -432,14 +408,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         }
                         return null;
                       },
-       
                       onEditingComplete: () {
                         _calculatePercentage();
                       },
-                      keyboardType: const TextInputType.numberWithOptions(
-                          signed: true, decimal: true),
-    
-         
+                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
                       decoration: InputDecoration(
                         hintText: 'Escriba su documento de indentificación',
                         label: const Text("Documento de indentificación"),
@@ -465,12 +437,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         provinceController.text = '';
                         districtController.text = '';
                         final regions = await regionsFuture;
-                        final codeRegion =
-                            RegionEntity.getCodeFromName(value, regions);
-    
-                        ref
-                            .read(provincesStateNotifier.notifier)
-                            .filterProvinces(codeRegion);
+                        final codeRegion = RegionEntity.getCodeFromName(value, regions);
+
+                        ref.read(provincesStateNotifier.notifier).filterProvinces(codeRegion);
                         departmentCodeController.text = codeRegion;
                         _calculatePercentage();
                       },
@@ -498,9 +467,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           codeRegion,
                           allProvinces,
                         );
-                        ref
-                            .read(districtsStateNotifier.notifier)
-                            .filterDistricts(codeProvince, codeRegion);
+                        ref.read(districtsStateNotifier.notifier).filterDistricts(codeProvince, codeRegion);
                         _calculatePercentage();
                         provinceController.text = value;
                         provinceCodeController.text = codeProvince;
@@ -519,8 +486,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       callbackOnChange: (value) {
                         _calculatePercentage();
                         districtController.text = value;
-                        districtCodeController.text =
-                            DistrictEntity.getCodeFromName(
+                        districtCodeController.text = DistrictEntity.getCodeFromName(
                           value,
                           provinceCodeController.text,
                           departmentCodeController.text,
@@ -542,7 +508,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         if (value!.isEmpty) {
                           return 'Este dato es requerido';
                         }
-    
+
                         return null;
                       },
                       onEditingComplete: () {
@@ -572,7 +538,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 15),
-    
                   SizedBox(
                     width: 224,
                     height: 38,
@@ -585,14 +550,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         if (value!.isEmpty) {
                           return 'Este dato es requerido';
                         }
-    
+
                         return null;
                       },
-       
                       onEditingComplete: () {
                         _calculatePercentage();
                       },
-    
                       decoration: InputDecoration(
                         hintText: 'Escriba su ocupación',
                         label: const Text("Ocupación"),
@@ -601,9 +564,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       ),
                     ),
                   ),
-    
                   const SizedBox(height: 28),
-    
                   Container(
                     width: 224,
                     height: 50,
@@ -614,88 +575,79 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             editar.value = !editar.value;
                             return;
                           }
-                        
-                        if (firstNameController.text.isEmpty ||
-                            lastNameController.text.isEmpty ||
-                            docNumberController.text.isEmpty ||
-                            departmentController.text.isEmpty ||
-                            provinceController.text.isEmpty ||
-                            districtController.text.isEmpty ||
-                            addressController.text.isEmpty ||
-                            occupationController.text.isEmpty ||
-                            civilStateController.text.isEmpty) {
-                          CustomSnackbar.show(context,
-                              'Por favor, complete todos los campos', 'error',);
-                          return;
-                        }
-                     
-                        context.loaderOverlay.show();
-                        departmentCodeController.text =
-                            RegionEntity.getCodeFromName(
-                          departmentController.text,
-                          await regionsFuture,
-                        );
-                        print('after get code from name ${departmentCodeController.text}');
-                        provinceCodeController.text =
-                            ProvinceEntity.getCodeFromName(
-                          provinceController.text,
-                          departmentCodeController.text,
-                          await allProvincesFuture,
-                        );
-                        print('after get code from name ${provinceCodeController.text}');
-                        districtCodeController.text =
-                            DistrictEntity.getCodeFromName(
-                          districtController.text,
-                          provinceCodeController.text,
-                          departmentCodeController.text,
-                          districts,
-                        );
-                        
-                        final userProfile =
-                            ref.watch(userProfileNotifierProvider);
-    
-                        final success = await ref.read(
-                          updateUserProfileFutureProvider(
-                            userProfile.copyWith(
-                              firstName: firstNameController.text,
-                              lastName: lastNameController.text,
-                              documentNumber: docNumberController.text,
-                              region: departmentCodeController.text,
-                              provincia:
-                                  '${departmentCodeController.text}${provinceCodeController.text}',
-                              distrito:
-                                  '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
-                              civilStatus: MaritalStatusMapper()
-                                  .mapStatus(civilStateController.text),
-                              address: addressController.text,
-                              occupation: occupationController.text,
-                            ),
-                          ).future,
-                        );
-                        if (success) {
-                          context.loaderOverlay.hide();
-                          CustomSnackbar.show(
+
+                          if (firstNameController.text.isEmpty ||
+                              lastNameController.text.isEmpty ||
+                              docNumberController.text.isEmpty ||
+                              departmentController.text.isEmpty ||
+                              provinceController.text.isEmpty ||
+                              districtController.text.isEmpty ||
+                              addressController.text.isEmpty ||
+                              occupationController.text.isEmpty ||
+                              civilStateController.text.isEmpty) {
+                            CustomSnackbar.show(
                               context,
-                              'Sus datos se actualizaron correctamente',
-                              'success');
-                        } else {
-                          context.loaderOverlay.hide();
-                          CustomSnackbar.show(context, 'Error al actualizar', 'error');
-                        }
-    
+                              'Por favor, complete todos los campos',
+                              'error',
+                            );
+                            return;
+                          }
+
+                          context.loaderOverlay.show();
+                          departmentCodeController.text = RegionEntity.getCodeFromName(
+                            departmentController.text,
+                            await regionsFuture,
+                          );
+                          print('after get code from name ${departmentCodeController.text}');
+                          provinceCodeController.text = ProvinceEntity.getCodeFromName(
+                            provinceController.text,
+                            departmentCodeController.text,
+                            await allProvincesFuture,
+                          );
+                          print('after get code from name ${provinceCodeController.text}');
+                          districtCodeController.text = DistrictEntity.getCodeFromName(
+                            districtController.text,
+                            provinceCodeController.text,
+                            departmentCodeController.text,
+                            districts,
+                          );
+
+                          final userProfile = ref.watch(userProfileNotifierProvider);
+
+                          final success = await ref.read(
+                            updateUserProfileFutureProvider(
+                              userProfile.copyWith(
+                                firstName: firstNameController.text,
+                                lastName: lastNameController.text,
+                                documentNumber: docNumberController.text,
+                                region: departmentCodeController.text,
+                                provincia: '${departmentCodeController.text}${provinceCodeController.text}',
+                                distrito:
+                                    '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
+                                civilStatus: MaritalStatusMapper().mapStatus(civilStateController.text),
+                                address: addressController.text,
+                                occupation: occupationController.text,
+                              ),
+                            ).future,
+                          );
+                          if (success) {
+                            context.loaderOverlay.hide();
+                            CustomSnackbar.show(context, 'Sus datos se actualizaron correctamente', 'success');
+                          } else {
+                            context.loaderOverlay.hide();
+                            CustomSnackbar.show(context, 'Error al actualizar', 'error');
+                          }
                         } catch (e) {
                           context.loaderOverlay.hide();
                           CustomSnackbar.show(context, 'Error al actualizar', 'error');
                         }
-                        
+
                         // Navigator.pushNamed(context, '/home_home');
                       },
                       child: Text(
                         editar.value ? 'Guardar' : 'Editar',
                         style: TextStyle(
-                          color: themeProvider.isDarkMode
-                              ? const Color(primaryDark)
-                              : const Color(whiteText),
+                          color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),

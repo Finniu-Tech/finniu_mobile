@@ -7,10 +7,17 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class StartLoginScreen extends ConsumerStatefulWidget {
-  // const StartLoginScreen({super.key});
+  const StartLoginScreen({super.key});
 
   @override
-  _StartLoginScreenState createState() => _StartLoginScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _StartLoginScreenState();
+  }
+
+  // const StartLoginScreen({super.key});
+
+  // @override
+  // _StartLoginScreenState createState() => _StartLoginScreenState();
 }
 
 class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
@@ -19,6 +26,7 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('StartLoginScreen ffff');
     final themeProvider = ref.watch(settingsNotifierProvider);
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
 
@@ -30,10 +38,7 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
             end: Alignment.bottomRight,
             // tileMode: TileMode.mirror,
             // stops: [0.4, 0.9],
-            colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).primaryColorLight
-            ],
+            colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColorLight],
           ),
         ),
         child: Center(
@@ -63,15 +68,15 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
                     width: 224,
                     height: 50,
                     child: TextPoppins(
-                        text:
-                            'Empieza a vivir una nueva experiencia con Finniu',
-                        colorText: Theme.of(context).colorScheme.tertiary.value,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500),
+                      text: 'Empieza a vivir una nueva experiencia con Finniu',
+                      colorText: Theme.of(context).colorScheme.tertiary.value,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 35),
-                    child: CustomButton(
+                    child: const CustomButton(
                         text: 'Iniciar sesión',
                         colorBackground: primaryDark,
                         colorText: whiteText,
@@ -79,7 +84,7 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 20),
-                    child: CustomButton(
+                    child: const CustomButton(
                         text: 'Registrarme',
                         colorBackground: primaryLight,
                         colorText: primaryDark,

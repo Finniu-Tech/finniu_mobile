@@ -1,31 +1,3 @@
-// To parse this JSON data, do
-//
-//     final scanModel = scanModelFromJson(jsonString);
-
-import 'dart:convert';
-
-// PlanListResponse scanModelFromJson(String str) =>
-//     PlanListResponse.fromJson(json.decode(str));
-
-// String scanModelToJson(PlanListResponse data) => json.encode(data.toJson());
-
-// class PlanListResponse {
-//   PlanListResponse({
-//     this.data,
-//   });
-
-//   Data? data;
-
-//   factory PlanListResponse.fromJson(Map<String, dynamic> json) =>
-//       PlanListResponse(
-//         data: json["data"] == null ? null : Data.fromJson(json["data"]),
-//       );
-
-//   Map<String, dynamic> toJson() => {
-//         "data": data?.toJson(),
-//       };
-// }
-
 class PlanListResponse {
   PlanListResponse({
     this.planData,
@@ -34,15 +6,11 @@ class PlanListResponse {
   List<PlanDatum>? planData;
 
   factory PlanListResponse.fromJson(List<dynamic> json) => PlanListResponse(
-        planData: json == null
-            ? []
-            : List<PlanDatum>.from(json!.map((x) => PlanDatum.fromJson(x))),
+        planData: json == null ? [] : List<PlanDatum>.from(json!.map((x) => PlanDatum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "planData": planData == null
-            ? []
-            : List<dynamic>.from(planData!.map((x) => x.toJson())),
+        "planData": planData == null ? [] : List<dynamic>.from(planData!.map((x) => x.toJson())),
       };
 }
 
@@ -83,9 +51,7 @@ class PlanDatum {
         value: json["value"],
         twelveMonthsReturn: json["twelveMonthsReturn"],
         sixMonthsReturn: json["sixMonthsReturn"],
-        returnDateEstimate: json["returnDateEstimate"] == null
-            ? null
-            : DateTime.parse(json["returnDateEstimate"]),
+        returnDateEstimate: json["returnDateEstimate"] == null ? null : DateTime.parse(json["returnDateEstimate"]),
         planImageUrl: json["planImageUrl"],
         objective: json["objective"],
         imgDistribution: json["distributionImageUrl"],
