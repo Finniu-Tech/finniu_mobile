@@ -88,7 +88,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                               height: 50,
                               width: 50,
                               child: CircularPercentAvatarWidget(),
-                            )
+                            ),
                           ],
                         ),
                         Expanded(

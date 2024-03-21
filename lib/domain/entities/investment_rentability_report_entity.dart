@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class StatusInvestmentEnum {
   static const String in_course = 'in_course';
   static const String finished = 'finished';
@@ -40,18 +42,13 @@ class InvestmentRentabilityEntity {
   String deadLineName;
   int deadLineValue;
   bool? reinvestmentAvailable;
-  // String? paymentTypeUuid;
-  // String? paymentTypeName;
-  // String? paymentTypeValue;
-  // String bankAccountName;
-  // String bankAccountLogo;
-  // String contractUrl;
-  // String boucherUrl;
   String statusInvestment; // ACTIVE
   DateTime? startDateInvestment;
   DateTime? endDateInvestment;
   double rentabilityAmount;
   double rentabilityPercent;
+  InvestmentCouponPartnerTagEntity? partnerCouponTag;
+  InvestmentPartnerEntity? partner;
 
   InvestmentRentabilityEntity({
     required this.uuid,
@@ -62,19 +59,37 @@ class InvestmentRentabilityEntity {
     required this.deadLineName,
     required this.deadLineValue,
     this.reinvestmentAvailable,
-
-    // this.paymentTypeUuid,
-    // this.paymentTypeName,
-    // this.paymentTypeValue,
-    // required this.bankAccountName,
-    // required this.bankAccountLogo,
-    // required this.contractUrl,
-    // required this.boucherUrl,
     required this.statusInvestment,
     this.startDateInvestment,
     this.endDateInvestment,
     required this.rentabilityAmount,
     required this.rentabilityPercent,
     this.planName,
+    this.partnerCouponTag,
+    this.partner,
+  });
+}
+
+class InvestmentCouponPartnerTagEntity {
+  String partnerTag;
+  String hexColor;
+
+  InvestmentCouponPartnerTagEntity({
+    required this.partnerTag,
+    required this.hexColor,
+  });
+}
+
+class InvestmentPartnerEntity {
+  String partnerName;
+  String? partnerLogoUrl;
+  String? partnerHexColor;
+  bool activateLogo;
+
+  InvestmentPartnerEntity({
+    required this.partnerName,
+    this.partnerLogoUrl,
+    this.partnerHexColor,
+    required this.activateLogo,
   });
 }

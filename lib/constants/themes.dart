@@ -1,17 +1,16 @@
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:flutter/cupertino.dart';
 
 class AppTheme {
   get darkTheme => ThemeData(
-        pageTransitionsTheme: PageTransitionsTheme(
+        pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: CupertinoPageTransitionsBuilder(),
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
-        appBarTheme: const AppBarTheme(color: Color(primaryDark)),
+        appBarTheme: const AppBarTheme(color: Color(primaryDark), scrolledUnderElevation: 0),
         backgroundColor: Color(backgroundColorDark),
         primaryColor: const Color(primaryDark), // usado para gradiente
         primaryColorLight: const Color(primaryLight), // usado para gradiente
@@ -56,8 +55,7 @@ class AppTheme {
         ),
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
-          contentPadding:
-              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+          contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(
@@ -93,7 +91,7 @@ class AppTheme {
   get lightTheme => ThemeData(
         // useMaterial3: true,
         // primarySwatch: Colors.grey,
-        pageTransitionsTheme: PageTransitionsTheme(
+        pageTransitionsTheme: const PageTransitionsTheme(
           builders: {
             TargetPlatform.android: CupertinoPageTransitionsBuilder(),
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
@@ -102,7 +100,7 @@ class AppTheme {
         backgroundColor: const Color(backgroundColorLight),
         primaryColor: const Color(primaryLight), // usado para gradiente
         primaryColorLight: const Color(secondary), // usado para gradiente
-        appBarTheme: const AppBarTheme(color: Color(primaryLight)),
+        appBarTheme: const AppBarTheme(color: Color(primaryLight), scrolledUnderElevation: 0),
 
         textTheme: const TextTheme(
           titleLarge: TextStyle(
@@ -114,16 +112,8 @@ class AppTheme {
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            // textStyle: MaterialStateProperty.resolveWith<TextStyle>(
-            //   (_) {
-            //     return const TextStyle(
-            //         // color: Color(colorTextButtonLightColor),
-            //         // color: Colors.red,
-            //         );
-            //   },
-            // ),
-            backgroundColor: MaterialStateProperty.resolveWith<Color>(
-                (states) => const Color(buttonBackgroundColorLight)),
+            backgroundColor:
+                MaterialStateProperty.resolveWith<Color>((states) => const Color(buttonBackgroundColorLight)),
             foregroundColor: MaterialStateProperty.all<Color>(
               const Color(colorTextButtonLightColor),
             ),
@@ -138,8 +128,7 @@ class AppTheme {
         ),
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
-          contentPadding:
-              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+          contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(

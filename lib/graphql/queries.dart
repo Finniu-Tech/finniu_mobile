@@ -293,8 +293,8 @@ class QueryRepository {
 
   static String get investmentRentabilityReportV2 {
     return '''
-      query {
-        userInfoAllInvestment {
+        query {
+      userInfoAllInvestment {
           invesmentInDolares {
             totalBalanceAmmount
             countPlanesActive
@@ -324,6 +324,16 @@ class QueryRepository {
               rentabilityAmmount
               rentabilityPercent
               planName
+              couponPartnerTags{
+                tagName
+                tagHex
+              }
+              partnerInfo{
+                partnerName
+                partnerLogo
+                partnerHex
+                partnerImageActivate
+              }
             }
             invesmentFinished {
               uuid
@@ -349,6 +359,16 @@ class QueryRepository {
               rentabilityAmmount
               rentabilityPercent
               planName
+              couponPartnerTags{
+                tagName
+                tagHex
+              }
+              partnerInfo{
+                partnerName
+                partnerLogo
+                partnerHex
+                partnerImageActivate
+              }
             }
           }
           invesmentInSoles {
@@ -380,6 +400,16 @@ class QueryRepository {
               rentabilityAmmount
               rentabilityPercent
               planName
+              couponPartnerTags{
+                tagName
+                tagHex
+              }
+              partnerInfo{
+                partnerName
+                partnerLogo
+                partnerHex
+                partnerImageActivate
+              }
             }
             invesmentFinished {
               uuid
@@ -405,6 +435,16 @@ class QueryRepository {
               rentabilityAmmount
               rentabilityPercent
               planName
+              couponPartnerTags{
+                tagName
+                tagHex
+              }
+              partnerInfo{
+                partnerName
+                partnerLogo
+                partnerHex
+                partnerImageActivate
+              }
             }
           }
         }

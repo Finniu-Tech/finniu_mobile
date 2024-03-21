@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 class UserInfoInvestmentReportResponse {
   UserInfoInvestment? userInfoInvestment;
 
@@ -9,8 +11,7 @@ class UserInfoInvestmentReportResponse {
     Map<String, dynamic> json,
   ) =>
       UserInfoInvestmentReportResponse(
-        userInfoInvestment:
-            json == null ? null : UserInfoInvestment.fromJson(json),
+        userInfoInvestment: json == null ? null : UserInfoInvestment.fromJson(json),
       );
 
   Map<String, dynamic> toJson() => {
@@ -33,31 +34,30 @@ class UserInfoInvestment {
     this.invesmentFinished,
   });
 
-  factory UserInfoInvestment.fromJson(Map<String, dynamic> json) =>
-      UserInfoInvestment(
+  factory UserInfoInvestment.fromJson(Map<String, dynamic> json) => UserInfoInvestment(
         totalBalanceAmmount: json["totalBalanceAmmount"],
         countPlanesActive: json["countPlanesActive"],
         totalBalanceRentability: json["totalBalanceRentability"],
         invesmentInCourse: json["invesmentInCourse"] == null
             ? []
             : List<Investment>.from(
-                json["invesmentInCourse"]!.map((x) => Investment.fromJson(x)),),
+                json["invesmentInCourse"]!.map((x) => Investment.fromJson(x)),
+              ),
         invesmentFinished: json["invesmentFinished"] == null
             ? []
             : List<Investment>.from(
-                json["invesmentFinished"]!.map((x) => Investment.fromJson(x)),),
+                json["invesmentFinished"]!.map((x) => Investment.fromJson(x)),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
         "totalBalanceAmmount": totalBalanceAmmount,
         "countPlanesActive": countPlanesActive,
         "totalBalanceRentability": totalBalanceRentability,
-        "invesmentInCourse": invesmentInCourse == null
-            ? []
-            : List<dynamic>.from(invesmentInCourse!.map((x) => x.toJson())),
-        "invesmentFinished": invesmentFinished == null
-            ? []
-            : List<dynamic>.from(invesmentFinished!.map((x) => x.toJson())),
+        "invesmentInCourse":
+            invesmentInCourse == null ? [] : List<dynamic>.from(invesmentInCourse!.map((x) => x.toJson())),
+        "invesmentFinished":
+            invesmentFinished == null ? [] : List<dynamic>.from(invesmentFinished!.map((x) => x.toJson())),
       };
 }
 
@@ -77,6 +77,8 @@ class Investment {
   String? rentabilityPercent;
   String? planName;
   bool? reinvestmentAvailable;
+  PartnerResponse? partner;
+  PartnerTagResponse? partnerTag;
 
   Investment({
     this.uuid,
@@ -94,35 +96,29 @@ class Investment {
     this.rentabilityPercent,
     this.planName,
     this.reinvestmentAvailable,
+    this.partner,
+    this.partnerTag,
   });
 
   factory Investment.fromJson(Map<String, dynamic> json) => Investment(
         uuid: json["uuid"],
-        createdAt: json["createdAt"] == null
-            ? null
-            : DateTime.parse(json["createdAt"]),
+        createdAt: json["createdAt"] == null ? null : DateTime.parse(json["createdAt"]),
         isActive: json["isActive"],
         amount: json["amount"],
-        deadline: json["deadline"] == null
-            ? null
-            : Deadline.fromJson(json["deadline"]),
-        depositBank: json["depositBank"] == null
-            ? null
-            : DepositBank.fromJson(json["depositBank"]),
+        deadline: json["deadline"] == null ? null : Deadline.fromJson(json["deadline"]),
+        depositBank: json["depositBank"] == null ? null : DepositBank.fromJson(json["depositBank"]),
         contract: json["contract"],
         boucherTransaction: json["boucherTransaction"],
         status: json["status"],
-        startDateInvestment: json["startDateInvestment"] == null
-            ? null
-            : DateTime.parse(json["startDateInvestment"]),
-        finishDateInvestment: json["finishDateInvestment"] == null
-            ? null
-            : DateTime.parse(json["finishDateInvestment"]),
+        startDateInvestment: json["startDateInvestment"] == null ? null : DateTime.parse(json["startDateInvestment"]),
+        finishDateInvestment:
+            json["finishDateInvestment"] == null ? null : DateTime.parse(json["finishDateInvestment"]),
         rentabilityAmmount: json["rentabilityAmmount"],
         rentabilityPercent: json["rentabilityPercent"],
         planName: json["planName"],
-        reinvestmentAvailable:
-            json["reinvestmentAvailable"] == true ? true : false,
+        reinvestmentAvailable: json["reinvestmentAvailable"] == true ? true : false,
+        partner: json["partnerInfo"] == null ? null : PartnerResponse.fromJson(json["partnerInfo"]),
+        partnerTag: json["couponPartnerTags"] == null ? null : PartnerTagResponse.fromJson(json["couponPartnerTags"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -194,5 +190,53 @@ class DepositBank {
         "bankName": bankName,
         "bankLogo": bankLogo,
         "slug": slug,
+      };
+}
+
+class PartnerTagResponse {
+  String partnerTag;
+  String hexColor;
+
+  PartnerTagResponse({
+    required this.partnerTag,
+    required this.hexColor,
+  });
+
+  factory PartnerTagResponse.fromJson(Map<String, dynamic> json) => PartnerTagResponse(
+        partnerTag: json["tagName"],
+        hexColor: json["tagHex"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "partnerTag": partnerTag,
+        "hexColor": hexColor,
+      };
+}
+
+class PartnerResponse {
+  String partnerName;
+  String partnerLogoUrl;
+  String partnerHexColor;
+  bool activateLogo;
+
+  PartnerResponse({
+    required this.partnerName,
+    required this.partnerLogoUrl,
+    required this.partnerHexColor,
+    required this.activateLogo,
+  });
+
+  factory PartnerResponse.fromJson(Map<String, dynamic> json) => PartnerResponse(
+        partnerName: json["partnerName"],
+        partnerLogoUrl: json["partnerLogo"],
+        partnerHexColor: json["partnerHex"],
+        activateLogo: json["partnerImageActivate"] ?? false,
+      );
+
+  Map<String, dynamic> toJson() => {
+        "partnerName": partnerName,
+        "partnerLogoUrl": partnerLogoUrl,
+        "partnerHexColor": partnerHexColor,
+        "activateLogo": activateLogo,
       };
 }

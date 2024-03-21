@@ -9,6 +9,7 @@ import 'package:finniu/infrastructure/models/investment_rentability_report_respo
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
+  @override
   Future<InvestmentRentabilityReport> getRentabilityReport({
     required GraphQLClient client,
   }) async {
@@ -17,6 +18,8 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
         document: gql(
           QueryRepository.investmentRentabilityReportV2,
         ),
+        errorPolicy: ErrorPolicy.ignore,
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
     final data = response.data?['userInfoAllInvestment'];
@@ -26,9 +29,6 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
     final dollarsResponse = UserInfoInvestmentReportResponse.fromJson(
       data['invesmentInDolares'][0] ?? {},
     );
-    // final responseGraphRentability = UserInfoInvestmentReportResponse.fromJson(
-    //   response.data ?? {},
-    // );
 
     return InvestmentRentabilityReport(
       solesRentability: InvestmentRentabilityReportMapper.graphResponseToEntity(
@@ -48,18 +48,16 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
         document: gql(
           QueryRepository.investmentHistoryReportV2,
         ),
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
     final data = response.data?['userInfoAllInvestment'];
-    print('data: $data');
     final solesHistoryResponse = HistoryInvestmentResponse.fromJson(
       data['invesmentInSoles'][0] ?? {},
     );
-    print('solesHistoryResponse: $solesHistoryResponse');
     final dollarsHistoryResponse = HistoryInvestmentResponse.fromJson(
       data['invesmentInDolares'][0] ?? {},
     );
-    print('dollarsHistoryResponse: $dollarsHistoryResponse');
     return InvestmentHistoryReport(
       dollarsHistory: InvestmentHistoryMapper.responseGraphToEntity(dollarsHistoryResponse),
       solesHistory: InvestmentHistoryMapper.responseGraphToEntity(solesHistoryResponse),

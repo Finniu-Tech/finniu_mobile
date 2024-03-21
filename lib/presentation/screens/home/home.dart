@@ -28,7 +28,6 @@ class HomeScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('HomeScreen ffff');
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     // add flag to check if callback has already been added

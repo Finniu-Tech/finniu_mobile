@@ -28,6 +28,7 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
       // backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
+        scrolledUnderElevation: 0,
         // backgroundColor: const Color(primary_light),
         title: Center(
           child: Row(
@@ -51,12 +52,8 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
                 onToggle: (value) {
                   Preferences.isDarkMode = value;
                   value
-                      ? ref
-                          .read(settingsNotifierProvider.notifier)
-                          .setDarkMode()
-                      : ref
-                          .read(settingsNotifierProvider.notifier)
-                          .setLightMode();
+                      ? ref.read(settingsNotifierProvider.notifier).setDarkMode()
+                      : ref.read(settingsNotifierProvider.notifier).setLightMode();
                   setState(() {});
                 },
               ),
@@ -97,6 +94,7 @@ class _CustomScaffoldReturnState extends State<CustomScaffoldReturn> {
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         elevation: 0.0,
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
         leading: const CustomReturnButton(),
       ),
@@ -121,6 +119,7 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0.0,
+        scrolledUnderElevation: 0,
         backgroundColor: Colors.white,
         leading: const CustomReturnButton(),
       ),
@@ -148,6 +147,7 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
       backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: !hideNavBar ? const BottomNavigationBarHome() : null,
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0,
         leading: !hideReturnButton
@@ -192,6 +192,7 @@ class CustomScaffoldReturnDirect extends ConsumerWidget {
       // backgroundColor: Theme.of(context).backgroundColor,
       bottomNavigationBar: const BottomNavigationBarHome(),
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         // backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0,
         leading: !hideReturnButton

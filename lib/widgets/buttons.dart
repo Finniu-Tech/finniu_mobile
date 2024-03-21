@@ -4,7 +4,6 @@ import 'package:finniu/constants/colors.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-
 class CustomButton extends ConsumerStatefulWidget {
   final int? colorBackground;
   final int? colorText;
@@ -34,25 +33,16 @@ class CustomButton extends ConsumerStatefulWidget {
 class _CustomButtonState extends ConsumerState<CustomButton> {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = ref.watch(settingsNotifierProvider);
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context)
-          .textButtonTheme
-          .style!
-          .backgroundColor!
-          .resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context)
-          .textButtonTheme
-          .style!
-          .foregroundColor!
-          .resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -137,7 +127,6 @@ class CustomButtonRoundedDark extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
@@ -169,11 +158,10 @@ class CustomButtonRoundedDark extends ConsumerWidget {
   }
 }
 
-
 final navigatorStateProvider = StateProvider<int>((ref) => 0);
+
 class BottomNavigationBarHome extends HookConsumerWidget {
   const BottomNavigationBarHome({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -191,7 +179,7 @@ class BottomNavigationBarHome extends HookConsumerWidget {
         return BottomNavigationBar(
           elevation: 0.0,
           type: BottomNavigationBarType.fixed,
-          backgroundColor:  Color(isDarkMode ? primaryLight : primaryDark),
+          backgroundColor: Color(isDarkMode ? primaryLight : primaryDark),
           selectedItemColor: Color(isDarkMode ? primaryDark : primaryLight),
           unselectedItemColor: Color(isDarkMode ? primaryDark : primaryLight).withOpacity(0.6),
           selectedFontSize: 14,
@@ -221,23 +209,22 @@ class BottomNavigationBarHome extends HookConsumerWidget {
   }
 
   void _navigate(BuildContext context, int index) {
-  switch (index) {
-    case 0:
-      Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
-      break;
-    case 1:
-      Navigator.of(context).pushNamedAndRemoveUntil('/plan_list', (route) => false);
-      break;
-    case 2:
-      Navigator.of(context).pushNamedAndRemoveUntil('/process_investment', (route) => false);
-      break;
-    default:
+    switch (index) {
+      case 0:
+        Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
+        break;
+      case 1:
+        Navigator.of(context).pushNamedAndRemoveUntil('/plan_list', (route) => false);
+        break;
+      case 2:
+        Navigator.of(context).pushNamedAndRemoveUntil('/process_investment', (route) => false);
+        break;
+      default:
+    }
   }
-}
-
 
   Widget _buildIcon(String imagePath, BuildContext context, int selectedIndex, int index, bool isDarkMode) {
-    Color iconColor = isDarkMode ? Color(primaryDark) : Color(primaryLight);
+    Color iconColor = isDarkMode ? const Color(primaryDark) : const Color(primaryLight);
     final isSelected = selectedIndex == index;
     iconColor = isSelected ? iconColor : iconColor.withOpacity(0.6);
     return Padding(
@@ -251,4 +238,3 @@ class BottomNavigationBarHome extends HookConsumerWidget {
     );
   }
 }
-

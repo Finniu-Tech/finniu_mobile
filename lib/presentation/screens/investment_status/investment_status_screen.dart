@@ -1,13 +1,10 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
-import 'package:finniu/infrastructure/mappers/calculate_investment_mapper.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/empty_message.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/switch.dart';
@@ -17,12 +14,13 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class InvestmentProcess extends StatefulHookConsumerWidget {
+  const InvestmentProcess({super.key});
+
   @override
   InvestmentProcessState createState() => InvestmentProcessState();
 }
 
-class InvestmentProcessState extends ConsumerState<InvestmentProcess>
-    with SingleTickerProviderStateMixin {
+class InvestmentProcessState extends ConsumerState<InvestmentProcess> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -36,21 +34,24 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
     final currentTheme = ref.watch(settingsNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
 
-    return WillPopScope(
-      onWillPop: () => Future.value(false),
+    return PopScope(
+      // onWillPop: () => Future.value(false),
       child: CustomScaffoldReturnLogo(
         hideReturnButton: true,
         body: HookBuilder(
           builder: (context) {
-            final reportFuture =
-                ref.watch(investmentStatusReportFutureProvider);
+            print('start investment process');
+            final reportFuture = ref.watch(investmentStatusReportFutureProvider);
+            print('reportFuture: $reportFuture');
             return reportFuture.when(
               data: (data) {
                 final reportSoles = data.solesRentability;
                 final reportDollars = data.dollarsRentability;
                 final report = isSoles ? reportSoles : reportDollars;
-                if (reportSoles.totalPlans == 0 &&
-                    reportDollars.totalPlans == 0) {
+                print('reportSoles: $reportSoles');
+                print('reportDollars: $reportDollars');
+                print('report: $report');
+                if (reportSoles.totalPlans == 0 && reportDollars.totalPlans == 0) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: Center(
@@ -106,10 +107,10 @@ class InvestmentStatusScreenBody extends StatelessWidget {
     DateFormat dateFormat = DateFormat.MMMM('es');
     final moneySymbol = isSoles ? 'S/' : '\$';
     int maxLength = report.investmentsInCourse!.length > report.investmentsFinished!.length
-    ? report.investmentsInCourse!.length
-    : report.investmentsFinished!.length;
+        ? report.investmentsInCourse!.length
+        : report.investmentsFinished!.length;
 
-    double columnHeight = maxLength * 230.0; 
+    double columnHeight = maxLength * 230.0;
     return SingleChildScrollView(
       child: Center(
         child: SizedBox(
@@ -118,40 +119,40 @@ class InvestmentStatusScreenBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Row(children: [
-                SizedBox(
-                  child: Text(
-                    ' Mis inversiones 💸 ',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: Color(Theme.of(context).colorScheme.secondary.value),
+              Row(
+                children: [
+                  SizedBox(
+                    child: Text(
+                      ' Mis inversiones 💸 ',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: Color(Theme.of(context).colorScheme.secondary.value),
+                      ),
                     ),
                   ),
-                ),
-                // SizedBox(
-                //   width: MediaQuery.of(context).size.width * 0.58,
-                // ),
-                const Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    // modalsPlan(context);
-                    Navigator.pushNamed(context, '/calendar_page');
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(5),
-                    child: Image.asset(
-                      'assets/icons/calendar.png',
-                      width: 20,
-                      height: 20,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
+                  // SizedBox(
+                  //   width: MediaQuery.of(context).size.width * 0.58,
+                  // ),
+                  const Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      // modalsPlan(context);
+                      Navigator.pushNamed(context, '/calendar_page');
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Image.asset(
+                        'assets/icons/calendar.png',
+                        width: 20,
+                        height: 20,
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      ),
                     ),
                   ),
-                ),
-              ],),
+                ],
+              ),
               const SizedBox(
                 height: 10,
               ),
@@ -166,9 +167,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.45,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20),
@@ -182,9 +181,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryDark)
-                                : const Color(whiteText),
+                            color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                           ),
                         ),
                       ),
@@ -198,9 +195,8 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.45,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryDark)
-                            : const Color(primaryLightAlternative),
+                        color:
+                            currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20),
@@ -214,9 +210,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(primaryDark),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                           ),
                         ),
                       ),
@@ -242,8 +236,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                 height: 10,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment
-                    .start, // Alinear widgets en el centro horizontalmente
+                mainAxisAlignment: MainAxisAlignment.start, // Alinear widgets en el centro horizontalmente
                 children: [
                   Container(
                     width: 15,
@@ -254,37 +247,29 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                         color: const Color(primaryDark),
                       ),
                       shape: BoxShape.circle,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryDark)
-                          : const Color(primaryLight),
+                      color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
                     ),
                     // Si desea agregar un icono dentro del círculo
                   ),
-                  const SizedBox(
-                      width: 5), // Separación entre el círculo y el texto
+                  const SizedBox(width: 5), // Separación entre el círculo y el texto
                   Text(
                     'Dinero invertido',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
-    
+
                   const Spacer(),
-    
+
                   Container(
                     width: 15,
                     height: 15,
                     decoration: BoxDecoration(
-                      border:
-                          Border.all(width: 1, color: const Color(primaryDark)),
+                      border: Border.all(width: 1, color: const Color(primaryDark)),
                       shape: BoxShape.circle,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(secondary),
+                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
                     ),
                     // Si desea agregar un icono dentro del círculo
                   ),
@@ -295,9 +280,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                 ],
@@ -310,9 +293,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
               Padding(
@@ -323,12 +304,8 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                   children: [
                     TabBar(
                       isScrollable: true,
-                      unselectedLabelColor: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
-                      labelColor: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
+                      unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                      labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       tabs: const [
                         Tab(
                           text: "Inversiones en curso",
@@ -339,44 +316,44 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       ],
                       controller: _tabController,
                       indicatorSize: TabBarIndicatorSize.label,
-                      indicatorColor: currentTheme.isDarkMode
-                          ? const Color(secondary)
-                          : const Color(primaryLight),
+                      indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
                       indicatorWeight: 6,
                       indicatorPadding: const EdgeInsets.only(bottom: 12),
-                    )
+                    ),
                   ],
                 ),
               ),
               const SizedBox(
                 height: 10,
               ),
-              Container(
+              SizedBox(
                 height: columnHeight,
                 child: TabBarView(
                   controller: _tabController,
                   children: [
                     Column(
                       children: report.investmentsInCourse!
-                        .expand((investment) => [
-                            TableCardInCourse(
-                              textButton: investment.reinvestmentAvailable,
-                              planName: investment.planName!,
-                              termText:
-                                'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                              amountInvested: '$moneySymbol${investment.amount}',
-                              interestGenerated:
-                                '$moneySymbol${investment.rentabilityAmount}',
-                              currentMoney:
-                                '$moneySymbol${investment.amount + investment.rentabilityAmount}',
-                              moneyGrowth: '+${investment.rentabilityPercent}%',
-                              startDate:
-                                '${investment.startDateInvestment?.day} ${dateFormat.format(investment.startDateInvestment!)}',
-                              endDate:
-                                '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
-                            ),
-                        ],)
-                        .toList(),
+                          .expand(
+                            (investment) => [
+                              TableCardInCourse(
+                                textButton: investment.reinvestmentAvailable,
+                                planName: investment.planName!,
+                                termText:
+                                    'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
+                                amountInvested: '$moneySymbol${investment.amount}',
+                                interestGenerated: '$moneySymbol${investment.rentabilityAmount}',
+                                currentMoney: '$moneySymbol${investment.amount + investment.rentabilityAmount}',
+                                moneyGrowth: '+${investment.rentabilityPercent}%',
+                                startDate:
+                                    '${investment.startDateInvestment?.day} ${dateFormat.format(investment.startDateInvestment!)}',
+                                endDate:
+                                    '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
+                                tag: investment.partnerCouponTag,
+                                partner: investment.partner,
+                              ),
+                            ],
+                          )
+                          .toList(),
                     ),
                     Column(
                       children: report.investmentsFinished!
@@ -386,14 +363,12 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                               endDate:
                                   '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
                               amountInvested: '$moneySymbol${investment.amount}',
-                              totalRevenue:
-                                  '$moneySymbol${investment.rentabilityAmount + investment.amount}',
-                              growText:
-                                  '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
+                              totalRevenue: '$moneySymbol${investment.rentabilityAmount + investment.amount}',
+                              growText: '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
                             ),
                           )
                           .toList(),
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -425,16 +400,20 @@ class LineReportHomeWidget extends ConsumerStatefulWidget {
 
 class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
   final List<String> _darkImages = [
-    "assets/report_home/dark/step_1.png",
-    "assets/report_home/dark/step_2.png",
-    "assets/report_home/dark/step_3.png",
-    "assets/report_home/dark/step_4.png",
+    "assets/reports/night/step_1.png",
+    "assets/reports/night/step_3.png",
+    "assets/reports/night/step_3.png",
+    "assets/reports/night/step_4.png",
+    "assets/reports/night/step_5.png",
+    "assets/reports/night/step_6.png",
   ];
   final List<String> _lightImages = [
-    "assets/report_home/light/step_1.png",
-    "assets/report_home/light/step_2.png",
-    "assets/report_home/light/step_3.png",
-    "assets/report_home/light/step_4.png",
+    "assets/reports/light/step_1.png",
+    "assets/reports/light/step_2.png",
+    "assets/reports/light/step_3.png",
+    "assets/reports/light/step_4.png",
+    "assets/reports/light/step_5.png",
+    "assets/reports/light/step_6.png",
   ];
   int _currentPageIndex = 0;
   Timer? _timer;
@@ -449,7 +428,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
     //     : _lightImages;
     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
       setState(() {
-        if (_currentPageIndex < 3) {
+        if (_currentPageIndex < 5) {
           _currentPageIndex++;
         } else {
           _currentPageIndex = 0;
@@ -489,7 +468,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 alignment: Alignment.center,
               ),
             );
-          }).toList(),
+          }),
           Positioned(
             top: 30,
             left: 16,
@@ -500,28 +479,24 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 Row(
                   children: [
                     Text(
-                      '${moneySymbol}${widget.totalAmount.toStringAsFixed(2)}',
+                      '$moneySymbol${widget.totalAmount.toStringAsFixed(2)}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       ),
                     ),
                     const SizedBox(
                       width: 22,
                     ),
                     Text(
-                      '${moneySymbol}${widget.revenueAmount.toStringAsFixed(2)}',
+                      '$moneySymbol${widget.revenueAmount.toStringAsFixed(2)}',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -537,9 +512,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                       ),
                     ),
                     const SizedBox(
@@ -551,9 +524,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                       ),
                     ),
                   ],
@@ -567,9 +538,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                   ),
                 ),
                 const SizedBox(
@@ -583,9 +552,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                       ),
                     ),
                     const SizedBox(
@@ -612,6 +579,8 @@ class TableCardInCourse extends ConsumerWidget {
   final String startDate;
   final String endDate;
   final bool? textButton;
+  final InvestmentCouponPartnerTagEntity? tag;
+  final InvestmentPartnerEntity? partner;
 
   const TableCardInCourse({
     super.key,
@@ -624,347 +593,399 @@ class TableCardInCourse extends ConsumerWidget {
     required this.startDate,
     required this.endDate,
     this.textButton,
+    this.tag,
+    this.partner,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    return Container(
-      margin: const EdgeInsets.only(bottom: 10),
-      constraints: const BoxConstraints(minWidth: 200, maxWidth: 600),
-      width: MediaQuery.of(context).size.width * 0.9,
-      height: 200,
-      decoration: BoxDecoration(
-        color: currentTheme.isDarkMode
-            ? Colors.transparent
-            : const Color(whiteText),
-        border: Border.all(
-          color: currentTheme.isDarkMode
-              ? const Color(primaryLight)
-              : const Color(primaryDark),
-          width: 2,
-        ),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return ClipRRect(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 230,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
-                  planName,
-                  style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                  ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 10),
+              constraints: const BoxConstraints(minWidth: 200, maxWidth: 600),
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 200,
+              decoration: BoxDecoration(
+                color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+                border: Border.all(
+                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  width: 2,
                 ),
-                const Spacer(),
-                Image.asset(
-                  alignment: Alignment.center,
-                  'assets/images/circle_green.png',
-                  height: 15,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Text(
-                    'En curso',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w400,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
-                    ),
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Row(
-              children: [
-                Text(
-                  termText,
-                  style: const TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w400,
-                    color: Color(grayText2),
-                  ),
-                ),
-                const Spacer(),
-                if (textButton == true)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: SizedBox(
-                      width: 82,
-                      height: 30,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/reinvest',
-                            arguments: {
-                              'planName': planName,
-                              'amountInvested': amountInvested,
-                            },
-                          );
-                        },
-                        child: const Text(
-                          'Reinvertir',
-                        ),
-                      ),
-                    ),
-                  )
-              ],
-            ),
-            const SizedBox(height: 5),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Column(children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(primaryLight),
-                                border: Border.all(
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                )),
-                            height: 30,
-                            width: 5,
-                          ),
-                        ]),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              Text(
-                                'Dinero invertido',
-                                style: TextStyle(
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                amountInvested,
-                                style: TextStyle(
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryLight)
-                                      : const Color(primaryDark),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                            ],
+                        Text(
+                          planName,
+                          style: TextStyle(
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
+                        const Spacer(),
+                        Image.asset(
+                          alignment: Alignment.center,
+                          'assets/images/circle_green.png',
+                          height: 15,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: Text(
+                            'En curso',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                            ),
+                          ),
+                        )
                       ],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 5,
                     ),
                     Row(
                       children: [
-                        Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryLight)
-                                      : const Color(secondary),
-                                  border: Border.all(
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(whiteText)
-                                        : const Color(blackText),
-                                  )),
+                        Text(
+                          termText,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: Color(grayText2),
+                          ),
+                        ),
+                        const Spacer(),
+                        if (textButton == true)
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: SizedBox(
+                              width: 82,
                               height: 30,
-                              width: 5,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(
+                                    context,
+                                    '/reinvest',
+                                    arguments: {
+                                      'planName': planName,
+                                      'amountInvested': amountInvested,
+                                    },
+                                  );
+                                },
+                                child: const Text(
+                                  'Reinvertir',
+                                ),
+                              ),
+                            ),
+                          )
+                      ],
+                    ),
+                    const SizedBox(height: 5),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Column(children: [
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryDark)
+                                            : const Color(primaryLight),
+                                        border: Border.all(
+                                          color:
+                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                        )),
+                                    height: 30,
+                                    width: 5,
+                                  ),
+                                ]),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        'Dinero invertido',
+                                        style: TextStyle(
+                                          color:
+                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        amountInvested,
+                                        style: TextStyle(
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(primaryLight)
+                                              : const Color(primaryDark),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Row(
+                              children: [
+                                Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(primaryLight)
+                                              : const Color(secondary),
+                                          border: Border.all(
+                                            color: currentTheme.isDarkMode
+                                                ? const Color(whiteText)
+                                                : const Color(blackText),
+                                          )),
+                                      height: 30,
+                                      width: 5,
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    children: [
+                                      const Text(
+                                        'Intereses generados',
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        interestGenerated,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(primaryLight)
+                                              : const Color(primaryDark),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            children: [
-                              const Text(
-                                'Intereses generados',
-                                style: TextStyle(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                          padding: const EdgeInsets.only(right: 10, top: 10),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.47,
+                            height: 100,
+                            decoration: BoxDecoration(
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.6),
+                                    spreadRadius: 0,
+                                    blurRadius: 2,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                                color: currentTheme.isDarkMode
+                                    ? const Color(primaryDark)
+                                    : const Color(primaryLightAlternative),
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    'Dinero actual',
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        currentMoney,
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(primaryLight)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.03,
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Image.asset(
+                                        alignment: Alignment.center,
+                                        'assets/images/arrow.png',
+                                        //  width: 15,
+                                        height: 30,
+                                      ),
+                                      Text(
+                                        moneyGrowth,
+                                        style: const TextStyle(
+                                            fontSize: 12, fontWeight: FontWeight.w600, color: Color(colorgreen)),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        'Inicio',
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                        ),
+                                      ),
+                                      Text(
+                                        startDate,
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        'Finaliza',
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                        ),
+                                      ),
+                                      Text(
+                                        endDate,
+                                        style: TextStyle(
+                                          fontSize: 7,
+                                          fontWeight: FontWeight.w600,
+                                          color:
+                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ],
                               ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Text(
-                                interestGenerated,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryLight)
-                                      : const Color(primaryDark),
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              )
-                            ],
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 10, top: 10),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.47,
-                    height: 100,
-                    decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.6),
-                            spreadRadius: 0,
-                            blurRadius: 2,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
+              ),
+            ),
+            Positioned(
+              top: 4,
+              left: 10,
+              child: (partner != null && partner?.activateLogo == true)
+                  ? Container(
+                      height: 32,
+                      width: 32,
+                      decoration: BoxDecoration(
                         color: currentTheme.isDarkMode
-                            ? const Color(primaryDark)
-                            : const Color(primaryLightAlternative),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            height: 10,
+                            ? const Color(backgroundColorDark)
+                            : const Color(backgroundColorLight),
+                      ),
+                      child: Image.network(
+                        partner!.partnerLogoUrl!,
+                      ),
+                    )
+                  : (partner != null && partner?.activateLogo == false)
+                      ? Container(
+                          height: 30,
+                          width: 145,
+                          decoration: BoxDecoration(
+                            color: Color(
+                              0xFF000000 + int.parse("${partner!.partnerHexColor}".substring(1), radix: 16),
+                            ),
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          Text(
-                            'Dinero actual',
-                            style: TextStyle(
-                              fontSize: 10,
-                              fontWeight: FontWeight.w500,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText),
+                          child: Center(
+                            child: Text(
+                              partner!.partnerName,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                currentMoney,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(primaryLight)
-                                      : const Color(blackText),
+                        )
+                      : (tag != null)
+                          ? Container(
+                              height: 30,
+                              width: 145,
+                              decoration: BoxDecoration(
+                                color: Color(int.parse('0x${tag!.hexColor}')),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  tag!.partnerTag,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width * 0.03,
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Image.asset(
-                                alignment: Alignment.center,
-                                'assets/images/arrow.png',
-                                //  width: 15,
-                                height: 30,
-                              ),
-                              Text(
-                                moneyGrowth,
-                                style: const TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(colorgreen)),
-                              ),
-                            ],
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Inicio',
-                                style: TextStyle(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w600,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                ),
-                              ),
-                              Text(
-                                startDate,
-                                style: TextStyle(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w600,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                'Finaliza',
-                                style: TextStyle(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w600,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                ),
-                              ),
-                              Text(
-                                endDate,
-                                style: TextStyle(
-                                  fontSize: 7,
-                                  fontWeight: FontWeight.w600,
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(whiteText)
-                                      : const Color(blackText),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
+                            )
+                          : const SizedBox(),
             ),
           ],
         ),
@@ -974,13 +995,13 @@ class TableCardInCourse extends ConsumerWidget {
 }
 
 class TableCardInvestFinished extends ConsumerWidget {
-  String planName;
-  String endDate;
-  String amountInvested;
-  String totalRevenue;
-  String growText;
+  final String planName;
+  final String endDate;
+  final String amountInvested;
+  final String totalRevenue;
+  final String growText;
 
-  TableCardInvestFinished({
+  const TableCardInvestFinished({
     Key? key,
     required this.planName,
     required this.endDate,
@@ -998,13 +1019,9 @@ class TableCardInvestFinished extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: 10),
       height: 200,
       decoration: BoxDecoration(
-        color: currentTheme.isDarkMode
-            ? Colors.transparent
-            : const Color(whiteText),
+        color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
         border: Border.all(
-          color: currentTheme.isDarkMode
-              ? const Color(primaryLight)
-              : const Color(primaryDark),
+          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
           width: 2,
         ),
         borderRadius: BorderRadius.circular(20),
@@ -1022,9 +1039,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                 child: Text(
                   planName,
                   style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -1045,9 +1060,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                   'Finalizado',
                   style: TextStyle(
                     fontSize: 11,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
               )
@@ -1062,9 +1075,7 @@ class TableCardInvestFinished extends ConsumerWidget {
               'Finalizó: $endDate',
               style: TextStyle(
                   fontSize: 11,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   fontWeight: FontWeight.bold),
             ),
           ),
@@ -1102,9 +1113,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                             Text(
                               'Comenzaste con',
                               style: TextStyle(
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
+                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                                 fontSize: 10,
                               ),
                             ),
@@ -1114,9 +1123,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                             Text(
                               '${amountInvested}',
                               style: TextStyle(
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(primaryDark),
+                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                                 fontSize: 16,
                               ),
                             ),
@@ -1148,9 +1155,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                             Text(
                               'Dinero+ intereses',
                               style: TextStyle(
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -1161,9 +1166,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                             Text(
                               '${totalRevenue}',
                               style: TextStyle(
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
