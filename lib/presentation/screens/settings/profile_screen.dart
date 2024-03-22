@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/ubigeo.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -271,9 +273,39 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     child: Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        CircularPercentAvatar(
-                          percentage: percentage,
-                          imageFile: imageFile,
+                        InkWell(
+                          onTap: () async {
+                            //show loader
+                            context.loaderOverlay.show();
+                            try {
+                              Future<XFile?> ximage = _picker.pickImage(source: ImageSource.gallery);
+
+                              final xImage = await ximage;
+                              imageFile.value = xImage!.path;
+
+                              final List<int> imageBytes = await xImage.readAsBytes();
+                              final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+                              final success = await ref.read(
+                                updateUserAvatarFutureProvider(
+                                  base64Image,
+                                ).future,
+                              );
+
+                              context.loaderOverlay.hide();
+                              if (success) {
+                                CustomSnackbar.show(context, 'Su foto de perfil se actualizó correctamente', 'success');
+                              } else {
+                                CustomSnackbar.show(context, 'Error al actualizar el su foto de perfil', 'error');
+                              }
+                            } catch (e) {
+                              context.loaderOverlay.hide();
+                              CustomSnackbar.show(context, 'Error al actualizar el su foto de perfil', 'error');
+                            }
+                          },
+                          child: CircularPercentAvatar(
+                            percentage: percentage,
+                            imageFile: imageFile,
+                          ),
                         ),
                         Positioned(
                           left: -62,
@@ -306,20 +338,20 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             ),
                           ),
                         ),
-                        Positioned(
-                          right: 18,
-                          bottom: 25,
-                          child: InkWell(
-                            onTap: () async {
-                              Future<XFile?> ximage = _picker.pickImage(source: ImageSource.gallery);
-                              imageFile.value = await ximage.then((value) => value!.path);
-                            },
-                            child: const Icon(
-                              Icons.add_photo_alternate_outlined,
-                              size: 13,
-                            ),
-                          ),
-                        )
+                        // Positioned(
+                        //   right: 18,
+                        //   bottom: 25,
+                        //   child: InkWell(
+                        //     onTap: () async {
+                        //       Future<XFile?> ximage = _picker.pickImage(source: ImageSource.gallery);
+                        //       imageFile.value = await ximage.then((value) => value!.path);
+                        //     },
+                        //     child: const Icon(
+                        //       Icons.add_photo_alternate_outlined,
+                        //       size: 13,
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
@@ -598,13 +630,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             departmentController.text,
                             await regionsFuture,
                           );
-                          print('after get code from name ${departmentCodeController.text}');
                           provinceCodeController.text = ProvinceEntity.getCodeFromName(
                             provinceController.text,
                             departmentCodeController.text,
                             await allProvincesFuture,
                           );
-                          print('after get code from name ${provinceCodeController.text}');
                           districtCodeController.text = DistrictEntity.getCodeFromName(
                             districtController.text,
                             provinceCodeController.text,

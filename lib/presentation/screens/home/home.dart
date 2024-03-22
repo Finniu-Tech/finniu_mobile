@@ -30,23 +30,13 @@ class HomeScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
-    // add flag to check if callback has already been added
-    // bool hasPushedOnboarding = false;
-
-    // var hasCompletedOnboarding = true;
     return PopScope(
-      // onWillPop: () async {
-      //   return false;
-      // },
       child: Scaffold(
         backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
         bottomNavigationBar: const BottomNavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
             final userProfile = ref.watch(userProfileFutureProvider);
-            // if (hasCompletedOnboarding == true) {
-            //   hasPushedOnboarding = true;
-            // }
 
             return userProfile.when(
               data: (profile) {

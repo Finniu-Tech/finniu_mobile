@@ -78,6 +78,21 @@ final updateUserProfileFutureProvider =
   return success;
 });
 
+final updateUserAvatarFutureProvider =
+    FutureProvider.autoDispose.family<bool, String>((ref, String imageProfileUrl) async {
+  final response = await UserProfileDataSourceImp().updateAvatar(
+    client: await ref.watch(gqlClientProvider.future),
+    imageProfile: imageProfileUrl,
+  );
+  if (response!.isNotEmpty) {
+    ref.read(userProfileNotifierProvider.notifier).updateFields(
+          imageProfileUrl: response,
+        );
+    return true;
+  }
+  return false;
+});
+
 final userProfileNotifierProvider = StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
   (ref) => UserProfileStateNotifierProvider(UserProfile()),
 );

@@ -282,11 +282,25 @@ currency: \$currency,
               distrito: \$distric,
               civilStatus: \$civilStatus,
               imageProfile: \$imageProfile,
-              address: \$address
-              occupation: \$occupation
+              address: \$address,
+              occupation: \$occupation,
             }
           ){
             success
+            percentCompleteProfile
+          }
+        }
+    ''';
+  }
+
+  static String updateAvatar() {
+    return '''
+        mutation updateUserProfileImage(\$imageProfile: String!){
+          updateUserImageProfile(imageProfile: \$imageProfile){
+            success
+            userProfile{
+              imageProfileUrl
+            }
           }
         }
     ''';
