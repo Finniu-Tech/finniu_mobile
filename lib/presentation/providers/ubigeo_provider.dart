@@ -22,8 +22,7 @@ final provincesFutureProvider = FutureProvider<List<ProvinceEntity>>(
   },
 );
 
-final provincesStateNotifier =
-    StateNotifierProvider<ProvincesFilterNotifier, List<ProvinceEntity>>((ref) {
+final provincesStateNotifier = StateNotifierProvider<ProvincesFilterNotifier, List<ProvinceEntity>>((ref) {
   final provincesFuture = ref.watch(provincesFutureProvider);
   return ProvincesFilterNotifier(provincesFuture);
 });
@@ -53,8 +52,7 @@ final districtsFutureProvider = FutureProvider<List<DistrictEntity>>(
   },
 );
 
-final districtsStateNotifier =
-    StateNotifierProvider<DistrictsFilterNotifier, List<DistrictEntity>>((
+final districtsStateNotifier = StateNotifierProvider<DistrictsFilterNotifier, List<DistrictEntity>>((
   ref,
 ) {
   final districtsFuture = ref.watch(districtsFutureProvider);
@@ -69,8 +67,7 @@ class DistrictsFilterNotifier extends StateNotifier<List<DistrictEntity>> {
   void filterDistricts(String codeProvince, String codeRegion) {
     final districts = <DistrictEntity>[];
     for (final district in _districts.value ?? []) {
-      if (district.codProvince == codeProvince &&
-          district.codRegion == codeRegion) {
+      if (district.codProvince == codeProvince && district.codRegion == codeRegion) {
         districts.add(district);
       }
     }

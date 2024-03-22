@@ -31,7 +31,6 @@ class UserProfileBalance {
   });
 
   factory UserProfileBalance.fromJson(Map<String, dynamic> json) {
-    print('json $json');
     return UserProfileBalance(
       totalPlans: json['countPlanesActive'] ?? 0,
       totalBalance: json['totalBalanceAmmount']?.toDouble() ?? 0.0,

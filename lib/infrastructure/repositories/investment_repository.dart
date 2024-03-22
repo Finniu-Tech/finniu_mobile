@@ -31,7 +31,6 @@ class InvestmentRepository {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('response!!!! last pre investment $response');
     dynamic lastPreInvestmentResponse = response.data?['getLastPreInvestment'];
     if (lastPreInvestmentResponse != null) {
       return PreInvestmentForm(

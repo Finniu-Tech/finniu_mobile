@@ -21,6 +21,8 @@ class QueryRepository {
         uuid
         imageProfileUrl
         address
+        percentCompleteProfile
+
       }
     }
   ''';

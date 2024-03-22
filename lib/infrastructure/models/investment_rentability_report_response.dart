@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class UserInfoInvestmentReportResponse {
   UserInfoInvestment? userInfoInvestment;
 
@@ -117,7 +115,9 @@ class Investment {
         rentabilityPercent: json["rentabilityPercent"],
         planName: json["planName"],
         reinvestmentAvailable: json["reinvestmentAvailable"] == true ? true : false,
-        partner: json["partnerInfo"] == null ? null : PartnerResponse.fromJson(json["partnerInfo"]),
+        partner: json["partnerInfo"] == null || json["partnerInfo"]?['partnerHex'] == null
+            ? null
+            : PartnerResponse.fromJson(json["partnerInfo"]),
         partnerTag: json["couponPartnerTags"] == null ? null : PartnerTagResponse.fromJson(json["couponPartnerTags"]),
       );
 

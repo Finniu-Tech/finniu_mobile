@@ -24,6 +24,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
   final currency = ref.watch(isSolesStateProvider);
+  final userProfile = ref.watch(userProfileNotifierProvider);
 
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -82,12 +83,12 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        const Column(
+                        Column(
                           children: [
                             SizedBox(
                               height: 50,
                               width: 50,
-                              child: CircularPercentAvatarWidget(),
+                              child: CircularPercentAvatarWidget(userProfile.percentCompleteProfile ?? 0.0),
                             ),
                           ],
                         ),
@@ -301,7 +302,6 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                               image: 'assets/icons/sign_off.png',
                               text: "Cerrar sesión",
                               onTap: () {
-                                print('cerrar sesion xxxxx');
                                 ref.invalidate(authTokenProvider);
                                 ref.invalidate(gqlClientProvider);
                                 ref.invalidate(userProfileFutureProvider);

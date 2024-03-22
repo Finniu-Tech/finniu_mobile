@@ -40,17 +40,12 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
         hideReturnButton: true,
         body: HookBuilder(
           builder: (context) {
-            print('start investment process');
             final reportFuture = ref.watch(investmentStatusReportFutureProvider);
-            print('reportFuture: $reportFuture');
             return reportFuture.when(
               data: (data) {
                 final reportSoles = data.solesRentability;
                 final reportDollars = data.dollarsRentability;
                 final report = isSoles ? reportSoles : reportDollars;
-                print('reportSoles: $reportSoles');
-                print('reportDollars: $reportDollars');
-                print('report: $report');
                 if (reportSoles.totalPlans == 0 && reportDollars.totalPlans == 0) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,

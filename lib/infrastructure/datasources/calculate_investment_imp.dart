@@ -23,7 +23,6 @@ class CalculateInvestmentDataSourceImp extends CalculateInvestmentDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('result calculate investment: ${response}');
 
     if (response.data == null) {
       throw Exception('Error trying to calculate investment: ${response.exception}');

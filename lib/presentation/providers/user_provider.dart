@@ -44,6 +44,7 @@ final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) 
           civilStatus: userProfile.civilStatus,
           address: userProfile.address,
           occupation: userProfile.occupation,
+          percentCompleteProfile: userProfile.percentCompleteProfile,
         );
     return userProfile;
   }
@@ -52,10 +53,13 @@ final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) 
 
 final updateUserProfileFutureProvider =
     FutureProvider.autoDispose.family<bool, UserProfile>((ref, UserProfile userProfile) async {
-  final success = await UserProfileDataSourceImp().update(
+  final resp = await UserProfileDataSourceImp().update(
     client: await ref.watch(gqlClientProvider.future),
     userProfile: userProfile,
   );
+  final success = resp['success'];
+  final percentaje =
+      resp['percentCompleteProfile'] != null ? double.parse(resp['percentCompleteProfile'].toString()) : 0.0;
   if (success == true) {
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           id: userProfile.uuid,
@@ -73,6 +77,7 @@ final updateUserProfileFutureProvider =
           hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
           address: userProfile.address,
           occupation: userProfile.occupation,
+          percentCompleteProfile: percentaje,
         );
   }
   return success;
@@ -117,6 +122,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     bool hasCompletedOnboarding = false,
     String? address,
     String? occupation,
+    double? percentCompleteProfile,
   }) {
     state = state.copyWith(
       id: id,
@@ -135,6 +141,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       civilStatus: civilStatus,
       address: address,
       occupation: occupation,
+      percentCompleteProfile: percentCompleteProfile,
     );
   }
 

@@ -21,8 +21,7 @@ class UbigeoDataSourceImp extends UbigeoDataSource {
   }
 
   @override
-  Future<List<ProvinceEntity>> getProvinces(
-      {required GraphQLClient client}) async {
+  Future<List<ProvinceEntity>> getProvinces({required GraphQLClient client}) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -36,8 +35,7 @@ class UbigeoDataSourceImp extends UbigeoDataSource {
   }
 
   @override
-  Future<List<DistrictEntity>> getDistricts(
-      {required GraphQLClient client}) async {
+  Future<List<DistrictEntity>> getDistricts({required GraphQLClient client}) async {
     final response = await client.query(
       QueryOptions(
         document: gql(

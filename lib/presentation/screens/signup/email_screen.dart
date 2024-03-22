@@ -312,9 +312,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
 
                         Future<bool> status = SignUpService().finishRegister(ref);
                         status.then((value) {
-                          print('finish registerxxxx');
                           if (value) {
-                            print(value);
                             context.loaderOverlay.hide();
                             Navigator.of(context).pushNamed('/send_code');
                           } else {

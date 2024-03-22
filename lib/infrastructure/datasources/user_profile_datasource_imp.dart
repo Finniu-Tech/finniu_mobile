@@ -3,7 +3,7 @@ import 'package:finniu/infrastructure/models/user.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class UserProfileDataSourceImp {
-  Future<bool> update({required GraphQLClient client, required UserProfile userProfile}) async {
+  Future update({required GraphQLClient client, required UserProfile userProfile}) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -23,8 +23,10 @@ class UserProfileDataSourceImp {
         },
       ),
     );
+
     bool success = response.data?['updateUser']['success'];
-    return success;
+    int percentCompleteProfile = response.data?['updateUser']['userProfile']['percentCompleteProfile'];
+    return {'success': success, 'percentCompleteProfile': percentCompleteProfile};
   }
 
   Future<String?> updateAvatar({required GraphQLClient client, required String imageProfile}) async {

@@ -26,7 +26,6 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('StartLoginScreen ffff');
     final themeProvider = ref.watch(settingsNotifierProvider);
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
 

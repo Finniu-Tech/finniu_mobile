@@ -67,7 +67,6 @@ class HomeBody extends HookConsumerWidget {
     useEffect(
       () {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
-        print('hasCompletedOnboarding: $hasCompletedOnboarding');
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
@@ -93,7 +92,7 @@ class HomeBody extends HookConsumerWidget {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    child: const CircularPercentAvatarWidget(),
+                    child: CircularPercentAvatarWidget(userProfile.percentCompleteProfile ?? 0.0),
                   ),
                 ),
                 const SizedBox(
@@ -218,29 +217,41 @@ class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCa
     final hasPreInvestmentState = ref.watch(hasPreInvestmentProvider);
 
     void checkInvestmentProcess() {
-      setState(() {
-        isLoading = true;
-      });
-      InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
-            (success) => setState(() {
-              ref.read(hasPreInvestmentProvider.notifier).state = success;
-              if (success) {
-                InvestmentRepository()
-                    .getLastPreInvestment(
-                  client: gqlClient,
-                  email: userProfileProvider!.email!,
-                )
-                    .then((value) {
-                  setState(() {
-                    preInvestmentForm = value;
-                    isLoading = false;
+      if (mounted) {
+        setState(() {
+          isLoading = true;
+        });
+        InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
+          (success) {
+            if (mounted) {
+              setState(() {
+                ref.read(hasPreInvestmentProvider.notifier).state = success;
+                if (success) {
+                  InvestmentRepository()
+                      .getLastPreInvestment(
+                    client: gqlClient,
+                    email: userProfileProvider!.email!,
+                  )
+                      .then((value) {
+                    if (mounted) {
+                      setState(() {
+                        preInvestmentForm = value;
+                        isLoading = false;
+                      });
+                    }
                   });
-                });
-              } else {
-                isLoading = false;
-              }
-            }),
-          );
+                } else {
+                  if (mounted) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
+                }
+              });
+            }
+          },
+        );
+      }
     }
 
     useEffect(

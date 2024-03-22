@@ -40,7 +40,6 @@ final updateOnboardingFutureStateNotifierProvider =
         );
     onboardingData.then(
       (value) {
-        print('value questions: ${value.questions}');
         ref.read(onBoardingStateNotifierProvider.notifier).updateFields(
               totalQuestions: value.totalQuestions,
               totalCompletedQuestions: value.totalCompletedQuestions,

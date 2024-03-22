@@ -28,7 +28,6 @@ class EmailLoginScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('preferences username: ${Preferences.username}');
     final showError = useState(false);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
@@ -186,7 +185,6 @@ class EmailLoginScreen extends HookConsumerWidget {
                                         Preferences.username = _emailController.value.text.toLowerCase();
                                         context.loaderOverlay.hide();
                                         if (rememberPassword.value) {
-                                          print('secureStorage.write');
                                           // print(password.value);
                                           await secureStorage.write(
                                             key: 'password',

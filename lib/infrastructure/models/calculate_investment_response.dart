@@ -18,7 +18,6 @@ class CalculateInvestmentResponse {
   String? errorMessage;
 
   factory CalculateInvestmentResponse.fromJson(Map<String, dynamic> json) {
-    print('json mapper $json');
     return CalculateInvestmentResponse(
       calculateInvestment:
           json["calculateInvestment"] == null ? null : CalculateInvestment.fromJson(json["calculateInvestment"]),

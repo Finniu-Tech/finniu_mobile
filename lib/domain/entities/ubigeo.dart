@@ -44,21 +44,19 @@ class ProvinceEntity {
   ) {
     return provinces
         .firstWhere(
-          (province) =>
-              province.name == name && province.codRegion == codeRegion,
+          (province) => province.name == name && province.codRegion == codeRegion,
         )
         .cod;
   }
+
   static getNameFromCode(
     String code,
     String codeRegion,
     List<ProvinceEntity> provinces,
   ) {
-
     return provinces
         .firstWhere(
-          (province) =>
-              province.cod == code && province.codRegion == codeRegion,
+          (province) => province.cod == code && province.codRegion == codeRegion,
         )
         .name;
   }
@@ -86,13 +84,11 @@ class DistrictEntity {
     String codeProvince,
     String codeRegion,
     List<DistrictEntity> districts,
-  ) {    
+  ) {
     return districts
         .firstWhere(
           (district) =>
-              district.name == name &&
-              district.codProvince == codeProvince &&
-              district.codRegion == codeRegion,
+              district.name == name && district.codProvince == codeProvince && district.codRegion == codeRegion,
         )
         .cod;
   }
@@ -103,13 +99,10 @@ class DistrictEntity {
     String codeRegion,
     List<DistrictEntity> districts,
   ) {
-
     return districts
         .firstWhere(
           (district) =>
-              district.cod == code &&
-              district.codProvince == codeProvince &&
-              district.codRegion == codeRegion,
+              district.cod == code && district.codProvince == codeProvince && district.codRegion == codeRegion,
         )
         .name;
   }

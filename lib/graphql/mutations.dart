@@ -287,7 +287,9 @@ currency: \$currency,
             }
           ){
             success
-            percentCompleteProfile
+            userProfile{
+              percentCompleteProfile
+            }
           }
         }
     ''';

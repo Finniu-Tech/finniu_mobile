@@ -107,8 +107,7 @@ class CardCustom extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    print('objective!!!');
-    print(objective);
+
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return SizedBox(
       width: 350,
