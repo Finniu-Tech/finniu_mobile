@@ -245,8 +245,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       provinceController.text = provinceName;
       districtController.text = districtName;
       // to map the correct value to the civil state controller
+      print('civilStateController.text ${civilStateController.text}');
       if (civilStateController.text.isNotEmpty) {
-        civilStateController.text = MaritalStatusMapper().mapStatus(civilStateController.text);
+        print('mapStatus ${MaritalStatusMapper().mapStatusToText(civilStateController.text)}');
+        civilStateController.text = MaritalStatusMapper().mapStatusToText(civilStateController.text);
       }
     }
 
