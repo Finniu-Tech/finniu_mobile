@@ -21,30 +21,24 @@ class CircularCountdown extends ConsumerWidget {
             height: MediaQuery.of(context).size.height / 2,
             duration: ref.watch(timerCounterDownProvider),
             // ringColor: Colors.grey[300]!,
-            fillColor: currentTheme.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDark),
-            ringColor: Color(0xff9381FF),
+            fillColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+            ringColor: const Color(0xff9381FF),
             isReverse: true,
 
             // isReverseAnimation: true,
             // backgroundColor: const Color(cardBackgroundColorLight),
-            backgroundColor: currentTheme.isDarkMode
-                ? const Color(primaryDark)
-                : const Color(whiteText),
+            backgroundColor: currentTheme.isDarkMode ? const Color(primaryDark) : Colors.transparent,
             strokeWidth: 6.0,
             textStyle: TextStyle(
               fontSize: 15.0,
               // color: Color(primaryDark),
-              color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
               fontWeight: FontWeight.bold,
             ),
             textFormat: CountdownTextFormat.S,
             onComplete: () {
               debugPrint('Countdown Ended');
-             ref.read(timerCounterDownProvider.notifier).resetTimer();
+              ref.read(timerCounterDownProvider.notifier).resetTimer();
             },
           ),
           Padding(
@@ -52,9 +46,7 @@ class CircularCountdown extends ConsumerWidget {
             child: Icon(
               Icons.alarm,
               size: 24.0,
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
             ),
           ),
         ],

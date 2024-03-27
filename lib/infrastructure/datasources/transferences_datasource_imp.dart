@@ -15,10 +15,10 @@ class TransferenceDataSourceImpl extends TransferenceDataSource {
   }) async {
     final response = await client.query(
       QueryOptions(
-        document: gql(
-          QueryRepository.userGetBouchers,
-        ),
-      ),
+          document: gql(
+            QueryRepository.userGetBouchers,
+          ),
+          fetchPolicy: FetchPolicy.noCache),
     );
     final responseBoucher = UserGetBoucherResponse.fromJson(response.data!);
     return TransferenceMapper.listToEntity(responseBoucher);

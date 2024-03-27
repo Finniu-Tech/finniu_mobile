@@ -665,10 +665,11 @@ class Step2Body extends HookConsumerWidget {
                 }
                 context.loaderOverlay.show();
                 final response = await PreInvestmentDataSourceImp().update(
-                    client: ref.watch(gqlClientProvider).value!,
-                    uuid: preInvestment.uuid,
-                    readContract: ref.watch(userAcceptedTermsProvider),
-                    files: base64Image);
+                  client: ref.watch(gqlClientProvider).value!,
+                  uuid: preInvestment.uuid,
+                  readContract: ref.watch(userAcceptedTermsProvider),
+                  files: base64Image,
+                );
                 if (response.success == true) {
                   context.loaderOverlay.hide();
                   Navigator.pushNamed(context, '/investment_step3');

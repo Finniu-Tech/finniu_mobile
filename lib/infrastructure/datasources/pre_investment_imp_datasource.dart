@@ -56,16 +56,14 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required String uuid,
     required bool readContract,
     required List<String> files,
-    String? boucherScreenShot,
   }) async {
     try {
-      final boucherFormatted = 'data:image/jpeg;base64,$boucherScreenShot';
       final response = await client.mutate(
         MutationOptions(
           document: gql(
             MutationRepository.updatePreInvestment(),
           ),
-          variables: {'uuid': uuid, 'readContract': readContract, 'boucher': boucherFormatted, 'files': files},
+          variables: {'uuid': uuid, 'readContract': readContract, 'files': files},
         ),
       );
       // return response.data?['updatePreinvestment']['success'];

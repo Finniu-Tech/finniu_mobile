@@ -16,8 +16,7 @@ final registerMutationProvider = FutureProvider.family(
       throw Exception('GraphQL client is null');
     }
 
-    String avatarImage =
-        await base64ImageFromIndex(ref.watch(indexAvatarSelectedStateProvider));
+    String avatarImage = await base64ImageFromIndex(ref.watch(indexAvatarSelectedStateProvider));
 
     final response = await gqlClient.mutate(
       MutationOptions(
@@ -36,8 +35,7 @@ final registerMutationProvider = FutureProvider.family(
     if (response.data == null) {
       return false;
     }
-    final registerResponse =
-        RegisterUser.fromJson(response.data?['registerUser']);
+    final registerResponse = RegisterUser.fromJson(response.data?['registerUser']);
     final userResponse = registerResponse.user?.userProfile;
 
     if (userResponse != null) {
@@ -50,7 +48,7 @@ final registerMutationProvider = FutureProvider.family(
           );
     }
 
-    return registerResponse.success;
+    return registerResponse.success ?? false;
   },
 );
 

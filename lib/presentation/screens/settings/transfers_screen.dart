@@ -20,120 +20,84 @@ class TransfersScreen extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
       hideReturnButton: false,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 40),
-              child: Row(
-                children: [
-                  const SizedBox(
-                    height: 10,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 40),
+            child: Row(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Image.asset(
+                  'assets/transfers/credit.png',
+                  width: 90,
+                  height: 90,
+                ),
+                Text(
+                  "Mis Transferencias",
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    fontWeight: FontWeight.bold,
                   ),
-                  Image.asset(
-                    'assets/transfers/credit.png',
-                    width: 90,
-                    height: 90,
-                  ),
-                  // SizedBox(width: 10),
-                  Text(
-                    "Mis Transferencias",
-                    style: TextStyle(
-                      fontSize: 24,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const IconContainer(
-                    image: 'assets/transfers/wallet.png',
-                  ),
-                  const SizedBox(
-                    width: 7,
-                  ),
-                  Text(
-                    'Mis últimas transferencias',
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
-                        fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
+          ),
+          const SizedBox(height: 20),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const IconContainer(
+                  image: 'assets/transfers/wallet.png',
+                ),
+                const SizedBox(
+                  width: 7,
+                ),
+                Text(
+                  'Mis últimas transferencias',
+                  style: TextStyle(
+                      fontSize: 14,
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      fontWeight: FontWeight.bold),
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            // Container(
-            //   width: MediaQuery.of(context).size.width * 0.8,
-            //   height: 3,
-            //   decoration: BoxDecoration(
-            //     border: Border(
-            //       bottom: BorderSide(
-            //         color: currentTheme.isDarkMode
-            //             ? const Color(primaryLight)
-            //             : const Color(gradient_secondary_option),
-            //         width: 2,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            // const SizedBox(height: 5),
-            // Padding(
-            //   padding: const EdgeInsets.all(20.0),
-            //   child: Text(
-            //     'Tus últimas transferencias de inversion realizadas en Finniu',
-            //     textAlign: TextAlign.left,
-            //     style: TextStyle(
-            //       fontSize: 12,
-            //       height: 1.5,
-            //       color: currentTheme.isDarkMode
-            //           ? const Color(whiteText)
-            //           : const Color(blackText),
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(
-              height: 5,
-            ),
-            HookBuilder(
-              builder: (context) {
-                final transferences = ref.watch(transferenceFutureProvider);
-                return transferences.when(
-                  data: (transferences) {
-                    if (transferences.length == 0) {
-                      return EmptyTransference();
-                    } else {
-                      return TransfersScreenListWidget(
-                        transferences: transferences,
-                      );
-                    }
-                  },
-                  error: ((error, stackTrace) {
-                    return Center(
-                      child: Text(error.toString()),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          HookBuilder(
+            builder: (context) {
+              final transferences = ref.watch(transferenceFutureProvider);
+              return transferences.when(
+                data: (transferences) {
+                  if (transferences.length == 0) {
+                    return const EmptyTransference();
+                  } else {
+                    return TransfersScreenListWidget(
+                      transferences: transferences,
                     );
-                  }),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            )
-          ],
-        ),
+                  }
+                },
+                error: ((error, stackTrace) {
+                  return Center(
+                    child: Text(error.toString()),
+                  );
+                }),
+                loading: () => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -141,12 +105,17 @@ class TransfersScreen extends HookConsumerWidget {
 
 class TransfersScreenListWidget extends HookConsumerWidget {
   final List<TransferenceEntity> transferences;
-  TransfersScreenListWidget({required this.transferences});
+
+  const TransfersScreenListWidget({Key? key, required this.transferences}) : super(key: key);
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -154,9 +123,7 @@ class TransfersScreenListWidget extends HookConsumerWidget {
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(gradient_secondary_option),
+                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(gradient_secondary_option),
                   width: 2,
                 ),
               ),
@@ -173,17 +140,14 @@ class TransfersScreenListWidget extends HookConsumerWidget {
                 style: TextStyle(
                   fontSize: 12,
                   height: 1.5,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
             ),
           ),
-          SizedBox(
-            width: 310,
+          Expanded(
             child: ListView.builder(
-              shrinkWrap: true,
+              physics: const AlwaysScrollableScrollPhysics(), // Asegura que el scroll siempre está habilitado
               itemCount: transferences.length,
               itemBuilder: (context, index) {
                 return Padding(
@@ -225,9 +189,7 @@ class TransferenceItem extends ConsumerWidget {
       // margin: const EdgeInsets.only(bottom: 10),
       alignment: Alignment.centerRight,
       decoration: BoxDecoration(
-        color: currentTheme.isDarkMode
-            ? const Color(gradient_primary)
-            : const Color(gradient_secondary),
+        color: currentTheme.isDarkMode ? const Color(gradient_primary) : const Color(gradient_secondary),
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Row(
@@ -292,81 +254,77 @@ class EmptyTransference extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            alignment: Alignment.center,
-            // height: 270,
-            width: double.infinity,
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage('assets/images/transferences.png'),
-                fit: BoxFit.contain,
-              ),
-            ),
-            child: Column(
-              children: const [
-                SizedBox(height: 30),
-                SizedBox(
-                  width: 222,
-                  child: Text(
-                    'Aún no tienes transferencias realizadas',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 180,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-              ],
+    return Column(
+      children: [
+        Container(
+          alignment: Alignment.center,
+          // height: 270,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('assets/images/transferences.png'),
+              fit: BoxFit.contain,
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
+          child: const Column(
             children: [
+              SizedBox(height: 30),
               SizedBox(
-                width: 220,
+                width: 222,
                 child: Text(
-                  'Te invitamos a conocer nuestros planes de inversión',
+                  'Aún no tienes transferencias realizadas',
+                  textAlign: TextAlign.start,
                   style: TextStyle(
-                    fontSize: 14,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 180,
+              ),
+              SizedBox(
+                height: 20,
               ),
             ],
           ),
-          const SizedBox(
-            height: 15,
-          ),
-          SizedBox(
-            width: 108,
-            height: 32,
-            child: TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/plan_list');
-              },
-              child: const Text(
-                style: TextStyle(fontSize: 12),
-                'Ver planes',
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            SizedBox(
+              width: 220,
+              child: Text(
+                'Te invitamos a conocer nuestros planes de inversión',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                ),
               ),
             ),
+          ],
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        SizedBox(
+          width: 108,
+          height: 32,
+          child: TextButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/plan_list');
+            },
+            child: const Text(
+              style: TextStyle(fontSize: 12),
+              'Ver planes',
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

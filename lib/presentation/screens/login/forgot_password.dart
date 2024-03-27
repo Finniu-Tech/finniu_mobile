@@ -29,7 +29,7 @@ class ForgotPassword extends HookConsumerWidget {
               TextPoppins(
                 text: '¿Olvidaste tu contraseña?',
                 colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
-                fontSize: 24,
+                fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
               const SizedBox(height: 20),
@@ -53,8 +53,7 @@ class ForgotPassword extends HookConsumerWidget {
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Container(
-                          padding: const EdgeInsets.only(
-                              left: 50, right: 30, top: 15, bottom: 15),
+                          padding: const EdgeInsets.only(left: 50, right: 30, top: 15, bottom: 15),
                           decoration: BoxDecoration(
                             color: const Color(gradient_secondary),
                             borderRadius: BorderRadius.circular(15),
@@ -65,10 +64,7 @@ class ForgotPassword extends HookConsumerWidget {
                             alignment: Alignment.center,
                             child: Text(
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    color: Colors.black,
-                                    height: 1.5),
+                                style: TextStyle(fontSize: 11, color: Colors.black, height: 1.5),
                                 "Por favor ingresa tu correo electrónico que ingresaste al crear tu cuenta en la App , en unos minutos recibiras un correo para recuperar tu contraseña."),
                           ),
                         ),
@@ -84,8 +80,7 @@ class ForgotPassword extends HookConsumerWidget {
                           width: 80,
                           decoration: const BoxDecoration(
                             image: DecorationImage(
-                              image: AssetImage(
-                                  "assets/forgotpassword/padlock.png"),
+                              image: AssetImage("assets/forgotpassword/padlock.png"),
                               fit: BoxFit.contain,
                             ),
                           ),
@@ -101,6 +96,7 @@ class ForgotPassword extends HookConsumerWidget {
                 height: 38,
                 child: TextFormField(
                   controller: emailController,
+                  style: const TextStyle(fontSize: 12),
                   onChanged: (value) {},
                   decoration: const InputDecoration(
                     hintText: 'Escribe tu correo electrónico',
@@ -122,17 +118,13 @@ class ForgotPassword extends HookConsumerWidget {
                   child: TextButton(
                     onPressed: () async {
                       final status = await ref.watch(
-                        recoveryPasswordFutureProvider(emailController.text)
-                            .future,
+                        recoveryPasswordFutureProvider(emailController.text).future,
                       );
                       if (status == true) {
-                        ref
-                            .read(userProfileNotifierProvider.notifier)
-                            .setEmail(emailController.text);
+                        ref.read(userProfileNotifierProvider.notifier).setEmail(emailController.text);
                         sendEmailRecoveryPasswordModal(context, ref);
                       } else {
-                        CustomSnackbar.show(
-                            context, 'El correo ingresado no existe', 'error');
+                        CustomSnackbar.show(context, 'El correo ingresado no existe', 'error');
                       }
                     },
                     child: const Text('Enviar correo'),
@@ -201,8 +193,7 @@ class NewPassword extends HookConsumerWidget {
                     return null;
                   },
                   obscureText: isHidden.value, // esto oculta la contrasenia
-                  obscuringCharacter:
-                      '*', //el caracter el cual reemplaza la contrasenia
+                  obscuringCharacter: '*', //el caracter el cual reemplaza la contrasenia
                   decoration: InputDecoration(
                     suffixIconConstraints: const BoxConstraints(
                       maxHeight: 38,
@@ -212,9 +203,7 @@ class NewPassword extends HookConsumerWidget {
                       splashRadius: 20,
                       padding: EdgeInsets.zero,
                       icon: Icon(
-                        isHidden.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
+                        isHidden.value ? Icons.visibility : Icons.visibility_off,
                         size: 23.20,
                       ),
                       alignment: Alignment.center,
@@ -243,18 +232,14 @@ class NewPassword extends HookConsumerWidget {
                     // CustomSnackbar.show(
                     //     context, 'Contraseña cambiada con éxito', 'error');
                     final status = await ref.read(
-                      setNewPasswordFutureProvider(passwordController.text)
-                          .future,
+                      setNewPasswordFutureProvider(passwordController.text).future,
                     );
                     if (status == true) {
-                      ref
-                          .read(userProfileNotifierProvider.notifier)
-                          .setPassword(passwordController.text);
+                      ref.read(userProfileNotifierProvider.notifier).setPassword(passwordController.text);
                       const SnackBar(
                         content: Text('Contraseña cambiada con éxito'),
                       );
-                      CustomSnackbar.show(
-                          context, 'Contraseña cambiada con éxito!', 'success');
+                      CustomSnackbar.show(context, 'Contraseña cambiada con éxito!', 'success');
                       await Future.delayed(const Duration(seconds: 3));
                       Navigator.pushNamed(context, '/login_email');
                     } else {

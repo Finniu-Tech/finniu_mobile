@@ -23,7 +23,6 @@ class SignUpEmailScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isHidden = useState(true);
-    final showError = useState(false);
 
     final UserProfile user = ref.watch(userProfileNotifierProvider);
     final nickNameController = useTextEditingController(text: user.nickName);
@@ -279,15 +278,6 @@ class SignUpEmailScreen extends HookConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 8),
-                if (showError.value) ...[
-                  const Text(
-                    'No se pudo completar el registro',
-                    style: TextStyle(
-                      fontSize: 11,
-                      color: Colors.red,
-                    ),
-                  ),
-                ],
                 const SizedBox(height: 5),
                 SizedBox(
                   width: 224,
@@ -317,7 +307,11 @@ class SignUpEmailScreen extends HookConsumerWidget {
                             Navigator.of(context).pushNamed('/send_code');
                           } else {
                             context.loaderOverlay.hide();
-                            showError.value = true;
+                            CustomSnackbar.show(
+                              context,
+                              'No se pudo completar el registro',
+                              'error',
+                            );
                           }
                         });
                       }

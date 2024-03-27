@@ -23,9 +23,7 @@ void sendEmailRecoveryPasswordModal(BuildContext ctx, WidgetRef ref) {
       ),
     ),
     elevation: 10,
-    backgroundColor: themeProvider.isDarkMode
-        ? const Color(primaryDark)
-        : const Color(cardBackgroundColorLight),
+    backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(cardBackgroundColorLight),
     context: ctx,
     builder: (ctx) => SMSBody(themeProvider: themeProvider),
   );
@@ -45,6 +43,7 @@ class SMSBody extends HookConsumerWidget {
 
     return SizedBox(
       height: MediaQuery.of(ctx).size.height * 0.90,
+      width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -80,9 +79,7 @@ class SMSBody extends HookConsumerWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   height: 1.5,
-                  color: themeProvider.isDarkMode
-                      ? Colors.white
-                      : const Color(primaryDark),
+                  color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                 ),
                 "Ingresa el código de verificacion",
               ),
@@ -95,9 +92,7 @@ class SMSBody extends HookConsumerWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   height: 1.5,
-                  color: themeProvider.isDarkMode
-                      ? Colors.white
-                      : const Color(primaryDark),
+                  color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                 ),
                 "Te hemos enviado un código a tu correo para confirmar la operación",
               ),
@@ -136,9 +131,7 @@ class SMSBody extends HookConsumerWidget {
               textStyle: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: themeProvider.isDarkMode
-                    ? Colors.white
-                    : const Color(blackText),
+                color: themeProvider.isDarkMode ? Colors.white : const Color(blackText),
               ),
 
               keyboardType: TextInputType.number,
@@ -150,8 +143,7 @@ class SMSBody extends HookConsumerWidget {
               ),
               length: 4,
               fullBorder: true,
-              cursorColor:
-                  Colors.blue, // If this is null it will default to the ambient
+              cursorColor: Colors.blue, // If this is null it will default to the ambient
               itemSize: 70,
             ),
 
@@ -163,9 +155,7 @@ class SMSBody extends HookConsumerWidget {
 
                   ref.read(resendOTPCodeFutureProvider.future).then((status) {
                     if (status == true) {
-                      ref
-                          .read(timerCounterDownProvider.notifier)
-                          .startTimer(first: true);
+                      ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
                     } else {
                       CustomSnackbar.show(
                         ctx,
@@ -190,9 +180,7 @@ class SMSBody extends HookConsumerWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
-                    color: themeProvider.isDarkMode
-                        ? Color(primaryDark)
-                        : Colors.white,
+                    color: themeProvider.isDarkMode ? Color(primaryDark) : Colors.white,
                   ),
                 ),
               ),
@@ -205,9 +193,7 @@ class SMSBody extends HookConsumerWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
-                    color: themeProvider.isDarkMode
-                        ? Colors.white
-                        : const Color(primaryDark),
+                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                   ),
                   "Reenviar el codigo en",
                 ),
