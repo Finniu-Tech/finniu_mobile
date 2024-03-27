@@ -61,10 +61,10 @@ dependencies:
   intl: ^0.18.0
   equatable: ^2.0.5
   url_launcher: ^6.2.5
-  firebase_crashlytics: ^3.0.17
-  firebase_analytics: ^10.4.3
-  firebase_core: ^2.25.3
-  package_info_plus: ^5.0.1
+  firebase_crashlytics: ^3.4.20
+  firebase_analytics: ^10.9.0
+  firebase_core: ^2.27.2
+  package_info_plus: ^6.0.0
   flutter_secure_storage: ^9.0.0
 
 dev_dependencies:

@@ -27,8 +27,10 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         elevation: 0.0,
         scrolledUnderElevation: 0,
+
         // backgroundColor: const Color(primary_light),
         title: Center(
           child: Row(

@@ -59,11 +59,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBSNQNu1FiuQDLuUhj9w_QqUrt-myFRrg0',
-    appId: '1:480490923107:ios:27422462992edc51b44456',
+    appId: '1:480490923107:ios:c6011c6501945c2eb44456',
     messagingSenderId: '480490923107',
     projectId: 'finniu',
     storageBucket: 'finniu.appspot.com',
-    iosClientId: '480490923107-rh9naf1mikcdckvsllfme3vu912obgqh.apps.googleusercontent.com',
-    iosBundleId: 'com.finniu',
+    iosBundleId: 'com.finniuApp',
   );
 }
