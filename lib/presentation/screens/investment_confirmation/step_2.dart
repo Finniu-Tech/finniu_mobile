@@ -45,7 +45,6 @@ class Step2 extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final args = ModalRoute.of(context)!.settings.arguments as PreInvestmentStep2Arguments;
     final PlanEntity plan = args.plan;
-
     final PreInvestmentEntity preInvestment = args.preInvestment;
     final PlanSimulation resultCalculator = args.resultCalculator;
 
@@ -80,10 +79,6 @@ class Step2Body extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ImagePicker voucherImage = ImagePicker();
-    // final voucherImageBase64 = useState('');
-    // final ValueNotifier<String> voucherPreview;
-    // final voucherPreview = useState('');
     ValueNotifier<List<String>> voucherImageBase64 = ValueNotifier<List<String>>([]);
     ValueNotifier<List<String>> voucherPreview = ValueNotifier<List<String>>([]);
 
@@ -91,8 +86,7 @@ class Step2Body extends HookConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
     final String textCurrency = isSoles ? 'soles' : 'dólares';
     final String moneySymbol = isSoles ? 'S/' : "\$";
-    // final aceptedTerms = useState(false);
-    // ref.read(userAcceptedTermsProvider.notifier).update((state) => false);
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -229,16 +223,17 @@ class Step2Body extends HookConsumerWidget {
                       height: 60,
                       width: 116,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: const Color(secondary),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(0, 3), // changes position of shadow
-                            ),
-                          ]),
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(secondary),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 2,
+                            offset: const Offset(0, 3), // changes position of shadow
+                          ),
+                        ],
+                      ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -372,7 +367,7 @@ class Step2Body extends HookConsumerWidget {
                             ).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Copiado!'),
+                                  content: const Text('Copiado!'),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -388,7 +383,7 @@ class Step2Body extends HookConsumerWidget {
                               'assets/icons/double_square.png',
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -437,7 +432,7 @@ class Step2Body extends HookConsumerWidget {
                               'assets/icons/double_square.png',
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ],
@@ -536,10 +531,11 @@ class Step2Body extends HookConsumerWidget {
                                     itemBuilder: (context, index) {
                                       return Padding(
                                         padding: const EdgeInsets.only(
-                                            right: 10), // Añade un espacio a la derecha de cada imagen
+                                          right: 10,
+                                        ), // Añade un espacio a la derecha de cada imagen
                                         child: Stack(
                                           children: [
-                                            Container(
+                                            SizedBox(
                                               width: 40,
                                               height: 40,
                                               child: Image.file(
@@ -560,12 +556,12 @@ class Step2Body extends HookConsumerWidget {
                                                   child: Container(
                                                     width: 16,
                                                     height: 16,
-                                                    decoration: BoxDecoration(
+                                                    decoration: const BoxDecoration(
                                                       color: Colors.black38, // Color semitransparente
                                                       shape: BoxShape.circle, // Forma redonda
                                                     ),
-                                                    child:
-                                                        Icon(Icons.close, size: 8, color: Colors.white), // Icono de "x"
+                                                    child: const Icon(Icons.close,
+                                                        size: 8, color: Colors.white), // Icono de "x"
                                                   ),
                                                 ),
                                               ),
@@ -593,7 +589,7 @@ class Step2Body extends HookConsumerWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -604,7 +600,7 @@ class Step2Body extends HookConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 25,
                 child: AcceptedTermCheckBox(),
               ),
@@ -654,7 +650,7 @@ class Step2Body extends HookConsumerWidget {
             child: TextButton(
               onPressed: () async {
                 final base64Image = voucherImageBase64.value;
-                if (base64Image == '') {
+                if (base64Image.isEmpty) {
                   CustomSnackbar.show(context, 'Debe subir una imagen de la constancia de transferencia', 'error');
                   return;
                 }
@@ -701,9 +697,9 @@ class Step2Body extends HookConsumerWidget {
 class CircularCountdown extends ConsumerWidget {
   final PlanSimulation resultCalculator;
   const CircularCountdown({
-    Key? key,
+    super.key,
     required this.resultCalculator,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

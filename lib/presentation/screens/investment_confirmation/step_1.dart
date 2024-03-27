@@ -116,10 +116,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     if (widget.mountController.text.isNotEmpty) {
       context.loaderOverlay.show();
       final inputCalculator = CalculatorInput(
-          amount: int.parse(widget.mountController.text),
-          months: int.parse(widget.deadLineController.text.split(' ')[0]),
-          coupon: widget.couponController.text,
-          currency: widget.isSoles ? currencyNuevoSol : currencyDollar);
+        amount: int.parse(widget.mountController.text),
+        months: int.parse(widget.deadLineController.text.split(' ')[0]),
+        coupon: widget.couponController.text,
+        currency: widget.isSoles ? currencyNuevoSol : currencyDollar,
+      );
 
       try {
         resultCalculator = await ref.watch(
@@ -671,7 +672,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     context,
                     '/investment_step2',
                     arguments: PreInvestmentStep2Arguments(
-                      plan: widget.plan,
+                      plan: selectedPlan!,
                       preInvestment: preInvestmentEntityResponse!.preInvestment!,
                       resultCalculator: resultCalculator!,
                     ),
