@@ -12,6 +12,7 @@ import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
+import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
 import 'package:finniu/presentation/screens/home/widgets/simulation_card.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -119,6 +120,8 @@ class HomeBody extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 10),
+            ReinvestmentAvailableCard(),
+
             HookBuilder(
               builder: (context) {
                 final homeReport = ref.watch(homeReportProviderV2);
