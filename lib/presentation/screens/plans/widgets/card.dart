@@ -178,7 +178,7 @@ class CardCustom extends ConsumerWidget {
           Container(
             alignment: Alignment.topLeft,
             width: 350,
-            height: 800,
+            height: 850,
             decoration: BoxDecoration(
               color: Color(
                 currentTheme.isDarkMode ? primaryLightAlternative : colortext,

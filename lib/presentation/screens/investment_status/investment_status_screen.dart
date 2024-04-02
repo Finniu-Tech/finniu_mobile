@@ -31,6 +31,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
 
   @override
   Widget build(BuildContext context) {
+    print('build InvestmentProcess');
     final currentTheme = ref.watch(settingsNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
 
@@ -43,6 +44,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
             final reportFuture = ref.watch(investmentStatusReportFutureProvider);
             return reportFuture.when(
               data: (data) {
+                print('data!!! report future, $data');
                 final reportSoles = data.solesRentability;
                 final reportDollars = data.dollarsRentability;
                 final report = isSoles ? reportSoles : reportDollars;
@@ -676,6 +678,7 @@ class TableCardInCourse extends ConsumerWidget {
                               height: 30,
                               child: TextButton(
                                 onPressed: () {
+                                  // TODO add here
                                   Navigator.pushNamed(
                                     context,
                                     '/reinvest',
@@ -690,7 +693,7 @@ class TableCardInCourse extends ConsumerWidget {
                                 ),
                               ),
                             ),
-                          )
+                          ),
                       ],
                     ),
                     const SizedBox(height: 5),

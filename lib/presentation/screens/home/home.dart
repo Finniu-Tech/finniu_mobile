@@ -120,7 +120,7 @@ class HomeBody extends HookConsumerWidget {
               ],
             ),
             const SizedBox(height: 10),
-            ReinvestmentAvailableCard(),
+            const ReinvestmentAvailableCard(),
 
             HookBuilder(
               builder: (context) {
