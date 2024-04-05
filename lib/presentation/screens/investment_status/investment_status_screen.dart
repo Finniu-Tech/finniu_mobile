@@ -574,7 +574,7 @@ class TableCardInCourse extends ConsumerWidget {
   final String startDate;
   final String endDate;
   final bool? textButton;
-  final InvestmentCouponPartnerTagEntity? tag;
+  final List<InvestmentCouponPartnerTagEntity?>? tag;
   final InvestmentPartnerEntity? partner;
 
   const TableCardInCourse({
@@ -606,7 +606,7 @@ class TableCardInCourse extends ConsumerWidget {
               margin: const EdgeInsets.only(bottom: 10),
               constraints: const BoxConstraints(minWidth: 200, maxWidth: 600),
               width: MediaQuery.of(context).size.width * 0.9,
-              height: 200,
+              height: 210,
               decoration: BoxDecoration(
                 color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
                 border: Border.all(
@@ -703,21 +703,24 @@ class TableCardInCourse extends ConsumerWidget {
                           children: [
                             Row(
                               children: [
-                                Column(children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: currentTheme.isDarkMode
-                                            ? const Color(primaryDark)
-                                            : const Color(primaryLight),
-                                        border: Border.all(
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                                        )),
-                                    height: 30,
-                                    width: 5,
-                                  ),
-                                ]),
+                                Column(
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(10),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(primaryDark)
+                                              : const Color(primaryLight),
+                                          border: Border.all(
+                                            color: currentTheme.isDarkMode
+                                                ? const Color(whiteText)
+                                                : const Color(blackText),
+                                          )),
+                                      height: 30,
+                                      width: 5,
+                                    ),
+                                  ],
+                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Column(
@@ -804,31 +807,69 @@ class TableCardInCourse extends ConsumerWidget {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 10, top: 10),
+                          padding: const EdgeInsets.only(right: 0, top: 10),
                           child: Container(
-                            width: MediaQuery.of(context).size.width * 0.47,
+                            width: MediaQuery.of(context).size.width * 0.50,
                             height: 100,
                             decoration: BoxDecoration(
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.6),
-                                    spreadRadius: 0,
-                                    blurRadius: 2,
-                                    offset: const Offset(0, 3), // changes position of shadow
-                                  ),
-                                ],
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryDark)
-                                    : const Color(primaryLightAlternative),
-                                borderRadius: BorderRadius.circular(10)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.grey.withOpacity(0.6),
+                                  spreadRadius: 0,
+                                  blurRadius: 2,
+                                  offset: const Offset(0, 3), // changes position of shadow
+                                ),
+                              ],
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryDark)
+                                  : const Color(primaryLightAlternative),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.all(5.0),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  // row with tags inside
+                                  if (tag?.isNotEmpty == true)
+                                    //do the row scrollable
+
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Row(
+                                        children: [
+                                          //append multiple containers with tags
+                                          for (var i = 0; i < tag!.length; i++)
+                                            Container(
+                                              height: 25,
+                                              // width: 145,
+                                              margin: const EdgeInsets.only(right: 5),
+                                              padding: const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                              decoration: BoxDecoration(
+                                                // // color: Colors.green,
+                                                color: Color(
+                                                  int.parse(tag![i]!.hexColor.substring(1), radix: 16) | 0xFF000000,
+                                                ),
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  tag![i]!.partnerTag,
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 10,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+
                                   const SizedBox(
-                                    height: 10,
+                                    height: 5,
                                   ),
                                   Text(
                                     'Dinero actual',
@@ -839,7 +880,7 @@ class TableCardInCourse extends ConsumerWidget {
                                     ),
                                   ),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 5,
                                   ),
                                   Row(
                                     children: [
@@ -925,7 +966,7 @@ class TableCardInCourse extends ConsumerWidget {
               ),
             ),
             Positioned(
-              top: 4,
+              top: 0,
               left: 10,
               child: (partner != null && partner?.activateLogo == true)
                   ? Container(
@@ -946,7 +987,8 @@ class TableCardInCourse extends ConsumerWidget {
                           width: 145,
                           decoration: BoxDecoration(
                             color: Color(
-                              0xFF000000 + int.parse("${partner!.partnerHexColor}".substring(1), radix: 16),
+                              // 0xFF000000 + int.parse("${partner!.partnerHexColor}".substring(1), radix: 16),
+                              int.parse("${partner!.partnerHexColor}".substring(1), radix: 16) | 0xFF000000,
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -961,26 +1003,7 @@ class TableCardInCourse extends ConsumerWidget {
                             ),
                           ),
                         )
-                      : (tag != null)
-                          ? Container(
-                              height: 30,
-                              width: 145,
-                              decoration: BoxDecoration(
-                                color: Color(int.parse('0x${tag!.hexColor}')),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  tag!.partnerTag,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            )
-                          : const SizedBox(),
+                      : const SizedBox(),
             ),
           ],
         ),
