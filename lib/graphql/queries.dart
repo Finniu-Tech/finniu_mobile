@@ -519,6 +519,31 @@ class QueryRepository {
             totalBalanceAmmount
             countPlanesActive
             totalBalanceRentability
+            invesmentInProcess{
+              uuid
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
             invesmentInCourse {
               uuid
               reinvestmentAvailable
@@ -575,6 +600,31 @@ class QueryRepository {
             totalBalanceAmmount
             countPlanesActive
             totalBalanceRentability
+            invesmentInProcess{
+              uuid
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
             invesmentInCourse {
               uuid
               reinvestmentAvailable
@@ -629,6 +679,7 @@ class QueryRepository {
           }
         }
       }
+        
     ''';
   }
 
