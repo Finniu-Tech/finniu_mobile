@@ -76,7 +76,7 @@ class Investment {
   String? planName;
   bool? reinvestmentAvailable;
   PartnerResponse? partner;
-  PartnerTagResponse? partnerTag;
+  List<PartnerTagResponse?>? partnerTag;
 
   Investment({
     this.uuid,
@@ -118,7 +118,11 @@ class Investment {
         partner: json["partnerInfo"] == null || json["partnerInfo"]?['partnerHex'] == null
             ? null
             : PartnerResponse.fromJson(json["partnerInfo"]),
-        partnerTag: json["couponPartnerTags"] == null ? null : PartnerTagResponse.fromJson(json["couponPartnerTags"]),
+        partnerTag: json["couponPartnerTags"] == null || json["couponPartnerTags"] == []
+            ? []
+            : List<PartnerTagResponse?>.from(
+                json["couponPartnerTags"].map((x) => x == null ? null : PartnerTagResponse.fromJson(x)),
+              ),
       );
 
   Map<String, dynamic> toJson() => {

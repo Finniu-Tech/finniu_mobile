@@ -48,9 +48,8 @@ class InvestmentRentabilityMapper {
       rentabilityAmount: double.parse(investment.rentabilityAmmount!),
       rentabilityPercent: double.parse(investment.rentabilityPercent!),
       reinvestmentAvailable: investment.reinvestmentAvailable,
-      partnerCouponTag: investment.partnerTag != null
-          ? InvestmentCouponPartnerTagMapper.responseToEntity(investment.partnerTag!)
-          : null,
+      partnerCouponTag:
+          investment.partnerTag?.map((e) => InvestmentCouponPartnerTagMapper.responseToEntity(e!)).toList(),
       partner: investment.partner != null ? InvestmentPartnerMapper.responseToEntity(investment.partner!) : null,
     );
   }

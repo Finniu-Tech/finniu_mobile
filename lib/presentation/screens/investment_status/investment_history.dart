@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/investment_status/widgets/empty_mess
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -89,261 +90,265 @@ class InvestmentHistoryBody extends StatelessWidget {
   @override
   DateFormat dateFormat = DateFormat.MMMM('es');
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              child: Row(
-                children: [
-                  Text(
-                    ' Mis inversiones 💸 ',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w600,
-                      color: Color(Theme.of(context).colorScheme.secondary.value),
-                    ),
-                  ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, '/calendar_page');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Image.asset(
-                        'assets/icons/calendar.png',
-                        width: 20,
-                        height: 20,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+    return SingleChildScrollView(
+      child: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                child: Row(
+                  children: [
+                    Text(
+                      ' Mis inversiones 💸 ',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                        color: Color(Theme.of(context).colorScheme.secondary.value),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    // Navigator.pushNamed(context, '/process_investment');
-                    Navigator.pop(context);
-                  },
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.45,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
-                      borderRadius: const BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Rentabilidad",
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/calendar_page');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Image.asset(
+                          'assets/icons/calendar.png',
+                          width: 20,
+                          height: 20,
+                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.45,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                    borderRadius: const BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                  ),
-                  child: Center(
-                    child: GestureDetector(
-                        onTap: () {
-                          // Navigator.pushNamed(context, '/investment_history');
-                        },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // Navigator.pushNamed(context, '/process_investment');
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        color:
+                            currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                      ),
+                      child: Center(
                         child: Text(
-                          "Mi historial",
+                          "Rentabilidad",
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
-                          ),
-                        )),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            const SwitchMoney(
-              switchHeight: 34,
-              switchWidth: 67,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            // const SizedBox(
-            //   height: 20,
-            // ),
-            CircularImageSimulation(
-              amount: history.totalAmount,
-              isSoles: isSoles,
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Estado de mis inversiones ',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                  ),
-                ),
-              ),
-            ),
-            Column(
-              children: [
-                TabBar(
-                    isScrollable: true,
-                    unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                    labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                    labelStyle: const TextStyle(fontSize: 12),
-                    tabs: [
-                      Tab(
-                        text: (history.investmentsInCourse?.length ?? 0) > 0
-                            ? "En curso(${history.investmentsInCourse!.length})"
-                            : "En curso",
-                      ),
-                      Tab(
-                        text: (history.investmentsFinished?.length ?? 0) > 0
-                            ? "Finalizadas(${history.investmentsFinished!.length})"
-                            : "Finalizadas",
-                      ),
-                      Tab(
-                        child: RichText(
-                          text: TextSpan(
-                            text: (history.investmentsInProcess?.length ?? 0) > 0
-                                ? "En proceso(${history.investmentsInProcess!.length})"
-                                : "En proceso",
-                            style: TextStyle(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText), // color del texto antes del paréntesis
-                              fontSize: 12.0,
-                            ),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                           ),
                         ),
                       ),
-                      Tab(
-                        child: RichText(
-                          text: TextSpan(
-                            text: (history.investmentsCanceled?.length ?? 0) > 0
-                                ? "Rechazados(${history.investmentsCanceled!.length})"
-                                : "Rechazados",
+                    ),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.45,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      borderRadius: const BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                      ),
+                    ),
+                    child: Center(
+                      child: GestureDetector(
+                          onTap: () {
+                            // Navigator.pushNamed(context, '/investment_history');
+                          },
+                          child: Text(
+                            "Mi historial",
                             style: TextStyle(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(whiteText)
-                                  : const Color(blackText), // color del texto antes del paréntesis
-                              fontSize: 12.0,
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                             ),
-                          ),
-                        ),
-                      )
-                    ],
-                    controller: _tabController,
-                    indicatorSize: TabBarIndicatorSize.tab,
-                    indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
-                    indicatorWeight: 4.0,
-                    indicatorPadding: const EdgeInsets.only(bottom: 10)),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                children: [
-                  ListView(
-                    children: history.investmentsInCourse!
-                        .map(
-                          (e) => InCourseInvestmentCard(
-                            planName: e.planName,
-                            termText: 'Plazo de ${e.deadLineValue} meses: ${e.rentabilityPercent}%',
-                            initialAmount: e.totalAmount.toString(),
-                            startDay: '${e.startDate?.day} ${dateFormat.format(e.startDate!)}',
-                            finishDay: '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
-                            imageStatus: 'assets/images/circle_green.png',
-                            isSoles: isSoles,
-                            state: 'En curso',
-                          ),
-                        )
-                        .toList(),
+                          )),
+                    ),
                   ),
-                  ListView(
-                    children: history.investmentsFinished!
-                        .map(
-                          (e) => InCourseInvestmentCard(
-                            planName: e.planName,
-                            termText: 'Plazo de ${e.deadLineValue} meses: ${e.rentabilityPercent}%',
-                            initialAmount: e.totalAmount.toString(),
-                            startDay: '${e.startDate?.day} ${dateFormat.format(e.startDate!)}',
-                            finishDay: '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
-                            imageStatus: 'assets/images/circle_purple.png',
-                            isSoles: isSoles,
-                            state: 'Finalizado',
-                          ),
-                        )
-                        .toList(),
-                  ),
-                  ListView(
-                    children: history.investmentsInProcess!
-                        .map(
-                          (e) => TablePlanProcess(
-                            planName: e.planName,
-                            termText: 'Se esta validando tu transferencia',
-                            state: 'En proceso',
-                            mounted: e.totalAmount.toString(),
-                            isSoles: isSoles,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                  ListView(
-                    children: history.investmentsCanceled!
-                        .map(
-                          (e) => TablePlanProcess(
-                            planName: e.planName,
-                            termText: 'Su inversión ha sido rechazada',
-                            state: 'Rechazado',
-                            mounted: e.totalAmount.toString(),
-                            isSoles: isSoles,
-                          ),
-                        )
-                        .toList(),
-                  )
                 ],
               ),
-            ),
-          ],
+              const SizedBox(height: 10),
+              const SwitchMoney(
+                switchHeight: 34,
+                switchWidth: 67,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
+              CircularImageSimulation(
+                amount: history.totalAmount,
+                isSoles: isSoles,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Estado de mis inversiones ',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    ),
+                  ),
+                ),
+              ),
+              Column(
+                children: [
+                  TabBar(
+                      isScrollable: true,
+                      unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      labelStyle: const TextStyle(fontSize: 12),
+                      tabs: [
+                        Tab(
+                          text: (history.investmentsInCourse?.length ?? 0) > 0
+                              ? "En curso(${history.investmentsInCourse!.length})"
+                              : "En curso",
+                        ),
+                        Tab(
+                          text: (history.investmentsFinished?.length ?? 0) > 0
+                              ? "Finalizadas(${history.investmentsFinished!.length})"
+                              : "Finalizadas",
+                        ),
+                        Tab(
+                          child: RichText(
+                            text: TextSpan(
+                              text: (history.investmentsInProcess?.length ?? 0) > 0
+                                  ? "En proceso(${history.investmentsInProcess!.length})"
+                                  : "En proceso",
+                              style: TextStyle(
+                                color: currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(blackText), // color del texto antes del paréntesis
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Tab(
+                          child: RichText(
+                            text: TextSpan(
+                              text: (history.investmentsCanceled?.length ?? 0) > 0
+                                  ? "Rechazados(${history.investmentsCanceled!.length})"
+                                  : "Rechazados",
+                              style: TextStyle(
+                                color: currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(blackText), // color del texto antes del paréntesis
+                                fontSize: 12.0,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                      controller: _tabController,
+                      indicatorSize: TabBarIndicatorSize.tab,
+                      indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
+                      indicatorWeight: 4.0,
+                      indicatorPadding: const EdgeInsets.only(bottom: 10)),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              SizedBox(
+                height: 300,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    ListView(
+                      children: history.investmentsInCourse!
+                          .map(
+                            (e) => InCourseInvestmentCard(
+                              planName: e.planName,
+                              termText: 'Plazo de ${e.deadLineValue} meses: ${e.rentabilityPercent}%',
+                              initialAmount: e.totalAmount.toString(),
+                              startDay: '${e.startDate?.day} ${dateFormat.format(e.startDate!)}',
+                              finishDay: '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
+                              imageStatus: 'assets/images/circle_green.png',
+                              isSoles: isSoles,
+                              state: 'En curso',
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    ListView(
+                      children: history.investmentsFinished!
+                          .map(
+                            (e) => InCourseInvestmentCard(
+                              planName: e.planName,
+                              termText: 'Plazo de ${e.deadLineValue} meses: ${e.rentabilityPercent}%',
+                              initialAmount: e.totalAmount.toString(),
+                              startDay: '${e.startDate?.day} ${dateFormat.format(e.startDate!)}',
+                              finishDay: '${e.endDate?.day} ${dateFormat.format(e.endDate!)} ${e.endDate?.year}',
+                              imageStatus: 'assets/images/circle_purple.png',
+                              isSoles: isSoles,
+                              state: 'Finalizado',
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    ListView(
+                      children: history.investmentsInProcess!
+                          .map(
+                            (e) => TablePlanProcess(
+                              planName: e.planName,
+                              termText: 'Se esta validando tu transferencia',
+                              state: 'En proceso',
+                              mounted: e.totalAmount.toString(),
+                              isSoles: isSoles,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    ListView(
+                      children: history.investmentsCanceled!
+                          .map(
+                            (e) => TablePlanProcess(
+                              planName: e.planName,
+                              termText: 'Su inversión ha sido rechazada',
+                              state: 'Rechazado',
+                              mounted: e.totalAmount.toString(),
+                              isSoles: isSoles,
+                            ),
+                          )
+                          .toList(),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -498,7 +503,7 @@ class InCourseInvestmentCard extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.only(bottom: 10),
         width: MediaQuery.of(context).size.width * 0.9,
-        height: 110,
+        height: 120,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -512,7 +517,7 @@ class InCourseInvestmentCard extends ConsumerWidget {
           borderRadius: BorderRadius.circular(25),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(13.0),
+          padding: const EdgeInsets.only(right: 13, left: 13, top: 5, bottom: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -533,14 +538,14 @@ class InCourseInvestmentCard extends ConsumerWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Text(
-                    '$moneySymbol$initialAmount',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
-                    ),
-                  ),
+                  // Text(
+                  //   '$moneySymbol$initialAmount',
+                  //   style: TextStyle(
+                  //     fontSize: 16,
+                  //     fontWeight: FontWeight.bold,
+                  //     color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
+                  //   ),
+                  // ),
                   const Spacer(),
                   Image.asset(
                     alignment: Alignment.center,
@@ -560,7 +565,18 @@ class InCourseInvestmentCard extends ConsumerWidget {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 0,
+              ),
+              Text(
+                '$moneySymbol$initialAmount',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
+                ),
+              ),
+              const SizedBox(
+                height: 5,
               ),
               Text(
                 termText,
@@ -646,7 +662,7 @@ class TablePlanProcess extends ConsumerWidget {
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
         margin: EdgeInsets.only(bottom: 10),
-        height: 90,
+        height: 100,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -683,14 +699,14 @@ class TablePlanProcess extends ConsumerWidget {
                     const SizedBox(
                       width: 4,
                     ),
-                    Text(
-                      '$moneySymbol$mounted',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
-                      ),
-                    ),
+                    // Text(
+                    //   '$moneySymbol$mounted',
+                    //   style: TextStyle(
+                    //     fontSize: 16,
+                    //     fontWeight: FontWeight.bold,
+                    //     color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
+                    //   ),
+                    // ),
                     const SizedBox(
                       width: 10,
                     ),
@@ -724,7 +740,29 @@ class TablePlanProcess extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
+                ),
+                //ADD AMOUNT
+                Row(
+                  children: [
+                    Text(
+                      'Monto invertido: ',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      ),
+                    ),
+                    Text(
+                      '$moneySymbol$mounted',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 5,
                 ),
                 Text(
                   termText,

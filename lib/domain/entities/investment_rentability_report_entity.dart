@@ -47,7 +47,7 @@ class InvestmentRentabilityEntity {
   DateTime? endDateInvestment;
   double rentabilityAmount;
   double rentabilityPercent;
-  InvestmentCouponPartnerTagEntity? partnerCouponTag;
+  List<InvestmentCouponPartnerTagEntity?>? partnerCouponTag;
   InvestmentPartnerEntity? partner;
 
   InvestmentRentabilityEntity({
