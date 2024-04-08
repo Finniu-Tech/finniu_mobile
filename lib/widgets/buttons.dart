@@ -118,22 +118,30 @@ class CustomReturnButton extends ConsumerWidget {
 }
 
 class CustomButtonRoundedDark extends ConsumerWidget {
-  @override
-  final String pushName;
+  final String? pushName;
+  final void Function()? onTap;
 
   const CustomButtonRoundedDark({
     super.key,
     this.pushName = "",
+    this.onTap,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
-      onTap: () {
-        if (pushName != "") {
-          Navigator.pushNamed(context, pushName);
-        }
-      },
+      onTap: onTap ??
+          () {
+            if (pushName != "") {
+              Navigator.pushNamed(context, pushName!);
+            }
+          },
+
+      // onTap: () {
+      //   if (pushName != "") {
+      //     Navigator.pushNamed(context, pushName);
+      //   }
+
       child: Container(
         margin: const EdgeInsets.all(10),
         // padding: EdgeInsets.all(6),
@@ -169,42 +177,53 @@ class BottomNavigationBarHome extends HookConsumerWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20.0),
-          topRight: Radius.circular(20.0),
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
         ),
         color: Theme.of(context).primaryColor,
       ),
-      child: HookBuilder(builder: (context) {
-        final selectedIndex = ref.watch(navigatorStateProvider);
-        return BottomNavigationBar(
-          elevation: 0.0,
-          type: BottomNavigationBarType.fixed,
-          backgroundColor: Color(isDarkMode ? primaryLight : primaryDark),
-          selectedItemColor: Color(isDarkMode ? primaryDark : primaryLight),
-          unselectedItemColor: Color(isDarkMode ? primaryDark : primaryLight).withOpacity(0.6),
-          selectedFontSize: 14,
-          unselectedFontSize: 14,
-          currentIndex: selectedIndex,
-          onTap: (index) {
-            ref.read(navigatorStateProvider.notifier).state = index;
-            _navigate(context, index);
-          },
-          items: [
-            BottomNavigationBarItem(
-              label: 'Home',
-              icon: _buildIcon('assets/icons/home.png', context, selectedIndex, 0, isDarkMode),
+      child: HookBuilder(
+        builder: (context) {
+          final selectedIndex = ref.watch(navigatorStateProvider);
+          return ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(25.0),
+              topRight: Radius.circular(25.0),
             ),
-            BottomNavigationBarItem(
-              label: 'Planes',
-              icon: _buildIcon('assets/icons/square.png', context, selectedIndex, 1, isDarkMode),
+            child: BottomNavigationBar(
+              elevation: 0.0,
+              type: BottomNavigationBarType.fixed,
+              backgroundColor: Color(isDarkMode ? primaryLight : primaryDark),
+              selectedItemColor: Color(isDarkMode ? primaryDark : primaryLight),
+              unselectedItemColor: Color(isDarkMode ? primaryDark : primaryLight).withOpacity(0.6),
+              selectedFontSize: 14,
+              unselectedFontSize: 14,
+              currentIndex: selectedIndex,
+              onTap: (index) {
+                ref.read(navigatorStateProvider.notifier).state = index;
+                // avoid navigation to the same screen
+                if (selectedIndex == index) return;
+
+                _navigate(context, index);
+              },
+              items: [
+                BottomNavigationBarItem(
+                  label: 'Home',
+                  icon: _buildIcon('assets/icons/home.png', context, selectedIndex, 0, isDarkMode),
+                ),
+                BottomNavigationBarItem(
+                  label: 'Planes',
+                  icon: _buildIcon('assets/icons/square.png', context, selectedIndex, 1, isDarkMode),
+                ),
+                BottomNavigationBarItem(
+                  label: 'Inversiones',
+                  icon: _buildIcon('assets/icons/dollar.png', context, selectedIndex, 2, isDarkMode),
+                ),
+              ],
             ),
-            BottomNavigationBarItem(
-              label: 'Inversiones',
-              icon: _buildIcon('assets/icons/dollar.png', context, selectedIndex, 2, isDarkMode),
-            ),
-          ],
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 

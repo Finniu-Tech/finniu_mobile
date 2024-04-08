@@ -1,12 +1,14 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ReinvestmentAvailableCard extends StatelessWidget {
+class ReinvestmentAvailableCard extends ConsumerWidget {
   const ReinvestmentAvailableCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // rounded card with a stacked images over the container, the container has a gradient background
     //money_and_dollars.png
     return Container(
@@ -72,8 +74,11 @@ class ReinvestmentAvailableCard extends StatelessWidget {
             ],
           ),
 
-          const CustomButtonRoundedDark(
-            pushName: '/calculator_tool',
+          CustomButtonRoundedDark(
+            // pushName: '/reinvestment',
+            onTap: () {
+              reinvestmentQuestionModal(context, ref);
+            },
           ),
         ],
       ),

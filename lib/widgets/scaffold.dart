@@ -133,10 +133,11 @@ class _CustomScaffoldLogoState extends State<CustomScaffoldStart> {
 
 class CustomScaffoldReturnLogo extends ConsumerWidget {
   final dynamic body;
-  bool hideReturnButton;
-  bool hideNavBar;
+  final bool hideReturnButton;
+  final bool hideNavBar;
 
-  CustomScaffoldReturnLogo({
+  const CustomScaffoldReturnLogo({
+    super.key,
     required this.body,
     this.hideReturnButton = true,
     this.hideNavBar = false,

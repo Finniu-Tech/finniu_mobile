@@ -10,6 +10,7 @@ void reinvestmentQuestionModal(BuildContext ctx, WidgetRef ref) {
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showModalBottomSheet(
     clipBehavior: Clip.antiAlias,
+    isScrollControlled: true,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
         topRight: Radius.circular(50),
@@ -17,7 +18,7 @@ void reinvestmentQuestionModal(BuildContext ctx, WidgetRef ref) {
       ),
     ),
     elevation: 10,
-    backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(cardBackgroundColorLight),
+    backgroundColor: themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
     context: ctx,
     builder: (ctx) => ReinvestmentQuestionBody(themeProvider: themeProvider),
   );
@@ -35,34 +36,22 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // TODO: implement build
 
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.90,
+    return Container(
+      // customize background color
+      color: themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
+
+      height: MediaQuery.of(context).size.height * 0.70,
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            const SizedBox(height: 15),
-            SizedBox(
-              width: 88, // ancho deseado
-              height: 6,
-
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Color(
-                    themeProvider.isDarkMode ? primaryLight : primaryDark,
-                  ),
-                  borderRadius: BorderRadius.circular(25),
-                ),
-              ),
-            ),
             const SizedBox(height: 20),
-            // alto deseado
             SizedBox(
               width: 90,
               height: 90,
-              child: Image.asset('assets/images/padlock.png'),
+              child: Image.asset('assets/reinvestment/avatar_with_money.png'),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -71,252 +60,137 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                   height: 1.5,
                   color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                 ),
-                "¿Desea reinvertir su capital?",
+                "¡Muchas gracias por tu interés de reinvertir en Finniu!",
               ),
             ),
+
+            const SizedBox(height: 20),
+            // row with two lines and text in the middle of lines
             SizedBox(
-              width: 280,
+              width: MediaQuery.of(context).size.width * 0.90,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  //container with a line
+                  Container(
+                    width: 70,
+                    height: 1,
+                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                  ),
+                  const SizedBox(width: 10),
+                  //text in the middle of lines
+                  Text(
+                    "Elige tu opción reinversión",
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      height: 1.5,
+                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  //container with a line
+                  Container(
+                    width: 70,
+                    height: 1,
+                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                  ),
+                ],
+              ),
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+            // TWO BUTTONS ONE OVER OTHER
+
+            // first button
+            SizedBox(
+              width: 220,
+              child: TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  backgroundColor: Color(
+                    themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  ),
+                ),
+                child: Text(
+                  'Aumentar mi capital',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                    color: themeProvider.isDarkMode ? Color(primaryDark) : Colors.white,
+                  ),
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            SizedBox(
+              width: 220,
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                style: OutlinedButton.styleFrom(
+                  side: BorderSide(
+                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                    width: 1,
+                  ),
+                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  backgroundColor:
+                      themeProvider.isDarkMode ? const Color(primaryDark) : const Color(backgroundColorLight),
+                ),
+                child: Text(
+                  'Reinvertir el mismo capital',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                    color: themeProvider.isDarkMode ? Colors.white : Color(primaryDark),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+
+            TextButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(
+                  themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
+                ),
+                elevation: MaterialStateProperty.all<double>(0.0),
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               child: Text(
-                textAlign: TextAlign.center,
+                'Aún no deseo reinvertir',
                 style: TextStyle(
-                  fontSize: 11,
+                  decoration: TextDecoration.underline,
+                  decorationStyle: TextDecorationStyle.solid,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                   height: 1.5,
-                  color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                  color: Color(0xff989797),
+                  // color: Colors.red,
                 ),
-                "Al reinvertir su capital, se generará un nuevo contrato con el capital reinvertido",
               ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                    backgroundColor: Color(
-                      themeProvider.isDarkMode ? primaryLight : primaryDark,
-                    ),
-                  ),
-                  child: Text(
-                    'Cancelar',
-                    style: TextStyle(
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      height: 1.5,
-                      color: themeProvider.isDarkMode ? Color(primaryDark) : Colors.white,
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
       ),
     );
   }
-
-// void sendEmailRecoveryPasswordModal(BuildContext ctx, WidgetRef ref) {
-//   final themeProvider = ref.watch(settingsNotifierProvider);
-//   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
-//   showModalBottomSheet(
-//     clipBehavior: Clip.antiAlias,
-//     shape: const RoundedRectangleBorder(
-//       borderRadius: BorderRadius.only(
-//         topRight: Radius.circular(50),
-//         topLeft: Radius.circular(50),
-//       ),
-//     ),
-//     elevation: 10,
-//     backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(cardBackgroundColorLight),
-//     context: ctx,
-//     builder: (ctx) => SMSBody(themeProvider: themeProvider),
-//   );
-// }
-
-// class SMSBody extends HookConsumerWidget {
-//   const SMSBody({
-//     super.key,
-//     required this.themeProvider,
-//   });
-
-//   final SettingsProviderState themeProvider;
-
-//   @override
-//   Widget build(BuildContext ctx, ref) {
-//     final UserProfile userProfile = ref.watch(userProfileNotifierProvider);
-
-//     return SizedBox(
-//       height: MediaQuery.of(ctx).size.height * 0.90,
-//       width: double.infinity,
-//       child: SingleChildScrollView(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.start,
-//           mainAxisSize: MainAxisSize.min,
-//           children: <Widget>[
-//             const SizedBox(height: 15),
-//             SizedBox(
-//               width: 88, // ancho deseado
-//               height: 6,
-
-//               child: Container(
-//                 decoration: BoxDecoration(
-//                   color: Color(
-//                     themeProvider.isDarkMode ? primaryLight : primaryDark,
-//                   ),
-//                   borderRadius: BorderRadius.circular(25),
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(height: 20),
-//             // alto deseado
-//             SizedBox(
-//               width: 90,
-//               height: 90,
-//               child: Image.asset('assets/images/padlock.png'),
-//             ),
-//             const SizedBox(height: 20),
-//             SizedBox(
-//               width: 280,
-//               child: Text(
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 16,
-//                   fontWeight: FontWeight.bold,
-//                   height: 1.5,
-//                   color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
-//                 ),
-//                 "Ingresa el código de verificacion",
-//               ),
-//             ),
-//             SizedBox(
-//               width: 280,
-//               child: Text(
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 11,
-//                   fontWeight: FontWeight.w500,
-//                   height: 1.5,
-//                   color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
-//                 ),
-//                 "Te hemos enviado un código a tu correo para confirmar la operación",
-//               ),
-//             ),
-//             const SizedBox(height: 10),
-//             VerificationCode(
-//               onCompleted: (code) {
-//                 final futureIsValidCode = ref.watch(
-//                   otpValidatorFutureProvider(
-//                     OTPForm(
-//                       email: userProfile.email!,
-//                       otp: code,
-//                       action: 'recovery_password',
-//                     ),
-//                   ).future,
-//                 );
-//                 futureIsValidCode.then((status) {
-//                   if (status == true) {
-//                     Navigator.of(ctx).pushNamed('/set_new_password');
-//                   } else {
-//                     Navigator.of(ctx).pop();
-//                     CustomSnackbar.show(
-//                       ctx,
-//                       'No se pudo validar el código de verificación',
-//                       'error',
-//                     );
-//                     // ScaffoldMessenger.of(ctx).showSnackBar(
-//                     //   customSnackBar(
-//                     //       'No se pudo validar el código de verificación',
-//                     //       'error'),
-//                     // );
-//                   }
-//                 });
-//               },
-//               onEditing: (value) {},
-//               textStyle: TextStyle(
-//                 fontSize: 20,
-//                 fontWeight: FontWeight.bold,
-//                 color: themeProvider.isDarkMode ? Colors.white : const Color(blackText),
-//               ),
-
-//               keyboardType: TextInputType.number,
-//               underlineColor: const Color(
-//                 0xff9381FF,
-//               ), // If this is null it will use primaryColor: Colors.red from Theme
-//               underlineUnfocusedColor: Color(
-//                 themeProvider.isDarkMode ? primaryLight : primaryDark,
-//               ),
-//               length: 4,
-//               fullBorder: true,
-//               cursorColor: Colors.blue, // If this is null it will default to the ambient
-//               itemSize: 70,
-//             ),
-
-//             const SizedBox(height: 15),
-//             if (ref.watch(timerCounterDownProvider) == 0) ...[
-//               TextButton(
-//                 onPressed: () {
-//                   ref.read(timerCounterDownProvider.notifier).resetTimer();
-
-//                   ref.read(resendOTPCodeFutureProvider.future).then((status) {
-//                     if (status == true) {
-//                       ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
-//                     } else {
-//                       CustomSnackbar.show(
-//                         ctx,
-//                         'No se pudo reenviar el correo',
-//                         "error",
-//                       );
-//                       // ScaffoldMessenger.of(ctx).showSnackBar(
-//                       //   customSnackBar('No se pudo reenviar el correo', 'error'),
-//                       // );
-//                     }
-//                   });
-//                 },
-//                 style: TextButton.styleFrom(
-//                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-//                   backgroundColor: Color(
-//                     themeProvider.isDarkMode ? primaryLight : primaryDark,
-//                   ),
-//                 ),
-//                 child: Text(
-//                   'Reenviar código',
-//                   style: TextStyle(
-//                     fontSize: 11,
-//                     fontWeight: FontWeight.w500,
-//                     height: 1.5,
-//                     color: themeProvider.isDarkMode ? Color(primaryDark) : Colors.white,
-//                   ),
-//                 ),
-//               ),
-//             ] else ...[
-//               SizedBox(
-//                 width: 280,
-//                 child: Text(
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     fontSize: 11,
-//                     fontWeight: FontWeight.w500,
-//                     height: 1.5,
-//                     color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
-//                   ),
-//                   "Reenviar el codigo en",
-//                 ),
-//               ),
-//               const SizedBox(height: 10),
-//               const CircularCountdown(),
-//             ],
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
 }
