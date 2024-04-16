@@ -9,8 +9,8 @@ import 'package:finniu/presentation/screens/investment_confirmation/step_4.dart'
 import 'package:finniu/presentation/screens/investment_status/investment_history.dart';
 import 'package:finniu/presentation/screens/investment_status/investment_status_screen.dart';
 import 'package:finniu/presentation/screens/pdf.dart';
-import 'package:finniu/presentation/screens/reinvest_process.dart/reinvest_process_end.dart';
-import 'package:finniu/presentation/screens/reinvest_process.dart/reinvest_process_start.dart';
+import 'package:finniu/presentation/screens/reinvest_process/reinvest_process_end.dart';
+import 'package:finniu/presentation/screens/reinvest_process/reinvest_process_start.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
 import 'package:finniu/presentation/screens/settings/transfers_screen.dart';
 import 'package:finniu/presentation/screens/signup/confirmation_phone_screen.dart';
@@ -33,6 +33,7 @@ import 'package:finniu/presentation/screens/signup/email_screen.dart';
 import 'package:finniu/presentation/screens/login/start_screen.dart';
 import 'package:finniu/presentation/screens/onboarding/start_onboarding.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_3.dart';
+import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_1.dart';
 import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -45,8 +46,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login_forgot': (BuildContext context) => const ForgotPassword(),
     '/login_invalid': (BuildContext context) => const InvalidEmail(),
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
-    '/onboarding_questions_start': (BuildContext context) =>
-        const StartInvestment(),
+    '/onboarding_questions_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => HomeScreen(),
     '/home_notification': (BuildContext context) => const NotificationScreen(),
@@ -70,8 +70,9 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
     '/process_investment': (BuildContext context) => InvestmentProcess(),
     '/investment_history': (BuildContext context) => InvestmentHistory(),
-    '/reinvest': (BuildContext context) => const Reinvest(),
-    '/reinvest_end': (BuildContext context) => ReinvestEnd(),
+    '/reinvest': (BuildContext context) => const Reinvest(), //TODO remove
+    '/reinvest_end': (BuildContext context) => ReinvestEnd(), //TODO remove
+    '/reinvestment_step_1': (BuildContext context) => ReinvestmentStep1(),
     '/empty_transference': (BuildContext context) => EmptyTransference(),
     '/activate_account': (BuildContext context) => ActivateAccount()
   };

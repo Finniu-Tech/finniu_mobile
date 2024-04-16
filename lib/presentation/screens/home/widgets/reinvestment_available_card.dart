@@ -77,7 +77,9 @@ class ReinvestmentAvailableCard extends ConsumerWidget {
           CustomButtonRoundedDark(
             // pushName: '/reinvestment',
             onTap: () {
+              // reinvestmentQuestionModal(context, ref);
               reinvestmentQuestionModal(context, ref);
+              // showDialogRefuseReasons(context, ref);
             },
           ),
         ],
