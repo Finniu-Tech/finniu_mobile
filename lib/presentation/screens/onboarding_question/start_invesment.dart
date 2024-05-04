@@ -65,7 +65,7 @@ class StartInvestment extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Text(
-                      'Hola, ${userProfile.nickName} queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversion para ti.',
+                      'Hola, ${userProfile.nickName ?? ''} queremos conocer tus metas que quieres lograr invirtiendo y poder ayudarte a recomendarte la mejor opción de plan de inversion para ti.',
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.black,

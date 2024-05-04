@@ -70,8 +70,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     final percentage =
         useState(userProfile.percentCompleteProfile == null ? 0.0 : userProfile.percentCompleteProfile! / 100.0);
-    final percentageString = useState('${(percentage.value * 100).toString()} %');
-
+    final percentageString = useState('${(percentage.value * 100).toInt().toString()}%');
     final imageFile = useState(
       userProfile.imageProfileUrl ??
           "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
@@ -135,131 +134,93 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     Future<void> filterSelects(WidgetRef ref) async {
       final String departmentValue = departmentController.text;
-      String departmentName = ''; // this value
-      String departmentCode = '';
-
       final String provinceValue = provinceController.text;
-      String provinceName = '';
-      String provinceCode = '';
-
       final String districtValue = districtController.text;
-      String districtName = '';
-      String districtCode = '';
 
+      // Obtén todos los futuros al principio
+      final regions = await regionsFuture;
+      final allProvinces = await allProvincesFuture;
+      final districts = await districtsFuture;
+
+      String departmentName = '';
+      String departmentCode = '';
       if (departmentValue.isNotEmpty) {
         if (int.tryParse(departmentValue) != null) {
-          if (departmentValue.length > 2) {
-            departmentName = RegionEntity.getNameFromCode(
-              departmentValue.substring(departmentValue.length - 2),
-              await regionsFuture,
-            );
-          } else {
-            departmentName = RegionEntity.getNameFromCode(
-              departmentValue,
-              await regionsFuture,
-            );
-          }
+          departmentName = RegionEntity.getNameFromCode(
+            departmentValue.length > 2 ? departmentValue.substring(departmentValue.length - 2) : departmentValue,
+            regions,
+          );
           departmentCode = departmentValue;
         } else {
           departmentName = departmentValue;
-          departmentCode = RegionEntity.getCodeFromName(
-            departmentName,
-            await regionsFuture,
-          );
+          departmentCode = RegionEntity.getCodeFromName(departmentName, regions);
         }
         ref.read(provincesStateNotifier.notifier).filterProvinces(departmentCode);
       }
 
-      print('provinceValue: 0000000 $provinceValue');
+      String provinceName = '';
+      String provinceCode = '';
       if (provinceValue.isNotEmpty) {
         if (int.tryParse(provinceValue) != null) {
-          if (provinceValue.length > 2) {
-            provinceName = ProvinceEntity.getNameFromCode(
-              provinceValue.substring(provinceValue.length - 2),
-              departmentCode,
-              await allProvincesFuture,
-            );
-            provinceCode = provinceValue.substring(provinceValue.length - 2);
-          } else {
-            provinceName = ProvinceEntity.getNameFromCode(
-              provinceValue,
-              departmentCode,
-              await allProvincesFuture,
-            );
-            provinceCode = provinceValue;
-          }
+          provinceName = ProvinceEntity.getNameFromCode(
+            provinceValue.length > 2 ? provinceValue.substring(provinceValue.length - 2) : provinceValue,
+            departmentCode,
+            allProvinces,
+          );
+          provinceCode = provinceValue.length > 2 ? provinceValue.substring(provinceValue.length - 2) : provinceValue;
         } else {
           provinceName = provinceValue;
-          provinceCode = ProvinceEntity.getCodeFromName(
-            provinceName,
-            departmentCode,
-            await allProvincesFuture,
-          );
+          provinceCode = ProvinceEntity.getCodeFromName(provinceName, departmentCode, allProvinces);
         }
-        final allRegions = await regionsFuture;
-        final allProvinces = await allProvincesFuture;
-        final codeRegion = RegionEntity.getCodeFromName(
-          departmentName,
-          allRegions,
-        );
-        final codeProvince = ProvinceEntity.getCodeFromName(
-          provinceName,
-          codeRegion,
-          allProvinces,
-        );
+        final codeRegion = RegionEntity.getCodeFromName(departmentName, regions);
+        final codeProvince = ProvinceEntity.getCodeFromName(provinceName, codeRegion, allProvinces);
         ref.read(districtsStateNotifier.notifier).filterDistricts(codeProvince, codeRegion);
       }
 
+      String districtName = '';
+      String districtCode = '';
       if (districtValue.isNotEmpty) {
         if (int.tryParse(districtValue) != null) {
-          if (districtValue.length > 2) {
-            districtName = DistrictEntity.getNameFromCode(
-              districtValue.substring(districtValue.length - 2),
-              provinceCode,
-              departmentCode,
-              await districtsFuture,
-            );
-            districtCode = districtValue.substring(districtValue.length - 2);
-          } else {
-            districtName = DistrictEntity.getNameFromCode(
-              districtValue,
-              provinceCode,
-              departmentCode,
-              await districtsFuture,
-            );
-            districtCode = districtValue;
-          }
-        } else {
-          districtName = districtValue;
-
-          districtCode = DistrictEntity.getCodeFromName(
-            districtName,
+          districtName = DistrictEntity.getNameFromCode(
+            districtValue.length > 2 ? districtValue.substring(districtValue.length - 2) : districtValue,
             provinceCode,
             departmentCode,
-            await districtsFuture,
+            districts,
           );
+          districtCode = districtValue.length > 2 ? districtValue.substring(districtValue.length - 2) : districtValue;
+        } else {
+          districtName = districtValue;
+          districtCode = DistrictEntity.getCodeFromName(districtName, provinceCode, departmentCode, districts);
         }
       }
 
       departmentController.text = departmentName;
       provinceController.text = provinceName;
       districtController.text = districtName;
-      // to map the correct value to the civil state controller
-      print('civilStateController.text ${civilStateController.text}');
+
       if (civilStateController.text.isNotEmpty) {
-        print('mapStatus ${MaritalStatusMapper().mapStatusToText(civilStateController.text)}');
         civilStateController.text = MaritalStatusMapper().mapStatusToText(civilStateController.text);
       }
     }
 
     useEffect(
       () {
-        //show overlay loader
-        context.loaderOverlay.show();
-        filterSelects(ref);
-        context.loaderOverlay.hide();
+        // Función asíncrona para manejar las llamadas a la API
+        Future<void> fetchData() async {
+          // Muestra el cargador
+          context.loaderOverlay.show();
+          // Espera a que filterSelects(ref) se complete
+          await filterSelects(ref);
 
-        return () {}; // Return an empty dispose callback
+          // Oculta el cargador
+          print('hide overlay loader!!!!');
+          context.loaderOverlay.hide();
+        }
+
+        // Llama a la función fetchData
+        fetchData();
+
+        return () {}; // Devuelve un callback de limpieza vacío
       },
       const [],
     );
@@ -660,17 +621,6 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                             addressController.text.isEmpty ||
                             occupationController.text.isEmpty ||
                             civilStateController.text.isEmpty) {
-                          print('faltan campos por completar ');
-                          print('firstNameController.text ${firstNameController.text}');
-                          print('lastNameController.text ${lastNameController.text}');
-                          print('docNumberController.text ${docNumberController.text}');
-                          print('departmentController.text ${departmentController.text}');
-                          print('provinceController.text ${provinceController.text}');
-                          print('districtController.text ${districtController.text}');
-                          print('addressController.text ${addressController.text}');
-                          print('occupationController.text ${occupationController.text}');
-                          print('civilStateController.text ${civilStateController.text}');
-
                           CustomSnackbar.show(
                             context,
                             'Por favor, complete todos los campos',

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
@@ -105,6 +107,7 @@ class Step1Body extends StatefulHookConsumerWidget {
 }
 
 class _Step1BodyState extends ConsumerState<Step1Body> {
+  @override
   late Future deadLineFuture;
   late Future bankFuture;
   late double? profitability;
@@ -153,7 +156,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
     final moneySymbol = isSoles ? "S/" : "\$";
-    final _debouncer = Debouncer(milliseconds: 3000);
+    final debouncer = Debouncer(milliseconds: 3000);
+
     useEffect(
       () {
         selectedPlan = widget.plan;
@@ -328,7 +332,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 return null;
               },
               onChanged: (value) {
-                _debouncer.run(() {
+                debouncer.run(() {
                   if (widget.mountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
                     calculateInvestment(context, ref);
                   }
@@ -668,6 +672,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   return; // Sale de la función para evitar que continúe el proceso
                 } else {
                   context.loaderOverlay.hide();
+                  ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
+                  ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
                   Navigator.pushNamed(
                     context,
                     '/investment_step2',

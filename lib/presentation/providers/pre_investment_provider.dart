@@ -28,3 +28,6 @@ final preInvestmentSaveProvider =
 final userAcceptedTermsProvider = StateProvider<bool>((ref) => false);
 
 final hasPreInvestmentProvider = StateProvider<bool>((ref) => false);
+
+final preInvestmentVoucherImagesProvider = StateProvider<List<String>>((ref) => []);
+final preInvestmentVoucherImagesPreviewProvider = StateProvider<List<String>>((ref) => []);
