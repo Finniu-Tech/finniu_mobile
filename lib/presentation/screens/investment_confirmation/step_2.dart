@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
@@ -12,12 +11,14 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -79,8 +80,7 @@ class Step2Body extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ValueNotifier<List<String>> voucherImageBase64 = ValueNotifier<List<String>>([]);
-    ValueNotifier<List<String>> voucherPreview = ValueNotifier<List<String>>([]);
+    final voucherImageBase64 = ref.watch(preInvestmentVoucherImagesProvider);
 
     final userReadContract = useState(false);
     final isSoles = ref.watch(isSolesStateProvider);
@@ -504,20 +504,25 @@ class Step2Body extends HookConsumerWidget {
                         final List<XFile> images = await picker.pickMultiImage();
 
                         if (images.isNotEmpty) {
+                          var voucherImageListBase64 = [];
+                          var voucherImageListPreview = [];
                           for (var image in images) {
                             final File imageFile = File(image.path);
                             final List<int> imageBytes = await imageFile.readAsBytes();
                             final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
-
-                            voucherImageBase64.value = List.from(voucherImageBase64.value)..add(base64Image);
-                            voucherPreview.value = List.from(voucherPreview.value)..add(image.path);
+                            voucherImageListBase64.add(base64Image);
+                            voucherImageListPreview.add(image.path);
                           }
+                          ref.read(preInvestmentVoucherImagesProvider.notifier).state =
+                              List.from(voucherImageListBase64);
+                          ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state =
+                              List.from(voucherImageListPreview);
                         }
                       },
-                      child: ValueListenableBuilder<List<String>>(
-                        valueListenable: voucherPreview,
-                        builder: (context, value, child) {
-                          return value.isEmpty
+                      child: Builder(
+                        builder: (context) {
+                          final voucherPreview = ref.watch(preInvestmentVoucherImagesPreviewProvider);
+                          return voucherPreview.isEmpty
                               ? ImageIcon(
                                   const AssetImage('assets/icons/photo.png'),
                                   color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
@@ -526,7 +531,7 @@ class Step2Body extends HookConsumerWidget {
                                   height: 60, // Ajusta este valor según tus necesidades
                                   child: ListView.builder(
                                     scrollDirection: Axis.horizontal, // Hace que la lista sea horizontal
-                                    itemCount: value.length,
+                                    itemCount: voucherPreview.length,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       return Padding(
@@ -539,7 +544,7 @@ class Step2Body extends HookConsumerWidget {
                                               width: 40,
                                               height: 40,
                                               child: Image.file(
-                                                File(value[index]),
+                                                File(voucherPreview[index]),
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -552,6 +557,22 @@ class Step2Body extends HookConsumerWidget {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     // Código para eliminar la imagen
+                                                    List<String> voucherImageBase64 =
+                                                        ref.watch(preInvestmentVoucherImagesProvider);
+                                                    List<String> voucherPreviewImage =
+                                                        ref.watch(preInvestmentVoucherImagesPreviewProvider);
+                                                    List<String> modifiedVoucherImageBase64 =
+                                                        List.from(voucherImageBase64);
+
+                                                    List<String> modifiedVoucherPreviewImage =
+                                                        List.from(voucherPreviewImage);
+
+                                                    modifiedVoucherImageBase64.removeAt(index);
+                                                    modifiedVoucherPreviewImage.removeAt(index);
+                                                    ref.read(preInvestmentVoucherImagesProvider.notifier).state =
+                                                        modifiedVoucherImageBase64;
+                                                    ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state =
+                                                        modifiedVoucherPreviewImage;
                                                   },
                                                   child: Container(
                                                     width: 16,
@@ -649,7 +670,7 @@ class Step2Body extends HookConsumerWidget {
             height: 50,
             child: TextButton(
               onPressed: () async {
-                final base64Image = voucherImageBase64.value;
+                final base64Image = voucherImageBase64;
                 if (base64Image.isEmpty) {
                   CustomSnackbar.show(context, 'Debe subir una imagen de la constancia de transferencia', 'error');
                   return;

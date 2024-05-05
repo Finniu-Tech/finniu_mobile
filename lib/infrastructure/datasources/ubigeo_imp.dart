@@ -13,6 +13,7 @@ class UbigeoDataSourceImp extends UbigeoDataSource {
         document: gql(
           QueryRepository.regions,
         ),
+        fetchPolicy: FetchPolicy.cacheFirst,
       ),
     );
     final responseData = RegionData.fromJson(response.data!);
@@ -27,6 +28,7 @@ class UbigeoDataSourceImp extends UbigeoDataSource {
         document: gql(
           QueryRepository.provinces,
         ),
+        fetchPolicy: FetchPolicy.cacheFirst,
       ),
     );
     final responseData = ProvinceData.fromJson(response.data!);
@@ -41,6 +43,7 @@ class UbigeoDataSourceImp extends UbigeoDataSource {
         document: gql(
           QueryRepository.districts,
         ),
+        fetchPolicy: FetchPolicy.cacheFirst,
       ),
     );
     final responseData = DistrictData.fromJson(response.data!);

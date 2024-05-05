@@ -34,7 +34,6 @@ class ExpandableCard extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     final isExpanded = useState(false);
     return Center(
@@ -178,7 +177,7 @@ class CardCustom extends ConsumerWidget {
           Container(
             alignment: Alignment.topLeft,
             width: 350,
-            height: 850,
+            height: 810,
             decoration: BoxDecoration(
               color: Color(
                 currentTheme.isDarkMode ? primaryLightAlternative : colortext,
