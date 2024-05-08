@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/ubigeo.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -26,17 +25,6 @@ class ProfileScreen extends StatefulHookConsumerWidget {
 }
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
-  // final fieldValues = <String, dynamic>{
-  //   'firstName': null,
-  //   'lastName': null,
-  //   'docNumber': null,
-  //   'province': null,
-  //   'department': null,
-  //   'district': null,
-  //   'civilState': null,
-  //   'address': null,
-  //   'occupation': null,
-  // };
   final ImagePicker _picker = ImagePicker();
   @override
   Widget build(BuildContext context) {
@@ -81,63 +69,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     Color disabledColor = themeProvider.isDarkMode ? const Color(grayText) : const Color(0xffF4F4F4);
     Color enableColor = themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
 
-    // int mapControllerKey() {
-    //   int count = 0;
-    //   if (firstNameController.text.isNotEmpty) {
-    //     count += 1;
-    //   }
-    //   if (lastNameController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (docNumberController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (departmentController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (provinceController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (districtController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (addressController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (civilStateController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (addressController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   if (occupationController.text.isNotEmpty) {
-    //     count++;
-    //   }
-    //   return count;
-    // }
-
-    // void _calculatePercentage() {
-    //   int count = mapControllerKey();
-
-    //   if (count == 0) {
-    //     percentage.value = 0.0;
-    //   } else {
-    //     percentage.value = (count / 9.0);
-    //   }
-    //   if (percentage.value >= 1.0) {
-    //     percentage.value = 1.0;
-    //   }
-    //   percentageString.value = '${(percentage.value * 100).round()}%';
-    // }
-
-    // _calculatePercentage();
-
     Future<void> filterSelects(WidgetRef ref) async {
       final String departmentValue = departmentController.text;
       final String provinceValue = provinceController.text;
       final String districtValue = districtController.text;
 
-      // Obtén todos los futuros al principio
       final regions = await regionsFuture;
       final allProvinces = await allProvincesFuture;
       final districts = await districtsFuture;
@@ -205,22 +141,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     useEffect(
       () {
-        // Función asíncrona para manejar las llamadas a la API
         Future<void> fetchData() async {
-          // Muestra el cargador
           context.loaderOverlay.show();
-          // Espera a que filterSelects(ref) se complete
           await filterSelects(ref);
-
-          // Oculta el cargador
-          print('hide overlay loader!!!!');
           context.loaderOverlay.hide();
         }
 
-        // Llama a la función fetchData
         fetchData();
 
-        return () {}; // Devuelve un callback de limpieza vacío
+        return () {};
       },
       const [],
     );
@@ -611,6 +540,15 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           editar.value = !editar.value;
                           return;
                         }
+                        print('first name: ${firstNameController.text}');
+                        print('last name: ${lastNameController.text}');
+                        print('doc number: ${docNumberController.text}');
+                        print('department: ${departmentController.text}');
+                        print('province: ${provinceController.text}');
+                        print('district: ${districtController.text}');
+                        print('address: ${addressController.text}');
+                        print('occupation: ${occupationController.text}');
+                        print('civil state: ${civilStateController.text}');
 
                         if (firstNameController.text.isEmpty ||
                             lastNameController.text.isEmpty ||

@@ -16,7 +16,7 @@ class ExpandableCard extends HookConsumerWidget {
   final String planUuid;
   final String? objective;
   final String? imgDistribution;
-  List<String?> features = [];
+  final List<String?> features;
 
   ExpandableCard({
     super.key,
@@ -29,7 +29,7 @@ class ExpandableCard extends HookConsumerWidget {
     required this.planUuid,
     this.objective,
     this.imgDistribution,
-    this.features = const [],
+    required this.features,
   });
 
   @override
