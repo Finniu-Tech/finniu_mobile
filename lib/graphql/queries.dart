@@ -8,15 +8,14 @@ class QueryRepository {
         id
         nickName
         civilStatus
-        distrito
+
         documentNumber
         gender
         hasCompletedOnboarding
         id
         isActive
         occupation
-        provincia
-        region
+
         typeDocument
         uuid
         imageProfileUrl

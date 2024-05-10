@@ -411,8 +411,8 @@ class Step2Body extends HookConsumerWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Clipboard.setData(new ClipboardData(
-                                    text: isSoles ? "003 200 00300407757039" : '003 20000300475430932'))
+                            Clipboard.setData(
+                                    new ClipboardData(text: isSoles ? "00320000300407757039" : '00320000300475430932'))
                                 .then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

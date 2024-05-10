@@ -92,7 +92,8 @@ class HomeBody extends HookConsumerWidget {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    child: CircularPercentAvatarWidget(userProfile.percentCompleteProfile ?? 0.0),
+                    child: CircularPercentAvatarWidget(
+                        ref.watch(userProfileNotifierProvider).percentCompleteProfile ?? 0.0),
                   ),
                 ),
                 const SizedBox(

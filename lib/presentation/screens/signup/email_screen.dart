@@ -284,6 +284,13 @@ class SignUpEmailScreen extends HookConsumerWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
+                      if (nickNameController.text.isEmpty ||
+                          phoneController.text.isEmpty ||
+                          emailController.text.isEmpty ||
+                          passwordController.text.isEmpty) {
+                        return CustomSnackbar.show(context, 'Necesitas completar todos los campos', 'error');
+                      }
+
                       if (!userAcceptedTerms.value) {
                         return CustomSnackbar.show(
                           context,
@@ -291,7 +298,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                           'error',
                         );
                       }
-                      context.loaderOverlay.show();
+
                       if (formKey.currentState!.validate()) {
                         ref.read(userProfileNotifierProvider.notifier).updateFields(
                               nickName: nickNameController.text,

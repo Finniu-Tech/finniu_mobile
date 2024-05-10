@@ -12,7 +12,6 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 
 // void main() async {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -55,23 +54,21 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     // final gqlClient =  ref.watch(gqlClientProvider);
-    return GlobalLoaderOverlay(
-      child: MaterialApp(
-        title: 'Finniu',
-        debugShowCheckedModeBanner: false,
-        navigatorObservers: [
-          FirebaseAnalyticsObserver(analytics: analytics), //Analytics
-        ],
-        initialRoute: '/',
-        // theme: ThemeData.dark(),
-        theme: ref.watch(settingsNotifierProvider).currentTheme,
-        routes: getApplicationRoutes(),
-        onGenerateRoute: (RouteSettings settings) {
-          return MaterialPageRoute(
-            builder: (BuildContext context) => const IntroScreen(),
-          );
-        },
-      ),
+    return MaterialApp(
+      title: 'Finniu',
+      debugShowCheckedModeBanner: false,
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics), //Analytics
+      ],
+      initialRoute: '/',
+      // theme: ThemeData.dark(),
+      theme: ref.watch(settingsNotifierProvider).currentTheme,
+      routes: getApplicationRoutes(),
+      onGenerateRoute: (RouteSettings settings) {
+        return MaterialPageRoute(
+          builder: (BuildContext context) => const IntroScreen(),
+        );
+      },
     );
   }
 }
