@@ -37,19 +37,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final lastNameController = useTextEditingController(text: userProfile.lastName);
     final docNumberController =
         useTextEditingController(text: userProfile.documentNumber == null ? '' : userProfile.documentNumber);
-    final departmentController = useTextEditingController(text: userProfile.region);
-    final provinceController = useTextEditingController(text: userProfile.provincia);
-    final districtController = useTextEditingController(text: userProfile.distrito);
+    // final departmentController = useTextEditingController(text: userProfile.region);
+    // final provinceController = useTextEditingController(text: userProfile.provincia);
+    // final districtController = useTextEditingController(text: userProfile.distrito);
     final addressController = useTextEditingController(text: userProfile.address);
     final civilStateController = useTextEditingController(text: userProfile.civilStatus);
 
     final occupationController = useTextEditingController(text: userProfile.occupation);
 
-    final regionsFuture = ref.watch(regionsFutureProvider.future);
-    final allProvincesFuture = ref.read(provincesFutureProvider.future);
-    final provinces = ref.watch(provincesStateNotifier);
-    final districtsFuture = ref.read(districtsFutureProvider.future);
-    final districts = ref.watch(districtsStateNotifier);
+    // final regionsFuture = ref.watch(regionsFutureProvider.future);
+    // final allProvincesFuture = ref.read(provincesFutureProvider.future);
+    // final provinces = ref.watch(provincesStateNotifier);
+    // final districtsFuture = ref.read(districtsFutureProvider.future);
+    // final districts = ref.watch(districtsStateNotifier);
     final departmentCodeController = useTextEditingController();
     final provinceCodeController = useTextEditingController();
     final districtCodeController = useTextEditingController();
@@ -70,69 +70,73 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     Color enableColor = themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
 
     Future<void> filterSelects(WidgetRef ref) async {
-      final String departmentValue = departmentController.text;
-      final String provinceValue = provinceController.text;
-      final String districtValue = districtController.text;
+      // final String departmentValue = departmentController.text;
+      // final String provinceValue = provinceController.text;
+      // final String districtValue = districtController.text;
 
-      final regions = await regionsFuture;
-      final allProvinces = await allProvincesFuture;
-      final districts = await districtsFuture;
+      // // Obtén todos los futuros al principio
+      // final regions = await regionsFuture;
+      // final allProvinces = await allProvincesFuture;
+      // final districts = await districtsFuture;
 
-      String departmentName = '';
-      String departmentCode = '';
-      if (departmentValue.isNotEmpty) {
-        if (int.tryParse(departmentValue) != null) {
-          departmentName = RegionEntity.getNameFromCode(
-            departmentValue.length > 2 ? departmentValue.substring(departmentValue.length - 2) : departmentValue,
-            regions,
-          );
-          departmentCode = departmentValue;
-        } else {
-          departmentName = departmentValue;
-          departmentCode = RegionEntity.getCodeFromName(departmentName, regions);
-        }
-        ref.read(provincesStateNotifier.notifier).filterProvinces(departmentCode);
-      }
+      // String departmentName = '';
+      // String departmentCode = '';
+      // if (departmentValue.isNotEmpty) {
+      //   if (int.tryParse(departmentValue) != null) {
+      //     departmentName = RegionEntity.getNameFromCode(
+      //           departmentValue.length > 2 ? departmentValue.substring(departmentValue.length - 2) : departmentValue,
+      //           regions,
+      //         ) ??
+      //         '';
+      //     departmentCode = departmentValue;
+      //   } else {
+      //     departmentName = departmentValue;
+      //     departmentCode = RegionEntity.getCodeFromName(departmentName, regions) ?? '';
+      //   }
+      //   ref.read(provincesStateNotifier.notifier).filterProvinces(departmentCode);
+      // }
 
-      String provinceName = '';
-      String provinceCode = '';
-      if (provinceValue.isNotEmpty) {
-        if (int.tryParse(provinceValue) != null) {
-          provinceName = ProvinceEntity.getNameFromCode(
-            provinceValue.length > 2 ? provinceValue.substring(provinceValue.length - 2) : provinceValue,
-            departmentCode,
-            allProvinces,
-          );
-          provinceCode = provinceValue.length > 2 ? provinceValue.substring(provinceValue.length - 2) : provinceValue;
-        } else {
-          provinceName = provinceValue;
-          provinceCode = ProvinceEntity.getCodeFromName(provinceName, departmentCode, allProvinces);
-        }
-        final codeRegion = RegionEntity.getCodeFromName(departmentName, regions);
-        final codeProvince = ProvinceEntity.getCodeFromName(provinceName, codeRegion, allProvinces);
-        ref.read(districtsStateNotifier.notifier).filterDistricts(codeProvince, codeRegion);
-      }
+      // String provinceName = '';
+      // String provinceCode = '';
+      // if (provinceValue.isNotEmpty) {
+      //   if (int.tryParse(provinceValue) != null) {
+      //     provinceName = ProvinceEntity.getNameFromCode(
+      //           provinceValue.length > 2 ? provinceValue.substring(provinceValue.length - 2) : provinceValue,
+      //           departmentCode,
+      //           allProvinces,
+      //         ) ??
+      //         '';
+      //     provinceCode = provinceValue.length > 2 ? provinceValue.substring(provinceValue.length - 2) : provinceValue;
+      //   } else {
+      //     provinceName = provinceValue;
+      //     provinceCode = ProvinceEntity.getCodeFromName(provinceName, departmentCode, allProvinces) ?? '';
+      //   }
+      //   final codeRegion = RegionEntity.getCodeFromName(departmentName, regions);
+      //   final codeProvince = ProvinceEntity.getCodeFromName(provinceName, codeRegion ?? '', allProvinces);
+      //   ref.read(districtsStateNotifier.notifier).filterDistricts(codeProvince ?? '', codeRegion ?? '');
+      // }
 
-      String districtName = '';
-      String districtCode = '';
-      if (districtValue.isNotEmpty) {
-        if (int.tryParse(districtValue) != null) {
-          districtName = DistrictEntity.getNameFromCode(
-            districtValue.length > 2 ? districtValue.substring(districtValue.length - 2) : districtValue,
-            provinceCode,
-            departmentCode,
-            districts,
-          );
-          districtCode = districtValue.length > 2 ? districtValue.substring(districtValue.length - 2) : districtValue;
-        } else {
-          districtName = districtValue;
-          districtCode = DistrictEntity.getCodeFromName(districtName, provinceCode, departmentCode, districts);
-        }
-      }
+      // String districtName = '';
+      // String districtCode = '';
+      // if (districtValue.isNotEmpty) {
+      //   if (int.tryParse(districtValue) != null) {
+      //     districtName = DistrictEntity.getNameFromCode(
+      //           districtValue.length > 2 ? districtValue.substring(districtValue.length - 2) : districtValue,
+      //           provinceCode,
+      //           departmentCode,
+      //           districts,
+      //         ) ??
+      //         '';
+      //     districtCode = districtValue.length > 2 ? districtValue.substring(districtValue.length - 2) : districtValue;
+      //   } else {
+      //     districtName = districtValue;
+      //     districtCode = DistrictEntity.getCodeFromName(districtName, provinceCode, departmentCode, districts) ?? '';
+      //   }
+      // }
 
-      departmentController.text = departmentName;
-      provinceController.text = provinceName;
-      districtController.text = districtName;
+      // departmentController.text = departmentName;
+      // provinceController.text = provinceName;
+      // districtController.text = districtName;
 
       if (civilStateController.text.isNotEmpty) {
         civilStateController.text = MaritalStatusMapper().mapStatusToText(civilStateController.text);
@@ -142,9 +146,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     useEffect(
       () {
         Future<void> fetchData() async {
-          context.loaderOverlay.show();
+          // Muestra el cargador
+          if (mounted) {
+            try {
+              context.loaderOverlay.show();
+            } catch (e) {
+              print('Error al mostrar el overlay: $e');
+            }
+          }
+          // Espera a que filterSelects(ref) se complete
           await filterSelects(ref);
-          context.loaderOverlay.hide();
+
+          // Oculta el cargador
+          print('hide overlay loader!!!!');
+          if (mounted) {
+            try {
+              context.loaderOverlay.hide();
+            } catch (e) {
+              print('Error al ocultar el overlay: $e');
+            }
+          }
         }
 
         fetchData();
@@ -172,7 +193,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         InkWell(
                           onTap: () async {
                             //show loader
-                            context.loaderOverlay.show();
+                            try {
+                              context.loaderOverlay.show();
+                            } catch (e) {
+                              print('Error al mostrar el overlay: $e');
+                            }
                             try {
                               Future<XFile?> ximage = _picker.pickImage(source: ImageSource.gallery);
 
@@ -187,14 +212,26 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 ).future,
                               );
 
-                              context.loaderOverlay.hide();
+                              if (context.loaderOverlay.visible) {
+                                try {
+                                  context.loaderOverlay.hide();
+                                } catch (e) {
+                                  print('Error al ocultar el overlay: $e');
+                                }
+                              }
                               if (success) {
                                 CustomSnackbar.show(context, 'Su foto de perfil se actualizó correctamente', 'success');
                               } else {
                                 CustomSnackbar.show(context, 'Error al actualizar el su foto de perfil', 'error');
                               }
                             } catch (e) {
-                              context.loaderOverlay.hide();
+                              if (context.loaderOverlay.visible) {
+                                try {
+                                  context.loaderOverlay.hide();
+                                } catch (e) {
+                                  print('Error al ocultar el overlay: $e');
+                                }
+                              }
                               CustomSnackbar.show(context, 'Error al actualizar el su foto de perfil', 'error');
                             }
                           },
@@ -349,118 +386,133 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 28),
-                  SizedBox(
-                    width: 224,
-                    height: 39,
-                    child: CustomSelectButton(
-                      enabled: editar.value,
-                      textEditingController: departmentController,
-                      labelText: 'Departamento',
-                      asyncItems: (String filter) async {
-                        final response = await regionsFuture;
-                        return response.map((e) => e.name).toList();
-                      },
-                      callbackOnChange: (value) async {
-                        try {
-                          //show overlay loader
-                          context.loaderOverlay.show();
-                          departmentController.text = value;
-                          provinceController.text = '';
-                          districtController.text = '';
-                          final regions = await regionsFuture;
-                          final codeRegion = RegionEntity.getCodeFromName(value, regions);
+                  // SizedBox(
+                  //   width: 224,
+                  //   height: 39,
+                  //   child: CustomSelectButton(
+                  //     enabled: editar.value,
+                  //     textEditingController: departmentController,
+                  //     labelText: 'Departamento',
+                  //     asyncItems: (String filter) async {
+                  //       final response = await regionsFuture;
+                  //       return response.map((e) => e.name).toList();
+                  //     },
+                  //     callbackOnChange: (value) async {
+                  //       try {
+                  //         //show overlay loader
+                  //         context.loaderOverlay.show();
+                  //         departmentController.text = value;
+                  //         provinceController.text = '';
+                  //         districtController.text = '';
+                  //         final regions = await regionsFuture;
+                  //         final codeRegion = RegionEntity.getCodeFromName(value, regions);
 
-                          ref.read(provincesStateNotifier.notifier).filterProvinces(codeRegion);
-                          departmentCodeController.text = codeRegion;
-                          context.loaderOverlay.hide();
-                        } catch (e) {
-                          print('error: $e');
-                          //show snackbar error
-                          context.loaderOverlay.hide();
-                          CustomSnackbar.show(context, 'Error al cargar los departamentos', 'error');
-                        }
+                  //         ref.read(provincesStateNotifier.notifier).filterProvinces(codeRegion ?? '');
+                  //         departmentCodeController.text = codeRegion ?? '';
+                  //         if (!context.loaderOverlay.visible) {
+                  //           context.loaderOverlay.hide();
+                  //         }
+                  //       } catch (e) {
+                  //         print('error: $e');
+                  //         //show snackbar error
+                  //         if (!context.loaderOverlay.visible) {
+                  //           context.loaderOverlay.hide();
+                  //         }
+                  //         CustomSnackbar.show(context, 'Error al cargar los departamentos', 'error');
+                  //       }
 
-                        // _calculatePercentage();
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-                  SizedBox(
-                    width: 224,
-                    height: 38,
-                    child: CustomSelectButton(
-                      enabled: editar.value,
-                      textEditingController: provinceController,
-                      labelText: 'Provincia',
-                      items: provinces.map((e) => e.name).toList(),
-                      callbackOnChange: (value) async {
-                        try {
-                          //show overlay loader
-                          context.loaderOverlay.show();
-                          print('callback provinde');
-                          districtController.text = '';
-                          final allRegions = await regionsFuture;
-                          final allProvinces = await allProvincesFuture;
-                          final codeRegion = RegionEntity.getCodeFromName(
-                            departmentController.text,
-                            allRegions,
-                          );
-                          print('codeRegion: $codeRegion');
-                          final codeProvince = ProvinceEntity.getCodeFromName(
-                            value,
-                            codeRegion,
-                            allProvinces,
-                          );
-                          print('codeProvince: $codeProvince');
-                          print('value: $value');
-                          ref.read(districtsStateNotifier.notifier).filterDistricts(codeProvince, codeRegion);
-                          // _calculatePercentage();
-                          provinceController.text = value;
-                          provinceCodeController.text = codeProvince;
-                          context.loaderOverlay.hide();
-                        } catch (e) {
-                          print('error: $e');
-                          //show snackbar error
+                  //       // _calculatePercentage();
+                  //     },
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 28),
+                  // SizedBox(
+                  //   width: 224,
+                  //   height: 38,
+                  //   child: CustomSelectButton(
+                  //     enabled: editar.value,
+                  //     textEditingController: provinceController,
+                  //     labelText: 'Provincia',
+                  //     items: provinces.map((e) => e.name).toList(),
+                  //     callbackOnChange: (value) async {
+                  //       try {
+                  //         //show overlay loader
+                  //         context.loaderOverlay.show();
+                  //         print('callback provinde');
+                  //         districtController.text = '';
+                  //         final allRegions = await regionsFuture;
+                  //         final allProvinces = await allProvincesFuture;
+                  //         final codeRegion = RegionEntity.getCodeFromName(
+                  //           departmentController.text,
+                  //           allRegions,
+                  //         );
+                  //         print('codeRegion: $codeRegion');
+                  //         final codeProvince = ProvinceEntity.getCodeFromName(
+                  //           value,
+                  //           codeRegion ?? '',
+                  //           allProvinces,
+                  //         );
+                  //         print('codeProvince: $codeProvince');
+                  //         print('value: $value');
+                  //         ref
+                  //             .read(districtsStateNotifier.notifier)
+                  //             .filterDistricts(codeProvince ?? '', codeRegion ?? '');
+                  //         // _calculatePercentage();
+                  //         provinceController.text = value;
+                  //         provinceCodeController.text = codeProvince ?? '';
+                  //         if (!context.loaderOverlay.visible) {
+                  //           context.loaderOverlay.hide();
+                  //         }
+                  //       } catch (e) {
+                  //         print('error: $e');
+                  //         //show snackbar error
 
-                          context.loaderOverlay.hide();
-                          CustomSnackbar.show(context, 'Error al cargar las provincias', 'error');
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 28),
-                  SizedBox(
-                    width: 224,
-                    height: 38,
-                    child: CustomSelectButton(
-                      enabled: editar.value,
-                      textEditingController: districtController,
-                      labelText: 'Distrito',
-                      items: districts.map((e) => e.name).toList(),
-                      callbackOnChange: (value) {
-                        // _calculatePercentage();
-                        //show overlay loader
-                        try {
-                          //show overlay loader
-                          context.loaderOverlay.show();
-                          districtController.text = value;
-                          districtCodeController.text = DistrictEntity.getCodeFromName(
-                            value,
-                            provinceCodeController.text,
-                            departmentCodeController.text,
-                            districts,
-                          );
-                          context.loaderOverlay.hide();
-                        } catch (e) {
-                          print('error: $e');
-                          //show snackbar error
-                          context.loaderOverlay.hide();
-                          CustomSnackbar.show(context, 'Error al cargar los distritos', 'error');
-                        }
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 28),
+                  //         if (!context.loaderOverlay.visible) {
+                  //           context.loaderOverlay.hide();
+                  //         }
+                  //         CustomSnackbar.show(context, 'Error al cargar las provincias', 'error');
+                  //       }
+                  //     },
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 28),
+                  // SizedBox(
+                  //   width: 224,
+                  //   height: 38,
+                  //   child: CustomSelectButton(
+                  //     enabled: editar.value,
+                  //     textEditingController: districtController,
+                  //     labelText: 'Distrito',
+                  //     items: districts.map((e) => e.name).toList(),
+                  //     callbackOnChange: (value) {
+                  //       // _calculatePercentage();
+                  //       //show overlay loader
+                  //       try {
+                  //         //show overlay loader
+                  //         context.loaderOverlay.show();
+                  //         districtController.text = value;
+                  //         districtCodeController.text = DistrictEntity.getCodeFromName(
+                  //               value,
+                  //               provinceCodeController.text,
+                  //               departmentCodeController.text,
+                  //               districts,
+                  //             ) ??
+                  //             '';
+                  //         if (!context.loaderOverlay.visible) {
+                  //           context.loaderOverlay.hide();
+                  //         }
+                  //       } catch (e) {
+                  //         print('error: $e');
+                  //         //show snackbar error
+                  //         if (!context.loaderOverlay.visible) {
+                  //           context.loaderOverlay.hide();
+                  //         }
+                  //         CustomSnackbar.show(context, 'Error al cargar los distritos', 'error');
+                  //       }
+                  //     },
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 28),
                   SizedBox(
                     width: 224,
                     height: 38,
@@ -535,87 +587,126 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     height: 50,
                     child: TextButton(
                       onPressed: () async {
-                        // try {
-                        if (!editar.value) {
-                          editar.value = !editar.value;
-                          return;
-                        }
-                        print('first name: ${firstNameController.text}');
-                        print('last name: ${lastNameController.text}');
-                        print('doc number: ${docNumberController.text}');
-                        print('department: ${departmentController.text}');
-                        print('province: ${provinceController.text}');
-                        print('district: ${districtController.text}');
-                        print('address: ${addressController.text}');
-                        print('occupation: ${occupationController.text}');
-                        print('civil state: ${civilStateController.text}');
+                        try {
+                          if (!editar.value) {
+                            editar.value = !editar.value;
+                            return;
+                          }
 
-                        if (firstNameController.text.isEmpty ||
-                            lastNameController.text.isEmpty ||
-                            docNumberController.text.isEmpty ||
-                            departmentController.text.isEmpty ||
-                            provinceController.text.isEmpty ||
-                            districtController.text.isEmpty ||
-                            addressController.text.isEmpty ||
-                            occupationController.text.isEmpty ||
-                            civilStateController.text.isEmpty) {
-                          CustomSnackbar.show(
-                            context,
-                            'Por favor, complete todos los campos',
-                            'error',
+                          if (firstNameController.text.isEmpty ||
+                              lastNameController.text.isEmpty ||
+                              docNumberController.text.isEmpty ||
+                              // departmentController.text.isEmpty ||
+                              // provinceController.text.isEmpty ||
+                              // districtController.text.isEmpty ||
+                              addressController.text.isEmpty ||
+                              occupationController.text.isEmpty ||
+                              civilStateController.text.isEmpty) {
+                            CustomSnackbar.show(
+                              context,
+                              'Por favor, complete todos los campos',
+                              'error',
+                            );
+                            return;
+                          }
+
+                          try {
+                            context.loaderOverlay.show();
+                          } catch (e) {
+                            print('Error al mostrar el overlay: $e');
+                          }
+                          // print('department controller');
+                          // print(departmentController.text);
+                          // print('provinceCodeController');
+                          // print(provinceCodeController.text);
+                          // print('districtCodeController');
+                          // print(districtCodeController.text);
+                          // if (departmentController.text.isNotEmpty &&
+                          //     !provinceController.text.isNotEmpty &&
+                          //     !districtController.text.isNotEmpty) {
+                          //   departmentCodeController.text = RegionEntity.getCodeFromName(
+                          //         departmentController.text,
+                          //         await regionsFuture,
+                          //       ) ??
+                          //       '';
+                          //   provinceCodeController.text = ProvinceEntity.getCodeFromName(
+                          //         provinceController.text,
+                          //         departmentCodeController.text,
+                          //         await allProvincesFuture,
+                          //       ) ??
+                          //       '';
+                          //   districtCodeController.text = DistrictEntity.getCodeFromName(
+                          //         districtController.text,
+                          //         provinceCodeController.text,
+                          //         departmentCodeController.text,
+                          //         districts,
+                          //       ) ??
+                          //       '';
+                          // } else {
+                          //   departmentCodeController.text = '';
+                          //   provinceCodeController.text = '';
+                          //   districtCodeController.text = '';
+                          // }
+
+                          final userProfile = ref.watch(userProfileNotifierProvider);
+
+                          final success = await ref.read(
+                            updateUserProfileFutureProvider(
+                              userProfile.copyWith(
+                                firstName: firstNameController.text,
+                                lastName: lastNameController.text,
+                                documentNumber: docNumberController.text,
+                                region: departmentCodeController.text,
+                                provincia: '${departmentCodeController.text}${provinceCodeController.text}',
+                                distrito:
+                                    '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
+                                civilStatus: MaritalStatusMapper().mapStatus(civilStateController.text),
+                                address: addressController.text,
+                                occupation: occupationController.text,
+                              ),
+                            ).future,
                           );
-                          return;
-                        }
+                          if (success) {
+                            percentageString.value = '100%';
+                            percentage.value = 1.0;
+                            if (context.loaderOverlay.visible) {
+                              try {
+                                context.loaderOverlay.hide();
+                              } catch (e) {
+                                print('Error al ocultar el overlay: $e');
+                              }
+                            }
+                            CustomSnackbar.show(context, 'Sus datos se actualizaron correctamente', 'success');
+                          } else {
+                            if (context.loaderOverlay.visible) {
+                              try {
+                                context.loaderOverlay.hide();
+                              } catch (e) {
+                                print('Error al ocultar el overlay: $e');
+                              }
+                            }
+                            CustomSnackbar.show(context, 'Error al actualizar', 'error');
+                          }
+                          // } catch (e) {
+                          //   print('error: $e');
+                          //   context.loaderOverlay.hide();
+                          //   CustomSnackbar.show(context, 'Error al actualizar', 'error');
+                          // }
 
-                        context.loaderOverlay.show();
-                        departmentCodeController.text = RegionEntity.getCodeFromName(
-                          departmentController.text,
-                          await regionsFuture,
-                        );
-                        provinceCodeController.text = ProvinceEntity.getCodeFromName(
-                          provinceController.text,
-                          departmentCodeController.text,
-                          await allProvincesFuture,
-                        );
-                        districtCodeController.text = DistrictEntity.getCodeFromName(
-                          districtController.text,
-                          provinceCodeController.text,
-                          departmentCodeController.text,
-                          districts,
-                        );
-
-                        final userProfile = ref.watch(userProfileNotifierProvider);
-
-                        final success = await ref.read(
-                          updateUserProfileFutureProvider(
-                            userProfile.copyWith(
-                              firstName: firstNameController.text,
-                              lastName: lastNameController.text,
-                              documentNumber: docNumberController.text,
-                              region: departmentCodeController.text,
-                              provincia: '${departmentCodeController.text}${provinceCodeController.text}',
-                              distrito:
-                                  '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
-                              civilStatus: MaritalStatusMapper().mapStatus(civilStateController.text),
-                              address: addressController.text,
-                              occupation: occupationController.text,
-                            ),
-                          ).future,
-                        );
-                        if (success) {
-                          context.loaderOverlay.hide();
-                          CustomSnackbar.show(context, 'Sus datos se actualizaron correctamente', 'success');
-                        } else {
-                          context.loaderOverlay.hide();
+                          // Navigator.pushNamed(context, '/home_home');
+                        } catch (e, s) {
+                          print('error!');
+                          print(e);
+                          print(s);
                           CustomSnackbar.show(context, 'Error al actualizar', 'error');
+                          if (context.loaderOverlay.visible) {
+                            try {
+                              context.loaderOverlay.hide();
+                            } catch (e) {
+                              print('Error al ocultar el overlay: $e');
+                            }
+                          }
                         }
-                        // } catch (e) {
-                        //   print('error: $e');
-                        //   context.loaderOverlay.hide();
-                        //   CustomSnackbar.show(context, 'Error al actualizar', 'error');
-                        // }
-
-                        // Navigator.pushNamed(context, '/home_home');
                       },
                       child: Text(
                         editar.value ? 'Guardar' : 'Editar',
