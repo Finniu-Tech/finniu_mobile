@@ -1,33 +1,28 @@
-// class InvestmentAmountCard extends StatelessWidget {
-//   const InvestmentAmountCard({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container();
-//   }
-// }
-
+import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class CreditCardWidget extends StatelessWidget {
-  String imageAsset;
+  final String imageAsset;
+  final String cardHolderName;
+  final String lastFourDigits;
+  final Function onTap;
 
-  CreditCardWidget({super.key, required this.imageAsset});
+  const CreditCardWidget({
+    super.key,
+    required this.imageAsset,
+    required this.onTap,
+    required this.cardHolderName,
+    required this.lastFourDigits,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onDoubleTap: () {
-        print('Double tap');
-      },
-      onTap: () {
-        print('Tap');
-      },
+      onTap: onTap as void Function()?,
       child: Container(
-        width: 180, // Ancho de la tarjeta
-        height: 143, // Alto de la tarjeta
+        width: 288.3,
+        height: 171.6,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16.0),
@@ -36,244 +31,297 @@ class CreditCardWidget extends StatelessWidget {
               color: Colors.grey.withOpacity(0.5),
               spreadRadius: 1,
               blurRadius: 5,
-              offset: Offset(0, 3), // Cambia la posición de la sombra
+              offset: const Offset(0, 3),
             ),
           ],
-          image: DecorationImage(
-            image: AssetImage(imageAsset),
-            fit: BoxFit.fill, // Ajustar la imagen para cubrir el contenedor
-          ),
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(imageAsset),
+                  fit: BoxFit.fill,
+                ),
+              ),
+            ),
+            Text(
+              '$cardHolderName\n**** $lastFourDigits',
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(1.0, 1.0),
+                    blurRadius: 3.0,
+                    color: Color.fromARGB(150, 0, 0, 0),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class CardModel {
-  int id;
-  double zIndex;
-  final Widget? child;
-
-  CardModel({required this.id, this.zIndex = 0.0, this.child});
-}
-
-class MyCarousel extends StatefulWidget {
-  final List<Widget> widgets;
-  final Function(int) onClicked;
-  final int? currentIndex;
-
-  const MyCarousel({super.key, required this.widgets, required this.onClicked, this.currentIndex});
+class CreditCardWheel extends StatefulWidget {
+  const CreditCardWheel({super.key});
 
   @override
-  State<MyCarousel> createState() => _MyCarouselState();
+  _CreditCardWheelState createState() => _CreditCardWheelState();
 }
 
-class _MyCarouselState extends State<MyCarousel> {
-  double currentIndex = 0;
-  double index = 0;
+class _CreditCardWheelState extends State<CreditCardWheel> {
+  List<String> cards = [
+    'assets/credit_cards/golden_card.png', //961x572
+    'assets/credit_cards/gray_card.png',
+    'assets/credit_cards/light_blue.png',
+    'assets/credit_cards/golden_card.png',
+    'assets/credit_cards/blue_card.png',
+  ];
+  bool showDetail = false;
+  String selectedImage = '';
+  FixedExtentScrollController? controller;
 
   @override
   void initState() {
-    if (widget.currentIndex != null) {
-      currentIndex = widget.currentIndex!.toDouble();
-    }
     super.initState();
+    controller = FixedExtentScrollController(initialItem: 1);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                return GestureDetector(
-                  onPanUpdate: (details) {
+    return SizedBox(
+      height: 400,
+      width: double.infinity,
+      child: showDetail
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  width: 299,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'BBVA | Compras',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(primaryDark),
+                        ),
+                      ),
+                      const Spacer(),
+                      //asset icon
+                      Image.asset(
+                        'assets/icons/square2.png',
+                        width: 24,
+                        height: 24,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 299,
+                  child: Text(
+                    'Cuenta Soles  **** 1234',
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                CreditCardWidget(
+                  imageAsset: selectedImage,
+                  onTap: () {
                     setState(() {
-                      index = currentIndex - details.delta.dx * 0.005; // Reduce la sensibilidad al deslizar
-                      if (index >= 0 && index <= widget.widgets.length - 1) {
-                        currentIndex = currentIndex - details.delta.dx * 0.01; // Reduce la sensibilidad al deslizar
-                      } else if (index < 0) {
-                        currentIndex =
-                            widget.widgets.length - 1 + details.delta.dx * 0.01; // Reduce la sensibilidad al deslizar
-                      } else if (index > widget.widgets.length - 1) {
-                        currentIndex = 0 - details.delta.dx * 0.01; // Reduce la sensibilidad al deslizar
-                      }
+                      showDetail = false;
                     });
                   },
-                  onPanEnd: (details) {
-                    setState(() {
-                      currentIndex = currentIndex.roundToDouble();
-                    });
-                  },
-                  child: OverlappedCarouselCardItems(
-                    cards: List.generate(
-                      widget.widgets.length,
-                      (index) => CardModel(
-                        id: index,
-                        child: widget.widgets[index],
+                  cardHolderName: 'test',
+                  lastFourDigits: '1234',
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 299,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                        20), // Asegúrate de que este valor sea el mismo que en RoundedRectangleBorder
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // Ajusta este valor para cambiar la posición de la sombra
+                      ),
+                    ],
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(primaryLight),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                    centerIndex: currentIndex,
-                    maxWidth: constraints.maxWidth,
-                    maxHeight: constraints.maxHeight,
-                    onClicked: widget.onClicked,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/icons/square2.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
+                          'Agregar cuenta bancaria',
+                          style: TextStyle(color: Color(primaryDark), fontSize: 14, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
                   ),
-                );
-              },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  width: 299,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(
+                        20), // Asegúrate de que este valor sea el mismo que en RoundedRectangleBorder
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // Ajusta este valor para cambiar la posición de la sombra
+                      ),
+                    ],
+                  ),
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(primaryDark),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/icons/square2.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
+                          'Confirmar cuenta',
+                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : Column(
+              children: [
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     //asset icon
+                //     Image.asset(
+                //       'assets/icons/square2.png',
+                //       width: 24,
+                //       height: 24,
+                //     ),
+                //     const SizedBox(
+                //       width: 5,
+                //     ),
+                //     const Text(
+                //       'Selecciona tu cuenta bancaria',
+                //       style: TextStyle(
+                //         fontSize: 14,
+                //         color: Color(primaryDark),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                // const SizedBox(height: 10),
+                SizedBox(
+                  height: 280,
+                  child: ListWheelScrollView.useDelegate(
+                    controller: controller,
+                    itemExtent: 150,
+                    diameterRatio: 2,
+                    physics: const FixedExtentScrollPhysics(),
+                    childDelegate: ListWheelChildBuilderDelegate(
+                      builder: (context, index) {
+                        return CreditCardWidget(
+                          cardHolderName: 'Nombre$index',
+                          lastFourDigits: '123$index',
+                          imageAsset: cards[index % cards.length],
+                          onTap: () {
+                            if (!showDetail) {
+                              setState(() {
+                                showDetail = true;
+                                selectedImage = cards[index % cards.length];
+                              });
+                            }
+                          },
+                        );
+                      },
+                      childCount: cards.length * 100,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  width: 299,
+                  height: 50,
+                  child: TextButton(
+                    onPressed: () {},
+                    style: TextButton.styleFrom(
+                      backgroundColor: const Color(primaryLight),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/icons/square2.png',
+                          width: 24,
+                          height: 24,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Text(
+                          'Agregar cuenta bancaria',
+                          style: TextStyle(color: Color(primaryDark), fontSize: 14, fontWeight: FontWeight.bold),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(
-              widget.widgets.length,
-              (index) => Container(
-                margin: const EdgeInsets.all(2),
-                height: 10,
-                width: 10,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: currentIndex.roundToDouble() == index ? Colors.white : Colors.white38),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class OverlappedCarouselCardItems extends StatelessWidget {
-  final List<CardModel> cards;
-  final Function(int) onClicked;
-  final double centerIndex;
-  final double maxHeight;
-  final double maxWidth;
-
-  const OverlappedCarouselCardItems({
-    super.key,
-    required this.cards,
-    required this.centerIndex,
-    required this.maxHeight,
-    required this.maxWidth,
-    required this.onClicked,
-  });
-
-  double getCardPosition(int index) {
-    final double center = maxWidth / 2.5;
-    final double centerWidgetWidth = maxWidth / 4;
-    final double basePosition = center - centerWidgetWidth / 2 - 12;
-    final distance = centerIndex - index;
-
-    final double nearWidgetWidth = centerWidgetWidth / 5 * 4;
-    final double farWidgetWidth = centerWidgetWidth / 5 * 3;
-
-    if (distance == 0) {
-      return basePosition;
-    } else if (distance.abs() > 0.0 && distance.abs() <= 1.0) {
-      if (distance > 0) {
-        return basePosition - nearWidgetWidth * distance.abs();
-      } else {
-        return basePosition + nearWidgetWidth * distance.abs();
-      }
-    } else if (distance.abs() >= 1.0 && distance.abs() <= 2.0) {
-      if (distance > 0) {
-        return (basePosition - nearWidgetWidth) - farWidgetWidth * (distance.abs() - 1);
-      } else {
-        return (basePosition + centerWidgetWidth + nearWidgetWidth) +
-            farWidgetWidth * (distance.abs() - 2) -
-            (nearWidgetWidth - farWidgetWidth) * ((distance - distance.floor()));
-      }
-    } else {
-      if (distance > 0) {
-        return (basePosition - nearWidgetWidth) - farWidgetWidth * (distance.abs() - 1);
-      }
-      return -((basePosition + centerWidgetWidth + nearWidgetWidth) -
-          farWidgetWidth * (distance.abs() - 2) -
-          (nearWidgetWidth - farWidgetWidth) * ((distance - distance.floor())) +
-          (farWidgetWidth * 2));
-    }
-  }
-
-  double getCardWidth(int index) {
-    final double centerWidgetWidth = (maxWidth / 2) - (maxWidth / 3.5) * 0.01 * (centerIndex - index).abs();
-
-    return centerWidgetWidth;
-  }
-
-  Matrix4 getTransform(int index) {
-    var transform = Matrix4.identity()
-      ..setEntry(3, 2, 0.007)
-      // ..rotateY(-0.25 * distance)
-      ..scale(1.25, 1.25, 1.25);
-    if (index == centerIndex) transform.scale(1.05, 1.05, 1.05);
-    return transform;
-  }
-
-  Widget _buildItem(CardModel item, int cardCount) {
-    final int index = item.id;
-    final width = getCardWidth(index);
-    double dist = (index - centerIndex).abs();
-    if (dist > cardCount ~/ 2) {
-      dist = cardCount - dist;
-    }
-    final verticalPadding = width * 0.01 * dist.toDouble();
-
-    return Positioned(
-      left: getCardPosition(index),
-      child: Transform(
-        transform: getTransform(index),
-        alignment: FractionalOffset.center,
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15.0),
-          ),
-          width: width.toDouble(),
-          padding: EdgeInsets.symmetric(vertical: verticalPadding),
-          height: maxHeight,
-          child: item.child,
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _sortedStackWidgets(List<CardModel> widgets) {
-    final int centerIndexInt = centerIndex.round().toInt();
-    final int cardCount = widgets.length;
-
-    for (int i = 0; i < widgets.length; i++) {
-      int distance = (i - centerIndexInt).abs();
-      if (distance > cardCount ~/ 2) {
-        distance = cardCount - distance;
-      }
-      widgets[i].zIndex = -distance.toDouble();
-    }
-    widgets.sort((a, b) => a.zIndex.compareTo(b.zIndex));
-    return widgets.map((e) {
-      double distance = (centerIndex - e.id).abs();
-
-      if (distance > 3 && e.id < 3) {
-        e.id += widgets.length;
-      }
-
-      return _buildItem(e, widgets.length);
-    }).toList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        clipBehavior: Clip.none,
-        children: _sortedStackWidgets(cards),
-      ),
     );
   }
 }

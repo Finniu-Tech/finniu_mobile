@@ -13,20 +13,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Preferences.init();
-//   Intl.defaultLocale = 'pt_BR';
-//   await initializeDateFormatting();
-//   await initHiveForFlutter(); //graphql cache
-
-//   runApp(
-//     const ProviderScope(
-//       child: MyApp(),
-//     ),
-//   );
-// }
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
@@ -35,14 +21,20 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await initHiveForFlutter();
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  };
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
+  print('kDebugMode xxxxx: $kDebugMode');
+  // Configura la captura de errores de Flutter solo si no estás en modo de depuración
+  if (!kDebugMode) {
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+
+    // Captura todos los errores no atrapados en el código asíncrono
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  }
+
   runApp(const ProviderScope(child: MyApp()));
 }
 

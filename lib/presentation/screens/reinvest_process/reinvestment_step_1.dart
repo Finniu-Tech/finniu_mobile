@@ -16,18 +16,18 @@ import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/cards_widgets.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:overlapped_carousel/overlapped_carousel.dart';
-
 import '../../../infrastructure/models/calculate_investment.dart';
 
 class ReinvestmentStep1 extends HookConsumerWidget {
@@ -371,54 +371,11 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
             constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
             child: TextButton(
               child: Text('Ver Tarjetas'),
-              onPressed: () async {
-                //show creditcards in a sheet
-                const List<String> cards = [
-                  'assets/credit_cards/golden_card.png',
-                  'assets/credit_cards/gray_card.png',
-                  'assets/credit_cards/light_blue.png',
-                  'assets/credit_cards/golden_card.png',
-                  'assets/credit_cards/blue_card.png',
-                ];
-                showModalBottomSheet(
-                  context: context,
-                  isDismissible: false,
-                  builder: (context) {
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.9,
-                      width: MediaQuery.of(context).size.width,
-                      child: Column(
-                        children: [
-                          Text('¿A qué cuenta transferimos tu rentabilidad? 💸'),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text('Selecciona tu cuenta bancaria'),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            height: 175, // Ajusta según la cantidad de tarjetas y el diseño deseado
-                            width: double.infinity, // Ajusta según el diseño deseado
-                            child: MyCarousel(
-                              widgets: [
-                                CreditCardWidget(imageAsset: cards[0]),
-                                CreditCardWidget(imageAsset: cards[1]),
-                                CreditCardWidget(imageAsset: cards[2]),
-                                CreditCardWidget(imageAsset: cards[3]),
-                                CreditCardWidget(imageAsset: cards[4]),
-                              ], //List of widgets
-                              currentIndex: 0,
-                              onClicked: (index) {
-                                print('clicked $index');
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                );
+
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => const TestPage()));
+
+              onPressed: () {
+                bankAccountModal(context, ref);
               },
             ),
           ),
