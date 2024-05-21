@@ -349,4 +349,59 @@ currency: \$currency,
       }
     ''';
   }
+
+  static String rejectReInvestment() {
+    return '''
+      mutation rejectReInvestment(\$preInvestmentUUID: String!, \$rejectMotivation: RejectedMotivationEnum!, \$textRejected: String){
+        rejectReInvestment(input: {
+          preInvestmentUuid: \$preInvestmentUUID,
+          rejectedMotivation: \$rejectMotivation,
+          textRejected: \$textRejected
+        }){
+          success
+          messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+
+    ''';
+  }
+
+  static String createBankAccount() {
+    return '''
+      mutation createUserBankAccount(
+        \$bankUUID: String!,
+        \$typeAccount: TypeAccountEnum!,
+        \$currency: CurrencyEnum!,
+        \$bankAccount: String!,
+        \$aliasBankAccount: String,
+        \$joinAccount: JointAccountInput,
+        \$isDefault: Boolean,
+        \$isPersonalAccount: Boolean
+      ) {
+        createBankAccount(
+          input:{
+            bankUuid: \$bankUUID,
+            typeAccount: \$typeAccount,
+            currency: \$currency,
+            bankAccount: \$bankAccount,
+            aliasBankAccount: \$aliasBankAccount,
+            useDefaultAccount: \$isDefault,
+            checkPersonalAccount: \$isPersonalAccount,
+            jointAccount: \$joinAccount
+          }
+        ) {
+          success
+          messages {
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
 }

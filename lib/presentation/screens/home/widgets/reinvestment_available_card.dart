@@ -1,16 +1,87 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/userNotificationProvider.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class ReinvestmentAvailableCard extends ConsumerWidget {
-  const ReinvestmentAvailableCard({super.key});
+import 'package:finniu/domain/entities/user_notification_entity.dart';
+
+class ReinvestmentSlider extends HookConsumerWidget {
+  const ReinvestmentSlider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // rounded card with a stacked images over the container, the container has a gradient background
-    //money_and_dollars.png
+    final currentIndex = useState(0);
+    final asyncNotifications = ref.watch(userNotificationProvider);
+
+    return asyncNotifications.when(
+      data: (notifications) {
+        final items = notifications.map((notification) {
+          return ReinvestmentAvailableCard(notification: notification);
+        }).toList();
+
+        return SizedBox(
+          height: 150,
+          child: Column(
+            children: [
+              CarouselSlider(
+                items: items.map((item) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return item;
+                    },
+                  );
+                }).toList(),
+                options: CarouselOptions(
+                    height: 120,
+                    autoPlay: false,
+                    viewportFraction: 1,
+                    onPageChanged: (index, reason) {
+                      currentIndex.value = index;
+                    }),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: items.asMap().entries.map((entry) {
+                  return GestureDetector(
+                    onTap: () => {}, // Aquí puedes implementar la lógica para cambiar de slide al tocar un dot
+                    child: Container(
+                      width: 8.0,
+                      height: 8.0,
+                      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
+                            .withOpacity(currentIndex.value == entry.key ? 0.9 : 0.4),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      // error: (error, stackTrace) => Text('Error: $error' + stackTrace.toString()), //TODO remove this
+      error: (error, stack) => Visibility(
+        visible: false,
+        child: Container(),
+      ),
+    );
+  }
+}
+
+class ReinvestmentAvailableCard extends ConsumerWidget {
+  final UserNotificationEntity notification;
+
+  const ReinvestmentAvailableCard({Key? key, required this.notification}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: 109,
       width: 333,
@@ -18,70 +89,65 @@ class ReinvestmentAvailableCard extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: 15),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            Color(0xffffeedd),
-            Color(0xffdbf7ff),
+            notification.gradient?.startColor ?? const Color(0xffffeedd),
+            notification.gradient?.endColor ?? const Color(0xffdbf7ff),
           ],
         ),
       ),
       child: Row(
         children: [
-          //first a image
-          // second a text with a title
-          // third a rounded button
           SizedBox(
             width: 67,
             height: 60,
-            child: Image.asset('assets/home/money_and_dollars.png'),
-            // child:  AssetImage('assets/home/money_and_dollars.png'),
+            child: Image.network(notification.imageURL ?? 'assets/home/money_and_dollars.png'),
           ),
           const SizedBox(
             width: 10,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "¡Ya puedes reinvertir!",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                  color: Color(primaryDark),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              RichText(
-                text: const TextSpan(
-                  style: TextStyle(
-                    fontSize: 12,
-                    height: 1.5,
-                    fontWeight: FontWeight.w400,
-                    color: Color(0xff1A1A1A),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  notification.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: Color(primaryDark),
                   ),
-                  children: [
-                    TextSpan(
-                      text: 'Tienes algunas\n inversiones disponibles\n para reinvertir',
-                    ),
-                  ],
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 5,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Flexible(
+                  child: Text(
+                    notification.message,
+                    style: const TextStyle(
+                      fontSize: 12,
+                      height: 1.5,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xff1A1A1A),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-
-          CustomButtonRoundedDark(
-            // pushName: '/reinvestment',
-            onTap: () {
-              // reinvestmentQuestionModal(context, ref);
-              reinvestmentQuestionModal(context, ref);
-              // showDialogRefuseReasons(context, ref);
-            },
-          ),
+          if (notification.type == TypeUserNotificationEnum.REINVESTMENT) ...[
+            CustomButtonRoundedDark(
+              onTap: () {
+                reinvestmentQuestionModal(context, ref, notification.metaData!.preinvestmentUUID);
+              },
+            ),
+          ],
         ],
       ),
     );

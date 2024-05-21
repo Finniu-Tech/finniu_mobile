@@ -20,7 +20,6 @@ final otpValidatorFutureProvider = FutureProvider.family(
               'code': otpForm.otp,
               'action': otpForm.action,
             },
-            pollInterval: const Duration(seconds: 10),
           ),
         );
         return result;
@@ -48,7 +47,6 @@ final resendOTPCodeFutureProvider = FutureProvider((ref) async {
           variables: {
             'email': user.email,
           },
-          pollInterval: const Duration(seconds: 10),
         ),
       );
       return result;

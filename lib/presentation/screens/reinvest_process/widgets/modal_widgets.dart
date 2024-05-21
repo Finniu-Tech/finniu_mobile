@@ -4,7 +4,7 @@ import 'package:finniu/presentation/screens/reinvest_process/widgets/cards_widge
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void bankAccountModal(BuildContext ctx, WidgetRef ref) {
+void bankAccountModal(BuildContext ctx, WidgetRef ref, String currency) {
   final themeProvider = ref.watch(settingsNotifierProvider);
 
   showModalBottomSheet(
@@ -32,7 +32,7 @@ void bankAccountModal(BuildContext ctx, WidgetRef ref) {
             const SizedBox(
               height: 10,
             ),
-            CreditCardWheel(),
+            CreditCardWheel(currency: currency),
           ],
         ),
       );

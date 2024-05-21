@@ -10,6 +10,7 @@ class BankMapper {
             name: bank.bankName ?? '',
             isActive: bank.isActive ?? false,
             logoUrl: bank.bankLogo ?? '',
+            cardImageUrl: bank.bankImageCard ?? '',
           ),
         )
         .toList();

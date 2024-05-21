@@ -156,6 +156,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
     final bankFuture = ref.watch(bankFutureProvider.future);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
+    final currency = isSoles ? 'SOLES' : 'DOLAR'; //TODO change this for the metadatos
+    final theme = ref.watch(settingsNotifierProvider);
     final moneySymbol = isSoles ? "S/" : "\$";
     final _debouncer = Debouncer(milliseconds: 3000);
     useEffect(
@@ -180,7 +182,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
           SizedBox(
             // width: 200,
             child: Text(
-              'Tu operación en curso',
+              'Tu plan Seleccionado',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 24,
@@ -199,7 +201,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               top: 20,
             ),
             decoration: BoxDecoration(
-              color: const Color(orangeLight),
+              color: theme.isDarkMode ? const Color(cardBackgroundColorDark) : const Color(cardBackgroundColorLight),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.6),
@@ -237,9 +239,20 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       ),
                 ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(
+                      // selectedPlan!.name,
+                      widget.plan.name,
+                      textAlign: TextAlign.left,
+                      style: const TextStyle(
+                        color: Color(primaryDark),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -253,7 +266,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                         ),
                         Text(
                           // 'Desde $moneySymbol ${selectedPlan!.minAmount.toString()}',
-                          's/900 capital a reinvertir',
+                          'Desde $moneySymbol ${widget.plan.minAmount.toString()}',
                           textAlign: TextAlign.left,
                           style: const TextStyle(
                             color: Color(primaryDark),
@@ -368,18 +381,72 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
-            constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
-            child: TextButton(
-              child: Text('Ver Tarjetas'),
-
-              // Navigator.push(context, MaterialPageRoute(builder: (context) => const TestPage()));
-
-              onPressed: () {
-                bankAccountModal(context, ref);
+            constraints: const BoxConstraints(
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 39,
+              minHeight: 39,
+            ),
+            child: TextFormField(
+              controller: widget.couponController,
+              readOnly: true,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Este dato es requerido';
+                }
+                return null;
               },
+              onChanged: (value) {
+                // nickNameController.text = value.toString();
+              },
+              decoration: InputDecoration(
+                suffixIconConstraints: const BoxConstraints(
+                  maxHeight: 39,
+                  maxWidth: 150,
+                ),
+                suffixIcon: Container(
+                  margin: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(1),
+                  // padding: const EdgeInsets.only(right: 10, left: 10),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      // minimumSize: Size(80, 30),
+                      side: const BorderSide(
+                        width: 0.1,
+                        color: Color(primaryDark),
+                      ),
+                      backgroundColor: const Color(primaryLight),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
+                        ),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        "Agregar",
+                        style: TextStyle(
+                          color: Color(primaryDark),
+                        ),
+                      ),
+                    ),
+                    onPressed: () async {
+                      //show accounts modal
+                      bankAccountModal(context, ref, currency);
+                    },
+                  ),
+                ),
+                hintText: 'Nombre del banco',
+                hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+                label: Text("Desde que banco realizas la transferencia"),
+              ),
             ),
           ),
-
           const SizedBox(
             height: 15,
           ),
@@ -494,6 +561,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               ),
             ),
           ),
+
           if (showInvestmentBoxes) ...[
             Padding(
               padding: const EdgeInsets.all(10.0),

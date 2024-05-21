@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class StatusInvestmentEnum {
   static const String in_course = 'in_course';
   static const String finished = 'finished';

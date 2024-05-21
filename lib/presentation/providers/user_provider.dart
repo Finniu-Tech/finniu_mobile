@@ -14,7 +14,6 @@ final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) 
           document: gql(
             QueryRepository.getUserProfile,
           ),
-          pollInterval: const Duration(seconds: 10),
         ),
       );
       return result;

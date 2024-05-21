@@ -6,15 +6,11 @@ class BankResponse {
   });
 
   factory BankResponse.fromJson(Map<String, dynamic> json) => BankResponse(
-        banks: json["banks"] == null
-            ? []
-            : List<Bank>.from(json["banks"]!.map((x) => Bank.fromJson(x))),
+        banks: json["banks"] == null ? [] : List<Bank>.from(json["banks"]!.map((x) => Bank.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "banks": banks == null
-            ? []
-            : List<dynamic>.from(banks!.map((x) => x.toJson())),
+        "banks": banks == null ? [] : List<dynamic>.from(banks!.map((x) => x.toJson())),
       };
 }
 
@@ -23,12 +19,14 @@ class Bank {
   bool? isActive;
   String? bankName;
   String? bankLogo;
+  String? bankImageCard;
 
   Bank({
     this.uuid,
     this.isActive,
     this.bankName,
     this.bankLogo,
+    this.bankImageCard,
   });
 
   factory Bank.fromJson(Map<String, dynamic> json) => Bank(
@@ -36,6 +34,7 @@ class Bank {
         isActive: json["isActive"],
         bankName: json["bankName"],
         bankLogo: json["bankLogo"],
+        bankImageCard: json["bankImageCardUrl"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -43,5 +42,6 @@ class Bank {
         "isActive": isActive,
         "bankName": bankName,
         "bankLogo": bankLogo,
+        "bankImageCardUrl": bankImageCard,
       };
 }

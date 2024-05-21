@@ -1,20 +1,24 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/bank_entity.dart';
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/presentation/providers/bank_provider.dart';
+import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CreditCardWidget extends StatelessWidget {
   final String imageAsset;
-  final String cardHolderName;
-  final String lastFourDigits;
+  final BankAccount bankAccount;
   final Function onTap;
 
   const CreditCardWidget({
-    super.key,
+    Key? key,
     required this.imageAsset,
     required this.onTap,
-    required this.cardHolderName,
-    required this.lastFourDigits,
-  });
+    required this.bankAccount,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +45,13 @@ class CreditCardWidget extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(imageAsset),
+                  image: NetworkImage(imageAsset),
                   fit: BoxFit.fill,
                 ),
               ),
             ),
             Text(
-              '$cardHolderName\n**** $lastFourDigits',
+              '${bankAccount.bankName}\n**** ${bankAccount.bankAccount.substring(bankAccount.bankAccount.length - 4)}',
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
@@ -69,259 +73,270 @@ class CreditCardWidget extends StatelessWidget {
   }
 }
 
-class CreditCardWheel extends StatefulWidget {
-  const CreditCardWheel({super.key});
+class CreditCardWheel extends StatefulHookConsumerWidget {
+  final String currency;
+
+  const CreditCardWheel({Key? key, required this.currency}) : super(key: key);
 
   @override
   _CreditCardWheelState createState() => _CreditCardWheelState();
 }
 
-class _CreditCardWheelState extends State<CreditCardWheel> {
-  List<String> cards = [
-    'assets/credit_cards/golden_card.png', //961x572
-    'assets/credit_cards/gray_card.png',
-    'assets/credit_cards/light_blue.png',
-    'assets/credit_cards/golden_card.png',
-    'assets/credit_cards/blue_card.png',
-  ];
+class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
   bool showDetail = false;
+  BankAccount? bankAccountSelected;
   String selectedImage = '';
   FixedExtentScrollController? controller;
+  List<BankEntity> banks = [];
 
   @override
   void initState() {
     super.initState();
     controller = FixedExtentScrollController(initialItem: 1);
+    loadBanks();
+  }
+
+  Future<void> loadBanks() async {
+    banks = await ref.read(bankFutureProvider.future);
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 400,
-      width: double.infinity,
-      child: showDetail
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 299,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'BBVA | Compras',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(primaryDark),
-                        ),
-                      ),
-                      const Spacer(),
-                      //asset icon
-                      Image.asset(
-                        'assets/icons/square2.png',
-                        width: 24,
-                        height: 24,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  width: 299,
-                  child: Text(
-                    'Cuenta Soles  **** 1234',
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                CreditCardWidget(
-                  imageAsset: selectedImage,
-                  onTap: () {
-                    setState(() {
-                      showDetail = false;
-                    });
-                  },
-                  cardHolderName: 'test',
-                  lastFourDigits: '1234',
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: 299,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        20), // Asegúrate de que este valor sea el mismo que en RoundedRectangleBorder
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // Ajusta este valor para cambiar la posición de la sombra
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color(primaryLight),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+    return Consumer(
+      builder: (context, watch, child) {
+        final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
+        // final banks = ref.watch(bankFutureProvider.future);
+
+        return SizedBox(
+          height: 400,
+          width: double.infinity,
+          child: bankAccountsAsyncValue.when(
+            data: (bankAccounts) {
+              return showDetail
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Image.asset(
-                          'assets/icons/square2.png',
-                          width: 24,
-                          height: 24,
+                        // Add return button that will set showDetail to false
+                        Column(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  IconButton(
+                                    icon: const Icon(Icons.arrow_back_ios),
+                                    onPressed: () {
+                                      setState(() {
+                                        showDetail = false;
+                                      });
+                                    },
+                                  ),
+                                  Text(
+                                    bankAccountSelected!.alias ?? '',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color(primaryDark),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 140),
+                                  Image.asset(
+                                    'assets/icons/square2.png',
+                                    width: 24,
+                                    height: 24,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          width: 5,
+                        SizedBox(
+                          width: 299,
+                          child: Text(
+                            '${bankAccountSelected!.typeAccount}  **** ${bankAccountSelected!.bankAccount.substring(bankAccountSelected!.bankAccount.length - 4)}',
+                            textAlign: TextAlign.left,
+                          ),
                         ),
-                        const Text(
-                          'Agregar cuenta bancaria',
-                          style: TextStyle(color: Color(primaryDark), fontSize: 14, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Container(
-                  width: 299,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(
-                        20), // Asegúrate de que este valor sea el mismo que en RoundedRectangleBorder
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 5,
-                        blurRadius: 7,
-                        offset: Offset(0, 3), // Ajusta este valor para cambiar la posición de la sombra
-                      ),
-                    ],
-                  ),
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color(primaryDark),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icons/square2.png',
-                          width: 24,
-                          height: 24,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        const Text(
-                          'Confirmar cuenta',
-                          style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )
-          : Column(
-              children: [
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     //asset icon
-                //     Image.asset(
-                //       'assets/icons/square2.png',
-                //       width: 24,
-                //       height: 24,
-                //     ),
-                //     const SizedBox(
-                //       width: 5,
-                //     ),
-                //     const Text(
-                //       'Selecciona tu cuenta bancaria',
-                //       style: TextStyle(
-                //         fontSize: 14,
-                //         color: Color(primaryDark),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // const SizedBox(height: 10),
-                SizedBox(
-                  height: 280,
-                  child: ListWheelScrollView.useDelegate(
-                    controller: controller,
-                    itemExtent: 150,
-                    diameterRatio: 2,
-                    physics: const FixedExtentScrollPhysics(),
-                    childDelegate: ListWheelChildBuilderDelegate(
-                      builder: (context, index) {
-                        return CreditCardWidget(
-                          cardHolderName: 'Nombre$index',
-                          lastFourDigits: '123$index',
-                          imageAsset: cards[index % cards.length],
+                        const SizedBox(height: 20),
+                        CreditCardWidget(
+                          imageAsset: selectedImage,
                           onTap: () {
-                            if (!showDetail) {
-                              setState(() {
-                                showDetail = true;
-                                selectedImage = cards[index % cards.length];
-                              });
-                            }
+                            setState(() {
+                              showDetail = false;
+                              bankAccountSelected = null;
+                            });
                           },
-                        );
-                      },
-                      childCount: cards.length * 100,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  width: 299,
-                  height: 50,
-                  child: TextButton(
-                    onPressed: () {},
-                    style: TextButton.styleFrom(
-                      backgroundColor: const Color(primaryLight),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/icons/square2.png',
-                          width: 24,
-                          height: 24,
+                          bankAccount: bankAccounts.first,
                         ),
-                        const SizedBox(
-                          width: 5,
+                        SizedBox(height: 20),
+                        Container(
+                          width: 299,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                              backgroundColor: const Color(primaryLight),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/square2.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                const SizedBox(width: 5),
+                                const Text(
+                                  'Agregar cuenta bancaria',
+                                  style: TextStyle(
+                                    color: Color(primaryDark),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        const Text(
-                          'Agregar cuenta bancaria',
-                          style: TextStyle(color: Color(primaryDark), fontSize: 14, fontWeight: FontWeight.bold),
-                        )
+                        const SizedBox(height: 20),
+                        Container(
+                          width: 299,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                          ),
+                          child: TextButton(
+                            onPressed: () {},
+                            style: TextButton.styleFrom(
+                              backgroundColor: const Color(primaryDark),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/square2.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                const SizedBox(width: 5),
+                                const Text(
+                                  'Confirmar cuenta',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+                    )
+                  : Column(
+                      children: [
+                        SizedBox(
+                          height: 280,
+                          child: ListWheelScrollView.useDelegate(
+                            controller: controller,
+                            itemExtent: 150,
+                            diameterRatio: 2,
+                            physics: const FixedExtentScrollPhysics(),
+                            childDelegate: ListWheelChildBuilderDelegate(
+                              builder: (context, index) {
+                                final bankAccount = bankAccounts[index % bankAccounts.length];
+                                return CreditCardWidget(
+                                  bankAccount: bankAccount,
+                                  imageAsset: BankEntity.getBankByName(bankAccount.bankName, banks).cardImageUrl ??
+                                      'assets/credit_cards/golden_card.png',
+                                  onTap: () async {
+                                    if (!showDetail) {
+                                      final bank = BankEntity.getBankByName(bankAccount.bankName, await banks);
+                                      setState(() {
+                                        showDetail = true;
+                                        bankAccountSelected = bankAccount;
+                                        print('bankAccountSelected: ${bank.uuid}');
+                                        print('bank.cardImageUrl: ${bank.cardImageUrl}');
+                                        selectedImage = bank.cardImageUrl ?? 'assets/credit_cards/golden_card.png';
+                                        // selectedImage = 'assets/credit_cards/golden_card.png'; // Update as needed
+                                      });
+                                    }
+                                  },
+                                );
+                              },
+                              childCount: bankAccounts.length,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        SizedBox(
+                          width: 299,
+                          height: 50,
+                          child: TextButton(
+                            onPressed: () {
+                              showAccountTransferModal(context, widget.currency);
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: const Color(primaryLight),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'assets/icons/square2.png',
+                                  width: 24,
+                                  height: 24,
+                                ),
+                                const SizedBox(width: 5),
+                                const Text(
+                                  'Agregar cuenta bancaria',
+                                  style: TextStyle(
+                                    color: Color(primaryDark),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+            },
+            loading: () => Center(child: CircularProgressIndicator()),
+            error: (error, stackTrace) => Center(child: Text('Failed to load bank accounts')),
+          ),
+        );
+      },
     );
   }
 }

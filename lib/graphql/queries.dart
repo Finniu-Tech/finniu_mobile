@@ -164,6 +164,8 @@ class QueryRepository {
               isActive
               bankName
               bankLogo
+              bankImageCard
+              bankImageCardUrl
             }
           }
         ''';
@@ -739,6 +741,41 @@ class QueryRepository {
           currency
           couponCode
           countMonths
+        }
+      }
+    ''';
+  }
+
+  static String get getUserNotification {
+    return '''
+      query{
+        userNotificationQueries{
+          userNotificationsSlider{
+            title
+            content
+            imageSlider
+            gradientData
+            metadata
+            type
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getUserBankAccounts {
+    return '''
+      query getUserBankAccount{
+        userBankAccountQueries{
+          listBankAccountUser{
+            bankName
+            bankAccount
+            currency
+            alias
+            typeAccount
+            isJointAccount
+            isDefaultAccount
+          }
         }
       }
     ''';

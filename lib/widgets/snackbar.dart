@@ -1,52 +1,62 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 
 class CustomSnackbar {
   static void show(BuildContext context, String message, String type) {
-    final snackBar = SnackBar(
-      backgroundColor: Colors.transparent,
-      duration: const Duration(seconds: 5),
-      elevation: 0,
-      content: SnackBarBody(
-        message: message,
-        type: type,
+    final overlay = Overlay.of(context);
+    late OverlayEntry overlayEntry;
+
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        bottom: 50.0,
+        left: MediaQuery.of(context).size.width / 2 - 140,
+        width: 280,
+        height: 90,
+        child: Material(
+          color: Colors.transparent,
+          child: SnackBarBody(
+            message: message,
+            type: type,
+            onDismiss: () => overlayEntry.remove(),
+          ),
+        ),
       ),
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    overlay?.insert(overlayEntry);
   }
 }
 
 class SnackBarBody extends HookConsumerWidget {
   final String message;
   final String type;
+  final VoidCallback onDismiss;
+
   const SnackBarBody({
     required this.message,
     required this.type,
+    required this.onDismiss,
   });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
 
-    return Align(
-        child: FractionallySizedBox(
-      widthFactor: 0.94,
+    return Material(
+      color: Colors.transparent,
       child: Container(
-        // height: 100,
-        // width: 370,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topRight: Radius.circular(40),
-              bottomRight: Radius.circular(50),
-              bottomLeft: Radius.circular(50),
-              topLeft: Radius.circular(90)),
+          borderRadius: const BorderRadius.only(
+            topRight: Radius.circular(20),
+            bottomRight: Radius.circular(40),
+            bottomLeft: Radius.circular(20),
+            topLeft: Radius.circular(40),
+          ),
           color: themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
         ),
-        alignment: Alignment.center,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -63,13 +73,13 @@ class SnackBarBody extends HookConsumerWidget {
               ),
             ),
             Positioned(
-              left: 120,
-              top: 20,
+              left: 90,
+              top: 10,
               child: _getTitle(type),
             ),
             Positioned(
-              left: 110,
-              top: 45,
+              left: 90,
+              top: 30,
               child: Center(
                 child: Container(
                   child: SizedBox(
@@ -94,9 +104,7 @@ class SnackBarBody extends HookConsumerWidget {
               right: 5,
               top: 2,
               child: InkWell(
-                onTap: () {
-                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                },
+                onTap: onDismiss,
                 child: const SizedBox(
                   width: 40,
                   height: 40,
@@ -106,19 +114,19 @@ class SnackBarBody extends HookConsumerWidget {
           ],
         ),
       ),
-    ));
+    );
   }
 
-  static Color _getColor(String type) {
+  static String _getBackgroundImage(String type) {
     switch (type) {
       case 'success':
-        return Colors.green;
+        return 'assets/svg/snackbar-success.svg';
       case 'error':
-        return Colors.red;
+        return 'assets/svg/snackbar-error.svg';
       case 'info':
-        return Colors.blue;
+        return 'assets/svg/snackbar-info.svg';
       default:
-        return Colors.grey;
+        return 'assets/svg/snackbar-info.svg';
     }
   }
 
@@ -132,19 +140,6 @@ class SnackBarBody extends HookConsumerWidget {
         return 'assets/images/rocket.png';
       default:
         return 'assets/images/rocket.png';
-    }
-  }
-
-  static String _getBackgroundImage(String type) {
-    switch (type) {
-      case 'success':
-        return 'assets/svg/snackbar-success.svg';
-      case 'error':
-        return 'assets/svg/snackbar-error.svg';
-      case 'info':
-        return 'assets/svg/snackbar-info.svg';
-      default:
-        return 'assets/svg/snackbar-info.svg';
     }
   }
 

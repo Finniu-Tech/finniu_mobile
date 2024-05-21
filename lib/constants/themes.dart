@@ -55,6 +55,7 @@ class AppTheme {
         ),
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
@@ -128,6 +129,7 @@ class AppTheme {
         ),
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
           contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
