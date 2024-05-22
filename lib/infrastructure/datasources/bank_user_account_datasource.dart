@@ -37,9 +37,8 @@ class BankAccountDataSource {
   }
 
   Future<List<BankAccount>> getUserBankAccount() async {
-    final QueryOptions options = QueryOptions(
-      document: gql(QueryRepository.getUserBankAccounts),
-    );
+    final QueryOptions options =
+        QueryOptions(document: gql(QueryRepository.getUserBankAccounts), fetchPolicy: FetchPolicy.noCache);
 
     final QueryResult result = await client.query(options);
     if (result.hasException) {

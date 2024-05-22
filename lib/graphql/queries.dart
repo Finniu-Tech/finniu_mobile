@@ -163,7 +163,7 @@ class QueryRepository {
               uuid
               isActive
               bankName
-              bankLogo
+              bankLogoUrl
               bankImageCard
               bankImageCardUrl
             }

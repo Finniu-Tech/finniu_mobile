@@ -33,7 +33,7 @@ class Bank {
         uuid: json["uuid"],
         isActive: json["isActive"],
         bankName: json["bankName"],
-        bankLogo: json["bankLogo"],
+        bankLogo: json["bankLogoUrl"],
         bankImageCard: json["bankImageCardUrl"],
       );
 
@@ -41,7 +41,7 @@ class Bank {
         "uuid": uuid,
         "isActive": isActive,
         "bankName": bankName,
-        "bankLogo": bankLogo,
+        "bankLogoUrl": bankLogo,
         "bankImageCardUrl": bankImageCard,
       };
 }

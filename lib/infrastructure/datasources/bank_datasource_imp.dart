@@ -15,6 +15,7 @@ class BankDataSourceImp extends BankDataSource {
         document: gql(
           QueryRepository.getBanks,
         ),
+        fetchPolicy: FetchPolicy.cacheFirst,
       ),
     );
 

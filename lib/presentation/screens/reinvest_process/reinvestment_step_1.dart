@@ -3,13 +3,16 @@ import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
@@ -42,6 +45,8 @@ class ReinvestmentStep1 extends HookConsumerWidget {
     final couponController = useTextEditingController();
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
+    final originFoundsController = useTextEditingController();
+
     // final uuidPlan = (ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>)['planUuid'];
     final uuidPlan = '602c449a-4dc1-48b6-8f32-135c4f2cc698';
     final isSoles = ref.watch(isSolesStateProvider);
@@ -60,9 +65,10 @@ class ReinvestmentStep1 extends HookConsumerWidget {
                   currentTheme: currentTheme,
                   mountController: mountController,
                   deadLineController: deadLineController,
-                  bankTypeController: bankController,
+                  bankController: bankController,
                   couponController: couponController,
                   isSoles: isSoles,
+                  originFoundsController: originFoundsController,
                   // bankNumberController: bankNumberController,
                   plan: _plans.firstWhere((element) => element.uuid == uuidPlan),
                 );
@@ -87,9 +93,10 @@ class ReinvestmentStep1Body extends StatefulHookConsumerWidget {
     required this.currentTheme,
     required this.mountController,
     required this.deadLineController,
-    required this.bankTypeController,
+    required this.bankController,
     required this.couponController,
     required this.isSoles,
+    required this.originFoundsController,
     // required this.bankNumberController,
     required this.plan,
   });
@@ -97,9 +104,10 @@ class ReinvestmentStep1Body extends StatefulHookConsumerWidget {
   final SettingsProviderState currentTheme;
   final TextEditingController mountController;
   final TextEditingController deadLineController;
-  final TextEditingController bankTypeController;
+  final TextEditingController bankController;
   // final TextEditingController bankNumberController;
   final TextEditingController couponController;
+  final TextEditingController originFoundsController;
   final bool isSoles;
 
   final PlanEntity plan;
@@ -113,6 +121,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
   late Future bankFuture;
   late double? profitability;
   late bool showInvestmentBoxes = false;
+  late BankEntity? selectedBank;
+
   // late PlanSimulation? resultCalculator;
   // late PlanEntity? selectedPlan;
 
@@ -150,27 +160,77 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
     }
   }
 
+  String getMaskedAccountNumber(String accountNumber) {
+    if (accountNumber.length <= 4) {
+      return accountNumber;
+    } else {
+      return '************ ' + accountNumber.substring(accountNumber.length - 4);
+    }
+  }
+
+  // void _updateBankAccount() async {
+  //   final selectedBankAccount = ref.read(selectedBankAccountProvider);
+  //   if (selectedBankAccount != null) {
+  //     widget.bankController.text = getMaskedAccountNumber(selectedBankAccount.bankAccount);
+  //     final banks = await ref.read(bankFutureProvider.future);
+  //     final _selectedBank = BankEntity.getBankByName(selectedBankAccount.bankName, banks);
+  //     print('selectedBank: $_selectedBank');
+  //     print('slected bank url logo ${_selectedBank?.logoUrl}');
+  //     setState(() {
+  //       selectedBank = _selectedBank;
+  //     });
+  //   } else {
+  //     widget.bankController.text = '';
+  //   }
+  // }
+
+  Future<void> _updateBankAccount() async {
+    final selectedBankAccount = ref.read(selectedBankAccountProvider);
+    if (selectedBankAccount != null) {
+      widget.bankController.text = getMaskedAccountNumber(selectedBankAccount.bankAccount);
+      final banks = await ref.read(bankFutureProvider.future);
+      final _selectedBank = BankEntity.getBankByName(selectedBankAccount.bankName, banks);
+      setState(() {
+        selectedBank = _selectedBank;
+      });
+    } else {
+      widget.bankController.text = '';
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      ref.read(selectedBankAccountProvider.notifier).state = null;
+      _updateBankAccount();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
     final bankFuture = ref.watch(bankFutureProvider.future);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
+    final banks = ref.watch(bankFutureProvider);
     final currency = isSoles ? 'SOLES' : 'DOLAR'; //TODO change this for the metadatos
     final theme = ref.watch(settingsNotifierProvider);
     final moneySymbol = isSoles ? "S/" : "\$";
     final _debouncer = Debouncer(milliseconds: 3000);
-    useEffect(
-      () {
-        // selectedPlan = widget.plan;
-        // if (userProfile.hasRequiredData() == false) {
-        //   completeProfileDialog(context, ref);
-        // }
-
-        // return null;
-      },
-      [userProfile],
-    );
+    // final selectedBankAccount = ref.watch(selectedBankAccountProvider);
+    // widget.bankController.text = selectedBankAccount?.bankAccount ?? '';
+    // final BankEntity? selectedBank = selectedBankAccount.bankName.isNotEmpty ? BankEntity.getBankByName(selectedBankAccount.bankName , await banks) ref.watch(selectedBankAccountProvider)?.bankName : null;
+    ref.listen<BankAccount?>(selectedBankAccountProvider, (previous, next) {
+      _updateBankAccount();
+    });
+    // useEffect(
+    //   () {
+    //     ref.read(selectedBankAccountProvider.notifier).state = null;
+    //     return null;
+    //   },
+    //   [],
+    // );
 
     return SingleChildScrollView(
       child: Column(
@@ -307,7 +367,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
             ),
           ),
           const SizedBox(
-            height: 10,
+            height: 20,
           ),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -321,9 +381,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                   fontWeight: FontWeight.w500),
             ),
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
@@ -355,7 +413,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               keyboardType: TextInputType.number,
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
@@ -376,7 +434,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
             ),
           ),
           const SizedBox(
-            height: 15,
+            height: 20,
           ),
 
           Container(
@@ -388,7 +446,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               minHeight: 39,
             ),
             child: TextFormField(
-              controller: widget.couponController,
+              controller: widget.bankController,
               readOnly: true,
               validator: (value) {
                 if (value!.isEmpty) {
@@ -396,10 +454,18 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 }
                 return null;
               },
-              onChanged: (value) {
-                // nickNameController.text = value.toString();
-              },
               decoration: InputDecoration(
+                prefixIcon: widget.bankController.text.isNotEmpty
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 8.0, left: 20.0),
+                        child: Image.network(
+                          selectedBank?.logoUrl ?? '',
+                          width: 13,
+                          height: 13,
+                          fit: BoxFit.contain,
+                        ),
+                      )
+                    : null,
                 suffixIconConstraints: const BoxConstraints(
                   maxHeight: 39,
                   maxWidth: 150,
@@ -407,10 +473,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 suffixIcon: Container(
                   margin: const EdgeInsets.all(0),
                   padding: const EdgeInsets.all(1),
-                  // padding: const EdgeInsets.only(right: 10, left: 10),
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      // minimumSize: Size(80, 30),
                       side: const BorderSide(
                         width: 0.1,
                         color: Color(primaryDark),
@@ -433,7 +497,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       ),
                     ),
                     onPressed: () async {
-                      //show accounts modal
+                      // show accounts modal
                       bankAccountModal(context, ref, currency);
                     },
                   ),
@@ -443,13 +507,112 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.zero,
                 ),
-                label: Text("Desde que banco realizas la transferencia"),
+                labelText: "Desde que banco realizas la transferencia",
               ),
             ),
           ),
+
+          // Container(
+          //   width: MediaQuery.of(context).size.width * 0.8,
+          //   constraints: const BoxConstraints(
+          //     minWidth: 263,
+          //     maxWidth: 400,
+          //     maxHeight: 39,
+          //     minHeight: 39,
+          //   ),
+          //   child: TextFormField(
+          //     controller: widget.bankController,
+          //     readOnly: true,
+          //     validator: (value) {
+          //       if (value!.isEmpty) {
+          //         return 'Este dato es requerido';
+          //       }
+          //       return null;
+          //     },
+          //     onChanged: (value) {
+          //       // nickNameController.text = value.toString();
+          //     },
+          //     decoration: InputDecoration(
+          //       suffixIconConstraints: const BoxConstraints(
+          //         maxHeight: 39,
+          //         maxWidth: 150,
+          //       ),
+          //       suffixIcon: Container(
+          //         margin: const EdgeInsets.all(0),
+          //         padding: const EdgeInsets.all(1),
+          //         // padding: const EdgeInsets.only(right: 10, left: 10),
+          //         child: ElevatedButton(
+          //           style: ElevatedButton.styleFrom(
+          //             // minimumSize: Size(80, 30),
+          //             side: const BorderSide(
+          //               width: 0.1,
+          //               color: Color(primaryDark),
+          //             ),
+          //             backgroundColor: const Color(primaryLight),
+          //             shape: const RoundedRectangleBorder(
+          //               borderRadius: BorderRadius.only(
+          //                 topRight: Radius.circular(25),
+          //                 bottomRight: Radius.circular(25),
+          //               ),
+          //             ),
+          //           ),
+          //           child: const Padding(
+          //             padding: EdgeInsets.all(8.0),
+          //             child: Text(
+          //               "Agregar",
+          //               style: TextStyle(
+          //                 color: Color(primaryDark),
+          //               ),
+          //             ),
+          //           ),
+          //           onPressed: () async {
+          //             //show accounts modal
+          //             bankAccountModal(context, ref, currency);
+          //           },
+          //         ),
+          //       ),
+          //       hintText: 'Nombre del banco',
+          //       hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+          //       border: const OutlineInputBorder(
+          //         borderRadius: BorderRadius.zero,
+          //       ),
+          //       label: Text("Desde que banco realizas la transferencia"),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(
-            height: 15,
+            height: 20,
           ),
+
+          //add select to origin of founds
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 39,
+              minHeight: 39,
+            ),
+            child: CustomSelectButton(
+              asyncItems: (String filter) async {
+                return OriginFoundsUtil.getReadableNames();
+              },
+              callbackOnChange: (value) async {
+                // widget.bankTypeController.text = value;
+                // if (widget.mountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
+                //   calculateInvestment(context, ref);
+                // }
+              },
+              textEditingController: widget.originFoundsController,
+              labelText: "Origen de procedencia del dinero",
+              hintText: "Seleccione el origen",
+            ),
+          ),
+
+          SizedBox(
+            height: 20,
+          ),
+
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(

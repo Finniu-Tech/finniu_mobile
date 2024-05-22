@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/datasources/re_investment_datasoruce_imp.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/infrastructure/models/re_investment/responde_models.dart';
@@ -15,4 +16,8 @@ final rejectReInvestmentProvider =
     textRejected: params.textRejected,
   );
   return resp;
+});
+
+final selectedBankAccountProvider = StateProvider<BankAccount?>((ref) {
+  return null;
 });
