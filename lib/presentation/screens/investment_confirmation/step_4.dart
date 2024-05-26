@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/infrastructure/models/bottom_menu.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -20,8 +21,7 @@ class FinishInvestment extends ConsumerWidget {
             children: <Widget>[
               TextPoppins(
                 text: '¡Sigue cumpliendo tus metas financieras!',
-                colorText:
-                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
+                colorText: currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
                 fontSize: 24,
                 fontWeight: FontWeight.w600,
               ),
@@ -43,9 +43,7 @@ class FinishInvestment extends ConsumerWidget {
                       width: 111,
                       child: Image.asset(
                         'assets/images/finniu_logo.png',
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -61,12 +59,10 @@ class FinishInvestment extends ConsumerWidget {
                   children: [
                     Container(
                       width: 252,
-                      height: 75,
+                      height: 90,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                         borderRadius: BorderRadius.circular(10),
                       ),
@@ -77,9 +73,7 @@ class FinishInvestment extends ConsumerWidget {
                           'Recuerda que te enviaremos tu contrato luego de confirmar tu transferencia',
                           style: TextStyle(
                             fontSize: 12,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(primaryDark),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                           ),
                         ),
                       ),
@@ -91,9 +85,7 @@ class FinishInvestment extends ConsumerWidget {
                         'assets/icons/letter.png',
                         width: 35,
                         height: 35,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -102,20 +94,15 @@ class FinishInvestment extends ConsumerWidget {
               const SizedBox(
                 height: 25,
               ),
-              CustomButton(
-                text: "Ir a Mis Inversiones",
-                colorText:
-                    currentTheme.isDarkMode ? (primaryDark) : (whiteText),
-                width: 224,
-                height: 50,
-                colorBackground:
-                    currentTheme.isDarkMode ? (primaryLight) : (primaryDark),
-                image: 'assets/icons/dollar.png',
-                imageColor: currentTheme.isDarkMode
-                    ? const Color(primaryDark)
-                    : const Color(primaryLight),
-                pushName: '/process_investment',
-              ),
+              TextButton(
+                onPressed: () {
+                  ref.read(navigatorStateProvider.notifier).state = BottomMenuEnum().investments.index;
+                  Navigator.pushNamedAndRemoveUntil(context, '/process_investment', (route) => false);
+                },
+                child: Text(
+                  'Ir a Mis Inversiones',
+                ),
+              )
             ],
           ),
         ),

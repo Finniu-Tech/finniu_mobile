@@ -18,6 +18,52 @@ final rejectReInvestmentProvider =
   return resp;
 });
 
-final selectedBankAccountProvider = StateProvider<BankAccount?>((ref) {
+final selectedBankAccountSenderProvider = StateProvider<BankAccount?>((ref) {
   return null;
+});
+
+final selectedBankAccountReceiverProvider = StateProvider<BankAccount?>((ref) {
+  return null;
+});
+
+final createReInvestmentProvider =
+    FutureProvider.family.autoDispose<CreateReInvestmentResponse, CreateReInvestmentParams>((ref, params) async {
+  final reInvestmentDataSource = ReInvestmentDataSource(
+    ref.watch(gqlClientProvider).value!,
+  );
+  final response = await reInvestmentDataSource.createReInvestment(
+    preInvestmentUUID: params.preInvestmentUUID,
+    finalAmount: params.finalAmount,
+    currency: params.currency,
+    deadlineUUID: params.deadlineUUID,
+    coupon: params.coupon,
+    originFounds: params.originFounds,
+    typeReinvestment: params.typeReinvestment,
+    bankAccountSender: params.bankAccountSender,
+  );
+  return response;
+});
+
+final updateReInvestmentProvider =
+    FutureProvider.family.autoDispose<UpdateReInvestmentResponse, UpdateReInvestmentParams>((ref, params) async {
+  final reinvestmentDataSource = ReInvestmentDataSource(
+    ref.watch(gqlClientProvider).value!,
+  );
+  return reinvestmentDataSource.updateReInvestment(
+    preInvestmentUUID: params.preInvestmentUUID,
+    userReadContract: params.userReadContract,
+    files: params.files,
+  );
+});
+
+final setBankAccountUserProvider =
+    FutureProvider.autoDispose.family<SetBankAccountUserResponse, SetBankAccountUserParams>((ref, params) async {
+  final reinvestmentDataSource = ReInvestmentDataSource(
+    ref.watch(gqlClientProvider).value!,
+  );
+  final resp = await reinvestmentDataSource.setBankAccountReceiver(
+    reInvestmentUUID: params.reInvestmentUUID,
+    bankAccountReceiver: params.bankAccountReceiver,
+  );
+  return resp;
 });

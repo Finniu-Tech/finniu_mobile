@@ -20,3 +20,69 @@ class RejectReInvestmentResult {
     );
   }
 }
+
+class CreateReInvestmentResponse {
+  final bool? success;
+  final String? reInvestmentUuid;
+  final String? reInvestmentContractUrl;
+  final List<GraphQLErrorMessage>? messages;
+
+  CreateReInvestmentResponse({
+    required this.success,
+    required this.reInvestmentUuid,
+    required this.reInvestmentContractUrl,
+    this.messages,
+  });
+
+  factory CreateReInvestmentResponse.fromJson(Map<String, dynamic> json) {
+    return CreateReInvestmentResponse(
+      success: json['success'],
+      reInvestmentUuid: json['reInvestmentUuid'],
+      reInvestmentContractUrl: json['reInvestmentContractUrl'],
+      messages: (json['messages'] as List?)
+          ?.where((e) => e != null)
+          .map((e) => GraphQLErrorMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class UpdateReInvestmentResponse {
+  final bool success;
+  final String reInvestmentUuid;
+  final List<GraphQLErrorMessage>? messages;
+
+  UpdateReInvestmentResponse({
+    required this.success,
+    required this.reInvestmentUuid,
+    this.messages,
+  });
+
+  factory UpdateReInvestmentResponse.fromJson(Map<String, dynamic> json) {
+    return UpdateReInvestmentResponse(
+      success: json['success'],
+      reInvestmentUuid: json['reInvestmentUuid'],
+      messages: (json['messages'] as List?)
+          ?.where((e) => e != null)
+          .map((e) => GraphQLErrorMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}
+
+class SetBankAccountUserResponse {
+  final bool success;
+  final List<GraphQLErrorMessage>? messages;
+
+  SetBankAccountUserResponse({required this.success, this.messages});
+
+  factory SetBankAccountUserResponse.fromJson(Map<String, dynamic> json) {
+    return SetBankAccountUserResponse(
+      success: json['success'],
+      messages: (json['messages'] as List?)
+          ?.where((e) => e != null)
+          .map((e) => GraphQLErrorMessage.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
+}

@@ -1,3 +1,4 @@
+import 'package:finniu/infrastructure/models/bottom_menu.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
@@ -132,6 +133,7 @@ class CustomButtonRoundedDark extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap ??
           () {
+            print('pushName: $pushName');
             if (pushName != "") {
               Navigator.pushNamed(context, pushName!);
             }
@@ -208,16 +210,34 @@ class BottomNavigationBarHome extends HookConsumerWidget {
               },
               items: [
                 BottomNavigationBarItem(
-                  label: 'Home',
-                  icon: _buildIcon('assets/icons/home.png', context, selectedIndex, 0, isDarkMode),
+                  label: BottomMenuEnum().home.label,
+                  icon: _buildIcon(
+                    BottomMenuEnum().home.icon,
+                    context,
+                    selectedIndex,
+                    BottomMenuEnum().home.index,
+                    isDarkMode,
+                  ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'Planes',
-                  icon: _buildIcon('assets/icons/square.png', context, selectedIndex, 1, isDarkMode),
+                  label: BottomMenuEnum().plans.label,
+                  icon: _buildIcon(
+                    BottomMenuEnum().plans.icon,
+                    context,
+                    selectedIndex,
+                    BottomMenuEnum().plans.index,
+                    isDarkMode,
+                  ),
                 ),
                 BottomNavigationBarItem(
-                  label: 'Inversiones',
-                  icon: _buildIcon('assets/icons/dollar.png', context, selectedIndex, 2, isDarkMode),
+                  label: BottomMenuEnum().investments.label,
+                  icon: _buildIcon(
+                    BottomMenuEnum().investments.icon,
+                    context,
+                    selectedIndex,
+                    BottomMenuEnum().plans.index,
+                    isDarkMode,
+                  ),
                 ),
               ],
             ),
@@ -243,6 +263,7 @@ class BottomNavigationBarHome extends HookConsumerWidget {
   }
 
   Widget _buildIcon(String imagePath, BuildContext context, int selectedIndex, int index, bool isDarkMode) {
+    print('current index $selectedIndex');
     Color iconColor = isDarkMode ? const Color(primaryDark) : const Color(primaryLight);
     final isSelected = selectedIndex == index;
     iconColor = isSelected ? iconColor : iconColor.withOpacity(0.6);

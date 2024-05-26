@@ -7,13 +7,12 @@ import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/screens/calculator/calculator_screen.dart';
-import 'package:finniu/presentation/screens/settings/widgets.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showAccountTransferModal(BuildContext context, String currency) {
+void showAccountTransferModal(BuildContext context, String currency, bool isSender) {
   showModalBottomSheet(
     context: context,
     isDismissible: true,
@@ -21,17 +20,19 @@ void showAccountTransferModal(BuildContext context, String currency) {
     builder: (context) {
       return AccountTransferModal(
         currency: currency,
+        isSender: isSender,
       );
     },
   );
 }
 
 class AccountTransferModal extends StatefulHookConsumerWidget {
-  const AccountTransferModal({super.key, required this.currency});
+  const AccountTransferModal({super.key, required this.currency, required this.isSender});
 
   @override
   _AccountTransferModalState createState() => _AccountTransferModalState();
   final String currency;
+  final bool isSender;
 }
 
 class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
@@ -142,9 +143,11 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20),
-                const Center(
+                Center(
                   child: Text(
-                    "¿A qué cuenta transferimos tu rentabilidad? 💸",
+                    widget.isSender
+                        ? '¿Desde qué cuenta nos transfieres el dinero? 💸'
+                        : "¿A qué cuenta transferimos tu rentabilidad? 💸",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20,

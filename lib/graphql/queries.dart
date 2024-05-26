@@ -768,6 +768,7 @@ class QueryRepository {
       query getUserBankAccount{
         userBankAccountQueries{
           listBankAccountUser{
+            uuid
             bankName
             bankAccount
             currency

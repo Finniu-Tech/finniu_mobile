@@ -404,4 +404,77 @@ currency: \$currency,
       }
     ''';
   }
+
+  static String createReInvestment() {
+    return '''
+      mutation createReInvestment(
+        \$preInvestmentUUID: String!,
+        \$finalAmount: String!,
+        \$currency: String!,
+        \$deadlineUUID: String!,
+        \$coupon: String,
+        \$originFounds: OriginFundsInput!,
+        \$typeReinvestment: TypeReInvestmentEnum!,
+        \$bankAccountSender: String,
+      ){
+        createReInvestment(input:{
+          preInvestmentUuid: \$preInvestmentUUID,
+          finalAmount: \$finalAmount,
+          currency: \$currency,
+          deadlineUuid: \$deadlineUUID,
+          coupon: \$coupon,
+          originFunds: \$originFounds,
+          typeReInvestment: \$typeReinvestment,
+          bankAccountSender: \$bankAccountSender
+        }){
+          success
+          reInvestmentUuid
+          reInvestmentContractUrl
+          messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
+
+  static String updateReInvestment() {
+    return '''
+      mutation updateReInvestment(\$preInvestmentUUID: String!, \$userReadContract:Boolean!, \$files: [String]){
+        updateReInvestment(input:{
+          preInvestmentUuid: \$preInvestmentUUID,
+          userReadContract: \$userReadContract,
+          filesTransaction: \$files,
+        }){
+          success
+          reInvestmentUuid
+          messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
+
+  static String setBankAccountReceiverToReinvestment() {
+    return '''
+      mutation setBankAccountUser(\$reInvestmentUUID: String!,  \$bankAccountReceiver: String!){
+        setBankAccountUser(input:{
+          preInvestmentUuid: \$reInvestmentUUID,
+          bankAccountReceiver: \$bankAccountReceiver
+        }){
+          success
+          messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
 }

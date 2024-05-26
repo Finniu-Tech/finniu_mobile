@@ -1,3 +1,7 @@
+import 'package:finniu/domain/entities/calculate_investment.dart';
+import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/infrastructure/models/re_investment/responde_models.dart';
 import 'package:finniu/presentation/screens/calendar.dart';
 
 String mapReason(String reason) {
@@ -31,7 +35,19 @@ String mapTypeAccount(String typeAccount) {
   }
 }
 
-enum OriginFounds {
+class OriginFunds {
+  final OriginFoundsEnum originFundsEnum;
+  final String? otherText;
+
+  OriginFunds({required this.originFundsEnum, this.otherText});
+
+  Map<String, dynamic> toJson() => {
+        'originFundsEnum': originFundsEnum.toString().split('.').last,
+        'otherText': otherText,
+      };
+}
+
+enum OriginFoundsEnum {
   SALARIO,
   AHORROS,
   VENTA_BIENES,
@@ -42,32 +58,28 @@ enum OriginFounds {
 }
 
 class OriginFoundsUtil {
-  static Map<OriginFounds, String> _readableNames = {
-    OriginFounds.SALARIO: 'Salario',
-    OriginFounds.AHORROS: 'Ahorros',
-    OriginFounds.VENTA_BIENES: 'Venta Bienes',
-    OriginFounds.INVERSIONES: 'Inversiones',
-    OriginFounds.HERENCIA: 'Herencia',
-    OriginFounds.PRESTAMOS: 'Préstamos',
-    OriginFounds.OTROS: 'Otros',
+  static Map<OriginFoundsEnum, String> _readableNames = {
+    OriginFoundsEnum.SALARIO: 'Salario',
+    OriginFoundsEnum.AHORROS: 'Ahorros',
+    OriginFoundsEnum.VENTA_BIENES: 'Venta Bienes',
+    OriginFoundsEnum.INVERSIONES: 'Inversiones',
+    OriginFoundsEnum.HERENCIA: 'Herencia',
+    OriginFoundsEnum.PRESTAMOS: 'Préstamos',
+    OriginFoundsEnum.OTROS: 'Otros',
   };
 
-  static String toReadableName(OriginFounds originFound) {
+  static String toReadableName(OriginFoundsEnum originFound) {
     return _readableNames[originFound] ?? '';
   }
 
-  static OriginFounds? fromReadableName(String readableName) {
+  static OriginFoundsEnum fromReadableName(String readableName) {
     return _readableNames.entries
-        .firstWhere((entry) => entry.value == readableName, orElse: () => const MapEntry(OriginFounds.OTROS, ''))
+        .firstWhere((entry) => entry.value == readableName, orElse: () => const MapEntry(OriginFoundsEnum.OTROS, ''))
         .key;
   }
 
   static List<String> getReadableNames() {
     return _readableNames.values.toList();
-  }
-
-  static String toBackendValue(OriginFounds originFound) {
-    return originFound.toString().split('.').last;
   }
 }
 
@@ -80,5 +92,67 @@ class RejectReInvestmentParams {
     required this.preInvestmentUUID,
     required this.rejectMotivation,
     this.textRejected,
+  });
+}
+
+class CreateReInvestmentParams {
+  final String preInvestmentUUID;
+  final String finalAmount;
+  final String currency;
+  final String deadlineUUID;
+  final String? coupon;
+  final OriginFunds originFounds;
+  final String typeReinvestment;
+  final String? bankAccountSender;
+
+  CreateReInvestmentParams({
+    required this.preInvestmentUUID,
+    required this.finalAmount,
+    required this.currency,
+    required this.deadlineUUID,
+    this.coupon,
+    required this.originFounds,
+    required this.typeReinvestment,
+    this.bankAccountSender,
+  });
+}
+
+class ReInvestmentStep2Params {
+  final PlanEntity plan;
+  final ReInvestmentEntity reinvestment;
+  final PlanSimulation resultCalculator;
+
+  ReInvestmentStep2Params({
+    required this.plan,
+    required this.reinvestment,
+    required this.resultCalculator,
+  });
+}
+
+class UpdateReInvestmentParams {
+  final String preInvestmentUUID;
+  final bool userReadContract;
+  final List<String>? files;
+
+  UpdateReInvestmentParams({
+    required this.preInvestmentUUID,
+    required this.userReadContract,
+    this.files,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'preInvestmentUUID': preInvestmentUUID,
+        'userReadContract': userReadContract,
+        'files': files,
+      };
+}
+
+class SetBankAccountUserParams {
+  final String reInvestmentUUID;
+  final String bankAccountReceiver;
+
+  SetBankAccountUserParams({
+    required this.reInvestmentUUID,
+    required this.bankAccountReceiver,
   });
 }

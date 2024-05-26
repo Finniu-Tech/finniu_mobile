@@ -1,4 +1,5 @@
-import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
+import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
 import 'package:finniu/presentation/screens/signup/activate_account.dart';
 import 'package:finniu/presentation/screens/calculator/calculator_screen.dart';
 import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
@@ -9,8 +10,6 @@ import 'package:finniu/presentation/screens/investment_confirmation/step_4.dart'
 import 'package:finniu/presentation/screens/investment_status/investment_history.dart';
 import 'package:finniu/presentation/screens/investment_status/investment_status_screen.dart';
 import 'package:finniu/presentation/screens/pdf.dart';
-import 'package:finniu/presentation/screens/reinvest_process/reinvest_process_end.dart';
-import 'package:finniu/presentation/screens/reinvest_process/reinvest_process_start.dart';
 import 'package:finniu/presentation/screens/settings/profile_screen.dart';
 import 'package:finniu/presentation/screens/settings/transfers_screen.dart';
 import 'package:finniu/presentation/screens/signup/confirmation_phone_screen.dart';
@@ -70,9 +69,24 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
     '/process_investment': (BuildContext context) => InvestmentProcess(),
     '/investment_history': (BuildContext context) => InvestmentHistory(),
-    '/reinvest': (BuildContext context) => const Reinvest(), //TODO remove
-    '/reinvest_end': (BuildContext context) => ReinvestEnd(), //TODO remove
-    '/reinvestment_step_1': (BuildContext context) => ReinvestmentStep1(),
+    '/reinvestment_step_1': (BuildContext context) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      return ReinvestmentStep1(
+        preInvestmentUUID: args['preInvestmentUUID'],
+        preInvestmentAmount: args['preInvestmentAmount'],
+        currency: args['currency'],
+        reInvestmentType: args['reInvestmentType'],
+      );
+    },
+    '/reinvestment_step_2': (BuildContext context) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      return ReInvestmentStep2(
+        plan: args['plan'],
+        resultCalculator: args['resultCalculator'],
+        reInvestment: args['reInvestment'],
+      );
+    },
+    '/evaluation': (BuildContext context) => const EvalExperienceScreen(),
     '/empty_transference': (BuildContext context) => EmptyTransference(),
     '/activate_account': (BuildContext context) => ActivateAccount()
   };

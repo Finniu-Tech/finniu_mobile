@@ -62,12 +62,14 @@ class MetaDataReinvestment {
   final double amount;
   final double percentageBaseRentability;
   final double percentageFinalRentability;
+  final String currency;
 
   MetaDataReinvestment({
     required this.preinvestmentUUID,
     required this.amount,
     required this.percentageBaseRentability,
     required this.percentageFinalRentability,
+    required this.currency,
   });
 
   factory MetaDataReinvestment.fromJson(Map<String, dynamic> json) {
@@ -76,6 +78,7 @@ class MetaDataReinvestment {
       amount: double.parse(json['pre_investment_amount']),
       percentageBaseRentability: double.parse(json['pre_investment_percentage_base']),
       percentageFinalRentability: double.parse(json['pre_investment_percentage_final']),
+      currency: json['pre_investment_currency'] == 'nuevo sol' ? 'PEN' : 'USD',
     );
   }
 }

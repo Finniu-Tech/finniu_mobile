@@ -5,11 +5,8 @@ class FinishOnboardingResponseModel {
 
   FinishOnboarding? finishOnboarding;
 
-  factory FinishOnboardingResponseModel.fromJson(Map<String, dynamic> json) =>
-      FinishOnboardingResponseModel(
-        finishOnboarding: json["finishOnboarding"] == null
-            ? null
-            : FinishOnboarding.fromJson(json["finishOnboarding"]),
+  factory FinishOnboardingResponseModel.fromJson(Map<String, dynamic> json) => FinishOnboardingResponseModel(
+        finishOnboarding: json["finishOnboarding"] == null ? null : FinishOnboarding.fromJson(json["finishOnboarding"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -26,8 +23,7 @@ class FinishOnboarding {
   bool? success;
   Plan? plan;
 
-  factory FinishOnboarding.fromJson(Map<String, dynamic> json) =>
-      FinishOnboarding(
+  factory FinishOnboarding.fromJson(Map<String, dynamic> json) => FinishOnboarding(
         success: json["success"],
         plan: json["plan"] == null ? null : Plan.fromJson(json["plan"]),
       );
@@ -67,9 +63,7 @@ class Plan {
         twelveMonthsReturn: json["twelveMonthsReturn"],
         sixMonthsReturn: json["sixMonthsReturn"],
         description: json["description"],
-        returnEstimatedDate: json["returnEstimatedDate"] == null
-            ? null
-            : DateTime.parse(json["returnEstimatedDate"]),
+        returnEstimatedDate: json["returnEstimatedDate"] == null ? null : DateTime.parse(json["returnEstimatedDate"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -80,9 +74,7 @@ class Plan {
         "twelveMonthsReturn": twelveMonthsReturn,
         "sixMonthsReturn": sixMonthsReturn,
         "description": description,
-        "returnEstimatedDate": returnEstimatedDate == null
-            ? null
-            : returnEstimatedDate!.toIso8601String(),
+        "returnEstimatedDate": returnEstimatedDate == null ? null : returnEstimatedDate!.toIso8601String(),
       };
 }
 

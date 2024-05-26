@@ -5,6 +5,8 @@ import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -86,8 +88,10 @@ class CreditCardWidget extends StatelessWidget {
 
 class CreditCardWheel extends StatefulHookConsumerWidget {
   final String currency;
-
-  const CreditCardWheel({Key? key, required this.currency}) : super(key: key);
+  final bool isSender; // Indica si la tarjeta es del remitente o del destinatario
+  final String typeReInvestment;
+  const CreditCardWheel({Key? key, required this.currency, required this.isSender, required this.typeReInvestment})
+      : super(key: key);
 
   @override
   _CreditCardWheelState createState() => _CreditCardWheelState();
@@ -259,10 +263,17 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                               child: TextButton(
                                 onPressed: () {
                                   //SET SELECTED BANK ACCOUNT
-                                  print('bank account selected: ${bankAccountSelected!.bankName}');
-                                  ref.read(selectedBankAccountProvider.notifier).state = bankAccountSelected;
+                                  if (widget.isSender) {
+                                    ref.read(selectedBankAccountSenderProvider.notifier).state = bankAccountSelected;
+                                  } else {
+                                    ref.read(selectedBankAccountReceiverProvider.notifier).state = bankAccountSelected;
+                                  }
                                   //pop modal
                                   Navigator.of(context).pop();
+                                  if (widget.typeReInvestment == typeReinvestmentEnum.CAPITAL_ONLY &&
+                                      !widget.isSender) {
+                                    showThanksModal(context);
+                                  }
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: const Color(primaryDark),
@@ -339,7 +350,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  showAccountTransferModal(context, widget.currency);
+                                  showAccountTransferModal(context, widget.currency, widget.isSender);
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: const Color(primaryLight),

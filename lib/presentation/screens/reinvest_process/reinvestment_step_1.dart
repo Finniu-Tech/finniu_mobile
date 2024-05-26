@@ -3,22 +3,16 @@ import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
-import 'package:finniu/presentation/providers/money_provider.dart';
-import 'package:finniu/presentation/providers/plan_provider.dart';
-import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
-import 'package:finniu/presentation/screens/reinvest_process/widgets/cards_widgets.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -28,7 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../../infrastructure/models/calculate_investment.dart';
@@ -36,7 +29,15 @@ import '../../../infrastructure/models/calculate_investment.dart';
 class ReinvestmentStep1 extends HookConsumerWidget {
   const ReinvestmentStep1({
     super.key,
+    required this.preInvestmentUUID,
+    required this.preInvestmentAmount,
+    required this.currency,
+    required this.reInvestmentType,
   });
+  final String preInvestmentUUID;
+  final double preInvestmentAmount;
+  final String currency;
+  final String reInvestmentType;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,41 +47,24 @@ class ReinvestmentStep1 extends HookConsumerWidget {
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
     final originFoundsController = useTextEditingController();
-
-    // final uuidPlan = (ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>)['planUuid'];
-    final uuidPlan = '602c449a-4dc1-48b6-8f32-135c4f2cc698';
-    final isSoles = ref.watch(isSolesStateProvider);
+    final otherOriginFoundsController = useTextEditingController();
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturnLogo(
         hideReturnButton: false,
         hideNavBar: true,
-        body: HookBuilder(
-          builder: (context) {
-            final planList = ref.watch(planListFutureProvider);
-            return planList.when(
-              data: (plans) {
-                final _plans = isSoles ? plans.soles : plans.dolar;
-                return ReinvestmentStep1Body(
-                  currentTheme: currentTheme,
-                  mountController: mountController,
-                  deadLineController: deadLineController,
-                  bankController: bankController,
-                  couponController: couponController,
-                  isSoles: isSoles,
-                  originFoundsController: originFoundsController,
-                  // bankNumberController: bankNumberController,
-                  plan: _plans.firstWhere((element) => element.uuid == uuidPlan),
-                );
-              },
-              loading: () => const Center(
-                child: CircularProgressIndicator(),
-              ),
-              error: (error, stack) => Center(
-                child: Text(error.toString()),
-              ),
-            );
-          },
+        body: ReinvestmentStep1Body(
+          currentTheme: currentTheme,
+          mountController: mountController,
+          deadLineController: deadLineController,
+          bankController: bankController,
+          couponController: couponController,
+          isSoles: currency == 'PEN' ? true : false,
+          originFoundsController: originFoundsController,
+          preInvestmentUUID: preInvestmentUUID,
+          preInvestmentAmount: preInvestmentAmount,
+          otherFoundOriginController: otherOriginFoundsController,
+          reInvestmentType: reInvestmentType,
         ),
       ),
     );
@@ -97,20 +81,23 @@ class ReinvestmentStep1Body extends StatefulHookConsumerWidget {
     required this.couponController,
     required this.isSoles,
     required this.originFoundsController,
-    // required this.bankNumberController,
-    required this.plan,
+    required this.preInvestmentUUID,
+    required this.preInvestmentAmount,
+    required this.otherFoundOriginController,
+    required this.reInvestmentType,
   });
 
   final SettingsProviderState currentTheme;
   final TextEditingController mountController;
   final TextEditingController deadLineController;
   final TextEditingController bankController;
-  // final TextEditingController bankNumberController;
   final TextEditingController couponController;
   final TextEditingController originFoundsController;
+  final TextEditingController otherFoundOriginController;
+  final String preInvestmentUUID;
+  final double preInvestmentAmount;
   final bool isSoles;
-
-  final PlanEntity plan;
+  final String reInvestmentType;
 
   @override
   _Step1BodyState createState() => _Step1BodyState();
@@ -122,41 +109,44 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
   late double? profitability;
   late bool showInvestmentBoxes = false;
   late BankEntity? selectedBank;
+  BankAccount? selectedBankAccount;
+  PlanEntity? plan;
 
-  // late PlanSimulation? resultCalculator;
+  late PlanSimulation? resultCalculator;
   // late PlanEntity? selectedPlan;
 
   Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
     if (widget.mountController.text.isNotEmpty) {
       context.loaderOverlay.show();
-      // final inputCalculator = CalculatorInput(
-      //   amount: int.parse(widget.mountController.text),
-      //   months: int.parse(widget.deadLineController.text.split(' ')[0]),
-      //   coupon: widget.couponController.text,
-      //   currency: widget.isSoles ? currencyNuevoSol : currencyDollar,
-      // );
 
-      // try {
-      //   resultCalculator = await ref.watch(
-      //     calculateInvestmentFutureProvider(inputCalculator).future,
-      //   );
+      final inputCalculator = CalculatorInput(
+        amount: num.tryParse(widget.mountController.text)?.toInt() ?? 0,
+        months: int.parse(widget.deadLineController.text.split(' ')[0]),
+        coupon: widget.couponController.text,
+        currency: widget.isSoles ? currencyNuevoSol : currencyDollar,
+      );
 
-      //   setState(() {
-      //     if (resultCalculator?.plan != null) {
-      //       selectedPlan = resultCalculator!.plan!;
-      //       profitability = resultCalculator!.profitability;
-      //       showInvestmentBoxes = true;
-      //     }
-      //   });
-      //   context.loaderOverlay.hide();
-      // } catch (e) {
-      //   context.loaderOverlay.hide();
-      //   CustomSnackbar.show(
-      //     context,
-      //     'Hubo un problema, intenta nuevamente',
-      //     'error',
-      //   );
-      // }
+      try {
+        resultCalculator = await ref.watch(
+          calculateInvestmentFutureProvider(inputCalculator).future,
+        );
+
+        setState(() {
+          if (resultCalculator?.plan != null) {
+            plan = resultCalculator!.plan!;
+            profitability = resultCalculator!.profitability;
+            showInvestmentBoxes = true;
+          }
+        });
+        context.loaderOverlay.hide();
+      } catch (e) {
+        context.loaderOverlay.hide();
+        CustomSnackbar.show(
+          context,
+          'Hubo un problema, intenta nuevamente',
+          'error',
+        );
+      }
     }
   }
 
@@ -168,30 +158,15 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
     }
   }
 
-  // void _updateBankAccount() async {
-  //   final selectedBankAccount = ref.read(selectedBankAccountProvider);
-  //   if (selectedBankAccount != null) {
-  //     widget.bankController.text = getMaskedAccountNumber(selectedBankAccount.bankAccount);
-  //     final banks = await ref.read(bankFutureProvider.future);
-  //     final _selectedBank = BankEntity.getBankByName(selectedBankAccount.bankName, banks);
-  //     print('selectedBank: $_selectedBank');
-  //     print('slected bank url logo ${_selectedBank?.logoUrl}');
-  //     setState(() {
-  //       selectedBank = _selectedBank;
-  //     });
-  //   } else {
-  //     widget.bankController.text = '';
-  //   }
-  // }
-
   Future<void> _updateBankAccount() async {
-    final selectedBankAccount = ref.read(selectedBankAccountProvider);
-    if (selectedBankAccount != null) {
-      widget.bankController.text = getMaskedAccountNumber(selectedBankAccount.bankAccount);
+    final _selectedBankAccount = ref.read(selectedBankAccountSenderProvider);
+    if (_selectedBankAccount != null) {
+      widget.bankController.text = getMaskedAccountNumber(_selectedBankAccount.bankAccount);
       final banks = await ref.read(bankFutureProvider.future);
-      final _selectedBank = BankEntity.getBankByName(selectedBankAccount.bankName, banks);
+      final _selectedBank = BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
       setState(() {
         selectedBank = _selectedBank;
+        selectedBankAccount = _selectedBankAccount;
       });
     } else {
       widget.bankController.text = '';
@@ -201,36 +176,25 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      ref.read(selectedBankAccountProvider.notifier).state = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(selectedBankAccountSenderProvider.notifier).state = null;
       _updateBankAccount();
+      widget.mountController.text = widget.preInvestmentAmount.toString();
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
-    final bankFuture = ref.watch(bankFutureProvider.future);
-    final userProfile = ref.watch(userProfileNotifierProvider);
-    final isSoles = ref.watch(isSolesStateProvider);
-    final banks = ref.watch(bankFutureProvider);
-    final currency = isSoles ? 'SOLES' : 'DOLAR'; //TODO change this for the metadatos
+
+    final currency = widget.isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final theme = ref.watch(settingsNotifierProvider);
-    final moneySymbol = isSoles ? "S/" : "\$";
+    final moneySymbol = widget.isSoles ? "S/" : "\$";
     final _debouncer = Debouncer(milliseconds: 3000);
-    // final selectedBankAccount = ref.watch(selectedBankAccountProvider);
-    // widget.bankController.text = selectedBankAccount?.bankAccount ?? '';
-    // final BankEntity? selectedBank = selectedBankAccount.bankName.isNotEmpty ? BankEntity.getBankByName(selectedBankAccount.bankName , await banks) ref.watch(selectedBankAccountProvider)?.bankName : null;
-    ref.listen<BankAccount?>(selectedBankAccountProvider, (previous, next) {
+
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
       _updateBankAccount();
     });
-    // useEffect(
-    //   () {
-    //     ref.read(selectedBankAccountProvider.notifier).state = null;
-    //     return null;
-    //   },
-    //   [],
-    // );
 
     return SingleChildScrollView(
       child: Column(
@@ -239,133 +203,24 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
             step: 1,
           ),
           const SizedBox(height: 20),
-          SizedBox(
-            // width: 200,
-            child: Text(
-              'Tu plan Seleccionado',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Color(Theme.of(context).colorScheme.secondary.value),
-              ),
-            ),
-          ),
-          Container(
-            // alignment: Alignment.topRight,
-            width: MediaQuery.of(context).size.width * 0.63,
-            constraints: const BoxConstraints(minWidth: 263, maxWidth: 263),
-            height: 99,
-            padding: const EdgeInsets.all(10),
-            margin: const EdgeInsets.only(
-              top: 20,
-            ),
-            decoration: BoxDecoration(
-              color: theme.isDarkMode ? const Color(cardBackgroundColorDark) : const Color(cardBackgroundColorLight),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.6),
-                  spreadRadius: 0,
-                  blurRadius: 2,
-                  offset: const Offset(0, 3), // changes position of shadow
-                ),
-              ],
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  alignment: Alignment.topLeft,
-                  width: 90,
-                  height: 100,
-                  color: Colors.transparent,
-                  child: SizedBox(
-                      width: 80,
-                      height: 90,
-                      child: Image.asset(
-                        'assets/result/money.png',
-                        fit: BoxFit.contain,
-                      )
-                      // child: selectedPlan?.imageUrl != null
-                      //     ? Image.network(
-                      //         selectedPlan!.imageUrl!,
-                      //         width: 80,
-                      //         height: 90,
-                      //       )
-                      //     : const Image(
-                      //         image: AssetImage('assets/result/money.png'),
-                      //         fit: BoxFit.contain,
-                      //       ),
-                      ),
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      // selectedPlan!.name,
-                      widget.plan.name,
-                      textAlign: TextAlign.left,
-                      style: const TextStyle(
-                        color: Color(primaryDark),
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
+          plan == null
+              ? const SizedBox()
+              : SizedBox(
+                  // width: 200,
+                  child: Text(
+                    'Tu plan Seleccionado',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Color(Theme.of(context).colorScheme.secondary.value),
                     ),
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Image(
-                          image: AssetImage('assets/icons/dollar.png'),
-                          width: 12,
-                          height: 12,
-                          color: Color(
-                            primaryDark,
-                          ),
-                        ),
-                        Text(
-                          // 'Desde $moneySymbol ${selectedPlan!.minAmount.toString()}',
-                          'Desde $moneySymbol ${widget.plan.minAmount.toString()}',
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            color: Color(primaryDark),
-                            fontSize: 10,
-                            height: 1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 6),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        const Image(
-                          image: AssetImage('assets/icons/double_dollar.png'),
-                          width: 21, // ancho deseado de la imagen
-                          height: 21, // alto deseado de la imagen
-                          color: Color(
-                            primaryDark,
-                          ), // color de la imagen si es necesario
-                        ),
-                        Text(
-                          '12% anual ',
-                          // '${selectedPlan!.twelveMonthsReturn.toString()}% anual',
-                          // plan.twelveMonthsReturn.toString(),
-                          textAlign: TextAlign.left,
-                          style: const TextStyle(
-                            color: Color(primaryDark),
-                            fontSize: 10,
-                            height: 1.5,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
                 ),
-              ],
-            ),
-          ),
+
+          if (plan != null) ...[
+            PlanCardWidget(theme: theme, moneySymbol: moneySymbol, plan: plan!),
+          ],
           const SizedBox(
             height: 20,
           ),
@@ -387,6 +242,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
             constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
             child: TextFormField(
               controller: widget.mountController,
+              readOnly: widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY ? true : false,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Este dato es requerido';
@@ -445,141 +301,58 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               maxHeight: 39,
               minHeight: 39,
             ),
-            child: TextFormField(
-              controller: widget.bankController,
-              readOnly: true,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Este dato es requerido';
-                }
-                return null;
+            child: InkWell(
+              onTap: () async {
+                // show accounts modal
+                showBankAccountModal(context, ref, currency, true, widget.reInvestmentType);
               },
-              decoration: InputDecoration(
-                prefixIcon: widget.bankController.text.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(right: 8.0, left: 20.0),
-                        child: Image.network(
-                          selectedBank?.logoUrl ?? '',
-                          width: 13,
-                          height: 13,
-                          fit: BoxFit.contain,
-                        ),
-                      )
-                    : null,
-                suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 39,
-                  maxWidth: 150,
-                ),
-                suffixIcon: Container(
-                  margin: const EdgeInsets.all(0),
-                  padding: const EdgeInsets.all(1),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      side: const BorderSide(
-                        width: 0.1,
-                        color: Color(primaryDark),
-                      ),
-                      backgroundColor: const Color(primaryLight),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(25),
-                          bottomRight: Radius.circular(25),
-                        ),
+              child: IgnorePointer(
+                child: TextFormField(
+                  controller: widget.bankController,
+                  readOnly: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                    prefixIcon: widget.bankController.text.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 8.0, left: 20.0),
+                            child: selectedBank!.logoUrl!.isNotEmpty
+                                ? Image.network(
+                                    selectedBank?.logoUrl ?? '',
+                                    width: 13,
+                                    height: 13,
+                                    fit: BoxFit.contain,
+                                  )
+                                : const Icon(Icons.account_balance, color: Colors.grey, size: 13),
+                          )
+                        : null,
+                    suffixIconConstraints: const BoxConstraints(
+                      maxHeight: 39,
+                      maxWidth: 39,
+                    ),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.grey,
                       ),
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text(
-                        "Agregar",
-                        style: TextStyle(
-                          color: Color(primaryDark),
-                        ),
-                      ),
+                    hintText: 'Nombre del banco',
+                    hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.zero,
                     ),
-                    onPressed: () async {
-                      // show accounts modal
-                      bankAccountModal(context, ref, currency);
-                    },
+                    labelText: "Desde que banco realizas la transferencia",
                   ),
                 ),
-                hintText: 'Nombre del banco',
-                hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.zero,
-                ),
-                labelText: "Desde que banco realizas la transferencia",
               ),
             ),
           ),
 
-          // Container(
-          //   width: MediaQuery.of(context).size.width * 0.8,
-          //   constraints: const BoxConstraints(
-          //     minWidth: 263,
-          //     maxWidth: 400,
-          //     maxHeight: 39,
-          //     minHeight: 39,
-          //   ),
-          //   child: TextFormField(
-          //     controller: widget.bankController,
-          //     readOnly: true,
-          //     validator: (value) {
-          //       if (value!.isEmpty) {
-          //         return 'Este dato es requerido';
-          //       }
-          //       return null;
-          //     },
-          //     onChanged: (value) {
-          //       // nickNameController.text = value.toString();
-          //     },
-          //     decoration: InputDecoration(
-          //       suffixIconConstraints: const BoxConstraints(
-          //         maxHeight: 39,
-          //         maxWidth: 150,
-          //       ),
-          //       suffixIcon: Container(
-          //         margin: const EdgeInsets.all(0),
-          //         padding: const EdgeInsets.all(1),
-          //         // padding: const EdgeInsets.only(right: 10, left: 10),
-          //         child: ElevatedButton(
-          //           style: ElevatedButton.styleFrom(
-          //             // minimumSize: Size(80, 30),
-          //             side: const BorderSide(
-          //               width: 0.1,
-          //               color: Color(primaryDark),
-          //             ),
-          //             backgroundColor: const Color(primaryLight),
-          //             shape: const RoundedRectangleBorder(
-          //               borderRadius: BorderRadius.only(
-          //                 topRight: Radius.circular(25),
-          //                 bottomRight: Radius.circular(25),
-          //               ),
-          //             ),
-          //           ),
-          //           child: const Padding(
-          //             padding: EdgeInsets.all(8.0),
-          //             child: Text(
-          //               "Agregar",
-          //               style: TextStyle(
-          //                 color: Color(primaryDark),
-          //               ),
-          //             ),
-          //           ),
-          //           onPressed: () async {
-          //             //show accounts modal
-          //             bankAccountModal(context, ref, currency);
-          //           },
-          //         ),
-          //       ),
-          //       hintText: 'Nombre del banco',
-          //       hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
-          //       border: const OutlineInputBorder(
-          //         borderRadius: BorderRadius.zero,
-          //       ),
-          //       label: Text("Desde que banco realizas la transferencia"),
-          //     ),
-          //   ),
-          // ),
           const SizedBox(
             height: 20,
           ),
@@ -595,13 +368,16 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
             ),
             child: CustomSelectButton(
               asyncItems: (String filter) async {
+                // return OriginFoundsEnum.values.map((e) => OriginFoundsUtil.toReadableName(e)).toList();
                 return OriginFoundsUtil.getReadableNames();
               },
               callbackOnChange: (value) async {
-                // widget.bankTypeController.text = value;
-                // if (widget.mountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
-                //   calculateInvestment(context, ref);
-                // }
+                setState(() {
+                  widget.originFoundsController.text = value;
+                  if (value != 'Otros') {
+                    widget.otherFoundOriginController.clear();
+                  }
+                });
               },
               textEditingController: widget.originFoundsController,
               labelText: "Origen de procedencia del dinero",
@@ -609,7 +385,35 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
             ),
           ),
 
-          SizedBox(
+          if (widget.originFoundsController.text == 'Otros') ...[
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 39,
+                minHeight: 39,
+              ),
+              child: TextFormField(
+                controller: widget.otherFoundOriginController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Escriba el origen de los fondos',
+                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                  label: Text("Origen de los fondos"),
+                ),
+              ),
+            ),
+          ],
+          const SizedBox(
             height: 20,
           ),
 
@@ -666,52 +470,61 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       ),
                     ),
                     onPressed: () async {
-                      // if (widget.mountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
-                      //   CustomSnackbar.show(
-                      //     context,
-                      //     'Debes ingresar el monto y el plazo para aplicar el cupón',
-                      //     'error',
-                      //   );
-                      //   return; // Sale de la función para evitar que continúe el proceso
-                      // }
-                      // context.loaderOverlay.show();
-                      // final inputCalculator = CalculatorInput(
-                      //   amount: int.parse(widget.mountController.text),
-                      //   months: int.parse(
-                      //     widget.deadLineController.text.split(' ')[0],
-                      //   ),
-                      //   currency: isSoles ? currencyNuevoSol : currencyDollar,
-                      //   coupon: widget.couponController.text,
-                      // );
+                      if (widget.mountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debes ingresar el monto y el plazo para aplicar el cupón',
+                          'error',
+                        );
+                        return;
+                      }
+                      if (widget.couponController.text.isEmpty) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debes ingresar un cupón',
+                          'error',
+                        );
+                        return;
+                      }
+                      context.loaderOverlay.show();
+                      final inputCalculator = CalculatorInput(
+                        // amount: int.parse(widget.mountController.text),
+                        amount: num.tryParse(widget.mountController.text)?.toInt() ?? 0,
+                        months: int.parse(
+                          widget.deadLineController.text.split(' ')[0],
+                        ),
+                        currency: widget.isSoles ? currencyNuevoSol : currencyDollar,
+                        coupon: widget.couponController.text,
+                      );
 
-                      // resultCalculator = await ref.watch(
-                      //   calculateInvestmentFutureProvider(
-                      //     inputCalculator,
-                      //   ).future,
-                      // );
-                      // setState(() {
-                      //   if (resultCalculator?.plan != null) {
-                      //     selectedPlan = resultCalculator!.plan!;
-                      //     profitability = resultCalculator!.profitability;
-                      //     showInvestmentBoxes = true;
-                      //   }
-                      // });
+                      resultCalculator = await ref.watch(
+                        calculateInvestmentFutureProvider(
+                          inputCalculator,
+                        ).future,
+                      );
+                      setState(() {
+                        if (resultCalculator?.plan != null) {
+                          plan = resultCalculator!.plan!;
+                          profitability = resultCalculator!.profitability;
+                          showInvestmentBoxes = true;
+                        }
+                      });
 
-                      // context.loaderOverlay.hide();
-                      // if (resultCalculator?.error == null) {
-                      //   CustomSnackbar.show(
-                      //     context,
-                      //     'Cupón aplicado correctamente',
-                      //     'success',
-                      //   );
-                      // } else {
-                      //   widget.couponController.clear();
-                      //   CustomSnackbar.show(
-                      //     context,
-                      //     resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
-                      //     'error',
-                      //   );
-                      // }
+                      context.loaderOverlay.hide();
+                      if (resultCalculator?.error == null) {
+                        CustomSnackbar.show(
+                          context,
+                          'Cupón aplicado correctamente',
+                          'success',
+                        );
+                      } else {
+                        widget.couponController.clear();
+                        CustomSnackbar.show(
+                          context,
+                          resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
+                          'error',
+                        );
+                      }
                     },
                   ),
                 ),
@@ -750,15 +563,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          // '${(() {
-                          //   if (widget.resultCalculator?.months == 6) {
-                          //     return widget.plan.sixMonthsReturn;
-                          //   } else {
-                          //     return widget.plan.twelveMonthsReturn;
-                          //   }
-                          // })()}%',
-                          '12%',
-                          // '${resultCalculator?.finalRentability?.toString() ?? 0}% ',
+                          '${resultCalculator?.finalRentability?.toString() ?? 0}% ',
                           textAlign: TextAlign.right,
                           style: const TextStyle(
                             fontSize: 16,
@@ -806,8 +611,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                           ),
                         ),
                         Text(
-                          'En 12 meses tendrías',
-                          // 'En ${resultCalculator?.months} meses tendrías',
+                          // 'En 12 meses tendrías',
+                          'En ${resultCalculator?.months} meses tendrías',
                           textAlign: TextAlign.right,
                           style: const TextStyle(
                             fontSize: 10,
@@ -824,86 +629,82 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
           const SizedBox(
             height: 20,
           ),
-          // Padding(
-          //   padding: const EdgeInsets.only(right: 30, left: 42),
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.center,
-          //     crossAxisAlignment: CrossAxisAlignment.center,
-          //     children: const [
-          //       Text(
-          //         // textAlign: TextAlign.start,
-          //         "Moneda",
-          //         style: TextStyle(fontSize: 13),
-          //       ),
-          //       Spacer(),
-          //       SwitchMoney(
-          //         switchHeight: 34,
-          //         switchWidth: 67,
-          //       ),
-          //     ],
-          //   ),
-          // ),
+
           SizedBox(
             width: 224,
             height: 50,
             child: TextButton(
               onPressed: () async {
-                // if (userProfile.hasRequiredData() == false) {
-                //   completeProfileDialog(context, ref);
-                //   return;
-                // }
-                // if (widget.mountController.text.isEmpty ||
-                //     widget.deadLineController.text.isEmpty ||
-                //     widget.bankTypeController.text.isEmpty) {
-                //   CustomSnackbar.show(
-                //     context,
-                //     'Hubo un problema, asegúrate de haber completado los campos anteriores',
-                //     'error',
-                //   );
-                //   return; // Sale de la función para evitar que continúe el proceso
-                // }
+                if (widget.mountController.text.isEmpty ||
+                    widget.deadLineController.text.isEmpty ||
+                    widget.bankController.text.isEmpty ||
+                    widget.originFoundsController.text.isEmpty) {
+                  CustomSnackbar.show(
+                    context,
+                    'Hubo un problema, asegúrate de haber completado los campos anteriores',
+                    'error',
+                  );
+                  return; // Sale de la función para evitar que continúe el proceso
+                }
+                final amount = widget.mountController.text;
+                final deadLineUuid = DeadLineEntity.getUuidByName(
+                  widget.deadLineController.text,
+                  await deadLineFuture,
+                );
+                final originFound = widget.originFoundsController.text;
 
-                // final deadLineUuid = DeadLineEntity.getUuidByName(
-                //   widget.deadLineController.text,
-                //   await deadLineFuture,
-                // );
-                // final bankUuid = BankEntity.getUuidByName(
-                //   widget.bankTypeController.text,
-                //   await bankFuture,
-                // );
-                // final preInvestment = PreInvestmentForm(
-                //     amount: int.parse(widget.mountController.text),
-                //     deadLineUuid: deadLineUuid,
-                //     coupon: widget.couponController.text,
-                //     planUuid: widget.plan.uuid,
-                //     bankAccountTypeUuid: bankUuid,
-                //     currency: isSoles ? currencyNuevoSol : currencyDollar
-                //     // bankAccountNumber: widget.bankNumberController.text,
-                //     );
-                // context.loaderOverlay.show();
-                // final preInvestmentEntityResponse = await ref.watch(preInvestmentSaveProvider(preInvestment).future);
+                final reInvestmentParams = CreateReInvestmentParams(
+                    preInvestmentUUID: widget.preInvestmentUUID,
+                    finalAmount: amount,
+                    currency: currency,
+                    deadlineUUID: deadLineUuid,
+                    bankAccountSender: selectedBankAccount!.id,
+                    originFounds: OriginFunds(
+                        originFundsEnum: OriginFoundsUtil.fromReadableName(originFound),
+                        otherText: widget.otherFoundOriginController.text),
+                    typeReinvestment: widget.reInvestmentType);
+                context.loaderOverlay.show();
 
-                // if (preInvestmentEntityResponse?.success == false) {
-                //   context.loaderOverlay.hide();
-                //   // CHECK HERE
-                //   CustomSnackbar.show(
-                //     context,
-                //     preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
-                //     'error',
-                //   );
-                //   return; // Sale de la función para evitar que continúe el proceso
-                // } else {
-                //   context.loaderOverlay.hide();
-                //   Navigator.pushNamed(
-                //     context,
-                //     '/investment_step2',
-                //     arguments: PreInvestmentStep2Arguments(
-                //       plan: selectedPlan!,
-                //       preInvestment: preInvestmentEntityResponse!.preInvestment!,
-                //       resultCalculator: resultCalculator!,
-                //     ),
-                //   );
-                // }
+                final createReInvestmentResponse =
+                    await ref.watch(createReInvestmentProvider(reInvestmentParams).future);
+
+                if (createReInvestmentResponse?.success == false) {
+                  context.loaderOverlay.hide();
+                  // CHECK HERE
+                  CustomSnackbar.show(
+                    context,
+                    createReInvestmentResponse.messages?[0].message ?? 'Hubo un problema, intenta nuevamente',
+                    'error',
+                  );
+                  return; // Sale de la función para evitar que continúe el proceso
+                } else {
+                  context.loaderOverlay.hide();
+
+                  if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+                    Navigator.pushNamed(
+                      context,
+                      '/reinvestment_step_2',
+                      arguments: {
+                        'plan': plan,
+                        'reInvestment': ReInvestmentEntity(
+                          id: createReInvestmentResponse.reInvestmentUuid!,
+                          contractURL: createReInvestmentResponse.reInvestmentContractUrl!,
+                          finalAmount: num.tryParse(widget.mountController.text)?.toInt() ?? 0,
+                          currency: currency,
+                          deadlineUUID: deadLineUuid,
+                          bankAccountSenderUUID: selectedBank!.uuid,
+                          typeReinvestment: typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                          originFounds: OriginFoundsUtil.fromReadableName(originFound).toString().split('.').last,
+                          otherOriginFounds: widget.otherFoundOriginController.text,
+                          coupon: widget.couponController.text,
+                        ),
+                        'resultCalculator': resultCalculator,
+                      },
+                    );
+                  } else {
+                    showBankAccountModal(context, ref, currency, false, widget.reInvestmentType);
+                  }
+                }
               },
               child: const Text(
                 'Continuar',
@@ -912,6 +713,127 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
           ),
           const SizedBox(
             height: 40,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PlanCardWidget extends StatelessWidget {
+  const PlanCardWidget({super.key, required this.theme, required this.moneySymbol, required this.plan});
+
+  final SettingsProviderState theme;
+  final String moneySymbol;
+  final PlanEntity plan;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // alignment: Alignment.topRight,
+      width: MediaQuery.of(context).size.width * 0.63,
+      constraints: const BoxConstraints(minWidth: 263, maxWidth: 263),
+      height: 99,
+      padding: const EdgeInsets.all(10),
+      margin: const EdgeInsets.only(
+        top: 20,
+      ),
+      decoration: BoxDecoration(
+        color: theme.isDarkMode ? const Color(cardBackgroundColorDark) : const Color(cardBackgroundColorLight),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.6),
+            spreadRadius: 0,
+            blurRadius: 2,
+            offset: const Offset(0, 3), // changes position of shadow
+          ),
+        ],
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Row(
+        children: [
+          Container(
+            alignment: Alignment.topLeft,
+            width: 90,
+            height: 100,
+            color: Colors.transparent,
+            child: SizedBox(
+              width: 80,
+              height: 90,
+              child: plan.imageUrl != null
+                  ? Image.network(
+                      plan.imageUrl!,
+                      width: 80,
+                      height: 90,
+                    )
+                  : const Image(
+                      image: AssetImage('assets/result/money.png'),
+                      fit: BoxFit.contain,
+                    ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                // selectedPlan!.name,
+                plan.name,
+                // 'test plan',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  color: Color(primaryDark),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              const SizedBox(height: 6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Image(
+                    image: AssetImage('assets/icons/dollar.png'),
+                    width: 12,
+                    height: 12,
+                    color: Color(
+                      primaryDark,
+                    ),
+                  ),
+                  Text(
+                    'Desde $moneySymbol ${plan.minAmount.toString()}',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Color(primaryDark),
+                      fontSize: 10,
+                      height: 1,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Image(
+                    image: AssetImage('assets/icons/double_dollar.png'),
+                    width: 21, // ancho deseado de la imagen
+                    height: 21, // alto deseado de la imagen
+                    color: Color(
+                      primaryDark,
+                    ), // color de la imagen si es necesario
+                  ),
+                  Text(
+                    '${plan.twelveMonthsReturn.toString()}% anual',
+                    textAlign: TextAlign.left,
+                    style: const TextStyle(
+                      color: Color(primaryDark),
+                      fontSize: 10,
+                      height: 1.5,
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
@@ -996,32 +918,32 @@ class _StepBarState extends ConsumerState<StepBar> {
                 ],
               ),
             ),
-            // Container(
-            //   height: 40,
-            //   width: 55,
-            //   decoration: BoxDecoration(
-            //     color: widget.step == 2 ? activeBackgroundColor : inactiveBackgroundColor,
-            //     border: Border.all(
-            //       color: widget.step == 2 ? activeBorderColor : inactiveBorderColor,
-            //       width: 2,
-            //     ),
-            //     shape: BoxShape.rectangle,
-            //     borderRadius: const BorderRadius.only(
-            //       topLeft: Radius.circular(5),
-            //       topRight: Radius.circular(5),
-            //       bottomLeft: Radius.circular(4),
-            //       bottomRight: Radius.circular(4),
-            //     ),
-            //   ),
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(4.0),
-            //     child: Image.asset(
-            //       'assets/icons/paper.png',
-            //       color: widget.step == 2 ? activeIconColor : inactiveIconColor,
-            //       fit: BoxFit.fitHeight,
-            //     ),
-            //   ),
-            // ),
+            Container(
+              height: 40,
+              width: 55,
+              decoration: BoxDecoration(
+                color: widget.step == 2 ? activeBackgroundColor : inactiveBackgroundColor,
+                border: Border.all(
+                  color: widget.step == 2 ? activeBorderColor : inactiveBorderColor,
+                  width: 2,
+                ),
+                shape: BoxShape.rectangle,
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(5),
+                  topRight: Radius.circular(5),
+                  bottomLeft: Radius.circular(4),
+                  bottomRight: Radius.circular(4),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Image.asset(
+                  'assets/icons/paper.png',
+                  color: widget.step == 2 ? activeIconColor : inactiveIconColor,
+                  fit: BoxFit.fitHeight,
+                ),
+              ),
+            ),
             SizedBox(
               width: 38,
               child: Column(

@@ -1,19 +1,20 @@
 // I need a bottomSheetModal where  start with a image at center top, then have a title  , then it show two button bottom, one for cancel and other for accept
 
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/user_notification_entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-void reinvestmentQuestionModal(BuildContext ctx, WidgetRef ref, String preInvestmentUUID) {
+void reinvestmentQuestionModal(BuildContext ctx, WidgetRef ref, UserNotificationEntity notification) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showModalBottomSheet(
@@ -28,15 +29,15 @@ void reinvestmentQuestionModal(BuildContext ctx, WidgetRef ref, String preInvest
     elevation: 10,
     backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
     context: ctx,
-    builder: (ctx) => ReinvestmentQuestionBody(themeProvider: themeProvider, preInvestmentUUID: preInvestmentUUID),
+    builder: (ctx) => ReinvestmentQuestionBody(themeProvider: themeProvider, userNotification: notification),
   );
 }
 
 class ReinvestmentQuestionBody extends HookConsumerWidget {
-  const ReinvestmentQuestionBody({super.key, required this.themeProvider, required this.preInvestmentUUID});
+  const ReinvestmentQuestionBody({super.key, required this.themeProvider, required this.userNotification});
 
   final SettingsProviderState themeProvider;
-  final String preInvestmentUUID;
+  final UserNotificationEntity userNotification;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,7 +122,17 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                 onPressed: () {
                   Navigator.of(context).pop();
                   //navigate to reinvestment_step_1
-                  Navigator.pushNamed(context, '/reinvestment_step_1');
+
+                  Navigator.pushNamed(
+                    context,
+                    '/reinvestment_step_1',
+                    arguments: {
+                      'preInvestmentUUID': userNotification.metaData?.preinvestmentUUID ?? '',
+                      'preInvestmentAmount': userNotification.metaData?.amount ?? 0,
+                      'currency': userNotification.metaData?.currency,
+                      'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                    },
+                  );
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
@@ -148,7 +159,17 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
               child: OutlinedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.pushNamed(context, '/reinvestment_step_1');
+                  Navigator.pushNamed(
+                    context,
+                    '/reinvestment_step_1',
+                    arguments: {
+                      'preInvestmentUUID': userNotification.metaData?.preinvestmentUUID ?? '',
+                      'preInvestmentAmount': userNotification.metaData?.amount ?? 0,
+                      'currency': userNotification.metaData?.currency,
+                      'reInvestmentType': typeReinvestmentEnum.CAPITAL_ONLY,
+                    },
+                  );
+                  // showThanksModal(context);
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
@@ -183,7 +204,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                showDialogRefuseReasons(context, ref, preInvestmentUUID);
+                showDialogRefuseReasons(context, ref, userNotification.metaData?.preinvestmentUUID ?? '');
               },
               child: const Text(
                 'Aún no deseo reinvertir',
