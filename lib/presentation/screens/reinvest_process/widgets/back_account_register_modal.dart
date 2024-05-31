@@ -2,11 +2,13 @@
 
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/bank_user_account/input_models.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
-import 'package:finniu/presentation/screens/calculator/calculator_screen.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -126,13 +128,15 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   @override
   Widget build(BuildContext context) {
     final bankFuture = ref.watch(bankFutureProvider.future);
+    final theme = ref.watch(settingsNotifierProvider);
 
     return Container(
       height: MediaQuery.of(context).size.height * 0.8,
       width: MediaQuery.of(context).size.width,
       // padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: Colors.white,
+        // color: theme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(20),
       ),
       child: SingleChildScrollView(
@@ -152,14 +156,14 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: Color(primaryDark),
+                      color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+                  width: 320,
+                  // constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
                   child: CustomSelectButton(
                     textEditingController: bankController,
                     asyncItems: (String filter) async {
@@ -172,12 +176,13 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     labelText: "Desde que banco realizas la transferencia",
                     hintText: "Seleccione su banco",
                     width: MediaQuery.of(context).size.width * 0.8,
+                    enableColor: Colors.transparent,
                   ),
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+                  width: 320,
+                  // constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
                   child: CustomSelectButton(
                     textEditingController: accountTypeController,
                     items: ['Ahorros', 'Corriente', 'Mancomunada'],
@@ -187,15 +192,16 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     labelText: "Tipo de cuenta",
                     hintText: "Selecciona el tipo de cuenta",
                     width: MediaQuery.of(context).size.width * 0.8,
+                    enableColor: Colors.transparent,
                   ),
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: accountNumberController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Número de cuenta bancaria",
                     hintText: "Escribe el número de cuenta",
-                    border: const OutlineInputBorder(
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                   ),
@@ -203,10 +209,10 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: accountNameController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: "Nombre de la cuenta *Opcional",
                     hintText: "Escribe el nombre de la cuenta",
-                    border: const OutlineInputBorder(
+                    border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
                   ),
@@ -219,16 +225,16 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: const Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                       ),
                     ),
                     const Spacer(),
                     Text(
                       isJointAccount ? "Sí" : "No",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                       ),
                     ),
                     Switch(
@@ -253,9 +259,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                 if (isJointAccount) ...[
                   TextFormField(
                     controller: jointHolderNameController,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: "Nombres de la otra persona titular",
-                      border: const OutlineInputBorder(
+                      border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(25)),
                       ),
                     ),
@@ -266,9 +272,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       Expanded(
                         child: TextFormField(
                           controller: jointHolderLastNameController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: "Apellido Paterno",
-                            border: const OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
@@ -278,9 +284,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       Expanded(
                         child: TextFormField(
                           controller: jointHolderMothersLastNameController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: "Apellido Materno",
-                            border: const OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
@@ -309,9 +315,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       Expanded(
                         child: TextFormField(
                           controller: jointHolderDocNumberController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: "Número de documento",
-                            border: const OutlineInputBorder(
+                            border: OutlineInputBorder(
                               borderRadius: BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
@@ -336,7 +342,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: const Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -354,10 +360,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     Text(
                       "Declaro que es mi cuenta personal",
                       style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: const Color(primaryDark),
-                      ),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark)),
                     ),
                   ],
                 ),
@@ -387,7 +392,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       CreateBankAccountInput input = CreateBankAccountInput(
                         bankUUID: BankEntity.getUuidByName(bankController.text, await bankFuture),
                         typeAccount: mapTypeAccount(accountTypeController.text),
-                        currency: widget.currency,
+                        currency: widget.currency == currencyEnum.PEN ? 'SOLES' : 'DOLARES',
                         bankAccount: accountNumberController.text,
                         aliasBankAccount: accountNameController.text,
                         isDefault: useForFutureOperations,
@@ -425,7 +430,34 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     },
                   ),
                 ),
-                SizedBox(height: 40)
+
+                const SizedBox(
+                  height: 10,
+                ),
+                //add return button , only text and underline
+
+                Center(
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    style: ButtonStyle(
+                      overlayColor: MaterialStateProperty.all(Colors.transparent),
+                      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                    ),
+                    child: Text(
+                      "Regresar",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 40)
               ],
             ),
           ),

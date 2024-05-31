@@ -77,6 +77,8 @@ class Investment {
   bool? reinvestmentAvailable;
   PartnerResponse? partner;
   List<PartnerTagResponse?>? partnerTag;
+  bool isReInvestment = false;
+  bool noReInvestment = false;
 
   Investment({
     this.uuid,
@@ -96,6 +98,8 @@ class Investment {
     this.reinvestmentAvailable,
     this.partner,
     this.partnerTag,
+    this.isReInvestment = false,
+    this.noReInvestment = false,
   });
 
   factory Investment.fromJson(Map<String, dynamic> json) => Investment(
@@ -123,6 +127,8 @@ class Investment {
             : List<PartnerTagResponse?>.from(
                 json["couponPartnerTags"].map((x) => x == null ? null : PartnerTagResponse.fromJson(x)),
               ),
+        isReInvestment: json["isReInvestment"] ?? false,
+        noReInvestment: json["noReInvestment"] ?? false,
       );
 
   Map<String, dynamic> toJson() => {
@@ -142,6 +148,8 @@ class Investment {
         "rentabilityAmmount": rentabilityAmmount,
         "rentabilityPercent": rentabilityPercent,
         "planName": planName,
+        "reInvestmentAvailable": reinvestmentAvailable,
+        "noReinvestment": noReInvestment,
       };
 }
 

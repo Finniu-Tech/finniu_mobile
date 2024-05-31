@@ -18,6 +18,8 @@ class CalculateInvestmentMapper {
       error: investmentResponse.errorMessage,
       profitability: investmentResponse.calculateInvestment!.profitability!.preInvestmentAmount?.toDouble(),
       finalRentability: investmentResponse.calculateInvestment?.finalRestabilityPercent?.toDouble() ?? 0,
+      endDate: investmentResponse.calculateInvestment?.endDate ?? '',
+      startDate: investmentResponse.calculateInvestment?.startDate ?? '',
       plan: PlanEntity(
         uuid: planModel.uuid ?? '',
         name: planModel.name ?? '',

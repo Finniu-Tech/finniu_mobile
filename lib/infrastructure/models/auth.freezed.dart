@@ -5,10 +5,6 @@
 
 part of 'auth.dart';
 
-// **************************************************************************
-// FreezedGenerator
-// **************************************************************************
-
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
@@ -20,22 +16,19 @@ mixin _$LoginModel {
   String get password => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $LoginModelCopyWith<LoginModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $LoginModelCopyWith<LoginModel> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $LoginModelCopyWith<$Res> {
-  factory $LoginModelCopyWith(
-          LoginModel value, $Res Function(LoginModel) then) =
+  factory $LoginModelCopyWith(LoginModel value, $Res Function(LoginModel) then) =
       _$LoginModelCopyWithImpl<$Res, LoginModel>;
   @useResult
   $Res call({String email, String password});
 }
 
 /// @nodoc
-class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
-    implements $LoginModelCopyWith<$Res> {
+class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel> implements $LoginModelCopyWith<$Res> {
   _$LoginModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -63,10 +56,8 @@ class _$LoginModelCopyWithImpl<$Res, $Val extends LoginModel>
 }
 
 /// @nodoc
-abstract class _$$_LoginModelCopyWith<$Res>
-    implements $LoginModelCopyWith<$Res> {
-  factory _$$_LoginModelCopyWith(
-          _$_LoginModel value, $Res Function(_$_LoginModel) then) =
+abstract class _$$_LoginModelCopyWith<$Res> implements $LoginModelCopyWith<$Res> {
+  factory _$$_LoginModelCopyWith(_$_LoginModel value, $Res Function(_$_LoginModel) then) =
       __$$_LoginModelCopyWithImpl<$Res>;
   @override
   @useResult
@@ -74,12 +65,9 @@ abstract class _$$_LoginModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LoginModelCopyWithImpl<$Res>
-    extends _$LoginModelCopyWithImpl<$Res, _$_LoginModel>
+class __$$_LoginModelCopyWithImpl<$Res> extends _$LoginModelCopyWithImpl<$Res, _$_LoginModel>
     implements _$$_LoginModelCopyWith<$Res> {
-  __$$_LoginModelCopyWithImpl(
-      _$_LoginModel _value, $Res Function(_$_LoginModel) _then)
-      : super(_value, _then);
+  __$$_LoginModelCopyWithImpl(_$_LoginModel _value, $Res Function(_$_LoginModel) _then) : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
@@ -103,8 +91,7 @@ class __$$_LoginModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LoginModel extends _LoginModel {
-  const _$_LoginModel({required this.email, required this.password})
-      : super._();
+  const _$_LoginModel({required this.email, required this.password}) : super._();
 
   @override
   final String email;
@@ -122,8 +109,7 @@ class _$_LoginModel extends _LoginModel {
         (other.runtimeType == runtimeType &&
             other is _$_LoginModel &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.password, password) ||
-                other.password == password));
+            (identical(other.password, password) || other.password == password));
   }
 
   @override
@@ -132,14 +118,11 @@ class _$_LoginModel extends _LoginModel {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith =>
-      __$$_LoginModelCopyWithImpl<_$_LoginModel>(this, _$identity);
+  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith => __$$_LoginModelCopyWithImpl<_$_LoginModel>(this, _$identity);
 }
 
 abstract class _LoginModel extends LoginModel {
-  const factory _LoginModel(
-      {required final String email,
-      required final String password}) = _$_LoginModel;
+  const factory _LoginModel({required final String email, required final String password}) = _$_LoginModel;
   const _LoginModel._() : super._();
 
   @override
@@ -148,8 +131,7 @@ abstract class _LoginModel extends LoginModel {
   String get password;
   @override
   @JsonKey(ignore: true)
-  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_LoginModelCopyWith<_$_LoginModel> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -160,14 +142,12 @@ mixin _$RegisterUserModel {
   String get password => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $RegisterUserModelCopyWith<RegisterUserModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $RegisterUserModelCopyWith<RegisterUserModel> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $RegisterUserModelCopyWith<$Res> {
-  factory $RegisterUserModelCopyWith(
-          RegisterUserModel value, $Res Function(RegisterUserModel) then) =
+  factory $RegisterUserModelCopyWith(RegisterUserModel value, $Res Function(RegisterUserModel) then) =
       _$RegisterUserModelCopyWithImpl<$Res, RegisterUserModel>;
   @useResult
   $Res call({String nickname, String email, int phone, String password});
@@ -213,10 +193,8 @@ class _$RegisterUserModelCopyWithImpl<$Res, $Val extends RegisterUserModel>
 }
 
 /// @nodoc
-abstract class _$$_RegisterUserModelCopyWith<$Res>
-    implements $RegisterUserModelCopyWith<$Res> {
-  factory _$$_RegisterUserModelCopyWith(_$_RegisterUserModel value,
-          $Res Function(_$_RegisterUserModel) then) =
+abstract class _$$_RegisterUserModelCopyWith<$Res> implements $RegisterUserModelCopyWith<$Res> {
+  factory _$$_RegisterUserModelCopyWith(_$_RegisterUserModel value, $Res Function(_$_RegisterUserModel) then) =
       __$$_RegisterUserModelCopyWithImpl<$Res>;
   @override
   @useResult
@@ -224,11 +202,9 @@ abstract class _$$_RegisterUserModelCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RegisterUserModelCopyWithImpl<$Res>
-    extends _$RegisterUserModelCopyWithImpl<$Res, _$_RegisterUserModel>
+class __$$_RegisterUserModelCopyWithImpl<$Res> extends _$RegisterUserModelCopyWithImpl<$Res, _$_RegisterUserModel>
     implements _$$_RegisterUserModelCopyWith<$Res> {
-  __$$_RegisterUserModelCopyWithImpl(
-      _$_RegisterUserModel _value, $Res Function(_$_RegisterUserModel) _then)
+  __$$_RegisterUserModelCopyWithImpl(_$_RegisterUserModel _value, $Res Function(_$_RegisterUserModel) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -263,11 +239,7 @@ class __$$_RegisterUserModelCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_RegisterUserModel extends _RegisterUserModel {
-  const _$_RegisterUserModel(
-      {required this.nickname,
-      required this.email,
-      required this.phone,
-      required this.password})
+  const _$_RegisterUserModel({required this.nickname, required this.email, required this.phone, required this.password})
       : super._();
 
   @override
@@ -289,24 +261,20 @@ class _$_RegisterUserModel extends _RegisterUserModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_RegisterUserModel &&
-            (identical(other.nickname, nickname) ||
-                other.nickname == nickname) &&
+            (identical(other.nickname, nickname) || other.nickname == nickname) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phone, phone) || other.phone == phone) &&
-            (identical(other.password, password) ||
-                other.password == password));
+            (identical(other.password, password) || other.password == password));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, nickname, email, phone, password);
+  int get hashCode => Object.hash(runtimeType, nickname, email, phone, password);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$_RegisterUserModelCopyWith<_$_RegisterUserModel> get copyWith =>
-      __$$_RegisterUserModelCopyWithImpl<_$_RegisterUserModel>(
-          this, _$identity);
+      __$$_RegisterUserModelCopyWithImpl<_$_RegisterUserModel>(this, _$identity);
 }
 
 abstract class _RegisterUserModel extends RegisterUserModel {
@@ -327,6 +295,5 @@ abstract class _RegisterUserModel extends RegisterUserModel {
   String get password;
   @override
   @JsonKey(ignore: true)
-  _$$_RegisterUserModelCopyWith<_$_RegisterUserModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$_RegisterUserModelCopyWith<_$_RegisterUserModel> get copyWith => throw _privateConstructorUsedError;
 }

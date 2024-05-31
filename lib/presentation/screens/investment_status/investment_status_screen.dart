@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -9,6 +11,7 @@ import 'package:finniu/presentation/screens/investment_status/widgets/empty_mess
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -86,7 +89,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
 }
 
 class InvestmentStatusScreenBody extends StatelessWidget {
-  const InvestmentStatusScreenBody({
+  InvestmentStatusScreenBody({
     super.key,
     required this.currentTheme,
     required TabController tabController,
@@ -95,7 +98,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
   }) : _tabController = tabController;
 
   final SettingsProviderState currentTheme;
-  final TabController _tabController;
+  TabController _tabController;
   final InvestmentRentabilityResumeEntity report;
   final bool isSoles;
 
@@ -293,31 +296,30 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                   color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    TabBar(
-                      isScrollable: true,
-                      unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
-                      labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                      tabs: const [
-                        Tab(
-                          text: "Inversiones en curso",
-                        ),
-                        Tab(
-                          text: "Inversiones finalizadas",
-                        )
-                      ],
-                      controller: _tabController,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
-                      indicatorWeight: 6,
-                      indicatorPadding: const EdgeInsets.only(bottom: 12),
+              Align(
+                // padding: const EdgeInsets.only(right: 20),
+                alignment: Alignment.topLeft,
+                child: TabBar(
+                  isScrollable: false,
+                  unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                  labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  labelStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  tabs: const [
+                    Tab(
+                      text: "Inversiones en curso",
+                    ),
+                    Tab(
+                      text: "Inversiones finalizadas",
                     ),
                   ],
+                  controller: _tabController,
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
+                  indicatorWeight: 6,
+                  indicatorPadding: const EdgeInsets.only(bottom: 12),
                 ),
               ),
               const SizedBox(
@@ -333,7 +335,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                           .expand(
                             (investment) => [
                               TableCardInCourse(
-                                textButton: investment.reinvestmentAvailable,
+                                currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                                uuid: investment.uuid,
+                                reInvestmentAvailable: investment.reinvestmentAvailable,
                                 planName: investment.planName!,
                                 termText:
                                     'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
@@ -347,6 +351,8 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                                     '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
                                 tag: investment.partnerCouponTag,
                                 partner: investment.partner,
+                                reInvestmentDisabled: investment.reInvestmentDisabled,
+                                isReInvestment: investment.isReInvestment,
                               ),
                             ],
                           )
@@ -356,12 +362,15 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       children: report.investmentsFinished!
                           .map(
                             (investment) => TableCardInvestFinished(
+                              uuid: investment.uuid,
+                              currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
                               planName: investment.planName!,
                               endDate:
                                   '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
                               amountInvested: '$moneySymbol${investment.amount}',
                               totalRevenue: '$moneySymbol${investment.rentabilityAmount + investment.amount}',
                               growText: '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
+                              reInvestmentDisabled: investment.reInvestmentDisabled ?? false,
                             ),
                           )
                           .toList(),
@@ -567,6 +576,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
 }
 
 class TableCardInCourse extends ConsumerWidget {
+  final String uuid;
   final String planName;
   final String termText;
   final String amountInvested;
@@ -575,12 +585,16 @@ class TableCardInCourse extends ConsumerWidget {
   final String moneyGrowth;
   final String startDate;
   final String endDate;
-  final bool? textButton;
+  final String currency;
+  final bool? reInvestmentAvailable;
   final List<InvestmentCouponPartnerTagEntity?>? tag;
   final InvestmentPartnerEntity? partner;
+  final bool reInvestmentDisabled;
+  final bool isReInvestment;
 
   const TableCardInCourse({
     super.key,
+    required this.uuid,
     required this.planName,
     required this.termText,
     required this.amountInvested,
@@ -589,7 +603,10 @@ class TableCardInCourse extends ConsumerWidget {
     required this.moneyGrowth,
     required this.startDate,
     required this.endDate,
-    this.textButton,
+    required this.currency,
+    required this.reInvestmentDisabled,
+    required this.isReInvestment,
+    this.reInvestmentAvailable,
     this.tag,
     this.partner,
   });
@@ -597,6 +614,7 @@ class TableCardInCourse extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+
     return ClipRRect(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -653,7 +671,7 @@ class TableCardInCourse extends ConsumerWidget {
                               color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     const SizedBox(
@@ -670,30 +688,64 @@ class TableCardInCourse extends ConsumerWidget {
                           ),
                         ),
                         const Spacer(),
-                        if (textButton == true)
+                        if (reInvestmentAvailable == true && !reInvestmentDisabled && !isReInvestment) ...[
                           Padding(
                             padding: const EdgeInsets.only(right: 10),
                             child: SizedBox(
-                              width: 82,
-                              height: 30,
+                              width: 100,
+                              height: 35,
                               child: TextButton(
                                 onPressed: () {
-                                  // TODO add here
+                                  final amountInvestedStr = currentMoney.replaceAll(
+                                    RegExp(r'[^\d.]'),
+                                    '',
+                                  ); // Elimina todos los caracteres que no sean dígitos o puntos
+                                  final finalAmount = double.parse(amountInvestedStr);
+                                  print('currency: $currency');
                                   Navigator.pushNamed(
                                     context,
-                                    '/reinvest',
+                                    '/reinvestment_step_1',
                                     arguments: {
-                                      'planName': planName,
-                                      'amountInvested': amountInvested,
+                                      'preInvestmentUUID': uuid,
+                                      'preInvestmentAmount': finalAmount,
+                                      'currency': currency,
+                                      'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
                                     },
                                   );
                                 },
                                 child: const Text(
+                                  textAlign: TextAlign.center,
                                   'Reinvertir',
                                 ),
                               ),
                             ),
                           ),
+                        ],
+                        if (isReInvestment) ...[
+                          // add label re investment
+                          Container(
+                            height: 25,
+                            // width: 145,
+                            margin: const EdgeInsets.only(right: 5),
+                            padding: const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                            decoration: BoxDecoration(
+                              // // color: Colors.green,
+                              color: Color(0xff4C8DBE).withOpacity(0.25),
+
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Center(
+                              child: Text(
+                                'Re-inversion solicitada',
+                                style: const TextStyle(
+                                  color: Color(primaryDark),
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ],
                     ),
                     const SizedBox(height: 5),
@@ -912,7 +964,10 @@ class TableCardInCourse extends ConsumerWidget {
                                       Text(
                                         moneyGrowth,
                                         style: const TextStyle(
-                                            fontSize: 12, fontWeight: FontWeight.w600, color: Color(colorgreen)),
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(colorgreen),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -954,7 +1009,7 @@ class TableCardInCourse extends ConsumerWidget {
                                           color:
                                               currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ],
@@ -1021,6 +1076,9 @@ class TableCardInvestFinished extends ConsumerWidget {
   final String amountInvested;
   final String totalRevenue;
   final String growText;
+  final String uuid;
+  final String currency;
+  final bool reInvestmentDisabled;
 
   const TableCardInvestFinished({
     Key? key,
@@ -1029,6 +1087,9 @@ class TableCardInvestFinished extends ConsumerWidget {
     required this.amountInvested,
     required this.totalRevenue,
     required this.growText,
+    required this.uuid,
+    required this.currency,
+    required this.reInvestmentDisabled,
   }) : super(key: key);
 
   @override
@@ -1066,7 +1127,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                   ),
                 ),
               ),
-              Spacer(),
+              const Spacer(),
               Image.asset(
                 alignment: Alignment.center,
                 'assets/images/circle_purple.png',
@@ -1084,21 +1145,58 @@ class TableCardInvestFinished extends ConsumerWidget {
                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
-              )
+              ),
             ],
           ),
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 15),
-            child: Text(
-              'Finalizó: $endDate',
-              style: TextStyle(
-                  fontSize: 11,
-                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                  fontWeight: FontWeight.bold),
-            ),
+          Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(left: 15),
+                child: Text(
+                  'Finalizó: $endDate',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const Spacer(),
+              if (!reInvestmentDisabled) ...[
+                SizedBox(
+                  width: 100,
+                  height: 33,
+                  child: TextButton(
+                    onPressed: () {
+                      final amountInvestedStr = totalRevenue.replaceAll(
+                          RegExp(r'[^\d.]'), ''); // Elimina todos los caracteres que no sean dígitos o puntos
+                      final finalAmount = double.parse(amountInvestedStr);
+                      print('currency: $currency');
+                      Navigator.pushNamed(
+                        context,
+                        '/reinvestment_step_1',
+                        arguments: {
+                          'preInvestmentUUID': uuid,
+                          'preInvestmentAmount': finalAmount,
+                          'currency': currency,
+                          'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                        },
+                      );
+                    },
+                    child: const Text(
+                      textAlign: TextAlign.center,
+                      'Reinvertir',
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+              ]
+            ],
           ),
           const SizedBox(height: 10),
           Row(
@@ -1209,7 +1307,7 @@ class TableCardInvestFinished extends ConsumerWidget {
             child: Text(
               textAlign: TextAlign.center,
               'Rentabilidad generada en $growText',
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(grayText2),
                 fontSize: 10,
               ),

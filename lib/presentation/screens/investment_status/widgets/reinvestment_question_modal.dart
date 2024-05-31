@@ -47,7 +47,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
       // customize background color
       color: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
 
-      height: MediaQuery.of(context).size.height * 0.50,
+      height: 400,
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
@@ -428,7 +428,7 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
                   ? Colors.white
                   : Colors.black
               : themeProvider.isDarkMode
-                  ? const Color(primaryDark)
+                  ? const Color(grayText)
                   : Colors.black,
         ),
       ),

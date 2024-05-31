@@ -5,7 +5,6 @@ import 'package:finniu/infrastructure/models/bank_user_account/input_models.dart
 import 'package:finniu/infrastructure/models/bank_user_account/response_models.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 
 final bankAccountDataSourceProvider = Provider<BankAccountDataSource>((ref) {
   final client = ref.watch(gqlClientProvider);

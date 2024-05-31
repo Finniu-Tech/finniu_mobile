@@ -7,15 +7,13 @@ import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
-import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
-import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/step_bar.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -87,7 +85,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       //clean the voucher and accept terms
 
       ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
@@ -150,8 +148,8 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          const StepBar(
-            step: 2,
+          const StepBarReInvestment(
+            step: 3,
           ),
           const SizedBox(height: 30),
           Container(
@@ -544,7 +542,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                       padding: const EdgeInsets.only(right: 10, top: 10),
                       child: InkWell(
                         onTap: () {
-                          photoHelp(context);
+                          showVoucherHelpModal(context);
                         },
                         child: ImageIcon(
                           const AssetImage('assets/icons/questions.png'),
@@ -851,163 +849,172 @@ class CircularCountdown extends ConsumerWidget {
   }
 }
 
-void photoHelp(
+void showVoucherHelpModal(
   BuildContext ctx,
 ) {
-  showModalBottomSheet(
-    clipBehavior: Clip.antiAlias,
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(50),
-        topLeft: Radius.circular(50),
-      ),
-    ),
-    elevation: 11,
-    context: ctx,
-    builder: (ctx) => const PhotoHelp(),
+  showDialog(
+    context:
+        // showModalBottomSheet(
+        ctx,
+    builder: (ctx) {
+      return VoucherHelpModal();
+      // return ThanksReinvestmentModal();
+    },
   );
+  // showModalBottomSheet(
+  //   clipBehavior: Clip.antiAlias,
+  //   shape: const RoundedRectangleBorder(
+  //     borderRadius: BorderRadius.only(
+  //       topRight: Radius.circular(50),
+  //       topLeft: Radius.circular(50),
+  //     ),
+  //   ),
+  //   elevation: 11,
+  //   context: ctx,
+  //   builder: (ctx) => VoucherHelpModal(),
+  // );
 }
 
-class PhotoHelp extends ConsumerWidget {
-  const PhotoHelp({key});
+// class PhotoHelp extends ConsumerWidget {
+//   const PhotoHelp({key});
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.7,
-      decoration: BoxDecoration(
-        color: currentTheme.isDarkMode
-            ? const Color(primaryDark)
-            : const Color(
-                primaryLight,
-              ),
-        borderRadius: BorderRadius.circular(40),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            alignment: Alignment.topRight,
-            margin: const EdgeInsets.only(bottom: 10, right: 20, top: 15),
-            child: IconButton(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(
-                      blackText,
-                    ),
-              alignment: Alignment.topRight,
-              icon: const Icon(Icons.close),
-              onPressed: () {
-                Navigator.of(context).pop(); // cerrar la pantalla modal
-              },
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(right: 10),
-                child: Image.asset(
-                  'assets/images/page.png',
-                  width: 60,
-                  height: 60,
-                ),
-              ),
-              SizedBox(
-                width: 260,
-                child: Text(
-                  'Adjunta tu comprobante con 3 pasos ',
-                  textAlign: TextAlign.justify,
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(
-                            primaryDark,
-                          ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: 300,
-            child: Text(
-              '1.Tomate foto o screenshot del voucer de tu transferencia.',
-              textAlign: TextAlign.justify,
-              style: TextStyle(
-                fontSize: 12,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(
-                        blackText,
-                      ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: 300,
-            child: Text(
-              '2.Abre tus archivos o tu galeria y busca la foto del voucher de su transferencia',
-              textAlign: TextAlign.justify,
-              style: TextStyle(
-                fontSize: 12,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(
-                        blackText,
-                      ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: 300,
-            child: Text(
-              '3.Selecciona la foto o screenshot del voucher de tu transferencia',
-              textAlign: TextAlign.justify,
-              style: TextStyle(
-                fontSize: 12,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(
-                        blackText,
-                      ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 60,
-          ),
-          Text(
-            '¡Y listo!',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(
-                      blackText,
-                    ),
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          )
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final currentTheme = ref.watch(settingsNotifierProvider);
+//     return Container(
+//       width: MediaQuery.of(context).size.width,
+//       height: MediaQuery.of(context).size.height * 0.7,
+//       decoration: BoxDecoration(
+//         color: currentTheme.isDarkMode
+//             ? const Color(primaryDark)
+//             : const Color(
+//                 primaryLight,
+//               ),
+//         borderRadius: BorderRadius.circular(40),
+//       ),
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.start,
+//         children: [
+//           Container(
+//             alignment: Alignment.topRight,
+//             margin: const EdgeInsets.only(bottom: 10, right: 20, top: 15),
+//             child: IconButton(
+//               color: currentTheme.isDarkMode
+//                   ? const Color(primaryLight)
+//                   : const Color(
+//                       blackText,
+//                     ),
+//               alignment: Alignment.topRight,
+//               icon: const Icon(Icons.close),
+//               onPressed: () {
+//                 Navigator.of(context).pop(); // cerrar la pantalla modal
+//               },
+//             ),
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Container(
+//                 margin: const EdgeInsets.only(right: 10),
+//                 child: Image.asset(
+//                   'assets/images/page.png',
+//                   width: 60,
+//                   height: 60,
+//                 ),
+//               ),
+//               SizedBox(
+//                 width: 260,
+//                 child: Text(
+//                   'Adjunta tu comprobante con 3 pasos ',
+//                   textAlign: TextAlign.justify,
+//                   style: TextStyle(
+//                     fontSize: 16,
+//                     fontWeight: FontWeight.bold,
+//                     color: currentTheme.isDarkMode
+//                         ? const Color(primaryLight)
+//                         : const Color(
+//                             primaryDark,
+//                           ),
+//                   ),
+//                 ),
+//               ),
+//             ],
+//           ),
+//           const SizedBox(
+//             height: 20,
+//           ),
+//           SizedBox(
+//             width: 300,
+//             child: Text(
+//               '1.Tomate foto o screenshot del voucer de tu transferencia.',
+//               textAlign: TextAlign.justify,
+//               style: TextStyle(
+//                 fontSize: 12,
+//                 color: currentTheme.isDarkMode
+//                     ? const Color(whiteText)
+//                     : const Color(
+//                         blackText,
+//                       ),
+//               ),
+//             ),
+//           ),
+//           const SizedBox(
+//             height: 20,
+//           ),
+//           SizedBox(
+//             width: 300,
+//             child: Text(
+//               '2.Abre tus archivos o tu galeria y busca la foto del voucher de su transferencia',
+//               textAlign: TextAlign.justify,
+//               style: TextStyle(
+//                 fontSize: 12,
+//                 color: currentTheme.isDarkMode
+//                     ? const Color(whiteText)
+//                     : const Color(
+//                         blackText,
+//                       ),
+//               ),
+//             ),
+//           ),
+//           const SizedBox(
+//             height: 20,
+//           ),
+//           SizedBox(
+//             width: 300,
+//             child: Text(
+//               '3.Selecciona la foto o screenshot del voucher de tu transferencia',
+//               textAlign: TextAlign.justify,
+//               style: TextStyle(
+//                 fontSize: 12,
+//                 color: currentTheme.isDarkMode
+//                     ? const Color(whiteText)
+//                     : const Color(
+//                         blackText,
+//                       ),
+//               ),
+//             ),
+//           ),
+//           const SizedBox(
+//             height: 60,
+//           ),
+//           Text(
+//             '¡Y listo!',
+//             textAlign: TextAlign.center,
+//             style: TextStyle(
+//               fontSize: 16,
+//               fontWeight: FontWeight.bold,
+//               color: currentTheme.isDarkMode
+//                   ? const Color(whiteText)
+//                   : const Color(
+//                       blackText,
+//                     ),
+//             ),
+//           ),
+//           const SizedBox(
+//             height: 15,
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -1,3 +1,23 @@
+class TypeAccountEnum {
+  static const String SAVINGS = 'AHORROS';
+  static const String CORRIENTE = 'CORRIENTE';
+  static const String JOINT = 'MANCOMUNADA';
+
+  static String mapTypeAccountToLabel(String typeAccount) {
+    switch (typeAccount) {
+      case 'Ahorros':
+        return SAVINGS;
+      case 'Corriente':
+        return CORRIENTE;
+      case 'Mancomunada':
+        return JOINT;
+
+      default:
+        return '';
+    }
+  }
+}
+
 class BankAccount {
   final String id;
   final String bankName;
@@ -30,5 +50,11 @@ class BankAccount {
       isJointAccount: json['isJointAccount'],
       isDefaultAccount: json['isDefaultAccount'],
     );
+  }
+  static getSafeBankAccountNumber(String bankAccount) {
+    if (bankAccount.length > 4) {
+      return '************ ${bankAccount.substring(bankAccount.length - 4)}';
+    }
+    return bankAccount;
   }
 }

@@ -261,7 +261,8 @@ class QueryRepository {
           rentabilityAmmount
           rentabilityPercent
           planName
-
+          isReinvestment
+          noReinvestment
         }
         invesmentFinished{
           uuid
@@ -287,6 +288,8 @@ class QueryRepository {
           rentabilityAmmount
           rentabilityPercent
           planName
+          isReinvestment
+          noReinvestment
         }
         
       }
@@ -296,8 +299,8 @@ class QueryRepository {
 
   static String get investmentRentabilityReportV2 {
     return '''
-        query {
-      userInfoAllInvestment {
+      query {
+        userInfoAllInvestment {
           invesmentInDolares {
             totalBalanceAmmount
             countPlanesActive
@@ -337,6 +340,8 @@ class QueryRepository {
                 partnerHex
                 partnerImageActivate
               }
+              noReInvestment
+              noReInvestment
             }
             invesmentFinished {
               uuid
@@ -372,6 +377,8 @@ class QueryRepository {
                 partnerHex
                 partnerImageActivate
               }
+              noReInvestment
+              noReInvestment
             }
           }
           invesmentInSoles {
@@ -413,6 +420,8 @@ class QueryRepository {
                 partnerHex
                 partnerImageActivate
               }
+              isReInvestment
+              noReInvestment
             }
             invesmentFinished {
               uuid
@@ -448,6 +457,8 @@ class QueryRepository {
                 partnerHex
                 partnerImageActivate
               }
+              isReInvestment
+              noReInvestment
             }
           }
         }

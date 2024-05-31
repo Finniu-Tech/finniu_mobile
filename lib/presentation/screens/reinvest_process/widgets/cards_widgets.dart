@@ -4,10 +4,12 @@ import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -30,8 +32,10 @@ class CreditCardWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap as void Function()?,
       child: Container(
-        width: 288.3,
-        height: 171.6,
+        // width: 288.3,
+        // height: 171.6,
+        width: 345.96,
+        height: 205.92,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(26.0),
@@ -52,7 +56,7 @@ class CreditCardWidget extends StatelessWidget {
               placeholder: (context, url) => const Center(
                 child: CircularProgressIndicator(),
               ),
-              errorWidget: (context, url, error) => Icon(Icons.error),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
               imageBuilder: (context, imageProvider) => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(17),
@@ -64,7 +68,7 @@ class CreditCardWidget extends StatelessWidget {
               ),
             ),
             Text(
-              '**** ${bankAccount.bankAccount.substring(bankAccount.bankAccount.length - 4)}',
+              BankAccount.getSafeBankAccountNumber(bankAccount.bankAccount),
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Colors.white,
@@ -137,7 +141,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
         final banksAsyncValue = ref.watch(bankFutureProvider);
 
         return SizedBox(
-          height: 400,
+          height: 480,
           width: double.infinity,
           child: bankAccountsAsyncValue.when(
             data: (bankAccounts) {
@@ -166,7 +170,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                       ),
                                       Text(
                                         bankAccountSelected!.alias ?? '',
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           fontSize: 16,
                                           fontWeight: FontWeight.bold,
                                           color: Color(primaryDark),
@@ -186,7 +190,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                             SizedBox(
                               width: 299,
                               child: Text(
-                                '${bankAccountSelected!.typeAccount}  **** ${bankAccountSelected!.bankAccount.substring(bankAccountSelected!.bankAccount.length - 4)}',
+                                '${TypeAccountEnum.mapTypeAccountToLabel(bankAccountSelected!.typeAccount)} ${BankAccount.getSafeBankAccountNumber(bankAccountSelected!.bankAccount)}',
                                 textAlign: TextAlign.left,
                               ),
                             ),
@@ -199,9 +203,9 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                   bankAccountSelected = null;
                                 });
                               },
-                              bankAccount: bankAccounts.first,
+                              bankAccount: bankAccountSelected!,
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             Container(
                               width: 299,
                               height: 50,
@@ -212,12 +216,14 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(0, 3),
+                                    offset: const Offset(0, 3),
                                   ),
                                 ],
                               ),
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  showAccountTransferModal(context, widget.currency, widget.isSender);
+                                },
                                 style: TextButton.styleFrom(
                                   backgroundColor: const Color(primaryLight),
                                   shape: RoundedRectangleBorder(
@@ -256,7 +262,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                     color: Colors.grey.withOpacity(0.5),
                                     spreadRadius: 5,
                                     blurRadius: 7,
-                                    offset: Offset(0, 3),
+                                    offset: const Offset(0, 3),
                                   ),
                                 ],
                               ),
@@ -307,10 +313,10 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                       : Column(
                           children: [
                             SizedBox(
-                              height: 280,
+                              height: 360,
                               child: ListWheelScrollView.useDelegate(
                                 controller: controller,
-                                itemExtent: 150,
+                                itemExtent: 220,
                                 diameterRatio: 2,
                                 physics: const FixedExtentScrollPhysics(),
                                 childDelegate: ListWheelChildBuilderDelegate(
@@ -344,7 +350,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                 ),
                               ),
                             ),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             SizedBox(
                               width: 299,
                               height: 50,
@@ -382,15 +388,301 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                           ],
                         );
                 },
-                loading: () => Center(child: CircularProgressIndicator()),
-                error: (error, stackTrace) => Center(child: Text('Failed to load banks')),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, stackTrace) => const Center(child: Text('Failed to load banks')),
               );
             },
-            loading: () => Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => Center(child: Text('Failed to load bank accounts')),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, stackTrace) => const Center(child: Text('Failed to load bank accounts')),
           ),
         );
       },
+    );
+  }
+}
+
+class FinalAmountWidget extends HookConsumerWidget {
+  final String amount;
+  final bool isSoles; // true for S/, false for $
+  final bool isActive;
+
+  const FinalAmountWidget({
+    super.key,
+    required this.amount,
+    required this.isSoles,
+    required this.isActive,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(settingsNotifierProvider);
+    final currencySymbol = isSoles ? 'S/' : '\$';
+    final activeTextColor = const Color(primaryDark); // Use the theme's primaryDark color
+    final inactiveTextColor = const Color(grayText); // Use the theme's grayText color
+    final activeBackgroundColor = const Color(0xFFEBFBFF); // Use the theme's primaryLight color
+    final inactiveBackgroundColor = const Color(0xFFF9FAFA); // Background color for inactive state
+
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: 57,
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        color: isActive ? activeBackgroundColor : inactiveBackgroundColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: Image.asset(
+                'assets/reinvestment/money_bag.png',
+                height: 20,
+                width: 20,
+              )),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Monto final',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.w800,
+                          color: isActive ? activeTextColor : inactiveTextColor,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      '$currencySymbol$amount',
+                      style: TextStyle(
+                        fontSize: 15.0,
+                        fontWeight: FontWeight.w800,
+                        color: isActive ? activeTextColor : inactiveTextColor,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  '(Capital de la operación en curso + monto adicional)',
+                  style: TextStyle(
+                    fontSize: 8.0,
+                    fontWeight: FontWeight.w600,
+                    color: isActive ? activeTextColor.withOpacity(0.6) : inactiveTextColor.withOpacity(0.6),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class InvestmentDateRangeWidget extends HookConsumerWidget {
+  final String startDate;
+  final String endDate;
+
+  const InvestmentDateRangeWidget({
+    super.key,
+    required this.startDate,
+    required this.endDate,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = ref.watch(settingsNotifierProvider);
+    // return Row(
+    //   mainAxisAlignment: MainAxisAlignment.center,
+    //   children: [
+    //     Container(
+    //       width: 120,
+    //       height: 80,
+    //       decoration: BoxDecoration(
+    //         color: const Color(0xFFE6F4F1),
+    //         borderRadius: BorderRadius.circular(5.0),
+    //       ),
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             children: [
+    //               Image.asset(
+    //                 'assets/reinvestment/calendar.png',
+    //                 height: 20,
+    //                 width: 20,
+    //               ),
+    //               const SizedBox(width: 8.0),
+    //               RichText(
+    //                 text: TextSpan(
+    //                   children: [
+    //                     const TextSpan(
+    //                       text: 'Inicio:',
+    //                       style: TextStyle(
+    //                         fontSize: 14.0,
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black,
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //           SizedBox(
+    //             height: 5,
+    //           ),
+    //           Text('25 de Mayo del 2024',
+    //               textAlign: TextAlign.center,
+    //               style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.black))
+    //         ],
+    //       ),
+    //     ),
+    //     SizedBox(width: 30),
+    //     Container(
+    //       width: 120,
+    //       height: 80,
+    //       decoration: BoxDecoration(
+    //         color: const Color(0xFFE6F4F1),
+    //         borderRadius: BorderRadius.circular(5.0),
+    //       ),
+    //       child: Column(
+    //         mainAxisAlignment: MainAxisAlignment.center,
+    //         children: [
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.center,
+    //             children: [
+    //               Image.asset(
+    //                 'assets/reinvestment/money_bag.png',
+    //                 height: 20,
+    //                 width: 20,
+    //               ),
+    //               const SizedBox(width: 8.0),
+    //               RichText(
+    //                 text: TextSpan(
+    //                   children: [
+    //                     const TextSpan(
+    //                       text: 'Finaliza:',
+    //                       style: TextStyle(
+    //                         fontSize: 14.0,
+    //                         fontWeight: FontWeight.normal,
+    //                         color: Colors.black,
+    //                       ),
+    //                     ),
+    //                   ],
+    //                 ),
+    //               ),
+    //             ],
+    //           ),
+    //           SizedBox(
+    //             height: 5,
+    //           ),
+    //           Text('25 de Mayo del 2024',
+    //               textAlign: TextAlign.center,
+    //               style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.black))
+    //         ],
+    //       ),
+    //     ),
+    //   ],
+    // );
+
+    return Container(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: 20,
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
+            decoration: BoxDecoration(
+              // color: const Color(0xFFF5F5F5), // Background color
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/reinvestment/calendar.png',
+                  height: 20,
+                  width: 20,
+                ),
+                const SizedBox(width: 8.0),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Inicio: ',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.normal,
+                          color: theme.isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text: startDate,
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.bold,
+                          color: theme.isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 10.0),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: 20,
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
+            decoration: BoxDecoration(
+              // color: const Color(0xFFF5F5F5), // Background color
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  'assets/reinvestment/money_bag.png',
+                  height: 20,
+                  width: 20,
+                ),
+                const SizedBox(width: 8.0),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Finaliza: ',
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.normal,
+                          color: theme.isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                      TextSpan(
+                        text: endDate,
+                        style: TextStyle(
+                          fontSize: 10.0,
+                          fontWeight: FontWeight.bold,
+                          color: theme.isDarkMode ? Colors.white : Colors.black,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

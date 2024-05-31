@@ -189,6 +189,10 @@ class MutationRepository {
                 returnDateEstimate
                 planImageUrl
               }
+              estimatedDates{
+                startDate
+                endDate
+              }
               messages{
                 field
                 message

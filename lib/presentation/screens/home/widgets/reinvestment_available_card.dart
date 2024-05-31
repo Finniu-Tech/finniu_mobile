@@ -19,6 +19,9 @@ class ReinvestmentSlider extends HookConsumerWidget {
 
     return asyncNotifications.when(
       data: (notifications) {
+        if (notifications.isEmpty) {
+          return const SizedBox();
+        }
         final items = notifications.map((notification) {
           return ReinvestmentAvailableCard(notification: notification);
         }).toList();

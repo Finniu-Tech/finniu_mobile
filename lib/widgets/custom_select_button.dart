@@ -15,7 +15,8 @@ class CustomSelectButton extends HookConsumerWidget {
   final bool? enabled;
   final double? width; //224
   final double? height; //39
-  const CustomSelectButton({
+  Color? enableColor;
+  CustomSelectButton({
     super.key,
     required this.textEditingController,
     this.items,
@@ -27,13 +28,14 @@ class CustomSelectButton extends HookConsumerWidget {
     this.enabled = true,
     this.width,
     this.height,
+    this.enableColor,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     Color disabledColor = currentTheme.isDarkMode ? const Color(grayText) : const Color(0xffF4F4F4);
-    Color enableColor = currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
+    enableColor ??= currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
     // color:
     // currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText);
 

@@ -51,6 +51,8 @@ class InvestmentRentabilityMapper {
       partnerCouponTag:
           investment.partnerTag?.map((e) => InvestmentCouponPartnerTagMapper.responseToEntity(e!)).toList(),
       partner: investment.partner != null ? InvestmentPartnerMapper.responseToEntity(investment.partner!) : null,
+      isReInvestment: investment.isReInvestment,
+      reInvestmentDisabled: investment.noReInvestment,
     );
   }
 }

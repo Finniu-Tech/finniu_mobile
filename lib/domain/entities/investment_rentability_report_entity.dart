@@ -47,6 +47,8 @@ class InvestmentRentabilityEntity {
   double rentabilityPercent;
   List<InvestmentCouponPartnerTagEntity?>? partnerCouponTag;
   InvestmentPartnerEntity? partner;
+  bool isReInvestment = false;
+  bool reInvestmentDisabled = false;
 
   InvestmentRentabilityEntity({
     required this.uuid,
@@ -65,6 +67,8 @@ class InvestmentRentabilityEntity {
     this.planName,
     this.partnerCouponTag,
     this.partner,
+    this.isReInvestment = false,
+    this.reInvestmentDisabled = false,
   });
 }
 
