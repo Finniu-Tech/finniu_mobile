@@ -187,6 +187,7 @@ class BottomNavigationBarHome extends HookConsumerWidget {
       child: HookBuilder(
         builder: (context) {
           final selectedIndex = ref.watch(navigatorStateProvider);
+          print('selected index provider: $selectedIndex');
           return ClipRRect(
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(25.0),
@@ -235,7 +236,7 @@ class BottomNavigationBarHome extends HookConsumerWidget {
                     BottomMenuEnum().investments.icon,
                     context,
                     selectedIndex,
-                    BottomMenuEnum().plans.index,
+                    BottomMenuEnum().investments.index,
                     isDarkMode,
                   ),
                 ),

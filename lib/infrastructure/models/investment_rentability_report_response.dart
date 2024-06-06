@@ -23,6 +23,7 @@ class UserInfoInvestment {
   String? totalBalanceRentability;
   List<Investment>? invesmentInCourse;
   List<Investment>? invesmentFinished;
+  List<Investment>? investmentPending;
 
   UserInfoInvestment({
     this.totalBalanceAmmount,
@@ -30,6 +31,7 @@ class UserInfoInvestment {
     this.totalBalanceRentability,
     this.invesmentInCourse,
     this.invesmentFinished,
+    this.investmentPending,
   });
 
   factory UserInfoInvestment.fromJson(Map<String, dynamic> json) => UserInfoInvestment(
@@ -46,6 +48,11 @@ class UserInfoInvestment {
             : List<Investment>.from(
                 json["invesmentFinished"]!.map((x) => Investment.fromJson(x)),
               ),
+        investmentPending: json["investmentPending"] == null
+            ? []
+            : List<Investment>.from(
+                json["investmentPending"]!.map((x) => Investment.fromJson(x)),
+              ),
       );
 
   Map<String, dynamic> toJson() => {
@@ -56,6 +63,8 @@ class UserInfoInvestment {
             invesmentInCourse == null ? [] : List<dynamic>.from(invesmentInCourse!.map((x) => x.toJson())),
         "invesmentFinished":
             invesmentFinished == null ? [] : List<dynamic>.from(invesmentFinished!.map((x) => x.toJson())),
+        "investmentPending":
+            investmentPending == null ? [] : List<dynamic>.from(investmentPending!.map((x) => x.toJson())),
       };
 }
 

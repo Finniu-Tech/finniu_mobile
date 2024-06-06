@@ -4,8 +4,7 @@ import 'package:finniu/infrastructure/datasources/investment_history_datasource_
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final investmentStatusReportFutureProvider =
-    FutureProvider.autoDispose<InvestmentRentabilityReport>((ref) async {
+final investmentStatusReportFutureProvider = FutureProvider.autoDispose<InvestmentRentabilityReport>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
     final result = await InvestmentHistoryDataSourceImp().getRentabilityReport(
@@ -17,12 +16,10 @@ final investmentStatusReportFutureProvider =
   }
 });
 
-final investmentHistoryReportFutureProvider =
-    FutureProvider.autoDispose<InvestmentHistoryReport>((ref) async {
+final investmentHistoryReportFutureProvider = FutureProvider.autoDispose<InvestmentHistoryReport>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
-    final result =
-        await InvestmentHistoryDataSourceImp().getInvestmentHistoryReport(
+    final result = await InvestmentHistoryDataSourceImp().getInvestmentHistoryReport(
       client: client!,
     );
     return result;

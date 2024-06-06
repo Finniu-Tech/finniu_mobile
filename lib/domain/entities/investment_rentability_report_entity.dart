@@ -1,6 +1,7 @@
 class StatusInvestmentEnum {
   static const String in_course = 'in_course';
   static const String finished = 'finished';
+  static const String pending = 'pending';
 }
 
 class InvestmentRentabilityReport {
@@ -19,6 +20,7 @@ class InvestmentRentabilityResumeEntity {
   int totalPlans;
   List<InvestmentRentabilityEntity>? investmentsInCourse;
   List<InvestmentRentabilityEntity>? investmentsFinished;
+  List<InvestmentRentabilityEntity>? investmentsPending;
 
   InvestmentRentabilityResumeEntity({
     required this.totalAmount,
@@ -26,7 +28,15 @@ class InvestmentRentabilityResumeEntity {
     required this.totalPlans,
     this.investmentsInCourse,
     this.investmentsFinished,
+    this.investmentsPending,
   });
+
+  int countTotalPlans() {
+    int countInCourse = this.investmentsInCourse?.length ?? 0;
+    int countInvesmentsFinished = this.investmentsFinished?.length ?? 0;
+    int countInvestmentsPending = this.investmentsPending?.length ?? 0;
+    return countInCourse + countInvesmentsFinished + countInvestmentsPending;
+  }
 }
 
 // TODO verify statusinvestment values

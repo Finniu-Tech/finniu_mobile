@@ -41,10 +41,8 @@ class InvestmentHistoryResumeEntity {
     int countInvesmentsFinished = this.investmentsFinished?.length ?? 0;
     int countInvesmentsInProcess = this.investmentsInProcess?.length ?? 0;
     int countInvestmentsCanceled = this.investmentsCanceled?.length ?? 0;
-    return countInCourse +
-        countInvesmentsFinished +
-        countInvesmentsInProcess +
-        countInvestmentsCanceled;
+
+    return countInCourse + countInvesmentsFinished + countInvesmentsInProcess + countInvestmentsCanceled;
   }
 
   // fromJson(Map<String, dynamic> json) {

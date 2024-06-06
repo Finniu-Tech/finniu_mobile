@@ -343,6 +343,44 @@ class QueryRepository {
               noReInvestment
               noReInvestment
             }
+            investmentPending {
+              uuid
+              reinvestmentAvailable
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+              couponPartnerTags{
+                tagName
+                tagHex
+              }
+              partnerInfo{
+                partnerName
+                partnerLogo
+                partnerHex
+                partnerImageActivate
+              }
+              noReInvestment
+              noReInvestment
+            }
             invesmentFinished {
               uuid
               createdAt
@@ -385,6 +423,44 @@ class QueryRepository {
             totalBalanceAmmount
             countPlanesActive
             totalBalanceRentability
+            investmentPending {
+              uuid
+              reinvestmentAvailable
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              depositBank {
+                bankName
+                bankLogo
+                slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+              couponPartnerTags{
+                tagName
+                tagHex
+              }
+              partnerInfo{
+                partnerName
+                partnerLogo
+                partnerHex
+                partnerImageActivate
+              }
+              noReInvestment
+              noReInvestment
+            }
             invesmentInCourse {
               uuid
               reinvestmentAvailable
@@ -461,63 +537,6 @@ class QueryRepository {
               noReInvestment
             }
           }
-        }
-      }
-
-    ''';
-  }
-
-  static String get investmentHistoryReport {
-    return '''
-      query {
-        userInfoInvestment{
-          totalBalanceAmmount
-          countPlanesActive
-          totalBalanceRentability
-          invesmentInCourse{
-            uuid
-            amount
-            deadline{
-              uuid
-              name
-              value
-              description
-            }
-            status
-            startDateInvestment
-            finishDateInvestment
-            rentabilityAmmount
-            rentabilityPercent
-            planName
-          }
-          invesmentFinished{
-            uuid
-            amount
-            deadline{
-              uuid
-              name
-              value
-              description
-            }
-            status
-            startDateInvestment
-            finishDateInvestment
-            rentabilityAmmount
-            rentabilityPercent
-            planName
-          }
-          invesmentInProcess{
-            uuid
-            amount
-            status
-            planName
-          }
-          invesmentCanceled{
-            uuid
-            amount
-            planName
-          }
-          
         }
       }
     ''';

@@ -598,6 +598,9 @@ class InCourseInvestmentCard extends ConsumerWidget {
                       color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
+                  const SizedBox(
+                    width: 2,
+                  ),
                   Text(
                     startDay,
                     style: TextStyle(

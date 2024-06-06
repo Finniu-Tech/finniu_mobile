@@ -42,9 +42,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
                     'assets/icons/calendar.png',
                     width: 20,
                     height: 20,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -52,11 +50,7 @@ class EmptyHistoryMessage extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: 18),
-        if (is_history_screen) ...[
-          const HistorialButtons()
-        ] else ...[
-          const RentabilidadButtons()
-        ],
+        if (is_history_screen) ...[const HistorialButtons()] else ...[const RentabilidadButtons()],
         const SizedBox(height: 22),
         EmptyReportMessage(),
       ],
@@ -81,9 +75,7 @@ class RentabilidadButtons extends ConsumerWidget {
             width: MediaQuery.of(context).size.width * 0.45,
             height: 40,
             decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(20),
                 topLeft: Radius.circular(20),
@@ -97,9 +89,7 @@ class RentabilidadButtons extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(whiteText),
+                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                 ),
               ),
             ),
@@ -113,9 +103,7 @@ class RentabilidadButtons extends ConsumerWidget {
             width: MediaQuery.of(context).size.width * 0.45,
             height: 40,
             decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLightAlternative),
+              color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(20),
                 topLeft: Radius.circular(20),
@@ -129,9 +117,7 @@ class RentabilidadButtons extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                 ),
               ),
             ),
@@ -160,9 +146,7 @@ class HistorialButtons extends ConsumerWidget {
             width: MediaQuery.of(context).size.width * 0.45,
             height: 40,
             decoration: BoxDecoration(
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLightAlternative),
+              color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
               borderRadius: const BorderRadius.only(
                 topRight: Radius.circular(20),
                 topLeft: Radius.circular(20),
@@ -176,9 +160,7 @@ class HistorialButtons extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                 ),
               ),
             ),
@@ -188,9 +170,7 @@ class HistorialButtons extends ConsumerWidget {
           width: MediaQuery.of(context).size.width * 0.45,
           height: 40,
           decoration: BoxDecoration(
-            color: currentTheme.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDark),
+            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
             borderRadius: const BorderRadius.only(
               topRight: Radius.circular(20),
               topLeft: Radius.circular(20),
@@ -208,9 +188,7 @@ class HistorialButtons extends ConsumerWidget {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(whiteText),
+                    color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                   ),
                 )),
           ),

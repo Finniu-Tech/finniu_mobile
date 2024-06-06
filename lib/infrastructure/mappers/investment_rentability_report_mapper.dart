@@ -17,6 +17,9 @@ class InvestmentRentabilityReportMapper {
     );
     resumeEntity.investmentsInCourse = inCoursePlans;
     resumeEntity.investmentsFinished = finishedPlans;
+    resumeEntity.investmentsPending = InvestmentRentabilityMapper.responseListToEntity(
+      userInvestmentData.investmentPending!,
+    );
     return resumeEntity;
   }
 }
