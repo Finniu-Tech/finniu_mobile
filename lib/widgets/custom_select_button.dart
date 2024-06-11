@@ -34,8 +34,12 @@ class CustomSelectButton extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    Color disabledColor = currentTheme.isDarkMode ? const Color(grayText) : const Color(0xffF4F4F4);
-    enableColor ??= currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
+    Color disabledColor = currentTheme.isDarkMode
+        ? const Color(grayText)
+        : const Color(0xffF4F4F4);
+    enableColor ??= currentTheme.isDarkMode
+        ? const Color(backgroundColorDark)
+        : const Color(whiteText);
     // color:
     // currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText);
 
@@ -57,7 +61,9 @@ class CustomSelectButton extends HookConsumerWidget {
             labelText: labelText,
             hintText: hintText,
             filled: true,
-            fillColor: enabled == true ? enableColor : disabledColor, // Customize the background color here
+            fillColor: enabled == true
+                ? enableColor
+                : disabledColor, // Customize the background color here
 
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
@@ -91,8 +97,12 @@ class CustomSelectButton extends HookConsumerWidget {
             decoration: BoxDecoration(
               color: Color(
                 isSelected
-                    ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative)
-                    : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
+                    ? (themeProvider.isDarkMode
+                        ? primaryLight
+                        : primaryDarkAlternative)
+                    : (themeProvider.isDarkMode
+                        ? primaryDarkAlternative
+                        : primaryLight),
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
@@ -119,8 +129,12 @@ class CustomSelectButton extends HookConsumerWidget {
               style: TextStyle(
                 color: Color(
                   isSelected
-                      ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value)
-                      : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
+                      ? (themeProvider.isDarkMode
+                          ? primaryDark
+                          : Colors.white.value)
+                      : (themeProvider.isDarkMode
+                          ? Colors.white.value
+                          : primaryDark),
                 ),
                 fontWeight: FontWeight.w500,
               ),
@@ -146,7 +160,7 @@ class CustomSelectButton extends HookConsumerWidget {
           searchFieldProps: TextFieldProps(
             decoration: InputDecoration(
               filled: true,
-              fillColor: Theme.of(context).backgroundColor,
+              fillColor: Theme.of(context).colorScheme.surface,
               suffixIcon: Icon(Icons.search),
               label: Text('Buscar'),
             ),

@@ -10,8 +10,8 @@ class AppTheme {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
-        appBarTheme: const AppBarTheme(color: Color(primaryDark), scrolledUnderElevation: 0),
-        backgroundColor: Color(backgroundColorDark),
+        appBarTheme: const AppBarTheme(
+            color: Color(primaryDark), scrolledUnderElevation: 0),
         primaryColor: const Color(primaryDark), // usado para gradiente
         primaryColorLight: const Color(primaryLight), // usado para gradiente
         textTheme: const TextTheme(
@@ -21,11 +21,6 @@ class AppTheme {
           titleMedium: TextStyle(
             color: Color(whiteText),
           ),
-        ),
-        colorScheme: const ColorScheme.dark(
-          primary: Colors.white,
-          secondary: Color(primaryLight),
-          // tertiary: Color(0xff164D7D),
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
@@ -56,7 +51,8 @@ class AppTheme {
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+          contentPadding:
+              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(
@@ -87,6 +83,11 @@ class AppTheme {
           ),
           suffixIconColor: const Color(suffixIconDarkColor),
         ),
+        colorScheme: const ColorScheme.dark(
+          primary: Colors.white,
+          secondary: Color(primaryLight),
+          // tertiary: Color(0xff164D7D),
+        ).copyWith(background: Color(backgroundColorDark)),
       );
 
   get lightTheme => ThemeData(
@@ -98,10 +99,10 @@ class AppTheme {
             TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
           },
         ),
-        backgroundColor: const Color(backgroundColorLight),
         primaryColor: const Color(primaryLight), // usado para gradiente
         primaryColorLight: const Color(secondary), // usado para gradiente
-        appBarTheme: const AppBarTheme(color: Color(primaryLight), scrolledUnderElevation: 0),
+        appBarTheme: const AppBarTheme(
+            color: Color(primaryLight), scrolledUnderElevation: 0),
 
         textTheme: const TextTheme(
           titleLarge: TextStyle(
@@ -113,8 +114,8 @@ class AppTheme {
         ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.resolveWith<Color>((states) => const Color(buttonBackgroundColorLight)),
+            backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                (states) => const Color(buttonBackgroundColorLight)),
             foregroundColor: MaterialStateProperty.all<Color>(
               const Color(colorTextButtonLightColor),
             ),
@@ -130,7 +131,8 @@ class AppTheme {
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          contentPadding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
+          contentPadding:
+              const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(25.0),
             borderSide: const BorderSide(
@@ -161,11 +163,10 @@ class AppTheme {
           ),
           suffixIconColor: const Color(suffixIconColorLight),
         ),
-
         colorScheme: const ColorScheme.light(
           primary: Colors.black,
           secondary: Color(primaryDark),
           // tertiary: Color(0xffA2E6FA),
-        ),
+        ).copyWith(background: const Color(backgroundColorLight)),
       );
 }
