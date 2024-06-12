@@ -1729,7 +1729,7 @@ class TableCardPending extends ConsumerWidget {
                                   child: Column(
                                     children: [
                                       const Text(
-                                        'Intereses generadosssss',
+                                        'Intereses generados',
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.bold,
