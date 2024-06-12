@@ -427,12 +427,23 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                               planName: investment.planName!,
                               termText:
                                   'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                              amountInvested:
-                                  '$moneySymbol${investment.amount}',
-                              interestGenerated:
-                                  '$moneySymbol${investment.rentabilityAmount}',
-                              currentMoney:
-                                  '$moneySymbol${investment.amount + investment.rentabilityAmount}',
+                              amountInvested: isSoles
+                                  ? formatterSoles.format(investment.amount)
+                                  : formatterUSD.format(investment.amount),
+                              interestGenerated: isSoles
+                                  ? formatterSoles
+                                      .format(investment.rentabilityAmount)
+                                  : formatterUSD
+                                      .format(investment.rentabilityAmount),
+                              currentMoney: isSoles
+                                  ? formatterSoles.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    )
+                                  : formatterUSD.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    ),
                               moneyGrowth: '+${investment.rentabilityPercent}%',
                               startDate:
                                   '${investment.startDateInvestment?.day} ${dateFormat.format(investment.startDateInvestment!)}',
@@ -457,10 +468,18 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                               planName: investment.planName!,
                               endDate:
                                   '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
-                              amountInvested:
-                                  '$moneySymbol${investment.amount}',
-                              totalRevenue:
-                                  '$moneySymbol${investment.rentabilityAmount + investment.amount}',
+                              amountInvested: isSoles
+                                  ? formatterSoles.format(investment.amount)
+                                  : formatterUSD.format(investment.amount),
+                              totalRevenue: isSoles
+                                  ? formatterSoles.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    )
+                                  : formatterUSD.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    ),
                               growText:
                                   '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
                               reInvestmentDisabled:
