@@ -382,12 +382,23 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                                 planName: investment.planName!,
                                 termText:
                                     'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                                amountInvested:
-                                    '$moneySymbol${investment.amount}',
-                                interestGenerated:
-                                    '$moneySymbol${investment.rentabilityAmount}',
-                                currentMoney:
-                                    '$moneySymbol${investment.amount + investment.rentabilityAmount}',
+                                amountInvested: isSoles
+                                    ? formatterSoles.format(investment.amount)
+                                    : formatterUSD.format(investment.amount),
+                                interestGenerated: isSoles
+                                    ? formatterSoles
+                                        .format(investment.rentabilityAmount)
+                                    : formatterUSD
+                                        .format(investment.rentabilityAmount),
+                                currentMoney: isSoles
+                                    ? formatterSoles.format(
+                                        investment.amount +
+                                            investment.rentabilityAmount,
+                                      )
+                                    : formatterUSD.format(
+                                        investment.amount +
+                                            investment.rentabilityAmount,
+                                      ),
                                 moneyGrowth:
                                     '+${investment.rentabilityPercent}%',
                                 startDate:
@@ -1699,7 +1710,7 @@ class TableCardPending extends ConsumerWidget {
                                   child: Column(
                                     children: [
                                       const Text(
-                                        'Intereses generados',
+                                        'Intereses generadosssss',
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.bold,
