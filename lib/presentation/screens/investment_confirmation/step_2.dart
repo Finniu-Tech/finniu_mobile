@@ -878,10 +878,7 @@ void photoHelp(
   showModalBottomSheet(
     clipBehavior: Clip.antiAlias,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.only(
-        topRight: Radius.circular(50),
-        topLeft: Radius.circular(50),
-      ),
+      borderRadius: BorderRadius.all(Radius.circular(50)),
     ),
     elevation: 11,
     context: ctx,
