@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
@@ -23,29 +24,30 @@ class PlanListScreen extends HookConsumerWidget {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
 
     return WillPopScope(
-        onWillPop: () => Future.value(false),
-        child: CustomScaffoldReturnLogo(
-          hideReturnButton: true,
-          body: HookBuilder(
-            builder: (context) {
-              final planList = ref.watch(planListFutureProvider);
-              return planList.when(
-                data: (plans) {
-                  return PlanListBody(
-                    currentTheme: currentTheme,
-                    plans: isSoles ? plans.soles : plans.dolar,
-                  );
-                },
-                loading: () => const Center(
-                  child: CircularProgressIndicator(),
-                ),
-                error: (error, stack) => Center(
-                  child: Text(error.toString()),
-                ),
-              );
-            },
-          ),
-        ));
+      onWillPop: () => Future.value(false),
+      child: CustomScaffoldReturnLogo(
+        hideReturnButton: true,
+        body: HookBuilder(
+          builder: (context) {
+            final planList = ref.watch(planListFutureProvider);
+            return planList.when(
+              data: (plans) {
+                return PlanListBody(
+                  currentTheme: currentTheme,
+                  plans: isSoles ? plans.soles : plans.dolar,
+                );
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stack) => Center(
+                child: Text(error.toString()),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -62,7 +64,8 @@ class PlanListBody extends HookConsumerWidget {
     var whatsappNumber = "51940206852";
     var whatsappMessage = "Hola, soy $userName deseo invertir.";
     var whatsappUrlAndroid = Uri.parse(
-        "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}");
+      "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
+    );
     var whatsappUrlIphone =
         Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
@@ -77,7 +80,6 @@ class PlanListBody extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
-    final moneySymbol = isSoles ? "S/" : "\$";
 
     return Align(
       // alignment: Alignment.center,
@@ -157,7 +159,9 @@ class PlanListBody extends HookConsumerWidget {
                       textTiledCard: plans[index].name,
                       textPercentage: '${plans[index].twelveMonthsReturn}% ',
                       textDeclaration: '5%',
-                      textinvestment: '$moneySymbol ${plans[index].minAmount}',
+                      textinvestment: isSoles
+                          ? formatterSoles.format(plans[index].minAmount)
+                          : formatterUSD.format(plans[index].minAmount),
                       textContainer: plans[index].description ?? '',
                       planUuid: plans[index].uuid,
                       objective: plans[index].objective ?? '',
