@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
@@ -77,7 +78,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final theme = ref.watch(settingsNotifierProvider);
     final images = theme.isDarkMode ? _darkImages : _lightImages;
-
+    final isSoles = ref.watch(isSolesStateProvider);
     return Column(
       children: [
         Padding(
@@ -139,7 +140,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                         Row(
                           children: [
                             Text(
-                              formatterSoles.format(widget.initialAmount),
+                              isSoles
+                                  ? formatterSoles.format(widget.initialAmount)
+                                  : formatterUSD.format(widget.initialAmount),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16,
@@ -153,7 +156,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                               width: 30,
                             ),
                             Text(
-                              formatterSoles.format(widget.revenueAmount),
+                              isSoles
+                                  ? formatterSoles.format(widget.initialAmount)
+                                  : formatterUSD.format(widget.initialAmount),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16,
