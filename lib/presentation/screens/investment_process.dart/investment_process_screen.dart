@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class InvestmentProcess extends StatefulHookConsumerWidget {
+  const InvestmentProcess({super.key});
+
   @override
   InvestmentProcessState createState() => InvestmentProcessState();
 }
@@ -17,7 +19,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
 
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -29,47 +31,50 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Row(children: [
-                  SizedBox(
-                    child: Text(
-                      ' Mis inversiones 💸 ',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: Color(
-                            Theme.of(context).colorScheme.secondary.value),
+                Row(
+                  children: [
+                    SizedBox(
+                      child: Text(
+                        ' Mis inversiones 💸 ',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Color(
+                            Theme.of(context).colorScheme.secondary.value,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width * 0.58,
-                  // ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      // modalsPlan(context);
-                      Navigator.pushNamed(context, '/calendar_page');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Image.asset(
-                        'assets/icons/calendar.png',
-                        width: 20,
-                        height: 20,
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                    // SizedBox(
+                    //   width: MediaQuery.of(context).size.width * 0.58,
+                    // ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        // modalsPlan(context);
+                        Navigator.pushNamed(context, '/calendar_page');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Image.asset(
+                          'assets/icons/calendar.png',
+                          width: 20,
+                          height: 20,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                        ),
                       ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -170,7 +175,8 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                       // Si desea agregar un icono dentro del círculo
                     ),
                     const SizedBox(
-                        width: 5), // Separación entre el círculo y el texto
+                      width: 5,
+                    ), // Separación entre el círculo y el texto
                     Text(
                       'Dinero invertido',
                       style: TextStyle(
@@ -182,14 +188,16 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                       ),
                     ),
 
-                    Spacer(),
+                    const Spacer(),
 
                     Container(
                       width: 15,
                       height: 15,
                       decoration: BoxDecoration(
                         border: Border.all(
-                            width: 1, color: const Color(primaryDark)),
+                          width: 1,
+                          color: const Color(primaryDark),
+                        ),
                         shape: BoxShape.circle,
                         color: currentTheme.isDarkMode
                             ? const Color(primaryLight)
@@ -244,7 +252,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                           ),
                           Tab(
                             text: "Inversiones finalizadas",
-                          )
+                          ),
                         ],
                         controller: _tabController,
                         indicatorSize: TabBarIndicatorSize.label,
@@ -253,7 +261,7 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                             : const Color(primaryLight),
                         indicatorWeight: 6,
                         indicatorPadding: const EdgeInsets.only(bottom: 12),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -267,22 +275,24 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess>
                       ListView(
                         children: const [
                           TableCard(
-                              planName: "Plan Estable",
-                              termText: "Plazo de 12 meses:14%",
-                              amountInvested: "S/1500",
-                              interestGenerated: "S/150.15",
-                              currentMoney: "S/1650.15",
-                              moneyGrowth: "+10.01%"),
+                            planName: "Plan Estable",
+                            termText: "Plazo de 12 meses:14%",
+                            amountInvested: "S/1500",
+                            interestGenerated: "S/150.15",
+                            currentMoney: "S/1650.15",
+                            moneyGrowth: "+10.01%",
+                          ),
                           SizedBox(
                             height: 20,
                           ),
                           TableCard(
-                              planName: "Plan Origen",
-                              termText: "Plazo de 12 meses:12%",
-                              amountInvested: "S/720",
-                              interestGenerated: "S/64.87",
-                              currentMoney: "S/784.87",
-                              moneyGrowth: "+9.01%"),
+                            planName: "Plan Origen",
+                            termText: "Plazo de 12 meses:12%",
+                            amountInvested: "S/720",
+                            interestGenerated: "S/64.87",
+                            currentMoney: "S/784.87",
+                            moneyGrowth: "+9.01%",
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -662,7 +672,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
               gaplessPlayback: true,
             ),
           );
-        }).toList(),
+        }),
         Positioned(
           top: 30,
           left: 16,
@@ -869,9 +879,10 @@ class TableCard extends ConsumerWidget {
                   Text(
                     termText,
                     style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w400,
-                        color: Color(grayText2)),
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Color(grayText2),
+                    ),
                   ),
                   const Spacer(),
                   if (textButton == true)
@@ -1023,19 +1034,22 @@ class TableCard extends ConsumerWidget {
                       width: MediaQuery.of(context).size.width * 0.47,
                       height: 112,
                       decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryDark)
-                              : const Color(primaryLightAlternative),
-                          borderRadius: BorderRadius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 2,
+                            offset: const Offset(
+                              0,
+                              3,
+                            ), // changes position of shadow
+                          ),
+                        ],
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(primaryLightAlternative),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Column(
@@ -1086,9 +1100,10 @@ class TableCard extends ConsumerWidget {
                                 Text(
                                   moneyGrowth,
                                   style: const TextStyle(
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(colorgreen)),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(colorgreen),
+                                  ),
                                 ),
                               ],
                             ),
@@ -1217,7 +1232,7 @@ class TableCardInvest extends ConsumerWidget {
                         ? const Color(whiteText)
                         : const Color(blackText),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(
@@ -1228,11 +1243,12 @@ class TableCardInvest extends ConsumerWidget {
               child: Text(
                 'Finalizó:29 Enero 2023',
                 style: TextStyle(
-                    fontSize: 11,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
-                    fontWeight: FontWeight.bold),
+                  fontSize: 11,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -1247,18 +1263,21 @@ class TableCardInvest extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Column(children: [
-                            Container(
-                              decoration: BoxDecoration(
+                          Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: const Color(primaryLight),
                                   border: Border.all(
                                     color: const Color(primaryLight),
-                                  )),
-                              height: 60,
-                              width: 5,
-                            ),
-                          ]),
+                                  ),
+                                ),
+                                height: 60,
+                                width: 5,
+                              ),
+                            ],
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
@@ -1371,14 +1390,15 @@ void modalsPlan(BuildContext ctx) {
       backgroundColor: Colors.transparent,
       content: BackdropFilter(
         filter: ImageFilter.blur(
-            sigmaX: 2,
-            sigmaY: 2), // Aquí se establece la cantidad de borrosidad
+          sigmaX: 2,
+          sigmaY: 2,
+        ), // Aquí se establece la cantidad de borrosidad
         child: Container(
           width: MediaQuery.of(context).size.width * 0.96,
           height: 290,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Color(primaryLight),
+            color: const Color(primaryLight),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1417,7 +1437,7 @@ void modalsPlan(BuildContext ctx) {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
