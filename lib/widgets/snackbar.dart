@@ -24,13 +24,13 @@ class CustomSnackbar {
           child: SnackBarBody(
             message: message,
             type: type,
-            onDismiss: () => onDismiss,
+            onDismiss: () => overlayEntry.remove(),
           ),
         ),
       ),
     );
-
     overlay.insert(overlayEntry);
+    onDismiss;
   }
 }
 
