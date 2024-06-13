@@ -12,13 +12,12 @@ import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ActivateAccount extends HookConsumerWidget {
   const ActivateAccount({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -42,7 +41,8 @@ class ActivateAccount extends HookConsumerWidget {
                     text: "Activa tu cuenta en segundos", //
                     fontWeight: FontWeight.w600,
                     fontSize: 24,
-                    colorText: themeProvider.isDarkMode ? primaryLight : primaryDark,
+                    colorText:
+                        themeProvider.isDarkMode ? primaryLight : primaryDark,
 
                     // Aquí añade el texto dentro de 'text'
                   ),
@@ -61,7 +61,9 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
                     ),
                     "Ingresa el código de verificación",
                   ),
@@ -77,29 +79,34 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
                     ),
-                    "Te hemos enviado el código a tu correo para confirmar la operacion",
+                    "Te hemos enviado el código a tu correo para confirmar la operación",
                   ),
                 ),
                 const SizedBox(
                   height: 30,
                 ),
-                VerificationCodeWidget(),
+                const VerificationCodeWidget(),
                 const SizedBox(
                   height: 30,
                 ),
                 SizedBox(
                   width: 133,
                   child: Text(
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                        color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
-                      ),
-                      "Reenviar el código en "),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w400,
+                      height: 1.5,
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
+                    ),
+                    "Reenviar el código en ",
+                  ),
                 ),
                 const SizedBox(
                   height: 15,
@@ -111,10 +118,13 @@ class ActivateAccount extends HookConsumerWidget {
 
                       client.when(
                         data: (client) async {
-                          final result = await (sendEmailOTPCode(user.email!, client));
+                          final result =
+                              await (sendEmailOTPCode(user.email!, client));
 
                           if (result == true) {
-                            ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
+                            ref
+                                .read(timerCounterDownProvider.notifier)
+                                .startTimer(first: true);
                           } else {
                             CustomSnackbar.show(
                               context,
@@ -129,7 +139,9 @@ class ActivateAccount extends HookConsumerWidget {
                     },
                     style: TextButton.styleFrom(
                       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                      backgroundColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
+                      backgroundColor: Color(
+                        themeProvider.isDarkMode ? primaryLight : primaryDark,
+                      ),
                     ),
                     child: Text(
                       'Reenviar código',
@@ -137,7 +149,9 @@ class ActivateAccount extends HookConsumerWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: themeProvider.isDarkMode ? Color(primaryDark) : Colors.white,
+                        color: themeProvider.isDarkMode
+                            ? const Color(primaryDark)
+                            : Colors.white,
                       ),
                     ),
                   ),
@@ -146,7 +160,7 @@ class ActivateAccount extends HookConsumerWidget {
                   ),
                 ] else ...[
                   const CircularCountdown(),
-                ]
+                ],
               ],
             ),
           ),
@@ -157,66 +171,71 @@ class ActivateAccount extends HookConsumerWidget {
 }
 
 class VerificationCodeWidget extends HookConsumerWidget {
+  const VerificationCodeWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
 
     return Center(
-        child: Container(
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.transparent,
+          ),
+          borderRadius: BorderRadius.circular(5.0),
         ),
-        borderRadius: BorderRadius.circular(5.0),
+        child: VerificationCode(
+          fullBorder: true,
+          textStyle: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.bold,
+            color: themeProvider.isDarkMode
+                ? Colors.white
+                : const Color(primaryDark),
+          ),
+          keyboardType: TextInputType.number,
+          underlineColor: const Color(
+            0xff9381FF,
+          ),
+          underlineUnfocusedColor: Color(
+            themeProvider.isDarkMode ? primaryLight : primaryDark,
+          ),
+          length: 4,
+          itemSize: 50,
+          cursorColor: Colors.blue,
+          onCompleted: (code) {
+            final futureIsValidCode = ref.watch(
+              otpValidatorFutureProvider(
+                OTPForm(
+                  email: userProfile.email!,
+                  otp: code,
+                  action: 'register',
+                ),
+              ).future,
+            );
+            futureIsValidCode.then((status) {
+              if (status == true) {
+                Preferences.username = userProfile.email!;
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  '/on_boarding_start',
+                  (route) => false, // Remove all the previous routes
+                );
+              } else {
+                Navigator.of(context).pop();
+                CustomSnackbar.show(
+                  context,
+                  'No se pudo validar el código de verificación',
+                  'error',
+                );
+              }
+            });
+          },
+          onEditing: (bool value) {},
+        ),
       ),
-      child: VerificationCode(
-        fullBorder: true,
-        textStyle: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.bold,
-          color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
-        ),
-        keyboardType: TextInputType.number,
-        underlineColor: const Color(
-          0xff9381FF,
-        ),
-        underlineUnfocusedColor: Color(
-          themeProvider.isDarkMode ? primaryLight : primaryDark,
-        ),
-        length: 4,
-        itemSize: 50,
-        cursorColor: Colors.blue,
-        onCompleted: (code) {
-          final futureIsValidCode = ref.watch(
-            otpValidatorFutureProvider(
-              OTPForm(
-                email: userProfile.email!,
-                otp: code,
-                action: 'register',
-              ),
-            ).future,
-          );
-          futureIsValidCode.then((status) {
-            if (status == true) {
-              Preferences.username = userProfile.email!;
-              Navigator.pushNamedAndRemoveUntil(
-                context,
-                '/on_boarding_start',
-                (route) => false, // Remove all the previous routes
-              );
-            } else {
-              Navigator.of(context).pop();
-              CustomSnackbar.show(
-                context,
-                'No se pudo validar el código de verificación',
-                'error',
-              );
-            }
-          });
-        },
-        onEditing: (bool value) {},
-      ),
-    ));
+    );
   }
 }

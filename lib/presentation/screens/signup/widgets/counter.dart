@@ -10,43 +10,65 @@ class CircularCountdown extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    final duration = ref.watch(timerCounterDownProvider);
+    const width = 92.0;
+    const height = 91.0;
     return SizedBox(
-      width: 92.0,
-      height: 91.0,
+      width: width,
+      height: height,
       child: Stack(
-        alignment: Alignment.topCenter,
+        alignment: FractionalOffset.center,
         children: [
           CircularCountDownTimer(
             width: MediaQuery.of(context).size.width / 2,
             height: MediaQuery.of(context).size.height / 2,
-            duration: ref.watch(timerCounterDownProvider),
+            duration: duration,
             // ringColor: Colors.grey[300]!,
-            fillColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+            fillColor: currentTheme.isDarkMode
+                ? const Color(primaryLight)
+                : const Color(primaryDark),
             ringColor: const Color(0xff9381FF),
             isReverse: true,
 
             // isReverseAnimation: true,
             // backgroundColor: const Color(cardBackgroundColorLight),
-            backgroundColor: currentTheme.isDarkMode ? const Color(primaryDark) : Colors.transparent,
+            backgroundColor: currentTheme.isDarkMode
+                ? const Color(primaryDark)
+                : Colors.transparent,
             strokeWidth: 6.0,
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontSize: 15.0,
-              // color: Color(primaryDark),
-              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+              color: Colors
+                  .transparent, // Color transparente para ocultar el número
               fontWeight: FontWeight.bold,
             ),
-            textFormat: CountdownTextFormat.S,
             onComplete: () {
               debugPrint('Countdown Ended');
               ref.read(timerCounterDownProvider.notifier).resetTimer();
             },
           ),
-          Padding(
-            padding: const EdgeInsets.all(9.0),
-            child: Icon(
-              Icons.alarm,
-              size: 24.0,
-              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+          Positioned(
+            height: height / 2,
+            child: Column(
+              children: [
+                Icon(
+                  Icons.alarm,
+                  size: 24.0,
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
+                ),
+                Text(
+                  duration.toString(),
+                  style: TextStyle(
+                    fontSize: 15.0,
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
