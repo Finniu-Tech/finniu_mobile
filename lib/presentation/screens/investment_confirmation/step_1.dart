@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
@@ -109,7 +110,6 @@ class Step1Body extends StatefulHookConsumerWidget {
 }
 
 class _Step1BodyState extends ConsumerState<Step1Body> {
-  @override
   late Future deadLineFuture;
   late Future bankFuture;
   late double? profitability;
@@ -515,7 +515,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                   ),
-                  label: Text("Ingresa tu codigo promocional,si tienes uno"),
+                  label:
+                      const Text("Ingresa tu codigo promocional,si tienes uno"),
                 ),
               ),
             ),
@@ -537,7 +538,9 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                             spreadRadius: 0,
                             blurRadius: 2,
                             offset: const Offset(
-                                0, 3), // changes position of shadow
+                              0,
+                              3,
+                            ), // changes position of shadow
                           ),
                         ],
                       ),
@@ -584,7 +587,9 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                             spreadRadius: 0,
                             blurRadius: 2,
                             offset: const Offset(
-                                0, 3), // changes position of shadow
+                              0,
+                              3,
+                            ), // changes position of shadow
                           ),
                         ],
                       ),
@@ -592,7 +597,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '$moneySymbol ${profitability}',
+                            '$moneySymbol $profitability',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
@@ -666,14 +671,14 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     await bankFuture,
                   );
                   final preInvestment = PreInvestmentForm(
-                      amount: int.parse(widget.mountController.text),
-                      deadLineUuid: deadLineUuid,
-                      coupon: widget.couponController.text,
-                      planUuid: widget.plan.uuid,
-                      bankAccountTypeUuid: bankUuid,
-                      currency: isSoles ? currencyNuevoSol : currencyDollar
-                      // bankAccountNumber: widget.bankNumberController.text,
-                      );
+                    amount: int.parse(widget.mountController.text),
+                    deadLineUuid: deadLineUuid,
+                    coupon: widget.couponController.text,
+                    planUuid: widget.plan.uuid,
+                    bankAccountTypeUuid: bankUuid,
+                    currency: isSoles ? currencyNuevoSol : currencyDollar,
+                    // bankAccountNumber: widget.bankNumberController.text,
+                  );
                   context.loaderOverlay.show();
                   final preInvestmentEntityResponse = await ref
                       .watch(preInvestmentSaveProvider(preInvestment).future);
@@ -692,7 +697,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     context.loaderOverlay.hide();
                     ref
                         .read(
-                            preInvestmentVoucherImagesPreviewProvider.notifier)
+                          preInvestmentVoucherImagesPreviewProvider.notifier,
+                        )
                         .state = [];
                     ref
                         .read(preInvestmentVoucherImagesProvider.notifier)

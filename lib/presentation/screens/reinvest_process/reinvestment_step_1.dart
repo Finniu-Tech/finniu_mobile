@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
@@ -159,7 +160,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
     final _selectedBankAccount = ref.read(selectedBankAccountSenderProvider);
     if (_selectedBankAccount != null) {
       widget.bankController.text = BankAccount.getSafeBankAccountNumber(
-          _selectedBankAccount.bankAccount);
+        _selectedBankAccount.bankAccount,
+      );
       final banks = await ref.read(bankFutureProvider.future);
       final _selectedBank =
           BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
@@ -196,8 +198,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 
     final currency = widget.isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final theme = ref.watch(settingsNotifierProvider);
-    final moneySymbol = widget.isSoles ? "S/" : "\$";
-    final _debouncer = Debouncer(milliseconds: 3000);
+    final debouncer = Debouncer(milliseconds: 3000);
     final finalAmountState = useState(widget.preInvestmentAmount);
 
     ref.listen<BankAccount?>(selectedBankAccountSenderProvider,
@@ -228,14 +229,18 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                         color: Color(
-                            Theme.of(context).colorScheme.secondary.value),
+                          Theme.of(context).colorScheme.secondary.value,
+                        ),
                       ),
                     ),
                   ),
 
             if (plan != null) ...[
               PlanCardWidget(
-                  theme: theme, moneySymbol: moneySymbol, plan: plan!),
+                theme: theme,
+                isSoles: widget.isSoles,
+                plan: plan!,
+              ),
             ],
             const SizedBox(
               height: 20,
@@ -273,7 +278,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                   return null;
                 },
                 onChanged: (value) {
-                  _debouncer.run(() {
+                  debouncer.run(() {
                     if (widget.mountController.text.isNotEmpty &&
                         widget.deadLineController.text.isNotEmpty) {
                       final aditionalAmount =
@@ -642,7 +647,9 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                                 spreadRadius: 0,
                                 blurRadius: 2,
                                 offset: const Offset(
-                                    0, 3), // changes position of shadow
+                                  0,
+                                  3,
+                                ), // changes position of shadow
                               ),
                             ],
                           ),
@@ -682,7 +689,9 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                                 spreadRadius: 0,
                                 blurRadius: 2,
                                 offset: const Offset(
-                                    0, 3), // changes position of shadow
+                                  0,
+                                  3,
+                                ), // changes position of shadow
                               ),
                             ],
                           ),
@@ -690,7 +699,13 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '$moneySymbol ${profitability}',
+                                widget.isSoles
+                                    ? formatterSoles.format(
+                                        resultCalculator?.profitability ?? 0,
+                                      )
+                                    : formatterUSD.format(
+                                        resultCalculator?.profitability ?? 0,
+                                      ),
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 16,
@@ -785,9 +800,11 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                   context.loaderOverlay.show();
 
                   final createReInvestmentResponse = await ref.watch(
-                      createReInvestmentProvider(reInvestmentParams).future);
+                    createReInvestmentProvider(reInvestmentParams).future,
+                  );
                   print(
-                      'createReInvestmentResponse: $createReInvestmentResponse');
+                    'createReInvestmentResponse: $createReInvestmentResponse',
+                  );
                   if (createReInvestmentResponse.success == false) {
                     context.loaderOverlay.hide();
                     // CHECK HERE
@@ -836,8 +853,13 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                         },
                       );
                     } else {
-                      showBankAccountModal(context, ref, currency, false,
-                          widget.reInvestmentType);
+                      showBankAccountModal(
+                        context,
+                        ref,
+                        currency,
+                        false,
+                        widget.reInvestmentType,
+                      );
                     }
                   }
                 },
@@ -857,14 +879,15 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 }
 
 class PlanCardWidget extends StatelessWidget {
-  const PlanCardWidget(
-      {super.key,
-      required this.theme,
-      required this.moneySymbol,
-      required this.plan});
+  const PlanCardWidget({
+    super.key,
+    required this.theme,
+    required this.isSoles,
+    required this.plan,
+  });
 
   final SettingsProviderState theme;
-  final String moneySymbol;
+  final bool isSoles;
   final PlanEntity plan;
 
   @override
@@ -942,7 +965,7 @@ class PlanCardWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Desde $moneySymbol ${plan.minAmount.toString()}',
+                    'Desde ${isSoles ? formatterSoles.format(plan.minAmount) : formatterUSD.format(plan.minAmount)}',
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color(primaryDark),
