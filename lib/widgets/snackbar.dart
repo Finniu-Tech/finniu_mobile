@@ -8,6 +8,10 @@ class CustomSnackbar {
   static void show(BuildContext context, String message, String type) {
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
+    final onDismiss = Future.delayed(
+      const Duration(seconds: 2),
+      () => overlayEntry.remove(),
+    );
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -20,7 +24,7 @@ class CustomSnackbar {
           child: SnackBarBody(
             message: message,
             type: type,
-            onDismiss: () => overlayEntry.remove(),
+            onDismiss: () => onDismiss,
           ),
         ),
       ),
@@ -88,7 +92,7 @@ class SnackBarBody extends HookConsumerWidget {
                   width: 200,
                   height: 50,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 12),
                     child: Text(
                       message,
                       style: TextStyle(
