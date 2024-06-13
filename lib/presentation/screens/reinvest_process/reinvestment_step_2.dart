@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
@@ -17,7 +18,6 @@ import 'package:finniu/presentation/screens/reinvest_process/widgets/step_bar.da
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -136,7 +136,6 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
     final currentTheme = widget.currentTheme;
     final isSoles = currencyEnum.PEN == reInvestment.currency;
     final String textCurrency = isSoles ? 'soles' : 'dólares';
-    final String moneySymbol = isSoles ? 'S/' : "\$";
 
     ref.listen<BankAccount?>(selectedBankAccountReceiverProvider,
         (previous, next) {
@@ -270,7 +269,10 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '$moneySymbol ${reInvestment.finalAmount}',
+                            isSoles
+                                ? formatterSoles
+                                    .format(reInvestment.finalAmount)
+                                : formatterUSD.format(reInvestment.finalAmount),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               fontSize: 16,
@@ -312,7 +314,11 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '$moneySymbol ${resultCalculator.profitability}',
+                            isSoles
+                                ? formatterSoles
+                                    .format(resultCalculator.profitability)
+                                : formatterUSD
+                                    .format(resultCalculator.profitability),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,

@@ -273,7 +273,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                             ),
                           ),
                           Text(
-                            'Desde $moneySymbol ${selectedPlan!.minAmount.toString()}',
+                            'Desde ${isSoles ? formatterSoles.format(selectedPlan!.minAmount) : formatterUSD.format(selectedPlan!.minAmount)}',
                             textAlign: TextAlign.left,
                             style: const TextStyle(
                               color: Color(primaryDark),
@@ -597,7 +597,9 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '$moneySymbol $profitability',
+                            isSoles
+                                ? formatterSoles.format(profitability)
+                                : formatterUSD.format(profitability),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
