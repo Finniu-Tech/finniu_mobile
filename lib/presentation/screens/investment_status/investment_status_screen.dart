@@ -108,7 +108,6 @@ class InvestmentStatusScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat.MMMM('es');
-    final moneySymbol = isSoles ? 'S/' : '\$';
     int maxLength =
         report.investmentsInCourse!.length > report.investmentsFinished!.length
             ? report.investmentsInCourse!.length
@@ -879,16 +878,16 @@ class TableCardInCourse extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryDark)
+                                            : const Color(primaryLight),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryDark)
-                                              : const Color(primaryLight),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -935,16 +934,16 @@ class TableCardInCourse extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryLight)
+                                            : const Color(secondary),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryLight)
-                                              : const Color(secondary),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -973,7 +972,7 @@ class TableCardInCourse extends ConsumerWidget {
                                               : const Color(primaryDark),
                                           fontWeight: FontWeight.w600,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -993,7 +992,9 @@ class TableCardInCourse extends ConsumerWidget {
                                   spreadRadius: 0,
                                   blurRadius: 2,
                                   offset: const Offset(
-                                      0, 3), // changes position of shadow
+                                    0,
+                                    3,
+                                  ), // changes position of shadow
                                 ),
                               ],
                               color: currentTheme.isDarkMode
@@ -1021,20 +1022,23 @@ class TableCardInCourse extends ConsumerWidget {
                                               height: 25,
                                               // width: 145,
                                               margin: const EdgeInsets.only(
-                                                  right: 5),
+                                                right: 5,
+                                              ),
                                               padding: const EdgeInsets.only(
-                                                  top: 5,
-                                                  bottom: 5,
-                                                  left: 15,
-                                                  right: 15),
+                                                top: 5,
+                                                bottom: 5,
+                                                left: 15,
+                                                right: 15,
+                                              ),
                                               decoration: BoxDecoration(
                                                 // // color: Colors.green,
                                                 color: Color(
                                                   int.parse(
-                                                          tag![i]!
-                                                              .hexColor
-                                                              .substring(1),
-                                                          radix: 16) |
+                                                        tag![i]!
+                                                            .hexColor
+                                                            .substring(1),
+                                                        radix: 16,
+                                                      ) |
                                                       0xFF000000,
                                                 ),
                                                 borderRadius:
@@ -1143,7 +1147,7 @@ class TableCardInCourse extends ConsumerWidget {
                                               : const Color(blackText),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 2,
                                       ),
                                       Text(
@@ -1193,9 +1197,9 @@ class TableCardInCourse extends ConsumerWidget {
                             color: Color(
                               // 0xFF000000 + int.parse("${partner!.partnerHexColor}".substring(1), radix: 16),
                               int.parse(
-                                      "${partner!.partnerHexColor}"
-                                          .substring(1),
-                                      radix: 16) |
+                                    "${partner!.partnerHexColor}".substring(1),
+                                    radix: 16,
+                                  ) |
                                   0xFF000000,
                             ),
                             borderRadius: BorderRadius.circular(20),
@@ -1359,7 +1363,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                 const SizedBox(
                   width: 10,
                 ),
-              ]
+              ],
             ],
           ),
           const SizedBox(height: 10),
@@ -1378,11 +1382,12 @@ class TableCardInvestFinished extends ConsumerWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color(primaryLight),
+                                border: Border.all(
                                   color: const Color(primaryLight),
-                                  border: Border.all(
-                                    color: const Color(primaryLight),
-                                  )),
+                                ),
+                              ),
                               height: 60,
                               width: 5,
                             ),
@@ -1406,7 +1411,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                               height: 10,
                             ),
                             Text(
-                              '${amountInvested}',
+                              amountInvested,
                               style: TextStyle(
                                 color: currentTheme.isDarkMode
                                     ? const Color(whiteText)
@@ -1453,7 +1458,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                               height: 10,
                             ),
                             Text(
-                              '${totalRevenue}',
+                              totalRevenue,
                               style: TextStyle(
                                 color: currentTheme.isDarkMode
                                     ? const Color(primaryLight)
@@ -1527,6 +1532,7 @@ class TableCardPending extends ConsumerWidget {
     this.partner,
   });
 
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
@@ -1618,7 +1624,11 @@ class TableCardPending extends ConsumerWidget {
                             // width: 145,
                             margin: const EdgeInsets.only(right: 5),
                             padding: const EdgeInsets.only(
-                                top: 5, bottom: 5, left: 15, right: 15),
+                              top: 5,
+                              bottom: 5,
+                              left: 15,
+                              right: 15,
+                            ),
                             decoration: BoxDecoration(
                               // // color: Colors.green,
                               color: const Color(0xff4C8DBE).withOpacity(0.25),
@@ -1653,16 +1663,16 @@ class TableCardPending extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryDark)
+                                            : const Color(primaryLight),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryDark)
-                                              : const Color(primaryLight),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -1709,16 +1719,16 @@ class TableCardPending extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryLight)
+                                            : const Color(secondary),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryLight)
-                                              : const Color(secondary),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -1747,7 +1757,7 @@ class TableCardPending extends ConsumerWidget {
                                               : const Color(primaryDark),
                                           fontWeight: FontWeight.w600,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -1767,7 +1777,9 @@ class TableCardPending extends ConsumerWidget {
                                   spreadRadius: 0,
                                   blurRadius: 2,
                                   offset: const Offset(
-                                      0, 3), // changes position of shadow
+                                    0,
+                                    3,
+                                  ), // changes position of shadow
                                 ),
                               ],
                               color: currentTheme.isDarkMode
@@ -1795,20 +1807,23 @@ class TableCardPending extends ConsumerWidget {
                                               height: 25,
                                               // width: 145,
                                               margin: const EdgeInsets.only(
-                                                  right: 5),
+                                                right: 5,
+                                              ),
                                               padding: const EdgeInsets.only(
-                                                  top: 5,
-                                                  bottom: 5,
-                                                  left: 15,
-                                                  right: 15),
+                                                top: 5,
+                                                bottom: 5,
+                                                left: 15,
+                                                right: 15,
+                                              ),
                                               decoration: BoxDecoration(
                                                 // // color: Colors.green,
                                                 color: Color(
                                                   int.parse(
-                                                          tag![i]!
-                                                              .hexColor
-                                                              .substring(1),
-                                                          radix: 16) |
+                                                        tag![i]!
+                                                            .hexColor
+                                                            .substring(1),
+                                                        radix: 16,
+                                                      ) |
                                                       0xFF000000,
                                                 ),
                                                 borderRadius:
@@ -1967,9 +1982,9 @@ class TableCardPending extends ConsumerWidget {
                             color: Color(
                               // 0xFF000000 + int.parse("${partner!.partnerHexColor}".substring(1), radix: 16),
                               int.parse(
-                                      "${partner!.partnerHexColor}"
-                                          .substring(1),
-                                      radix: 16) |
+                                    "${partner!.partnerHexColor}".substring(1),
+                                    radix: 16,
+                                  ) |
                                   0xFF000000,
                             ),
                             borderRadius: BorderRadius.circular(20),
