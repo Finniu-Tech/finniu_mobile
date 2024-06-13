@@ -8,7 +8,6 @@ import 'package:finniu/presentation/screens/investment_status/widgets/empty_mess
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -90,14 +89,15 @@ class InvestmentHistoryBody extends StatelessWidget {
   final bool isSoles;
 
   InvestmentHistoryBody({
+    super.key,
     required this.currentTheme,
     required TabController tabController,
     required this.history,
     required this.isSoles,
   }) : _tabController = tabController;
 
-  @override
   DateFormat dateFormat = DateFormat.MMMM('es');
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Center(
@@ -366,7 +366,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                               planName: e.planName,
                               termText: 'Se esta validando tu transferencia',
                               state: 'En proceso',
-                              mounted: e.totalAmount.toString(),
+                              mounted: e.totalAmount,
                               isSoles: isSoles,
                             ),
                           )
@@ -379,7 +379,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                               planName: e.planName,
                               termText: 'Su inversión ha sido rechazada',
                               state: 'Rechazado',
-                              mounted: e.totalAmount.toString(),
+                              mounted: e.totalAmount,
                               isSoles: isSoles,
                             ),
                           )
@@ -723,7 +723,7 @@ class TablePlanProcess extends ConsumerWidget {
   final String planName;
   final String termText;
   final String state;
-  final String mounted;
+  final double mounted;
   final bool isSoles;
 
   const TablePlanProcess({
@@ -742,7 +742,7 @@ class TablePlanProcess extends ConsumerWidget {
     return Center(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.9,
-        margin: EdgeInsets.only(bottom: 10),
+        margin: const EdgeInsets.only(bottom: 10),
         height: 100,
         decoration: BoxDecoration(
           boxShadow: [
@@ -846,7 +846,9 @@ class TablePlanProcess extends ConsumerWidget {
                     ),
                   ),
                   Text(
-                    '$moneySymbol$mounted',
+                    isSoles
+                        ? formatterSoles.format(mounted)
+                        : formatterUSD.format(mounted),
                     style: TextStyle(
                       fontSize: 10,
                       color: currentTheme.isDarkMode
@@ -856,7 +858,7 @@ class TablePlanProcess extends ConsumerWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Text(
