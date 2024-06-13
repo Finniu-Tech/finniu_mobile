@@ -1,11 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
-
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:finniu/presentation/providers/settings_provider.dart';
 
 class LineReportCalculatorWidget extends ConsumerStatefulWidget {
@@ -78,7 +77,6 @@ class _LineReportCalculatorWidgetState
     final theme = ref.watch(settingsNotifierProvider);
     final images = theme.isDarkMode ? _darkImages : _lightImages;
     final isSoles = ref.watch(isSolesStateProvider);
-    final String moneySymbol = isSoles ? "S/" : "\$";
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -95,7 +93,7 @@ class _LineReportCalculatorWidgetState
               gaplessPlayback: true,
             ),
           );
-        }).toList(),
+        }),
         Positioned(
           top: 30,
           left: 16,
@@ -128,7 +126,9 @@ class _LineReportCalculatorWidgetState
                       ),
                     ),
                     Text(
-                      '${moneySymbol} ${widget.initialAmount}',
+                      isSoles
+                          ? formatterSoles.format(widget.initialAmount)
+                          : formatterUSD.format(widget.initialAmount),
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         fontSize: 16,
@@ -163,13 +163,15 @@ class _LineReportCalculatorWidgetState
                     Text(
                       'En ${widget.months} meses tendrías',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 10,
                         color: Color(blackText),
                       ),
                     ),
                     Text(
-                      '$moneySymbol ${widget.finalAmount}',
+                      isSoles
+                          ? formatterSoles.format(widget.finalAmount)
+                          : formatterUSD.format(widget.finalAmount),
                       textAlign: TextAlign.right,
                       style: const TextStyle(
                         fontSize: 16,
@@ -190,7 +192,9 @@ class _LineReportCalculatorWidgetState
             children: [
               const Text('Intereses ganados'),
               Text(
-                '$moneySymbol ${widget.revenueAmount}',
+                isSoles
+                    ? formatterSoles.format(widget.revenueAmount)
+                    : formatterUSD.format(widget.revenueAmount),
                 style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
