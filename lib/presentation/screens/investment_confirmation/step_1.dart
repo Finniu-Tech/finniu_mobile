@@ -157,7 +157,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final bankFuture = ref.watch(bankFutureProvider.future);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
-    final moneySymbol = isSoles ? "S/" : "\$";
     final debouncer = Debouncer(milliseconds: 3000);
 
     useEffect(
