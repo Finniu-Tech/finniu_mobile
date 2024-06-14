@@ -27,6 +27,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
   final currency = ref.watch(isSolesStateProvider);
   final userProfile = ref.watch(userProfileNotifierProvider);
+  final setMode = ref.read(settingsNotifierProvider.notifier);
 
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -149,18 +150,8 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                     activeToggleColor: const Color(primaryDark),
                                     onToggle: (value) {
                                       value
-                                          ? ref
-                                              .read(
-                                                settingsNotifierProvider
-                                                    .notifier,
-                                              )
-                                              .setDarkMode()
-                                          : ref
-                                              .read(
-                                                settingsNotifierProvider
-                                                    .notifier,
-                                              )
-                                              .setLightMode();
+                                          ? setMode.setDarkMode()
+                                          : setMode.setLightMode();
                                       Preferences.isDarkMode = value;
                                       Navigator.of(context).pop();
                                     },
