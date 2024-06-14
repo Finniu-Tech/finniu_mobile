@@ -8,6 +8,10 @@ class CustomSnackbar {
   static void show(BuildContext context, String message, String type) {
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
+    final onDismiss = Future.delayed(
+      const Duration(seconds: 2),
+      () => overlayEntry.remove(),
+    );
 
     overlayEntry = OverlayEntry(
       builder: (context) => Positioned(
@@ -25,8 +29,8 @@ class CustomSnackbar {
         ),
       ),
     );
-
-    overlay?.insert(overlayEntry);
+    overlay.insert(overlayEntry);
+    onDismiss;
   }
 }
 
@@ -36,6 +40,7 @@ class SnackBarBody extends HookConsumerWidget {
   final VoidCallback onDismiss;
 
   const SnackBarBody({
+    super.key,
     required this.message,
     required this.type,
     required this.onDismiss,
@@ -55,7 +60,9 @@ class SnackBarBody extends HookConsumerWidget {
             bottomLeft: Radius.circular(20),
             topLeft: Radius.circular(40),
           ),
-          color: themeProvider.isDarkMode ? Color(backgroundColorDark) : Colors.white,
+          color: themeProvider.isDarkMode
+              ? const Color(backgroundColorDark)
+              : Colors.white,
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -81,20 +88,22 @@ class SnackBarBody extends HookConsumerWidget {
               left: 90,
               top: 30,
               child: Center(
-                child: Container(
-                  child: SizedBox(
-                    width: 200,
-                    height: 50,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 4),
-                      child: Text(
-                        message,
-                        style: TextStyle(
-                          color: themeProvider.isDarkMode ? Colors.white : Colors.black,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
-                        ),
+                child: SizedBox(
+                  width: 200,
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10, right: 12),
+                    child: Text(
+                      message,
+                      style: TextStyle(
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : Colors.black,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
                       ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 ),
@@ -155,19 +164,23 @@ class SnackBarBody extends HookConsumerWidget {
           ),
         );
       case 'error':
-        return const Text('Upss, algo salió mal',
-            style: TextStyle(
-              color: Colors.red,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ));
+        return const Text(
+          'Upss, algo salió mal',
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        );
       case 'info':
-        return const Text('Bienvenido a Finniu!',
-            style: TextStyle(
-              color: Color(0xff0D3A5C),
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ));
+        return const Text(
+          'Bienvenido a Finniu!',
+          style: TextStyle(
+            color: Color(0xff0D3A5C),
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
+          ),
+        );
       default:
         return const Text('Info');
     }
