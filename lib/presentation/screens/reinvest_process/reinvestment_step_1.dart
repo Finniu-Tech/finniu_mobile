@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
@@ -120,7 +121,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
   Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
     if (widget.mountController.text.isNotEmpty) {
       context.loaderOverlay.show();
-      final aditionalAmount = num.tryParse(widget.mountController.text)?.toInt() ?? 0;
+      final aditionalAmount =
+          num.tryParse(widget.mountController.text)?.toInt() ?? 0;
       final finalAmount = aditionalAmount + widget.preInvestmentAmount;
 
       final inputCalculator = CalculatorInput(
@@ -157,9 +159,12 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
   Future<void> _updateBankAccount() async {
     final _selectedBankAccount = ref.read(selectedBankAccountSenderProvider);
     if (_selectedBankAccount != null) {
-      widget.bankController.text = BankAccount.getSafeBankAccountNumber(_selectedBankAccount.bankAccount);
+      widget.bankController.text = BankAccount.getSafeBankAccountNumber(
+        _selectedBankAccount.bankAccount,
+      );
       final banks = await ref.read(bankFutureProvider.future);
-      final _selectedBank = BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
+      final _selectedBank =
+          BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
       setState(() {
         selectedBank = _selectedBank;
         selectedBankAccount = _selectedBankAccount;
@@ -193,11 +198,11 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 
     final currency = widget.isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final theme = ref.watch(settingsNotifierProvider);
-    final moneySymbol = widget.isSoles ? "S/" : "\$";
-    final _debouncer = Debouncer(milliseconds: 3000);
+    final debouncer = Debouncer(milliseconds: 3000);
     final finalAmountState = useState(widget.preInvestmentAmount);
 
-    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider,
+        (previous, next) {
       _updateBankAccount();
     });
 
@@ -223,13 +228,19 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Color(Theme.of(context).colorScheme.secondary.value),
+                        color: Color(
+                          Theme.of(context).colorScheme.secondary.value,
+                        ),
                       ),
                     ),
                   ),
 
             if (plan != null) ...[
-              PlanCardWidget(theme: theme, moneySymbol: moneySymbol, plan: plan!),
+              PlanCardWidget(
+                theme: theme,
+                isSoles: widget.isSoles,
+                plan: plan!,
+              ),
             ],
             const SizedBox(
               height: 20,
@@ -240,7 +251,9 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 'Completa los siguientes datos',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  color: widget.currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                  color: widget.currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                   fontSize: 14,
                   height: 1.5,
                   fontWeight: FontWeight.w500,
@@ -253,7 +266,10 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
               child: TextFormField(
                 controller: widget.mountController,
-                enabled: widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY ? false : true,
+                enabled:
+                    widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY
+                        ? false
+                        : true,
 
                 validator: (value) {
                   if (value!.isEmpty) {
@@ -262,10 +278,14 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                   return null;
                 },
                 onChanged: (value) {
-                  _debouncer.run(() {
-                    if (widget.mountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
-                      final aditionalAmount = num.tryParse(widget.mountController.text)?.toInt() ?? 0;
-                      finalAmountState.value = aditionalAmount + widget.preInvestmentAmount;
+                  debouncer.run(() {
+                    if (widget.mountController.text.isNotEmpty &&
+                        widget.deadLineController.text.isNotEmpty) {
+                      final aditionalAmount =
+                          num.tryParse(widget.mountController.text)?.toInt() ??
+                              0;
+                      finalAmountState.value =
+                          aditionalAmount + widget.preInvestmentAmount;
                       calculateInvestment(context, ref);
                     }
                   });
@@ -274,9 +294,11 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
                   hintText: 'Escriba su monto de inversion',
-                  hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                  hintStyle:
+                      const TextStyle(color: Color(grayText), fontSize: 11),
                   labelStyle: TextStyle(
-                    color: widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL
+                    color: widget.reInvestmentType ==
+                            typeReinvestmentEnum.CAPITAL_ADITIONAL
                         ? theme.isDarkMode
                             ? const Color(primaryLight)
                             : const Color(primaryDark)
@@ -284,7 +306,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     fontSize: 11,
                     fontWeight: FontWeight.bold,
                   ),
-                  label: Text("Monto Adicional"),
+                  label: const Text("Monto Adicional"),
                 ),
                 inputFormatters: [
                   FilteringTextInputFormatter.allow(
@@ -299,9 +321,12 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 57,
               child: FinalAmountWidget(
-                amount: finalAmountState.value.toString(),
+                amount: finalAmountState.value,
                 isSoles: true,
-                isActive: widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY ? false : true,
+                isActive:
+                    widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY
+                        ? false
+                        : true,
               ),
             ),
             const SizedBox(
@@ -317,7 +342,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 },
                 callbackOnChange: (value) async {
                   widget.deadLineController.text = value;
-                  if (widget.mountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
+                  if (widget.mountController.text.isNotEmpty &&
+                      widget.deadLineController.text.isNotEmpty) {
                     calculateInvestment(context, ref);
                   }
                   //ONFOCUS
@@ -343,7 +369,13 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               child: InkWell(
                 onTap: () async {
                   // show accounts modal
-                  showBankAccountModal(context, ref, currency, true, widget.reInvestmentType);
+                  showBankAccountModal(
+                    context,
+                    ref,
+                    currency,
+                    true,
+                    widget.reInvestmentType,
+                  );
                 },
                 child: IgnorePointer(
                   child: TextFormField(
@@ -358,7 +390,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     decoration: InputDecoration(
                       prefixIcon: widget.bankController.text.isNotEmpty
                           ? Padding(
-                              padding: const EdgeInsets.only(right: 8.0, left: 20.0),
+                              padding:
+                                  const EdgeInsets.only(right: 8.0, left: 20.0),
                               child: selectedBank!.logoUrl!.isNotEmpty
                                   ? Image.network(
                                       selectedBank?.logoUrl ?? '',
@@ -366,22 +399,27 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                                       height: 13,
                                       fit: BoxFit.contain,
                                     )
-                                  : const Icon(Icons.account_balance, color: Colors.grey, size: 13),
+                                  : const Icon(
+                                      Icons.account_balance,
+                                      color: Colors.grey,
+                                      size: 13,
+                                    ),
                             )
                           : null,
                       suffixIconConstraints: const BoxConstraints(
                         maxHeight: 39,
                         maxWidth: 39,
                       ),
-                      suffixIcon: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
                         child: Icon(
                           Icons.arrow_drop_down,
                           color: Colors.grey,
                         ),
                       ),
                       hintText: 'Nombre del banco',
-                      hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                      hintStyle:
+                          const TextStyle(color: Color(grayText), fontSize: 11),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.zero,
                       ),
@@ -398,7 +436,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 
             //add select to origin of founds
 
-            if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) ...[
+            if (widget.reInvestmentType ==
+                typeReinvestmentEnum.CAPITAL_ADITIONAL) ...[
               Container(
                 width: MediaQuery.of(context).size.width * 0.8,
                 constraints: const BoxConstraints(
@@ -447,7 +486,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     },
                     decoration: const InputDecoration(
                       hintText: 'Escriba el origen de los fondos',
-                      hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                      hintStyle:
+                          TextStyle(color: Color(grayText), fontSize: 11),
                       label: Text("Origen de los fondos"),
                     ),
                   ),
@@ -511,7 +551,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                         ),
                       ),
                       onPressed: () async {
-                        if (widget.mountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
+                        if (widget.mountController.text.isEmpty ||
+                            widget.deadLineController.text.isEmpty) {
                           CustomSnackbar.show(
                             context,
                             'Debes ingresar el monto y el plazo para aplicar el cupón',
@@ -530,11 +571,15 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                         context.loaderOverlay.show();
                         final inputCalculator = CalculatorInput(
                           // amount: int.parse(widget.mountController.text),
-                          amount: num.tryParse(widget.mountController.text)?.toInt() ?? 0,
+                          amount: num.tryParse(widget.mountController.text)
+                                  ?.toInt() ??
+                              0,
                           months: int.parse(
                             widget.deadLineController.text.split(' ')[0],
                           ),
-                          currency: widget.isSoles ? currencyNuevoSol : currencyDollar,
+                          currency: widget.isSoles
+                              ? currencyNuevoSol
+                              : currencyDollar,
                           coupon: widget.couponController.text,
                         );
 
@@ -562,7 +607,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                           widget.couponController.clear();
                           CustomSnackbar.show(
                             context,
-                            resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
+                            resultCalculator?.error ??
+                                'Hubo un problema, intenta nuevamente',
                             'error',
                           );
                         }
@@ -570,11 +616,13 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     ),
                   ),
                   hintText: 'Ingresa tu codigo',
-                  hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                  hintStyle:
+                      const TextStyle(color: Color(grayText), fontSize: 11),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                   ),
-                  label: Text("Ingresa tu codigo promocional,si tienes uno"),
+                  label:
+                      const Text("Ingresa tu codigo promocional,si tienes uno"),
                 ),
               ),
             ),
@@ -598,7 +646,10 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                                 color: Colors.grey.withOpacity(0.6),
                                 spreadRadius: 0,
                                 blurRadius: 2,
-                                offset: const Offset(0, 3), // changes position of shadow
+                                offset: const Offset(
+                                  0,
+                                  3,
+                                ), // changes position of shadow
                               ),
                             ],
                           ),
@@ -637,7 +688,10 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                                 color: Colors.grey.withOpacity(0.6),
                                 spreadRadius: 0,
                                 blurRadius: 2,
-                                offset: const Offset(0, 3), // changes position of shadow
+                                offset: const Offset(
+                                  0,
+                                  3,
+                                ), // changes position of shadow
                               ),
                             ],
                           ),
@@ -645,7 +699,13 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '$moneySymbol ${profitability}',
+                                widget.isSoles
+                                    ? formatterSoles.format(
+                                        resultCalculator?.profitability ?? 0,
+                                      )
+                                    : formatterUSD.format(
+                                        resultCalculator?.profitability ?? 0,
+                                      ),
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
                                   fontSize: 16,
@@ -697,7 +757,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     );
                     return; // Sale de la función para evitar que continúe el proceso
                   }
-                  if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL &&
+                  if (widget.reInvestmentType ==
+                          typeReinvestmentEnum.CAPITAL_ADITIONAL &&
                       widget.originFoundsController.text.isEmpty) {
                     CustomSnackbar.show(
                       context,
@@ -706,7 +767,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     );
                     return;
                   }
-                  if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL &&
+                  if (widget.reInvestmentType ==
+                          typeReinvestmentEnum.CAPITAL_ADITIONAL &&
                       widget.mountController.text.isEmpty) {
                     CustomSnackbar.show(
                       context,
@@ -729,31 +791,40 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     deadlineUUID: deadLineUuid,
                     bankAccountSender: selectedBankAccount!.id,
                     originFounds: OriginFunds(
-                      originFundsEnum: OriginFoundsUtil.fromReadableName(originFound),
+                      originFundsEnum:
+                          OriginFoundsUtil.fromReadableName(originFound),
                       otherText: widget.otherFoundOriginController.text,
                     ),
                     typeReinvestment: widget.reInvestmentType,
                   );
                   context.loaderOverlay.show();
 
-                  final createReInvestmentResponse =
-                      await ref.watch(createReInvestmentProvider(reInvestmentParams).future);
-                  print('createReInvestmentResponse: $createReInvestmentResponse');
+                  final createReInvestmentResponse = await ref.watch(
+                    createReInvestmentProvider(reInvestmentParams).future,
+                  );
+                  print(
+                    'createReInvestmentResponse: $createReInvestmentResponse',
+                  );
                   if (createReInvestmentResponse.success == false) {
                     context.loaderOverlay.hide();
                     // CHECK HERE
                     CustomSnackbar.show(
                       context,
-                      createReInvestmentResponse.messages?[0].message ?? 'Hubo un problema, intenta nuevamente',
+                      createReInvestmentResponse.messages?[0].message ??
+                          'Hubo un problema, intenta nuevamente',
                       'error',
                     );
                     return; // Sale de la función para evitar que continúe el proceso
                   } else {
                     context.loaderOverlay.hide();
 
-                    if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
-                      final aditionalAmount = num.tryParse(widget.mountController.text)?.toInt() ?? 0;
-                      final finalAmount = aditionalAmount + widget.preInvestmentAmount;
+                    if (widget.reInvestmentType ==
+                        typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+                      final aditionalAmount =
+                          num.tryParse(widget.mountController.text)?.toInt() ??
+                              0;
+                      final finalAmount =
+                          aditionalAmount + widget.preInvestmentAmount;
                       Navigator.pushNamed(
                         context,
                         '/reinvestment_step_2',
@@ -761,21 +832,34 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                           'plan': plan,
                           'reInvestment': ReInvestmentEntity(
                             id: createReInvestmentResponse.reInvestmentUuid!,
-                            contractURL: createReInvestmentResponse.reInvestmentContractUrl!,
+                            contractURL: createReInvestmentResponse
+                                .reInvestmentContractUrl!,
                             finalAmount: finalAmount.toInt(),
                             currency: currency,
                             deadlineUUID: deadLineUuid,
                             bankAccountSenderUUID: selectedBank!.uuid,
-                            typeReinvestment: typeReinvestmentEnum.CAPITAL_ADITIONAL,
-                            originFounds: OriginFoundsUtil.fromReadableName(originFound).toString().split('.').last,
-                            otherOriginFounds: widget.otherFoundOriginController.text,
+                            typeReinvestment:
+                                typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                            originFounds:
+                                OriginFoundsUtil.fromReadableName(originFound)
+                                    .toString()
+                                    .split('.')
+                                    .last,
+                            otherOriginFounds:
+                                widget.otherFoundOriginController.text,
                             coupon: widget.couponController.text,
                           ),
                           'resultCalculator': resultCalculator,
                         },
                       );
                     } else {
-                      showBankAccountModal(context, ref, currency, false, widget.reInvestmentType);
+                      showBankAccountModal(
+                        context,
+                        ref,
+                        currency,
+                        false,
+                        widget.reInvestmentType,
+                      );
                     }
                   }
                 },
@@ -795,10 +879,15 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 }
 
 class PlanCardWidget extends StatelessWidget {
-  const PlanCardWidget({super.key, required this.theme, required this.moneySymbol, required this.plan});
+  const PlanCardWidget({
+    super.key,
+    required this.theme,
+    required this.isSoles,
+    required this.plan,
+  });
 
   final SettingsProviderState theme;
-  final String moneySymbol;
+  final bool isSoles;
   final PlanEntity plan;
 
   @override
@@ -813,7 +902,9 @@ class PlanCardWidget extends StatelessWidget {
         top: 20,
       ),
       decoration: BoxDecoration(
-        color: theme.isDarkMode ? const Color(cardBackgroundColorDark) : const Color(cardBackgroundColorLight),
+        color: theme.isDarkMode
+            ? const Color(cardBackgroundColorDark)
+            : const Color(cardBackgroundColorLight),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.6),
@@ -874,7 +965,7 @@ class PlanCardWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Desde $moneySymbol ${plan.minAmount.toString()}',
+                    'Desde ${isSoles ? formatterSoles.format(plan.minAmount) : formatterUSD.format(plan.minAmount)}',
                     textAlign: TextAlign.left,
                     style: const TextStyle(
                       color: Color(primaryDark),

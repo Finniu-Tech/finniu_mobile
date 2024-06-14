@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
-import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -11,7 +11,6 @@ import 'package:finniu/presentation/screens/investment_status/widgets/empty_mess
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +22,8 @@ class InvestmentProcess extends StatefulHookConsumerWidget {
   InvestmentProcessState createState() => InvestmentProcessState();
 }
 
-class InvestmentProcessState extends ConsumerState<InvestmentProcess> with SingleTickerProviderStateMixin {
+class InvestmentProcessState extends ConsumerState<InvestmentProcess>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -44,7 +44,8 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
         hideReturnButton: true,
         body: HookBuilder(
           builder: (context) {
-            final reportFuture = ref.watch(investmentStatusReportFutureProvider);
+            final reportFuture =
+                ref.watch(investmentStatusReportFutureProvider);
             return reportFuture.when(
               data: (data) {
                 print('data!!! report future, $data');
@@ -52,7 +53,8 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                 final reportDollars = data.dollarsRentability;
                 final report = isSoles ? reportSoles : reportDollars;
 
-                if (reportSoles.countTotalPlans() == 0 && reportDollars.countTotalPlans() == 0) {
+                if (reportSoles.countTotalPlans() == 0 &&
+                    reportDollars.countTotalPlans() == 0) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.6,
                     child: Center(
@@ -99,17 +101,17 @@ class InvestmentStatusScreenBody extends StatelessWidget {
   }) : _tabController = tabController;
 
   final SettingsProviderState currentTheme;
-  TabController _tabController;
+  final TabController _tabController;
   final InvestmentRentabilityResumeEntity report;
   final bool isSoles;
 
   @override
   Widget build(BuildContext context) {
     DateFormat dateFormat = DateFormat.MMMM('es');
-    final moneySymbol = isSoles ? 'S/' : '\$';
-    int maxLength = report.investmentsInCourse!.length > report.investmentsFinished!.length
-        ? report.investmentsInCourse!.length
-        : report.investmentsFinished!.length;
+    int maxLength =
+        report.investmentsInCourse!.length > report.investmentsFinished!.length
+            ? report.investmentsInCourse!.length
+            : report.investmentsFinished!.length;
 
     double columnHeight = maxLength * 230.0;
     return SingleChildScrollView(
@@ -129,7 +131,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        color: Color(Theme.of(context).colorScheme.secondary.value),
+                        color: Color(
+                          Theme.of(context).colorScheme.secondary.value,
+                        ),
                       ),
                     ),
                   ),
@@ -148,7 +152,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                         'assets/icons/calendar.png',
                         width: 20,
                         height: 20,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -168,7 +174,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.45,
                       height: 40,
                       decoration: BoxDecoration(
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20),
@@ -182,7 +190,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(whiteText),
                           ),
                         ),
                       ),
@@ -196,8 +206,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.45,
                       height: 40,
                       decoration: BoxDecoration(
-                        color:
-                            currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(primaryLightAlternative),
                         borderRadius: const BorderRadius.only(
                           topRight: Radius.circular(20),
                           topLeft: Radius.circular(20),
@@ -211,7 +222,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600,
-                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(primaryDark),
                           ),
                         ),
                       ),
@@ -237,7 +250,8 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                 height: 10,
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.start, // Alinear widgets en el centro horizontalmente
+                mainAxisAlignment: MainAxisAlignment
+                    .start, // Alinear widgets en el centro horizontalmente
                 children: [
                   Container(
                     width: 15,
@@ -248,17 +262,23 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                         color: const Color(primaryDark),
                       ),
                       shape: BoxShape.circle,
-                      color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryDark)
+                          : const Color(primaryLight),
                     ),
                     // Si desea agregar un icono dentro del círculo
                   ),
-                  const SizedBox(width: 5), // Separación entre el círculo y el texto
+                  const SizedBox(
+                    width: 5,
+                  ), // Separación entre el círculo y el texto
                   Text(
                     'Dinero invertido',
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
 
@@ -268,9 +288,12 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                     width: 15,
                     height: 15,
                     decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: const Color(primaryDark)),
+                      border:
+                          Border.all(width: 1, color: const Color(primaryDark)),
                       shape: BoxShape.circle,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(secondary),
                     ),
                     // Si desea agregar un icono dentro del círculo
                   ),
@@ -281,7 +304,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w500,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                 ],
@@ -294,7 +319,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                 style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
-                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
                 ),
               ),
               Align(
@@ -302,8 +329,12 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: TabBar(
                   isScrollable: true,
-                  unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
-                  labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  unselectedLabelColor: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
+                  labelColor: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                   labelStyle: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -321,7 +352,9 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                   ],
                   controller: _tabController,
                   // indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
+                  indicatorColor: currentTheme.isDarkMode
+                      ? const Color(secondary)
+                      : const Color(primaryLight),
                   indicatorWeight: 6,
                   indicatorPadding: const EdgeInsets.only(bottom: 12),
                 ),
@@ -339,23 +372,42 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                           .expand(
                             (investment) => [
                               TableCardInCourse(
-                                currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                                currency: isSoles
+                                    ? currencyEnum.PEN
+                                    : currencyEnum.USD,
                                 uuid: investment.uuid,
-                                reInvestmentAvailable: investment.reinvestmentAvailable,
+                                reInvestmentAvailable:
+                                    investment.reinvestmentAvailable,
                                 planName: investment.planName!,
                                 termText:
                                     'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                                amountInvested: '$moneySymbol${investment.amount}',
-                                interestGenerated: '$moneySymbol${investment.rentabilityAmount}',
-                                currentMoney: '$moneySymbol${investment.amount + investment.rentabilityAmount}',
-                                moneyGrowth: '+${investment.rentabilityPercent}%',
+                                amountInvested: isSoles
+                                    ? formatterSoles.format(investment.amount)
+                                    : formatterUSD.format(investment.amount),
+                                interestGenerated: isSoles
+                                    ? formatterSoles
+                                        .format(investment.rentabilityAmount)
+                                    : formatterUSD
+                                        .format(investment.rentabilityAmount),
+                                currentMoney: isSoles
+                                    ? formatterSoles.format(
+                                        investment.amount +
+                                            investment.rentabilityAmount,
+                                      )
+                                    : formatterUSD.format(
+                                        investment.amount +
+                                            investment.rentabilityAmount,
+                                      ),
+                                moneyGrowth:
+                                    '+${investment.rentabilityPercent}%',
                                 startDate:
                                     '${investment.startDateInvestment?.day} ${dateFormat.format(investment.startDateInvestment!)}',
                                 endDate:
                                     '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
                                 tag: investment.partnerCouponTag,
                                 partner: investment.partner,
-                                reInvestmentDisabled: investment.reInvestmentDisabled,
+                                reInvestmentDisabled:
+                                    investment.reInvestmentDisabled,
                                 isReInvestment: investment.isReInvestment,
                               ),
                             ],
@@ -366,14 +418,31 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                       children: report.investmentsPending!
                           .map(
                             (investment) => TableCardPending(
-                              currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                              currency:
+                                  isSoles ? currencyEnum.PEN : currencyEnum.USD,
                               uuid: investment.uuid,
-                              reInvestmentAvailable: investment.reinvestmentAvailable,
+                              reInvestmentAvailable:
+                                  investment.reinvestmentAvailable,
                               planName: investment.planName!,
-                              termText: 'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                              amountInvested: '$moneySymbol${investment.amount}',
-                              interestGenerated: '$moneySymbol${investment.rentabilityAmount}',
-                              currentMoney: '$moneySymbol${investment.amount + investment.rentabilityAmount}',
+                              termText:
+                                  'Plazo de ${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
+                              amountInvested: isSoles
+                                  ? formatterSoles.format(investment.amount)
+                                  : formatterUSD.format(investment.amount),
+                              interestGenerated: isSoles
+                                  ? formatterSoles
+                                      .format(investment.rentabilityAmount)
+                                  : formatterUSD
+                                      .format(investment.rentabilityAmount),
+                              currentMoney: isSoles
+                                  ? formatterSoles.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    )
+                                  : formatterUSD.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    ),
                               moneyGrowth: '+${investment.rentabilityPercent}%',
                               startDate:
                                   '${investment.startDateInvestment?.day} ${dateFormat.format(investment.startDateInvestment!)}',
@@ -381,7 +450,8 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                                   '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
                               tag: investment.partnerCouponTag,
                               partner: investment.partner,
-                              reInvestmentDisabled: investment.reInvestmentDisabled,
+                              reInvestmentDisabled:
+                                  investment.reInvestmentDisabled,
                               isReInvestment: investment.isReInvestment,
                             ),
                           )
@@ -392,14 +462,27 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                           .map(
                             (investment) => TableCardInvestFinished(
                               uuid: investment.uuid,
-                              currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                              currency:
+                                  isSoles ? currencyEnum.PEN : currencyEnum.USD,
                               planName: investment.planName!,
                               endDate:
                                   '${investment.endDateInvestment?.day} ${dateFormat.format(investment.endDateInvestment!)} ${investment.endDateInvestment?.year}',
-                              amountInvested: '$moneySymbol${investment.amount}',
-                              totalRevenue: '$moneySymbol${investment.rentabilityAmount + investment.amount}',
-                              growText: '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
-                              reInvestmentDisabled: investment.reInvestmentDisabled ?? false,
+                              amountInvested: isSoles
+                                  ? formatterSoles.format(investment.amount)
+                                  : formatterUSD.format(investment.amount),
+                              totalRevenue: isSoles
+                                  ? formatterSoles.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    )
+                                  : formatterUSD.format(
+                                      investment.amount +
+                                          investment.rentabilityAmount,
+                                    ),
+                              growText:
+                                  '${investment.deadLineValue} meses: ${investment.rentabilityPercent}%',
+                              reInvestmentDisabled:
+                                  investment.reInvestmentDisabled,
                             ),
                           )
                           .toList(),
@@ -483,7 +566,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final theme = ref.watch(settingsNotifierProvider);
     final images = theme.isDarkMode ? _darkImages : _lightImages;
-    final moneySymbol = widget.isSoles ? 'S/' : '\$';
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 1,
       child: Stack(
@@ -514,24 +597,32 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 Row(
                   children: [
                     Text(
-                      '$moneySymbol${widget.totalAmount.toStringAsFixed(2)}',
+                      widget.isSoles
+                          ? formatterSoles.format(widget.totalAmount)
+                          : formatterUSD.format(widget.totalAmount),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                       ),
                     ),
                     const SizedBox(
                       width: 22,
                     ),
                     Text(
-                      '$moneySymbol${widget.revenueAmount.toStringAsFixed(2)}',
+                      widget.isSoles
+                          ? formatterSoles.format(widget.revenueAmount)
+                          : formatterUSD.format(widget.revenueAmount),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -547,7 +638,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                       ),
                     ),
                     const SizedBox(
@@ -559,7 +652,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                       ),
                     ),
                   ],
@@ -573,7 +668,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                   ),
                 ),
                 const SizedBox(
@@ -587,7 +684,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                       ),
                     ),
                     const SizedBox(
@@ -657,9 +756,13 @@ class TableCardInCourse extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 210,
               decoration: BoxDecoration(
-                color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+                color: currentTheme.isDarkMode
+                    ? Colors.transparent
+                    : const Color(whiteText),
                 border: Border.all(
-                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(20),
@@ -676,7 +779,9 @@ class TableCardInCourse extends ConsumerWidget {
                         Text(
                           planName,
                           style: TextStyle(
-                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -697,7 +802,9 @@ class TableCardInCourse extends ConsumerWidget {
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w400,
-                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
                             ),
                           ),
                         ),
@@ -717,7 +824,9 @@ class TableCardInCourse extends ConsumerWidget {
                           ),
                         ),
                         const Spacer(),
-                        if (reInvestmentAvailable == true && !reInvestmentDisabled && !isReInvestment) ...[
+                        if (reInvestmentAvailable == true &&
+                            !reInvestmentDisabled &&
+                            !isReInvestment) ...[
                           Padding(
                             padding: const EdgeInsets.only(right: 10),
                             child: SizedBox(
@@ -725,11 +834,13 @@ class TableCardInCourse extends ConsumerWidget {
                               height: 35,
                               child: TextButton(
                                 onPressed: () {
-                                  final amountInvestedStr = currentMoney.replaceAll(
+                                  final amountInvestedStr =
+                                      currentMoney.replaceAll(
                                     RegExp(r'[^\d.]'),
                                     '',
                                   ); // Elimina todos los caracteres que no sean dígitos o puntos
-                                  final finalAmount = double.parse(amountInvestedStr);
+                                  final finalAmount =
+                                      double.parse(amountInvestedStr);
                                   print('currency: $currency');
                                   Navigator.pushNamed(
                                     context,
@@ -738,7 +849,8 @@ class TableCardInCourse extends ConsumerWidget {
                                       'preInvestmentUUID': uuid,
                                       'preInvestmentAmount': finalAmount,
                                       'currency': currency,
-                                      'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                                      'reInvestmentType': typeReinvestmentEnum
+                                          .CAPITAL_ADITIONAL,
                                     },
                                   );
                                 },
@@ -766,15 +878,16 @@ class TableCardInCourse extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryDark)
+                                            : const Color(primaryLight),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryDark)
-                                              : const Color(primaryLight),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -787,8 +900,9 @@ class TableCardInCourse extends ConsumerWidget {
                                       Text(
                                         'Dinero invertido',
                                         style: TextStyle(
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                           fontSize: 7,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -820,15 +934,16 @@ class TableCardInCourse extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryLight)
+                                            : const Color(secondary),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryLight)
-                                              : const Color(secondary),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -857,7 +972,7 @@ class TableCardInCourse extends ConsumerWidget {
                                               : const Color(primaryDark),
                                           fontWeight: FontWeight.w600,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -876,7 +991,10 @@ class TableCardInCourse extends ConsumerWidget {
                                   color: Colors.grey.withOpacity(0.6),
                                   spreadRadius: 0,
                                   blurRadius: 2,
-                                  offset: const Offset(0, 3), // changes position of shadow
+                                  offset: const Offset(
+                                    0,
+                                    3,
+                                  ), // changes position of shadow
                                 ),
                               ],
                               color: currentTheme.isDarkMode
@@ -903,14 +1021,28 @@ class TableCardInCourse extends ConsumerWidget {
                                             Container(
                                               height: 25,
                                               // width: 145,
-                                              margin: const EdgeInsets.only(right: 5),
-                                              padding: const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                              margin: const EdgeInsets.only(
+                                                right: 5,
+                                              ),
+                                              padding: const EdgeInsets.only(
+                                                top: 5,
+                                                bottom: 5,
+                                                left: 15,
+                                                right: 15,
+                                              ),
                                               decoration: BoxDecoration(
                                                 // // color: Colors.green,
                                                 color: Color(
-                                                  int.parse(tag![i]!.hexColor.substring(1), radix: 16) | 0xFF000000,
+                                                  int.parse(
+                                                        tag![i]!
+                                                            .hexColor
+                                                            .substring(1),
+                                                        radix: 16,
+                                                      ) |
+                                                      0xFF000000,
                                                 ),
-                                                borderRadius: BorderRadius.circular(20),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
                                               ),
                                               child: Center(
                                                 child: Text(
@@ -935,7 +1067,9 @@ class TableCardInCourse extends ConsumerWidget {
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
-                                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
                                     ),
                                   ),
                                   const SizedBox(
@@ -954,7 +1088,9 @@ class TableCardInCourse extends ConsumerWidget {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: MediaQuery.of(context).size.width * 0.03,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                       ),
                                       const SizedBox(
                                         height: 10,
@@ -982,8 +1118,9 @@ class TableCardInCourse extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
                                       const SizedBox(
@@ -994,8 +1131,9 @@ class TableCardInCourse extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
                                       const Spacer(),
@@ -1004,11 +1142,12 @@ class TableCardInCourse extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 2,
                                       ),
                                       Text(
@@ -1016,8 +1155,9 @@ class TableCardInCourse extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
                                     ],
@@ -1056,7 +1196,11 @@ class TableCardInCourse extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: Color(
                               // 0xFF000000 + int.parse("${partner!.partnerHexColor}".substring(1), radix: 16),
-                              int.parse("${partner!.partnerHexColor}".substring(1), radix: 16) | 0xFF000000,
+                              int.parse(
+                                    "${partner!.partnerHexColor}".substring(1),
+                                    radix: 16,
+                                  ) |
+                                  0xFF000000,
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),
@@ -1111,9 +1255,13 @@ class TableCardInvestFinished extends ConsumerWidget {
       margin: const EdgeInsets.only(bottom: 10),
       height: 200,
       decoration: BoxDecoration(
-        color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+        color: currentTheme.isDarkMode
+            ? Colors.transparent
+            : const Color(whiteText),
         border: Border.all(
-          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+          color: currentTheme.isDarkMode
+              ? const Color(primaryLight)
+              : const Color(primaryDark),
           width: 2,
         ),
         borderRadius: BorderRadius.circular(20),
@@ -1131,7 +1279,9 @@ class TableCardInvestFinished extends ConsumerWidget {
                 child: Text(
                   planName,
                   style: TextStyle(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                   ),
@@ -1152,7 +1302,9 @@ class TableCardInvestFinished extends ConsumerWidget {
                   'Finalizado',
                   style: TextStyle(
                     fontSize: 11,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
                 ),
               ),
@@ -1169,7 +1321,9 @@ class TableCardInvestFinished extends ConsumerWidget {
                   'Finalizó: $endDate',
                   style: TextStyle(
                     fontSize: 11,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -1195,7 +1349,8 @@ class TableCardInvestFinished extends ConsumerWidget {
                           'preInvestmentUUID': uuid,
                           'preInvestmentAmount': finalAmount,
                           'currency': currency,
-                          'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                          'reInvestmentType':
+                              typeReinvestmentEnum.CAPITAL_ADITIONAL,
                         },
                       );
                     },
@@ -1208,7 +1363,7 @@ class TableCardInvestFinished extends ConsumerWidget {
                 const SizedBox(
                   width: 10,
                 ),
-              ]
+              ],
             ],
           ),
           const SizedBox(height: 10),
@@ -1227,11 +1382,12 @@ class TableCardInvestFinished extends ConsumerWidget {
                           children: [
                             Container(
                               decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color(primaryLight),
+                                border: Border.all(
                                   color: const Color(primaryLight),
-                                  border: Border.all(
-                                    color: const Color(primaryLight),
-                                  )),
+                                ),
+                              ),
                               height: 60,
                               width: 5,
                             ),
@@ -1245,7 +1401,9 @@ class TableCardInvestFinished extends ConsumerWidget {
                             Text(
                               'Comenzaste con',
                               style: TextStyle(
-                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                color: currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(blackText),
                                 fontSize: 10,
                               ),
                             ),
@@ -1253,9 +1411,11 @@ class TableCardInvestFinished extends ConsumerWidget {
                               height: 10,
                             ),
                             Text(
-                              '${amountInvested}',
+                              amountInvested,
                               style: TextStyle(
-                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                                color: currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(primaryDark),
                                 fontSize: 16,
                               ),
                             ),
@@ -1287,7 +1447,9 @@ class TableCardInvestFinished extends ConsumerWidget {
                             Text(
                               'Dinero+ intereses',
                               style: TextStyle(
-                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                color: currentTheme.isDarkMode
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -1296,9 +1458,11 @@ class TableCardInvestFinished extends ConsumerWidget {
                               height: 10,
                             ),
                             Text(
-                              '${totalRevenue}',
+                              totalRevenue,
                               style: TextStyle(
-                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                color: currentTheme.isDarkMode
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -1368,6 +1532,7 @@ class TableCardPending extends ConsumerWidget {
     this.partner,
   });
 
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
@@ -1384,9 +1549,13 @@ class TableCardPending extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 210,
               decoration: BoxDecoration(
-                color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+                color: currentTheme.isDarkMode
+                    ? Colors.transparent
+                    : const Color(whiteText),
                 border: Border.all(
-                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                   width: 2,
                 ),
                 borderRadius: BorderRadius.circular(20),
@@ -1403,7 +1572,9 @@ class TableCardPending extends ConsumerWidget {
                         Text(
                           planName,
                           style: TextStyle(
-                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -1424,7 +1595,9 @@ class TableCardPending extends ConsumerWidget {
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w400,
-                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
                             ),
                           ),
                         ),
@@ -1450,7 +1623,12 @@ class TableCardPending extends ConsumerWidget {
                             height: 25,
                             // width: 145,
                             margin: const EdgeInsets.only(right: 5),
-                            padding: const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                            padding: const EdgeInsets.only(
+                              top: 5,
+                              bottom: 5,
+                              left: 15,
+                              right: 15,
+                            ),
                             decoration: BoxDecoration(
                               // // color: Colors.green,
                               color: const Color(0xff4C8DBE).withOpacity(0.25),
@@ -1485,15 +1663,16 @@ class TableCardPending extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryDark)
+                                            : const Color(primaryLight),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryDark)
-                                              : const Color(primaryLight),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -1506,8 +1685,9 @@ class TableCardPending extends ConsumerWidget {
                                       Text(
                                         'Dinero invertido',
                                         style: TextStyle(
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                           fontSize: 7,
                                           fontWeight: FontWeight.w400,
                                         ),
@@ -1539,15 +1719,16 @@ class TableCardPending extends ConsumerWidget {
                                   children: [
                                     Container(
                                       decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: currentTheme.isDarkMode
+                                            ? const Color(primaryLight)
+                                            : const Color(secondary),
+                                        border: Border.all(
                                           color: currentTheme.isDarkMode
-                                              ? const Color(primaryLight)
-                                              : const Color(secondary),
-                                          border: Border.all(
-                                            color: currentTheme.isDarkMode
-                                                ? const Color(whiteText)
-                                                : const Color(blackText),
-                                          )),
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
+                                        ),
+                                      ),
                                       height: 30,
                                       width: 5,
                                     ),
@@ -1576,7 +1757,7 @@ class TableCardPending extends ConsumerWidget {
                                               : const Color(primaryDark),
                                           fontWeight: FontWeight.w600,
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -1595,7 +1776,10 @@ class TableCardPending extends ConsumerWidget {
                                   color: Colors.grey.withOpacity(0.6),
                                   spreadRadius: 0,
                                   blurRadius: 2,
-                                  offset: const Offset(0, 3), // changes position of shadow
+                                  offset: const Offset(
+                                    0,
+                                    3,
+                                  ), // changes position of shadow
                                 ),
                               ],
                               color: currentTheme.isDarkMode
@@ -1622,14 +1806,28 @@ class TableCardPending extends ConsumerWidget {
                                             Container(
                                               height: 25,
                                               // width: 145,
-                                              margin: const EdgeInsets.only(right: 5),
-                                              padding: const EdgeInsets.only(top: 5, bottom: 5, left: 15, right: 15),
+                                              margin: const EdgeInsets.only(
+                                                right: 5,
+                                              ),
+                                              padding: const EdgeInsets.only(
+                                                top: 5,
+                                                bottom: 5,
+                                                left: 15,
+                                                right: 15,
+                                              ),
                                               decoration: BoxDecoration(
                                                 // // color: Colors.green,
                                                 color: Color(
-                                                  int.parse(tag![i]!.hexColor.substring(1), radix: 16) | 0xFF000000,
+                                                  int.parse(
+                                                        tag![i]!
+                                                            .hexColor
+                                                            .substring(1),
+                                                        radix: 16,
+                                                      ) |
+                                                      0xFF000000,
                                                 ),
-                                                borderRadius: BorderRadius.circular(20),
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
                                               ),
                                               child: Center(
                                                 child: Text(
@@ -1654,7 +1852,9 @@ class TableCardPending extends ConsumerWidget {
                                     style: TextStyle(
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
-                                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(whiteText)
+                                          : const Color(blackText),
                                     ),
                                   ),
                                   const SizedBox(
@@ -1673,7 +1873,9 @@ class TableCardPending extends ConsumerWidget {
                                         ),
                                       ),
                                       SizedBox(
-                                        width: MediaQuery.of(context).size.width * 0.03,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.03,
                                       ),
                                       const SizedBox(
                                         height: 10,
@@ -1701,8 +1903,9 @@ class TableCardPending extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
                                       const SizedBox(
@@ -1713,8 +1916,9 @@ class TableCardPending extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
                                       const Spacer(),
@@ -1723,8 +1927,9 @@ class TableCardPending extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
                                       const SizedBox(
@@ -1735,8 +1940,9 @@ class TableCardPending extends ConsumerWidget {
                                         style: TextStyle(
                                           fontSize: 7,
                                           fontWeight: FontWeight.w600,
-                                          color:
-                                              currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                          color: currentTheme.isDarkMode
+                                              ? const Color(whiteText)
+                                              : const Color(blackText),
                                         ),
                                       ),
                                     ],
@@ -1775,7 +1981,11 @@ class TableCardPending extends ConsumerWidget {
                           decoration: BoxDecoration(
                             color: Color(
                               // 0xFF000000 + int.parse("${partner!.partnerHexColor}".substring(1), radix: 16),
-                              int.parse("${partner!.partnerHexColor}".substring(1), radix: 16) | 0xFF000000,
+                              int.parse(
+                                    "${partner!.partnerHexColor}".substring(1),
+                                    radix: 16,
+                                  ) |
+                                  0xFF000000,
                             ),
                             borderRadius: BorderRadius.circular(20),
                           ),

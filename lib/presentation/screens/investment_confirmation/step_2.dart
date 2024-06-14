@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
@@ -11,14 +12,12 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -82,11 +81,9 @@ class Step2Body extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final voucherImageBase64 = ref.watch(preInvestmentVoucherImagesProvider);
-
     final userReadContract = useState(false);
     final isSoles = ref.watch(isSolesStateProvider);
     final String textCurrency = isSoles ? 'soles' : 'dólares';
-    final String moneySymbol = isSoles ? 'S/' : "\$";
 
     return SingleChildScrollView(
       child: Column(
@@ -127,8 +124,9 @@ class Step2Body extends HookConsumerWidget {
                     clipBehavior: Clip.none,
                     children: [
                       CircularImage(
-                          months: resultCalculator.months,
-                          planImageUrl: plan.imageUrl),
+                        months: resultCalculator.months,
+                        planImageUrl: plan.imageUrl,
+                      ),
                       Positioned(
                         right: 108,
                         child: Align(
@@ -201,7 +199,9 @@ class Step2Body extends HookConsumerWidget {
                             spreadRadius: 0,
                             blurRadius: 2,
                             offset: const Offset(
-                                0, 3), // changes position of shadow
+                              0,
+                              3,
+                            ), // changes position of shadow
                           ),
                         ],
                       ),
@@ -209,7 +209,9 @@ class Step2Body extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '$moneySymbol ${preInvestment.amount}',
+                            isSoles
+                                ? formatterSoles.format(preInvestment.amount)
+                                : formatterUSD.format(preInvestment.amount),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
                               fontSize: 16,
@@ -241,7 +243,9 @@ class Step2Body extends HookConsumerWidget {
                             spreadRadius: 0,
                             blurRadius: 2,
                             offset: const Offset(
-                                0, 3), // changes position of shadow
+                              0,
+                              3,
+                            ), // changes position of shadow
                           ),
                         ],
                       ),
@@ -249,7 +253,11 @@ class Step2Body extends HookConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            '$moneySymbol ${resultCalculator.profitability}',
+                            isSoles
+                                ? formatterSoles
+                                    .format(resultCalculator.profitability)
+                                : formatterUSD
+                                    .format(resultCalculator.profitability),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
@@ -386,7 +394,7 @@ class Step2Body extends HookConsumerWidget {
                         InkWell(
                           onTap: () {
                             Clipboard.setData(
-                              new ClipboardData(
+                              ClipboardData(
                                 text:
                                     isSoles ? "2003004077570" : "2003004754309",
                               ),
@@ -445,14 +453,16 @@ class Step2Body extends HookConsumerWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            Clipboard.setData(new ClipboardData(
-                                    text: isSoles
-                                        ? "00320000300407757039"
-                                        : '00320000300475430932'))
-                                .then((_) {
+                            Clipboard.setData(
+                              ClipboardData(
+                                text: isSoles
+                                    ? "00320000300407757039"
+                                    : '00320000300475430932',
+                              ),
+                            ).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text('Copiado!'),
+                                  content: const Text('Copiado!'),
                                   behavior: SnackBarBehavior.floating,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10.0),
@@ -562,8 +572,10 @@ class Step2Body extends HookConsumerWidget {
                               .read(preInvestmentVoucherImagesProvider.notifier)
                               .state = List.from(voucherImageListBase64);
                           ref
-                              .read(preInvestmentVoucherImagesPreviewProvider
-                                  .notifier)
+                              .read(
+                                preInvestmentVoucherImagesPreviewProvider
+                                    .notifier,
+                              )
                               .state = List.from(voucherImageListPreview);
                         }
                       },
@@ -613,20 +625,24 @@ class Step2Body extends HookConsumerWidget {
                                                     List<String>
                                                         voucherImageBase64 =
                                                         ref.watch(
-                                                            preInvestmentVoucherImagesProvider);
+                                                      preInvestmentVoucherImagesProvider,
+                                                    );
                                                     List<String>
                                                         voucherPreviewImage =
                                                         ref.watch(
-                                                            preInvestmentVoucherImagesPreviewProvider);
+                                                      preInvestmentVoucherImagesPreviewProvider,
+                                                    );
                                                     List<String>
                                                         modifiedVoucherImageBase64 =
                                                         List.from(
-                                                            voucherImageBase64);
+                                                      voucherImageBase64,
+                                                    );
 
                                                     List<String>
                                                         modifiedVoucherPreviewImage =
                                                         List.from(
-                                                            voucherPreviewImage);
+                                                      voucherPreviewImage,
+                                                    );
 
                                                     modifiedVoucherImageBase64
                                                         .removeAt(index);
@@ -634,14 +650,16 @@ class Step2Body extends HookConsumerWidget {
                                                         .removeAt(index);
                                                     ref
                                                             .read(
-                                                                preInvestmentVoucherImagesProvider
-                                                                    .notifier)
+                                                              preInvestmentVoucherImagesProvider
+                                                                  .notifier,
+                                                            )
                                                             .state =
                                                         modifiedVoucherImageBase64;
                                                     ref
                                                             .read(
-                                                                preInvestmentVoucherImagesPreviewProvider
-                                                                    .notifier)
+                                                              preInvestmentVoucherImagesPreviewProvider
+                                                                  .notifier,
+                                                            )
                                                             .state =
                                                         modifiedVoucherPreviewImage;
                                                   },
@@ -656,10 +674,10 @@ class Step2Body extends HookConsumerWidget {
                                                           .circle, // Forma redonda
                                                     ),
                                                     child: const Icon(
-                                                        Icons.close,
-                                                        size: 8,
-                                                        color: Colors
-                                                            .white), // Icono de "x"
+                                                      Icons.close,
+                                                      size: 8,
+                                                      color: Colors.white,
+                                                    ), // Icono de "x"
                                                   ),
                                                 ),
                                               ),
@@ -757,15 +775,19 @@ class Step2Body extends HookConsumerWidget {
                 final base64Image = voucherImageBase64;
                 if (base64Image.isEmpty) {
                   CustomSnackbar.show(
-                      context,
-                      'Debe subir una imagen de la constancia de transferencia',
-                      'error');
+                    context,
+                    'Debe subir una imagen de la constancia de transferencia',
+                    'error',
+                  );
                   return;
                 }
 
                 if (ref.watch(userAcceptedTermsProvider) == false) {
                   CustomSnackbar.show(
-                      context, 'Debe aceptar y leer el contrato', 'error');
+                    context,
+                    'Debe aceptar y leer el contrato',
+                    'error',
+                  );
                   return;
                 }
                 context.loaderOverlay.show();
@@ -887,7 +909,7 @@ void photoHelp(
 }
 
 class PhotoHelp extends ConsumerWidget {
-  const PhotoHelp({key});
+  const PhotoHelp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -896,12 +918,13 @@ class PhotoHelp extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.7,
       decoration: BoxDecoration(
-          color: currentTheme.isDarkMode
-              ? const Color(primaryDark)
-              : const Color(
-                  primaryLight,
-                ),
-          borderRadius: BorderRadius.circular(40)),
+        color: currentTheme.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(
+                primaryLight,
+              ),
+        borderRadius: BorderRadius.circular(40),
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -1022,7 +1045,7 @@ class PhotoHelp extends ConsumerWidget {
           ),
           const SizedBox(
             height: 15,
-          )
+          ),
         ],
       ),
     );

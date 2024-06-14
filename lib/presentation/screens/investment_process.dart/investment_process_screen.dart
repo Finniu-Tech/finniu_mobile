@@ -7,16 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class InvestmentProcess extends StatefulHookConsumerWidget {
+  const InvestmentProcess({super.key});
+
   @override
   InvestmentProcessState createState() => InvestmentProcessState();
 }
 
-class InvestmentProcessState extends ConsumerState<InvestmentProcess> with SingleTickerProviderStateMixin {
+class InvestmentProcessState extends ConsumerState<InvestmentProcess>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
   void initState() {
-    _tabController = new TabController(length: 2, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
     super.initState();
   }
 
@@ -28,44 +31,50 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
       body: Padding(
         padding: const EdgeInsets.only(top: 20),
         child: Center(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Row(children: [
-                  SizedBox(
-                    child: Text(
-                      ' Mis inversiones 💸 ',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                        color: Color(Theme.of(context).colorScheme.secondary.value),
+                Row(
+                  children: [
+                    SizedBox(
+                      child: Text(
+                        ' Mis inversiones 💸 ',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                          color: Color(
+                            Theme.of(context).colorScheme.secondary.value,
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                  // SizedBox(
-                  //   width: MediaQuery.of(context).size.width * 0.58,
-                  // ),
-                  const Spacer(),
-                  GestureDetector(
-                    onTap: () {
-                      // modalsPlan(context);
-                      Navigator.pushNamed(context, '/calendar_page');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Image.asset(
-                        'assets/icons/calendar.png',
-                        width: 20,
-                        height: 20,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    // SizedBox(
+                    //   width: MediaQuery.of(context).size.width * 0.58,
+                    // ),
+                    const Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        // modalsPlan(context);
+                        Navigator.pushNamed(context, '/calendar_page');
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: Image.asset(
+                          'assets/icons/calendar.png',
+                          width: 20,
+                          height: 20,
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                        ),
                       ),
                     ),
-                  ),
-                ]),
+                  ],
+                ),
                 const SizedBox(
                   height: 30,
                 ),
@@ -80,7 +89,9 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                         width: MediaQuery.of(context).size.width * 0.45,
                         height: 40,
                         decoration: BoxDecoration(
-                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                           borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
@@ -94,7 +105,9 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryDark)
+                                  : const Color(whiteText),
                             ),
                           ),
                         ),
@@ -108,8 +121,9 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                         width: MediaQuery.of(context).size.width * 0.45,
                         height: 40,
                         decoration: BoxDecoration(
-                          color:
-                              currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryDark)
+                              : const Color(primaryLightAlternative),
                           borderRadius: const BorderRadius.only(
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20),
@@ -123,7 +137,9 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(primaryDark),
                             ),
                           ),
                         ),
@@ -140,7 +156,8 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                   height: 10,
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start, // Alinear widgets en el centro horizontalmente
+                  mainAxisAlignment: MainAxisAlignment
+                      .start, // Alinear widgets en el centro horizontalmente
                   children: [
                     Container(
                       width: 15,
@@ -151,29 +168,40 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                           color: const Color(primaryDark),
                         ),
                         shape: BoxShape.circle,
-                        color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(primaryLight),
                       ),
                       // Si desea agregar un icono dentro del círculo
                     ),
-                    const SizedBox(width: 5), // Separación entre el círculo y el texto
+                    const SizedBox(
+                      width: 5,
+                    ), // Separación entre el círculo y el texto
                     Text(
                       'Dinero invertido',
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                       ),
                     ),
 
-                    Spacer(),
+                    const Spacer(),
 
                     Container(
                       width: 15,
                       height: 15,
                       decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: const Color(primaryDark)),
+                        border: Border.all(
+                          width: 1,
+                          color: const Color(primaryDark),
+                        ),
                         shape: BoxShape.circle,
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(secondary),
                       ),
                       // Si desea agregar un icono dentro del círculo
                     ),
@@ -184,7 +212,9 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(blackText),
                       ),
                     ),
                   ],
@@ -197,7 +227,9 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                   style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: 16,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
                 ),
                 Padding(
@@ -208,23 +240,28 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                     children: [
                       TabBar(
                         isScrollable: true,
-                        unselectedLabelColor:
-                            currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
-                        labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        unselectedLabelColor: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(primaryDark),
+                        labelColor: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                         tabs: const [
                           Tab(
                             text: "Inversiones en curso",
                           ),
                           Tab(
                             text: "Inversiones finalizadas",
-                          )
+                          ),
                         ],
                         controller: _tabController,
                         indicatorSize: TabBarIndicatorSize.label,
-                        indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
+                        indicatorColor: currentTheme.isDarkMode
+                            ? const Color(secondary)
+                            : const Color(primaryLight),
                         indicatorWeight: 6,
                         indicatorPadding: const EdgeInsets.only(bottom: 12),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -233,26 +270,29 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                 ),
                 Expanded(
                   child: TabBarView(
+                    controller: _tabController,
                     children: [
                       ListView(
                         children: const [
                           TableCard(
-                              planName: "Plan Estable",
-                              termText: "Plazo de 12 meses:14%",
-                              amountInvested: "S/1500",
-                              interestGenerated: "S/150.15",
-                              currentMoney: "S/1650.15",
-                              moneyGrowth: "+10.01%"),
+                            planName: "Plan Estable",
+                            termText: "Plazo de 12 meses:14%",
+                            amountInvested: "S/1500",
+                            interestGenerated: "S/150.15",
+                            currentMoney: "S/1650.15",
+                            moneyGrowth: "+10.01%",
+                          ),
                           SizedBox(
                             height: 20,
                           ),
                           TableCard(
-                              planName: "Plan Origen",
-                              termText: "Plazo de 12 meses:12%",
-                              amountInvested: "S/720",
-                              interestGenerated: "S/64.87",
-                              currentMoney: "S/784.87",
-                              moneyGrowth: "+9.01%"),
+                            planName: "Plan Origen",
+                            termText: "Plazo de 12 meses:12%",
+                            amountInvested: "S/720",
+                            interestGenerated: "S/64.87",
+                            currentMoney: "S/784.87",
+                            moneyGrowth: "+9.01%",
+                          ),
                           SizedBox(
                             height: 20,
                           ),
@@ -269,7 +309,6 @@ class InvestmentProcessState extends ConsumerState<InvestmentProcess> with Singl
                       ),
                       const TableCardInvest(),
                     ],
-                    controller: _tabController,
                   ),
                 ),
               ],
@@ -633,7 +672,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
               gaplessPlayback: true,
             ),
           );
-        }).toList(),
+        }),
         Positioned(
           top: 30,
           left: 16,
@@ -649,7 +688,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     ),
                   ),
                   const SizedBox(
@@ -661,7 +702,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ],
@@ -677,7 +720,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                   const SizedBox(
@@ -689,7 +734,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                 ],
@@ -703,7 +750,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
-                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                 ),
               ),
               const SizedBox(
@@ -717,7 +766,9 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                     style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w400,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                   const SizedBox(
@@ -761,9 +812,13 @@ class TableCard extends ConsumerWidget {
         width: MediaQuery.of(context).size.width * 0.8,
         height: 230,
         decoration: BoxDecoration(
-          color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+          color: currentTheme.isDarkMode
+              ? Colors.transparent
+              : const Color(whiteText),
           border: Border.all(
-            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+            color: currentTheme.isDarkMode
+                ? const Color(primaryLight)
+                : const Color(primaryDark),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(20),
@@ -780,7 +835,9 @@ class TableCard extends ConsumerWidget {
                   Text(
                     planName,
                     style: TextStyle(
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -805,7 +862,9 @@ class TableCard extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
-                          color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
                         ),
                       ),
                     ),
@@ -819,7 +878,11 @@ class TableCard extends ConsumerWidget {
                 children: [
                   Text(
                     termText,
-                    style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w400, color: Color(grayText2)),
+                    style: const TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                      color: Color(grayText2),
+                    ),
                   ),
                   const Spacer(),
                   if (textButton == true)
@@ -837,7 +900,8 @@ class TableCard extends ConsumerWidget {
                                 4,
                               ), // Altura de la sombra
 
-                              shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                              shadowColor:
+                                  MaterialStateProperty.all<Color>(Colors.grey),
                             );
                           },
                           child: const Text(
@@ -863,9 +927,13 @@ class TableCard extends ConsumerWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(primaryDark)
+                                      : const Color(primaryLight),
                                   border: Border.all(
-                                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(blackText),
                                   ),
                                 ),
                                 height: 60,
@@ -880,7 +948,9 @@ class TableCard extends ConsumerWidget {
                                 Text(
                                   'Dinero invertido',
                                   style: TextStyle(
-                                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(blackText),
                                     fontSize: 7,
                                     fontWeight: FontWeight.w400,
                                   ),
@@ -891,8 +961,9 @@ class TableCard extends ConsumerWidget {
                                 Text(
                                   amountInvested,
                                   style: TextStyle(
-                                    color:
-                                        currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(primaryLight)
+                                        : const Color(primaryDark),
                                     fontSize: 14,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -912,9 +983,13 @@ class TableCard extends ConsumerWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(primaryLight)
+                                      : const Color(secondary),
                                   border: Border.all(
-                                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(blackText),
                                   ),
                                 ),
                                 height: 60,
@@ -940,8 +1015,9 @@ class TableCard extends ConsumerWidget {
                                   interestGenerated,
                                   style: TextStyle(
                                     fontSize: 14,
-                                    color:
-                                        currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(primaryLight)
+                                        : const Color(primaryDark),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -958,17 +1034,22 @@ class TableCard extends ConsumerWidget {
                       width: MediaQuery.of(context).size.width * 0.47,
                       height: 112,
                       decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.6),
-                              spreadRadius: 0,
-                              blurRadius: 2,
-                              offset: const Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                          color:
-                              currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
-                          borderRadius: BorderRadius.circular(10)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.6),
+                            spreadRadius: 0,
+                            blurRadius: 2,
+                            offset: const Offset(
+                              0,
+                              3,
+                            ), // changes position of shadow
+                          ),
+                        ],
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryDark)
+                            : const Color(primaryLightAlternative),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                       child: Padding(
                         padding: const EdgeInsets.all(5.0),
                         child: Column(
@@ -983,7 +1064,9 @@ class TableCard extends ConsumerWidget {
                               style: TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w500,
-                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                color: currentTheme.isDarkMode
+                                    ? const Color(whiteText)
+                                    : const Color(blackText),
                               ),
                             ),
                             const SizedBox(
@@ -996,11 +1079,14 @@ class TableCard extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600,
-                                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(primaryLight)
+                                        : const Color(blackText),
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.03,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.03,
                                 ),
                                 const SizedBox(
                                   height: 10,
@@ -1014,7 +1100,10 @@ class TableCard extends ConsumerWidget {
                                 Text(
                                   moneyGrowth,
                                   style: const TextStyle(
-                                      fontSize: 12, fontWeight: FontWeight.w600, color: Color(colorgreen)),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(colorgreen),
+                                  ),
                                 ),
                               ],
                             ),
@@ -1025,7 +1114,9 @@ class TableCard extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 7,
                                     fontWeight: FontWeight.w600,
-                                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(blackText),
                                   ),
                                 ),
                                 Text(
@@ -1033,18 +1124,23 @@ class TableCard extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 7,
                                     fontWeight: FontWeight.w600,
-                                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(blackText),
                                   ),
                                 ),
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.12,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.12,
                                 ),
                                 Text(
                                   'Finaliza',
                                   style: TextStyle(
                                     fontSize: 7,
                                     fontWeight: FontWeight.w600,
-                                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(blackText),
                                   ),
                                 ),
                                 Text(
@@ -1052,7 +1148,9 @@ class TableCard extends ConsumerWidget {
                                   style: TextStyle(
                                     fontSize: 7,
                                     fontWeight: FontWeight.w600,
-                                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(whiteText)
+                                        : const Color(blackText),
                                   ),
                                 ),
                               ],
@@ -1083,9 +1181,13 @@ class TableCardInvest extends ConsumerWidget {
         width: MediaQuery.of(context).size.width * 0.87,
         height: 200,
         decoration: BoxDecoration(
-          color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
+          color: currentTheme.isDarkMode
+              ? Colors.transparent
+              : const Color(whiteText),
           border: Border.all(
-            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+            color: currentTheme.isDarkMode
+                ? const Color(primaryLight)
+                : const Color(primaryDark),
             width: 2,
           ),
           borderRadius: BorderRadius.circular(20),
@@ -1103,7 +1205,9 @@ class TableCardInvest extends ConsumerWidget {
                   child: Text(
                     'Plan estable',
                     style: TextStyle(
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                       fontSize: 16,
                       fontWeight: FontWeight.w600,
                     ),
@@ -1124,9 +1228,11 @@ class TableCardInvest extends ConsumerWidget {
                   'Finalizado',
                   style: TextStyle(
                     fontSize: 11,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
-                )
+                ),
               ],
             ),
             const SizedBox(
@@ -1137,9 +1243,12 @@ class TableCardInvest extends ConsumerWidget {
               child: Text(
                 'Finalizó:29 Enero 2023',
                 style: TextStyle(
-                    fontSize: 11,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                    fontWeight: FontWeight.bold),
+                  fontSize: 11,
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(blackText),
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -1154,18 +1263,21 @@ class TableCardInvest extends ConsumerWidget {
                     children: [
                       Row(
                         children: [
-                          Column(children: [
-                            Container(
-                              decoration: BoxDecoration(
+                          Column(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: const Color(primaryLight),
                                   border: Border.all(
                                     color: const Color(primaryLight),
-                                  )),
-                              height: 60,
-                              width: 5,
-                            ),
-                          ]),
+                                  ),
+                                ),
+                                height: 60,
+                                width: 5,
+                              ),
+                            ],
+                          ),
                           const SizedBox(
                             width: 10,
                           ),
@@ -1174,7 +1286,9 @@ class TableCardInvest extends ConsumerWidget {
                               Text(
                                 'Comenzaste con',
                                 style: TextStyle(
-                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(blackText),
                                   fontSize: 10,
                                 ),
                               ),
@@ -1184,7 +1298,9 @@ class TableCardInvest extends ConsumerWidget {
                               Text(
                                 'S/1000',
                                 style: TextStyle(
-                                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(whiteText)
+                                      : const Color(primaryDark),
                                   fontSize: 16,
                                 ),
                               ),
@@ -1200,7 +1316,8 @@ class TableCardInvest extends ConsumerWidget {
                                   borderRadius: BorderRadius.circular(10),
                                   color: const Color(gradient_secondary_option),
                                   border: Border.all(
-                                    color: const Color(gradient_secondary_option),
+                                    color:
+                                        const Color(gradient_secondary_option),
                                   ),
                                 ),
                                 height: 60,
@@ -1216,7 +1333,9 @@ class TableCardInvest extends ConsumerWidget {
                               Text(
                                 'Dinero+ intereses',
                                 style: TextStyle(
-                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(primaryLight)
+                                      : const Color(primaryDark),
                                   fontSize: 10,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -1227,7 +1346,9 @@ class TableCardInvest extends ConsumerWidget {
                               Text(
                                 'S/1140',
                                 style: TextStyle(
-                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(primaryLight)
+                                      : const Color(primaryDark),
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -1268,13 +1389,16 @@ void modalsPlan(BuildContext ctx) {
     builder: (BuildContext context) => AlertDialog(
       backgroundColor: Colors.transparent,
       content: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2), // Aquí se establece la cantidad de borrosidad
+        filter: ImageFilter.blur(
+          sigmaX: 2,
+          sigmaY: 2,
+        ), // Aquí se establece la cantidad de borrosidad
         child: Container(
           width: MediaQuery.of(context).size.width * 0.96,
           height: 290,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: Color(primaryLight),
+            color: const Color(primaryLight),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -1313,7 +1437,7 @@ void modalsPlan(BuildContext ctx) {
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),

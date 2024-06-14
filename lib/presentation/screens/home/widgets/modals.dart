@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_repository_provider.dart';
@@ -35,7 +36,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
         return Dialog(
           insetAnimationDuration: const Duration(seconds: 1),
           insetAnimationCurve: Curves.easeInOutCubic,
-          backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(secondary),
+          backgroundColor: themeProvider.isDarkMode
+              ? const Color(primaryDark)
+              : const Color(secondary),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),
@@ -65,14 +68,18 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                         width: 23,
                         padding: EdgeInsets.zero,
                         decoration: BoxDecoration(
-                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          color: themeProvider.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                           borderRadius: BorderRadius.circular(7),
                         ),
                         child: InkWell(
                           child: Icon(
                             size: 17,
                             Icons.close,
-                            color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+                            color: themeProvider.isDarkMode
+                                ? const Color(primaryDark)
+                                : const Color(primaryLight),
                           ),
                           onTap: () {
                             Navigator.of(ctx).pop();
@@ -88,7 +95,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                             SizedBox(
                               height: 50,
                               width: 50,
-                              child: CircularPercentAvatarWidget(userProfile.percentCompleteProfile ?? 0.0),
+                              child: CircularPercentAvatarWidget(
+                                userProfile.percentCompleteProfile ?? 0.0,
+                              ),
                             ),
                           ],
                         ),
@@ -104,11 +113,18 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   SizedBox(
                                     width: 120,
                                     child: Text(
-                                      ref.watch(userProfileNotifierProvider).nickName ?? '',
+                                      ref
+                                              .watch(
+                                                userProfileNotifierProvider,
+                                              )
+                                              .nickName ??
+                                          '',
                                       style: TextStyle(
                                         height: 1.5,
                                         fontSize: 16,
-                                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                        color: themeProvider.isDarkMode
+                                            ? Colors.white
+                                            : Colors.black,
                                         fontWeight: FontWeight.w500,
                                       ),
                                       overflow: TextOverflow.ellipsis,
@@ -117,7 +133,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   const Spacer(),
                                   TextPoppins(
                                     text: 'Light mode',
-                                    colorText: themeProvider.isDarkMode ? Colors.white.value : Colors.black.value,
+                                    colorText: themeProvider.isDarkMode
+                                        ? Colors.white.value
+                                        : Colors.black.value,
                                     // colorText: ,
                                     fontSize: 10,
                                     fontWeight: FontWeight.w500,
@@ -130,12 +148,23 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                     value: Preferences.isDarkMode,
                                     inactiveColor: const Color(primaryDark),
                                     activeColor: const Color(primaryLight),
-                                    inactiveToggleColor: const Color(primaryLight),
+                                    inactiveToggleColor:
+                                        const Color(primaryLight),
                                     activeToggleColor: const Color(primaryDark),
                                     onToggle: (value) {
                                       value
-                                          ? ref.read(settingsNotifierProvider.notifier).setDarkMode()
-                                          : ref.read(settingsNotifierProvider.notifier).setLightMode();
+                                          ? ref
+                                              .read(
+                                                settingsNotifierProvider
+                                                    .notifier,
+                                              )
+                                              .setDarkMode()
+                                          : ref
+                                              .read(
+                                                settingsNotifierProvider
+                                                    .notifier,
+                                              )
+                                              .setLightMode();
                                       Preferences.isDarkMode = value;
                                       Navigator.of(context).pop();
                                     },
@@ -148,16 +177,20 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                     width: 10,
                                   ),
                                   Text(
-                                    ref.watch(userProfileNotifierProvider).email ?? '',
+                                    ref
+                                            .watch(userProfileNotifierProvider)
+                                            .email ??
+                                        '',
                                     style: TextStyle(
                                       height: 1.5,
                                       fontSize: 12,
-                                      color:
-                                          themeProvider.isDarkMode ? const Color(primaryLight) : const Color(grayText1),
+                                      color: themeProvider.isDarkMode
+                                          ? const Color(primaryLight)
+                                          : const Color(grayText1),
                                     ),
-                                  )
+                                  ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                         ),
@@ -173,12 +206,16 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                           children: [
                             Text(
                               currency
-                                  ? 'S/ ${userBalanceReport.totalBalance.toString()}'
-                                  : '\$ ${userBalanceReport.totalBalance.toString()}',
+                                  ? formatterSoles
+                                      .format(userBalanceReport.totalBalance)
+                                  : formatterUSD
+                                      .format(userBalanceReport.totalBalance),
                               style: TextStyle(
                                 height: 1.5,
                                 fontSize: 14,
-                                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                color: themeProvider.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -187,7 +224,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                               style: TextStyle(
                                 height: 1.5,
                                 fontSize: 14,
-                                color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                color: themeProvider.isDarkMode
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
                               ),
                             ),
                           ],
@@ -198,7 +237,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                         Container(
                           height: 60,
                           width: 2,
-                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          color: themeProvider.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                         ),
                         const SizedBox(
                           width: 20,
@@ -210,7 +251,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                               style: TextStyle(
                                 height: 1.5,
                                 fontSize: 14,
-                                color: themeProvider.isDarkMode ? Colors.white : Colors.black,
+                                color: themeProvider.isDarkMode
+                                    ? Colors.white
+                                    : Colors.black,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -220,7 +263,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                               style: TextStyle(
                                 height: 1.5,
                                 fontSize: 14,
-                                color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                                color: themeProvider.isDarkMode
+                                    ? const Color(primaryLight)
+                                    : const Color(primaryDark),
                               ),
                             ),
                           ],
@@ -309,25 +354,38 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                 ref.invalidate(deadLineFutureProvider);
                                 ref.invalidate(hasCompletedOnboardingProvider);
                                 ref.invalidate(userAcceptedTermsProvider);
-                                ref.invalidate(finishOnboardingFutureStateNotifierProvider);
+                                ref.invalidate(
+                                  finishOnboardingFutureStateNotifierProvider,
+                                );
                                 ref.invalidate(importantDaysFutureProvider);
-                                ref.invalidate(startOnBoardingFutureStateNotifierProvider);
-                                ref.invalidate(updateOnboardingFutureStateNotifierProvider);
+                                ref.invalidate(
+                                  startOnBoardingFutureStateNotifierProvider,
+                                );
+                                ref.invalidate(
+                                  updateOnboardingFutureStateNotifierProvider,
+                                );
                                 ref.invalidate(onBoardingStateNotifierProvider);
-                                ref.invalidate(recommendedPlanStateNotifierProvider);
+                                ref.invalidate(
+                                  recommendedPlanStateNotifierProvider,
+                                );
                                 ref.invalidate(otpValidatorFutureProvider);
                                 ref.invalidate(otpResendCodeProvider);
                                 ref.invalidate(planListFutureProvider);
                                 ref.invalidate(preInvestmentSaveProvider);
                                 ref.invalidate(homeReportProvider);
                                 ref.invalidate(userProfileNotifierProvider);
-                                ref.invalidate(userProfileBalanceNotifierProvider);
+                                ref.invalidate(
+                                  userProfileBalanceNotifierProvider,
+                                );
                                 ref.invalidate(settingsNotifierProvider);
                                 ref.invalidate(isSolesStateProvider);
                                 ref.invalidate(homeReportProviderV2);
                                 ref.invalidate(bankRepositoryProvider);
                                 // logout(ref);
-                                Navigator.of(ctx).pushNamedAndRemoveUntil('/login_start', (route) => true);
+                                Navigator.of(ctx).pushNamedAndRemoveUntil(
+                                  '/login_start',
+                                  (route) => true,
+                                );
                                 // Navigator.of(ctx).pushNamed('/login_start');
                               },
                             ),
@@ -373,14 +431,18 @@ class ItemSetting extends ConsumerWidget {
           height: 35,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDarkAlternative),
+            color: themeProvider.isDarkMode
+                ? const Color(primaryLight)
+                : const Color(primaryDarkAlternative),
             borderRadius: BorderRadius.circular(5),
           ),
           child: InkWell(
             onTap: _onTap as void Function()?,
             child: Image.asset(
               _image,
-              color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+              color: themeProvider.isDarkMode
+                  ? const Color(primaryDark)
+                  : const Color(primaryLight),
               width: 18,
               height: 18,
             ),
@@ -411,7 +473,9 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
           ),
         ),
         elevation: 10,
-        backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+        backgroundColor: themeProvider.isDarkMode
+            ? const Color(primaryDark)
+            : const Color(primaryLight),
         context: ctx,
         isDismissible: false,
         builder: (ctx) => SizedBox(
@@ -435,7 +499,9 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                        color: themeProvider.isDarkMode
+                            ? Colors.white
+                            : const Color(primaryDark),
                       ),
                       textDescription,
                     ),
@@ -491,13 +557,15 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                           child: Text(
                             "Completar",
                             style: TextStyle(
-                              color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                              color: themeProvider.isDarkMode
+                                  ? const Color(primaryDark)
+                                  : Colors.white,
                             ),
                           ),
                         ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
