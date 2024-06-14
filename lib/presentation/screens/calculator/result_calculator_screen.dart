@@ -26,9 +26,11 @@ class ResultCalculator extends HookConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
 
     return Scaffold(
-      backgroundColor: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
+      backgroundColor: currentTheme.isDarkMode
+          ? const Color(backgroundColorDark)
+          : const Color(whiteText),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
         leading: themeProvider.isDarkMode
             ? const CustomReturnButton(
@@ -90,7 +92,9 @@ class BodyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final returnDate = resultSimulation.plan?.returnEstimatedDate;
-    final formattedReturnDate = returnDate != null ? DateFormat('d ' 'MMMM', 'es').format(returnDate) : '';
+    final formattedReturnDate = returnDate != null
+        ? DateFormat('d ' 'MMMM', 'es').format(returnDate)
+        : '';
 
     return SingleChildScrollView(
       child: Column(
@@ -133,10 +137,14 @@ class BodyScreen extends StatelessWidget {
                           height: 35,
                           // padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
-                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
                             border: Border.all(
                               width: 4,
-                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(primaryLight)
+                                  : const Color(primaryDark),
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -151,8 +159,9 @@ class BodyScreen extends StatelessWidget {
                                       : '${resultSimulation.plan!.sixMonthsReturn.toString()} %',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    color:
-                                        currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+                                    color: currentTheme.isDarkMode
+                                        ? const Color(primaryDark)
+                                        : const Color(primaryLight),
                                     fontSize: 12,
                                   ),
                                 ),
@@ -161,7 +170,9 @@ class BodyScreen extends StatelessWidget {
                                 textAlign: TextAlign.center,
                                 'Rentabilidad',
                                 style: TextStyle(
-                                  color: currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText),
+                                  color: currentTheme.isDarkMode
+                                      ? const Color(blackText)
+                                      : const Color(whiteText),
                                   fontSize: 7,
                                 ),
                               ),
@@ -185,7 +196,9 @@ class BodyScreen extends StatelessWidget {
               resultSimulation.plan?.description ?? '',
               style: TextStyle(
                 height: 1.5,
-                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                color: currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
                 fontSize: 12,
               ),
             ),
@@ -196,7 +209,8 @@ class BodyScreen extends StatelessWidget {
           LineReportCalculatorWidget(
             initialAmount: resultSimulation.initialAmount.toDouble(),
             finalAmount: resultSimulation.profitability!.toDouble(),
-            revenueAmount: resultSimulation.profitability! - resultSimulation.initialAmount,
+            revenueAmount: resultSimulation.profitability! -
+                resultSimulation.initialAmount,
             months: resultSimulation.months,
           ),
           const SizedBox(
@@ -230,14 +244,18 @@ class BodyScreen extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 14,
                               height: 1.5,
-                              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(whiteText)
+                                  : const Color(blackText),
                             ),
                           ),
                           SizedBox(width: 5),
                           ImageIcon(
                             const AssetImage('assets/icons/questions.png'),
                             size: 20,
-                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                            color: currentTheme.isDarkMode
+                                ? const Color(primaryLight)
+                                : const Color(primaryDark),
                           ),
                           const SizedBox(width: 5),
                         ],
@@ -259,7 +277,9 @@ class BodyScreen extends StatelessWidget {
                   width: 330,
                   height: 110,
                   decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(backgroundColorDark)
+                        : const Color(whiteText),
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
                       color: const Color(gradient_secondary_option),
@@ -277,7 +297,9 @@ class BodyScreen extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 12,
                             height: 1.5,
-                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -291,7 +313,9 @@ class BodyScreen extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
-                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                         ),
                       ),
                     ],
@@ -412,7 +436,9 @@ class CircularImageSimulation extends ConsumerWidget {
         percent: 0.5,
         center: CircleAvatar(
           radius: 50,
-          backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
+          backgroundColor: themeProvider.isDarkMode
+              ? const Color(backgroundColorDark)
+              : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -446,14 +472,20 @@ class CircularImageSimulation extends ConsumerWidget {
                 style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark)),
+                    color: themeProvider.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark)),
               ),
             ],
           ),
         ),
-        progressColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
-        backgroundColor: Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
-        fillColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
+        progressColor:
+            Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
+        backgroundColor:
+            Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
+        fillColor: themeProvider.isDarkMode
+            ? const Color(backgroundColorDark)
+            : Colors.white,
       ),
     );
   }

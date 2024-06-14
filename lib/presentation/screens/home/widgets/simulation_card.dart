@@ -72,7 +72,7 @@ class SimulationCardWidget extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "Descubre como simular el",
+                      "Descubre cómo simular el",
                       textAlign: TextAlign.left,
                       style: TextStyle(
                         fontSize: 12,
