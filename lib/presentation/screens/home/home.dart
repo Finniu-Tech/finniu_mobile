@@ -75,12 +75,15 @@ class HomeBody extends HookConsumerWidget {
                 .pushReplacementNamed('/onboarding_questions_start');
           });
         }
+
         return null;
       },
       [],
     );
 
     final isSoles = ref.watch(isSolesStateProvider);
+    final percentCompleteProfile =
+        ref.watch(userProfileNotifierProvider).percentCompleteProfile;
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
       child: SingleChildScrollView(
@@ -96,10 +99,7 @@ class HomeBody extends HookConsumerWidget {
                   child: Container(
                     alignment: Alignment.center,
                     child: CircularPercentAvatarWidget(
-                      ref
-                              .watch(userProfileNotifierProvider)
-                              .percentCompleteProfile ??
-                          0.0,
+                      percentCompleteProfile ?? 0.0,
                     ),
                   ),
                 ),
