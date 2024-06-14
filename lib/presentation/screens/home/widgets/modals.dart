@@ -114,12 +114,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   SizedBox(
                                     width: 120,
                                     child: Text(
-                                      ref
-                                              .watch(
-                                                userProfileNotifierProvider,
-                                              )
-                                              .nickName ??
-                                          '',
+                                      userProfile.nickName ?? '',
                                       style: TextStyle(
                                         height: 1.5,
                                         fontSize: 16,
@@ -178,10 +173,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                     width: 10,
                                   ),
                                   Text(
-                                    ref
-                                            .watch(userProfileNotifierProvider)
-                                            .email ??
-                                        '',
+                                    userProfile.email ?? '',
                                     style: TextStyle(
                                       height: 1.5,
                                       fontSize: 12,
