@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
@@ -12,6 +11,7 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/helpers/image_picker.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
@@ -22,7 +22,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class PreInvestmentStep2Arguments {
@@ -551,34 +550,7 @@ class Step2Body extends HookConsumerWidget {
                   Align(
                     alignment: Alignment.center,
                     child: InkWell(
-                      onTap: () async {
-                        final ImagePicker picker = ImagePicker();
-                        final List<XFile> images =
-                            await picker.pickMultiImage();
-
-                        if (images.isNotEmpty) {
-                          var voucherImageListBase64 = [];
-                          var voucherImageListPreview = [];
-                          for (var image in images) {
-                            final File imageFile = File(image.path);
-                            final List<int> imageBytes =
-                                await imageFile.readAsBytes();
-                            final base64Image =
-                                "data:image/jpeg;base64,${base64Encode(imageBytes)}";
-                            voucherImageListBase64.add(base64Image);
-                            voucherImageListPreview.add(image.path);
-                          }
-                          ref
-                              .read(preInvestmentVoucherImagesProvider.notifier)
-                              .state = List.from(voucherImageListBase64);
-                          ref
-                              .read(
-                                preInvestmentVoucherImagesPreviewProvider
-                                    .notifier,
-                              )
-                              .state = List.from(voucherImageListPreview);
-                        }
-                      },
+                      onTap: () async => imagePicker(context, ref),
                       child: Builder(
                         builder: (context) {
                           final voucherPreview = ref
@@ -620,49 +592,8 @@ class Step2Body extends HookConsumerWidget {
                                               child: Align(
                                                 alignment: Alignment.bottomLeft,
                                                 child: GestureDetector(
-                                                  onTap: () {
-                                                    // Código para eliminar la imagen
-                                                    List<String>
-                                                        voucherImageBase64 =
-                                                        ref.watch(
-                                                      preInvestmentVoucherImagesProvider,
-                                                    );
-                                                    List<String>
-                                                        voucherPreviewImage =
-                                                        ref.watch(
-                                                      preInvestmentVoucherImagesPreviewProvider,
-                                                    );
-                                                    List<String>
-                                                        modifiedVoucherImageBase64 =
-                                                        List.from(
-                                                      voucherImageBase64,
-                                                    );
-
-                                                    List<String>
-                                                        modifiedVoucherPreviewImage =
-                                                        List.from(
-                                                      voucherPreviewImage,
-                                                    );
-
-                                                    modifiedVoucherImageBase64
-                                                        .removeAt(index);
-                                                    modifiedVoucherPreviewImage
-                                                        .removeAt(index);
-                                                    ref
-                                                            .read(
-                                                              preInvestmentVoucherImagesProvider
-                                                                  .notifier,
-                                                            )
-                                                            .state =
-                                                        modifiedVoucherImageBase64;
-                                                    ref
-                                                            .read(
-                                                              preInvestmentVoucherImagesPreviewProvider
-                                                                  .notifier,
-                                                            )
-                                                            .state =
-                                                        modifiedVoucherPreviewImage;
-                                                  },
+                                                  onTap: () =>
+                                                      removeImage(ref, index),
                                                   child: Container(
                                                     width: 16,
                                                     height: 16,
