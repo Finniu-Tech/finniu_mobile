@@ -37,11 +37,12 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               TextPoppins(
-                  text: themeProvider.isDarkMode ? 'Dark mode' : 'Light mode',
-                  colorText: Theme.of(context).colorScheme.primary.value,
-                  // colorText: ,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w500),
+                text: themeProvider.isDarkMode ? 'Dark mode' : 'Light mode',
+                colorText: Theme.of(context).colorScheme.primary.value,
+                // colorText: ,
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+              ),
               const SizedBox(width: 5),
               FlutterSwitch(
                 width: 45,
