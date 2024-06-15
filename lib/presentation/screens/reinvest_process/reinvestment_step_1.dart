@@ -194,7 +194,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
     final currency = widget.isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final theme = ref.watch(settingsNotifierProvider);
     final moneySymbol = widget.isSoles ? "S/" : "\$";
-    final _debouncer = Debouncer(milliseconds: 3000);
+    final _debouncer = Debouncer(milliseconds: 2500);
     final finalAmountState = useState(widget.preInvestmentAmount);
 
     ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
@@ -263,6 +263,9 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 },
                 onChanged: (value) {
                   _debouncer.run(() {
+                    if (widget.mountController.text.isEmpty) {
+                      widget.mountController.text = '0';
+                    }
                     if (widget.mountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
                       final aditionalAmount = num.tryParse(widget.mountController.text)?.toInt() ?? 0;
                       finalAmountState.value = aditionalAmount + widget.preInvestmentAmount;
@@ -751,7 +754,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                   } else {
                     context.loaderOverlay.hide();
 
-                    if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+                    if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL &&
+                        widget.mountController.text != '0') {
                       final aditionalAmount = num.tryParse(widget.mountController.text)?.toInt() ?? 0;
                       final finalAmount = aditionalAmount + widget.preInvestmentAmount;
                       Navigator.pushNamed(
@@ -775,7 +779,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                         },
                       );
                     } else {
-                      showBankAccountModal(context, ref, currency, false, widget.reInvestmentType);
+                      showBankAccountModal(context, ref, currency, false, typeReinvestmentEnum.CAPITAL_ONLY);
                     }
                   }
                 },
