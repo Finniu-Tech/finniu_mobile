@@ -423,19 +423,21 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       ref.read(createBankAccountProvider(input).future).then(
                         (response) {
                           if (response.success) {
+                            ref.invalidate(bankAccountFutureProvider);
                             CustomSnackbar.show(
                               context,
                               "Cuenta guardada correctamente",
                               'success',
                             );
                             //wait 3 seconds
-                            Future.delayed(const Duration(seconds: 3), () {
+                            ref.read(boolCreatedNewBankAccountProvider.notifier).state = true;
+                            Future.delayed(const Duration(seconds: 1), () {
                               Navigator.of(context).pop();
                             });
                           } else {
                             CustomSnackbar.show(
                               context,
-                              "Error al guardar la cuenta",
+                              "Hubo un error al guardar la cuenta, verifique los datos e intente nuevamente",
                               'error',
                             );
                           }

@@ -111,7 +111,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
   @override
   void initState() {
     super.initState();
-    controller = FixedExtentScrollController(initialItem: 1);
+    controller = FixedExtentScrollController(initialItem: 0);
 
     //LOAD AFTER INIT STATE FINISH TO AVOID ERROR
 
@@ -129,16 +129,13 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
     super.dispose();
   }
 
-  // Future<void> loadBanks() async {
-  //   banks = await ref.read(bankFutureProvider.future);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
         final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
         final banksAsyncValue = ref.watch(bankFutureProvider);
+        final bool createdNewBankAccount = ref.watch(boolCreatedNewBankAccountProvider);
 
         return SizedBox(
           height: 480,
@@ -148,6 +145,16 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
               return banksAsyncValue.when(
                 data: (banks) {
                   // Ambos providers han cargado exitosamente
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    if (createdNewBankAccount) {
+                      controller?.animateToItem(
+                        bankAccounts.length,
+                        duration: const Duration(seconds: 2),
+                        curve: Curves.easeInOut,
+                      );
+                      ref.read(boolCreatedNewBankAccountProvider.notifier).state = false;
+                    }
+                  });
                   return showDetail
                       ? Column(
                           mainAxisAlignment: MainAxisAlignment.start,
