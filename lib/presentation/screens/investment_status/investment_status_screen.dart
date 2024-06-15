@@ -1175,40 +1175,40 @@ class TableCardInvestFinished extends ConsumerWidget {
                 ),
               ),
               const Spacer(),
-              if (!reInvestmentDisabled) ...[
-                SizedBox(
-                  width: 100,
-                  height: 33,
-                  child: TextButton(
-                    onPressed: () {
-                      final amountInvestedStr = amountInvested.replaceAll(
-                        RegExp(r'[^\d.]'),
-                        '',
-                      ); // Elimina todos los caracteres que no sean dígitos o puntos
-                      // final amountInvestedStr = totalRevenue.replaceAll(
-                      //     RegExp(r'[^\d.]'), ''); // Elimina todos los caracteres que no sean dígitos o puntos
-                      final finalAmount = double.parse(amountInvestedStr);
-                      Navigator.pushNamed(
-                        context,
-                        '/reinvestment_step_1',
-                        arguments: {
-                          'preInvestmentUUID': uuid,
-                          'preInvestmentAmount': finalAmount,
-                          'currency': currency,
-                          'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
-                        },
-                      );
-                    },
-                    child: const Text(
-                      textAlign: TextAlign.center,
-                      'Reinvertir',
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-              ]
+              // if (!reInvestmentDisabled) ...[
+              //   SizedBox(
+              //     width: 100,
+              //     height: 33,
+              //     child: TextButton(
+              //       onPressed: () {
+              //         final amountInvestedStr = amountInvested.replaceAll(
+              //           RegExp(r'[^\d.]'),
+              //           '',
+              //         ); // Elimina todos los caracteres que no sean dígitos o puntos
+              //         // final amountInvestedStr = totalRevenue.replaceAll(
+              //         //     RegExp(r'[^\d.]'), ''); // Elimina todos los caracteres que no sean dígitos o puntos
+              //         final finalAmount = double.parse(amountInvestedStr);
+              //         Navigator.pushNamed(
+              //           context,
+              //           '/reinvestment_step_1',
+              //           arguments: {
+              //             'preInvestmentUUID': uuid,
+              //             'preInvestmentAmount': finalAmount,
+              //             'currency': currency,
+              //             'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
+              //           },
+              //         );
+              //       },
+              //       child: const Text(
+              //         textAlign: TextAlign.center,
+              //         'Reinvertir',
+              //       ),
+              //     ),
+              //   ),
+              //   const SizedBox(
+              //     width: 10,
+              //   ),
+              // ]
             ],
           ),
           const SizedBox(height: 10),
