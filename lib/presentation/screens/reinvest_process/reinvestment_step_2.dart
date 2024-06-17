@@ -327,7 +327,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                             ),
                           ),
                           const Text(
-                            'Monto que recibiras',
+                            'Monto que recibirás',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 10,
@@ -810,7 +810,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                   }
                 },
                 child: Text(
-                  ' Contrato de Inversion de Finniu ',
+                  ' Contrato de Inversión de Finniu ',
                   style: TextStyle(
                     color: currentTheme.isDarkMode
                         ? const Color(primaryLight)

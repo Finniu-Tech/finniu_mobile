@@ -266,7 +266,7 @@ class Step2Body extends HookConsumerWidget {
                             ),
                           ),
                           const Text(
-                            'Monto que recibiras',
+                            'Monto que recibirás',
                             textAlign: TextAlign.right,
                             style: TextStyle(
                               fontSize: 10,
@@ -752,7 +752,7 @@ class Step2Body extends HookConsumerWidget {
                   }
                 },
                 child: Text(
-                  ' Contrato de Inversion de Finniu ',
+                  ' Contrato de Inversión de Finniu ',
                   style: TextStyle(
                     color: currentTheme.isDarkMode
                         ? const Color(primaryLight)
