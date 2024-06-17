@@ -14,7 +14,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showAccountTransferModal(BuildContext context, String currency, bool isSender) {
+void showAccountTransferModal(
+  BuildContext context,
+  String currency,
+  bool isSender,
+) {
   showModalBottomSheet(
     context: context,
     isDismissible: true,
@@ -29,7 +33,11 @@ void showAccountTransferModal(BuildContext context, String currency, bool isSend
 }
 
 class AccountTransferModal extends StatefulHookConsumerWidget {
-  const AccountTransferModal({super.key, required this.currency, required this.isSender});
+  const AccountTransferModal({
+    super.key,
+    required this.currency,
+    required this.isSender,
+  });
 
   @override
   _AccountTransferModalState createState() => _AccountTransferModalState();
@@ -45,11 +53,16 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   final TextEditingController accountTypeController = TextEditingController();
   final TextEditingController accountNumberController = TextEditingController();
   final TextEditingController accountNameController = TextEditingController();
-  final TextEditingController jointHolderNameController = TextEditingController();
-  final TextEditingController jointHolderLastNameController = TextEditingController();
-  final TextEditingController jointHolderMothersLastNameController = TextEditingController();
-  final TextEditingController jointHolderDocTypeController = TextEditingController();
-  final TextEditingController jointHolderDocNumberController = TextEditingController();
+  final TextEditingController jointHolderNameController =
+      TextEditingController();
+  final TextEditingController jointHolderLastNameController =
+      TextEditingController();
+  final TextEditingController jointHolderMothersLastNameController =
+      TextEditingController();
+  final TextEditingController jointHolderDocTypeController =
+      TextEditingController();
+  final TextEditingController jointHolderDocNumberController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -72,42 +85,78 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
       return false;
     }
     if (accountTypeController.text.isEmpty) {
-      CustomSnackbar.show(context, "Debe seleccionar un tipo de cuenta", 'error');
+      CustomSnackbar.show(
+        context,
+        "Debe seleccionar un tipo de cuenta",
+        'error',
+      );
       return false;
     }
     if (accountNumberController.text.isEmpty) {
-      CustomSnackbar.show(context, "Debe ingresar un número de cuenta", 'error');
+      CustomSnackbar.show(
+        context,
+        "Debe ingresar un número de cuenta",
+        'error',
+      );
       return false;
     }
     if (accountNameController.text.isEmpty) {
-      CustomSnackbar.show(context, "Debe ingresar un nombre de cuenta", 'error');
+      CustomSnackbar.show(
+        context,
+        "Debe ingresar un nombre de cuenta",
+        'error',
+      );
       return false;
     }
     if (isJointAccount) {
       if (jointHolderNameController.text.isEmpty) {
-        CustomSnackbar.show(context, "Debe ingresar el nombre del titular", 'error');
+        CustomSnackbar.show(
+          context,
+          "Debe ingresar el nombre del titular",
+          'error',
+        );
         return false;
       }
       if (jointHolderLastNameController.text.isEmpty) {
-        CustomSnackbar.show(context, "Debe ingresar el apellido paterno del titular", 'error');
+        CustomSnackbar.show(
+          context,
+          "Debe ingresar el apellido paterno del titular",
+          'error',
+        );
         return false;
       }
       if (jointHolderMothersLastNameController.text.isEmpty) {
-        CustomSnackbar.show(context, "Debe ingresar el apellido materno del titular", 'error');
+        CustomSnackbar.show(
+          context,
+          "Debe ingresar el apellido materno del titular",
+          'error',
+        );
         return false;
       }
       if (jointHolderDocTypeController.text.isEmpty) {
-        CustomSnackbar.show(context, "Debe seleccionar un tipo de documento", 'error');
+        CustomSnackbar.show(
+          context,
+          "Debe seleccionar un tipo de documento",
+          'error',
+        );
         return false;
       }
       if (jointHolderDocNumberController.text.isEmpty) {
-        CustomSnackbar.show(context, "Debe ingresar el número de documento", 'error');
+        CustomSnackbar.show(
+          context,
+          "Debe ingresar el número de documento",
+          'error',
+        );
         return false;
       }
     }
     if (!isJointAccount) {
       if (!personalAccountDeclaration) {
-        CustomSnackbar.show(context, "Debe declarar que es su cuenta personal", 'error');
+        CustomSnackbar.show(
+          context,
+          "Debe declarar que es su cuenta personal",
+          'error',
+        );
         return false;
       }
     }
@@ -156,12 +205,14 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                      color: theme.isDarkMode
+                          ? const Color(secondaryGrayText)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
+                SizedBox(
                   width: 320,
                   // constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
                   child: CustomSelectButton(
@@ -173,19 +224,19 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     callbackOnChange: (value) {
                       bankController.text = value;
                     },
-                    labelText: "Desde que banco realizas la transferencia",
+                    labelText: "Desde qué banco realizas la transferencia",
                     hintText: "Seleccione su banco",
                     width: MediaQuery.of(context).size.width * 0.8,
                     enableColor: Colors.transparent,
                   ),
                 ),
                 const SizedBox(height: 20),
-                Container(
+                SizedBox(
                   width: 320,
                   // constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
                   child: CustomSelectButton(
                     textEditingController: accountTypeController,
-                    items: ['Ahorros', 'Corriente', 'Mancomunada'],
+                    items: const ['Ahorros', 'Corriente', 'Mancomunada'],
                     callbackOnChange: (value) {
                       accountTypeController.text = value;
                     },
@@ -225,7 +276,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                       ),
                     ),
                     const Spacer(),
@@ -234,7 +287,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                       ),
                     ),
                     Switch(
@@ -275,7 +330,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Apellido Paterno",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -287,7 +343,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Apellido Materno",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -299,11 +356,12 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        constraints: const BoxConstraints(minWidth: 154, maxWidth: 154),
+                        constraints:
+                            const BoxConstraints(minWidth: 154, maxWidth: 154),
                         child: CustomSelectButton(
                           width: 154,
                           textEditingController: jointHolderDocTypeController,
-                          items: ['DNI', 'Carnet de Extranjería'],
+                          items: const ['DNI', 'Carnet de Extranjería'],
                           callbackOnChange: (value) {
                             jointHolderDocTypeController.text = value;
                           },
@@ -318,7 +376,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Número de documento",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -342,7 +401,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -360,9 +421,12 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     Text(
                       "Declaro que es mi cuenta personal",
                       style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark)),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
+                      ),
                     ),
                   ],
                 ),
@@ -370,7 +434,10 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                 Center(
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 50,
+                        vertical: 15,
+                      ),
                       backgroundColor: const Color(primaryDark),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25),
@@ -390,9 +457,14 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       }
 
                       CreateBankAccountInput input = CreateBankAccountInput(
-                        bankUUID: BankEntity.getUuidByName(bankController.text, await bankFuture),
+                        bankUUID: BankEntity.getUuidByName(
+                          bankController.text,
+                          await bankFuture,
+                        ),
                         typeAccount: mapTypeAccount(accountTypeController.text),
-                        currency: widget.currency == currencyEnum.PEN ? 'SOLES' : 'DOLARES',
+                        currency: widget.currency == currencyEnum.PEN
+                            ? 'SOLES'
+                            : 'DOLARES',
                         bankAccount: accountNumberController.text,
                         aliasBankAccount: accountNameController.text,
                         isDefault: useForFutureOperations,
@@ -402,7 +474,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                                 name: jointHolderNameController.text,
                                 lastName: jointHolderLastNameController.text,
                                 documentType: jointHolderDocTypeController.text,
-                                documentNumber: jointHolderDocNumberController.text,
+                                documentNumber:
+                                    jointHolderDocNumberController.text,
                               )
                             : null,
                       );
@@ -442,22 +515,26 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       Navigator.of(context).pop();
                     },
                     style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.all(Colors.transparent),
-                      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                      overlayColor:
+                          MaterialStateProperty.all(Colors.transparent),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.transparent),
                     ),
                     child: Text(
                       "Regresar",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                         decoration: TextDecoration.underline,
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 40)
+                const SizedBox(height: 40),
               ],
             ),
           ),

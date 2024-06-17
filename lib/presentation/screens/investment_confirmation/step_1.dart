@@ -396,7 +396,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 callbackOnChange: (value) {
                   widget.bankTypeController.text = value;
                 },
-                labelText: "Desde que banco realizas la transferencia",
+                labelText: "Desde qué banco realizas la transferencia",
                 hintText: "Seleccione su banco",
                 width: MediaQuery.of(context).size.width * 0.8,
               ),
@@ -508,14 +508,15 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       },
                     ),
                   ),
-                  hintText: 'Ingresa tu codigo',
+                  hintText: 'Ingresa tu código',
                   hintStyle:
                       const TextStyle(color: Color(grayText), fontSize: 11),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                   ),
-                  label:
-                      const Text("Ingresa tu codigo promocional,si tienes uno"),
+                  label: const Text(
+                    "Ingresa tu códigos promocional,si tienes uno",
+                  ),
                 ),
               ),
             ),
