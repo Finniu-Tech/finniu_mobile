@@ -30,7 +30,8 @@ class HomeScreen extends HookConsumerWidget {
 
     return PopScope(
       child: Scaffold(
-        backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
+        backgroundColor:
+            Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
         bottomNavigationBar: const BottomNavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -38,7 +39,10 @@ class HomeScreen extends HookConsumerWidget {
 
             return userProfile.when(
               data: (profile) {
-                return HomeBody(currentTheme: currentTheme, userProfile: profile);
+                return HomeBody(
+                  currentTheme: currentTheme,
+                  userProfile: profile,
+                );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
               error: (error, _) => Center(child: Text(error.toString())),
@@ -67,7 +71,8 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context)
+                .pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -76,6 +81,12 @@ class HomeBody extends HookConsumerWidget {
     );
 
     final isSoles = ref.watch(isSolesStateProvider);
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
+    final currency = ref.watch(isSolesStateProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final settings = ref.read(settingsNotifierProvider.notifier);
+
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
       child: SingleChildScrollView(
@@ -86,12 +97,21 @@ class HomeBody extends HookConsumerWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    settingsDialog(context, ref);
+                    settingsDialog(
+                      context,
+                      ref,
+                      themeProvider,
+                      userBalanceReport,
+                      currency,
+                      userProfile,
+                      settings,
+                    );
                   },
                   child: Container(
                     alignment: Alignment.center,
                     child: CircularPercentAvatarWidget(
-                        ref.watch(userProfileNotifierProvider).percentCompleteProfile ?? 0.0),
+                      userProfile.percentCompleteProfile ?? 0.0,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -105,7 +125,9 @@ class HomeBody extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -115,7 +137,9 @@ class HomeBody extends HookConsumerWidget {
                     'assets/images/logo_small.png',
                     width: 60,
                     height: 60,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
                 ),
               ],
@@ -130,8 +154,10 @@ class HomeBody extends HookConsumerWidget {
                   data: (data) {
                     var reportSoles = data.solesBalance;
                     var reportDolar = data.dolarBalance;
-                    var homeReport = isSoles ? data.solesBalance : data.dolarBalance;
-                    if (reportSoles.totalBalance == 0 && reportDolar.totalBalance == 0) {
+                    var homeReport =
+                        isSoles ? data.solesBalance : data.dolarBalance;
+                    if (reportSoles.totalBalance == 0 &&
+                        reportDolar.totalBalance == 0) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: const Center(
@@ -169,7 +195,9 @@ class HomeBody extends HookConsumerWidget {
             Container(
               height: 2,
               width: MediaQuery.of(context).size.width * 0.8,
-              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+              color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
             ),
             const SizedBox(
               height: 15,
@@ -199,10 +227,12 @@ class PendingInvestmentCardWidget extends StatefulHookConsumerWidget {
   final SettingsProviderState currentTheme;
 
   @override
-  ConsumerState<PendingInvestmentCardWidget> createState() => PendingInvestmentCardWidgetState();
+  ConsumerState<PendingInvestmentCardWidget> createState() =>
+      PendingInvestmentCardWidgetState();
 }
 
-class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCardWidget> {
+class PendingInvestmentCardWidgetState
+    extends ConsumerState<PendingInvestmentCardWidget> {
   // bool hasInvestmentInProcess = false;
   bool isLoading = false;
   PreInvestmentForm? preInvestmentForm;
@@ -218,7 +248,9 @@ class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCa
         setState(() {
           isLoading = true;
         });
-        InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
+        InvestmentRepository()
+            .userHasInvestmentInProcess(client: gqlClient!)
+            .then(
           (success) {
             if (mounted) {
               setState(() {
