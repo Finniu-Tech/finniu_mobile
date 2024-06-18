@@ -1,4 +1,5 @@
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/utils/translate_month_to_spanish.dart';
 
 class PlanSimulation {
   final int initialAmount;
@@ -20,4 +21,20 @@ class PlanSimulation {
     required this.startDate,
     this.error,
   });
+
+  String getEndDateInSpanish() {
+    if (endDate != null) {
+      return translateMonthToSpanish(endDate!);
+    } else {
+      return 'N/A';
+    }
+  }
+
+  String getStartDateInSpanish() {
+    if (startDate != null) {
+      return translateMonthToSpanish(startDate!);
+    } else {
+      return 'N/A';
+    }
+  }
 }

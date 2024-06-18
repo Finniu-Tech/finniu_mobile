@@ -423,7 +423,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.zero,
                       ),
-                      labelText: "Desde que banco realizas la transferencia",
+                      labelText: "Desde qué banco realizas la transferencia",
                     ),
                   ),
                 ),
@@ -615,14 +615,14 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       },
                     ),
                   ),
-                  hintText: 'Ingresa tu codigo',
+                  hintText: 'Ingresa tu código',
                   hintStyle:
                       const TextStyle(color: Color(grayText), fontSize: 11),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                   ),
                   label:
-                      const Text("Ingresa tu codigo promocional,si tienes uno"),
+                      const Text("Ingresa tu código promocional,si tienes uno"),
                 ),
               ),
             ),
@@ -731,8 +731,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       height: 15,
                     ),
                     InvestmentDateRangeWidget(
-                      endDate: resultCalculator!.endDate!,
-                      startDate: resultCalculator!.startDate!,
+                      endDate: resultCalculator!.getEndDateInSpanish(),
+                      startDate: resultCalculator!.getStartDateInSpanish(),
                     ),
                   ],
                 ),
