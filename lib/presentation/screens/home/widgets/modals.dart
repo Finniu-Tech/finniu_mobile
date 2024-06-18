@@ -27,6 +27,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
   final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
   final currency = ref.watch(isSolesStateProvider);
   final userProfile = ref.watch(userProfileNotifierProvider);
+  final settings = ref.read(settingsNotifierProvider.notifier);
 
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -114,12 +115,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   SizedBox(
                                     width: 120,
                                     child: Text(
-                                      ref
-                                              .watch(
-                                                userProfileNotifierProvider,
-                                              )
-                                              .nickName ??
-                                          '',
+                                      userProfile.nickName ?? '',
                                       style: TextStyle(
                                         height: 1.5,
                                         fontSize: 16,
@@ -154,18 +150,8 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                     activeToggleColor: const Color(primaryDark),
                                     onToggle: (value) {
                                       value
-                                          ? ref
-                                              .read(
-                                                settingsNotifierProvider
-                                                    .notifier,
-                                              )
-                                              .setDarkMode()
-                                          : ref
-                                              .read(
-                                                settingsNotifierProvider
-                                                    .notifier,
-                                              )
-                                              .setLightMode();
+                                          ? settings.setDarkMode()
+                                          : settings.setLightMode();
                                       Preferences.isDarkMode = value;
                                       Navigator.of(context).pop();
                                     },
@@ -178,10 +164,7 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                     width: 10,
                                   ),
                                   Text(
-                                    ref
-                                            .watch(userProfileNotifierProvider)
-                                            .email ??
-                                        '',
+                                    userProfile.email ?? '',
                                     style: TextStyle(
                                       height: 1.5,
                                       fontSize: 12,
