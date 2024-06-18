@@ -11,6 +11,8 @@ import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+
 
 void settingsDialog(
   BuildContext ctx,
@@ -21,6 +23,7 @@ void settingsDialog(
   UserProfile userProfile,
   SettingsNotifierProvider settings,
 ) {
+
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
     context: ctx,
@@ -492,6 +495,7 @@ void completeProfileDialog(BuildContext ctx, WidgetRef ref) {
                           ),
                           onPressed: () {
                             Preferences.showWelcomeModal = false;
+                            ctx.loaderOverlay.hide();
                             // themeProvider.setShowWelcomeModal(false);
                             Navigator.pop(ctx);
                             Navigator.of(ctx).pushNamed('/profile');

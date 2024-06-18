@@ -75,17 +75,20 @@ class HomeBody extends HookConsumerWidget {
                 .pushReplacementNamed('/onboarding_questions_start');
           });
         }
+
         return null;
       },
       [],
     );
 
     final isSoles = ref.watch(isSolesStateProvider);
+
     final themeProvider = ref.watch(settingsNotifierProvider);
     final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
     final currency = ref.watch(isSolesStateProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final settings = ref.read(settingsNotifierProvider.notifier);
+
 
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
@@ -301,7 +304,7 @@ class PendingInvestmentCardWidgetState
           ),
         ),
       );
-    } else if (hasPreInvestmentState) {
+    } else if (hasPreInvestmentState && preInvestmentForm != null) {
       return PendingInvestmentCard(
         currentTheme: widget.currentTheme,
         preInvestmentForm: preInvestmentForm!,

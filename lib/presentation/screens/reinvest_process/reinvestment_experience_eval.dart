@@ -20,13 +20,14 @@ class EvalExperienceScreen extends StatelessWidget {
 }
 
 class EvaluateExperienceBody extends HookConsumerWidget {
-  const EvaluateExperienceBody({key});
+  const EvaluateExperienceBody({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final commentController = useTextEditingController();
-    const String question = '¿Cómo calificarías tu experiencia durante \n el proceso de inversión?';
+    const String question =
+        '¿Cómo calificarías tu experiencia durante \n el proceso de inversión?';
     return Container(
       width: MediaQuery.of(context).size.width,
       height: double.infinity,
@@ -35,8 +36,12 @@ class EvaluateExperienceBody extends HookConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(secondary),
-            currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLight),
+            currentTheme.isDarkMode
+                ? const Color(primaryDarkAlternative)
+                : const Color(secondary),
+            currentTheme.isDarkMode
+                ? const Color(primaryLight)
+                : const Color(primaryLight),
           ],
         ),
         borderRadius: BorderRadius.circular(40),
@@ -55,15 +60,19 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                   child: Image.asset('assets/images/logo_small.png'),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
-              Text(
+              const Text(
                 'Tu experiencia es primero',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: Color(primaryDark)),
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                  color: Color(primaryDark),
+                ),
               ),
-              SizedBox(height: 8),
-              Text(
+              const SizedBox(height: 8),
+              const Text(
                 'Déjanos tus respuestas sobre tu experiencia dentro del proceso de inversión',
                 style: TextStyle(
                   fontSize: 16,
@@ -71,18 +80,18 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
               Container(
                 height: 5,
                 width: MediaQuery.of(context).size.width * 0.80,
-                decoration: BoxDecoration(color: Color(primaryDark)),
+                decoration: const BoxDecoration(color: Color(primaryDark)),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 50,
               ),
-              Text(
+              const Text(
                 question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -96,9 +105,9 @@ class EvaluateExperienceBody extends HookConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: [
                   EmojiWidget(score: 1, emoji: 'assets/images/angry.png'),
                   SizedBox(
                     width: 10,
@@ -127,7 +136,11 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                 children: [
                   const Text(
                     'Mala experiencia',
-                    style: TextStyle(height: 1.5, fontSize: 8, color: Color(blackText)),
+                    style: TextStyle(
+                      height: 1.5,
+                      fontSize: 8,
+                      color: Color(blackText),
+                    ),
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.3,
@@ -145,7 +158,7 @@ class EvaluateExperienceBody extends HookConsumerWidget {
               const SizedBox(
                 height: 30,
               ),
-              Text(
+              const Text(
                 '¿Tienes algún comentario o sugerencia \n para mejorar nuestro proceso?(Opcional)',
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -171,7 +184,9 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     hintText: 'Escribe aquí tu comentario o sugerencia',
-                    fillColor: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
+                    fillColor: currentTheme.isDarkMode
+                        ? const Color(primaryDark)
+                        : const Color(whiteText),
                     filled: true,
                   ),
                 ),
@@ -199,7 +214,12 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                   }
                 },
                 style: TextButton.styleFrom(
-                  padding: const EdgeInsets.only(right: 20, left: 20, top: 5, bottom: 5),
+                  padding: const EdgeInsets.only(
+                    right: 20,
+                    left: 20,
+                    top: 5,
+                    bottom: 5,
+                  ),
                   backgroundColor: const Color(primaryDark),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -209,7 +229,7 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                   'Finalizar proceso',
                   style: TextStyle(color: Colors.white),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -241,7 +261,8 @@ class EmojiWidget extends HookConsumerWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: score == selectedScore ? activeColor : const Color(primaryLight),
+          color:
+              score == selectedScore ? activeColor : const Color(primaryLight),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -249,7 +270,9 @@ class EmojiWidget extends HookConsumerWidget {
             Text(
               score.toString(),
               style: TextStyle(
-                color: score == selectedScore ? activeLetterColor : const Color(primaryDark),
+                color: score == selectedScore
+                    ? activeLetterColor
+                    : const Color(primaryDark),
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
               ),
