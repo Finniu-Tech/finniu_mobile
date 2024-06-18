@@ -161,8 +161,8 @@ class CustomSelectButton extends HookConsumerWidget {
             decoration: InputDecoration(
               filled: true,
               fillColor: Theme.of(context).colorScheme.surface,
-              suffixIcon: Icon(Icons.search),
-              label: Text('Buscar'),
+              suffixIcon: const Icon(Icons.search),
+              label: const Text('Buscar'),
             ),
           ),
         ),
