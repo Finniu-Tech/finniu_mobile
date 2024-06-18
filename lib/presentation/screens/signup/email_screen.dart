@@ -107,12 +107,10 @@ class SignUpEmailScreen extends HookConsumerWidget {
                     items: listAvatars.map((imageRoute) {
                       return Builder(
                         builder: (BuildContext context) {
-                          return Container(
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: AssetImage(
-                                imageRoute,
-                              ),
+                          return Image(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              imageRoute,
                             ),
                           );
                         },
@@ -159,7 +157,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                     },
                     keyboardType: TextInputType.number,
                     inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.digitsOnly
+                      FilteringTextInputFormatter.digitsOnly,
                     ],
                     decoration: const InputDecoration(
                       hintText: 'Escriba su número telefónico',
@@ -187,7 +185,8 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       emailController.text = lowerCaseValue;
                       // Mueve el cursor al final del texto
                       emailController.selection = TextSelection.fromPosition(
-                          TextPosition(offset: lowerCaseValue.length));
+                        TextPosition(offset: lowerCaseValue.length),
+                      );
                     },
                     decoration: const InputDecoration(
                       hintText: 'Escriba su correo electrónico',
@@ -246,20 +245,21 @@ class SignUpEmailScreen extends HookConsumerWidget {
                         checkColor: Colors.white,
                         side: BorderSide(
                           color: themeProvider.isDarkMode
-                              ? Color(primaryLight)
-                              : Color(primaryDark), // Border color
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark), // Border color
                           width: 1.5, // Border width
                         ),
                         fillColor: MaterialStateProperty.resolveWith<Color?>(
                           (Set<MaterialState> states) {
                             if (states.contains(MaterialState.selected)) {
                               return themeProvider.isDarkMode
-                                  ? Color(primaryLight)
-                                  : Color(
-                                      primaryDark); // Color when checkbox is selected (checked)
+                                  ? const Color(primaryLight)
+                                  : const Color(
+                                      primaryDark,
+                                    ); // Color when checkbox is selected (checked)
                             }
                             return themeProvider.isDarkMode
-                                ? Color(primaryLight)
+                                ? const Color(primaryLight)
                                 : Colors
                                     .transparent; // Color when checkbox is not selected (unchecked)
                           },
@@ -309,8 +309,11 @@ class SignUpEmailScreen extends HookConsumerWidget {
                           phoneController.text.isEmpty ||
                           emailController.text.isEmpty ||
                           passwordController.text.isEmpty) {
-                        return CustomSnackbar.show(context,
-                            'Necesitas completar todos los campos', 'error');
+                        return CustomSnackbar.show(
+                          context,
+                          'Necesitas completar todos los campos',
+                          'error',
+                        );
                       }
 
                       if (!userAcceptedTerms.value) {
@@ -322,6 +325,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       }
 
                       if (formKey.currentState!.validate()) {
+                        context.loaderOverlay.show();
                         ref
                             .read(userProfileNotifierProvider.notifier)
                             .updateFields(
