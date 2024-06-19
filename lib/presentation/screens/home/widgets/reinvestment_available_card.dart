@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/presentation/providers/userNotificationProvider.dart';
+import 'package:finniu/presentation/providers/user_notification_provider.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
