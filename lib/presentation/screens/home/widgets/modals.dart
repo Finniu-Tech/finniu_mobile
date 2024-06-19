@@ -369,33 +369,36 @@ class ItemSetting extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
     // SettingsProvider themeProvider = Provider.of<SettingsProvider>(context);
-    return Row(
-      children: [
-        Container(
-          width: 46,
-          height: 35,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: themeProvider.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryDarkAlternative),
-            borderRadius: BorderRadius.circular(5),
-          ),
-          child: InkWell(
-            onTap: _onTap as void Function()?,
-            child: Image.asset(
-              _image,
+    return Container(
+      color: Colors.transparent,
+      child: Row(
+        children: [
+          Container(
+            width: 46,
+            height: 35,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
               color: themeProvider.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLight),
-              width: 18,
-              height: 18,
+                  ? const Color(primaryLight)
+                  : const Color(primaryDarkAlternative),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: InkWell(
+              onTap: _onTap as void Function()?,
+              child: Image.asset(
+                _image,
+                color: themeProvider.isDarkMode
+                    ? const Color(primaryDark)
+                    : const Color(primaryLight),
+                width: 18,
+                height: 18,
+              ),
             ),
           ),
-        ),
-        const SizedBox(width: 10),
-        Text(_text),
-      ],
+          const SizedBox(width: 10),
+          Text(_text),
+        ],
+      ),
     );
   }
 }
