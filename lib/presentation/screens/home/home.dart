@@ -82,8 +82,14 @@ class HomeBody extends HookConsumerWidget {
     );
 
     final isSoles = ref.watch(isSolesStateProvider);
-    final percentCompleteProfile =
-        ref.watch(userProfileNotifierProvider).percentCompleteProfile;
+
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
+    final currency = ref.watch(isSolesStateProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final settings = ref.read(settingsNotifierProvider.notifier);
+
+
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
       child: SingleChildScrollView(
@@ -94,12 +100,20 @@ class HomeBody extends HookConsumerWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    settingsDialog(context, ref);
+                    settingsDialog(
+                      context,
+                      ref,
+                      themeProvider,
+                      userBalanceReport,
+                      currency,
+                      userProfile,
+                      settings,
+                    );
                   },
                   child: Container(
                     alignment: Alignment.center,
                     child: CircularPercentAvatarWidget(
-                      percentCompleteProfile ?? 0.0,
+                      userProfile.percentCompleteProfile ?? 0.0,
                     ),
                   ),
                 ),

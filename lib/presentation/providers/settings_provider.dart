@@ -9,7 +9,7 @@ class SettingsProviderState {
 
   SettingsProviderState({
     required this.currentTheme,
-    required this.isDarkMode,
+    this.isDarkMode = false,
     required this.showWelcomeModal,
   });
 
@@ -30,12 +30,14 @@ class SettingsNotifierProvider extends StateNotifier<SettingsProviderState> {
   SettingsNotifierProvider({
     required bool isDarkMode,
     required bool showWelcomeModal,
-  }) : super(SettingsProviderState(
-          currentTheme:
-              isDarkMode ? AppTheme().darkTheme : AppTheme().lightTheme,
-          isDarkMode: isDarkMode,
-          showWelcomeModal: showWelcomeModal,
-        ));
+  }) : super(
+          SettingsProviderState(
+            currentTheme:
+                isDarkMode ? AppTheme().darkTheme : AppTheme().lightTheme,
+            isDarkMode: isDarkMode,
+            showWelcomeModal: showWelcomeModal,
+          ),
+        );
 
   void setLightMode() {
     state = state.copyWith(

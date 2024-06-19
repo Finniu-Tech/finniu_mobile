@@ -110,14 +110,16 @@ class SnackBarBody extends HookConsumerWidget {
               ),
             ),
             Positioned(
-              right: 5,
-              top: 2,
+              right: 7,
+              top: 6,
               child: InkWell(
                 onTap: onDismiss,
-                child: const SizedBox(
-                  width: 40,
-                  height: 40,
-                ),
+                child: themeProvider.isDarkMode
+                    ? const Icon(Icons.close, color: Colors.white)
+                    : const SizedBox(
+                        width: 40,
+                        height: 40,
+                      ),
               ),
             ),
           ],

@@ -1,20 +1,11 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
-import 'package:finniu/presentation/providers/auth_provider.dart';
-import 'package:finniu/presentation/providers/bank_provider.dart';
-import 'package:finniu/presentation/providers/bank_repository_provider.dart';
-import 'package:finniu/presentation/providers/dead_line_provider.dart';
-import 'package:finniu/presentation/providers/graphql_provider.dart';
-import 'package:finniu/presentation/providers/important_days_provider.dart';
-import 'package:finniu/presentation/providers/money_provider.dart';
-import 'package:finniu/presentation/providers/onboarding_provider.dart';
-import 'package:finniu/presentation/providers/otp_provider.dart';
-import 'package:finniu/presentation/providers/plan_provider.dart';
-import 'package:finniu/presentation/providers/pre_investment_provider.dart';
-import 'package:finniu/presentation/providers/report_provider.dart';
+import 'package:finniu/domain/entities/userProfileBalance.dart';
+import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
+import 'package:finniu/utils/log_out.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +13,16 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-void settingsDialog(BuildContext ctx, WidgetRef ref) {
-  final themeProvider = ref.watch(settingsNotifierProvider);
-  final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
-  final currency = ref.watch(isSolesStateProvider);
-  final userProfile = ref.watch(userProfileNotifierProvider);
-  final settings = ref.read(settingsNotifierProvider.notifier);
+
+void settingsDialog(
+  BuildContext ctx,
+  WidgetRef ref,
+  SettingsProviderState themeProvider,
+  UserProfileBalance userBalanceReport,
+  bool currency,
+  UserProfile userProfile,
+  SettingsNotifierProvider settings,
+) {
 
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -129,7 +124,9 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                   ),
                                   const Spacer(),
                                   TextPoppins(
-                                    text: 'Light mode',
+                                    text: themeProvider.isDarkMode
+                                        ? 'Dark mode'
+                                        : 'Light mode',
                                     colorText: themeProvider.isDarkMode
                                         ? Colors.white.value
                                         : Colors.black.value,
@@ -142,7 +139,8 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                                     padding: 2,
                                     width: 35,
                                     height: 16,
-                                    value: Preferences.isDarkMode,
+                                    value:
+                                        themeProvider.isDarkMode ? true : false,
                                     inactiveColor: const Color(primaryDark),
                                     activeColor: const Color(primaryLight),
                                     inactiveToggleColor:
@@ -330,48 +328,11 @@ void settingsDialog(BuildContext ctx, WidgetRef ref) {
                             child: ItemSetting(
                               image: 'assets/icons/sign_off.png',
                               text: "Cerrar sesión",
-                              onTap: () {
-                                ref.invalidate(authTokenProvider);
-                                ref.invalidate(gqlClientProvider);
-                                ref.invalidate(userProfileFutureProvider);
-                                ref.invalidate(bankFutureProvider);
-                                ref.invalidate(deadLineFutureProvider);
-                                ref.invalidate(hasCompletedOnboardingProvider);
-                                ref.invalidate(userAcceptedTermsProvider);
-                                ref.invalidate(
-                                  finishOnboardingFutureStateNotifierProvider,
-                                );
-                                ref.invalidate(importantDaysFutureProvider);
-                                ref.invalidate(
-                                  startOnBoardingFutureStateNotifierProvider,
-                                );
-                                ref.invalidate(
-                                  updateOnboardingFutureStateNotifierProvider,
-                                );
-                                ref.invalidate(onBoardingStateNotifierProvider);
-                                ref.invalidate(
-                                  recommendedPlanStateNotifierProvider,
-                                );
-                                ref.invalidate(otpValidatorFutureProvider);
-                                ref.invalidate(otpResendCodeProvider);
-                                ref.invalidate(planListFutureProvider);
-                                ref.invalidate(preInvestmentSaveProvider);
-                                ref.invalidate(homeReportProvider);
-                                ref.invalidate(userProfileNotifierProvider);
-                                ref.invalidate(
-                                  userProfileBalanceNotifierProvider,
-                                );
-                                ref.invalidate(settingsNotifierProvider);
-                                ref.invalidate(isSolesStateProvider);
-                                ref.invalidate(homeReportProviderV2);
-                                ref.invalidate(bankRepositoryProvider);
-                                // logout(ref);
-                                Navigator.of(ctx).pushNamedAndRemoveUntil(
-                                  '/login_start',
-                                  (route) => true,
-                                );
-                                // Navigator.of(ctx).pushNamed('/login_start');
-                              },
+                              onTap: () => logOut(
+                                ctx,
+                                ref,
+                              ) // Navigator.of(ctx).pushNamed('/login_start');
+                              ,
                             ),
                           ),
                         ],
