@@ -6,18 +6,17 @@ import 'package:finniu/infrastructure/models/bank_user_account/response_models.d
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final bankAccountDataSourceProvider = Provider<BankAccountDataSource>((ref) {
-  final client = ref.watch(gqlClientProvider);
-  return BankAccountDataSource(client.value!);
-});
-
 final createBankAccountProvider =
     FutureProvider.autoDispose.family<CreateBankAccountResponse, CreateBankAccountInput>((ref, input) {
-  final dataSource = ref.watch(bankAccountDataSourceProvider);
+  final client = ref.watch(gqlClientProvider);
+  final dataSource = BankAccountDataSource(client.value!);
   return dataSource.createBankAccount(input);
 });
 
-final bankAccountFutureProvider = FutureProvider<List<BankAccount>>((ref) async {
-  final dataSource = ref.read(bankAccountDataSourceProvider);
+final bankAccountFutureProvider = FutureProvider.autoDispose<List<BankAccount>>((ref) async {
+  final client = ref.watch(gqlClientProvider);
+  final dataSource = BankAccountDataSource(client.value!);
   return await dataSource.getUserBankAccount();
 });
+
+final boolCreatedNewBankAccountProvider = StateProvider<bool>((ref) => false);

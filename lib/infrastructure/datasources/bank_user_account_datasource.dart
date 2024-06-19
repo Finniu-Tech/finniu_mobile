@@ -23,10 +23,11 @@ class BankAccountDataSource {
       'isPersonalAccount': input.isPersonalAccount,
     };
     final MutationOptions options = MutationOptions(
-        document: gql(
-          MutationRepository.createBankAccount(),
-        ),
-        variables: variables);
+      document: gql(
+        MutationRepository.createBankAccount(),
+      ),
+      variables: variables,
+    );
 
     final QueryResult result = await client.mutate(options);
     print('result create bank account: ${result}');

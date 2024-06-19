@@ -100,6 +100,10 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
       );
       return false;
     }
+    if (accountNumberController.text.length > 20) {
+      CustomSnackbar.show(context, "El número de cuenta es inválido", 'error');
+      return false;
+    }
     if (accountNameController.text.isEmpty) {
       CustomSnackbar.show(
         context,
@@ -149,6 +153,16 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
         );
         return false;
       }
+      if (jointHolderDocTypeController.text == 'DNI' && jointHolderDocNumberController.text.length != 8) {
+        CustomSnackbar.show(context, "El DNI debe tener 8 dígitos", 'error');
+        return false;
+      } else {
+        if (jointHolderDocTypeController.text == 'Carnet de Extranjería' &&
+            jointHolderDocNumberController.text.length != 20) {
+          CustomSnackbar.show(context, "El Carnet de Extranjería debe tener 20 dígitos", 'error');
+          return false;
+        }
+      }
     }
     if (!isJointAccount) {
       if (!personalAccountDeclaration) {
@@ -195,7 +209,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 20),
+                const SizedBox(height: 30),
                 Center(
                   child: Text(
                     widget.isSender
@@ -482,19 +496,21 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       ref.read(createBankAccountProvider(input).future).then(
                         (response) {
                           if (response.success) {
+                            ref.invalidate(bankAccountFutureProvider);
                             CustomSnackbar.show(
                               context,
                               "Cuenta guardada correctamente",
                               'success',
                             );
                             //wait 3 seconds
-                            Future.delayed(const Duration(seconds: 3), () {
+                            ref.read(boolCreatedNewBankAccountProvider.notifier).state = true;
+                            Future.delayed(const Duration(seconds: 1), () {
                               Navigator.of(context).pop();
                             });
                           } else {
                             CustomSnackbar.show(
                               context,
-                              "Error al guardar la cuenta",
+                              "Hubo un error al guardar la cuenta, verifique los datos e intente nuevamente",
                               'error',
                             );
                           }

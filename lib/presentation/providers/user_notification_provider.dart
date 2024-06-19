@@ -9,8 +9,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 final userNotificationProvider = FutureProvider.autoDispose<List<UserNotificationEntity>>((ref) async {
   final client = await ref.watch(gqlClientProvider.future);
   final QueryResult result = await client.query(
-    QueryOptions(document: gql(QueryRepository.getUserNotification), fetchPolicy: FetchPolicy.noCache //TODO remove this
-        ),
+    QueryOptions(document: gql(QueryRepository.getUserNotification), fetchPolicy: FetchPolicy.noCache),
   );
   if (result.hasException) {
     throw result.exception!;
