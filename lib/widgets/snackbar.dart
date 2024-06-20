@@ -9,7 +9,7 @@ class CustomSnackbar {
     final overlay = Overlay.of(context);
     late OverlayEntry overlayEntry;
     final onDismiss = Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 4),
       () => overlayEntry.remove(),
     );
 
@@ -60,9 +60,7 @@ class SnackBarBody extends HookConsumerWidget {
             bottomLeft: Radius.circular(20),
             topLeft: Radius.circular(40),
           ),
-          color: themeProvider.isDarkMode
-              ? const Color(backgroundColorDark)
-              : Colors.white,
+          color: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
         ),
         child: Stack(
           alignment: Alignment.center,
@@ -96,9 +94,7 @@ class SnackBarBody extends HookConsumerWidget {
                     child: Text(
                       message,
                       style: TextStyle(
-                        color: themeProvider.isDarkMode
-                            ? Colors.white
-                            : Colors.black,
+                        color: themeProvider.isDarkMode ? Colors.white : Colors.black,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),

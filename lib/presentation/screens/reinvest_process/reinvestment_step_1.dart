@@ -172,6 +172,45 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
     }
   }
 
+  bool validate() {
+    if (widget.mountController.text.isEmpty ||
+        widget.deadLineController.text.isEmpty ||
+        widget.bankController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        'error',
+      );
+      return false;
+    }
+    if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL &&
+        widget.originFoundsController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        'error',
+      );
+      return false;
+    }
+    if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL && widget.mountController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Debe de ingresar un monto adicional',
+        'error',
+      );
+      return false;
+    }
+    if (widget.originFoundsController.text == 'Otros' && widget.otherFoundOriginController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Debe de ingresar el origen de los fondos',
+        'error',
+      );
+      return false;
+    }
+    return true;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -722,34 +761,10 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               height: 50,
               child: TextButton(
                 onPressed: () async {
-                  if (widget.mountController.text.isEmpty ||
-                      widget.deadLineController.text.isEmpty ||
-                      widget.bankController.text.isEmpty) {
-                    CustomSnackbar.show(
-                      context,
-                      'Hubo un problema, asegúrate de haber completado los campos anteriores',
-                      'error',
-                    );
-                    return; // Sale de la función para evitar que continúe el proceso
-                  }
-                  if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL &&
-                      widget.originFoundsController.text.isEmpty) {
-                    CustomSnackbar.show(
-                      context,
-                      'Hubo un problema, asegúrate de haber completado los campos anteriores',
-                      'error',
-                    );
+                  if (!validate()) {
                     return;
                   }
-                  if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL &&
-                      widget.mountController.text.isEmpty) {
-                    CustomSnackbar.show(
-                      context,
-                      'Debe de ingresar un monto adicional',
-                      'error',
-                    );
-                    return; // Sale de la función para evitar que continúe el proceso
-                  }
+
                   final finalAmount = finalAmountState.value;
                   final deadLineUuid = DeadLineEntity.getUuidByName(
                     widget.deadLineController.text,
