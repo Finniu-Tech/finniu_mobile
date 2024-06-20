@@ -5,10 +5,8 @@ class HistoryInvestmentResponse {
     this.userInfoInvestment,
   });
 
-  factory HistoryInvestmentResponse.fromJson(Map<String, dynamic> json) =>
-      HistoryInvestmentResponse(
-        userInfoInvestment:
-            json == null ? null : UserInfoInvestment.fromJson(json),
+  factory HistoryInvestmentResponse.fromJson(Map<String, dynamic> json) => HistoryInvestmentResponse(
+        userInfoInvestment: json == null ? null : UserInfoInvestment.fromJson(json),
       );
 
   Map<String, dynamic> toJson() => {
@@ -24,6 +22,7 @@ class UserInfoInvestment {
   List<InvesmentFinishedElement>? invesmentFinished;
   List<InvesmentCanceledElement>? invesmentInProcess;
   List<InvesmentCanceledElement>? invesmentCanceled;
+  List<InvesmentFinishedElement>? investmentPending;
 
   UserInfoInvestment({
     this.totalBalanceAmount,
@@ -33,47 +32,49 @@ class UserInfoInvestment {
     this.invesmentFinished,
     this.invesmentInProcess,
     this.invesmentCanceled,
+    this.investmentPending,
   });
 
-  factory UserInfoInvestment.fromJson(Map<String, dynamic> json) =>
-      UserInfoInvestment(
+  factory UserInfoInvestment.fromJson(Map<String, dynamic> json) => UserInfoInvestment(
         totalBalanceAmount: json["totalBalanceAmmount"],
         countPlanesActive: json["countPlanesActive"],
         totalBalanceRentability: json["totalBalanceRentability"],
         invesmentInCourse: json["invesmentInCourse"] == null
             ? []
-            : List<InvesmentFinishedElement>.from(json["invesmentInCourse"]!
-                .map((x) => InvesmentFinishedElement.fromJson(x))),
+            : List<InvesmentFinishedElement>.from(
+                json["invesmentInCourse"]!.map((x) => InvesmentFinishedElement.fromJson(x))),
         invesmentFinished: json["invesmentFinished"] == null
             ? []
-            : List<InvesmentFinishedElement>.from(json["invesmentFinished"]!
-                .map((x) => InvesmentFinishedElement.fromJson(x))),
+            : List<InvesmentFinishedElement>.from(
+                json["invesmentFinished"]!.map((x) => InvesmentFinishedElement.fromJson(x))),
         invesmentInProcess: json["invesmentInProcess"] == null
             ? []
-            : List<InvesmentCanceledElement>.from(json["invesmentInProcess"]!
-                .map((x) => InvesmentCanceledElement.fromJson(x))),
+            : List<InvesmentCanceledElement>.from(
+                json["invesmentInProcess"]!.map((x) => InvesmentCanceledElement.fromJson(x))),
         invesmentCanceled: json["invesmentCanceled"] == null
             ? []
-            : List<InvesmentCanceledElement>.from(json["invesmentCanceled"]!
-                .map((x) => InvesmentCanceledElement.fromJson(x))),
+            : List<InvesmentCanceledElement>.from(
+                json["invesmentCanceled"]!.map((x) => InvesmentCanceledElement.fromJson(x))),
+        investmentPending: json["investmentPending"] == null
+            ? []
+            : List<InvesmentFinishedElement>.from(
+                json["investmentPending"]!.map((x) => InvesmentFinishedElement.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "totalBalanceAmmount": totalBalanceAmount,
         "countPlanesActive": countPlanesActive,
         "totalBalanceRentability": totalBalanceRentability,
-        "invesmentInCourse": invesmentInCourse == null
-            ? []
-            : List<dynamic>.from(invesmentInCourse!.map((x) => x.toJson())),
-        "invesmentFinished": invesmentFinished == null
-            ? []
-            : List<dynamic>.from(invesmentFinished!.map((x) => x.toJson())),
-        "invesmentInProcess": invesmentInProcess == null
-            ? []
-            : List<dynamic>.from(invesmentInProcess!.map((x) => x.toJson())),
-        "invesmentCanceled": invesmentCanceled == null
-            ? []
-            : List<dynamic>.from(invesmentCanceled!.map((x) => x.toJson())),
+        "invesmentInCourse":
+            invesmentInCourse == null ? [] : List<dynamic>.from(invesmentInCourse!.map((x) => x.toJson())),
+        "invesmentFinished":
+            invesmentFinished == null ? [] : List<dynamic>.from(invesmentFinished!.map((x) => x.toJson())),
+        "invesmentInProcess":
+            invesmentInProcess == null ? [] : List<dynamic>.from(invesmentInProcess!.map((x) => x.toJson())),
+        "invesmentCanceled":
+            invesmentCanceled == null ? [] : List<dynamic>.from(invesmentCanceled!.map((x) => x.toJson())),
+        "investmentPending":
+            investmentPending == null ? [] : List<dynamic>.from(investmentPending!.map((x) => x.toJson())),
       };
 }
 
@@ -90,8 +91,7 @@ class InvesmentCanceledElement {
     this.status,
   });
 
-  factory InvesmentCanceledElement.fromJson(Map<String, dynamic> json) =>
-      InvesmentCanceledElement(
+  factory InvesmentCanceledElement.fromJson(Map<String, dynamic> json) => InvesmentCanceledElement(
         uuid: json["uuid"],
         amount: json["amount"],
         planName: json["planName"],
@@ -129,20 +129,14 @@ class InvesmentFinishedElement {
     this.planName,
   });
 
-  factory InvesmentFinishedElement.fromJson(Map<String, dynamic> json) =>
-      InvesmentFinishedElement(
+  factory InvesmentFinishedElement.fromJson(Map<String, dynamic> json) => InvesmentFinishedElement(
         uuid: json["uuid"],
         amount: json["amount"],
-        deadline: json["deadline"] == null
-            ? null
-            : Deadline.fromJson(json["deadline"]),
+        deadline: json["deadline"] == null ? null : Deadline.fromJson(json["deadline"]),
         status: json["status"],
-        startDateInvestment: json["startDateInvestment"] == null
-            ? null
-            : DateTime.parse(json["startDateInvestment"]),
-        finishDateInvestment: json["finishDateInvestment"] == null
-            ? null
-            : DateTime.parse(json["finishDateInvestment"]),
+        startDateInvestment: json["startDateInvestment"] == null ? null : DateTime.parse(json["startDateInvestment"]),
+        finishDateInvestment:
+            json["finishDateInvestment"] == null ? null : DateTime.parse(json["finishDateInvestment"]),
         rentabilityAmmount: json["rentabilityAmmount"],
         rentabilityPercent: json["rentabilityPercent"],
         planName: json["planName"],

@@ -1,4 +1,5 @@
 import 'package:finniu/infrastructure/models/bottom_menu.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
@@ -167,8 +168,6 @@ class CustomButtonRoundedDark extends ConsumerWidget {
     );
   }
 }
-
-final navigatorStateProvider = StateProvider<int>((ref) => 0);
 
 class BottomNavigationBarHome extends HookConsumerWidget {
   const BottomNavigationBarHome({Key? key}) : super(key: key);

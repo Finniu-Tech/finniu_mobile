@@ -23,6 +23,7 @@ class InvestmentHistoryResumeEntity {
   double totalAmount;
   int totalPlans;
   List<InvestmentHistoryEntity>? investmentsInCourse;
+  List<InvestmentHistoryEntity>? investmentsPending;
   List<InvestmentHistoryEntity>? investmentsFinished;
   List<InvestmentHistoryEntity>? investmentsInProcess;
   List<InvestmentHistoryEntity>? investmentsCanceled;
@@ -34,6 +35,7 @@ class InvestmentHistoryResumeEntity {
     this.investmentsFinished,
     this.investmentsInProcess,
     this.investmentsCanceled,
+    this.investmentsPending,
   });
 
   int countTotalHistory() {
@@ -41,8 +43,13 @@ class InvestmentHistoryResumeEntity {
     int countInvesmentsFinished = this.investmentsFinished?.length ?? 0;
     int countInvesmentsInProcess = this.investmentsInProcess?.length ?? 0;
     int countInvestmentsCanceled = this.investmentsCanceled?.length ?? 0;
+    int countInvestmentsPending = this.investmentsPending?.length ?? 0;
 
-    return countInCourse + countInvesmentsFinished + countInvesmentsInProcess + countInvestmentsCanceled;
+    return countInCourse +
+        countInvesmentsFinished +
+        countInvesmentsInProcess +
+        countInvestmentsCanceled +
+        countInvestmentsPending;
   }
 
   // fromJson(Map<String, dynamic> json) {

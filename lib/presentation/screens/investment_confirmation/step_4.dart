@@ -1,7 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/bottom_menu.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

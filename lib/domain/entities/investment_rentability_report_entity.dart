@@ -4,6 +4,13 @@ class StatusInvestmentEnum {
   static const String pending = 'pending';
 }
 
+class ActionStatusEnum {
+  static const String activeReInvestment = 'RE_INVERSION_ACTIVADA';
+  static const String disabledReInvestment = 'RE_INVERSION_DESACTIVADA';
+  static const String pendingReInvestment = 'RE_INVERSION_PENDIENTE';
+  static const String defaultReInvestment = 'RE_INVERSION_DEFAULT';
+}
+
 class InvestmentRentabilityReport {
   final InvestmentRentabilityResumeEntity solesRentability;
   final InvestmentRentabilityResumeEntity dollarsRentability;
@@ -59,6 +66,7 @@ class InvestmentRentabilityEntity {
   InvestmentPartnerEntity? partner;
   bool isReInvestment = false;
   bool reInvestmentDisabled = false;
+  String? actionStatus;
 
   InvestmentRentabilityEntity({
     required this.uuid,
@@ -79,6 +87,7 @@ class InvestmentRentabilityEntity {
     this.partner,
     this.isReInvestment = false,
     this.reInvestmentDisabled = false,
+    this.actionStatus,
   });
 }
 

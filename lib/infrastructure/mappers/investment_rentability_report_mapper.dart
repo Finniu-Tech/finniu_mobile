@@ -56,6 +56,7 @@ class InvestmentRentabilityMapper {
       partner: investment.partner != null ? InvestmentPartnerMapper.responseToEntity(investment.partner!) : null,
       isReInvestment: investment.isReInvestment,
       reInvestmentDisabled: investment.noReInvestment,
+      actionStatus: investment.actionStatus,
     );
   }
 }

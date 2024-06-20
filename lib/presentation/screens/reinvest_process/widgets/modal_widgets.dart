@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/cards_widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -347,6 +348,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
             //go to evaluation screen
             // Navigator.of(context).pushNamed('/evaluation');
             //GO TO HISTORY
+            //set index to 1
+            ref.read(navigatorStateProvider.notifier).state = 2;
             Navigator.of(context).pushNamed('/process_investment');
           },
           style: TextButton.styleFrom(

@@ -299,248 +299,420 @@ class QueryRepository {
 
   static String get investmentRentabilityReportV2 {
     return '''
-      query {
-        userInfoAllInvestment {
-          invesmentInDolares {
-            totalBalanceAmmount
-            countPlanesActive
-            totalBalanceRentability
-            invesmentInCourse {
-              uuid
-              reinvestmentAvailable
-              createdAt
-              isActive
-              amount
-              deadline {
+        query {
+          userInfoAllInvestment {
+            invesmentInDolares {
+              totalBalanceAmmount
+              countPlanesActive
+              totalBalanceRentability
+              invesmentInCourse {
                 uuid
-                name
-                value
-                description
+                reinvestmentAvailable
+                createdAt
+                isActive
+                amount
+                deadline {
+                  uuid
+                  name
+                  value
+                  description
+                }
+                depositBank {
+                  bankName
+                  bankLogo
+                  slug
+                }
+                contract
+                boucherTransaction
+                status
+                startDateInvestment
+                finishDateInvestment
+                rentabilityAmmount
+                rentabilityPercent
+                planName
+                couponPartnerTags{
+                  tagName
+                  tagHex
+                }
+                partnerInfo{
+                  partnerName
+                  partnerLogo
+                  partnerHex
+                  partnerImageActivate
+                }
+                noReInvestment
+                noReInvestment
+                actionStatus
               }
-              depositBank {
-                bankName
-                bankLogo
-                slug
+              
+              invesmentFinished {
+                uuid
+                createdAt
+                isActive
+                amount
+                deadline {
+                  uuid
+                  name
+                  value
+                  description
+                }
+                depositBank {
+                  bankName
+                  bankLogo
+                  slug
+                }
+                contract
+                boucherTransaction
+                status
+                startDateInvestment
+                finishDateInvestment
+                rentabilityAmmount
+                rentabilityPercent
+                planName
+                couponPartnerTags{
+                  tagName
+                  tagHex
+                }
+                partnerInfo{
+                  partnerName
+                  partnerLogo
+                  partnerHex
+                  partnerImageActivate
+                }
+                isReInvestment
+                noReInvestment
               }
-              contract
-              boucherTransaction
-              status
-              startDateInvestment
-              finishDateInvestment
-              rentabilityAmmount
-              rentabilityPercent
-              planName
-              couponPartnerTags{
-                tagName
-                tagHex
-              }
-              partnerInfo{
-                partnerName
-                partnerLogo
-                partnerHex
-                partnerImageActivate
-              }
-              noReInvestment
-              noReInvestment
             }
-            investmentPending {
-              uuid
-              reinvestmentAvailable
-              createdAt
-              isActive
-              amount
-              deadline {
+            invesmentInSoles {
+              totalBalanceAmmount
+              countPlanesActive
+              totalBalanceRentability
+              
+              invesmentInCourse {
                 uuid
-                name
-                value
-                description
+                reinvestmentAvailable
+                createdAt
+                isActive
+                amount
+                deadline {
+                  uuid
+                  name
+                  value
+                  description
+                }
+                depositBank {
+                  bankName
+                  bankLogo
+                  slug
+                }
+                contract
+                boucherTransaction
+                status
+                startDateInvestment
+                finishDateInvestment
+                rentabilityAmmount
+                rentabilityPercent
+                planName
+                couponPartnerTags{
+                  tagName
+                  tagHex
+                }
+                partnerInfo{
+                  partnerName
+                  partnerLogo
+                  partnerHex
+                  partnerImageActivate
+                }
+                isReInvestment
+                noReInvestment
+                actionStatus
               }
-              depositBank {
-                bankName
-                bankLogo
-                slug
-              }
-              contract
-              boucherTransaction
-              status
-              startDateInvestment
-              finishDateInvestment
-              rentabilityAmmount
-              rentabilityPercent
-              planName
-              couponPartnerTags{
-                tagName
-                tagHex
-              }
-              partnerInfo{
-                partnerName
-                partnerLogo
-                partnerHex
-                partnerImageActivate
-              }
-              noReInvestment
-              noReInvestment
-            }
-            invesmentFinished {
-              uuid
-              createdAt
-              isActive
-              amount
-              deadline {
+              invesmentFinished {
                 uuid
-                name
-                value
-                description
+                createdAt
+                isActive
+                amount
+                deadline {
+                  uuid
+                  name
+                  value
+                  description
+                }
+                depositBank {
+                  bankName
+                  bankLogo
+                  slug
+                }
+                contract
+                boucherTransaction
+                status
+                startDateInvestment
+                finishDateInvestment
+                rentabilityAmmount
+                rentabilityPercent
+                planName
+                couponPartnerTags{
+                  tagName
+                  tagHex
+                }
+                partnerInfo{
+                  partnerName
+                  partnerLogo
+                  partnerHex
+                  partnerImageActivate
+                }
+                isReInvestment
+                noReInvestment
               }
-              depositBank {
-                bankName
-                bankLogo
-                slug
-              }
-              contract
-              boucherTransaction
-              status
-              startDateInvestment
-              finishDateInvestment
-              rentabilityAmmount
-              rentabilityPercent
-              planName
-              couponPartnerTags{
-                tagName
-                tagHex
-              }
-              partnerInfo{
-                partnerName
-                partnerLogo
-                partnerHex
-                partnerImageActivate
-              }
-              noReInvestment
-              noReInvestment
-            }
-          }
-          invesmentInSoles {
-            totalBalanceAmmount
-            countPlanesActive
-            totalBalanceRentability
-            investmentPending {
-              uuid
-              reinvestmentAvailable
-              createdAt
-              isActive
-              amount
-              deadline {
-                uuid
-                name
-                value
-                description
-              }
-              depositBank {
-                bankName
-                bankLogo
-                slug
-              }
-              contract
-              boucherTransaction
-              status
-              startDateInvestment
-              finishDateInvestment
-              rentabilityAmmount
-              rentabilityPercent
-              planName
-              couponPartnerTags{
-                tagName
-                tagHex
-              }
-              partnerInfo{
-                partnerName
-                partnerLogo
-                partnerHex
-                partnerImageActivate
-              }
-              noReInvestment
-              noReInvestment
-            }
-            invesmentInCourse {
-              uuid
-              reinvestmentAvailable
-              createdAt
-              isActive
-              amount
-              deadline {
-                uuid
-                name
-                value
-                description
-              }
-              depositBank {
-                bankName
-                bankLogo
-                slug
-              }
-              contract
-              boucherTransaction
-              status
-              startDateInvestment
-              finishDateInvestment
-              rentabilityAmmount
-              rentabilityPercent
-              planName
-              couponPartnerTags{
-                tagName
-                tagHex
-              }
-              partnerInfo{
-                partnerName
-                partnerLogo
-                partnerHex
-                partnerImageActivate
-              }
-              isReInvestment
-              noReInvestment
-            }
-            invesmentFinished {
-              uuid
-              createdAt
-              isActive
-              amount
-              deadline {
-                uuid
-                name
-                value
-                description
-              }
-              depositBank {
-                bankName
-                bankLogo
-                slug
-              }
-              contract
-              boucherTransaction
-              status
-              startDateInvestment
-              finishDateInvestment
-              rentabilityAmmount
-              rentabilityPercent
-              planName
-              couponPartnerTags{
-                tagName
-                tagHex
-              }
-              partnerInfo{
-                partnerName
-                partnerLogo
-                partnerHex
-                partnerImageActivate
-              }
-              isReInvestment
-              noReInvestment
             }
           }
         }
-      }
-    ''';
+''';
   }
+  // static String get investmentRentabilityReportV2 {
+  //   return '''
+  //     query {
+  //       userInfoAllInvestment {
+  //         invesmentInDolares {
+  //           totalBalanceAmmount
+  //           countPlanesActive
+  //           totalBalanceRentability
+  //           invesmentInCourse {
+  //             uuid
+  //             reinvestmentAvailable
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //             couponPartnerTags{
+  //               tagName
+  //               tagHex
+  //             }
+  //             partnerInfo{
+  //               partnerName
+  //               partnerLogo
+  //               partnerHex
+  //               partnerImageActivate
+  //             }
+  //             noReInvestment
+  //             noReInvestment
+  //           }
+  //           investmentPending {
+  //             uuid
+  //             reinvestmentAvailable
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //             couponPartnerTags{
+  //               tagName
+  //               tagHex
+  //             }
+  //             partnerInfo{
+  //               partnerName
+  //               partnerLogo
+  //               partnerHex
+  //               partnerImageActivate
+  //             }
+  //             noReInvestment
+  //             noReInvestment
+  //           }
+  //           invesmentFinished {
+  //             uuid
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //             couponPartnerTags{
+  //               tagName
+  //               tagHex
+  //             }
+  //             partnerInfo{
+  //               partnerName
+  //               partnerLogo
+  //               partnerHex
+  //               partnerImageActivate
+  //             }
+  //             noReInvestment
+  //             noReInvestment
+  //           }
+  //         }
+  //         invesmentInSoles {
+  //           totalBalanceAmmount
+  //           countPlanesActive
+  //           totalBalanceRentability
+  //           investmentPending {
+  //             uuid
+  //             reinvestmentAvailable
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //             couponPartnerTags{
+  //               tagName
+  //               tagHex
+  //             }
+  //             partnerInfo{
+  //               partnerName
+  //               partnerLogo
+  //               partnerHex
+  //               partnerImageActivate
+  //             }
+  //             noReInvestment
+  //             noReInvestment
+  //           }
+  //           invesmentInCourse {
+  //             uuid
+  //             reinvestmentAvailable
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //             couponPartnerTags{
+  //               tagName
+  //               tagHex
+  //             }
+  //             partnerInfo{
+  //               partnerName
+  //               partnerLogo
+  //               partnerHex
+  //               partnerImageActivate
+  //             }
+  //             isReInvestment
+  //             noReInvestment
+  //           }
+  //           invesmentFinished {
+  //             uuid
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //             couponPartnerTags{
+  //               tagName
+  //               tagHex
+  //             }
+  //             partnerInfo{
+  //               partnerName
+  //               partnerLogo
+  //               partnerHex
+  //               partnerImageActivate
+  //             }
+  //             isReInvestment
+  //             noReInvestment
+  //           }
+  //         }
+  //       }
+  //     }
+  //   ''';
+  // }
 
   static String get investmentHistoryReportV2 {
     return '''
@@ -601,6 +773,27 @@ class QueryRepository {
               rentabilityPercent
               planName
             }
+            investmentPending {
+              uuid
+              reinvestmentAvailable
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
             invesmentFinished {
               uuid
               createdAt
@@ -646,6 +839,27 @@ class QueryRepository {
                 bankName
                 bankLogo
                 slug
+              }
+              contract
+              boucherTransaction
+              status
+              startDateInvestment
+              finishDateInvestment
+              rentabilityAmmount
+              rentabilityPercent
+              planName
+            }
+            investmentPending {
+              uuid
+              reinvestmentAvailable
+              createdAt
+              isActive
+              amount
+              deadline {
+                uuid
+                name
+                value
+                description
               }
               contract
               boucherTransaction
@@ -710,9 +924,179 @@ class QueryRepository {
           }
         }
       }
-        
     ''';
   }
+  // static String get investmentHistoryReportV2 {
+  //   return '''
+  //     query {
+  //       userInfoAllInvestment {
+  //         invesmentInDolares {
+  //           totalBalanceAmmount
+  //           countPlanesActive
+  //           totalBalanceRentability
+  //           invesmentInProcess{
+  //             uuid
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //           }
+  //           invesmentInCourse {
+  //             uuid
+  //             reinvestmentAvailable
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //           }
+  //           invesmentFinished {
+  //             uuid
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //           }
+  //         }
+  //         invesmentInSoles {
+  //           totalBalanceAmmount
+  //           countPlanesActive
+  //           totalBalanceRentability
+  //           invesmentInProcess{
+  //             uuid
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //           }
+  //           invesmentInCourse {
+  //             uuid
+  //             reinvestmentAvailable
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //           }
+  //           invesmentFinished {
+  //             uuid
+  //             createdAt
+  //             isActive
+  //             amount
+  //             deadline {
+  //               uuid
+  //               name
+  //               value
+  //               description
+  //             }
+  //             depositBank {
+  //               bankName
+  //               bankLogo
+  //               slug
+  //             }
+  //             contract
+  //             boucherTransaction
+  //             status
+  //             startDateInvestment
+  //             finishDateInvestment
+  //             rentabilityAmmount
+  //             rentabilityPercent
+  //             planName
+  //           }
+  //         }
+  //       }
+  //     }
+
+  //   ''';
+  // }
 
   static String get importantDays {
     return '''
