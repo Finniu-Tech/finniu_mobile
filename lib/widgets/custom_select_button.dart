@@ -33,11 +33,11 @@ class CustomSelectButton extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
-    Color disabledColor = currentTheme.isDarkMode
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    Color disabledColor = themeProvider.isDarkMode
         ? const Color(grayText)
         : const Color(0xffF4F4F4);
-    enableColor ??= currentTheme.isDarkMode
+    enableColor ??= themeProvider.isDarkMode
         ? const Color(backgroundColorDark)
         : const Color(whiteText);
     // color:
@@ -47,7 +47,7 @@ class CustomSelectButton extends HookConsumerWidget {
     if (items == null && asyncItems == null) {
       throw ArgumentError("At least one of item and async must be provided.");
     }
-    final themeProvider = ref.watch(settingsNotifierProvider);
+
     return SizedBox(
       width: width ?? 224.0,
       height: height ?? 39.0,

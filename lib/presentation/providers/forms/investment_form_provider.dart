@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/investment/investment_form_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,7 +7,7 @@ class FormNotifier extends StateNotifier<InvestmentFormData> {
       : super(
           InvestmentFormData(
             amount: 0,
-            uuidBank: '',
+            uuidBank: null,
             uuidDeadline: 0,
             uuidPlan: '',
             currency: '',
@@ -18,7 +19,7 @@ class FormNotifier extends StateNotifier<InvestmentFormData> {
     state = state.copyWith(amount: amount);
   }
 
-  void updateUuidBank(String uuidBank) {
+  void updateUuidBank(BankAccount? uuidBank) {
     state = state.copyWith(uuidBank: uuidBank);
   }
 
@@ -39,7 +40,6 @@ class FormNotifier extends StateNotifier<InvestmentFormData> {
   }
 }
 
-// Crear un StateNotifierProvider para el FormNotifier
 final formNotifierProvider =
     StateNotifierProvider<FormNotifier, InvestmentFormData>((ref) {
   return FormNotifier();

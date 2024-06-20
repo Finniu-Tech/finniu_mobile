@@ -11,7 +11,6 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void showAccountTransferModal(
@@ -153,13 +152,15 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
         );
         return false;
       }
-      if (jointHolderDocTypeController.text == 'DNI' && jointHolderDocNumberController.text.length != 8) {
+      if (jointHolderDocTypeController.text == 'DNI' &&
+          jointHolderDocNumberController.text.length != 8) {
         CustomSnackbar.show(context, "El DNI debe tener 8 dígitos", 'error');
         return false;
       } else {
         if (jointHolderDocTypeController.text == 'Carnet de Extranjería' &&
             jointHolderDocNumberController.text.length != 20) {
-          CustomSnackbar.show(context, "El Carnet de Extranjería debe tener 20 dígitos", 'error');
+          CustomSnackbar.show(context,
+              "El Carnet de Extranjería debe tener 20 dígitos", 'error');
           return false;
         }
       }
@@ -503,7 +504,10 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                               'success',
                             );
                             //wait 3 seconds
-                            ref.read(boolCreatedNewBankAccountProvider.notifier).state = true;
+                            ref
+                                .read(
+                                    boolCreatedNewBankAccountProvider.notifier)
+                                .state = true;
                             Future.delayed(const Duration(seconds: 1), () {
                               Navigator.of(context).pop();
                             });

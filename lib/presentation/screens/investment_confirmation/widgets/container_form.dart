@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/forms/investment_form_provider.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/select_bank_modal.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -52,9 +53,13 @@ class ContainerForm extends ConsumerWidget {
             height: 10,
           ),
           TextField(
-            decoration: const InputDecoration(labelText: 'UUID Bank'),
+            controller:
+                TextEditingController(text: formState.uuidBank?.bankAccount),
+            decoration: const InputDecoration(
+              labelText: 'UUID Bank',
+            ),
             onChanged: (value) {
-              formNotifier.updateUuidBank(value);
+              showBankAccountInvestmentModal(context, ref, value, true);
             },
           ),
           const SizedBox(

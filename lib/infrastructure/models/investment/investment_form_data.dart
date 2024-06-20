@@ -1,6 +1,8 @@
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+
 class InvestmentFormData {
   final int amount;
-  final String uuidBank;
+  final BankAccount? uuidBank;
   final int uuidDeadline;
   final String uuidPlan;
   final String currency;
@@ -17,7 +19,7 @@ class InvestmentFormData {
 
   InvestmentFormData copyWith({
     int? amount,
-    String? uuidBank,
+    BankAccount? uuidBank,
     int? uuidDeadline,
     String? uuidPlan,
     String? currency,

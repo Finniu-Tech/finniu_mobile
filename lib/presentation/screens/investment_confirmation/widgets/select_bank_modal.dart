@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/presentation/screens/reinvest_process/widgets/investment/credit_card_investment.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/credit_card_investment.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -41,7 +41,7 @@ void showBankAccountInvestmentModal(
             const SizedBox(
               height: 10,
             ),
-            CreditCardWheel(
+            CreditCardInvestmentWheel(
               currency: currency,
               isSender: isSender,
             ),
@@ -101,7 +101,6 @@ class ThankYouModal extends StatelessWidget {
                 // Acción al presionar el botón "Siguiente"
                 Navigator.of(context).pop();
                 //go to evaluation screen
-                Navigator.of(context).pushNamed('/evaluation');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(primaryLight),

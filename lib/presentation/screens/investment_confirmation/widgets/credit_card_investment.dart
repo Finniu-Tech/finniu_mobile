@@ -4,6 +4,7 @@ import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
+import 'package:finniu/presentation/providers/forms/investment_form_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
@@ -87,12 +88,12 @@ class CreditCardInvestmentWidget extends StatelessWidget {
   }
 }
 
-class CreditCardWheel extends StatefulHookConsumerWidget {
+class CreditCardInvestmentWheel extends StatefulHookConsumerWidget {
   final String currency;
   final bool
       isSender; // Indica si la tarjeta es del remitente o del destinatario
 
-  const CreditCardWheel({
+  const CreditCardInvestmentWheel({
     super.key,
     required this.currency,
     required this.isSender,
@@ -102,7 +103,7 @@ class CreditCardWheel extends StatefulHookConsumerWidget {
   _CreditCardWheelState createState() => _CreditCardWheelState();
 }
 
-class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
+class _CreditCardWheelState extends ConsumerState<CreditCardInvestmentWheel> {
   bool showDetail = false;
   BankAccount? bankAccountSelected;
   String selectedImage = '';
@@ -134,12 +135,11 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
+        final formNotifier = ref.read(formNotifierProvider.notifier);
         final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
         final banksAsyncValue = ref.watch(bankFutureProvider);
         final bool createdNewBankAccount =
             ref.watch(boolCreatedNewBankAccountProvider);
-        final readSelectedBankAccount =
-            ref.read(selectedBankAccountSenderProvider.notifier);
         return SizedBox(
           height: 480,
           width: double.infinity,
@@ -287,11 +287,13 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                 onPressed: () {
                                   //SET SELECTED BANK ACCOUNT
                                   if (widget.isSender) {
-                                    readSelectedBankAccount.state =
-                                        bankAccountSelected;
+                                    formNotifier.updateUuidBank(
+                                      bankAccountSelected,
+                                    );
                                   } else {
-                                    readSelectedBankAccount.state =
-                                        bankAccountSelected;
+                                    formNotifier.updateUuidBank(
+                                      bankAccountSelected,
+                                    );
                                   }
                                   //pop modal
                                   Navigator.of(context).pop();
