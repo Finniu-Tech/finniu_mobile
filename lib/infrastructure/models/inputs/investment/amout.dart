@@ -9,7 +9,7 @@ class AmoutInput extends FormzInput<int, AmoutInputError> {
   const AmoutInput.pure() : super.pure(0);
 
   // Call super.dirty to represent a modified form input.
-  const AmoutInput.dirty(super.value) : super.dirty();
+  AmoutInput.dirty(int value) : super.dirty(value);
 
   String? get errorMessage {
     if (isValid || isPure) return null;

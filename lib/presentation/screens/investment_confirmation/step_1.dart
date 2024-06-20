@@ -10,6 +10,7 @@ import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
+import 'package:finniu/presentation/providers/forms/investment_form_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
@@ -18,6 +19,7 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/container_form.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
@@ -125,6 +127,45 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
         months: int.parse(widget.deadLineController.text.split(' ')[0]),
         coupon: widget.couponController.text,
         currency: widget.isSoles ? currencyNuevoSol : currencyDollar,
+      );
+
+      try {
+        resultCalculator = await ref.watch(
+          calculateInvestmentFutureProvider(inputCalculator).future,
+        );
+
+        setState(() {
+          if (resultCalculator?.plan != null) {
+            selectedPlan = resultCalculator!.plan!;
+            profitability = resultCalculator!.profitability;
+            showInvestmentBoxes = true;
+          }
+        });
+        context.loaderOverlay.hide();
+      } catch (e) {
+        context.loaderOverlay.hide();
+        CustomSnackbar.show(
+          context,
+          'Hubo un problema, intenta nuevamente',
+          'error',
+        );
+      }
+    }
+  }
+
+  Future<void> calculateInvestmentNew(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    final formState = ref.watch(formNotifierProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
+    if (formState.amount != 0) {
+      context.loaderOverlay.show();
+      final inputCalculator = CalculatorInput(
+        amount: formState.amount,
+        months: formState.uuidDeadline,
+        coupon: formState.coupon,
+        currency: isSoles ? currencyNuevoSol : currencyDollar,
       );
 
       try {
@@ -328,6 +369,10 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             const SizedBox(
               height: 10,
             ),
+            ContainerForm(calculate: calculateInvestmentNew(context, ref)),
+            const SizedBox(
+              height: 10,
+            ),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
               constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
@@ -367,6 +412,10 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               child: CustomSelectButton(
                 asyncItems: (String filter) async {
                   final response = await deadLineFuture;
+                  print(response);
+                  print(response);
+                  print(response[0].name);
+                  print("----------------");
                   return response.map((e) => e.name).toList();
                 },
                 callbackOnChange: (value) async {
