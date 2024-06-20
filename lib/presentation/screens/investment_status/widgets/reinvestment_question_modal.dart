@@ -1,7 +1,7 @@
 // I need a bottomSheetModal where  start with a image at center top, then have a title  , then it show two button bottom, one for cancel and other for accept
 
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/domain/entities/user_notification_entity.dart';
+// import 'package:finniu/domain/entities/user_notification_entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -14,7 +14,13 @@ import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-void reinvestmentQuestionModal(BuildContext ctx, WidgetRef ref, UserNotificationEntity notification) {
+void reinvestmentQuestionModal(
+  BuildContext ctx,
+  WidgetRef ref,
+  String preInvestmentUUID,
+  double preInvestmentAmount,
+  String currency,
+) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showModalBottomSheet(
@@ -29,15 +35,28 @@ void reinvestmentQuestionModal(BuildContext ctx, WidgetRef ref, UserNotification
     elevation: 10,
     backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
     context: ctx,
-    builder: (ctx) => ReinvestmentQuestionBody(themeProvider: themeProvider, userNotification: notification),
+    builder: (ctx) => ReinvestmentQuestionBody(
+        themeProvider: themeProvider,
+        preInvestmentUUID: preInvestmentUUID,
+        preInvestmentAmount: preInvestmentAmount,
+        currency: currency),
   );
 }
 
 class ReinvestmentQuestionBody extends HookConsumerWidget {
-  const ReinvestmentQuestionBody({super.key, required this.themeProvider, required this.userNotification});
+  const ReinvestmentQuestionBody({
+    super.key,
+    required this.themeProvider,
+    required this.preInvestmentUUID,
+    required this.preInvestmentAmount,
+    required this.currency,
+  });
 
   final SettingsProviderState themeProvider;
-  final UserNotificationEntity userNotification;
+  final String preInvestmentUUID;
+  final double preInvestmentAmount;
+  final String currency;
+  // final UserNotificationEntity userNotification;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -127,9 +146,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                     context,
                     '/reinvestment_step_1',
                     arguments: {
-                      'preInvestmentUUID': userNotification.metaData?.preinvestmentUUID ?? '',
-                      'preInvestmentAmount': userNotification.metaData?.amount ?? 0,
-                      'currency': userNotification.metaData?.currency,
+                      'preInvestmentUUID': preInvestmentUUID,
+                      'preInvestmentAmount': preInvestmentAmount,
+                      'currency': currency,
                       'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
                     },
                   );
@@ -163,9 +182,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                     context,
                     '/reinvestment_step_1',
                     arguments: {
-                      'preInvestmentUUID': userNotification.metaData?.preinvestmentUUID ?? '',
-                      'preInvestmentAmount': userNotification.metaData?.amount ?? 0,
-                      'currency': userNotification.metaData?.currency,
+                      'preInvestmentUUID': preInvestmentUUID,
+                      'preInvestmentAmount': preInvestmentAmount,
+                      'currency': currency,
                       'reInvestmentType': typeReinvestmentEnum.CAPITAL_ONLY,
                     },
                   );
@@ -204,7 +223,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
-                showDialogRefuseReasons(context, ref, userNotification.metaData?.preinvestmentUUID ?? '');
+                showDialogRefuseReasons(context, ref, preInvestmentUUID);
               },
               child: const Text(
                 'Aún no deseo reinvertir',

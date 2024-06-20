@@ -147,7 +147,10 @@ class ReinvestmentAvailableCard extends ConsumerWidget {
           if (notification.type == TypeUserNotificationEnum.REINVESTMENT) ...[
             CustomButtonRoundedDark(
               onTap: () {
-                reinvestmentQuestionModal(context, ref, notification);
+                final preInvestmentUUID = notification.metaData?.preinvestmentUUID ?? '';
+                final amount = notification.metaData?.amount ?? 0;
+                final currency = notification.metaData?.currency ?? 'PEN'; //PEN or USD
+                reinvestmentQuestionModal(context, ref, preInvestmentUUID, amount, currency);
               },
             ),
           ],

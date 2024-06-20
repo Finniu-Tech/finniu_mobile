@@ -8,6 +8,7 @@ import 'package:finniu/presentation/providers/investment_status_report_provider.
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/empty_message.dart';
+import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
@@ -300,7 +301,6 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                 ),
               ),
               Align(
-                // padding: const EdgeInsets.only(right: 20),
                 alignment: Alignment.topLeft,
                 child: TabBar(
                   isScrollable: false,
@@ -314,15 +314,11 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                     Tab(
                       text: "Inversiones en curso",
                     ),
-                    // Tab(
-                    //   text: "Inversiones pendientes",
-                    // ),
                     Tab(
                       text: "Inversiones finalizadas",
                     ),
                   ],
                   controller: _tabController,
-                  // indicatorSize: TabBarIndicatorSize.tab,
                   indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
                   indicatorWeight: 6,
                   indicatorPadding: const EdgeInsets.only(bottom: 12, right: 0, left: 0),
@@ -792,21 +788,13 @@ class TableCardInCourse extends ConsumerWidget {
                                 height: 35,
                                 child: TextButton(
                                   onPressed: () {
-                                    final amountInvestedStr = currentMoney.replaceAll(
+                                    final preInvestmentUUID = uuid;
+                                    final amount = currentMoney.replaceAll(
                                       RegExp(r'[^\d.]'),
                                       '',
-                                    ); // Elimina todos los caracteres que no sean dígitos o puntos
-                                    final finalAmount = double.parse(amountInvestedStr);
-                                    Navigator.pushNamed(
-                                      context,
-                                      '/reinvestment_step_1',
-                                      arguments: {
-                                        'preInvestmentUUID': uuid,
-                                        'preInvestmentAmount': finalAmount,
-                                        'currency': currency,
-                                        'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
-                                      },
                                     );
+                                    final finalAmount = double.parse(amount);
+                                    reinvestmentQuestionModal(context, ref, preInvestmentUUID, finalAmount, currency);
                                   },
                                   child: const Text(
                                     textAlign: TextAlign.center,
