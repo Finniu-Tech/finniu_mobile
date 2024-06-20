@@ -139,8 +139,10 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
       builder: (context, ref, child) {
         final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
         final banksAsyncValue = ref.watch(bankFutureProvider);
-        final bool createdNewBankAccount = ref.watch(boolCreatedNewBankAccountProvider);
-
+        final bool createdNewBankAccount =
+            ref.watch(boolCreatedNewBankAccountProvider);
+        final readSelectedBankAccount =
+            ref.read(selectedBankAccountSenderProvider.notifier);
         return SizedBox(
           height: 480,
           width: double.infinity,
@@ -156,7 +158,9 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOut,
                       );
-                      ref.read(boolCreatedNewBankAccountProvider.notifier).state = false;
+                      ref
+                          .read(boolCreatedNewBankAccountProvider.notifier)
+                          .state = false;
                     }
                   });
                   return showDetail
@@ -286,19 +290,11 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                 onPressed: () {
                                   //SET SELECTED BANK ACCOUNT
                                   if (widget.isSender) {
-                                    ref
-                                        .read(
-                                          selectedBankAccountSenderProvider
-                                              .notifier,
-                                        )
-                                        .state = bankAccountSelected;
+                                    readSelectedBankAccount.state =
+                                        bankAccountSelected;
                                   } else {
-                                    ref
-                                        .read(
-                                          selectedBankAccountReceiverProvider
-                                              .notifier,
-                                        )
-                                        .state = bankAccountSelected;
+                                    readSelectedBankAccount.state =
+                                        bankAccountSelected;
                                   }
                                   //pop modal
                                   Navigator.of(context).pop();

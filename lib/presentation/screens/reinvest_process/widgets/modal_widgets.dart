@@ -1,14 +1,15 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/cards_widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showBankAccountModal(BuildContext ctx, WidgetRef ref, String currency, bool isSender, String typeReInvestment) {
-  final themeProvider = ref.watch(settingsNotifierProvider);
-
+void showBankAccountModal(
+  BuildContext ctx,
+  WidgetRef ref,
+  String currency,
+  bool isSender,
+  String typeReInvestment,
+) {
   showModalBottomSheet(
     context: ctx,
     isDismissible: false,
@@ -41,7 +42,11 @@ void showBankAccountModal(BuildContext ctx, WidgetRef ref, String currency, bool
             const SizedBox(
               height: 10,
             ),
-            CreditCardWheel(currency: currency, isSender: isSender, typeReInvestment: typeReInvestment),
+            CreditCardWheel(
+              currency: currency,
+              isSender: isSender,
+              typeReInvestment: typeReInvestment,
+            ),
           ],
         ),
       );
@@ -53,12 +58,14 @@ void showThanksModal(BuildContext ctx) {
   showDialog(
     context: ctx,
     builder: (context) {
-      return ThanksReinvestmentModal();
+      return const ThanksReinvestmentModal();
     },
   );
 }
 
 class ThankYouModal extends StatelessWidget {
+  const ThankYouModal({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -68,7 +75,8 @@ class ThankYouModal extends StatelessWidget {
       child: Container(
         width: 358,
         height: 356,
-        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
+        padding:
+            const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
         decoration: BoxDecoration(
           color: const Color(primaryDark),
           borderRadius: BorderRadius.circular(20),
@@ -102,7 +110,8 @@ class ThankYouModal extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
@@ -130,6 +139,8 @@ class ThankYouModal extends StatelessWidget {
 }
 
 class VoucherHelpModal extends HookConsumerWidget {
+  const VoucherHelpModal({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Dialog(
@@ -176,7 +187,10 @@ class VoucherHelpModal extends HookConsumerWidget {
                 Navigator.of(context).pop();
               },
               style: TextButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32.0,
+                  vertical: 12.0,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(24.0),
                 ),
@@ -191,6 +205,8 @@ class VoucherHelpModal extends HookConsumerWidget {
 }
 
 class ThanksReinvestmentModal extends StatefulHookConsumerWidget {
+  const ThanksReinvestmentModal({super.key});
+
   @override
   _ReinvestmentModalState createState() => _ReinvestmentModalState();
 }
@@ -213,7 +229,9 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
       backgroundColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: _currentStep == 0 ? _buildFirstStep(context) : _buildSecondStep(context),
+        child: _currentStep == 0
+            ? _buildFirstStep(context)
+            : _buildSecondStep(context),
       ),
     );
   }
@@ -259,8 +277,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
               height: 24,
               width: 24,
             ),
-            SizedBox(width: 8.0),
-            Flexible(
+            const SizedBox(width: 8.0),
+            const Flexible(
               child: Text(
                 'Recuerda que las transferencias se confirmarán en un plazo de 24hr\nsi son directas',
                 textAlign: TextAlign.left,
@@ -279,8 +297,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
               height: 24,
               width: 24,
             ),
-            SizedBox(width: 8.0),
-            Flexible(
+            const SizedBox(width: 8.0),
+            const Flexible(
               child: Text(
                 'En un plazo de máximo 72hr\nsi son interbancarios!',
                 textAlign: TextAlign.left,
@@ -293,7 +311,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
         TextButton(
           onPressed: _nextStep,
           style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24.0),
             ),
@@ -331,8 +350,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
               height: 24,
               width: 24,
             ),
-            SizedBox(width: 8.0),
-            Text(
+            const SizedBox(width: 8.0),
+            const Text(
               'Recuerda que puedes ver el\nestado de tu reinversión dentro\nde tus operaciones en proceso',
               textAlign: TextAlign.left,
               style: TextStyle(fontSize: 14.0, color: Colors.black),
@@ -350,7 +369,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
             Navigator.of(context).pushNamed('/process_investment');
           },
           style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24.0),
             ),
