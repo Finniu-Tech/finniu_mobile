@@ -552,7 +552,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                         context.loaderOverlay.show();
                         final inputCalculator = CalculatorInput(
                           // amount: int.parse(widget.mountController.text),
-                          amount: num.tryParse(widget.mountController.text)?.toInt() ?? 0,
+                          amount: (num.tryParse(widget.mountController.text)?.toInt() ?? 0) +
+                              widget.preInvestmentAmount.toInt(),
                           months: int.parse(
                             widget.deadLineController.text.split(' ')[0],
                           ),

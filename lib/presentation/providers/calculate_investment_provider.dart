@@ -9,6 +9,7 @@ final calculateInvestmentFutureProvider =
   try {
     final calculateInvestmentRepository = ref.read(calculateInvestmentRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;
+
     final result = await calculateInvestmentRepository.calculate(
         client: client!,
         amount: calculatorInput.amount,
