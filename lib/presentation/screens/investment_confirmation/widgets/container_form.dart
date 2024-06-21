@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/forms/investment_form_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/select_bank_modal.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,17 @@ class ContainerForm extends ConsumerWidget {
     final formNotifier = ref.read(formNotifierProvider.notifier);
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
     final deadLineController = TextEditingController();
+    final isSoles = ref.watch(isSolesStateProvider);
+
     return Padding(
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: Column(
         children: [
-          TextField(
-            decoration: const InputDecoration(labelText: 'Monto'),
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: "Monto",
+              hintText: 'Escriba su monto de inversion',
+            ),
             keyboardType: TextInputType.number,
             onChanged: (value) {
               final amount = int.tryParse(value) ?? 0;
@@ -41,9 +47,15 @@ class ContainerForm extends ConsumerWidget {
               return response.map((e) => e.name).toList();
             },
             callbackOnChange: (value) async {
-              int months = int.parse(value.split(' ')[0]);
-              formNotifier.updateUuidDeadline(months);
-              calculate;
+              print(value);
+              final selectDeadLine = await deadLineFuture.then(
+                (e) => e.firstWhere((element) => element.name == value),
+              );
+              print(selectDeadLine);
+              formNotifier.updateDeadline(selectDeadLine);
+              if (formState.deadline != null && formState.amount != 0) {
+                calculate;
+              }
             },
             textEditingController: deadLineController,
             labelText: "Plazo",
@@ -52,48 +64,25 @@ class ContainerForm extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          TextField(
-            controller:
-                TextEditingController(text: formState.uuidBank?.bankAccount),
-            decoration: const InputDecoration(
-              labelText: 'UUID Bank',
+          TextFormField(
+            onTap: () => showBankAccountInvestmentModal(context, ref, '', true),
+            controller: TextEditingController(
+              text: formState.bankAccount?.bankAccount,
             ),
-            onChanged: (value) {
-              showBankAccountInvestmentModal(context, ref, value, true);
-            },
+            decoration: const InputDecoration(
+              labelText: 'Desde qué banco realizaras la tranferencia',
+              hintText: "Precione para selecionar cuenta",
+            ),
+            onChanged: (value) {},
           ),
           const SizedBox(
             height: 10,
           ),
-          TextField(
-            decoration: const InputDecoration(labelText: 'UUID Deadline'),
-            onChanged: (value) {
-              formNotifier.updateUuidDeadline(int.parse(value));
-            },
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextField(
-            decoration: const InputDecoration(labelText: 'UUID Plan'),
-            onChanged: (value) {
-              formNotifier.updateUuidPlan(value);
-            },
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextField(
-            decoration: const InputDecoration(labelText: 'Currency'),
-            onChanged: (value) {
-              formNotifier.updateCurrency(value);
-            },
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          TextField(
-            decoration: const InputDecoration(labelText: 'Coupon'),
+          TextFormField(
+            decoration: const InputDecoration(
+              labelText: 'Ingresa tu código promocional, si tienes uno',
+              hintText: "Ingrese cupon",
+            ),
             onChanged: (value) {
               formNotifier.updateCoupon(value);
             },
@@ -102,13 +91,20 @@ class ContainerForm extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               // Aquí puedes manejar el envío del formulario
+              formNotifier.updateCurrency(isSoles ? 'S/' : 'dolar');
               final amount = formState.amount;
-              final uuidBank = formState.uuidBank;
-              final uuidDeadline = formState.uuidDeadline;
+              final uuidBank = formState.bankAccount?.id;
+              final uuidDeadline = formState.deadline?.uuid;
               final uuidPlan = formState.uuidPlan;
-              final currency = formState.currency;
               final coupon = formState.coupon;
-
+              print(amount);
+              print(uuidBank);
+              print(uuidDeadline);
+              print("${formState.bankAccount?.alias} alias");
+              print("${formState.bankAccount?.id} id");
+              print("${formState.bankAccount?.bankAccount} account");
+              print("${formState.bankAccount?.bankName} name");
+              print("${formState.bankAccount?.currency} currency");
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -118,7 +114,7 @@ class ContainerForm extends ConsumerWidget {
                     'UUID Bank: $uuidBank\n'
                     'UUID Deadline: $uuidDeadline\n'
                     'UUID Plan: $uuidPlan\n'
-                    'Currency: $currency\n'
+                    'Currency: ${isSoles ? 'S/' : 'dolar'}\n'
                     'Coupon: $coupon',
                   ),
                   actions: [

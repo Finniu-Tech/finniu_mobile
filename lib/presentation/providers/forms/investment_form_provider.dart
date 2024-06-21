@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/investment/investment_form_data.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,7 +9,7 @@ class FormNotifier extends StateNotifier<InvestmentFormData> {
           InvestmentFormData(
             amount: 0,
             bankAccount: null,
-            uuidDeadline: 0,
+            deadline: null,
             uuidPlan: '',
             currency: '',
             coupon: '',
@@ -23,8 +24,8 @@ class FormNotifier extends StateNotifier<InvestmentFormData> {
     state = state.copyWith(bankAccount: bankAccount);
   }
 
-  void updateUuidDeadline(int uuidDeadline) {
-    state = state.copyWith(uuidDeadline: uuidDeadline);
+  void updateDeadline(DeadLineEntity? deadline) {
+    state = state.copyWith(deadline: deadline);
   }
 
   void updateUuidPlan(String uuidPlan) {
