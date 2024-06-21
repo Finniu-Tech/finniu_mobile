@@ -7,7 +7,7 @@ class FormNotifier extends StateNotifier<InvestmentFormData> {
       : super(
           InvestmentFormData(
             amount: 0,
-            uuidBank: null,
+            bankAccount: null,
             uuidDeadline: 0,
             uuidPlan: '',
             currency: '',
@@ -19,8 +19,8 @@ class FormNotifier extends StateNotifier<InvestmentFormData> {
     state = state.copyWith(amount: amount);
   }
 
-  void updateUuidBank(BankAccount? uuidBank) {
-    state = state.copyWith(uuidBank: uuidBank);
+  void updateUuidBank(BankAccount? bankAccount) {
+    state = state.copyWith(bankAccount: bankAccount);
   }
 
   void updateUuidDeadline(int uuidDeadline) {
