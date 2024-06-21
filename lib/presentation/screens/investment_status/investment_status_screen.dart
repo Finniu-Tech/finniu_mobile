@@ -750,7 +750,8 @@ class TableCardInCourse extends ConsumerWidget {
                           ),
                         ),
                         const Spacer(),
-                        if (actionStatus == ActionStatusEnum.activeReInvestment) ...[
+                        if (actionStatus == ActionStatusEnum.activeReInvestment ||
+                            actionStatus == ActionStatusEnum.pendingReInvestment) ...[
                           // add label re investment
                           Container(
                             height: 25,
@@ -780,7 +781,8 @@ class TableCardInCourse extends ConsumerWidget {
                             ),
                           ),
                         ] else ...[
-                          if (reInvestmentAvailable == true && !reInvestmentDisabled && !isReInvestment) ...[
+                          if (actionStatus == ActionStatusEnum.defaultReInvestment &&
+                              reInvestmentAvailable == true) ...[
                             Padding(
                               padding: const EdgeInsets.only(right: 10),
                               child: SizedBox(
@@ -789,7 +791,7 @@ class TableCardInCourse extends ConsumerWidget {
                                 child: TextButton(
                                   onPressed: () {
                                     final preInvestmentUUID = uuid;
-                                    final amount = currentMoney.replaceAll(
+                                    final amount = amountInvested.replaceAll(
                                       RegExp(r'[^\d.]'),
                                       '',
                                     );

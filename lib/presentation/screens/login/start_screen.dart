@@ -13,21 +13,14 @@ class StartLoginScreen extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() {
     return _StartLoginScreenState();
   }
-
-  // const StartLoginScreen({super.key});
-
-  // @override
-  // _StartLoginScreenState createState() => _StartLoginScreenState();
 }
 
 class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
   _StartLoginScreenState();
-  // final bool _isSwitchOn = false;
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = ref.watch(settingsNotifierProvider);
-    // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
 
     return CustomScaffoldStart(
       body: Container(

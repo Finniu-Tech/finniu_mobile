@@ -7,6 +7,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class CustomScaffoldStart extends ConsumerStatefulWidget {
   final dynamic body;
@@ -18,6 +19,21 @@ class CustomScaffoldStart extends ConsumerStatefulWidget {
 }
 
 class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
+  String appCurrentVersion = '';
+
+  Future<void> _getCurrentAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      appCurrentVersion = packageInfo.version;
+    });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    _getCurrentAppVersion();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = ref.watch(settingsNotifierProvider);
@@ -34,8 +50,12 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
         // backgroundColor: const Color(primary_light),
         title: Center(
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
+              Text('V${appCurrentVersion}',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 12, color: Theme.of(context).colorScheme.primary)),
+              const Spacer(),
               TextPoppins(
                 text: themeProvider.isDarkMode ? 'Dark mode' : 'Light mode',
                 colorText: Theme.of(context).colorScheme.primary.value,
