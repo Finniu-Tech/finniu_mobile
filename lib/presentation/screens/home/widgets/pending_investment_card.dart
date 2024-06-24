@@ -138,7 +138,6 @@ class PendingInvestmentCard extends HookConsumerWidget {
                   final preInvestment = PreInvestmentEntity(
                     uuid: preInvestmentForm.uuid!,
                     amount: preInvestmentForm.amount,
-                    bankAccountTypeUuid: preInvestmentForm.bankAccountTypeUuid,
                     deadLineUuid: preInvestmentForm.deadLineUuid,
                     planUuid: preInvestmentForm.planUuid,
                     coupon: preInvestmentForm.coupon,

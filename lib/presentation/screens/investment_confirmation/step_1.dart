@@ -808,30 +808,22 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   );
 
                   final originFound = widget.originFoundsController.text;
-                  print(selectedBankAccount!.id);
-                  print(originFound);
-                  print(selectedBankAccount!.id);
-                  print(originFound);
-                  print(selectedBankAccount!.id);
-                  print(originFound);
-                  print(selectedBankAccount!.id);
-                  print(originFound);
 
                   final preInvestment = PreInvestmentForm(
-                      amount: int.parse(widget.mountController.text),
-                      deadLineUuid: deadLineUuid,
-                      coupon: widget.couponController.text,
-                      planUuid: widget.plan.uuid,
-                      bankAccountTypeUuid: bankUuid,
-                      currency: isSoles ? currencyNuevoSol : currencyDollar,
-                      bankAccountNumber: selectedBankAccount!.id,
-                      originFunds: OriginFunds(
-                        originFundsEnum:
-                            OriginFoundsUtil.fromReadableName(originFound),
-                        otherText: widget.otherFoundOriginController.text,
-                      )
-                      // bankAccountNumber: widget.bankNumberController.text,
-                      );
+                    amount: int.parse(widget.mountController.text),
+                    deadLineUuid: deadLineUuid,
+                    coupon: widget.couponController.text,
+                    planUuid: widget.plan.uuid,
+                    currency: isSoles ? currencyNuevoSol : currencyDollar,
+                    bankAccountNumber: selectedBankAccount!.id,
+                    originFunds: OriginFunds(
+                      originFundsEnum:
+                          OriginFoundsUtil.fromReadableName(originFound),
+                      otherText: widget.otherFoundOriginController.text,
+                    )
+                    // bankAccountNumber: widget.bankNumberController.text,
+                    ,
+                  );
                   context.loaderOverlay.show();
                   final preInvestmentEntityResponse = await ref
                       .watch(preInvestmentSaveProvider(preInvestment).future);

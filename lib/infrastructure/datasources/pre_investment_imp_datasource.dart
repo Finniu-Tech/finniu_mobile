@@ -11,7 +11,6 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,
-    required String bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
     required String currency,
@@ -26,7 +25,6 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
         ),
         variables: {
           'amount': amount,
-          'uuidBank': bankAccountTypeUuid,
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
           'coupon': coupon,
@@ -45,7 +43,6 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
       uuid: preInvestmentResponse.preInvestmentUuid!,
       amount: amount,
       // bankAccountNumber: bankAccountNumber,
-      bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
       coupon: coupon,

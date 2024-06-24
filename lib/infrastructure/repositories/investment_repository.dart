@@ -40,7 +40,6 @@ class InvestmentRepository {
         amount: double.parse(lastPreInvestmentResponse['amount'].toString())
             .round(),
         currency: lastPreInvestmentResponse['currency'],
-        bankAccountTypeUuid: lastPreInvestmentResponse['uuidBank'],
         deadLineUuid: lastPreInvestmentResponse['uuidDeadline'],
         planUuid: lastPreInvestmentResponse['uuidPlan'],
         coupon: lastPreInvestmentResponse['couponCode'],

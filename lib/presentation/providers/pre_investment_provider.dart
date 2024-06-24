@@ -14,7 +14,6 @@ final preInvestmentSaveProvider =
       client: client!,
       amount: preInvestmentEntity.amount,
       // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
-      bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
       deadLineUuid: preInvestmentEntity.deadLineUuid,
       planUuid: preInvestmentEntity.planUuid,
       coupon: preInvestmentEntity.coupon,
