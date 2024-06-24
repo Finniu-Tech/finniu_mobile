@@ -48,9 +48,9 @@ class CustomSelectButton extends HookConsumerWidget {
       throw ArgumentError("At least one of item and async must be provided.");
     }
     final themeProvider = ref.watch(settingsNotifierProvider);
-    return SizedBox(
-      width: width ?? 224.0,
-      height: height ?? 39.0,
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.8,
+      constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
       child: DropdownSearch<String>(
         enabled: enabled ?? false,
         selectedItem: textEditingController.text,

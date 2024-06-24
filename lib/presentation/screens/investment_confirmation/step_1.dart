@@ -6,6 +6,8 @@ import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
@@ -14,11 +16,13 @@ import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
@@ -43,6 +47,9 @@ class Step1 extends HookConsumerWidget {
     final couponController = useTextEditingController();
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
+    final originFoundsController = useTextEditingController();
+    final otherFoundOriginController = useTextEditingController();
+
     final uuidPlan = (ModalRoute.of(context)!.settings.arguments
         as Map<String, dynamic>)['planUuid'];
     final isSoles = ref.watch(isSolesStateProvider);
@@ -63,6 +70,9 @@ class Step1 extends HookConsumerWidget {
                   deadLineController: deadLineController,
                   bankTypeController: bankController,
                   couponController: couponController,
+                  originFoundsController: originFoundsController,
+                  otherFoundOriginController: otherFoundOriginController,
+                  bankController: bankController,
                   isSoles: isSoles,
                   // bankNumberController: bankNumberController,
                   plan:
@@ -92,6 +102,9 @@ class Step1Body extends StatefulHookConsumerWidget {
     required this.bankTypeController,
     required this.couponController,
     required this.isSoles,
+    required this.originFoundsController,
+    required this.otherFoundOriginController,
+    required this.bankController,
     // required this.bankNumberController,
     required this.plan,
   });
@@ -102,6 +115,9 @@ class Step1Body extends StatefulHookConsumerWidget {
   final TextEditingController bankTypeController;
   // final TextEditingController bankNumberController;
   final TextEditingController couponController;
+  final TextEditingController originFoundsController;
+  final TextEditingController otherFoundOriginController;
+  final TextEditingController bankController;
   final bool isSoles;
 
   final PlanEntity plan;
@@ -117,6 +133,26 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
   late bool showInvestmentBoxes = false;
   late PlanSimulation? resultCalculator;
   late PlanEntity? selectedPlan;
+  late BankEntity? selectedBank;
+  BankAccount? selectedBankAccount;
+
+  Future<void> _updateBankAccount() async {
+    final _selectedBankAccount = ref.read(selectedBankAccountSenderProvider);
+    if (_selectedBankAccount != null) {
+      widget.bankController.text = BankAccount.getSafeBankAccountNumber(
+        _selectedBankAccount.bankAccount,
+      );
+      final banks = await ref.read(bankFutureProvider.future);
+      final _selectedBank =
+          BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
+      setState(() {
+        selectedBank = _selectedBank;
+        selectedBankAccount = _selectedBankAccount;
+      });
+    } else {
+      widget.bankController.text = '';
+    }
+  }
 
   Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
     if (widget.mountController.text.isNotEmpty) {
@@ -159,6 +195,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
     final debouncer = Debouncer(milliseconds: 3000);
+    final currency = widget.isSoles ? currencyEnum.PEN : currencyEnum.USD;
 
     useEffect(
       () {
@@ -387,6 +424,80 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 39,
+                minHeight: 39,
+              ),
+              child: InkWell(
+                onTap: () async {
+                  // show accounts modal
+                  showBankAccountModal(
+                    context,
+                    ref,
+                    currency,
+                    true,
+                    "",
+                  );
+                },
+                child: IgnorePointer(
+                  child: TextFormField(
+                    controller: widget.bankController,
+                    readOnly: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: widget.bankController.text.isNotEmpty
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 8.0, left: 20.0),
+                              child: selectedBank!.logoUrl!.isNotEmpty
+                                  ? Image.network(
+                                      selectedBank?.logoUrl ?? '',
+                                      width: 13,
+                                      height: 13,
+                                      fit: BoxFit.contain,
+                                    )
+                                  : const Icon(
+                                      Icons.account_balance,
+                                      color: Colors.grey,
+                                      size: 13,
+                                    ),
+                            )
+                          : null,
+                      suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 39,
+                        maxWidth: 39,
+                      ),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      hintText: 'Nombre del banco',
+                      hintStyle:
+                          const TextStyle(color: Color(grayText), fontSize: 11),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      labelText: "Desde qué banco realizas la transferencia",
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
               constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
               child: CustomSelectButton(
                 textEditingController: widget.bankTypeController,
@@ -401,6 +512,26 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 hintText: "Seleccione su banco",
                 width: MediaQuery.of(context).size.width * 0.8,
               ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            CustomSelectButton(
+              asyncItems: (String filter) async {
+                // return OriginFoundsEnum.values.map((e) => OriginFoundsUtil.toReadableName(e)).toList();
+                return OriginFoundsUtil.getReadableNames();
+              },
+              callbackOnChange: (value) async {
+                setState(() {
+                  widget.originFoundsController.text = value;
+                  if (value != 'Otros') {
+                    widget.otherFoundOriginController.clear();
+                  }
+                });
+              },
+              textEditingController: widget.originFoundsController,
+              labelText: "Origen de procedencia del dinero",
+              hintText: "Seleccione el origen",
             ),
             const SizedBox(
               height: 15,
@@ -673,6 +804,17 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     widget.bankTypeController.text,
                     await bankFuture,
                   );
+
+                  final originFound = widget.originFoundsController.text;
+                  print(selectedBankAccount!.id);
+                  print(originFound);
+                  print(selectedBankAccount!.id);
+                  print(originFound);
+                  print(selectedBankAccount!.id);
+                  print(originFound);
+                  print(selectedBankAccount!.id);
+                  print(originFound);
+
                   final preInvestment = PreInvestmentForm(
                       amount: int.parse(widget.mountController.text),
                       deadLineUuid: deadLineUuid,
@@ -680,9 +822,12 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       planUuid: widget.plan.uuid,
                       bankAccountTypeUuid: bankUuid,
                       currency: isSoles ? currencyNuevoSol : currencyDollar,
-                      bankAccountNumber: "132164",
-                      originFunds:
-                          OriginFunds(originFundsEnum: OriginFoundsEnum.AHORROS)
+                      bankAccountNumber: selectedBankAccount!.id,
+                      originFunds: OriginFunds(
+                        originFundsEnum:
+                            OriginFoundsUtil.fromReadableName(originFound),
+                        otherText: widget.otherFoundOriginController.text,
+                      )
                       // bankAccountNumber: widget.bankNumberController.text,
                       );
                   context.loaderOverlay.show();

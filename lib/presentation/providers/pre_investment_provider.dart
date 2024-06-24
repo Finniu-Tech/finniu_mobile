@@ -10,12 +10,6 @@ final preInvestmentSaveProvider =
   try {
     final preInvestmentRepository = ref.read(preInvestmentRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;
-    print(preInvestmentEntity.amount);
-    print(preInvestmentEntity.bankAccountTypeUuid);
-    print(preInvestmentEntity.deadLineUuid);
-    print(preInvestmentEntity.planUuid);
-    print(preInvestmentEntity.bankAccountNumber);
-    print(preInvestmentEntity.originFunds);
     final result = await preInvestmentRepository.save(
       client: client!,
       amount: preInvestmentEntity.amount,
