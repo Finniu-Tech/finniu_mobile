@@ -219,7 +219,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
   @override
   Widget build(BuildContext context) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
-    final bankFuture = ref.watch(bankFutureProvider.future);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
     final debouncer = Debouncer(milliseconds: 3000);
@@ -902,7 +901,7 @@ class _StepBarState extends ConsumerState<StepBar> {
     final Color inactiveBorderColor = currentTheme.isDarkMode
         ? const Color(primaryLight)
         : const Color(primaryDark);
-    final Color activeBorderColor = Colors.transparent;
+    const Color activeBorderColor = Colors.transparent;
     final Color activeIconColor = currentTheme.isDarkMode
         ? const Color(primaryDark)
         : const Color(primaryDark);
