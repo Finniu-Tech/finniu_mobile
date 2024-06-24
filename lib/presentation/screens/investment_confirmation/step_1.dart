@@ -146,10 +146,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
       final _selectedBank =
           BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
       setState(() {
-        print("-----------------------");
-        print(_selectedBank.toString());
-        print(_selectedBankAccount.toString());
-        print("-----------------------");
         selectedBank = _selectedBank;
         selectedBankAccount = _selectedBankAccount;
       });
@@ -849,6 +845,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         .state = [];
                     print(
                         'preInvestmentEntityResponse?.preInvestment?.uuid: ${preInvestmentEntityResponse?.preInvestment?.uuid}');
+                    print('-------------------');
                     Navigator.pushNamed(
                       context,
                       '/investment_step2',
