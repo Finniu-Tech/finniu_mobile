@@ -133,7 +133,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
   late bool showInvestmentBoxes = false;
   late PlanSimulation? resultCalculator;
   late PlanEntity? selectedPlan;
-  late BankEntity? selectedBank;
+  BankEntity? selectedBank;
   BankAccount? selectedBankAccount;
 
   Future<void> _updateBankAccount() async {
@@ -146,12 +146,40 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
       final _selectedBank =
           BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
       setState(() {
+        print("-----------------------");
+        print(_selectedBank.toString());
+        print(_selectedBankAccount.toString());
+        print("-----------------------");
         selectedBank = _selectedBank;
         selectedBankAccount = _selectedBankAccount;
       });
     } else {
       widget.bankController.text = '';
     }
+  }
+
+  bool validate() {
+    if (widget.mountController.text.isEmpty ||
+        widget.deadLineController.text.isEmpty ||
+        widget.bankController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        'error',
+      );
+      return false;
+    }
+
+    if (widget.originFoundsController.text == 'Otros' &&
+        widget.otherFoundOriginController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Debe de ingresar el origen de los fondos',
+        'error',
+      );
+      return false;
+    }
+    return true;
   }
 
   Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
@@ -204,10 +232,17 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           completeProfileDialog(context, ref);
         }
 
+        _updateBankAccount();
+
+        calculateInvestment(context, ref);
         return null;
       },
       [userProfile],
     );
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider,
+        (previous, next) {
+      _updateBankAccount();
+    });
 
     return GestureDetector(
       onTap: () {
@@ -453,21 +488,13 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     },
                     decoration: InputDecoration(
                       prefixIcon: widget.bankController.text.isNotEmpty
-                          ? Padding(
-                              padding:
-                                  const EdgeInsets.only(right: 8.0, left: 20.0),
-                              child: selectedBank!.logoUrl!.isNotEmpty
-                                  ? Image.network(
-                                      selectedBank?.logoUrl ?? '',
-                                      width: 13,
-                                      height: 13,
-                                      fit: BoxFit.contain,
-                                    )
-                                  : const Icon(
-                                      Icons.account_balance,
-                                      color: Colors.grey,
-                                      size: 13,
-                                    ),
+                          ? const Padding(
+                              padding: EdgeInsets.only(right: 8.0, left: 20.0),
+                              child: Icon(
+                                Icons.account_balance,
+                                color: Colors.grey,
+                                size: 13,
+                              ),
                             )
                           : null,
                       suffixIconConstraints: const BoxConstraints(
@@ -491,26 +518,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.8,
-              constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
-              child: CustomSelectButton(
-                textEditingController: widget.bankTypeController,
-                asyncItems: (String filter) async {
-                  final response = await bankFuture;
-                  return response.map((e) => e.name).toList();
-                },
-                callbackOnChange: (value) {
-                  widget.bankTypeController.text = value;
-                },
-                labelText: "Desde qué banco realizas la transferencia",
-                hintText: "Seleccione su banco",
-                width: MediaQuery.of(context).size.width * 0.8,
               ),
             ),
             const SizedBox(
@@ -786,8 +793,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     return;
                   }
                   if (widget.mountController.text.isEmpty ||
-                      widget.deadLineController.text.isEmpty ||
-                      widget.bankTypeController.text.isEmpty) {
+                      widget.deadLineController.text.isEmpty) {
                     CustomSnackbar.show(
                       context,
                       'Hubo un problema, asegúrate de haber completado los campos anteriores',
@@ -799,10 +805,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   final deadLineUuid = DeadLineEntity.getUuidByName(
                     widget.deadLineController.text,
                     await deadLineFuture,
-                  );
-                  final bankUuid = BankEntity.getUuidByName(
-                    widget.bankTypeController.text,
-                    await bankFuture,
                   );
 
                   final originFound = widget.originFoundsController.text;
