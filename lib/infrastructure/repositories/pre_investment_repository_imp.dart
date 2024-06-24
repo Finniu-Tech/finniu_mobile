@@ -15,10 +15,12 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,
-    required String bankAccountTypeUuid,
+    String? bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
     required String currency,
+    String? bankAccountSender,
+    String? originFunds,
     String? coupon,
   }) async {
     return await dataSource.save(
@@ -30,6 +32,8 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
       planUuid: planUuid,
       coupon: coupon,
       currency: currency,
+      bankAccountSender: bankAccountSender,
+      originFunds: originFunds,
     );
   }
 }

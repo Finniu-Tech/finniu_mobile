@@ -24,18 +24,22 @@ class PreInvestmentEntity {
   String uuid;
   int amount;
   // String bankAccountNumber;
-  String bankAccountTypeUuid;
+  String? bankAccountTypeUuid;
   String deadLineUuid;
   String planUuid;
   String? coupon;
+  String? bankAccountSender;
+  String? originFunds;
 
   PreInvestmentEntity({
     required this.uuid,
     required this.amount,
     // required this.bankAccountNumber,
-    required this.bankAccountTypeUuid,
+    this.bankAccountTypeUuid,
     required this.deadLineUuid,
     required this.planUuid,
+    this.bankAccountSender,
+    this.originFunds,
     this.coupon,
   });
 
@@ -47,7 +51,15 @@ class PreInvestmentEntity {
     String? deadLineUuid,
     String? planUuid,
     String? coupon,
+    String? bankAccountSender,
+    String? originFunds,
   }) {
+    print(uuid);
+    print(amount);
+    print(uuid);
+    print(uuid);
+    print(uuid);
+    print(uuid);
     return PreInvestmentEntity(
       uuid: uuid ?? this.uuid,
       amount: amount ?? this.amount,
@@ -56,6 +68,8 @@ class PreInvestmentEntity {
       deadLineUuid: deadLineUuid ?? this.deadLineUuid,
       planUuid: planUuid ?? this.planUuid,
       coupon: coupon ?? this.coupon,
+      bankAccountSender: bankAccountSender ?? this.bankAccountSender,
+      originFunds: originFunds ?? this.originFunds,
     );
   }
 }

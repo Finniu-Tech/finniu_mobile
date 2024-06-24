@@ -10,11 +10,13 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,
-    required String bankAccountTypeUuid,
+    String? bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
     required String currency,
     String? coupon,
+    String? bankAccountSender,
+    String? originFunds,
   }) async {
     final response = await client.mutate(
       MutationOptions(
@@ -27,13 +29,16 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
           'coupon': coupon,
-          'currency': currency
+          'currency': currency,
+          'bankAccountSender': bankAccountSender,
+          'originFunds': originFunds,
         },
       ),
     );
     final responseGraphQL = response.data?['savePreInvestment'];
 
-    final preInvestmentResponse = PreInvestmentSaveResponse.fromJson(responseGraphQL);
+    final preInvestmentResponse =
+        PreInvestmentSaveResponse.fromJson(responseGraphQL);
 
     final preInvestment = PreInvestmentEntity(
       uuid: preInvestmentResponse.preInvestmentUuid!,
@@ -42,6 +47,9 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
       bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
+      coupon: coupon,
+      bankAccountSender: bankAccountSender,
+      originFunds: originFunds,
     );
     return PreInvestmentResponseAPI(
       preInvestment: preInvestment,
@@ -63,7 +71,11 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           document: gql(
             MutationRepository.updatePreInvestment(),
           ),
-          variables: {'uuid': uuid, 'readContract': readContract, 'files': files},
+          variables: {
+            'uuid': uuid,
+            'readContract': readContract,
+            'files': files,
+          },
         ),
       );
       // return response.data?['updatePreinvestment']['success'];

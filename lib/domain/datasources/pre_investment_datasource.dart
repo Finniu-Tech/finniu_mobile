@@ -5,12 +5,13 @@ abstract class PreInvestmentDataSource {
   Future<PreInvestmentResponseAPI> save({
     required GraphQLClient client,
     required int amount,
-    // required String bankAccountNumber,
     required String bankAccountTypeUuid,
+    String? coupon,
+    required String currency,
     required String deadLineUuid,
     required String planUuid,
-    required String currency,
-    String? coupon,
+    String? bankAccountSender,
+    String? originFunds,
   });
 
   Future<PreInvestmentUpdateResponseAPI> update({
