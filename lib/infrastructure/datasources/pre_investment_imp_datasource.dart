@@ -2,6 +2,7 @@ import 'package:finniu/domain/datasources/pre_investment_datasource.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/infrastructure/models/pre_investment_response.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
@@ -15,6 +16,8 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required String planUuid,
     required String currency,
     String? coupon,
+    required String? bankAccountNumber,
+    required OriginFunds? originFunds,
   }) async {
     final response = await client.mutate(
       MutationOptions(
@@ -27,13 +30,16 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
           'coupon': coupon,
-          'currency': currency
+          'currency': currency,
+          'bankAccountSender': bankAccountNumber,
+          'originFunds': originFunds,
         },
       ),
     );
     final responseGraphQL = response.data?['savePreInvestment'];
 
-    final preInvestmentResponse = PreInvestmentSaveResponse.fromJson(responseGraphQL);
+    final preInvestmentResponse =
+        PreInvestmentSaveResponse.fromJson(responseGraphQL);
 
     final preInvestment = PreInvestmentEntity(
       uuid: preInvestmentResponse.preInvestmentUuid!,
@@ -42,6 +48,9 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
       bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
+      coupon: coupon,
+      bankAccountNumber: bankAccountNumber,
+      originFunds: originFunds,
     );
     return PreInvestmentResponseAPI(
       preInvestment: preInvestment,
@@ -63,7 +72,11 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           document: gql(
             MutationRepository.updatePreInvestment(),
           ),
-          variables: {'uuid': uuid, 'readContract': readContract, 'files': files},
+          variables: {
+            'uuid': uuid,
+            'readContract': readContract,
+            'files': files,
+          },
         ),
       );
       // return response.data?['updatePreinvestment']['success'];

@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+
 class PreInvestmentResponseAPI {
   PreInvestmentEntity? preInvestment;
   String? error;
@@ -28,6 +30,8 @@ class PreInvestmentEntity {
   String deadLineUuid;
   String planUuid;
   String? coupon;
+  OriginFunds? originFunds;
+  String? bankAccountNumber;
 
   PreInvestmentEntity({
     required this.uuid,
@@ -37,6 +41,8 @@ class PreInvestmentEntity {
     required this.deadLineUuid,
     required this.planUuid,
     this.coupon,
+    required this.originFunds,
+    required this.bankAccountNumber,
   });
 
   PreInvestmentEntity copyWith({
@@ -47,6 +53,8 @@ class PreInvestmentEntity {
     String? deadLineUuid,
     String? planUuid,
     String? coupon,
+    OriginFunds? originFunds,
+    String? bankAccountNumber,
   }) {
     return PreInvestmentEntity(
       uuid: uuid ?? this.uuid,
@@ -56,6 +64,8 @@ class PreInvestmentEntity {
       deadLineUuid: deadLineUuid ?? this.deadLineUuid,
       planUuid: planUuid ?? this.planUuid,
       coupon: coupon ?? this.coupon,
+      originFunds: originFunds ?? this.originFunds,
+      bankAccountNumber: bankAccountNumber ?? this.bankAccountNumber,
     );
   }
 }

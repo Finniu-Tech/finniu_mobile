@@ -7,6 +7,7 @@ import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
@@ -673,14 +674,17 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     await bankFuture,
                   );
                   final preInvestment = PreInvestmentForm(
-                    amount: int.parse(widget.mountController.text),
-                    deadLineUuid: deadLineUuid,
-                    coupon: widget.couponController.text,
-                    planUuid: widget.plan.uuid,
-                    bankAccountTypeUuid: bankUuid,
-                    currency: isSoles ? currencyNuevoSol : currencyDollar,
-                    // bankAccountNumber: widget.bankNumberController.text,
-                  );
+                      amount: int.parse(widget.mountController.text),
+                      deadLineUuid: deadLineUuid,
+                      coupon: widget.couponController.text,
+                      planUuid: widget.plan.uuid,
+                      bankAccountTypeUuid: bankUuid,
+                      currency: isSoles ? currencyNuevoSol : currencyDollar,
+                      bankAccountNumber: "132164",
+                      originFunds:
+                          OriginFunds(originFundsEnum: OriginFoundsEnum.AHORROS)
+                      // bankAccountNumber: widget.bankNumberController.text,
+                      );
                   context.loaderOverlay.show();
                   final preInvestmentEntityResponse = await ref
                       .watch(preInvestmentSaveProvider(preInvestment).future);
@@ -705,6 +709,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     ref
                         .read(preInvestmentVoucherImagesProvider.notifier)
                         .state = [];
+                    print(
+                        'preInvestmentEntityResponse?.preInvestment?.uuid: ${preInvestmentEntityResponse?.preInvestment?.uuid}');
                     Navigator.pushNamed(
                       context,
                       '/investment_step2',
