@@ -92,9 +92,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                   ),
                 ),
                 const Spacer(),
@@ -147,9 +145,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               ),
                             ),
                             const SizedBox(
@@ -157,15 +153,13 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                             ),
                             Text(
                               isSoles
-                                  ? formatterSoles.format(widget.initialAmount)
-                                  : formatterUSD.format(widget.initialAmount),
+                                  ? formatterSoles.format(widget.revenueAmount)
+                                  : formatterUSD.format(widget.revenueAmount),
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               ),
                             ),
                           ],
@@ -177,9 +171,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 10,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
+                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                               ),
                             ),
                             const SizedBox(
@@ -190,9 +182,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                               textAlign: TextAlign.right,
                               style: TextStyle(
                                 fontSize: 10,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(blackText),
+                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                               ),
                             ),
                           ],
@@ -216,9 +206,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(primaryDark),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                           ),
                         ),
                         Text(
@@ -226,9 +214,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 10,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(blackText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                           ),
                         ),
                       ],
@@ -242,8 +228,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
         Padding(
           padding: const EdgeInsets.only(right: 30, top: 10),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment
-                .end, // Alinear widgets en el centro horizontalmente
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Container(
                 width: 12,
@@ -251,26 +236,19 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     width: 1,
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryDark),
                   ),
                   shape: BoxShape.circle,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryDark)
-                      : const Color(primaryLight),
+                  color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
                 ),
                 // Si desea agregar un icono dentro del círculo
               ),
-              const SizedBox(
-                  width: 5), // Separación entre el círculo y el texto
+              const SizedBox(width: 5), // Separación entre el círculo y el texto
               Text(
                 'Dinero invertido',
                 style: TextStyle(
                   fontSize: 10,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
               const SizedBox(
@@ -282,9 +260,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 decoration: BoxDecoration(
                   border: Border.all(width: 1, color: const Color(primaryDark)),
                   shape: BoxShape.circle,
-                  color: currentTheme.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(secondary),
+                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
                 ),
                 // Si desea agregar un icono dentro del círculo
               ),
@@ -294,9 +270,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                 'Intereses generados',
                 style: TextStyle(
                   fontSize: 10,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
             ],

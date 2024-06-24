@@ -10,7 +10,12 @@ class CustomSnackbar {
     late OverlayEntry overlayEntry;
     final onDismiss = Future.delayed(
       const Duration(seconds: 4),
-      () => overlayEntry.remove(),
+      () => {
+        if (overlayEntry.mounted)
+          {
+            overlayEntry.remove(),
+          },
+      },
     );
 
     overlayEntry = OverlayEntry(
@@ -24,7 +29,11 @@ class CustomSnackbar {
           child: SnackBarBody(
             message: message,
             type: type,
-            onDismiss: () => overlayEntry.remove(),
+            onDismiss: () {
+              if (overlayEntry.mounted) {
+                overlayEntry.remove();
+              }
+            },
           ),
         ),
       ),
