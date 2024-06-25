@@ -516,7 +516,6 @@ class ContiniuButton extends ConsumerWidget {
     final formState = ref.watch(formNotifierProvider);
     return TextButton(
       onPressed: () async {
-        context.loaderOverlay.show();
         if (userProfile.hasRequiredData() == false) {
           completeProfileDialog(context, ref);
           return;
@@ -540,7 +539,7 @@ class ContiniuButton extends ConsumerWidget {
         //   formState.bankAccount!.id,
         //   await bankFuture,
         // );
-
+        context.loaderOverlay.show();
         final preInvestment = PreInvestmentForm(
           amount: formState.amount,
           deadLineUuid: formState.deadline!.uuid,
@@ -551,7 +550,7 @@ class ContiniuButton extends ConsumerWidget {
           currency: isSoles ? currencyNuevoSol : currencyDollar,
           // bankAccountNumber: widget.bankNumberController.text,
         );
-
+        context.loaderOverlay.show();
         final preInvestmentEntityResponse =
             await ref.watch(preInvestmentSaveProvider(preInvestment).future);
         if (preInvestmentEntityResponse?.success == false ||
@@ -563,9 +562,10 @@ class ContiniuButton extends ConsumerWidget {
                 'Hubo un problema, intenta nuevamente',
             'error',
           );
-          context.loaderOverlay.hide();
+
           return; // Sale de la función para evitar que continúe el proceso
         } else {
+          context.loaderOverlay.show();
           ref
               .read(
                 preInvestmentVoucherImagesPreviewProvider.notifier,
@@ -582,7 +582,6 @@ class ContiniuButton extends ConsumerWidget {
               resultCalculator: resultCalculator!,
             ),
           );
-          context.loaderOverlay.hide();
         }
       },
       child: const Text(
@@ -596,7 +595,7 @@ class StepBar extends ConsumerStatefulWidget {
   final int step;
 
   const StepBar({
-    Key? key,
+    super.key,
     required this.step,
   });
 

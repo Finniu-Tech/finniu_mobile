@@ -91,40 +91,6 @@ class ContainerForm extends ConsumerWidget {
             },
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              // Aquí puedes manejar el envío del formulario
-              formNotifier.updateCurrency(isSoles ? 'S/' : 'dolar');
-              final amount = formState.amount;
-              final uuidBank = formState.bankAccount?.id;
-              final uuidDeadline = formState.deadline?.uuid;
-              final uuidPlan = formState.uuidPlan;
-              final coupon = formState.coupon;
-              final origin = formState.originFounds;
-
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: const Text('Datos del formulario'),
-                  content: Text(
-                    'Amount: $amount\n'
-                    'UUID Bank: $uuidBank\n'
-                    'UUID Deadline: $uuidDeadline\n'
-                    'UUID Plan: $uuidPlan\n'
-                    'Currency: ${isSoles ? 'S/' : 'dolar'}\n'
-                    'origin: $origin.',
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: () => Navigator.pop(context),
-                      child: const Text('OK'),
-                    ),
-                  ],
-                ),
-              );
-            },
-            child: const Text('Enviar'),
-          ),
         ],
       ),
     );
