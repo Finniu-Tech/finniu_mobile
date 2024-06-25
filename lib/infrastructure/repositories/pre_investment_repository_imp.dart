@@ -1,6 +1,7 @@
 import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/domain/repositories/pre_investment_repository.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class PreInvestmentRepositoryImp implements PreInvestmentRepository {
@@ -15,19 +16,17 @@ class PreInvestmentRepositoryImp implements PreInvestmentRepository {
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,
-    String? bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
     required String currency,
-    String? bankAccountSender,
-    String? originFunds,
+    required String? bankAccountSender,
+    required OriginFunds? originFunds,
     String? coupon,
   }) async {
     return await dataSource.save(
       client: client,
       amount: amount,
       // bankAccountNumber: bankAccountNumber,
-      bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
       coupon: coupon,

@@ -1,3 +1,4 @@
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/forms/investment_form_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -47,11 +48,9 @@ class ContainerForm extends ConsumerWidget {
               return response.map((e) => e.name).toList();
             },
             callbackOnChange: (value) async {
-              print(value);
               final selectDeadLine = await deadLineFuture.then(
                 (e) => e.firstWhere((element) => element.name == value),
               );
-              print(selectDeadLine);
               formNotifier.updateDeadline(selectDeadLine);
               if (formState.deadline != null && formState.amount != 0) {
                 calculate;
@@ -78,6 +77,10 @@ class ContainerForm extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
+          const OriginFontdsSelect(),
+          const SizedBox(
+            height: 10,
+          ),
           TextFormField(
             decoration: const InputDecoration(
               labelText: 'Ingresa tu código promocional, si tienes uno',
@@ -97,14 +100,8 @@ class ContainerForm extends ConsumerWidget {
               final uuidDeadline = formState.deadline?.uuid;
               final uuidPlan = formState.uuidPlan;
               final coupon = formState.coupon;
-              print(amount);
-              print(uuidBank);
-              print(uuidDeadline);
-              print("${formState.bankAccount?.alias} alias");
-              print("${formState.bankAccount?.id} id");
-              print("${formState.bankAccount?.bankAccount} account");
-              print("${formState.bankAccount?.bankName} name");
-              print("${formState.bankAccount?.currency} currency");
+              final origin = formState.originFounds;
+
               showDialog(
                 context: context,
                 builder: (context) => AlertDialog(
@@ -115,7 +112,7 @@ class ContainerForm extends ConsumerWidget {
                     'UUID Deadline: $uuidDeadline\n'
                     'UUID Plan: $uuidPlan\n'
                     'Currency: ${isSoles ? 'S/' : 'dolar'}\n'
-                    'Coupon: $coupon',
+                    'origin: $origin.',
                   ),
                   actions: [
                     TextButton(
@@ -129,6 +126,63 @@ class ContainerForm extends ConsumerWidget {
             child: const Text('Enviar'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class OriginFontdsSelect extends ConsumerStatefulWidget {
+  const OriginFontdsSelect({super.key});
+
+  @override
+  ConsumerState<OriginFontdsSelect> createState() => _OriginFontdsSelectState();
+}
+
+class _OriginFontdsSelectState extends ConsumerState<OriginFontdsSelect> {
+  late TextEditingController originFoundsController;
+  late TextEditingController otherFoundOriginController;
+
+  @override
+  void initState() {
+    super.initState();
+    originFoundsController = TextEditingController();
+    otherFoundOriginController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    originFoundsController.dispose();
+    otherFoundOriginController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final formNotifier = ref.read(formNotifierProvider.notifier);
+
+    return SizedBox(
+      width: double.infinity,
+      child: CustomSelectButton(
+        asyncItems: (String filter) async {
+          return OriginFoundsUtil.getReadableNames();
+        },
+        callbackOnChange: (value) async {
+          setState(() {
+            originFoundsController.text = value;
+            formNotifier.updateOriginFounds(
+              OriginFunds(
+                originFundsEnum: OriginFoundsUtil.fromReadableName(value),
+                otherText: value,
+              ),
+            );
+            if (value != 'Otros') {
+              otherFoundOriginController.clear();
+            }
+          });
+        },
+        textEditingController: originFoundsController,
+        labelText: "Origen de procedencia del dinero",
+        hintText: "Seleccione el origen",
       ),
     );
   }

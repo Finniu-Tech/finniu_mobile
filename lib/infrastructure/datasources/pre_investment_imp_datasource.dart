@@ -2,6 +2,7 @@ import 'package:finniu/domain/datasources/pre_investment_datasource.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/infrastructure/models/pre_investment_response.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
@@ -10,13 +11,12 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     required GraphQLClient client,
     required int amount,
     // required String bankAccountNumber,
-    String? bankAccountTypeUuid,
     required String deadLineUuid,
     required String planUuid,
     required String currency,
     String? coupon,
     String? bankAccountSender,
-    String? originFunds,
+    OriginFunds? originFunds,
   }) async {
     final response = await client.mutate(
       MutationOptions(
@@ -25,7 +25,6 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
         ),
         variables: {
           'amount': amount,
-          'uuidBank': bankAccountTypeUuid,
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
           'coupon': coupon,
@@ -44,7 +43,6 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
       uuid: preInvestmentResponse.preInvestmentUuid!,
       amount: amount,
       // bankAccountNumber: bankAccountNumber,
-      bankAccountTypeUuid: bankAccountTypeUuid,
       deadLineUuid: deadLineUuid,
       planUuid: planUuid,
       coupon: coupon,

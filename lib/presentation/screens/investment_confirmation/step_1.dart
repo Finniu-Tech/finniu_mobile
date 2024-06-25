@@ -516,13 +516,15 @@ class ContiniuButton extends ConsumerWidget {
     final formState = ref.watch(formNotifierProvider);
     return TextButton(
       onPressed: () async {
+        context.loaderOverlay.show();
         if (userProfile.hasRequiredData() == false) {
           completeProfileDialog(context, ref);
           return;
         }
         if (formState.amount == 0 ||
             formState.deadline == null ||
-            formState.bankAccount == null) {
+            formState.bankAccount == null ||
+            formState.originFounds == null) {
           CustomSnackbar.show(
             context,
             'Hubo un problema, asegúrate de haber completado los campos anteriores',
@@ -544,20 +546,16 @@ class ContiniuButton extends ConsumerWidget {
           deadLineUuid: formState.deadline!.uuid,
           coupon: formState.coupon,
           planUuid: widget.plan.uuid,
-          bankAccountTypeUuid: formState.bankAccount!.id,
+          bankAccountSender: formState.bankAccount!.id,
+          originFunds: formState.originFounds,
           currency: isSoles ? currencyNuevoSol : currencyDollar,
           // bankAccountNumber: widget.bankNumberController.text,
         );
 
-        context.loaderOverlay.show();
         final preInvestmentEntityResponse =
             await ref.watch(preInvestmentSaveProvider(preInvestment).future);
-        print("------------------------");
-        print("------------------------");
-        print("------------------------");
-        print("------------------------");
-        if (preInvestmentEntityResponse?.success == false) {
-          context.loaderOverlay.hide();
+        if (preInvestmentEntityResponse?.success == false ||
+            preInvestmentEntityResponse == null) {
           // CHECK HERE
           CustomSnackbar.show(
             context,
@@ -565,24 +563,26 @@ class ContiniuButton extends ConsumerWidget {
                 'Hubo un problema, intenta nuevamente',
             'error',
           );
+          context.loaderOverlay.hide();
           return; // Sale de la función para evitar que continúe el proceso
         } else {
-          context.loaderOverlay.hide();
           ref
               .read(
                 preInvestmentVoucherImagesPreviewProvider.notifier,
               )
               .state = [];
           ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+
           Navigator.pushNamed(
             context,
             '/investment_step2',
             arguments: PreInvestmentStep2Arguments(
               plan: selectedPlan!,
-              preInvestment: preInvestmentEntityResponse!.preInvestment!,
+              preInvestment: preInvestmentEntityResponse.preInvestment!,
               resultCalculator: resultCalculator!,
             ),
           );
+          context.loaderOverlay.hide();
         }
       },
       child: const Text(

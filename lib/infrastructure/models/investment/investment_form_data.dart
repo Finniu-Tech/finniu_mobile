@@ -1,10 +1,12 @@
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 
 class InvestmentFormData {
   final int amount;
   final BankAccount? bankAccount;
   final DeadLineEntity? deadline;
+  final OriginFunds? originFounds;
   final String uuidPlan;
   final String currency;
   final String coupon;
@@ -16,6 +18,7 @@ class InvestmentFormData {
     required this.uuidPlan,
     required this.currency,
     required this.coupon,
+    required this.originFounds,
   });
 
   InvestmentFormData copyWith({
@@ -25,6 +28,7 @@ class InvestmentFormData {
     String? uuidPlan,
     String? currency,
     String? coupon,
+    OriginFunds? originFounds,
   }) {
     return InvestmentFormData(
       amount: amount ?? this.amount,
@@ -33,6 +37,7 @@ class InvestmentFormData {
       uuidPlan: uuidPlan ?? this.uuidPlan,
       currency: currency ?? this.currency,
       coupon: coupon ?? this.coupon,
+      originFounds: originFounds ?? this.originFounds,
     );
   }
 }

@@ -29,7 +29,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           width: 1,
-          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+          color: currentTheme.isDarkMode
+              ? const Color(primaryLight)
+              : const Color(primaryDark),
         ),
       ),
       child: Column(
@@ -44,7 +46,7 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 height: 15,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xff9381FF),
+                  color: const Color(0xff9381FF),
                 ),
               ),
               const SizedBox(
@@ -55,7 +57,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
-                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                 ),
               ),
             ],
@@ -68,7 +72,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+              color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(primaryDark),
             ),
           ),
           const SizedBox(
@@ -79,9 +85,11 @@ class PendingInvestmentCard extends HookConsumerWidget {
             children: [
               // outline button with an x icon and text "descartar"
               ElevatedButton.icon(
-                icon: Icon(Icons.close, color: Colors.red),
+                icon: const Icon(Icons.close, color: Colors.red),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  foregroundColor: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                   backgroundColor: Colors.transparent,
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                 onPressed: () {
@@ -101,7 +109,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 label: Text(
                   "Descartar",
                   style: TextStyle(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
@@ -112,20 +122,23 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 width: 10,
               ),
               ElevatedButton.icon(
-                icon: Icon(Icons.check, color: Colors.green),
+                icon: const Icon(Icons.check, color: Colors.green),
                 style: ElevatedButton.styleFrom(
                   elevation: 4,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
                   foregroundColor: Colors.white,
-                  backgroundColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  backgroundColor: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                 onPressed: () async {
                   final preInvestment = PreInvestmentEntity(
                     uuid: preInvestmentForm.uuid!,
                     amount: preInvestmentForm.amount,
-                    bankAccountTypeUuid: preInvestmentForm.bankAccountTypeUuid,
+                    bankAccountSender: preInvestmentForm.bankAccountSender,
+                    originFunds: preInvestmentForm.originFunds,
                     deadLineUuid: preInvestmentForm.deadLineUuid,
                     planUuid: preInvestmentForm.planUuid,
                     coupon: preInvestmentForm.coupon,
@@ -158,7 +171,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
                   "Continuar",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: currentTheme.isDarkMode ? const Color(primaryDark) : Colors.white,
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryDark)
+                        : Colors.white,
                     fontSize: 12,
                   ),
                 ),

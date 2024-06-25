@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+
 class PreInvestmentResponseAPI {
   PreInvestmentEntity? preInvestment;
   String? error;
@@ -24,22 +26,20 @@ class PreInvestmentEntity {
   String uuid;
   int amount;
   // String bankAccountNumber;
-  String? bankAccountTypeUuid;
   String deadLineUuid;
   String planUuid;
   String? coupon;
   String? bankAccountSender;
-  String? originFunds;
+  OriginFunds? originFunds;
 
   PreInvestmentEntity({
     required this.uuid,
     required this.amount,
     // required this.bankAccountNumber,
-    this.bankAccountTypeUuid,
     required this.deadLineUuid,
     required this.planUuid,
-    this.bankAccountSender,
-    this.originFunds,
+    required this.bankAccountSender,
+    required this.originFunds,
     this.coupon,
   });
 
@@ -47,24 +47,16 @@ class PreInvestmentEntity {
     String? uuid,
     int? amount,
     // String? bankAccountNumber,
-    String? bankAccountTypeUuid,
     String? deadLineUuid,
     String? planUuid,
     String? coupon,
     String? bankAccountSender,
-    String? originFunds,
+    OriginFunds? originFunds,
   }) {
-    print(uuid);
-    print(amount);
-    print(uuid);
-    print(uuid);
-    print(uuid);
-    print(uuid);
     return PreInvestmentEntity(
       uuid: uuid ?? this.uuid,
       amount: amount ?? this.amount,
       // bankAccountNumber: bankAccountNumber ?? this.bankAccountNumber,
-      bankAccountTypeUuid: bankAccountTypeUuid ?? this.bankAccountTypeUuid,
       deadLineUuid: deadLineUuid ?? this.deadLineUuid,
       planUuid: planUuid ?? this.planUuid,
       coupon: coupon ?? this.coupon,

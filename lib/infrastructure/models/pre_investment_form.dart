@@ -1,8 +1,11 @@
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+
 class PreInvestmentForm {
   String? uuid;
   int amount;
   // String bankAccountNumber;
-  String bankAccountTypeUuid;
+  String? bankAccountSender;
+  OriginFunds? originFunds;
   String deadLineUuid;
   String planUuid;
   String? coupon;
@@ -12,7 +15,8 @@ class PreInvestmentForm {
   PreInvestmentForm({
     required this.amount,
     // required this.bankAccountNumber,
-    required this.bankAccountTypeUuid,
+    required this.bankAccountSender,
+    this.originFunds,
     required this.deadLineUuid,
     required this.planUuid,
     required this.currency,
