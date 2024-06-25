@@ -10,8 +10,9 @@ Future<void> showBankAccountSetBankMutationModal(
   String currency,
   bool isSender,
   String typeReInvestment,
-  PreInvestmentUpdateResponseAPI response,
+  String preInvestmentUuid,
 ) async {
+  print(preInvestmentUuid);
   showModalBottomSheet(
     context: ctx,
     isDismissible: false,
@@ -48,6 +49,7 @@ Future<void> showBankAccountSetBankMutationModal(
               currency: currency,
               isSender: isSender,
               typeReInvestment: typeReInvestment,
+              preInvestmentUuid: preInvestmentUuid,
             ),
           ],
         ),

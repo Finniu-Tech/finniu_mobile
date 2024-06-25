@@ -2,13 +2,13 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
-import 'package:finniu/domain/entities/re_investment_entity.dart';
-import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -94,11 +94,13 @@ class CreditCardWheelInvestment extends StatefulHookConsumerWidget {
   final bool
       isSender; // Indica si la tarjeta es del remitente o del destinatario
   final String typeReInvestment;
+  final String preInvestmentUuid;
   const CreditCardWheelInvestment({
     super.key,
     required this.currency,
     required this.isSender,
     required this.typeReInvestment,
+    required this.preInvestmentUuid,
   });
 
   @override
@@ -111,6 +113,31 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
   String selectedImage = '';
   FixedExtentScrollController? controller;
   List<BankEntity> banks = [];
+  Future<void> setBankReceiverToReInvestment(
+    String preInvestmentUuid,
+    String bankAccountSelectedId,
+  ) async {
+    //show loader
+    print(bankAccountSelectedId);
+    print(preInvestmentUuid);
+    final resp = await ref.watch(
+      setBankAccountUserProvider(
+        SetBankAccountUserParams(
+          reInvestmentUUID: preInvestmentUuid,
+          bankAccountReceiver: bankAccountSelectedId,
+        ),
+      ).future,
+    );
+    if (resp.success == true) {
+      Navigator.of(context).pop();
+      Navigator.pushNamed(
+        context,
+        '/investment_step3',
+      );
+    } else {
+      CustomSnackbar.show(context, 'Hubo un problema al guardar', 'error');
+    }
+  }
 
   @override
   void initState() {
@@ -274,63 +301,11 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                               ),
                             ),
                             const SizedBox(height: 20),
-                            Container(
-                              width: 299,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 5,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
-                              ),
-                              child: TextButton(
-                                onPressed: () {
-                                  //SET SELECTED BANK ACCOUNT
-                                  if (widget.isSender) {
-                                    selectedBankAccount.state =
-                                        bankAccountSelected;
-                                  } else {
-                                    selectedBankAccount.state =
-                                        bankAccountSelected;
-                                  }
-                                  //pop modal
-                                  Navigator.of(context).pop();
-                                  Navigator.pushNamed(
-                                    context,
-                                    '/investment_step3',
-                                  );
-                                },
-                                style: TextButton.styleFrom(
-                                  backgroundColor: const Color(primaryDark),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Image.asset(
-                                      'assets/icons/square2.png',
-                                      width: 24,
-                                      height: 24,
-                                    ),
-                                    const SizedBox(width: 5),
-                                    const Text(
-                                      'Confirmar cuenta',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
+                            ConfirmAccountButton(
+                              widget: widget,
+                              selectedBankAccount: selectedBankAccount,
+                              bankAccountSelected: bankAccountSelected,
+                              onPress: setBankReceiverToReInvestment,
                             ),
                           ],
                         )
@@ -437,6 +412,79 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
           ),
         );
       },
+    );
+  }
+}
+
+class ConfirmAccountButton extends StatelessWidget {
+  const ConfirmAccountButton({
+    super.key,
+    required this.widget,
+    required this.selectedBankAccount,
+    required this.bankAccountSelected,
+    required this.onPress,
+  });
+
+  final CreditCardWheelInvestment widget;
+  final StateController<BankAccount?> selectedBankAccount;
+  final BankAccount? bankAccountSelected;
+  final Function onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 299,
+      height: 50,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: const Offset(0, 3),
+          ),
+        ],
+      ),
+      child: TextButton(
+        onPressed: () async {
+          //SET SELECTED BANK ACCOUNT
+          if (widget.isSender) {
+            selectedBankAccount.state = bankAccountSelected;
+          } else {
+            selectedBankAccount.state = bankAccountSelected;
+          }
+          //pop modal
+          print("${bankAccountSelected!.id} banl account id");
+          print("${widget.preInvestmentUuid} widget.preInvestmentUuid");
+          onPress(widget.preInvestmentUuid, bankAccountSelected!.id);
+        },
+        style: TextButton.styleFrom(
+          backgroundColor: const Color(primaryDark),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'assets/icons/square2.png',
+              width: 24,
+              height: 24,
+            ),
+            const SizedBox(width: 5),
+            const Text(
+              'Confirmar cuenta',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -811,7 +811,7 @@ class Step2Body extends HookConsumerWidget {
                   final currency =
                       isSoles ? currencyEnum.PEN : currencyEnum.USD;
                   showBankAccountSetBankMutationModal(
-                      context, ref, currency, false, "", response);
+                      context, ref, currency, false, "", preInvestment.uuid);
                 }
 
                 // if (response.success == true) {
