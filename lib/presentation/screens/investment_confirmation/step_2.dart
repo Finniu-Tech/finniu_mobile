@@ -6,6 +6,7 @@ import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
@@ -15,6 +16,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/modal_set_bank_account_user_input.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -797,17 +799,32 @@ class Step2Body extends HookConsumerWidget {
                   readContract: ref.watch(userAcceptedTermsProvider),
                   files: base64Image,
                 );
-                if (response.success == true) {
-                  context.loaderOverlay.hide();
-                  Navigator.pushNamed(context, '/investment_step3');
-                } else {
+                if (response.success == false) {
                   context.loaderOverlay.hide();
                   CustomSnackbar.show(
                     context,
                     response.error ?? 'Hubo un problema al guardar',
                     'error',
                   );
+                } else {
+                  final isSoles = ref.watch(isSolesStateProvider);
+                  final currency =
+                      isSoles ? currencyEnum.PEN : currencyEnum.USD;
+                  showBankAccountSetBankMutationModal(
+                      context, ref, currency, false, "", response);
                 }
+
+                // if (response.success == true) {
+                //   context.loaderOverlay.hide();
+                //   Navigator.pushNamed(context, '/investment_step3');
+                // } else {
+                //   context.loaderOverlay.hide();
+                //   CustomSnackbar.show(
+                //     context,
+                //     response.error ?? 'Hubo un problema al guardar',
+                //     'error',
+                //   );
+                // }
               },
               style: ButtonStyle(
                 elevation: MaterialStateProperty.all<double>(2),
