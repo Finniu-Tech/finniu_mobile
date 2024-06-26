@@ -452,9 +452,6 @@ class ConfirmAccountButton extends StatelessWidget {
           } else {
             selectedBankAccount.state = bankAccountSelected;
           }
-          //pop modal
-          print("${bankAccountSelected!.id} banl account id");
-          print("${widget.preInvestmentUuid} widget.preInvestmentUuid");
           onPress(widget.preInvestmentUuid, bankAccountSelected!.id);
         },
         style: TextButton.styleFrom(
