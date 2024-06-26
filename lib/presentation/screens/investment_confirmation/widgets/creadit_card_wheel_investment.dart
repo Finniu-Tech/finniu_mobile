@@ -118,8 +118,6 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
     String bankAccountSelectedId,
   ) async {
     //show loader
-    print(bankAccountSelectedId);
-    print(preInvestmentUuid);
     final resp = await ref.watch(
       setBankAccountUserProvider(
         SetBankAccountUserParams(

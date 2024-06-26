@@ -1,5 +1,4 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/creadit_card_wheel_investment.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +11,6 @@ Future<void> showBankAccountSetBankMutationModal(
   String typeReInvestment,
   String preInvestmentUuid,
 ) async {
-  print(preInvestmentUuid);
   showModalBottomSheet(
     context: ctx,
     isDismissible: false,

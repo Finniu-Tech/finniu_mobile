@@ -827,8 +827,8 @@ class Step2Body extends HookConsumerWidget {
                 // }
               },
               style: ButtonStyle(
-                elevation: MaterialStateProperty.all<double>(2),
-                shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
+                elevation: WidgetStateProperty.all<double>(2),
+                shadowColor: WidgetStateProperty.all<Color>(Colors.grey),
               ),
               child: const Text(
                 'Finalizar mi proceso',

@@ -47,8 +47,8 @@ class Step1 extends HookConsumerWidget {
     final couponController = useTextEditingController();
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
-    final originFoundsController = useTextEditingController();
-    final otherFoundOriginController = useTextEditingController();
+    final originFundsController = useTextEditingController();
+    final otherFundOriginController = useTextEditingController();
 
     final uuidPlan = (ModalRoute.of(context)!.settings.arguments
         as Map<String, dynamic>)['planUuid'];
@@ -70,8 +70,8 @@ class Step1 extends HookConsumerWidget {
                   deadLineController: deadLineController,
                   bankTypeController: bankController,
                   couponController: couponController,
-                  originFoundsController: originFoundsController,
-                  otherFoundOriginController: otherFoundOriginController,
+                  originFundsController: originFundsController,
+                  otherFundOriginController: otherFundOriginController,
                   bankController: bankController,
                   isSoles: isSoles,
                   // bankNumberController: bankNumberController,
@@ -102,8 +102,8 @@ class Step1Body extends StatefulHookConsumerWidget {
     required this.bankTypeController,
     required this.couponController,
     required this.isSoles,
-    required this.originFoundsController,
-    required this.otherFoundOriginController,
+    required this.originFundsController,
+    required this.otherFundOriginController,
     required this.bankController,
     // required this.bankNumberController,
     required this.plan,
@@ -115,8 +115,8 @@ class Step1Body extends StatefulHookConsumerWidget {
   final TextEditingController bankTypeController;
   // final TextEditingController bankNumberController;
   final TextEditingController couponController;
-  final TextEditingController originFoundsController;
-  final TextEditingController otherFoundOriginController;
+  final TextEditingController originFundsController;
+  final TextEditingController otherFundOriginController;
   final TextEditingController bankController;
   final bool isSoles;
 
@@ -166,8 +166,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
       return false;
     }
 
-    if (widget.originFoundsController.text == 'Otros' &&
-        widget.otherFoundOriginController.text.isEmpty) {
+    if (widget.originFundsController.text == 'Otros' &&
+        widget.otherFundOriginController.text.isEmpty) {
       CustomSnackbar.show(
         context,
         'Debe de ingresar el origen de los fondos',
@@ -525,13 +525,13 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               },
               callbackOnChange: (value) async {
                 setState(() {
-                  widget.originFoundsController.text = value;
+                  widget.originFundsController.text = value;
                   if (value != 'Otros') {
-                    widget.otherFoundOriginController.clear();
+                    widget.otherFundOriginController.clear();
                   }
                 });
               },
-              textEditingController: widget.originFoundsController,
+              textEditingController: widget.originFundsController,
               labelText: "Origen de procedencia del dinero",
               hintText: "Seleccione el origen",
             ),
@@ -802,7 +802,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     await deadLineFuture,
                   );
 
-                  final originFound = widget.originFoundsController.text;
+                  final originFund = widget.originFundsController.text;
 
                   final preInvestment = PreInvestmentForm(
                     amount: int.parse(widget.mountController.text),
@@ -813,8 +813,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     bankAccountNumber: selectedBankAccount!.id,
                     originFunds: OriginFunds(
                       originFundsEnum:
-                          OriginFoundsUtil.fromReadableName(originFound),
-                      otherText: widget.otherFoundOriginController.text,
+                          OriginFoundsUtil.fromReadableName(originFund),
+                      otherText: widget.otherFundOriginController.text,
                     )
                     // bankAccountNumber: widget.bankNumberController.text,
                     ,
@@ -843,9 +843,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     ref
                         .read(preInvestmentVoucherImagesProvider.notifier)
                         .state = [];
-                    print(
-                        'preInvestmentEntityResponse?.preInvestment?.uuid: ${preInvestmentEntityResponse?.preInvestment?.uuid}');
-                    print('-------------------');
                     Navigator.pushNamed(
                       context,
                       '/investment_step2',
