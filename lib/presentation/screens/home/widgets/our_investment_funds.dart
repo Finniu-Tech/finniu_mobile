@@ -29,6 +29,7 @@ class OurInvestmentFunds extends StatelessWidget {
             backgroundImage: const Color(0xFF95E1F8),
             textBody: "Fondo prestamos \nempresariales",
             onTap: onTapNavigate,
+            imageUrl: 'assets/investment/building_investment.png',
           ),
           const SizedBox(
             height: 10,
@@ -38,6 +39,7 @@ class OurInvestmentFunds extends StatelessWidget {
             backgroundImage: const Color(0xFF5BAAFF),
             textBody: "Fondo inversiones \nagro inmobiliaria ",
             onTap: onTapNavigate,
+            imageUrl: 'assets/investment/blueberry_investment.png',
           ),
         ],
       ),
@@ -49,6 +51,7 @@ class CardInvestment extends StatelessWidget {
   final Color background;
   final Color backgroundImage;
   final String textBody;
+  final String imageUrl;
   final Function()? onTap;
   const CardInvestment({
     super.key,
@@ -56,6 +59,7 @@ class CardInvestment extends StatelessWidget {
     required this.onTap,
     required this.backgroundImage,
     required this.textBody,
+    required this.imageUrl,
   });
 
   @override
@@ -81,9 +85,8 @@ class CardInvestment extends StatelessWidget {
               ),
               height: 40,
               width: 40,
-              child: const Icon(
-                Icons.monetization_on_outlined,
-                size: 40,
+              child: Image.asset(
+                imageUrl,
               ),
             ),
             const SizedBox(
