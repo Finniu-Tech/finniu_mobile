@@ -1,5 +1,7 @@
 import 'package:finniu/domain/entities/rentability_graph_entity.dart';
+import 'package:finniu/presentation/screens/home/widgets/grafic/default_line_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraficContainer extends StatelessWidget {
@@ -15,52 +17,71 @@ class GraficContainer extends StatelessWidget {
         border: Border.all(color: const Color(0xFF828282), width: 1),
       ),
       width: MediaQuery.of(context).size.width,
-      height: 232,
-      child: const GraficWidget(),
+      child: const Column(
+        children: [
+          GraficLinealWidget(),
+          SplineDefault(),
+        ],
+      ),
     );
   }
 }
 
-class GraficWidget extends StatefulWidget {
-  const GraficWidget({
+class GraficLinealWidget extends StatefulWidget {
+  const GraficLinealWidget({
     super.key,
   });
 
   @override
-  State<GraficWidget> createState() => _GraficWidgetState();
+  State<GraficLinealWidget> createState() => _GraficWidgetState();
 }
 
-class _GraficWidgetState extends State<GraficWidget> {
-  List<RentabilityGraphEntity> data = [
-    RentabilityGraphEntity(
-      amountPoint: "1011.69",
-      month: "Mayo",
-    ),
-    RentabilityGraphEntity(
-      amountPoint: "1783.39",
-      month: "Junio",
-    ),
-    RentabilityGraphEntity(
-      amountPoint: "1901.78",
-      month: "Julio",
-    ),
-    RentabilityGraphEntity(
-      amountPoint: "2580.15",
-      month: "Agosto",
-    ),
-    RentabilityGraphEntity(
-      amountPoint: "3258.52",
-      month: "Septiembre",
-    ),
-    RentabilityGraphEntity(
-      amountPoint: "3936.89",
-      month: "Octubre",
-    ),
-  ];
+class _GraficWidgetState extends State<GraficLinealWidget> {
+  @override
+  void initState() {
+    data = [
+      RentabilityGraphEntity(
+        amountPoint: "1",
+        month: "Mayo",
+      ),
+      RentabilityGraphEntity(
+        amountPoint: "1.7",
+        month: "Junio",
+      ),
+      RentabilityGraphEntity(
+        amountPoint: "1.9",
+        month: "Julio",
+      ),
+      RentabilityGraphEntity(
+        amountPoint: "2.5",
+        month: "Agosto",
+      ),
+      RentabilityGraphEntity(
+        amountPoint: "3.2",
+        month: "Septiembre",
+      ),
+      RentabilityGraphEntity(
+        amountPoint: "3.9",
+        month: "Octubre",
+      ),
+    ];
+    super.initState();
+  }
+
+  List<RentabilityGraphEntity>? data;
+
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
-      primaryXAxis: const CategoryAxis(),
+      plotAreaBorderWidth: 0,
+      primaryXAxis: const CategoryAxis(
+        majorGridLines: MajorGridLines(width: 0),
+        labelPlacement: LabelPlacement.onTicks,
+      ),
+      primaryYAxis: const NumericAxis(
+        labelFormat: '\${value}K',
+        axisLine: AxisLine(width: 0),
+      ),
       tooltipBehavior: TooltipBehavior(enable: true),
       series: <CartesianSeries<RentabilityGraphEntity, String>>[
         LineSeries<RentabilityGraphEntity, String>(
