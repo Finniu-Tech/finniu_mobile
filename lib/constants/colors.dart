@@ -40,6 +40,8 @@ const redText = 0xffFF4D4D;
 const hintTextLightColor = 0xff535050;
 const hintTextDarkColor = 0xff909090;
 
+const titleTextInvestment = 0xFFC5E9EF;
+
 const labelTextLightColor = 0xff0D3A5C;
 const labelTextDarkColor = 0xffA2E6FA;
 
@@ -71,3 +73,11 @@ const bluedarkalternative = 0xff164D7D;
 const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
+
+const backgroundInvestment = 0xFF08273F;
+
+const cardInvestmentBusiness = 0xFFBEF0FF;
+const cardImageBusiness = 0xFF95E1F8;
+
+const cardInvestmentRealEstate = 0xFFA2CEFE;
+const cardImageRealEstate = 0xFF5BAAFF;

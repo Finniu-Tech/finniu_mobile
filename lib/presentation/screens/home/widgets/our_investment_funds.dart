@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class OurInvestmentFunds extends StatelessWidget {
@@ -13,7 +14,7 @@ class OurInvestmentFunds extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(10),
-      color: const Color(0xFF08273F),
+      color: const Color(backgroundInvestment),
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
@@ -25,8 +26,8 @@ class OurInvestmentFunds extends StatelessWidget {
             height: 10,
           ),
           CardInvestment(
-            background: const Color(0xFFBEF0FF),
-            backgroundImage: const Color(0xFF95E1F8),
+            background: const Color(cardInvestmentBusiness),
+            backgroundImage: const Color(cardImageBusiness),
             textBody: "Fondo prestamos \nempresariales",
             onTap: onTapNavigate,
             imageUrl: 'assets/investment/building_investment.png',
@@ -35,8 +36,8 @@ class OurInvestmentFunds extends StatelessWidget {
             height: 10,
           ),
           CardInvestment(
-            background: const Color(0xFFA2CEFE),
-            backgroundImage: const Color(0xFF5BAAFF),
+            background: const Color(cardInvestmentRealEstate),
+            backgroundImage: const Color(cardImageRealEstate),
             textBody: "Fondo inversiones \nagro inmobiliaria ",
             onTap: onTapNavigate,
             imageUrl: 'assets/investment/blueberry_investment.png',
@@ -142,7 +143,7 @@ class TitleOfFunds extends StatelessWidget {
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Color(
-              0xFFC5E9EF,
+              titleTextInvestment,
             ),
           ),
         ),
@@ -152,7 +153,7 @@ class TitleOfFunds extends StatelessWidget {
         Icon(
           icon,
           size: 24,
-          color: const Color(0xFFA2E6FA),
+          color: const Color(primaryLight),
         ),
       ],
     );
