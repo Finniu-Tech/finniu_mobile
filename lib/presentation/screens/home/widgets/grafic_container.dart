@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/rentability_graph_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -30,34 +31,48 @@ class GraficWidget extends StatefulWidget {
 }
 
 class _GraficWidgetState extends State<GraficWidget> {
-  List<_SalesData> data = [
-    _SalesData('Jan', 35),
-    _SalesData('Feb', 28),
-    _SalesData('Mar', 34),
-    _SalesData('Apr', 32),
-    _SalesData('May', 40),
+  List<RentabilityGraphEntity> data = [
+    RentabilityGraphEntity(
+      amountPoint: "1011.69",
+      month: "Mayo",
+    ),
+    RentabilityGraphEntity(
+      amountPoint: "1783.39",
+      month: "Junio",
+    ),
+    RentabilityGraphEntity(
+      amountPoint: "1901.78",
+      month: "Julio",
+    ),
+    RentabilityGraphEntity(
+      amountPoint: "2580.15",
+      month: "Agosto",
+    ),
+    RentabilityGraphEntity(
+      amountPoint: "3258.52",
+      month: "Septiembre",
+    ),
+    RentabilityGraphEntity(
+      amountPoint: "3936.89",
+      month: "Octubre",
+    ),
   ];
   @override
   Widget build(BuildContext context) {
     return SfCartesianChart(
       primaryXAxis: const CategoryAxis(),
       tooltipBehavior: TooltipBehavior(enable: true),
-      series: <CartesianSeries<_SalesData, String>>[
-        LineSeries<_SalesData, String>(
+      series: <CartesianSeries<RentabilityGraphEntity, String>>[
+        LineSeries<RentabilityGraphEntity, String>(
           dataSource: data,
-          xValueMapper: (_SalesData sales, _) => sales.year,
-          yValueMapper: (_SalesData sales, _) => sales.sales,
+          xValueMapper: (RentabilityGraphEntity rentability, _) =>
+              rentability.month.substring(0, 3),
+          yValueMapper: (RentabilityGraphEntity rentability, _) =>
+              double.parse(rentability.amountPoint),
 
           // Enable data label
         ),
       ],
     );
   }
-}
-
-class _SalesData {
-  _SalesData(this.year, this.sales);
-
-  final String year;
-  final double sales;
 }
