@@ -1,5 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/widgets/creadit_card_wheel_investment.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/credit_card_wheel_investment.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

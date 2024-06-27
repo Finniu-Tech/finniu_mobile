@@ -12,7 +12,6 @@ import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-// Asegúrate de importar tu modelo de cuenta bancaria
 
 class CreditCardWidget extends StatelessWidget {
   final String imageAsset;
@@ -586,100 +585,6 @@ class InvestmentDateRangeWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(settingsNotifierProvider);
-    // return Row(
-    //   mainAxisAlignment: MainAxisAlignment.center,
-    //   children: [
-    //     Container(
-    //       width: 120,
-    //       height: 80,
-    //       decoration: BoxDecoration(
-    //         color: const Color(0xFFE6F4F1),
-    //         borderRadius: BorderRadius.circular(5.0),
-    //       ),
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Image.asset(
-    //                 'assets/reinvestment/calendar.png',
-    //                 height: 20,
-    //                 width: 20,
-    //               ),
-    //               const SizedBox(width: 8.0),
-    //               RichText(
-    //                 text: TextSpan(
-    //                   children: [
-    //                     const TextSpan(
-    //                       text: 'Inicio:',
-    //                       style: TextStyle(
-    //                         fontSize: 14.0,
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black,
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(
-    //             height: 5,
-    //           ),
-    //           Text('25 de Mayo del 2024',
-    //               textAlign: TextAlign.center,
-    //               style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.black))
-    //         ],
-    //       ),
-    //     ),
-    //     SizedBox(width: 30),
-    //     Container(
-    //       width: 120,
-    //       height: 80,
-    //       decoration: BoxDecoration(
-    //         color: const Color(0xFFE6F4F1),
-    //         borderRadius: BorderRadius.circular(5.0),
-    //       ),
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Image.asset(
-    //                 'assets/reinvestment/money_bag.png',
-    //                 height: 20,
-    //                 width: 20,
-    //               ),
-    //               const SizedBox(width: 8.0),
-    //               RichText(
-    //                 text: TextSpan(
-    //                   children: [
-    //                     const TextSpan(
-    //                       text: 'Finaliza:',
-    //                       style: TextStyle(
-    //                         fontSize: 14.0,
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black,
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(
-    //             height: 5,
-    //           ),
-    //           Text('25 de Mayo del 2024',
-    //               textAlign: TextAlign.center,
-    //               style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.black))
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

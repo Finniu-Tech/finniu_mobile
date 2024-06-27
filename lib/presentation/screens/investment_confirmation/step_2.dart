@@ -813,18 +813,6 @@ class Step2Body extends HookConsumerWidget {
                   showBankAccountSetBankMutationModal(
                       context, ref, currency, false, "", preInvestment.uuid);
                 }
-
-                // if (response.success == true) {
-                //   context.loaderOverlay.hide();
-                //   Navigator.pushNamed(context, '/investment_step3');
-                // } else {
-                //   context.loaderOverlay.hide();
-                //   CustomSnackbar.show(
-                //     context,
-                //     response.error ?? 'Hubo un problema al guardar',
-                //     'error',
-                //   );
-                // }
               },
               style: ButtonStyle(
                 elevation: WidgetStateProperty.all<double>(2),
