@@ -131,7 +131,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
   late Future bankFuture;
   late double? profitability;
   late bool showInvestmentBoxes = false;
-  late PlanSimulation? resultCalculator;
+  PlanSimulation? resultCalculator;
   late PlanEntity? selectedPlan;
   BankEntity? selectedBank;
   BankAccount? selectedBankAccount;
