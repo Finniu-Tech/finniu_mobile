@@ -10,12 +10,11 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
+import 'package:finniu/presentation/screens/home/widgets/profile_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
 import 'package:finniu/presentation/screens/home/widgets/simulation_card.dart';
-import 'package:finniu/widgets/avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -82,12 +81,7 @@ class HomeBody extends HookConsumerWidget {
     );
 
     final isSoles = ref.watch(isSolesStateProvider);
-
-    final themeProvider = ref.watch(settingsNotifierProvider);
-    final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
-    final currency = ref.watch(isSolesStateProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
-    final settings = ref.read(settingsNotifierProvider.notifier);
 
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
@@ -97,25 +91,7 @@ class HomeBody extends HookConsumerWidget {
             // const SizedBox(height: 70),
             Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    settingsDialog(
-                      context,
-                      ref,
-                      themeProvider,
-                      userBalanceReport,
-                      currency,
-                      userProfile,
-                      settings,
-                    );
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: CircularPercentAvatarWidget(
-                      userProfile.percentCompleteProfile ?? 0.0,
-                    ),
-                  ),
-                ),
+                const ProfileButton(),
                 const SizedBox(
                   width: 10,
                 ),
