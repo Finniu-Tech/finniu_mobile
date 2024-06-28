@@ -18,11 +18,7 @@ class GraficContainer extends StatelessWidget {
         border: Border.all(color: const Color(0xFF828282), width: 1),
       ),
       width: MediaQuery.of(context).size.width,
-      child: const Column(
-        children: [
-          GraficLinealWidget(),
-        ],
-      ),
+      child: const GraficLinealWidget(),
     );
   }
 }
