@@ -16,7 +16,6 @@ final rentabilityGraphFutureProvider =
         variables: const {"timeLine": "all_months"},
       ),
     );
-
     List<RentabilityGraphEntity> dataSoles =
         (result.data?['rentabilityGraph']['rentabilityInPen'] as List)
             .map(
@@ -35,13 +34,15 @@ final rentabilityGraphFutureProvider =
               ),
             )
             .toList();
-
     return RentabilityGraphResponseAPI(
       rentabilityInPen: dataSoles,
       rentabilityInUsd: dataUSD,
     );
-  } catch (e, stack) {
-    print(e);
-    return Future.error('Error: $e', stack);
+  } catch (e) {
+    return RentabilityGraphResponseAPI(
+      rentabilityInPen: [],
+      rentabilityInUsd: [],
+      success: false,
+    );
   }
 });
