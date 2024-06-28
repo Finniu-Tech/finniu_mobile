@@ -38,19 +38,13 @@ class NavigationBarHome extends ConsumerWidget {
     return Container(
       height: 95,
       decoration: const BoxDecoration(
-        color: Color(0xff08273F),
-        border: Border(
-          top: BorderSide(
-            width: 0.5,
-            color: Color(primaryLight),
-          ),
-        ),
+        color: Color(backgroundColorNavbar),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         child: Container(
           decoration: const BoxDecoration(
-            color: Color(0xff0D3A5C),
+            color: Color(primaryDark),
             borderRadius: BorderRadius.all(Radius.circular(30)),
           ),
           child: Row(
@@ -64,13 +58,13 @@ class NavigationBarHome extends ConsumerWidget {
               ),
               NavigationButton(
                 icon: Icons.monetization_on_outlined,
-                title: 'Home',
+                title: 'Planes',
                 onTap: () => navigate(context, 1),
                 isSelected: selectedIndex == 1 ? true : false,
               ),
               NavigationButton(
                 icon: Icons.bar_chart,
-                title: 'Home',
+                title: 'Invesión',
                 onTap: () => navigate(context, 2),
                 isSelected: selectedIndex == 2 ? true : false,
               ),
@@ -110,8 +104,8 @@ class _NavigationButtonState extends State<NavigationButton> {
       height: 53,
       decoration: BoxDecoration(
         color: widget.isSelected
-            ? const Color(0xff08273F)
-            : const Color(0xff0D3A5C),
+            ? const Color(backgroundColorNavbar)
+            : const Color(primaryDark),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Column(
@@ -123,14 +117,14 @@ class _NavigationButtonState extends State<NavigationButton> {
                 Icon(
                   widget.icon,
                   color: widget.isSelected
-                      ? const Color(0xffA2E6FA)
-                      : const Color(0xff4C8DBE),
+                      ? const Color(gradient_primary)
+                      : const Color(colorIconlight),
                 ),
                 widget.isSelected
                     ? Text(
                         widget.title,
                         style: const TextStyle(
-                          color: Color(0xffA2E6FA),
+                          color: Color(primaryLight),
                           fontSize: 9,
                         ),
                       )

@@ -71,3 +71,4 @@ const bluedarkalternative = 0xff164D7D;
 const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
+const backgroundColorNavbar = 0xff08273F;
