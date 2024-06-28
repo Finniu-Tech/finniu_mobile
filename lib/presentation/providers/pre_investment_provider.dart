@@ -5,7 +5,8 @@ import 'package:finniu/presentation/providers/pre_investment_repository_provider
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 final preInvestmentSaveProvider =
-    FutureProvider.family<PreInvestmentResponseAPI?, PreInvestmentForm>((ref, preInvestmentEntity) async {
+    FutureProvider.family<PreInvestmentResponseAPI?, PreInvestmentForm>(
+        (ref, preInvestmentEntity) async {
   try {
     final preInvestmentRepository = ref.read(preInvestmentRepositoryProvider);
     final client = ref.watch(gqlClientProvider).value;
@@ -13,11 +14,12 @@ final preInvestmentSaveProvider =
       client: client!,
       amount: preInvestmentEntity.amount,
       // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
-      bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
       deadLineUuid: preInvestmentEntity.deadLineUuid,
       planUuid: preInvestmentEntity.planUuid,
       coupon: preInvestmentEntity.coupon,
       currency: preInvestmentEntity.currency,
+      bankAccountNumber: preInvestmentEntity.bankAccountNumber,
+      originFunds: preInvestmentEntity.originFunds,
     );
     return result;
   } catch (e, stack) {
@@ -29,5 +31,7 @@ final userAcceptedTermsProvider = StateProvider<bool>((ref) => false);
 
 final hasPreInvestmentProvider = StateProvider<bool>((ref) => false);
 
-final preInvestmentVoucherImagesProvider = StateProvider<List<String>>((ref) => []);
-final preInvestmentVoucherImagesPreviewProvider = StateProvider<List<String>>((ref) => []);
+final preInvestmentVoucherImagesProvider =
+    StateProvider<List<String>>((ref) => []);
+final preInvestmentVoucherImagesPreviewProvider =
+    StateProvider<List<String>>((ref) => []);

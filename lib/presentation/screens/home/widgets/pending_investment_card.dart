@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/infrastructure/repositories/investment_repository.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
@@ -29,7 +30,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           width: 1,
-          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+          color: currentTheme.isDarkMode
+              ? const Color(primaryLight)
+              : const Color(primaryDark),
         ),
       ),
       child: Column(
@@ -55,7 +58,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w800,
-                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(whiteText)
+                      : const Color(primaryDark),
                 ),
               ),
             ],
@@ -68,7 +73,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w700,
-              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+              color: currentTheme.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(primaryDark),
             ),
           ),
           const SizedBox(
@@ -81,7 +88,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
               ElevatedButton.icon(
                 icon: Icon(Icons.close, color: Colors.red),
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  foregroundColor: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                   backgroundColor: Colors.transparent,
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                 onPressed: () {
@@ -101,7 +110,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
                 label: Text(
                   "Descartar",
                   style: TextStyle(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
@@ -119,16 +130,21 @@ class PendingInvestmentCard extends HookConsumerWidget {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   foregroundColor: Colors.white,
-                  backgroundColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  backgroundColor: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                 ).copyWith(elevation: ButtonStyleButton.allOrNull(0.0)),
                 onPressed: () async {
                   final preInvestment = PreInvestmentEntity(
                     uuid: preInvestmentForm.uuid!,
                     amount: preInvestmentForm.amount,
-                    bankAccountTypeUuid: preInvestmentForm.bankAccountTypeUuid,
                     deadLineUuid: preInvestmentForm.deadLineUuid,
                     planUuid: preInvestmentForm.planUuid,
                     coupon: preInvestmentForm.coupon,
+                    originFunds: OriginFunds(
+                      originFundsEnum: OriginFoundsEnum.AHORROS,
+                    ),
+                    bankAccountNumber: "3213213211",
                   );
 
                   final inputCalculator = CalculatorInput(
@@ -158,7 +174,9 @@ class PendingInvestmentCard extends HookConsumerWidget {
                   "Continuar",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
-                    color: currentTheme.isDarkMode ? const Color(primaryDark) : Colors.white,
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryDark)
+                        : Colors.white,
                     fontSize: 12,
                   ),
                 ),
