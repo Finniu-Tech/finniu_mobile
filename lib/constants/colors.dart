@@ -5,7 +5,7 @@ const primaryLightAlternative = 0xffDBF7FF;
 
 const backgroundColorLight = 0xffFFFFFF;
 const backgroundColorDark = 0xff292727;
-const colorProfitabilityCard = 0xff292727;
+const colorProfitabilityCard = 0xffE2F8FF;
 const backgroudCarousel = 0xffDCF5FC;
 
 const secondary = 0xffFFEEDD;
