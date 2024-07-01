@@ -8,6 +8,7 @@ import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
@@ -89,12 +90,12 @@ class HomeBody extends HookConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final settings = ref.read(settingsNotifierProvider.notifier);
 
-
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const CarrouselSlide(),
             // const SizedBox(height: 70),
             Row(
               children: [
