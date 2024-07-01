@@ -95,8 +95,24 @@ class HomeBody extends HookConsumerWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            const HeaderInvestment(),
-            // const SizedBox(height: 70),
+            const HeaderInvestment(
+              containerColor: aboutContainerBusinessColor,
+              iconColor: aboutIconBusinessColor,
+              textColor: aboutTextBusinessColor,
+              urlIcon: 'assets/investment/business_loans_investment_icon.png',
+              urlImageBackground: 'assets/backgroud/image-agro-backgroud.png',
+              textTitle: 'Fondo prestamos empresariales',
+            ),
+            const SizedBox(height: 10),
+            const HeaderInvestment(
+              containerColor: aboutContainerAgroColor,
+              iconColor: aboutIconAgroColor,
+              textColor: aboutTextAgroColor,
+              urlIcon: 'assets/investment/real_estate_agro_icon.png',
+              urlImageBackground: 'assets/backgroud/backgroud_agro.png',
+              textTitle: 'Fondo inversión agro inmobiliaria',
+            ),
+            const SizedBox(height: 10),
             Row(
               children: [
                 InkWell(

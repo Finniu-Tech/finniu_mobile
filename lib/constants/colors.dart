@@ -71,3 +71,11 @@ const bluedarkalternative = 0xff164D7D;
 const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
+
+const aboutContainerBusinessColor = 0xffDBF7FF;
+const aboutTextBusinessColor = 0xff0D3A5C;
+const aboutIconBusinessColor = 0xff95E1F8;
+
+const aboutContainerAgroColor = 0xff94C7FF;
+const aboutTextAgroColor = 0xff0D3A5C;
+const aboutIconAgroColor = 0xff5BA9FF;

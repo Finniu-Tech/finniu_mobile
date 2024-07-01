@@ -67,6 +67,7 @@ dependencies:
   package_info_plus: ^4.2.0
   flutter_secure_storage: ^9.0.0
   cached_network_image: ^3.3.1
+  flutter_hooks: ^0.20.5
 
 dev_dependencies:
   flutter_test:
@@ -129,6 +130,7 @@ flutter:
     - assets/sendcode/
     - assets/reinvestment/
     - assets/credit_cards/
+    - assets/backgroud/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
