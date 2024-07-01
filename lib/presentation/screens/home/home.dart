@@ -100,7 +100,8 @@ class HomeBody extends HookConsumerWidget {
               iconColor: aboutIconBusinessColor,
               textColor: aboutTextBusinessColor,
               urlIcon: 'assets/investment/business_loans_investment_icon.png',
-              urlImageBackground: 'assets/backgroud/image-agro-backgroud.png',
+              urlImageBackground:
+                  'assets/backgroud/image-inmobiliaria-backgroud.png',
               textTitle: 'Fondo prestamos empresariales',
             ),
             const SizedBox(height: 10),
