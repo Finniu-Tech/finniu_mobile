@@ -5,6 +5,8 @@ const primaryLightAlternative = 0xffDBF7FF;
 
 const backgroundColorLight = 0xffFFFFFF;
 const backgroundColorDark = 0xff292727;
+const colorProfitabilityCard = 0xff292727;
+const backgroudCarousel = 0xffDCF5FC;
 
 const secondary = 0xffFFEEDD;
 const secondaryLight = 0xff0F5750;
@@ -71,3 +73,5 @@ const bluedarkalternative = 0xff164D7D;
 const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
+
+const annualCard = 0xffC3F1FF;
