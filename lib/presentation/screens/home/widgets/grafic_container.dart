@@ -44,8 +44,12 @@ class _GraficWidgetState extends ConsumerState<GraficLinealWidget> {
     final isSoles = ref.watch(isSolesStateProvider);
     final rentabilityGraph = ref.watch(rentabilityGraphFutureProvider);
     if (rentabilityGraph.asData == null) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return SizedBox(
+        height: MediaQuery.of(context).size.height * 0.4,
+        width: MediaQuery.of(context).size.width,
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
       );
     }
     if (rentabilityGraph.asData!.value.success == false) {}
@@ -73,7 +77,7 @@ class _GraficWidgetState extends ConsumerState<GraficLinealWidget> {
               xValueMapper: (RentabilityGraphEntity rentability, _) =>
                   rentability.month.substring(0, 3).toUpperCase(),
               yValueMapper: (RentabilityGraphEntity rentability, _) =>
-                  double.parse(rentability.amountPoint),
+                  double.parse(rentability.amountPoint) / 1000,
             ),
           ],
         ),
@@ -105,7 +109,67 @@ class _GraficWidgetState extends ConsumerState<GraficLinealWidget> {
                 ),
               )
             : const SizedBox(),
+        data?.isEmpty == true
+            ? const SizedBox()
+            : const Positioned(
+                right: 10,
+                top: 10,
+                child: TimeLineSelect(),
+              ),
       ],
+    );
+  }
+}
+
+class TimeLineSelect extends ConsumerWidget {
+  const TimeLineSelect({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final timePeriod = ref.watch(timePeriodProvider);
+    return SizedBox(
+      child: PopupMenuButton<TimePeriod>(
+        onSelected: (TimePeriod selectedPeriod) {
+          ref.read(timePeriodProvider.notifier).setTimePeriod(selectedPeriod);
+        },
+        itemBuilder: (BuildContext context) {
+          return TimePeriod.values.map((TimePeriod period) {
+            return PopupMenuItem<TimePeriod>(
+              value: period,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Text(
+                  period.spanishValue,
+                  style: const TextStyle(fontSize: 12, fontFamily: "Poppins"),
+                ),
+              ),
+            );
+          }).toList();
+        },
+        child: Container(
+          width: 93,
+          height: 26,
+          padding: const EdgeInsets.all(5),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(20)),
+            color: Color(0xffF5F5F5),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                timePeriod.spanishValue,
+                style: const TextStyle(fontSize: 12, fontFamily: "Poppins"),
+              ),
+              const Icon(Icons.arrow_drop_down),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

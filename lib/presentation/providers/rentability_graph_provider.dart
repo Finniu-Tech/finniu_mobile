@@ -8,12 +8,13 @@ final rentabilityGraphFutureProvider =
     FutureProvider.autoDispose<RentabilityGraphResponseAPI>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
+    final timeLine = ref.watch(timePeriodProvider);
     final result = await client!.query(
       QueryOptions(
         document: gql(
           QueryRepository.rentabilityGraph,
         ),
-        variables: const {"timeLine": "all_months"},
+        variables: {"timeLine": timeLine.value},
       ),
     );
     List<RentabilityGraphEntity> dataSoles =
@@ -45,4 +46,16 @@ final rentabilityGraphFutureProvider =
       success: false,
     );
   }
+});
+
+class TimePeriodNotifier extends StateNotifier<TimePeriod> {
+  TimePeriodNotifier() : super(TimePeriod.quarterYear);
+  void setTimePeriod(TimePeriod newTimePeriod) {
+    state = newTimePeriod;
+  }
+}
+
+final timePeriodProvider =
+    StateNotifierProvider<TimePeriodNotifier, TimePeriod>((ref) {
+  return TimePeriodNotifier();
 });

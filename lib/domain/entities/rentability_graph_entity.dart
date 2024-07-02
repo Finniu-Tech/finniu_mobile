@@ -43,3 +43,46 @@ class RentabilityGraphResponseAPI {
     this.success,
   });
 }
+
+enum TimePeriod {
+  allMonths,
+  threeYears,
+  twoYears,
+  year,
+  midYear,
+  quarterYear;
+
+  String get value {
+    switch (this) {
+      case TimePeriod.allMonths:
+        return 'all_months';
+      case TimePeriod.threeYears:
+        return 'three_years';
+      case TimePeriod.twoYears:
+        return 'two_years';
+      case TimePeriod.year:
+        return 'year';
+      case TimePeriod.midYear:
+        return 'mid_year';
+      case TimePeriod.quarterYear:
+        return 'quarter_year';
+    }
+  }
+
+  String get spanishValue {
+    switch (this) {
+      case TimePeriod.allMonths:
+        return 'todos';
+      case TimePeriod.threeYears:
+        return '3 años';
+      case TimePeriod.twoYears:
+        return '2 años';
+      case TimePeriod.year:
+        return '1 año';
+      case TimePeriod.midYear:
+        return '6 meses';
+      case TimePeriod.quarterYear:
+        return '3 meses';
+    }
+  }
+}
