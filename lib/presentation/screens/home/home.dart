@@ -13,6 +13,7 @@ import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
+import 'package:finniu/presentation/screens/home/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/simulation_card.dart';
 import 'package:finniu/widgets/avatar.dart';
 import 'package:finniu/widgets/buttons.dart';
@@ -89,12 +90,12 @@ class HomeBody extends HookConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final settings = ref.read(settingsNotifierProvider.notifier);
 
-
     return Padding(
       padding: const EdgeInsets.only(left: 15, right: 15, top: 60),
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const ButtonSendProof(),
             // const SizedBox(height: 70),
             Row(
               children: [
