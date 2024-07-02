@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -48,7 +49,8 @@ class ButtonInvestment extends StatelessWidget {
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(const Color(0xff0D3A5C)),
+          backgroundColor:
+              WidgetStateProperty.all(const Color(buttonBackgroundColorLight)),
         ),
         onPressed: onPressed,
         child: Text(
@@ -81,7 +83,8 @@ class ButtonDialog extends StatelessWidget {
       height: 45,
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: WidgetStateProperty.all(const Color(0xff0D3A5C)),
+          backgroundColor:
+              WidgetStateProperty.all(const Color(buttonBackgroundColorLight)),
         ),
         onPressed: onPressed,
         child: Text(
