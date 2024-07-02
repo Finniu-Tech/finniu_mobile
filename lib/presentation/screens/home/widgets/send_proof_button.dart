@@ -110,6 +110,7 @@ Future<dynamic> showThanksInvestmentDialog(
   required VoidCallback? onPressed,
 }) {
   return showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) => Dialog(
       child: Container(
