@@ -3,6 +3,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -71,12 +72,16 @@ class AnnualProfitability extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
           ),
           const Text(
             "Utilidades generadas por las inversiones de capital de los inversores del Fondo",
             maxLines: 4,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
           const Divider(
@@ -96,7 +101,10 @@ class AnnualProfitability extends StatelessWidget {
                 children: [
                   const Text(
                     "Rentabilidad anualizada del \n último mes ",
-                    style: TextStyle(fontSize: 11),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.black,
+                    ),
                     textAlign: TextAlign.left,
                   ),
                   Row(
@@ -112,6 +120,7 @@ class AnnualProfitability extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           );
                         },
@@ -149,6 +158,7 @@ class InvestedCapital extends StatelessWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
           ),
           SizedBox(
@@ -174,12 +184,18 @@ class InvestedCapital extends StatelessWidget {
                   dataLabelSettings: const DataLabelSettings(
                     isVisible: true,
                     labelAlignment: ChartDataLabelAlignment.auto,
+                    textStyle: TextStyle(
+                      color: Colors.black,
+                    ),
                   ),
                   borderWidth: 0,
                 ),
               ],
               primaryXAxis: const CategoryAxis(
                 majorGridLines: MajorGridLines(width: 0),
+                labelStyle: TextStyle(
+                  color: Colors.black,
+                ),
               ),
               primaryYAxis: const CategoryAxis(
                 majorGridLines: MajorGridLines(width: 0),
@@ -215,12 +231,16 @@ class ManagedAssets extends ConsumerWidget {
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,
+              color: Colors.black,
             ),
           ),
           const Text(
             "Los activos administrados representan el valor de mercado de las inversiones del fondo",
             maxLines: 4,
-            style: TextStyle(fontSize: 12),
+            style: TextStyle(
+              fontSize: 12,
+              color: Colors.black,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
           const Divider(
@@ -229,7 +249,10 @@ class ManagedAssets extends ConsumerWidget {
           ),
           const Text(
             "Activos administrados",
-            style: TextStyle(fontSize: 11),
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.black,
+            ),
             textAlign: TextAlign.right,
           ),
           TweenAnimationBuilder(
@@ -240,8 +263,11 @@ class ManagedAssets extends ConsumerWidget {
                 isSoles
                     ? formatterSoles.format(value)
                     : formatterUSD.format(value),
-                style:
-                    const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                style: const TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               );
             },
           ),
