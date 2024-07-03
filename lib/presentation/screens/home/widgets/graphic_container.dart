@@ -151,7 +151,7 @@ class TimeLineSelect extends ConsumerWidget {
         ref.read(timePeriodProvider.notifier).setTimePeriod(selectedPeriod);
       },
       itemBuilder: (BuildContext context) {
-        return TimePeriod.values.map((TimePeriod period) {
+        return TimePeriod.values.reversed.map((TimePeriod period) {
           return PopupMenuItem<TimePeriod>(
             value: period,
             child: Padding(
