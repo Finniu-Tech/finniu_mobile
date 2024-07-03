@@ -73,3 +73,6 @@ const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
 
 const graficLine = 0xff2D6EFF;
+
+const backgroudSelectDark = 0xff494848;
+const backgroudSelectLight = 0xffF5F5F5;

@@ -96,7 +96,7 @@ class HomeBody extends HookConsumerWidget {
         child: Column(
           children: [
             // const SizedBox(height: 70),
-            GraficContainer(),
+            const GraficContainer(),
             Row(
               children: [
                 InkWell(
