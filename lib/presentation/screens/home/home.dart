@@ -9,6 +9,7 @@ import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
+import 'package:finniu/presentation/screens/home/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
 import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
@@ -31,8 +32,7 @@ class HomeScreen extends HookConsumerWidget {
 
     return PopScope(
       child: Scaffold(
-        backgroundColor:
-            Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
+        backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -72,8 +72,7 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context)
-                .pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
           });
         }
 
@@ -91,8 +90,24 @@ class HomeBody extends HookConsumerWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            // const SizedBox(height: 70),
-            const OurInvestmentFunds(),
+            const HeaderInvestment(
+              containerColor: aboutContainerBusinessColor,
+              iconColor: aboutIconBusinessColor,
+              textColor: aboutTextBusinessColor,
+              urlIcon: 'assets/investment/business_loans_investment_icon.png',
+              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
+              textTitle: 'Fondo prestamos empresariales',
+            ),
+            const SizedBox(height: 10),
+            const HeaderInvestment(
+              containerColor: aboutContainerAgroColor,
+              iconColor: aboutIconAgroColor,
+              textColor: aboutTextAgroColor,
+              urlIcon: 'assets/investment/real_estate_agro_icon.png',
+              urlImageBackground: 'assets/backgroud/backgroud_agro.png',
+              textTitle: 'Fondo inversión agro inmobiliaria',
+            ),
+            const SizedBox(height: 10),
             Row(
               children: [
                 const ProfileButton(),
@@ -107,9 +122,7 @@ class HomeBody extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -119,9 +132,7 @@ class HomeBody extends HookConsumerWidget {
                     'assets/images/logo_small.png',
                     width: 60,
                     height: 60,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
               ],
@@ -136,10 +147,8 @@ class HomeBody extends HookConsumerWidget {
                   data: (data) {
                     var reportSoles = data.solesBalance;
                     var reportDolar = data.dolarBalance;
-                    var homeReport =
-                        isSoles ? data.solesBalance : data.dolarBalance;
-                    if (reportSoles.totalBalance == 0 &&
-                        reportDolar.totalBalance == 0) {
+                    var homeReport = isSoles ? data.solesBalance : data.dolarBalance;
+                    if (reportSoles.totalBalance == 0 && reportDolar.totalBalance == 0) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: const Center(
@@ -177,9 +186,7 @@ class HomeBody extends HookConsumerWidget {
             Container(
               height: 2,
               width: MediaQuery.of(context).size.width * 0.8,
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
             ),
             const SizedBox(
               height: 15,
@@ -209,12 +216,10 @@ class PendingInvestmentCardWidget extends StatefulHookConsumerWidget {
   final SettingsProviderState currentTheme;
 
   @override
-  ConsumerState<PendingInvestmentCardWidget> createState() =>
-      PendingInvestmentCardWidgetState();
+  ConsumerState<PendingInvestmentCardWidget> createState() => PendingInvestmentCardWidgetState();
 }
 
-class PendingInvestmentCardWidgetState
-    extends ConsumerState<PendingInvestmentCardWidget> {
+class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCardWidget> {
   // bool hasInvestmentInProcess = false;
   bool isLoading = false;
   PreInvestmentForm? preInvestmentForm;
@@ -230,9 +235,7 @@ class PendingInvestmentCardWidgetState
         setState(() {
           isLoading = true;
         });
-        InvestmentRepository()
-            .userHasInvestmentInProcess(client: gqlClient!)
-            .then(
+        InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
           (success) {
             if (mounted) {
               setState(() {
