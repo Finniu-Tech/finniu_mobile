@@ -785,7 +785,7 @@ class TableCardInCourse extends ConsumerWidget {
                             ),
                             child: const Center(
                               child: Text(
-                                'Re-inversion solicitada',
+                                'Re-inversión solicitada',
                                 style: TextStyle(
                                   color: Color(primaryDark),
                                   fontSize: 10,
