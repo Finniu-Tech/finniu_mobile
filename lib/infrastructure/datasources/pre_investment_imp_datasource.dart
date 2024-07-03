@@ -27,7 +27,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
           'amount': amount,
           'uuidDeadline': deadLineUuid,
           'uuidPlan': planUuid,
-          'coupon': coupon,
+          'couponCode': coupon,
           'currency': currency,
           'bankAccountSender': bankAccountNumber,
           'originFunds': originFunds,
@@ -36,8 +36,7 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     );
     final responseGraphQL = response.data?['savePreInvestment'];
 
-    final preInvestmentResponse =
-        PreInvestmentSaveResponse.fromJson(responseGraphQL);
+    final preInvestmentResponse = PreInvestmentSaveResponse.fromJson(responseGraphQL);
 
     final preInvestment = PreInvestmentEntity(
       uuid: preInvestmentResponse.preInvestmentUuid!,

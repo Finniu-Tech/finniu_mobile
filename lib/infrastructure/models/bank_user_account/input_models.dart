@@ -26,7 +26,7 @@ class CreateBankAccountInput {
   final String typeAccount;
   final String currency;
   final String bankAccount;
-  final String aliasBankAccount;
+  final String? aliasBankAccount;
   final bool isDefault;
   final bool isPersonalAccount;
   final JointAccountInput? jointAccount;

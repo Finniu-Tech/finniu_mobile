@@ -91,8 +91,7 @@ class CreditCardWidget extends StatelessWidget {
 
 class CreditCardWheel extends StatefulHookConsumerWidget {
   final String currency;
-  final bool
-      isSender; // Indica si la tarjeta es del remitente o del destinatario
+  final bool isSender; // Indica si la tarjeta es del remitente o del destinatario
   final String typeReInvestment;
   const CreditCardWheel({
     super.key,
@@ -148,7 +147,6 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
             data: (bankAccounts) {
               return banksAsyncValue.when(
                 data: (banks) {
-                  // Ambos providers han cargado exitosamente
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     if (createdNewBankAccount) {
                       controller?.animateToItem(
@@ -167,8 +165,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                             Column(
                               children: [
                                 SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
+                                  width: MediaQuery.of(context).size.width * 0.9,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -188,11 +185,15 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                           color: Color(primaryDark),
                                         ),
                                       ),
-                                      const SizedBox(width: 140),
+                                      // const SizedBox(width: 140),
+                                      const Spacer(),
                                       Image.asset(
                                         'assets/icons/square2.png',
                                         width: 24,
                                         height: 24,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
                                       ),
                                     ],
                                   ),
@@ -288,22 +289,19 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                   if (widget.isSender) {
                                     ref
                                         .read(
-                                          selectedBankAccountSenderProvider
-                                              .notifier,
+                                          selectedBankAccountSenderProvider.notifier,
                                         )
                                         .state = bankAccountSelected;
                                   } else {
                                     ref
                                         .read(
-                                          selectedBankAccountReceiverProvider
-                                              .notifier,
+                                          selectedBankAccountReceiverProvider.notifier,
                                         )
                                         .state = bankAccountSelected;
                                   }
                                   //pop modal
                                   Navigator.of(context).pop();
-                                  if (widget.typeReInvestment ==
-                                          typeReinvestmentEnum.CAPITAL_ONLY &&
+                                  if (widget.typeReInvestment == typeReinvestmentEnum.CAPITAL_ONLY &&
                                       !widget.isSender) {
                                     showThanksModal(context);
                                   }
@@ -348,8 +346,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                 physics: const FixedExtentScrollPhysics(),
                                 childDelegate: ListWheelChildBuilderDelegate(
                                   builder: (context, index) {
-                                    final bankAccount = bankAccounts[
-                                        index % bankAccounts.length];
+                                    final bankAccount = bankAccounts[index % bankAccounts.length];
                                     final bank = banks.isNotEmpty
                                         ? BankEntity.getBankByName(
                                             bankAccount.bankName,
@@ -364,17 +361,15 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                       onTap: () async {
                                         if (!showDetail) {
                                           if (banks.isNotEmpty) {
-                                            final selectedBank =
-                                                BankEntity.getBankByName(
+                                            final selectedBank = BankEntity.getBankByName(
                                               bankAccount.bankName,
                                               banks,
                                             );
                                             setState(() {
                                               showDetail = true;
                                               bankAccountSelected = bankAccount;
-                                              selectedImage = selectedBank
-                                                      .cardImageUrl ??
-                                                  'assets/credit_cards/golden_card.png';
+                                              selectedImage =
+                                                  selectedBank.cardImageUrl ?? 'assets/credit_cards/golden_card.png';
                                             });
                                           } else {
                                             // Manejar el caso cuando banks aún no está cargado
@@ -430,13 +425,11 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                         );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stackTrace) =>
-                    const Center(child: Text('Failed to load banks')),
+                error: (error, stackTrace) => const Center(child: Text('Failed to load banks')),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) =>
-                const Center(child: Text('Failed to load bank accounts')),
+            error: (error, stackTrace) => const Center(child: Text('Failed to load bank accounts')),
           ),
         );
       },
@@ -459,13 +452,10 @@ class FinalAmountWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(settingsNotifierProvider);
-    const activeTextColor =
-        Color(primaryDark); // Use the theme's primaryDark color
+    const activeTextColor = Color(primaryDark); // Use the theme's primaryDark color
     const inactiveTextColor = Color(grayText); // Use the theme's grayText color
-    const activeBackgroundColor =
-        Color(0xFFEBFBFF); // Use the theme's primaryLight color
-    const inactiveBackgroundColor =
-        Color(0xFFF9FAFA); // Background color for inactive state
+    const activeBackgroundColor = Color(0xFFEBFBFF); // Use the theme's primaryLight color
+    const inactiveBackgroundColor = Color(0xFFF9FAFA); // Background color for inactive state
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -502,9 +492,7 @@ class FinalAmountWidget extends HookConsumerWidget {
                       ),
                     ),
                     Text(
-                      isSoles
-                          ? formatterSoles.format(amount)
-                          : formatterUSD.format(amount),
+                      isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
                       style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w800,
@@ -519,9 +507,7 @@ class FinalAmountWidget extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 8.0,
                     fontWeight: FontWeight.w600,
-                    color: isActive
-                        ? activeTextColor.withOpacity(0.6)
-                        : inactiveTextColor.withOpacity(0.6),
+                    color: isActive ? activeTextColor.withOpacity(0.6) : inactiveTextColor.withOpacity(0.6),
                   ),
                 ),
               ],
@@ -546,100 +532,6 @@ class InvestmentDateRangeWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = ref.watch(settingsNotifierProvider);
-    // return Row(
-    //   mainAxisAlignment: MainAxisAlignment.center,
-    //   children: [
-    //     Container(
-    //       width: 120,
-    //       height: 80,
-    //       decoration: BoxDecoration(
-    //         color: const Color(0xFFE6F4F1),
-    //         borderRadius: BorderRadius.circular(5.0),
-    //       ),
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Image.asset(
-    //                 'assets/reinvestment/calendar.png',
-    //                 height: 20,
-    //                 width: 20,
-    //               ),
-    //               const SizedBox(width: 8.0),
-    //               RichText(
-    //                 text: TextSpan(
-    //                   children: [
-    //                     const TextSpan(
-    //                       text: 'Inicio:',
-    //                       style: TextStyle(
-    //                         fontSize: 14.0,
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black,
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(
-    //             height: 5,
-    //           ),
-    //           Text('25 de Mayo del 2024',
-    //               textAlign: TextAlign.center,
-    //               style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.black))
-    //         ],
-    //       ),
-    //     ),
-    //     SizedBox(width: 30),
-    //     Container(
-    //       width: 120,
-    //       height: 80,
-    //       decoration: BoxDecoration(
-    //         color: const Color(0xFFE6F4F1),
-    //         borderRadius: BorderRadius.circular(5.0),
-    //       ),
-    //       child: Column(
-    //         mainAxisAlignment: MainAxisAlignment.center,
-    //         children: [
-    //           Row(
-    //             mainAxisAlignment: MainAxisAlignment.center,
-    //             children: [
-    //               Image.asset(
-    //                 'assets/reinvestment/money_bag.png',
-    //                 height: 20,
-    //                 width: 20,
-    //               ),
-    //               const SizedBox(width: 8.0),
-    //               RichText(
-    //                 text: TextSpan(
-    //                   children: [
-    //                     const TextSpan(
-    //                       text: 'Finaliza:',
-    //                       style: TextStyle(
-    //                         fontSize: 14.0,
-    //                         fontWeight: FontWeight.normal,
-    //                         color: Colors.black,
-    //                       ),
-    //                     ),
-    //                   ],
-    //                 ),
-    //               ),
-    //             ],
-    //           ),
-    //           SizedBox(
-    //             height: 5,
-    //           ),
-    //           Text('25 de Mayo del 2024',
-    //               textAlign: TextAlign.center,
-    //               style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.bold, color: Colors.black))
-    //         ],
-    //       ),
-    //     ),
-    //   ],
-    // );
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

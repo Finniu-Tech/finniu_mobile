@@ -90,8 +90,7 @@ class CreditCardWidget extends StatelessWidget {
 
 class CreditCardWheelInvestment extends StatefulHookConsumerWidget {
   final String currency;
-  final bool
-      isSender; // Indica si la tarjeta es del remitente o del destinatario
+  final bool isSender;
   final String typeReInvestment;
   final String preInvestmentUuid;
   const CreditCardWheelInvestment({
@@ -140,12 +139,9 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
   void initState() {
     super.initState();
     controller = FixedExtentScrollController(initialItem: 0);
-
     //LOAD AFTER INIT STATE FINISH TO AVOID ERROR
-
     // WidgetsBinding.instance?.addPostFrameCallback((_) {
     //   loadBanks();
-
     // });
     // loadBanks();
   }
@@ -163,8 +159,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
       builder: (context, ref, child) {
         final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
         final banksAsyncValue = ref.watch(bankFutureProvider);
-        final bool createdNewBankAccount =
-            ref.watch(boolCreatedNewBankAccountProvider);
+        final bool createdNewBankAccount = ref.watch(boolCreatedNewBankAccountProvider);
         final selectedBankAccount = ref.read(
           selectedBankAccountSenderProvider.notifier,
         );
@@ -184,9 +179,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOut,
                       );
-                      ref
-                          .read(boolCreatedNewBankAccountProvider.notifier)
-                          .state = false;
+                      ref.read(boolCreatedNewBankAccountProvider.notifier).state = false;
                     }
                   });
                   return showDetail
@@ -197,8 +190,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                             Column(
                               children: [
                                 SizedBox(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.9,
+                                  width: MediaQuery.of(context).size.width * 0.9,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -218,11 +210,14 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                                           color: Color(primaryDark),
                                         ),
                                       ),
-                                      const SizedBox(width: 140),
+                                      const Spacer(),
                                       Image.asset(
                                         'assets/icons/square2.png',
                                         width: 24,
                                         height: 24,
+                                      ),
+                                      const SizedBox(
+                                        width: 5,
                                       ),
                                     ],
                                   ),
@@ -317,8 +312,7 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                                 physics: const FixedExtentScrollPhysics(),
                                 childDelegate: ListWheelChildBuilderDelegate(
                                   builder: (context, index) {
-                                    final bankAccount = bankAccounts[
-                                        index % bankAccounts.length];
+                                    final bankAccount = bankAccounts[index % bankAccounts.length];
                                     final bank = banks.isNotEmpty
                                         ? BankEntity.getBankByName(
                                             bankAccount.bankName,
@@ -333,17 +327,15 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                                       onTap: () async {
                                         if (!showDetail) {
                                           if (banks.isNotEmpty) {
-                                            final selectedBank =
-                                                BankEntity.getBankByName(
+                                            final selectedBank = BankEntity.getBankByName(
                                               bankAccount.bankName,
                                               banks,
                                             );
                                             setState(() {
                                               showDetail = true;
                                               bankAccountSelected = bankAccount;
-                                              selectedImage = selectedBank
-                                                      .cardImageUrl ??
-                                                  'assets/credit_cards/golden_card.png';
+                                              selectedImage =
+                                                  selectedBank.cardImageUrl ?? 'assets/credit_cards/golden_card.png';
                                             });
                                           } else {
                                             // Manejar el caso cuando banks aún no está cargado
@@ -399,13 +391,11 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                         );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stackTrace) =>
-                    const Center(child: Text('Failed to load banks')),
+                error: (error, stackTrace) => const Center(child: Text('Failed to load banks')),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) =>
-                const Center(child: Text('Failed to load bank accounts')),
+            error: (error, stackTrace) => const Center(child: Text('Failed to load bank accounts')),
           ),
         );
       },
@@ -498,13 +488,10 @@ class FinalAmountWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(settingsNotifierProvider);
-    const activeTextColor =
-        Color(primaryDark); // Use the theme's primaryDark color
+    const activeTextColor = Color(primaryDark); // Use the theme's primaryDark color
     const inactiveTextColor = Color(grayText); // Use the theme's grayText color
-    const activeBackgroundColor =
-        Color(0xFFEBFBFF); // Use the theme's primaryLight color
-    const inactiveBackgroundColor =
-        Color(0xFFF9FAFA); // Background color for inactive state
+    const activeBackgroundColor = Color(0xFFEBFBFF); // Use the theme's primaryLight color
+    const inactiveBackgroundColor = Color(0xFFF9FAFA); // Background color for inactive state
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -541,9 +528,7 @@ class FinalAmountWidget extends HookConsumerWidget {
                       ),
                     ),
                     Text(
-                      isSoles
-                          ? formatterSoles.format(amount)
-                          : formatterUSD.format(amount),
+                      isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
                       style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w800,
@@ -558,9 +543,7 @@ class FinalAmountWidget extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 8.0,
                     fontWeight: FontWeight.w600,
-                    color: isActive
-                        ? activeTextColor.withOpacity(0.6)
-                        : inactiveTextColor.withOpacity(0.6),
+                    color: isActive ? activeTextColor.withOpacity(0.6) : inactiveTextColor.withOpacity(0.6),
                   ),
                 ),
               ],

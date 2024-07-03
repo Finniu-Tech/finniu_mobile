@@ -45,8 +45,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login_forgot': (BuildContext context) => const ForgotPassword(),
     '/login_invalid': (BuildContext context) => const InvalidEmail(),
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
-    '/onboarding_questions_start': (BuildContext context) =>
-        const StartInvestment(),
+    '/onboarding_questions_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeScreen(),
     '/home_notification': (BuildContext context) => const NotificationScreen(),
@@ -68,11 +67,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/contract_view': (BuildContext context) => const ContractViewPDF(),
     '/calendar_page': (BuildContext context) => const Calendar(),
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
-    '/process_investment': (BuildContext context) => const InvestmentProcess(),
+    '/process_investment': (BuildContext context) => InvestmentProcess(),
     '/investment_history': (BuildContext context) => const InvestmentHistory(),
     '/reinvestment_step_1': (BuildContext context) {
-      final args =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return ReinvestmentStep1(
         preInvestmentUUID: args['preInvestmentUUID'],
         preInvestmentAmount: args['preInvestmentAmount'],
@@ -81,8 +79,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       );
     },
     '/reinvestment_step_2': (BuildContext context) {
-      final args =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return ReInvestmentStep2(
         plan: args['plan'],
         resultCalculator: args['resultCalculator'],
