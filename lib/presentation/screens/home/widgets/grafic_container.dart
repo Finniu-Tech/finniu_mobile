@@ -67,6 +67,7 @@ class _GraficWidgetState extends ConsumerState<GraficLinealWidget> {
           primaryXAxis: const CategoryAxis(
             majorGridLines: MajorGridLines(width: 0),
             labelPlacement: LabelPlacement.onTicks,
+            plotOffset: 10,
           ),
           primaryYAxis: NumericAxis(
             labelFormat: isSoles ? 'S/{value}K' : '\${value}K',
