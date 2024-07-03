@@ -1,7 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/rentability_graph_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
-import 'package:finniu/presentation/providers/rentability_graph_provider.dart';
+import 'package:finniu/presentation/providers/rentability_graphic_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -40,11 +40,11 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
     super.initState();
   }
 
-  List<RentabilityGraphEntity>? data;
+  List<RentabilityGraphicEntity>? data;
   @override
   Widget build(BuildContext context) {
     final isSoles = ref.watch(isSolesStateProvider);
-    final rentabilityGraph = ref.watch(rentabilityGraphFutureProvider);
+    final rentabilityGraph = ref.watch(rentabilityGraphicFutureProvider);
     if (rentabilityGraph.asData == null) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.4,
@@ -78,20 +78,20 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
             duration: 1000,
             header: "",
           ),
-          series: <CartesianSeries<RentabilityGraphEntity, String>>[
-            LineSeries<RentabilityGraphEntity, String>(
+          series: <CartesianSeries<RentabilityGraphicEntity, String>>[
+            LineSeries<RentabilityGraphicEntity, String>(
               color: const Color(primaryLight),
               dataSource: data,
-              xValueMapper: (RentabilityGraphEntity rentability, _) =>
+              xValueMapper: (RentabilityGraphicEntity rentability, _) =>
                   rentability.month.substring(0, 3).toUpperCase(),
-              yValueMapper: (RentabilityGraphEntity rentability, _) =>
+              yValueMapper: (RentabilityGraphicEntity rentability, _) =>
                   double.parse(rentability.amountPoint) / 1000,
               markerSettings: const MarkerSettings(
                 isVisible: true,
                 shape: DataMarkerType.circle,
-                borderColor: Color(graficMarker),
+                borderColor: Color(graphicMarker),
                 borderWidth: 2,
-                color: Color(graficMarker),
+                color: Color(graphicMarker),
               ),
             ),
           ],

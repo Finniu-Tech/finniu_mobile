@@ -1196,7 +1196,7 @@ class QueryRepository {
     ''';
   }
 
-  static String get rentabilityGraph {
+  static String get rentabilityGraphic {
     return '''
       query rentabilityGraph(\$timeLine: TimeLineEnum) {
         rentabilityGraph(timeLine: \$timeLine) {

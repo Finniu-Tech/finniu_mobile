@@ -1,28 +1,28 @@
-class RentabilityGraphEntity {
+class RentabilityGraphicEntity {
   String month;
   String amountPoint;
   dynamic typename;
 
-  RentabilityGraphEntity({
+  RentabilityGraphicEntity({
     required this.month,
     required this.amountPoint,
     this.typename,
   });
 
-  RentabilityGraphEntity copyWith({
+  RentabilityGraphicEntity copyWith({
     String? month,
     String? amountPoint,
     dynamic typename,
   }) {
-    return RentabilityGraphEntity(
+    return RentabilityGraphicEntity(
       month: month ?? this.month,
       amountPoint: amountPoint ?? this.amountPoint,
       typename: typename ?? this.typename,
     );
   }
 
-  factory RentabilityGraphEntity.fromJson(Map<String, dynamic> json) {
-    return RentabilityGraphEntity(
+  factory RentabilityGraphicEntity.fromJson(Map<String, dynamic> json) {
+    return RentabilityGraphicEntity(
       month: json['month'],
       amountPoint: json['amountPoint'].toString(),
       typename: json['__typename'],
@@ -30,13 +30,13 @@ class RentabilityGraphEntity {
   }
 }
 
-class RentabilityGraphResponseAPI {
-  List<RentabilityGraphEntity>? rentabilityInPen;
-  List<RentabilityGraphEntity>? rentabilityInUsd;
+class RentabilityGraphicResponseAPI {
+  List<RentabilityGraphicEntity>? rentabilityInPen;
+  List<RentabilityGraphicEntity>? rentabilityInUsd;
   String? error;
   bool? success;
 
-  RentabilityGraphResponseAPI({
+  RentabilityGraphicResponseAPI({
     this.rentabilityInPen,
     this.rentabilityInUsd,
     this.error,
@@ -74,11 +74,11 @@ enum TimePeriod {
       case TimePeriod.allMonths:
         return 'todos';
       case TimePeriod.threeYears:
-        return '3 años';
+        return '36 meses';
       case TimePeriod.twoYears:
-        return '2 años';
+        return '24 meses';
       case TimePeriod.year:
-        return '1 año';
+        return '12 meses';
       case TimePeriod.midYear:
         return '6 meses';
       case TimePeriod.quarterYear:

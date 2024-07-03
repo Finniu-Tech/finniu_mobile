@@ -4,43 +4,43 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final rentabilityGraphFutureProvider =
-    FutureProvider.autoDispose<RentabilityGraphResponseAPI>((ref) async {
+final rentabilityGraphicFutureProvider =
+    FutureProvider.autoDispose<RentabilityGraphicResponseAPI>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
     final timeLine = ref.watch(timePeriodProvider);
     final result = await client!.query(
       QueryOptions(
         document: gql(
-          QueryRepository.rentabilityGraph,
+          QueryRepository.rentabilityGraphic,
         ),
         variables: {"timeLine": timeLine.value},
       ),
     );
-    List<RentabilityGraphEntity> dataSoles =
+    List<RentabilityGraphicEntity> dataSoles =
         (result.data?['rentabilityGraph']['rentabilityInPen'] as List)
             .map(
-              (e) => RentabilityGraphEntity(
+              (e) => RentabilityGraphicEntity(
                 amountPoint: e['amountPoint'].toString(),
                 month: e['month'].toString(),
               ),
             )
             .toList();
-    List<RentabilityGraphEntity> dataUSD =
+    List<RentabilityGraphicEntity> dataUSD =
         (result.data?['rentabilityGraph']['rentabilityInUsd'] as List)
             .map(
-              (e) => RentabilityGraphEntity(
+              (e) => RentabilityGraphicEntity(
                 amountPoint: e['amountPoint'].toString(),
                 month: e['month'].toString(),
               ),
             )
             .toList();
-    return RentabilityGraphResponseAPI(
+    return RentabilityGraphicResponseAPI(
       rentabilityInPen: dataSoles,
       rentabilityInUsd: dataUSD,
     );
   } catch (e) {
-    return RentabilityGraphResponseAPI(
+    return RentabilityGraphicResponseAPI(
       rentabilityInPen: [],
       rentabilityInUsd: [],
       success: false,

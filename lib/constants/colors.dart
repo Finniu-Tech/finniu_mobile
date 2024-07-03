@@ -72,8 +72,8 @@ const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
 
-const graficLine = 0xff2D6EFF;
+const graphicLine = 0xff2D6EFF;
 
 const backgroudSelectDark = 0xff494848;
 const backgroudSelectLight = 0xffF5F5F5;
-const graficMarker = 0xff15B2E1;
+const graphicMarker = 0xff15B2E1;
