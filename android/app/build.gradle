@@ -67,8 +67,8 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 59
-        versionName "2.2.3"
+        versionCode 61
+        versionName "2.3.1"
         multiDexEnabled true
     }
 

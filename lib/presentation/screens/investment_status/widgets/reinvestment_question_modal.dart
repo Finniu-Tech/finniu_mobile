@@ -110,7 +110,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                   const SizedBox(width: 10),
                   //text in the middle of lines
                   Text(
-                    "Elige tu opción reinversión",
+                    "Elige tu opción de reinversión",
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
