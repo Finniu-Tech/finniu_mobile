@@ -81,7 +81,7 @@ class SMSBody extends HookConsumerWidget {
                   height: 1.5,
                   color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                 ),
-                "Ingresa el código de verificacion",
+                "Ingresa el código de verificación",
               ),
             ),
             SizedBox(
