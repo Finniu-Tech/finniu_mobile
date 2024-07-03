@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class GraficContainer extends StatelessWidget {
-  const GraficContainer({
+class GraphicContainer extends StatelessWidget {
+  const GraphicContainer({
     super.key,
   });
 
@@ -20,21 +20,21 @@ class GraficContainer extends StatelessWidget {
         border: Border.all(color: const Color(0xFF828282), width: 1),
       ),
       width: MediaQuery.of(context).size.width,
-      child: const GraficLinealWidget(),
+      child: const GraphicLinealWidget(),
     );
   }
 }
 
-class GraficLinealWidget extends ConsumerStatefulWidget {
-  const GraficLinealWidget({
+class GraphicLinealWidget extends ConsumerStatefulWidget {
+  const GraphicLinealWidget({
     super.key,
   });
 
   @override
-  ConsumerState<GraficLinealWidget> createState() => _GraficWidgetState();
+  ConsumerState<GraphicLinealWidget> createState() => _GraphicWidgetState();
 }
 
-class _GraficWidgetState extends ConsumerState<GraficLinealWidget> {
+class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
   @override
   void initState() {
     super.initState();

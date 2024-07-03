@@ -9,7 +9,7 @@ import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
-import 'package:finniu/presentation/screens/home/widgets/grafic_container.dart';
+import 'package:finniu/presentation/screens/home/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
@@ -96,7 +96,7 @@ class HomeBody extends HookConsumerWidget {
         child: Column(
           children: [
             // const SizedBox(height: 70),
-            const GraficContainer(),
+            const GraphicContainer(),
             Row(
               children: [
                 InkWell(
