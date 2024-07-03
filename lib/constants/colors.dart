@@ -40,6 +40,8 @@ const redText = 0xffFF4D4D;
 const hintTextLightColor = 0xff535050;
 const hintTextDarkColor = 0xff909090;
 
+const titleTextInvestment = 0xFFC5E9EF;
+
 const labelTextLightColor = 0xff0D3A5C;
 const labelTextDarkColor = 0xffA2E6FA;
 
@@ -79,3 +81,11 @@ const aboutIconBusinessColor = 0xff95E1F8;
 const aboutContainerAgroColor = 0xff94C7FF;
 const aboutTextAgroColor = 0xff0D3A5C;
 const aboutIconAgroColor = 0xff5BA9FF;
+const backgroundColorNavbar = 0xff08273F;
+const backgroundInvestment = 0xFF08273F;
+
+const cardInvestmentBusiness = 0xFFBEF0FF;
+const cardImageBusiness = 0xFF95E1F8;
+
+const cardInvestmentRealEstate = 0xFFA2CEFE;
+const cardImageRealEstate = 0xFF5BAAFF;

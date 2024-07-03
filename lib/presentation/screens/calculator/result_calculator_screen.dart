@@ -4,6 +4,7 @@ import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/graphics.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,7 @@ class ResultCalculator extends HookConsumerWidget {
           ),
         ],
       ),
-      bottomNavigationBar: const BottomNavigationBarHome(),
+      bottomNavigationBar: const NavigationBarHome(),
       body: HookBuilder(
         builder: (context) {
           final resultsProvider = ref.watch(
