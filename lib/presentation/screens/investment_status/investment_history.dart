@@ -144,8 +144,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                 children: [
                   GestureDetector(
                     onTap: () {
-                      // Navigator.pushNamed(context, '/process_investment');
-                      Navigator.pop(context);
+                      Navigator.pushNamedAndRemoveUntil(context, '/process_investment', (route) => false);
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width * 0.45,
@@ -235,6 +234,7 @@ class InvestmentHistoryBody extends StatelessWidget {
                 children: [
                   TabBar(
                     isScrollable: true,
+                    dividerColor: Colors.transparent,
                     unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     labelStyle: const TextStyle(fontSize: 12),

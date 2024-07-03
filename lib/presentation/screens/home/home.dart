@@ -8,15 +8,19 @@ import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
+import 'package:finniu/presentation/screens/home/widgets/image_container.dart';
+import 'package:finniu/presentation/screens/home/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
+import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/home/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
+import 'package:finniu/presentation/screens/home/widgets/profile_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
 import 'package:finniu/presentation/screens/home/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/simulation_card.dart';
-import 'package:finniu/widgets/avatar.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -31,9 +35,8 @@ class HomeScreen extends HookConsumerWidget {
 
     return PopScope(
       child: Scaffold(
-        backgroundColor:
-            Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
-        bottomNavigationBar: const BottomNavigationBarHome(),
+        backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
+        bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
             final userProfile = ref.watch(userProfileFutureProvider);
@@ -72,8 +75,7 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context)
-                .pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
           });
         }
 
@@ -83,10 +85,6 @@ class HomeBody extends HookConsumerWidget {
     );
 
     final isSoles = ref.watch(isSolesStateProvider);
-
-    final themeProvider = ref.watch(settingsNotifierProvider);
-    final userBalanceReport = ref.watch(userProfileBalanceNotifierProvider);
-    final currency = ref.watch(isSolesStateProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final settings = ref.read(settingsNotifierProvider.notifier);
 
@@ -96,28 +94,30 @@ class HomeBody extends HookConsumerWidget {
         child: Column(
           children: [
             const ButtonSendProof(),
+            const BlueGlodImage(),
+            const CarrouselSlide(),
             // const SizedBox(height: 70),
+            const HeaderInvestment(
+              containerColor: aboutContainerBusinessColor,
+              iconColor: aboutIconBusinessColor,
+              textColor: aboutTextBusinessColor,
+              urlIcon: 'assets/investment/business_loans_investment_icon.png',
+              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
+              textTitle: 'Fondo prestamos empresariales',
+            ),
+            const SizedBox(height: 10),
+            const HeaderInvestment(
+              containerColor: aboutContainerAgroColor,
+              iconColor: aboutIconAgroColor,
+              textColor: aboutTextAgroColor,
+              urlIcon: 'assets/investment/real_estate_agro_icon.png',
+              urlImageBackground: 'assets/backgroud/backgroud_agro.png',
+              textTitle: 'Fondo inversión agro inmobiliaria',
+            ),
+            const SizedBox(height: 10),
             Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    settingsDialog(
-                      context,
-                      ref,
-                      themeProvider,
-                      userBalanceReport,
-                      currency,
-                      userProfile,
-                      settings,
-                    );
-                  },
-                  child: Container(
-                    alignment: Alignment.center,
-                    child: CircularPercentAvatarWidget(
-                      userProfile.percentCompleteProfile ?? 0.0,
-                    ),
-                  ),
-                ),
+                const ProfileButton(),
                 const SizedBox(
                   width: 10,
                 ),
@@ -129,9 +129,7 @@ class HomeBody extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(primaryDark),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -141,9 +139,7 @@ class HomeBody extends HookConsumerWidget {
                     'assets/images/logo_small.png',
                     width: 60,
                     height: 60,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
               ],
@@ -158,10 +154,8 @@ class HomeBody extends HookConsumerWidget {
                   data: (data) {
                     var reportSoles = data.solesBalance;
                     var reportDolar = data.dolarBalance;
-                    var homeReport =
-                        isSoles ? data.solesBalance : data.dolarBalance;
-                    if (reportSoles.totalBalance == 0 &&
-                        reportDolar.totalBalance == 0) {
+                    var homeReport = isSoles ? data.solesBalance : data.dolarBalance;
+                    if (reportSoles.totalBalance == 0 && reportDolar.totalBalance == 0) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: const Center(
@@ -199,9 +193,7 @@ class HomeBody extends HookConsumerWidget {
             Container(
               height: 2,
               width: MediaQuery.of(context).size.width * 0.8,
-              color: currentTheme.isDarkMode
-                  ? const Color(primaryLight)
-                  : const Color(primaryDark),
+              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
             ),
             const SizedBox(
               height: 15,
@@ -231,12 +223,10 @@ class PendingInvestmentCardWidget extends StatefulHookConsumerWidget {
   final SettingsProviderState currentTheme;
 
   @override
-  ConsumerState<PendingInvestmentCardWidget> createState() =>
-      PendingInvestmentCardWidgetState();
+  ConsumerState<PendingInvestmentCardWidget> createState() => PendingInvestmentCardWidgetState();
 }
 
-class PendingInvestmentCardWidgetState
-    extends ConsumerState<PendingInvestmentCardWidget> {
+class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCardWidget> {
   // bool hasInvestmentInProcess = false;
   bool isLoading = false;
   PreInvestmentForm? preInvestmentForm;
@@ -252,9 +242,7 @@ class PendingInvestmentCardWidgetState
         setState(() {
           isLoading = true;
         });
-        InvestmentRepository()
-            .userHasInvestmentInProcess(client: gqlClient!)
-            .then(
+        InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
           (success) {
             if (mounted) {
               setState(() {

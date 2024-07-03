@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -54,7 +55,9 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
             children: <Widget>[
               Text('V${appCurrentVersion}',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600, fontSize: 12, color: Theme.of(context).colorScheme.primary)),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                      color: Theme.of(context).colorScheme.primary)),
               const Spacer(),
               TextPoppins(
                 text: themeProvider.isDarkMode ? 'Dark mode' : 'Light mode',
@@ -167,7 +170,7 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      bottomNavigationBar: !hideNavBar ? const BottomNavigationBarHome() : null,
+      bottomNavigationBar: !hideNavBar ? const NavigationBarHome() : null,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -213,7 +216,7 @@ class CustomScaffoldReturnDirect extends ConsumerWidget {
 
     return Scaffold(
       // backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: const BottomNavigationBarHome(),
+      bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         scrolledUnderElevation: 0,
         // backgroundColor: Theme.of(context).backgroundColor,
