@@ -49,7 +49,7 @@ final rentabilityGraphFutureProvider =
 });
 
 class TimePeriodNotifier extends StateNotifier<TimePeriod> {
-  TimePeriodNotifier() : super(TimePeriod.quarterYear);
+  TimePeriodNotifier() : super(TimePeriod.midYear);
   void setTimePeriod(TimePeriod newTimePeriod) {
     state = newTimePeriod;
   }

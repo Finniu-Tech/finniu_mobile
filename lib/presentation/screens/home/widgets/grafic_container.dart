@@ -72,14 +72,26 @@ class _GraficWidgetState extends ConsumerState<GraficLinealWidget> {
             labelFormat: isSoles ? 'S/{value}K' : '\${value}K',
             axisLine: const AxisLine(width: 0),
           ),
-          tooltipBehavior: TooltipBehavior(enable: true),
+          tooltipBehavior: TooltipBehavior(
+            enable: true,
+            duration: 1000,
+            header: "",
+          ),
           series: <CartesianSeries<RentabilityGraphEntity, String>>[
             LineSeries<RentabilityGraphEntity, String>(
+              color: const Color(primaryLight),
               dataSource: data,
               xValueMapper: (RentabilityGraphEntity rentability, _) =>
                   rentability.month.substring(0, 3).toUpperCase(),
               yValueMapper: (RentabilityGraphEntity rentability, _) =>
                   double.parse(rentability.amountPoint) / 1000,
+              markerSettings: const MarkerSettings(
+                isVisible: true,
+                shape: DataMarkerType.circle,
+                borderColor: Color(graficMarker),
+                borderWidth: 2,
+                color: Color(graficMarker),
+              ),
             ),
           ],
         ),
@@ -131,7 +143,7 @@ class TimeLineSelect extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final timePeriod = ref.watch(timePeriodProvider);
-    final themeProvider = ref.watch(settingsNotifierProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return PopupMenuButton<TimePeriod>(
       onSelected: (TimePeriod selectedPeriod) {
@@ -157,7 +169,7 @@ class TimeLineSelect extends ConsumerWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: themeProvider.isDarkMode
+          color: isDarkMode
               ? const Color(backgroudSelectDark)
               : const Color(backgroudSelectLight),
         ),
@@ -175,7 +187,7 @@ class TimeLineSelect extends ConsumerWidget {
               child: Center(
                 child: Icon(
                   Icons.keyboard_arrow_down_outlined,
-                  color: themeProvider.isDarkMode
+                  color: isDarkMode
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
                 ),

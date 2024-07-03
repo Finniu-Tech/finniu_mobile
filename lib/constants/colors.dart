@@ -76,3 +76,4 @@ const graficLine = 0xff2D6EFF;
 
 const backgroudSelectDark = 0xff494848;
 const backgroudSelectLight = 0xffF5F5F5;
+const graficMarker = 0xff15B2E1;
