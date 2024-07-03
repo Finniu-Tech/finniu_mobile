@@ -48,8 +48,8 @@ class ReinvestmentStep1 extends HookConsumerWidget {
     final couponController = useTextEditingController();
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
-    final originFoundsController = useTextEditingController();
-    final otherOriginFoundsController = useTextEditingController();
+    final originFundsController = useTextEditingController();
+    final otherOriginFundsController = useTextEditingController();
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturnLogo(
@@ -62,10 +62,10 @@ class ReinvestmentStep1 extends HookConsumerWidget {
           bankController: bankController,
           couponController: couponController,
           isSoles: currency == 'PEN' || currency == currencyEnum.PEN,
-          originFoundsController: originFoundsController,
+          originFundsController: originFundsController,
           preInvestmentUUID: preInvestmentUUID,
           preInvestmentAmount: preInvestmentAmount,
-          otherFoundOriginController: otherOriginFoundsController,
+          otherFundOriginController: otherOriginFundsController,
           reInvestmentType: reInvestmentType,
         ),
       ),
@@ -82,10 +82,10 @@ class ReinvestmentStep1Body extends StatefulHookConsumerWidget {
     required this.bankController,
     required this.couponController,
     required this.isSoles,
-    required this.originFoundsController,
+    required this.originFundsController,
     required this.preInvestmentUUID,
     required this.preInvestmentAmount,
-    required this.otherFoundOriginController,
+    required this.otherFundOriginController,
     required this.reInvestmentType,
   });
 
@@ -94,8 +94,8 @@ class ReinvestmentStep1Body extends StatefulHookConsumerWidget {
   final TextEditingController deadLineController;
   final TextEditingController bankController;
   final TextEditingController couponController;
-  final TextEditingController originFoundsController;
-  final TextEditingController otherFoundOriginController;
+  final TextEditingController originFundsController;
+  final TextEditingController otherFundOriginController;
   final String preInvestmentUUID;
   final double preInvestmentAmount;
   final bool isSoles;
@@ -121,8 +121,8 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
   Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
     if (widget.mountController.text.isNotEmpty) {
       context.loaderOverlay.show();
-      final aditionalAmount = num.tryParse(widget.mountController.text)?.toInt() ?? 0;
-      final finalAmount = aditionalAmount + widget.preInvestmentAmount;
+      final extraAmount = num.tryParse(widget.mountController.text)?.toInt() ?? 0;
+      final finalAmount = extraAmount + widget.preInvestmentAmount;
 
       final inputCalculator = CalculatorInput(
         amount: finalAmount.toInt(),
@@ -184,7 +184,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
       return false;
     }
     if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL &&
-        widget.originFoundsController.text.isEmpty) {
+        widget.originFundsController.text.isEmpty) {
       CustomSnackbar.show(
         context,
         'Hubo un problema, asegúrate de haber completado los campos anteriores',
@@ -200,7 +200,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
       );
       return false;
     }
-    if (widget.originFoundsController.text == 'Otros' && widget.otherFoundOriginController.text.isEmpty) {
+    if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
       CustomSnackbar.show(
         context,
         'Debe de ingresar el origen de los fondos',
@@ -475,18 +475,18 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                   },
                   callbackOnChange: (value) async {
                     setState(() {
-                      widget.originFoundsController.text = value;
+                      widget.originFundsController.text = value;
                       if (value != 'Otros') {
-                        widget.otherFoundOriginController.clear();
+                        widget.otherFundOriginController.clear();
                       }
                     });
                   },
-                  textEditingController: widget.originFoundsController,
+                  textEditingController: widget.originFundsController,
                   labelText: "Origen de procedencia del dinero",
                   hintText: "Seleccione el origen",
                 ),
               ),
-              if (widget.originFoundsController.text == 'Otros') ...[
+              if (widget.originFundsController.text == 'Otros') ...[
                 const SizedBox(
                   height: 20,
                 ),
@@ -499,7 +499,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     minHeight: 39,
                   ),
                   child: TextFormField(
-                    controller: widget.otherFoundOriginController,
+                    controller: widget.otherFundOriginController,
                     validator: (value) {
                       if (value!.isEmpty) {
                         return 'Este dato es requerido';
@@ -770,7 +770,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     widget.deadLineController.text,
                     await deadLineFuture,
                   );
-                  final originFound = widget.originFoundsController.text;
+                  final originFound = widget.originFundsController.text;
 
                   final reInvestmentParams = CreateReInvestmentParams(
                     preInvestmentUUID: widget.preInvestmentUUID,
@@ -780,7 +780,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                     bankAccountSender: selectedBankAccount!.id,
                     originFounds: OriginFunds(
                       originFundsEnum: OriginFoundsUtil.fromReadableName(originFound),
-                      otherText: widget.otherFoundOriginController.text,
+                      otherText: widget.otherFundOriginController.text,
                     ),
                     typeReinvestment: widget.reInvestmentType,
                   );
@@ -822,7 +822,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                             bankAccountSenderUUID: selectedBank!.uuid,
                             typeReinvestment: typeReinvestmentEnum.CAPITAL_ADITIONAL,
                             originFounds: OriginFoundsUtil.fromReadableName(originFound).toString().split('.').last,
-                            otherOriginFounds: widget.otherFoundOriginController.text,
+                            otherOriginFounds: widget.otherFundOriginController.text,
                             coupon: widget.couponController.text,
                           ),
                           'resultCalculator': resultCalculator,

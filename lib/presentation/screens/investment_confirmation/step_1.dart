@@ -6,18 +6,23 @@ import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/snackbar.dart';
@@ -38,12 +43,14 @@ class Step1 extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final mountController = useTextEditingController();
+    final amountController = useTextEditingController();
     final couponController = useTextEditingController();
     final deadLineController = useTextEditingController();
     final bankController = useTextEditingController();
-    final uuidPlan = (ModalRoute.of(context)!.settings.arguments
-        as Map<String, dynamic>)['planUuid'];
+    final originFundsController = useTextEditingController();
+    final otherFundOriginController = useTextEditingController();
+
+    final uuidPlan = (ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>)['planUuid'];
     final isSoles = ref.watch(isSolesStateProvider);
 
     return CustomLoaderOverlay(
@@ -58,14 +65,16 @@ class Step1 extends HookConsumerWidget {
                 final _plans = isSoles ? plans.soles : plans.dolar;
                 return Step1Body(
                   currentTheme: currentTheme,
-                  mountController: mountController,
+                  amountController: amountController,
                   deadLineController: deadLineController,
                   bankTypeController: bankController,
                   couponController: couponController,
+                  originFundsController: originFundsController,
+                  otherFundOriginController: otherFundOriginController,
+                  bankController: bankController,
                   isSoles: isSoles,
                   // bankNumberController: bankNumberController,
-                  plan:
-                      _plans.firstWhere((element) => element.uuid == uuidPlan),
+                  plan: _plans.firstWhere((element) => element.uuid == uuidPlan),
                 );
               },
               loading: () => const Center(
@@ -86,21 +95,27 @@ class Step1Body extends StatefulHookConsumerWidget {
   const Step1Body({
     super.key,
     required this.currentTheme,
-    required this.mountController,
+    required this.amountController,
     required this.deadLineController,
     required this.bankTypeController,
     required this.couponController,
     required this.isSoles,
+    required this.originFundsController,
+    required this.otherFundOriginController,
+    required this.bankController,
     // required this.bankNumberController,
     required this.plan,
   });
 
   final SettingsProviderState currentTheme;
-  final TextEditingController mountController;
+  final TextEditingController amountController;
   final TextEditingController deadLineController;
   final TextEditingController bankTypeController;
   // final TextEditingController bankNumberController;
   final TextEditingController couponController;
+  final TextEditingController originFundsController;
+  final TextEditingController otherFundOriginController;
+  final TextEditingController bankController;
   final bool isSoles;
 
   final PlanEntity plan;
@@ -114,14 +129,59 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
   late Future bankFuture;
   late double? profitability;
   late bool showInvestmentBoxes = false;
-  late PlanSimulation? resultCalculator;
+  PlanSimulation? resultCalculator;
   late PlanEntity? selectedPlan;
+  BankEntity? selectedBank;
+  BankAccount? selectedBankAccount;
+
+  Future<void> _updateBankAccount() async {
+    final _selectedBankAccount = ref.read(selectedBankAccountSenderProvider);
+    if (_selectedBankAccount != null) {
+      widget.bankController.text = BankAccount.getSafeBankAccountNumber(
+        _selectedBankAccount.bankAccount,
+      );
+      final banks = await ref.read(bankFutureProvider.future);
+      final _selectedBank = BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
+      setState(() {
+        selectedBank = _selectedBank;
+        selectedBankAccount = _selectedBankAccount;
+      });
+    } else {
+      widget.bankController.text = '';
+    }
+  }
+
+  bool validate() {
+    if (widget.amountController.text.isEmpty ||
+        widget.deadLineController.text.isEmpty ||
+        widget.bankController.text.isEmpty ||
+        widget.originFundsController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        'error',
+      );
+
+      return false;
+    }
+
+    if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Debe de ingresar el origen de los fondos',
+        'error',
+      );
+      return false;
+    }
+
+    return true;
+  }
 
   Future<void> calculateInvestment(BuildContext context, WidgetRef ref) async {
-    if (widget.mountController.text.isNotEmpty) {
+    if (widget.amountController.text.isNotEmpty) {
       context.loaderOverlay.show();
       final inputCalculator = CalculatorInput(
-        amount: int.parse(widget.mountController.text),
+        amount: int.parse(widget.amountController.text),
         months: int.parse(widget.deadLineController.text.split(' ')[0]),
         coupon: widget.couponController.text,
         currency: widget.isSoles ? currencyNuevoSol : currencyDollar,
@@ -152,12 +212,20 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(selectedBankAccountSenderProvider.notifier).state = null;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
-    final bankFuture = ref.watch(bankFutureProvider.future);
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
     final debouncer = Debouncer(milliseconds: 3000);
+    final currency = widget.isSoles ? currencyEnum.PEN : currencyEnum.USD;
 
     useEffect(
       () {
@@ -166,10 +234,16 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
           completeProfileDialog(context, ref);
         }
 
+        _updateBankAccount();
+
+        calculateInvestment(context, ref);
         return null;
       },
       [userProfile],
     );
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
+      _updateBankAccount();
+    });
 
     return GestureDetector(
       onTap: () {
@@ -192,8 +266,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color:
-                          Color(Theme.of(context).colorScheme.secondary.value),
+                      color: Color(Theme.of(context).colorScheme.secondary.value),
                     ),
                   ),
                 ],
@@ -318,9 +391,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               'Completa los siguientes datos',
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: widget.currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
+                color: widget.currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                 fontSize: 14,
                 height: 1.5,
               ),
@@ -330,9 +401,14 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
-              constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
+              ),
               child: TextFormField(
-                controller: widget.mountController,
+                controller: widget.amountController,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Este dato es requerido';
@@ -341,8 +417,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 },
                 onChanged: (value) {
                   debouncer.run(() {
-                    if (widget.mountController.text.isNotEmpty &&
-                        widget.deadLineController.text.isNotEmpty) {
+                    if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
                       calculateInvestment(context, ref);
                     }
                   });
@@ -363,7 +438,12 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             const SizedBox(height: 15),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
-              constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
+              ),
               child: CustomSelectButton(
                 asyncItems: (String filter) async {
                   final response = await deadLineFuture;
@@ -371,8 +451,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 },
                 callbackOnChange: (value) async {
                   widget.deadLineController.text = value;
-                  if (widget.mountController.text.isNotEmpty &&
-                      widget.deadLineController.text.isNotEmpty) {
+                  if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
                     calculateInvestment(context, ref);
                   }
                 },
@@ -386,21 +465,131 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             ),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
-              constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
-              child: CustomSelectButton(
-                textEditingController: widget.bankTypeController,
-                asyncItems: (String filter) async {
-                  final response = await bankFuture;
-                  return response.map((e) => e.name).toList();
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
+              ),
+              child: InkWell(
+                onTap: () async {
+                  // show accounts modal
+                  showBankAccountModal(
+                    context,
+                    ref,
+                    currency,
+                    true,
+                    "",
+                  );
                 },
-                callbackOnChange: (value) {
-                  widget.bankTypeController.text = value;
-                },
-                labelText: "Desde qué banco realizas la transferencia",
-                hintText: "Seleccione su banco",
-                width: MediaQuery.of(context).size.width * 0.8,
+                child: IgnorePointer(
+                  child: TextFormField(
+                    controller: widget.bankController,
+                    readOnly: true,
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Este dato es requerido';
+                      }
+                      return null;
+                    },
+                    decoration: InputDecoration(
+                      prefixIcon: widget.bankController.text.isNotEmpty
+                          ? Padding(
+                              padding: const EdgeInsets.only(right: 8.0, left: 20.0),
+                              child: selectedBank != null
+                                  ? selectedBank!.logoUrl!.isNotEmpty
+                                      ? Image.network(
+                                          selectedBank?.logoUrl ?? '',
+                                          width: 13,
+                                          height: 13,
+                                          fit: BoxFit.contain,
+                                        )
+                                      : const Icon(
+                                          Icons.account_balance,
+                                          color: Colors.grey,
+                                          size: 13,
+                                        )
+                                  : null,
+                            )
+                          : null,
+                      suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 39,
+                        maxWidth: 39,
+                      ),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      hintText: 'Nombre del banco',
+                      hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                      border: const OutlineInputBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      labelText: "Desde qué banco realizas la transferencia",
+                    ),
+                  ),
+                ),
               ),
             ),
+            const SizedBox(
+              height: 15,
+            ),
+            Container(
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
+              ),
+              child: CustomSelectButton(
+                asyncItems: (String filter) async {
+                  // return OriginFoundsEnum.values.map((e) => OriginFoundsUtil.toReadableName(e)).toList();
+                  return OriginFoundsUtil.getReadableNames();
+                },
+                callbackOnChange: (value) async {
+                  setState(() {
+                    widget.originFundsController.text = value;
+                    if (value != 'Otros') {
+                      widget.otherFundOriginController.clear();
+                    }
+                  });
+                },
+                textEditingController: widget.originFundsController,
+                labelText: "Origen de procedencia del dinero",
+                hintText: "Seleccione el origen",
+              ),
+            ),
+            if (widget.originFundsController.text == 'Otros') ...[
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                constraints: const BoxConstraints(
+                  minWidth: 263,
+                  maxWidth: 400,
+                  maxHeight: 45,
+                  minHeight: 45,
+                ),
+                child: TextFormField(
+                  controller: widget.otherFundOriginController,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                    hintText: 'Escriba el origen de los fondos',
+                    hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                    label: Text("Origen de los fondos"),
+                  ),
+                ),
+              ),
+            ],
             const SizedBox(
               height: 15,
             ),
@@ -409,8 +598,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               constraints: const BoxConstraints(
                 minWidth: 263,
                 maxWidth: 400,
-                maxHeight: 39,
-                minHeight: 39,
+                maxHeight: 45,
+                minHeight: 45,
               ),
               child: TextFormField(
                 controller: widget.couponController,
@@ -420,23 +609,18 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   }
                   return null;
                 },
-                onChanged: (value) {
-                  // nickNameController.text = value.toString();
-                },
+                onChanged: (value) {},
                 decoration: InputDecoration(
                   suffixIconConstraints: const BoxConstraints(
-                    maxHeight: 39,
+                    maxHeight: 50,
                     maxWidth: 150,
                   ),
                   suffixIcon: Container(
-                    margin: const EdgeInsets.all(0),
-                    padding: const EdgeInsets.all(1),
-                    // padding: const EdgeInsets.only(right: 10, left: 10),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         // minimumSize: Size(80, 30),
                         side: const BorderSide(
-                          width: 0.2,
+                          width: 0.5,
                           color: Color(primaryDark),
                         ),
                         backgroundColor: const Color(primaryLight),
@@ -448,7 +632,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         ),
                       ),
                       child: const Padding(
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.only(top: 12, bottom: 10),
                         child: Text(
                           "Aplicarlo",
                           style: TextStyle(
@@ -457,8 +641,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         ),
                       ),
                       onPressed: () async {
-                        if (widget.mountController.text.isEmpty ||
-                            widget.deadLineController.text.isEmpty) {
+                        if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
                           CustomSnackbar.show(
                             context,
                             'Debes ingresar el monto y el plazo para aplicar el cupón',
@@ -468,7 +651,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         }
                         context.loaderOverlay.show();
                         final inputCalculator = CalculatorInput(
-                          amount: int.parse(widget.mountController.text),
+                          amount: int.parse(widget.amountController.text),
                           months: int.parse(
                             widget.deadLineController.text.split(' ')[0],
                           ),
@@ -500,8 +683,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           widget.couponController.clear();
                           CustomSnackbar.show(
                             context,
-                            resultCalculator?.error ??
-                                'Hubo un problema, intenta nuevamente',
+                            resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
                             'error',
                           );
                         }
@@ -509,8 +691,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     ),
                   ),
                   hintText: 'Ingresa tu código',
-                  hintStyle:
-                      const TextStyle(color: Color(grayText), fontSize: 11),
+                  hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                   ),
@@ -597,9 +778,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            isSoles
-                                ? formatterSoles.format(profitability)
-                                : formatterUSD.format(profitability),
+                            isSoles ? formatterSoles.format(profitability) : formatterUSD.format(profitability),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
@@ -653,48 +832,43 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     completeProfileDialog(context, ref);
                     return;
                   }
-                  if (widget.mountController.text.isEmpty ||
-                      widget.deadLineController.text.isEmpty ||
-                      widget.bankTypeController.text.isEmpty) {
-                    CustomSnackbar.show(
-                      context,
-                      'Hubo un problema, asegúrate de haber completado los campos anteriores',
-                      'error',
-                    );
-                    return; // Sale de la función para evitar que continúe el proceso
+                  if (validate() == false) {
+                    return;
                   }
 
                   final deadLineUuid = DeadLineEntity.getUuidByName(
                     widget.deadLineController.text,
                     await deadLineFuture,
                   );
-                  final bankUuid = BankEntity.getUuidByName(
-                    widget.bankTypeController.text,
-                    await bankFuture,
-                  );
+
+                  final originFund = widget.originFundsController.text;
+
                   final preInvestment = PreInvestmentForm(
-                    amount: int.parse(widget.mountController.text),
+                    amount: int.parse(widget.amountController.text),
                     deadLineUuid: deadLineUuid,
                     coupon: widget.couponController.text,
                     planUuid: widget.plan.uuid,
-                    bankAccountTypeUuid: bankUuid,
                     currency: isSoles ? currencyNuevoSol : currencyDollar,
+                    bankAccountNumber: selectedBankAccount!.id,
+                    originFunds: OriginFunds(
+                      originFundsEnum: OriginFoundsUtil.fromReadableName(originFund),
+                      otherText: widget.otherFundOriginController.text,
+                    )
                     // bankAccountNumber: widget.bankNumberController.text,
+                    ,
                   );
                   context.loaderOverlay.show();
-                  final preInvestmentEntityResponse = await ref
-                      .watch(preInvestmentSaveProvider(preInvestment).future);
+                  final preInvestmentEntityResponse = await ref.watch(preInvestmentSaveProvider(preInvestment).future);
 
                   if (preInvestmentEntityResponse?.success == false) {
                     context.loaderOverlay.hide();
                     // CHECK HERE
                     CustomSnackbar.show(
                       context,
-                      preInvestmentEntityResponse?.error ??
-                          'Hubo un problema, intenta nuevamente',
+                      preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
                       'error',
                     );
-                    return; // Sale de la función para evitar que continúe el proceso
+                    return;
                   } else {
                     context.loaderOverlay.hide();
                     ref
@@ -702,16 +876,13 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           preInvestmentVoucherImagesPreviewProvider.notifier,
                         )
                         .state = [];
-                    ref
-                        .read(preInvestmentVoucherImagesProvider.notifier)
-                        .state = [];
+                    ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
                     Navigator.pushNamed(
                       context,
                       '/investment_step2',
                       arguments: PreInvestmentStep2Arguments(
                         plan: selectedPlan!,
-                        preInvestment:
-                            preInvestmentEntityResponse!.preInvestment!,
+                        preInvestment: preInvestmentEntityResponse!.preInvestment!,
                         resultCalculator: resultCalculator!,
                       ),
                     );
@@ -748,22 +919,13 @@ class _StepBarState extends ConsumerState<StepBar> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final Color activeBackgroundColor = currentTheme.isDarkMode
-        ? const Color(secondary)
-        : const Color(primaryLight);
-    final Color inactiveBackgroundColor =
-        currentTheme.isDarkMode ? Colors.transparent : Colors.transparent;
+    final Color activeBackgroundColor = currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight);
+    final Color inactiveBackgroundColor = currentTheme.isDarkMode ? Colors.transparent : Colors.transparent;
 
-    final Color inactiveBorderColor = currentTheme.isDarkMode
-        ? const Color(primaryLight)
-        : const Color(primaryDark);
-    final Color activeBorderColor = Colors.transparent;
-    final Color activeIconColor = currentTheme.isDarkMode
-        ? const Color(primaryDark)
-        : const Color(primaryDark);
-    final Color inactiveIconColor = currentTheme.isDarkMode
-        ? const Color(primaryLight)
-        : const Color(primaryDark);
+    final Color inactiveBorderColor = currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark);
+    const Color activeBorderColor = Colors.transparent;
+    final Color activeIconColor = currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryDark);
+    final Color inactiveIconColor = currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark);
 
     // Color backgroundColor = currentTheme.isDarkMode
     //     ? const Color(secondary)
@@ -783,13 +945,9 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 1
-                    ? activeBackgroundColor
-                    : inactiveBackgroundColor,
+                color: widget.step == 1 ? activeBackgroundColor : inactiveBackgroundColor,
                 border: Border.all(
-                  color: widget.step == 1
-                      ? activeBorderColor
-                      : inactiveBorderColor,
+                  color: widget.step == 1 ? activeBorderColor : inactiveBorderColor,
                   width: 2,
                 ),
                 borderRadius: const BorderRadius.only(
@@ -815,9 +973,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               child: Column(
                 children: [
                   Divider(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     thickness: 1,
                   ),
                 ],
@@ -827,13 +983,9 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 2
-                    ? activeBackgroundColor
-                    : inactiveBackgroundColor,
+                color: widget.step == 2 ? activeBackgroundColor : inactiveBackgroundColor,
                 border: Border.all(
-                  color: widget.step == 2
-                      ? activeBorderColor
-                      : inactiveBorderColor,
+                  color: widget.step == 2 ? activeBorderColor : inactiveBorderColor,
                   width: 2,
                 ),
                 shape: BoxShape.rectangle,
@@ -858,9 +1010,7 @@ class _StepBarState extends ConsumerState<StepBar> {
               child: Column(
                 children: [
                   Divider(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     thickness: 1,
                   ),
                 ],
@@ -870,13 +1020,9 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 3
-                    ? activeBackgroundColor
-                    : inactiveBackgroundColor,
+                color: widget.step == 3 ? activeBackgroundColor : inactiveBackgroundColor,
                 border: Border.all(
-                  color: widget.step == 3
-                      ? activeBorderColor
-                      : inactiveBorderColor,
+                  color: widget.step == 3 ? activeBorderColor : inactiveBorderColor,
                   width: 2,
                 ),
                 shape: BoxShape.rectangle,

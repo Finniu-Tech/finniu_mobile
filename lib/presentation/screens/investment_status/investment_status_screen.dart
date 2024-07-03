@@ -4,7 +4,8 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
-import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
+import 'package:finniu/infrastructure/datasources/investment_history_datasource_imp.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/empty_message.dart';
@@ -12,76 +13,88 @@ import 'package:finniu/presentation/screens/investment_status/widgets/reinvestme
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
 class InvestmentProcess extends StatefulHookConsumerWidget {
-  const InvestmentProcess({super.key});
-
   @override
-  InvestmentProcessState createState() => InvestmentProcessState();
+  _InvestmentProcessState createState() => _InvestmentProcessState();
 }
 
-class InvestmentProcessState extends ConsumerState<InvestmentProcess> with SingleTickerProviderStateMixin {
+class _InvestmentProcessState extends ConsumerState<InvestmentProcess> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  late Future<InvestmentRentabilityReport> _reportFuture;
 
   @override
   void initState() {
-    _tabController = TabController(length: 2, vsync: this);
     super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+    _fetchReport();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  void _fetchReport() {
+    final client = ref.read(gqlClientProvider).value!;
+    _reportFuture = InvestmentHistoryDataSourceImp().getRentabilityReport(client: client);
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build InvestmentProcess');
     final currentTheme = ref.watch(settingsNotifierProvider);
     final isSoles = ref.watch(isSolesStateProvider);
 
     return PopScope(
-      // onWillPop: () => Future.value(false),
       child: CustomScaffoldReturnLogo(
         hideReturnButton: true,
-        body: HookBuilder(
-          builder: (context) {
-            final reportFuture = ref.watch(investmentStatusReportFutureProvider);
-            return reportFuture.when(
-              data: (data) {
-                print('data!!! report future, $data');
-                final reportSoles = data.solesRentability;
-                final reportDollars = data.dollarsRentability;
-                final report = isSoles ? reportSoles : reportDollars;
-
-                if (reportSoles.countTotalPlans() == 0 && reportDollars.countTotalPlans() == 0) {
-                  return SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.6,
-                    child: Center(
-                      child: EmptyHistoryMessage(
-                        is_history_screen: false,
-                      ),
-                    ),
-                  );
-                } else {
-                  return InvestmentStatusScreenBody(
-                    currentTheme: currentTheme,
-                    tabController: _tabController,
-                    report: report,
-                    isSoles: isSoles,
-                  );
-                }
-              },
-              loading: () => const Center(
+        body: FutureBuilder<InvestmentRentabilityReport>(
+          future: _reportFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(
                 child: CircularProgressIndicator(),
-              ),
-              error: (error, stack) => SizedBox(
+              );
+            } else if (snapshot.hasError) {
+              return SizedBox(
                 height: MediaQuery.of(context).size.height * 0.6,
                 child: Center(
                   child: EmptyHistoryMessage(
                     is_history_screen: false,
                   ),
                 ),
-              ),
-            );
+              );
+            } else if (snapshot.hasData) {
+              final value = snapshot.data!;
+              final reportSoles = value.solesRentability;
+              final reportDollars = value.dollarsRentability;
+              final report = isSoles ? reportSoles : reportDollars;
+
+              if (reportSoles.countTotalPlans() == 0 && reportDollars.countTotalPlans() == 0) {
+                return SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: Center(
+                    child: EmptyHistoryMessage(
+                      is_history_screen: false,
+                    ),
+                  ),
+                );
+              } else {
+                return InvestmentStatusScreenBody(
+                  currentTheme: currentTheme,
+                  tabController: _tabController,
+                  report: report,
+                  isSoles: isSoles,
+                );
+              }
+            } else {
+              return const Center(
+                child: Text('Unexpected state'),
+              );
+            }
           },
         ),
       ),
@@ -304,6 +317,7 @@ class InvestmentStatusScreenBody extends StatelessWidget {
                 alignment: Alignment.topLeft,
                 child: TabBar(
                   isScrollable: false,
+                  dividerColor: Colors.transparent,
                   unselectedLabelColor: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                   labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                   labelStyle: const TextStyle(
@@ -771,7 +785,7 @@ class TableCardInCourse extends ConsumerWidget {
                             ),
                             child: const Center(
                               child: Text(
-                                'Re-inversion solicitada',
+                                'Re-inversión solicitada',
                                 style: TextStyle(
                                   color: Color(primaryDark),
                                   fontSize: 10,

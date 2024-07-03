@@ -5,6 +5,8 @@ const primaryLightAlternative = 0xffDBF7FF;
 
 const backgroundColorLight = 0xffFFFFFF;
 const backgroundColorDark = 0xff292727;
+const colorProfitabilityCard = 0xffE2F8FF;
+const backgroudCarousel = 0xffDCF5FC;
 
 const secondary = 0xffFFEEDD;
 const secondaryLight = 0xff0F5750;
@@ -40,6 +42,8 @@ const redText = 0xffFF4D4D;
 const hintTextLightColor = 0xff535050;
 const hintTextDarkColor = 0xff909090;
 
+const titleTextInvestment = 0xFFC5E9EF;
+
 const labelTextLightColor = 0xff0D3A5C;
 const labelTextDarkColor = 0xffA2E6FA;
 
@@ -72,8 +76,30 @@ const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
 
+
 const graphicLine = 0xff2D6EFF;
 
 const backgroudSelectDark = 0xff494848;
 const backgroudSelectLight = 0xffF5F5F5;
 const graphicMarker = 0xff15B2E1;
+
+
+const imageContarnerColor = 0xffDFEEFF;
+
+const annualCard = 0xffC3F1FF;
+const aboutContainerBusinessColor = 0xffDBF7FF;
+const aboutTextBusinessColor = 0xff0D3A5C;
+const aboutIconBusinessColor = 0xff95E1F8;
+
+const aboutContainerAgroColor = 0xff94C7FF;
+const aboutTextAgroColor = 0xff0D3A5C;
+const aboutIconAgroColor = 0xff5BA9FF;
+const backgroundColorNavbar = 0xff08273F;
+const backgroundInvestment = 0xFF08273F;
+
+const cardInvestmentBusiness = 0xFFBEF0FF;
+const cardImageBusiness = 0xFF95E1F8;
+
+const cardInvestmentRealEstate = 0xFFA2CEFE;
+const cardImageRealEstate = 0xFF5BAAFF;
+

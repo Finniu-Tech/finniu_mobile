@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
-import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_1.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/evaluate_experience.dart';
 import 'package:finniu/widgets/scaffold.dart';
@@ -10,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class Step3 extends StatefulHookConsumerWidget {
-  const Step3({Key? key}) : super(key: key);
+  const Step3({super.key});
 
   @override
   _Step3State createState() => _Step3State();
@@ -36,9 +34,6 @@ class _Step3State extends ConsumerState<Step3> {
 
   @override
   Widget build(BuildContext context) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
-    final userPofile = ref.watch(userProfileNotifierProvider);
-
     return CustomScaffoldReturnLogo(
       hideNavBar: true,
       body: SingleChildScrollView(
@@ -70,7 +65,7 @@ class _Step3State extends ConsumerState<Step3> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       width: 300,
                       child: Text(
                         textAlign: TextAlign.justify,

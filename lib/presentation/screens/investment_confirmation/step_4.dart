@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/bottom_menu.dart';
+import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -95,11 +96,11 @@ class FinishInvestment extends ConsumerWidget {
                 height: 25,
               ),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   ref.read(navigatorStateProvider.notifier).state = BottomMenuEnum().investments.index;
                   Navigator.pushNamedAndRemoveUntil(context, '/process_investment', (route) => false);
                 },
-                child: Text(
+                child: const Text(
                   'Ir a Mis Inversiones',
                 ),
               )
