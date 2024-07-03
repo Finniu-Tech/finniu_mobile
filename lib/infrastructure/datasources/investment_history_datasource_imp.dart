@@ -18,8 +18,7 @@ class InvestmentHistoryDataSourceImp extends InvestmentHistoryDataSource {
         document: gql(
           QueryRepository.investmentRentabilityReportV2,
         ),
-        errorPolicy: ErrorPolicy.ignore,
-        fetchPolicy: FetchPolicy.noCache,
+        fetchPolicy: FetchPolicy.networkOnly,
       ),
     );
     final data = response.data?['userInfoAllInvestment'];

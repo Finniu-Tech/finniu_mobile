@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,14 @@ class FinanceScreen extends HookConsumerWidget {
     final incomeController = useTextEditingController();
 
     return Scaffold(
-      backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
-      bottomNavigationBar: const BottomNavigationBarHome(),
+      backgroundColor: themeProvider.isDarkMode
+          ? const Color(backgroundColorDark)
+          : const Color(whiteText),
+      bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
-          backgroundColor:themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
+        backgroundColor: themeProvider.isDarkMode
+            ? const Color(backgroundColorDark)
+            : const Color(whiteText),
         elevation: 0,
         leading: themeProvider.isDarkMode
             ? const CustomReturnButton(
@@ -176,7 +181,6 @@ class FinanceScreen extends HookConsumerWidget {
                         height: 66,
                         width: 66,
                       )),
-              
                 ),
                 Positioned(
                   top: 9,
@@ -186,8 +190,6 @@ class FinanceScreen extends HookConsumerWidget {
                     width: 40,
                   ),
                 )
-              
-              
               ],
             ),
           ),

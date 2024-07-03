@@ -53,16 +53,11 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   final TextEditingController accountTypeController = TextEditingController();
   final TextEditingController accountNumberController = TextEditingController();
   final TextEditingController accountNameController = TextEditingController();
-  final TextEditingController jointHolderNameController =
-      TextEditingController();
-  final TextEditingController jointHolderLastNameController =
-      TextEditingController();
-  final TextEditingController jointHolderMothersLastNameController =
-      TextEditingController();
-  final TextEditingController jointHolderDocTypeController =
-      TextEditingController();
-  final TextEditingController jointHolderDocNumberController =
-      TextEditingController();
+  final TextEditingController jointHolderNameController = TextEditingController();
+  final TextEditingController jointHolderLastNameController = TextEditingController();
+  final TextEditingController jointHolderMothersLastNameController = TextEditingController();
+  final TextEditingController jointHolderDocTypeController = TextEditingController();
+  final TextEditingController jointHolderDocNumberController = TextEditingController();
 
   @override
   void dispose() {
@@ -102,14 +97,6 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
     }
     if (accountNumberController.text.length > 20) {
       CustomSnackbar.show(context, "El número de cuenta es inválido", 'error');
-      return false;
-    }
-    if (accountNameController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        "Debe ingresar un nombre de cuenta",
-        'error',
-      );
       return false;
     }
     if (isJointAccount) {
@@ -219,9 +206,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: theme.isDarkMode
-                          ? const Color(secondaryGrayText)
-                          : const Color(primaryDark),
+                      color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -290,9 +275,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode
-                            ? const Color(secondaryGrayText)
-                            : const Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                       ),
                     ),
                     const Spacer(),
@@ -301,9 +284,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode
-                            ? const Color(secondaryGrayText)
-                            : const Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                       ),
                     ),
                     Switch(
@@ -344,8 +325,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Apellido Paterno",
                             border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
+                              borderRadius: BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -357,8 +337,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Apellido Materno",
                             border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
+                              borderRadius: BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -370,8 +349,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        constraints:
-                            const BoxConstraints(minWidth: 154, maxWidth: 154),
+                        constraints: const BoxConstraints(minWidth: 154, maxWidth: 154),
                         child: CustomSelectButton(
                           width: 154,
                           textEditingController: jointHolderDocTypeController,
@@ -390,8 +368,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Número de documento",
                             border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(25)),
+                              borderRadius: BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -415,9 +392,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: theme.isDarkMode
-                            ? const Color(secondaryGrayText)
-                            : const Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -437,9 +412,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: theme.isDarkMode
-                            ? const Color(secondaryGrayText)
-                            : const Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -476,9 +449,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           await bankFuture,
                         ),
                         typeAccount: mapTypeAccount(accountTypeController.text),
-                        currency: widget.currency == currencyEnum.PEN
-                            ? 'SOLES'
-                            : 'DOLARES',
+                        currency: widget.currency == currencyEnum.PEN ? 'SOLES' : 'DOLARES',
                         bankAccount: accountNumberController.text,
                         aliasBankAccount: accountNameController.text,
                         isDefault: useForFutureOperations,
@@ -488,8 +459,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                                 name: jointHolderNameController.text,
                                 lastName: jointHolderLastNameController.text,
                                 documentType: jointHolderDocTypeController.text,
-                                documentNumber:
-                                    jointHolderDocNumberController.text,
+                                documentNumber: jointHolderDocNumberController.text,
                               )
                             : null,
                       );
@@ -531,19 +501,15 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       Navigator.of(context).pop();
                     },
                     style: ButtonStyle(
-                      overlayColor:
-                          MaterialStateProperty.all(Colors.transparent),
-                      backgroundColor:
-                          MaterialStateProperty.all(Colors.transparent),
+                      overlayColor: MaterialStateProperty.all(Colors.transparent),
+                      backgroundColor: MaterialStateProperty.all(Colors.transparent),
                     ),
                     child: Text(
                       "Regresar",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode
-                            ? const Color(secondaryGrayText)
-                            : const Color(primaryDark),
+                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
                         decoration: TextDecoration.underline,
                       ),
                     ),
