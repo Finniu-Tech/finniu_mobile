@@ -20,6 +20,7 @@ import 'package:finniu/presentation/screens/home/widgets/our_investment_funds.da
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
 import 'package:finniu/presentation/screens/home/widgets/profile_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
+import 'package:finniu/presentation/screens/home/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/simulation_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -93,6 +94,7 @@ class HomeBody extends HookConsumerWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const ButtonSendProof(),
             const BlueGlodImage(),
             const CarrouselSlide(),
             // const SizedBox(height: 70),
