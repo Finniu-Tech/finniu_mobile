@@ -10,6 +10,7 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
+import 'package:finniu/presentation/screens/home/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/home/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
 import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
@@ -91,6 +92,7 @@ class HomeBody extends HookConsumerWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+            const BlueGlodImage(),
             const CarrouselSlide(),
             // const SizedBox(height: 70),
             const HeaderInvestment(

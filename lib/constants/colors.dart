@@ -76,6 +76,9 @@ const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
 
+
+const imageContarnerColor = 0xffDFEEFF;
+
 const annualCard = 0xffC3F1FF;
 const aboutContainerBusinessColor = 0xffDBF7FF;
 const aboutTextBusinessColor = 0xff0D3A5C;

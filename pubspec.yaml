@@ -131,6 +131,7 @@ flutter:
     - assets/sendcode/
     - assets/reinvestment/
     - assets/credit_cards/
+    - assets/blue_gold/
     - assets/backgroud/
 
   # An image asset can refer to one or more resolution-specific "variants", see
