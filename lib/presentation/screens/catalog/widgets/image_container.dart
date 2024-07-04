@@ -1,8 +1,8 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 
-class BlueGlodImage extends StatelessWidget {
-  const BlueGlodImage({
+class BlueGoldImage extends StatelessWidget {
+  const BlueGoldImage({
     super.key,
   });
 

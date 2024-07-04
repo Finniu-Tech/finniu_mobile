@@ -43,7 +43,6 @@ class HeaderInvestment extends StatelessWidget {
     );
   }
 }
-//'assets/investment/business_loans_investment_icon.png'
 
 class AboutContainer extends StatelessWidget {
   final String urlIcon;
@@ -170,7 +169,7 @@ class BackgroudOpacity extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: MediaQuery.of(context).size.width,
-      color: const Color(0xff0D3A5C).withOpacity(0.5), // Capa de opacidad
+      color: const Color(0xff0D3A5C).withOpacity(0.5),
     );
   }
 }

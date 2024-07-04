@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -12,12 +13,30 @@ class OurInvestmentFunds extends StatelessWidget {
       print("precione para navegar a la pantalla de inversion");
     }
 
+    final fundCardList = [
+      CardInvestment(
+        background: const Color(cardInvestmentBusiness),
+        backgroundImage: const Color(cardImageBusiness),
+        textBody: "Fondo inversiones \nempresariales",
+        onTap: onTapNavigate,
+        imageUrl: 'assets/investment/building_investment.png',
+      ),
+      CardInvestment(
+        background: const Color(cardInvestmentRealEstate),
+        backgroundImage: const Color(cardImageRealEstate),
+        textBody: "Fondo inversiones \nagro inmobiliaria ",
+        onTap: onTapNavigate,
+        imageUrl: 'assets/investment/blueberry_investment.png',
+      ),
+    ];
+
     return Container(
-      padding: const EdgeInsets.all(10),
-      color: const Color(backgroundInvestment),
-      width: MediaQuery.of(context).size.width,
+      width: double.infinity,
       child: Column(
         children: [
+          SizedBox(
+            height: 20,
+          ),
           const TitleOfFunds(
             title: "Nuestros Fondos",
             icon: Icons.monetization_on_outlined,
@@ -25,23 +44,19 @@ class OurInvestmentFunds extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          CardInvestment(
-            background: const Color(cardInvestmentBusiness),
-            backgroundImage: const Color(cardImageBusiness),
-            textBody: "Fondo prestamos \nempresariales",
-            onTap: onTapNavigate,
-            imageUrl: 'assets/investment/building_investment.png',
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          CardInvestment(
-            background: const Color(cardInvestmentRealEstate),
-            backgroundImage: const Color(cardImageRealEstate),
-            textBody: "Fondo inversiones \nagro inmobiliaria ",
-            onTap: onTapNavigate,
-            imageUrl: 'assets/investment/blueberry_investment.png',
-          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: CarouselSlider(
+              items: fundCardList,
+              options: CarouselOptions(
+                height: 150,
+                autoPlay: false,
+                viewportFraction: 0.8,
+                enlargeCenterPage: true,
+                clipBehavior: Clip.none,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -69,29 +84,46 @@ class CardInvestment extends StatelessWidget {
       decoration: BoxDecoration(
         color: background,
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       height: 130,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(15),
       child: GestureDetector(
         onTap: onTap,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Column(
           children: [
-            Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: backgroundImage,
-              ),
-              height: 40,
-              width: 40,
-              child: Image.asset(
-                imageUrl,
-              ),
-            ),
-            const SizedBox(
-              width: 10,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: backgroundImage,
+                  ),
+                  height: 40,
+                  width: 40,
+                  child: Image.asset(
+                    imageUrl,
+                  ),
+                ),
+                const Spacer(),
+                Transform.rotate(
+                  angle: -0.7854,
+                  child: const Icon(
+                    Icons.arrow_forward_sharp,
+                    size: 24,
+                  ),
+                ),
+              ],
             ),
             Expanded(
               child: Column(
@@ -100,7 +132,7 @@ class CardInvestment extends StatelessWidget {
                 children: [
                   Text(
                     textBody,
-                    maxLines: 2,
+                    maxLines: 3,
                     style: const TextStyle(
                       fontSize: 20,
                       overflow: TextOverflow.ellipsis,
@@ -108,13 +140,6 @@ class CardInvestment extends StatelessWidget {
                     ),
                   ),
                 ],
-              ),
-            ),
-            Transform.rotate(
-              angle: -0.7854,
-              child: const Icon(
-                Icons.arrow_forward_sharp,
-                size: 24,
               ),
             ),
           ],
@@ -143,7 +168,7 @@ class TitleOfFunds extends StatelessWidget {
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Color(
-              titleTextInvestment,
+              primaryDark,
             ),
           ),
         ),
@@ -153,7 +178,7 @@ class TitleOfFunds extends StatelessWidget {
         Icon(
           icon,
           size: 24,
-          color: const Color(primaryLight),
+          color: const Color(primaryDark),
         ),
       ],
     );

@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/profile_button.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/profile_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -15,33 +15,29 @@ class NavigationBarHome extends ConsumerWidget {
       switch (index) {
         case 0:
           ref.read(navigatorStateProvider.notifier).state = 0;
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home_home', (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
           break;
         case 1:
           ref.read(navigatorStateProvider.notifier).state = 1;
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/plan_list', (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/plan_list', (route) => false);
           break;
         case 2:
           ref.read(navigatorStateProvider.notifier).state = 2;
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/process_investment', (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/process_investment', (route) => false);
           break;
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
-          Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home_home', (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
       }
     }
 
     return Container(
-      height: 95,
+      height: 80,
       decoration: const BoxDecoration(
-        color: Color(backgroundColorNavbar),
+        color: Color(scaffoldLightGradientSecondary),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
         child: Container(
           decoration: const BoxDecoration(
             color: Color(primaryDark),
@@ -103,9 +99,7 @@ class _NavigationButtonState extends State<NavigationButton> {
       width: 53,
       height: 53,
       decoration: BoxDecoration(
-        color: widget.isSelected
-            ? const Color(backgroundColorNavbar)
-            : const Color(primaryDark),
+        color: widget.isSelected ? const Color(backgroundColorNavbar) : const Color(primaryDark),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Column(
@@ -116,9 +110,7 @@ class _NavigationButtonState extends State<NavigationButton> {
               children: [
                 Icon(
                   widget.icon,
-                  color: widget.isSelected
-                      ? const Color(gradient_primary)
-                      : const Color(colorIconlight),
+                  color: widget.isSelected ? const Color(gradient_primary) : const Color(colorIconlight),
                 ),
                 widget.isSelected
                     ? Text(

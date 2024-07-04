@@ -1,3 +1,5 @@
+import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
+import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
 import 'package:finniu/presentation/screens/signup/activate_account.dart';
@@ -48,6 +50,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/onboarding_questions_start': (BuildContext context) => const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeScreen(),
+    '/home_v2': (BuildContext context) => const HomeScreenV2(),
     '/home_notification': (BuildContext context) => const NotificationScreen(),
     '/profile': (BuildContext context) => const ProfileScreen(),
     '/plan_list': (BuildContext context) => const PlanListScreen(),
@@ -63,6 +66,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/calculator_tool': (BuildContext context) => const Calculator(),
     '/calculator_result': (BuildContext context) => const ResultCalculator(),
     '/finance': (BuildContext context) => const FinanceScreen(),
+    '/catalog': (BuildContext context) => const CatalogScreen(),
     '/finance_screen2': (BuildContext context) => Finance_Screen_2(),
     '/contract_view': (BuildContext context) => const ContractViewPDF(),
     '/calendar_page': (BuildContext context) => const Calendar(),
