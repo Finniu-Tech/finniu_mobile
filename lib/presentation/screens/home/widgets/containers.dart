@@ -132,6 +132,7 @@ class BlueGoldContainer extends ConsumerWidget {
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
                       ),
+                      textAlign: TextAlign.end,
                     );
                   },
                 ),
