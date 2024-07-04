@@ -31,7 +31,9 @@ class ValidationDialog extends ConsumerWidget {
   const ValidationDialog({
     super.key,
   });
-  final String titleText = "Validación de tu\ninversión";
+  final String titleText = "Validación de tu";
+  final String secondTitleText = "inversión";
+
   final String textTanks = "Gracias por tu comprensión!";
   final String anyResponse = "¿No tuviste ninguna respuesta?";
   final String textBody =
@@ -67,7 +69,9 @@ class ValidationDialog extends ConsumerWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         titleText,
@@ -80,10 +84,25 @@ class ValidationDialog extends ConsumerWidget {
                               : const Color(labelTextLightColor),
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
+                      Row(
+                        children: [
+                          Text(
+                            secondTitleText,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: isDarkMode
+                                  ? const Color(labelTextDarkColor)
+                                  : const Color(labelTextLightColor),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          Image.asset('assets/icons/validation_icon.png'),
+                        ],
                       ),
-                      Image.asset('assets/icons/validation_icon.png'),
                     ],
                   ),
                   const SizedBox(
