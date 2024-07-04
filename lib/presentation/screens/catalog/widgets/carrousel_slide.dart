@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -22,15 +23,12 @@ class CarrouselSlide extends StatelessWidget {
     ];
     final items = [
       const ManagedAssets(
-        color: secondary,
         investmentsText: 5700,
       ),
       InvestedCapital(
-        color: backgroundColorLight,
         data: data,
       ),
       const AnnualProfitability(
-        color: colorProfitabilityCard,
         profitability: 7,
       ),
     ];
@@ -50,19 +48,19 @@ class CarrouselSlide extends StatelessWidget {
   }
 }
 
-class AnnualProfitability extends StatelessWidget {
+class AnnualProfitability extends ConsumerWidget {
   final int profitability;
-  final int color;
+
   const AnnualProfitability({
     super.key,
     required this.profitability,
-    required this.color,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SlideCarouselCard(
-      color: color,
+      color: isDarkMode ? 0xff292929 : 0xffE2F8FF,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -79,15 +77,15 @@ class AnnualProfitability extends StatelessWidget {
             style: TextStyle(fontSize: 12),
             overflow: TextOverflow.ellipsis,
           ),
-          const Divider(
+          Divider(
             height: 2,
-            color: Color(primaryDark),
+            color: Color(isDarkMode ? 0xff828282 : 0xffA2E6FA),
           ),
           Container(
             width: 245,
-            decoration: const BoxDecoration(
-              color: Color(annualCard),
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+            decoration: BoxDecoration(
+              color: Color(isDarkMode ? 0xffA2E6FA : 0xffC3F1FF),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -96,7 +94,10 @@ class AnnualProfitability extends StatelessWidget {
                 children: [
                   const Text(
                     "Rentabilidad anualizada del \n último mes ",
-                    style: TextStyle(fontSize: 11),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.black,
+                    ),
                     textAlign: TextAlign.left,
                   ),
                   Row(
@@ -112,6 +113,7 @@ class AnnualProfitability extends StatelessWidget {
                             style: const TextStyle(
                               fontSize: 36,
                               fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
                           );
                         },
@@ -128,19 +130,18 @@ class AnnualProfitability extends StatelessWidget {
   }
 }
 
-class InvestedCapital extends StatelessWidget {
-  final int color;
+class InvestedCapital extends ConsumerWidget {
   final List<dynamic> data;
   const InvestedCapital({
     super.key,
     required this.data,
-    required this.color,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SlideCarouselCard(
-      color: color,
+      color: isDarkMode ? 0xff174F79 : 0xffFFFFFF,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -157,7 +158,7 @@ class InvestedCapital extends StatelessWidget {
               borderColor: Colors.transparent,
               series: [
                 ColumnSeries(
-                  color: const Color(primaryLight),
+                  color: Color(isDarkMode ? 0xff0A2940 : 0xffA2E6FA),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
@@ -195,18 +196,18 @@ class InvestedCapital extends StatelessWidget {
 
 class ManagedAssets extends ConsumerWidget {
   final int investmentsText;
-  final int color;
+
   const ManagedAssets({
     super.key,
     required this.investmentsText,
-    required this.color,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SlideCarouselCard(
-      color: color,
+      color: isDarkMode ? 0xff0D3A5C : 0xffFFEEDD,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -223,9 +224,11 @@ class ManagedAssets extends ConsumerWidget {
             style: TextStyle(fontSize: 12),
             overflow: TextOverflow.ellipsis,
           ),
-          const Divider(
+          Divider(
             height: 2,
-            color: Color(primaryDark),
+            color: Color(
+              isDarkMode ? 0xffA2E6FA : 0xff0D3A5C,
+            ),
           ),
           const Text(
             "Activos administrados",

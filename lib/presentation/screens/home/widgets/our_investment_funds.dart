@@ -121,6 +121,7 @@ class CardInvestment extends StatelessWidget {
                   child: const Icon(
                     Icons.arrow_forward_sharp,
                     size: 24,
+                    color: Colors.black,
                   ),
                 ),
               ],
@@ -137,6 +138,7 @@ class CardInvestment extends StatelessWidget {
                       fontSize: 20,
                       overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ],
