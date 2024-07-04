@@ -22,6 +22,7 @@ class ValidationModal extends StatelessWidget {
 
 Future<dynamic> showValidationModal(BuildContext context) {
   return showDialog(
+    barrierDismissible: false,
     context: context,
     builder: (context) => const ValidationDialog(),
   );
@@ -33,7 +34,7 @@ class ValidationDialog extends ConsumerWidget {
   });
   final String titleText = "Validación de tu";
   final String secondTitleText = "inversión";
-
+  final String textButton = "Hablar con un asesor";
   final String textTanks = "Gracias por tu comprensión!";
   final String anyResponse = "¿No tuviste ninguna respuesta?";
   final String textBody =
@@ -42,6 +43,10 @@ class ValidationDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    void onPressed() {
+      Navigator.pop(context);
+    }
+
     return Dialog(
       insetPadding: const EdgeInsets.all(20),
       child: Container(
@@ -166,9 +171,9 @@ class ValidationDialog extends ConsumerWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  const ButtonIconDialog(
-                    onPressed: null,
-                    text: "Hablar con un asesor",
+                  ButtonIconDialog(
+                    onPressed: onPressed,
+                    text: textButton,
                   ),
                 ],
               ),
