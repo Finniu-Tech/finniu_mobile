@@ -76,7 +76,6 @@ const graylight = 0xff7C7C7C;
 const graydark = 0xff969595;
 const orangeLight = 0xffFFF4EA;
 
-
 const imageContarnerColor = 0xffDFEEFF;
 
 const annualCard = 0xffC3F1FF;
@@ -95,3 +94,5 @@ const cardImageBusiness = 0xFF95E1F8;
 
 const cardInvestmentRealEstate = 0xFFA2CEFE;
 const cardImageRealEstate = 0xFF5BAAFF;
+
+const dividerColor = 0xffBFF0FF;

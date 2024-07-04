@@ -150,7 +150,7 @@ class ValidationDialog extends ConsumerWidget {
                       const Expanded(
                         child: Divider(
                           height: 3,
-                          color: Color(0xffBFF0FF),
+                          color: Color(dividerColor),
                         ),
                       ),
                       const SizedBox(
@@ -163,7 +163,7 @@ class ValidationDialog extends ConsumerWidget {
                       const Expanded(
                         child: Divider(
                           height: 2,
-                          color: Color(0xffBFF0FF),
+                          color: Color(dividerColor),
                         ),
                       ),
                     ],
