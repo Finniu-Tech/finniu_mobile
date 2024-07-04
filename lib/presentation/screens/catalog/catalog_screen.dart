@@ -4,6 +4,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.da
 import 'package:finniu/presentation/screens/catalog/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),
               child: const Text('Ir a home normal'),
