@@ -101,7 +101,14 @@ const cardImageBusiness = 0xFF95E1F8;
 const cardInvestmentRealEstate = 0xFFA2CEFE;
 const cardImageRealEstate = 0xFF5BAAFF;
 
+const containerRealStateDark = 0xff0D3A5C;
+const containerRealStateLight = 0xffBBF0FF;
+
+const containerBlueGoldDark = 0xff1B589A;
+const containerBlueGoldLight = 0xffA2CEFE;
+
 const lightBackgroundTitleFund = 0xffE4F9FF;
 
 const scaffoldLightGradientPrimary = 0xffF8F8F8;
 const scaffoldLightGradientSecondary = 0xffDEF7FF;
+
