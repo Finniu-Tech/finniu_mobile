@@ -20,6 +20,7 @@ class GraphicContainer extends StatelessWidget {
         border: Border.all(color: const Color(0xFF828282), width: 1),
       ),
       width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.3,
       child: const GraphicLinealWidget(),
     );
   }
@@ -55,9 +56,7 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
       );
     }
     if (rentabilityGraph.asData!.value.success == false) {}
-    data = isSoles
-        ? rentabilityGraph.asData!.value.rentabilityInPen
-        : rentabilityGraph.asData!.value.rentabilityInUsd;
+    data = isSoles ? rentabilityGraph.asData!.value.rentabilityInPen : rentabilityGraph.asData!.value.rentabilityInUsd;
 
     return Stack(
       children: [
@@ -84,8 +83,7 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
               dataSource: data,
               xValueMapper: (RentabilityGraphicEntity rentability, _) =>
                   rentability.month.substring(0, 3).toUpperCase(),
-              yValueMapper: (RentabilityGraphicEntity rentability, _) =>
-                  double.parse(rentability.amountPoint) / 1000,
+              yValueMapper: (RentabilityGraphicEntity rentability, _) => double.parse(rentability.amountPoint) / 1000,
               markerSettings: const MarkerSettings(
                 isVisible: true,
                 shape: DataMarkerType.circle,
@@ -170,9 +168,7 @@ class TimeLineSelect extends ConsumerWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: isDarkMode
-              ? const Color(backgroudSelectDark)
-              : const Color(backgroudSelectLight),
+          color: isDarkMode ? const Color(backgroudSelectDark) : const Color(backgroudSelectLight),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -188,9 +184,7 @@ class TimeLineSelect extends ConsumerWidget {
               child: Center(
                 child: Icon(
                   Icons.keyboard_arrow_down_outlined,
-                  color: isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                 ),
               ),
             ),

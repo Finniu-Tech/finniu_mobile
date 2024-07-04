@@ -55,9 +55,7 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
             children: <Widget>[
               Text('V${appCurrentVersion}',
                   style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 12,
-                      color: Theme.of(context).colorScheme.primary)),
+                      fontWeight: FontWeight.w600, fontSize: 12, color: Theme.of(context).colorScheme.primary)),
               const Spacer(),
               TextPoppins(
                 text: themeProvider.isDarkMode ? 'Dark mode' : 'Light mode',
@@ -170,7 +168,8 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      bottomNavigationBar: !hideNavBar ? const NavigationBarHome() : null,
+      // bottomNavigationBar: !hideNavBar ? const NavigationBarHome() : null,
+      bottomNavigationBar: !hideNavBar ? const BottomNavigationBarHome() : null,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -216,7 +215,8 @@ class CustomScaffoldReturnDirect extends ConsumerWidget {
 
     return Scaffold(
       // backgroundColor: Theme.of(context).backgroundColor,
-      bottomNavigationBar: const NavigationBarHome(),
+      // bottomNavigationBar: const NavigationBarHome(),
+      bottomNavigationBar: const BottomNavigationBarHome(),
       appBar: AppBar(
         scrolledUnderElevation: 0,
         // backgroundColor: Theme.of(context).backgroundColor,
