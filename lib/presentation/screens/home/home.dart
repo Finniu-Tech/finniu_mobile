@@ -10,6 +10,7 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
+import 'package:finniu/presentation/screens/home/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/home/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/home/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
@@ -17,6 +18,7 @@ import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
 import 'package:finniu/presentation/screens/home/widgets/profile_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
+import 'package:finniu/presentation/screens/home/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/simulation_card.dart';
 import 'package:finniu/presentation/screens/home/widgets/validation_modal.dart';
 import 'package:flutter/material.dart';
@@ -92,10 +94,15 @@ class HomeBody extends HookConsumerWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
+
             const ValidationModal(),
+
+            const ButtonSendProof(),
+
             const BlueGlodImage(),
             const CarrouselSlide(),
             // const SizedBox(height: 70),
+            const GraphicContainer(),
             const HeaderInvestment(
               containerColor: aboutContainerBusinessColor,
               iconColor: aboutIconBusinessColor,
@@ -115,6 +122,7 @@ class HomeBody extends HookConsumerWidget {
               textTitle: 'Fondo inversión agro inmobiliaria',
             ),
             const SizedBox(height: 10),
+
             Row(
               children: [
                 const ProfileButton(),

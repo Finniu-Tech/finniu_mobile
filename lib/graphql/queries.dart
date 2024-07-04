@@ -1195,4 +1195,21 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get rentabilityGraphic {
+    return '''
+      query rentabilityGraph(\$timeLine: TimeLineEnum) {
+        rentabilityGraph(timeLine: \$timeLine) {
+          rentabilityInPen {
+            month
+            amountPoint
+          }
+          rentabilityInUsd {
+            month
+            amountPoint
+          }
+        }
+}
+    ''';
+  }
 }
