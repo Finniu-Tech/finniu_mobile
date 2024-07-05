@@ -30,9 +30,10 @@ class RealStateContainer extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const Text(
+            Text(
               titleText,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+              style:
+                  TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
               textAlign: TextAlign.left,
             ),
             Center(
@@ -45,10 +46,10 @@ class RealStateContainer extends ConsumerWidget {
                 builder: (BuildContext context, int value, Widget? child) {
                   return Text(
                     isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   );
                 },

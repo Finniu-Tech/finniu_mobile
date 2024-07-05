@@ -9,13 +9,15 @@ import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FundDetailScreen extends StatelessWidget {
+class FundDetailScreen extends ConsumerWidget {
   const FundDetailScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final backgroundColor = isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      backgroundColor: Color(backgroundColor),
       body: const FundDetailBody(),
     );
   }
