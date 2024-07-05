@@ -123,6 +123,7 @@ class CardInvestment extends StatelessWidget {
                   child: const Icon(
                     Icons.arrow_forward_sharp,
                     size: 24,
+                    color: Colors.black,
                   ),
                 ),
               ],
