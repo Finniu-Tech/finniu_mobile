@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/fund_detail/widgets/header_investmen
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             const ModalInvestmentSummary(),
+            const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),
               child: const Text('Ir a home normal'),

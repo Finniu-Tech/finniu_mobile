@@ -112,6 +112,9 @@ const lightBackgroundTitleFund = 0xffE4F9FF;
 const scaffoldLightGradientPrimary = 0xffF8F8F8;
 const scaffoldLightGradientSecondary = 0xffDEF7FF;
 
+
+const dividerColor = 0xffBFF0FF;
+
 const bottomBarBackgroundLight = 0xffC0F1FF;
 const bottomBarBackgroundDark = 0xff0D3A5C;
 
