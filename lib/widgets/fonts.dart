@@ -19,15 +19,19 @@ class TextPoppins extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(text,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-            textStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: fontWeight,
-                color: Color(
-                  colorText,
-                ))));
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: GoogleFonts.poppins(
+        textStyle: TextStyle(
+          fontSize: fontSize,
+          fontWeight: fontWeight,
+          color: Color(
+            colorText,
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -50,28 +54,15 @@ class TextInter extends StatelessWidget {
     return Text(text,
         textAlign: TextAlign.center,
         style: GoogleFonts.inter(
-            textStyle: TextStyle(
-                fontSize: fontSize,
-                fontWeight: fontWeight,
-                color: Color(colorText))));
+            textStyle: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: Color(colorText))));
   }
 }
 
 //function que retornar font poppins
-TextStyle fontPoppins(
-    {required double fontSize,
-    required int colorHex,
-    FontWeight fontWeight = FontWeight.w100}) {
-  return GoogleFonts.poppins(
-      textStyle: TextStyle(
-          fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
+TextStyle fontPoppins({required double fontSize, required int colorHex, FontWeight fontWeight = FontWeight.w100}) {
+  return GoogleFonts.poppins(textStyle: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
 }
 
-TextStyle fontInter(
-    {required double fontSize,
-    required int colorHex,
-    FontWeight fontWeight = FontWeight.w100}) {
-  return GoogleFonts.inter(
-      textStyle: TextStyle(
-          fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
+TextStyle fontInter({required double fontSize, required int colorHex, FontWeight fontWeight = FontWeight.w100}) {
+  return GoogleFonts.inter(textStyle: TextStyle(fontSize: fontSize, fontWeight: fontWeight, color: Color(colorHex)));
 }

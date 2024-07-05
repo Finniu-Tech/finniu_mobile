@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class OurInvestmentFunds extends StatelessWidget {
   const OurInvestmentFunds({
@@ -10,7 +12,7 @@ class OurInvestmentFunds extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void onTapNavigate() {
-      print("precione para navegar a la pantalla de inversion");
+      Navigator.pushNamed(context, '/fund_detail');
     }
 
     final fundCardList = [
@@ -34,7 +36,7 @@ class OurInvestmentFunds extends StatelessWidget {
       width: double.infinity,
       child: Column(
         children: [
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           const TitleOfFunds(
@@ -93,8 +95,8 @@ class CardInvestment extends StatelessWidget {
           ),
         ],
       ),
-      height: 130,
-      padding: const EdgeInsets.all(15),
+      height: 132,
+      padding: const EdgeInsets.all(12),
       child: GestureDetector(
         onTap: onTap,
         child: Column(
@@ -137,6 +139,7 @@ class CardInvestment extends StatelessWidget {
                       fontSize: 20,
                       overflow: TextOverflow.ellipsis,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   ),
                 ],
@@ -149,7 +152,7 @@ class CardInvestment extends StatelessWidget {
   }
 }
 
-class TitleOfFunds extends StatelessWidget {
+class TitleOfFunds extends ConsumerWidget {
   final String title;
   final IconData icon;
   const TitleOfFunds({
@@ -159,16 +162,17 @@ class TitleOfFunds extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
     return Row(
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
             color: Color(
-              primaryDark,
+              currentTheme.isDarkMode ? titleTextInvestment : primaryDark,
             ),
           ),
         ),
@@ -178,7 +182,9 @@ class TitleOfFunds extends StatelessWidget {
         Icon(
           icon,
           size: 24,
-          color: const Color(primaryDark),
+          color: Color(
+            currentTheme.isDarkMode ? titleTextInvestment : primaryDark,
+          ),
         ),
       ],
     );

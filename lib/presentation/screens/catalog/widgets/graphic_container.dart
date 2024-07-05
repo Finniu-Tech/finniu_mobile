@@ -7,17 +7,19 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class GraphicContainer extends StatelessWidget {
+class GraphicContainer extends ConsumerWidget {
   const GraphicContainer({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
     return Container(
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(20)),
-        border: Border.all(color: const Color(0xFF828282), width: 1),
+        border: Border.all(color: const Color(borderColorGray), width: 1),
+        color: currentTheme.isDarkMode ? const Color(backGroundColorGraphContainer) : Colors.white,
       ),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
@@ -168,7 +170,7 @@ class TimeLineSelect extends ConsumerWidget {
         padding: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(20)),
-          color: isDarkMode ? const Color(backgroudSelectDark) : const Color(backgroudSelectLight),
+          color: isDarkMode ? const Color(backgroundSelectDark) : const Color(backgroundSelectLight),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

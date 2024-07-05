@@ -19,7 +19,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       toolbarHeight: 50,
       elevation: 0.0,
       backgroundColor: Color(
-        currentTheme.isDarkMode ? backgroundColorDark : scaffoldLightGradientPrimary,
+        currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary,
       ),
       leading: Image.asset(
         'assets/images/logo_small.png',

@@ -1,7 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/header_investment.dart';
+import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
@@ -34,7 +34,7 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             const ButtonSendProof(),
             const BlueGoldImage(),
-            const CarrouselSlide(),
+            const FundInfoSlider(),
             // const SizedBox(height: 70),
             const GraphicContainer(),
             const HeaderInvestment(
@@ -42,8 +42,7 @@ class CatalogScreen extends HookConsumerWidget {
               iconColor: aboutIconBusinessColor,
               textColor: aboutTextBusinessColor,
               urlIcon: 'assets/investment/business_loans_investment_icon.png',
-              urlImageBackground:
-                  'assets/backgroud/image-inmobiliaria-backgroud.png',
+              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
               textTitle: 'Fondo prestamos empresariales',
             ),
             const SizedBox(height: 10),

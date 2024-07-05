@@ -35,15 +35,17 @@ class NavigationBarHome extends ConsumerWidget {
 
     return Container(
       height: 80,
-      decoration: const BoxDecoration(
-        color: Color(scaffoldLightGradientSecondary),
+      decoration: BoxDecoration(
+        color:
+            currentTheme.isDarkMode ? const Color(backgroundColorNavbar) : const Color(scaffoldLightGradientSecondary),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
         child: Container(
           decoration: BoxDecoration(
-            color: currentTheme.isDarkMode ? Color(bottomBarBackgroundDark) : Color(bottomBarBackgroundLight),
-            borderRadius: BorderRadius.all(Radius.circular(30)),
+            color:
+                currentTheme.isDarkMode ? const Color(bottomBarBackgroundDark) : const Color(bottomBarBackgroundLight),
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -132,7 +134,7 @@ class NavigationButton extends StatelessWidget {
                     ? Text(
                         title,
                         style: TextStyle(
-                          color: currentTheme.isDarkMode ? Color(primaryLight) : Color(primaryDark),
+                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                           fontSize: 9,
                         ),
                       )
