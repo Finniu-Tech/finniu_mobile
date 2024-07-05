@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -7,20 +8,25 @@ class EnterpriseFundTitle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+
     return Container(
       height: 33,
       width: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: const Color(primaryLight)),
-        color: const Color(lightBackgroundTitleFund),
+        border: Border.all(color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight)),
+        color: currentTheme.isDarkMode
+            ? const Color(backGroundColorFundTitleContainer)
+            : const Color(lightBackgroundTitleFund),
       ),
-      child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Text(
           '🏢 Inversiones empresariales',
+          textAlign: TextAlign.center,
           style: TextStyle(
-            color: Colors.black,
+            color: currentTheme.isDarkMode ? Colors.white : Colors.black,
             fontSize: 14,
             fontWeight: FontWeight.w600,
           ),
