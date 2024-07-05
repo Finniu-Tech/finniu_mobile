@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:math' as math;
 
@@ -37,20 +38,137 @@ class BodyModalInvestment extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 529,
       child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(
           children: [
             CloseButton(),
-            SizedBox(height: 5),
+            SizedBox(height: 10),
             TitleModal(),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             IconFond(),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             InvestmentAmountCardsRow(),
-            SizedBox(height: 15),
+            SizedBox(height: 10),
             TermProfitabilityRow(),
+            SizedBox(height: 10),
+            SelectedBank(),
+            SizedBox(height: 10),
+            InvestmentEnds(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class InvestmentEnds extends StatelessWidget {
+  const InvestmentEnds({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 66,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          width: 1,
+          color: const Color(0xff0D3A5C),
+        ),
+      ),
+      child: const Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Column(
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              Icon(
+                Icons.calendar_today_outlined,
+                color: Color(
+                  0xff0D3A5C,
+                ),
+                size: 23,
+              ),
+            ],
+          ),
+          SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Tu inversión finaliza ",
+                style: TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 16,
+                ),
+              ),
+              Text(
+                "10/07/2025",
+                style: TextStyle(
+                  color: Color(0xff0D3A5C),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SelectedBank extends StatelessWidget {
+  const SelectedBank({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 66,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: const Color(0xffF1FCFF),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          const SizedBox(width: 13),
+          Image.asset(
+            "assets/images/bankSelectImage.png",
+            width: 45,
+            height: 45,
+          ),
+          const SizedBox(width: 10),
+          const Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Banco donde se transfiere",
+                style: TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 14,
+                ),
+              ),
+              Text(
+                "BCP *************321",
+                style: TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -339,22 +457,25 @@ class CloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: Transform.rotate(
-            angle: math.pi / 4,
-            child: const Icon(
-              Icons.add_circle_outline,
-              size: 20,
-              color: Color(0xff515151),
+    return SizedBox(
+      height: 40,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          IconButton(
+            onPressed: () => Navigator.pop(context),
+            icon: Transform.rotate(
+              angle: math.pi / 4,
+              child: const Icon(
+                Icons.add_circle_outline,
+                size: 20,
+                color: Color(0xff515151),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
