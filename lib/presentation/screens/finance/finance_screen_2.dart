@@ -1,7 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
@@ -34,14 +34,10 @@ class Finance_Screen_2 extends HookConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode
-          ? const Color(backgroundColorDark)
-          : const Color(whiteText),
+      backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
-        backgroundColor: themeProvider.isDarkMode
-            ? const Color(backgroundColorDark)
-            : const Color(whiteText),
+        backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
         elevation: 0,
         leading: themeProvider.isDarkMode
             ? const CustomReturnButton(
@@ -77,8 +73,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                   children: [
                     const Image(
                       image: AssetImage('assets/images/finance.png'),
-                      width:
-                          40, // ajusta el tamaño de la imagen según tus necesidades
+                      width: 40,
                       height: 40,
                     ),
                     Text(
@@ -88,9 +83,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                         height: 1.5,
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: themeProvider.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -103,9 +96,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                       style: TextStyle(
                         height: 1.5,
                         fontSize: 14,
-                        color: themeProvider.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                       ),
                     ),
                   ],
@@ -141,9 +132,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                         style: TextStyle(
                           height: 1.4,
                           fontSize: 14,
-                          color: themeProvider.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(blackText),
+                          color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                         ),
                       ),
                     ),
@@ -158,9 +147,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 12,
                     height: 1.5,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(blackText),
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
                 CustomSelectButton(
@@ -191,30 +178,23 @@ class Finance_Screen_2 extends HookConsumerWidget {
                         Icon(
                           Icons.arrow_back_ios,
                           size: 14,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                         Center(
                           child: Text(
                             style: TextStyle(
                               fontSize: 11,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
+                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               fontWeight: FontWeight.bold,
                             ),
                             '10%',
-                            textAlign:
-                                TextAlign.center, // alinear texto al centro
+                            textAlign: TextAlign.center,
                           ),
                         ),
                         Icon(
                           Icons.arrow_forward_ios,
                           size: 14,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                       ],
                     ),
@@ -240,9 +220,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                             color: const Color(primaryLightAlternative),
                             border: Border.all(
                               width: 2,
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
+                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                             ),
                             borderRadius: BorderRadius.circular(10),
                           ),
@@ -290,8 +268,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                         color: const Color(
                           primaryLight,
                         ), // color de fondo del contenedor
-                        borderRadius:
-                            BorderRadius.circular(10), // borde redondeado
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     const SizedBox(
@@ -301,9 +278,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                       'Ingresos',
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                         fontWeight: FontWeight.bold // estilo del texto
                         ,
                       ),
@@ -318,8 +293,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                         color: const Color(
                           primaryDark,
                         ), // color de fondo del contenedor
-                        borderRadius:
-                            BorderRadius.circular(10), // borde redondeado
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                     const SizedBox(
@@ -329,9 +303,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                       '% de ingresos a invertir',
                       style: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                         fontWeight: FontWeight.bold // estilo del texto
                         ,
                       ),
@@ -352,17 +324,15 @@ class Finance_Screen_2 extends HookConsumerWidget {
                         width: 233,
                         height: 165,
                         decoration: BoxDecoration(
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLightAlternative)
-                              : const Color(secondary),
+                          color:
+                              currentTheme.isDarkMode ? const Color(primaryLightAlternative) : const Color(secondary),
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                             color: const Color(secondary),
                           ),
                         ),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment
-                              .center, // alinear los textos a la izquierda
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
                               padding: const EdgeInsets.all(23.0),
@@ -440,9 +410,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                   width: 320,
                   height: 130,
                   decoration: BoxDecoration(
-                    color: themeProvider.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(primaryLightAlternative),
+                    color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
@@ -472,9 +440,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                               'Multiplica tu dinero desde hoy',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                color: themeProvider.isDarkMode
-                                    ? const Color(whiteText)
-                                    : const Color(primaryDark),
+                                color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                                 fontSize: 16,
                               ),
                             ),
@@ -485,8 +451,7 @@ class Finance_Screen_2 extends HookConsumerWidget {
                             height: 38,
                             child: TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(
-                                    context, '/finance_screen2');
+                                Navigator.pushNamed(context, '/finance_screen2');
                               },
                               child: const Text(
                                 'Ver planes',
@@ -522,9 +487,7 @@ class CircularFinanceSimulation extends ConsumerWidget {
         percent: 0.5,
         center: CircleAvatar(
           radius: 50,
-          backgroundColor: themeProvider.isDarkMode
-              ? const Color(backgroundColorDark)
-              : Colors.white,
+          backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -536,9 +499,7 @@ class CircularFinanceSimulation extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: themeProvider.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
               Text(
@@ -547,21 +508,15 @@ class CircularFinanceSimulation extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: themeProvider.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
             ],
           ),
         ),
-        progressColor:
-            Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
-        backgroundColor:
-            Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
-        fillColor: themeProvider.isDarkMode
-            ? const Color(backgroundColorDark)
-            : Colors.white,
+        progressColor: Color(themeProvider.isDarkMode ? primaryLight : primaryDark),
+        backgroundColor: Color(themeProvider.isDarkMode ? primaryDark : primaryLight),
+        fillColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
       ),
     );
   }

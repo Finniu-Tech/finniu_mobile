@@ -10,7 +10,6 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/empty_message.dart';
 import 'package:finniu/presentation/screens/home/widgets/linear_report.dart';
-import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home/widgets/pending_investment_card.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/profile_button.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';

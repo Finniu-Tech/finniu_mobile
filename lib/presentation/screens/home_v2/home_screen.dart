@@ -6,13 +6,12 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
-import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
-import 'package:finniu/presentation/screens/home/widgets/our_investment_funds.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/custom_app_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/notification_button.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/profile_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,42 +26,11 @@ class HomeScreenV2 extends HookConsumerWidget {
 
     return PopScope(
       child: Scaffold(
-        appBar: AppBar(
-          toolbarHeight: 50,
-          elevation: 0.0,
-          backgroundColor: Color(
-            currentTheme.isDarkMode
-                ? backgroundColorDark
-                : scaffoldLightGradientPrimary,
-          ),
-          leading: Image.asset(
-            'assets/images/logo_small.png',
-            width: 80,
-            height: 80,
-            color: currentTheme.isDarkMode
-                ? const Color(whiteText)
-                : const Color(blackText),
-          ),
-          title: Text(
-            'Hola, ${userProfile.nickName ?? ''}!',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(primaryDark),
-            ),
-          ),
-          actions: const [
-            NotificationButton(),
-            ProfileButton(),
-            SizedBox(
-              width: 10,
-            ),
-          ],
+        appBar: CustomAppBar(
+          currentTheme: currentTheme,
+          userProfile: userProfile,
         ),
-        backgroundColor:
-            Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
+        backgroundColor: Color(currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -117,8 +85,7 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context)
-                .pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -128,15 +95,17 @@ class HomeBody extends HookConsumerWidget {
 
     return SingleChildScrollView(
       child: Container(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [
-              Color(scaffoldLightGradientPrimary),
-              Color(scaffoldLightGradientSecondary),
-            ],
-            stops: [0.4, 0.6],
+            colors: currentTheme.isDarkMode
+                ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+                : [
+                    const Color(scaffoldLightGradientPrimary),
+                    const Color(scaffoldLightGradientSecondary),
+                  ],
+            stops: const [0.4, 0.6],
           ),
         ),
         child: Column(
@@ -149,7 +118,7 @@ class HomeBody extends HookConsumerWidget {
                   bottomRight: Radius.circular(50),
                 ),
                 color: currentTheme.isDarkMode
-                    ? const Color(backgroundColorDark)
+                    ? const Color(scaffoldBlackBackground)
                     : const Color(scaffoldLightGradientPrimary),
               ),
               child: Stack(
@@ -186,8 +155,7 @@ class HomeBody extends HookConsumerWidget {
                       ? Positioned.fill(
                           child: IgnorePointer(
                             child: BackdropFilter(
-                              filter:
-                                  ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.transparent.withOpacity(0.1),
@@ -210,7 +178,6 @@ class HomeBody extends HookConsumerWidget {
             ),
             const Padding(
               padding: EdgeInsets.symmetric(horizontal: 20),
-              // child: FundHomeSection(),
               child: OurInvestmentFunds(),
             ),
             const SizedBox(

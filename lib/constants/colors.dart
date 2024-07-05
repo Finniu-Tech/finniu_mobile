@@ -78,8 +78,8 @@ const orangeLight = 0xffFFF4EA;
 
 const graphicLine = 0xff2D6EFF;
 
-const backgroudSelectDark = 0xff494848;
-const backgroudSelectLight = 0xffF5F5F5;
+const backgroundSelectDark = 0xff494848;
+const backgroundSelectLight = 0xffF5F5F5;
 const graphicMarker = 0xff15B2E1;
 
 const imageContarnerColor = 0xffDFEEFF;
@@ -112,3 +112,12 @@ const lightBackgroundTitleFund = 0xffE4F9FF;
 const scaffoldLightGradientPrimary = 0xffF8F8F8;
 const scaffoldLightGradientSecondary = 0xffDEF7FF;
 
+const bottomBarBackgroundLight = 0xffC0F1FF;
+const bottomBarBackgroundDark = 0xff0D3A5C;
+
+const scaffoldBlackBackground = 0xff0E0E0E;
+
+const borderColorGray = 0xFF828282;
+
+const backGroundColorGraphContainer = (0xff191919);
+const backGroundColorFundTitleContainer = (0xff05627D);

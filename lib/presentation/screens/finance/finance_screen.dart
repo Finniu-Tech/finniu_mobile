@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +18,10 @@ class FinanceScreen extends HookConsumerWidget {
     final incomeController = useTextEditingController();
 
     return Scaffold(
-      backgroundColor: themeProvider.isDarkMode
-          ? const Color(backgroundColorDark)
-          : const Color(whiteText),
+      backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
-        backgroundColor: themeProvider.isDarkMode
-            ? const Color(backgroundColorDark)
-            : const Color(whiteText),
+        backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
         elevation: 0,
         leading: themeProvider.isDarkMode
             ? const CustomReturnButton(
@@ -56,8 +52,7 @@ class FinanceScreen extends HookConsumerWidget {
             children: [
               const Image(
                 image: AssetImage('assets/images/finance.png'),
-                width:
-                    40, // ajusta el tamaño de la imagen según tus necesidades
+                width: 40, // ajusta el tamaño de la imagen según tus necesidades
                 height: 40,
               ),
               Text(
@@ -67,9 +62,7 @@ class FinanceScreen extends HookConsumerWidget {
                   height: 1.5,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: themeProvider.isDarkMode
-                      ? const Color(primaryLight)
-                      : const Color(primaryDark),
+                  color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                 ),
               ),
             ],
@@ -80,9 +73,7 @@ class FinanceScreen extends HookConsumerWidget {
             style: TextStyle(
               height: 1.5,
               fontSize: 14,
-              color: themeProvider.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(blackText),
+              color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
             ),
           ),
           const SizedBox(
@@ -114,9 +105,7 @@ class FinanceScreen extends HookConsumerWidget {
               style: TextStyle(
                 height: 1.4,
                 fontSize: 14,
-                color: themeProvider.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(blackText),
+                color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
               ),
             ),
           ),
@@ -126,9 +115,7 @@ class FinanceScreen extends HookConsumerWidget {
             style: TextStyle(
               fontSize: 12,
               height: 1.5,
-              color: currentTheme.isDarkMode
-                  ? const Color(whiteText)
-                  : const Color(blackText),
+              color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
             ),
           ),
           CustomSelectButton(
@@ -148,9 +135,7 @@ class FinanceScreen extends HookConsumerWidget {
                   width: 220,
                   height: 135,
                   decoration: BoxDecoration(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLightAlternative)
-                        : const Color(secondary),
+                    color: currentTheme.isDarkMode ? const Color(primaryLightAlternative) : const Color(secondary),
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(
                       color: const Color(secondary),
@@ -200,9 +185,7 @@ class FinanceScreen extends HookConsumerWidget {
             width: 320,
             height: 130,
             decoration: BoxDecoration(
-              color: themeProvider.isDarkMode
-                  ? const Color(primaryDark)
-                  : const Color(primaryLightAlternative),
+              color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -232,9 +215,7 @@ class FinanceScreen extends HookConsumerWidget {
                         'Multiplica tu dinero desde hoy',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          color: themeProvider.isDarkMode
-                              ? const Color(whiteText)
-                              : const Color(primaryDark),
+                          color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                           fontSize: 16,
                         ),
                       ),
