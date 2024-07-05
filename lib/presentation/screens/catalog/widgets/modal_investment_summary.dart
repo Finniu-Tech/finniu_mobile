@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -33,18 +34,205 @@ class BodyModalInvestment extends ConsumerWidget {
         color: Colors.white,
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
-      width: 375,
+      width: MediaQuery.of(context).size.width,
       height: 529,
       child: const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           children: [
             CloseButton(),
+            SizedBox(height: 5),
             TitleModal(),
+            SizedBox(height: 15),
             IconFond(),
+            SizedBox(height: 15),
+            InvestmentAmountCardsRow(),
+            SizedBox(height: 15),
+            TermProfitabilityRow(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class TermProfitabilityRow extends StatelessWidget {
+  const TermProfitabilityRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 66,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xffF1FCFF),
+            ),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Icon(
+                  Icons.calendar_today_outlined,
+                  color: Color(
+                    0xff0D3A5C,
+                  ),
+                  size: 23,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "A un Plazo de",
+                      style: TextStyle(
+                        color: Color(0xff000000),
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      "12 meses",
+                      style: TextStyle(
+                        color: Color(0xff000000),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Container(
+            height: 66,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(0xffF1FCFF),
+            ),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Icon(
+                  Icons.stacked_line_chart_outlined,
+                  color: Color(
+                    0xff0D3A5C,
+                  ),
+                  size: 23,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Rentabilidad",
+                      style: TextStyle(
+                        color: Color(0xff000000),
+                        fontSize: 14,
+                      ),
+                    ),
+                    Text(
+                      "16 %",
+                      style: TextStyle(
+                        color: Color(0xff000000),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class InvestmentAmountCardsRow extends StatelessWidget {
+  const InvestmentAmountCardsRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Row(
+            children: [
+              Container(
+                width: 4,
+                height: 47,
+                color: const Color(0xffA2E6FA),
+              ),
+              const SizedBox(width: 10),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Monto invertido',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff000000),
+                    ),
+                  ),
+                  AnimationNumber(
+                    beginNumber: 8000,
+                    endNumber: 10000,
+                    duration: 2,
+                    fontSize: 16,
+                    colorText: 0xff0D3A5C,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Row(
+            children: [
+              Container(
+                width: 4,
+                height: 47,
+                color: const Color(0xff83BF4F),
+              ),
+              const SizedBox(width: 10),
+              const Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Rentabilidad Final',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff000000),
+                    ),
+                  ),
+                  AnimationNumber(
+                    endNumber: 12000,
+                    beginNumber: 10000,
+                    duration: 2,
+                    fontSize: 16,
+                    colorText: 0xff0D3A5C,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
@@ -56,40 +244,45 @@ class IconFond extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.centerLeft,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          width: 259,
-          height: 30,
-          padding: const EdgeInsets.only(right: 10),
-          alignment: Alignment.centerRight,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: const Color(aboutContainerBusinessColor),
-          ),
-          child: const Text(
-            'Fondo préstamo empresarial ',
-            textAlign: TextAlign.end,
-            style: TextStyle(
-              color: Color(aboutTextBusinessColor),
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
+        Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            Container(
+              width: 273,
+              height: 30,
+              padding: const EdgeInsets.only(right: 10),
+              alignment: Alignment.centerRight,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: const Color(aboutContainerBusinessColor),
+              ),
+              child: const Text(
+                'Fondo préstamo empresarial ',
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                  color: Color(aboutTextBusinessColor),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
-          ),
-        ),
-        Positioned(
-          child: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              color: const Color(aboutIconBusinessColor),
-              borderRadius: BorderRadius.circular(100),
+            Positioned(
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: const Color(aboutIconBusinessColor),
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: Image.asset(
+                  'assets/investment/business_loans_investment_icon.png',
+                ),
+              ),
             ),
-            child: Image.asset(
-              'assets/investment/business_loans_investment_icon.png',
-            ),
-          ),
+          ],
         ),
       ],
     );
@@ -113,6 +306,8 @@ class TitleModal extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         Container(
           width: 73,
