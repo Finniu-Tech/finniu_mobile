@@ -55,12 +55,19 @@ class AnnualProfitability extends ConsumerWidget {
     super.key,
     required this.profitability,
   });
+  final int cardColorLight = 0xffE2F8FF;
+  final int cardColorDark = 0xff292929;
 
+  final int dividerColorLight = 0xffA2E6FA;
+  final int dividerColorDark = 0xff828282;
+
+  final int containerColorLight = 0xffC3F1FF;
+  final int containerColorDark = 0xffA2E6FA;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SlideCarouselCard(
-      color: isDarkMode ? 0xff292929 : 0xffE2F8FF,
+      color: isDarkMode ? cardColorDark : cardColorLight,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -79,12 +86,13 @@ class AnnualProfitability extends ConsumerWidget {
           ),
           Divider(
             height: 2,
-            color: Color(isDarkMode ? 0xff828282 : 0xffA2E6FA),
+            color: Color(isDarkMode ? dividerColorDark : dividerColorLight),
           ),
           Container(
             width: 245,
             decoration: BoxDecoration(
-              color: Color(isDarkMode ? 0xffA2E6FA : 0xffC3F1FF),
+              color:
+                  Color(isDarkMode ? containerColorDark : containerColorLight),
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(
@@ -136,12 +144,16 @@ class InvestedCapital extends ConsumerWidget {
     super.key,
     required this.data,
   });
+  final int cardColorLight = 0xffFFFFFF;
+  final int cardColorDark = 0xff174F79;
 
+  final int columnColorDark = 0xff0A2940;
+  final int columnColorLight = 0xffA2E6FA;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SlideCarouselCard(
-      color: isDarkMode ? 0xff174F79 : 0xffFFFFFF,
+      color: isDarkMode ? cardColorDark : cardColorLight,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -158,7 +170,7 @@ class InvestedCapital extends ConsumerWidget {
               borderColor: Colors.transparent,
               series: [
                 ColumnSeries(
-                  color: Color(isDarkMode ? 0xff0A2940 : 0xffA2E6FA),
+                  color: Color(isDarkMode ? columnColorDark : columnColorLight),
                   borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
@@ -201,13 +213,18 @@ class ManagedAssets extends ConsumerWidget {
     super.key,
     required this.investmentsText,
   });
+  final int cardColorLight = 0xffFFEEDD;
+  final int cardColorDark = 0xff0D3A5C;
+
+  final int dividerColorLight = 0xff0D3A5C;
+  final int dividerColorDark = 0xffA2E6FA;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SlideCarouselCard(
-      color: isDarkMode ? 0xff0D3A5C : 0xffFFEEDD,
+      color: isDarkMode ? cardColorDark : cardColorLight,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
@@ -227,7 +244,7 @@ class ManagedAssets extends ConsumerWidget {
           Divider(
             height: 2,
             color: Color(
-              isDarkMode ? 0xffA2E6FA : 0xff0D3A5C,
+              isDarkMode ? dividerColorDark : dividerColorLight,
             ),
           ),
           const Text(
