@@ -1,8 +1,8 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:math' as math;
 
@@ -30,10 +30,18 @@ class BodyModalInvestment extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const backgroudDark = 0xff1A1A1A;
+    const backgroudLight = 0xffFFFFFF;
+
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(20)),
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? const Color(backgroudDark)
+            : const Color(backgroudLight),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(20),
+        ),
       ),
       width: MediaQuery.of(context).size.width,
       height: 529,
@@ -61,41 +69,45 @@ class BodyModalInvestment extends ConsumerWidget {
   }
 }
 
-class InvestmentEnds extends StatelessWidget {
+class InvestmentEnds extends ConsumerWidget {
   const InvestmentEnds({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int borderDark = 0xffA2E6FA;
+    const int borderLight = 0xff0D3A5C;
     return Container(
       height: 66,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
           width: 1,
-          color: const Color(0xff0D3A5C),
+          color:
+              isDarkMode ? const Color(borderDark) : const Color(borderLight),
         ),
       ),
-      child: const Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Icon(
                 Icons.calendar_today_outlined,
-                color: Color(
-                  0xff0D3A5C,
-                ),
+                color: isDarkMode
+                    ? const Color(borderDark)
+                    : const Color(borderLight),
                 size: 23,
               ),
             ],
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -103,14 +115,16 @@ class InvestmentEnds extends StatelessWidget {
               Text(
                 "Tu inversión finaliza ",
                 style: TextStyle(
-                  color: Color(0xff000000),
+                  color: isDarkMode ? Colors.white : Colors.black,
                   fontSize: 16,
                 ),
               ),
               Text(
                 "10/07/2025",
                 style: TextStyle(
-                  color: Color(0xff0D3A5C),
+                  color: isDarkMode
+                      ? const Color(borderDark)
+                      : const Color(borderLight),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -123,18 +137,23 @@ class InvestmentEnds extends StatelessWidget {
   }
 }
 
-class SelectedBank extends StatelessWidget {
+class SelectedBank extends ConsumerWidget {
   const SelectedBank({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroudDark = 0xff2A2929;
+    const int backgroudLight = 0xffF1FCFF;
     return Container(
       height: 66,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: const Color(0xffF1FCFF),
+        color: isDarkMode
+            ? const Color(backgroudDark)
+            : const Color(backgroudLight),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -147,21 +166,21 @@ class SelectedBank extends StatelessWidget {
             height: 45,
           ),
           const SizedBox(width: 10),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 "Banco donde se transfiere",
                 style: TextStyle(
-                  color: Color(0xff000000),
+                  color: isDarkMode ? Colors.white : Colors.black,
                   fontSize: 14,
                 ),
               ),
               Text(
                 "BCP *************321",
                 style: TextStyle(
-                  color: Color(0xff000000),
+                  color: isDarkMode ? Colors.white : Colors.black,
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
@@ -174,13 +193,18 @@ class SelectedBank extends StatelessWidget {
   }
 }
 
-class TermProfitabilityRow extends StatelessWidget {
+class TermProfitabilityRow extends ConsumerWidget {
   const TermProfitabilityRow({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff2A2929;
+    const int backgroundLight = 0xffF1FCFF;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
     return Row(
       children: [
         Expanded(
@@ -188,17 +212,19 @@ class TermProfitabilityRow extends StatelessWidget {
             height: 66,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: const Color(0xffF1FCFF),
+              color: isDarkMode
+                  ? const Color(backgroundDark)
+                  : const Color(backgroundLight),
             ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Icon(
                   Icons.calendar_today_outlined,
-                  color: Color(
-                    0xff0D3A5C,
-                  ),
+                  color: isDarkMode
+                      ? const Color(iconDark)
+                      : const Color(iconLight),
                   size: 23,
                 ),
                 Column(
@@ -208,14 +234,14 @@ class TermProfitabilityRow extends StatelessWidget {
                     Text(
                       "A un Plazo de",
                       style: TextStyle(
-                        color: Color(0xff000000),
+                        color: isDarkMode ? Colors.white : Colors.black,
                         fontSize: 14,
                       ),
                     ),
                     Text(
                       "12 meses",
                       style: TextStyle(
-                        color: Color(0xff000000),
+                        color: isDarkMode ? Colors.white : Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -232,17 +258,19 @@ class TermProfitabilityRow extends StatelessWidget {
             height: 66,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: const Color(0xffF1FCFF),
+              color: isDarkMode
+                  ? const Color(backgroundDark)
+                  : const Color(backgroundLight),
             ),
-            child: const Row(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Icon(
                   Icons.stacked_line_chart_outlined,
-                  color: Color(
-                    0xff0D3A5C,
-                  ),
+                  color: isDarkMode
+                      ? const Color(iconDark)
+                      : const Color(iconLight),
                   size: 23,
                 ),
                 Column(
@@ -252,14 +280,14 @@ class TermProfitabilityRow extends StatelessWidget {
                     Text(
                       "Rentabilidad",
                       style: TextStyle(
-                        color: Color(0xff000000),
+                        color: isDarkMode ? Colors.white : Colors.black,
                         fontSize: 14,
                       ),
                     ),
                     Text(
                       "16 %",
                       style: TextStyle(
-                        color: Color(0xff000000),
+                        color: isDarkMode ? Colors.white : Colors.black,
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
@@ -275,13 +303,21 @@ class TermProfitabilityRow extends StatelessWidget {
   }
 }
 
-class InvestmentAmountCardsRow extends StatelessWidget {
+class InvestmentAmountCardsRow extends ConsumerWidget {
   const InvestmentAmountCardsRow({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int amoutColorDark = 0xffA2E6FA;
+    const int amoutColorLight = 0xff0D3A5C;
+    const int rentColorDark = 0xff83BF4F;
+    const int rentColorLight = 0xff0D3A5C;
+    const int dividerRentColor = 0xff83BF4F;
+    const int dividerAmoutColor = 0xffA2E6FA;
+
     return Row(
       children: [
         Expanded(
@@ -290,10 +326,10 @@ class InvestmentAmountCardsRow extends StatelessWidget {
               Container(
                 width: 4,
                 height: 47,
-                color: const Color(0xffA2E6FA),
+                color: const Color(dividerAmoutColor),
               ),
               const SizedBox(width: 10),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -302,7 +338,7 @@ class InvestmentAmountCardsRow extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff000000),
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
                   AnimationNumber(
@@ -310,7 +346,7 @@ class InvestmentAmountCardsRow extends StatelessWidget {
                     endNumber: 10000,
                     duration: 2,
                     fontSize: 16,
-                    colorText: 0xff0D3A5C,
+                    colorText: isDarkMode ? amoutColorDark : amoutColorLight,
                   ),
                 ],
               ),
@@ -323,10 +359,10 @@ class InvestmentAmountCardsRow extends StatelessWidget {
               Container(
                 width: 4,
                 height: 47,
-                color: const Color(0xff83BF4F),
+                color: const Color(dividerRentColor),
               ),
               const SizedBox(width: 10),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -335,7 +371,7 @@ class InvestmentAmountCardsRow extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xff000000),
+                      color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
                   AnimationNumber(
@@ -343,7 +379,7 @@ class InvestmentAmountCardsRow extends StatelessWidget {
                     beginNumber: 10000,
                     duration: 2,
                     fontSize: 16,
-                    colorText: 0xff0D3A5C,
+                    colorText: isDarkMode ? rentColorDark : rentColorLight,
                   ),
                 ],
               ),
@@ -355,13 +391,21 @@ class InvestmentAmountCardsRow extends StatelessWidget {
   }
 }
 
-class IconFond extends StatelessWidget {
+class IconFond extends ConsumerWidget {
   const IconFond({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int containerDark = 0xff0D3A5C;
+    const int containerLight = 0xffDBF7FF;
+    const int textDark = 0xffDBF7FF;
+    const int textLight = 0xff0D3A5C;
+    const int imageDark = 0xff08273F;
+    const int imageLight = 0xff95E1F8;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -375,13 +419,17 @@ class IconFond extends StatelessWidget {
               alignment: Alignment.centerRight,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: const Color(aboutContainerBusinessColor),
+                color: isDarkMode
+                    ? const Color(containerDark)
+                    : const Color(containerLight),
               ),
-              child: const Text(
+              child: Text(
                 'Fondo préstamo empresarial ',
                 textAlign: TextAlign.end,
                 style: TextStyle(
-                  color: Color(aboutTextBusinessColor),
+                  color: isDarkMode
+                      ? const Color(textDark)
+                      : const Color(textLight),
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -392,7 +440,9 @@ class IconFond extends StatelessWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: const Color(aboutIconBusinessColor),
+                  color: isDarkMode
+                      ? const Color(imageDark)
+                      : const Color(imageLight),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Image.asset(
@@ -407,20 +457,27 @@ class IconFond extends StatelessWidget {
   }
 }
 
-class TitleModal extends StatelessWidget {
+class TitleModal extends ConsumerWidget {
   const TitleModal({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundColor = 0xff55B63D;
+    const int textColorDark = 0xffFFFFFF;
+    const int textColorLight = 0xff0D3A5C;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        const Text(
+        Text(
           "Resumen de mi inversión",
           style: TextStyle(
-            color: Color(0xff0D3A5C),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
@@ -432,13 +489,13 @@ class TitleModal extends StatelessWidget {
           height: 26,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: const Color(0xff55B63D),
+            color: const Color(backgroundColor),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               "En curso",
               style: TextStyle(
-                color: Colors.white,
+                color: isDarkMode ? Colors.black : Colors.white,
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
               ),
@@ -450,13 +507,16 @@ class TitleModal extends StatelessWidget {
   }
 }
 
-class CloseButton extends StatelessWidget {
+class CloseButton extends ConsumerWidget {
   const CloseButton({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int colorDark = 0xffFFFFFF;
+    const int colorLight = 0xff515151;
     return SizedBox(
       height: 40,
       child: Row(
@@ -467,10 +527,12 @@ class CloseButton extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
             icon: Transform.rotate(
               angle: math.pi / 4,
-              child: const Icon(
+              child: Icon(
                 Icons.add_circle_outline,
                 size: 20,
-                color: Color(0xff515151),
+                color: isDarkMode
+                    ? const Color(colorDark)
+                    : const Color(colorLight),
               ),
             ),
           ),
