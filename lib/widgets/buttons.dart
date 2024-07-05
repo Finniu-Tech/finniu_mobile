@@ -121,15 +121,18 @@ class CustomReturnButton extends ConsumerWidget {
 
 class CustomButtonRoundedDark extends ConsumerWidget {
   final String? pushName;
+  final Color? color;
   final void Function()? onTap;
 
   const CustomButtonRoundedDark({
     super.key,
     this.pushName = "",
+    this.color,
     this.onTap,
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final color = this.color ?? const Color(primaryDark);
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: onTap ??
@@ -153,14 +156,12 @@ class CustomButtonRoundedDark extends ConsumerWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
           color: Colors.transparent,
-          border: Border.all(
-            color: const Color(primaryDark),
-          ),
+          border: Border.all(color: color),
         ),
-        child: const Center(
+        child: Center(
           child: Icon(
             size: 20,
-            color: Color(primaryDark),
+            color: color,
             Icons.arrow_forward,
           ),
         ),

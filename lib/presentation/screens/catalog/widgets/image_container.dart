@@ -9,8 +9,8 @@ class BlueGoldImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const ImageContainer(
-      imageContainer: 'assets/blue_gold/blue_gold_image.png',
-      imageFullScreen: 'assets/blue_gold/blue_gold_rotative.png',
+      imageContainer: 'assets/blue_gold/factoring_image.png',
+      imageFullScreen: 'assets/blue_gold/factoring_vertical.jpg',
     );
   }
 }
@@ -28,7 +28,7 @@ class ImageContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(imageContarnerColor),
+      color: Colors.transparent,
       width: MediaQuery.of(context).size.width,
       height: 192,
       child: Container(

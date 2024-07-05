@@ -7,8 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
-class CarrouselSlide extends StatelessWidget {
-  const CarrouselSlide({
+class FundInfoSlider extends StatelessWidget {
+  const FundInfoSlider({
     super.key,
   });
 
@@ -33,7 +33,7 @@ class CarrouselSlide extends StatelessWidget {
       ),
     ];
     return Container(
-      color: const Color(backgroudCarousel),
+      color: Colors.transparent,
       padding: const EdgeInsets.symmetric(vertical: 20),
       child: CarouselSlider(
         items: items,
@@ -114,8 +114,7 @@ class AnnualProfitability extends ConsumerWidget {
                       TweenAnimationBuilder(
                         tween: IntTween(begin: 0, end: profitability),
                         duration: const Duration(seconds: 1),
-                        builder:
-                            (BuildContext context, int value, Widget? child) {
+                        builder: (BuildContext context, int value, Widget? child) {
                           return Text(
                             "${value.toString()}.0%",
                             style: const TextStyle(
@@ -257,11 +256,8 @@ class ManagedAssets extends ConsumerWidget {
             duration: const Duration(seconds: 2),
             builder: (BuildContext context, int value, Widget? child) {
               return Text(
-                isSoles
-                    ? formatterSoles.format(value)
-                    : formatterUSD.format(value),
-                style:
-                    const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
+                style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               );
             },
           ),

@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 
 class HeaderInvestment extends StatelessWidget {
@@ -27,10 +28,10 @@ class HeaderInvestment extends StatelessWidget {
       height: height,
       child: Stack(
         children: [
-          BackgroudImage(
+          BackgroundImage(
             urlImageBackground: urlImageBackground,
           ),
-          const BackgroudOpacity(),
+          const BackgroundOpacity(),
           AboutContainer(
             containerColor: containerColor,
             iconColor: iconColor,
@@ -65,7 +66,20 @@ class AboutContainer extends StatelessWidget {
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          //CustomButtonRoundedDark(), //transform  to 90 degrees
+
+          // Transform(transform: Matrix4.rotationZ(1.5708), child: CustomButtonRoundedDark()),
+          Transform.rotate(
+            angle: -3,
+            child: CustomButtonRoundedDark(
+              color: Colors.white,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
           SizedBox(
             height: 60,
             child: Row(
@@ -160,8 +174,8 @@ class AppBarInvestment extends StatelessWidget {
   }
 }
 
-class BackgroudOpacity extends StatelessWidget {
-  const BackgroudOpacity({
+class BackgroundOpacity extends StatelessWidget {
+  const BackgroundOpacity({
     super.key,
   });
 
@@ -174,9 +188,9 @@ class BackgroudOpacity extends StatelessWidget {
   }
 }
 
-class BackgroudImage extends StatelessWidget {
+class BackgroundImage extends StatelessWidget {
   final String urlImageBackground;
-  const BackgroudImage({
+  const BackgroundImage({
     super.key,
     required this.urlImageBackground,
   });

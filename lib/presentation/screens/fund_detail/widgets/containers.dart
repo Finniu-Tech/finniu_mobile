@@ -21,9 +21,7 @@ class RealStateContainer extends ConsumerWidget {
       width: 336,
       height: 121,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(containerRealStateDark)
-            : const Color(containerRealStateLight),
+        color: isDarkMode ? const Color(containerRealStateDark) : const Color(containerRealStateLight),
         borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
       child: Padding(
@@ -34,10 +32,7 @@ class RealStateContainer extends ConsumerWidget {
           children: [
             const Text(
               titleText,
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
               textAlign: TextAlign.left,
             ),
             Center(
@@ -49,12 +44,11 @@ class RealStateContainer extends ConsumerWidget {
                 duration: const Duration(seconds: 1),
                 builder: (BuildContext context, int value, Widget? child) {
                   return Text(
-                    isSoles
-                        ? formatterSoles.format(value)
-                        : formatterUSD.format(value),
+                    isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
                     style: const TextStyle(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
+                      color: Colors.black,
                     ),
                   );
                 },
@@ -85,9 +79,7 @@ class BlueGoldContainer extends ConsumerWidget {
       width: 336,
       height: 121,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(containerBlueGoldDark)
-            : const Color(containerBlueGoldLight),
+        color: isDarkMode ? const Color(containerBlueGoldDark) : const Color(containerBlueGoldLight),
         borderRadius: const BorderRadius.all(Radius.circular(20)),
       ),
       child: Padding(
@@ -125,9 +117,7 @@ class BlueGoldContainer extends ConsumerWidget {
                   duration: const Duration(seconds: 1),
                   builder: (BuildContext context, int value, Widget? child) {
                     return Text(
-                      isSoles
-                          ? formatterSoles.format(value)
-                          : formatterUSD.format(value),
+                      isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
                       style: const TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
