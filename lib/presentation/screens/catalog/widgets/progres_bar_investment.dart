@@ -152,8 +152,8 @@ class LabelState extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const labelLightContainer = 0xff0D3A5C;
     const labelDarkContainer = 0xffA2E6FA;
-    const textLight = 0xffFFFFFF;
     const textDark = 0xff0D3A5C;
+    const textLight = 0xffFFFFFF;
     return Positioned(
       right: 0,
       child: Container(

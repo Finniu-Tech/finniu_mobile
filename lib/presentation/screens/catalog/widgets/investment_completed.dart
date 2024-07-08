@@ -4,10 +4,10 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_b
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ToValidateInvestment extends ConsumerWidget {
+class CompletmentInvestment extends ConsumerWidget {
   final String dateFinal;
   final int amount;
-  const ToValidateInvestment({
+  const CompletmentInvestment({
     super.key,
     required this.dateFinal,
     required this.amount,
@@ -47,7 +47,7 @@ class ToValidateInvestment extends ConsumerWidget {
           ),
         ),
         const LabelState(
-          label: "En revisión",
+          label: "Depositado",
         ),
       ],
     );
@@ -146,8 +146,8 @@ class LabelState extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const labelLightContainer = 0xffA2E6FA;
-    const labelDarkContainer = 0xff114E7C;
+    const labelLightContainer = 0xff90E5FD;
+    const labelDarkContainer = 0xff174C74;
     const textDark = 0xffFFFFFF;
     const textLight = 0xff0D3A5C;
     return Positioned(
@@ -168,7 +168,7 @@ class LabelState extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/two_eye.png', height: 12, width: 12),
+            Image.asset('assets/images/money_bag.png', height: 12, width: 12),
             const SizedBox(width: 5),
             Text(
               label,
