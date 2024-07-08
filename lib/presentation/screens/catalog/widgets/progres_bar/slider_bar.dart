@@ -91,7 +91,7 @@ class StackSlider extends ConsumerWidget {
             height: 19,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color(progressFillColor),
+              color: Color(progressColor),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2),

@@ -28,7 +28,17 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const ProgresBarInProgress(),
+            const ProgresBarInProgress(
+              amount: 1000,
+              dateFinal: '10/10/2022',
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const ProgresBarInProgress(
+              amount: 2000,
+              dateFinal: '11/10/2022',
+            ),
             const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),

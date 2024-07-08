@@ -2,12 +2,15 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProgresBarInProgress extends ConsumerWidget {
+  final String dateFinal;
+  final int amount;
   const ProgresBarInProgress({
     super.key,
+    required this.dateFinal,
+    required this.amount,
   });
 
   @override
@@ -21,19 +24,23 @@ class ProgresBarInProgress extends ConsumerWidget {
           width: 336,
           height: 90,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
             color: isDarkMode
                 ? const Color(backgroudDark)
                 : const Color(backgroudLight),
           ),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Column(
               children: [
-                AmountInvestment(),
-                SizedBox(height: 1),
-                SliderBar(),
-                FinalText(),
+                AmountInvestment(
+                  amount: amount,
+                ),
+                const SizedBox(height: 1),
+                const SliderBar(),
+                FinalText(
+                  dateFinal: dateFinal,
+                ),
               ],
             ),
           ),
@@ -47,14 +54,15 @@ class ProgresBarInProgress extends ConsumerWidget {
 }
 
 class FinalText extends ConsumerWidget {
+  final String dateFinal;
   const FinalText({
     super.key,
+    required this.dateFinal,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const String dateFinal = '10/07/2025';
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,8 +88,10 @@ class FinalText extends ConsumerWidget {
 }
 
 class AmountInvestment extends ConsumerWidget {
+  final int amount;
   const AmountInvestment({
     super.key,
+    required this.amount,
   });
 
   @override
@@ -113,8 +123,8 @@ class AmountInvestment extends ConsumerWidget {
                 ),
               ),
               AnimationNumber(
-                beginNumber: 8000,
-                endNumber: 10000,
+                beginNumber: 0,
+                endNumber: amount,
                 duration: 2,
                 fontSize: 14,
                 colorText: isDarkMode ? amoutColorDark : amoutColorLight,
@@ -148,8 +158,8 @@ class LabelState extends ConsumerWidget {
         width: 95,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
-            bottomLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
+            bottomLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
           ),
           color: isDarkMode
               ? const Color(labelDarkContainer)
