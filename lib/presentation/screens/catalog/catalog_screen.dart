@@ -1,13 +1,16 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CatalogScreen extends HookConsumerWidget {
@@ -16,6 +19,7 @@ class CatalogScreen extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: Colors.white,
+      bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         elevation: 0.0,
         scrolledUnderElevation: 0,
@@ -25,6 +29,7 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const ProgresBarInvestment(),
             const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),
@@ -44,7 +49,8 @@ class CatalogScreen extends HookConsumerWidget {
               iconColor: aboutIconBusinessColor,
               textColor: aboutTextBusinessColor,
               urlIcon: 'assets/investment/business_loans_investment_icon.png',
-              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
+              urlImageBackground:
+                  'assets/backgroud/image-inmobiliaria-backgroud.png',
               textTitle: 'Fondo prestamos empresariales',
             ),
             const SizedBox(height: 10),
