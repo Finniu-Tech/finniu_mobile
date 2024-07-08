@@ -3,7 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SliderBar extends ConsumerStatefulWidget {
-  const SliderBar({super.key});
+  final String image;
+  final bool toValidate;
+  const SliderBar({
+    super.key,
+    required this.image,
+    required this.toValidate,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _SliderBarState();
@@ -21,11 +27,11 @@ class _SliderBarState extends ConsumerState<SliderBar>
     isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 1),
     );
     _animation = Tween<double>(
       begin: 0.0,
-      end: 270,
+      end: widget.toValidate ? 130.0 : 270.0,
     ).animate(_controller)
       ..addListener(() {
         setState(() {
@@ -44,6 +50,7 @@ class _SliderBarState extends ConsumerState<SliderBar>
       height: 20,
       child: StackSlider(
         width: width,
+        image: widget.image,
       ),
     );
   }
@@ -53,8 +60,10 @@ class StackSlider extends ConsumerWidget {
   const StackSlider({
     super.key,
     required this.width,
+    required this.image,
   });
   final double width;
+  final String image;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -103,7 +112,7 @@ class StackSlider extends ConsumerWidget {
             ),
             child: Center(
               child: Image.asset(
-                'assets/images/money_wings_19.png',
+                image,
                 width: 19,
                 height: 19,
               ),

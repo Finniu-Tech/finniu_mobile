@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -28,6 +29,13 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const ToValidateInvestment(
+              amount: 3000,
+              dateFinal: '10/10/2022',
+            ),
+            const SizedBox(
+              height: 5,
+            ),
             const ProgresBarInProgress(
               amount: 1000,
               dateFinal: '10/10/2022',

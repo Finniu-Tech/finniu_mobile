@@ -4,10 +4,10 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_b
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProgresBarInProgress extends ConsumerWidget {
+class ToValidateInvestment extends ConsumerWidget {
   final String dateFinal;
   final int amount;
-  const ProgresBarInProgress({
+  const ToValidateInvestment({
     super.key,
     required this.dateFinal,
     required this.amount,
@@ -38,52 +38,48 @@ class ProgresBarInProgress extends ConsumerWidget {
                 ),
                 const SizedBox(height: 1),
                 const SliderBar(
-                  image: 'assets/images/money_wings_19.png',
-                  toValidate: false,
+                  image: 'assets/images/money_bag.png',
+                  toValidate: true,
                 ),
-                FinalText(
-                  dateFinal: dateFinal,
-                ),
+                const ValidationText(),
               ],
             ),
           ),
         ),
         const LabelState(
-          label: "📉 Inversión en curso",
+          label: "En revisión",
         ),
       ],
     );
   }
 }
 
-class FinalText extends ConsumerWidget {
-  final String dateFinal;
-  const FinalText({
+class ValidationText extends ConsumerWidget {
+  const ValidationText({
     super.key,
-    required this.dateFinal,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Finaliza $dateFinal',
+          'Validacion',
           style: TextStyle(
-            fontSize: 11,
+            fontSize: 7,
             color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
-        const SizedBox(width: 10),
-        Text(
-          'En curso',
-          style: TextStyle(
-            fontSize: 8,
-            color: isDarkMode ? Colors.white : Colors.black,
-          ),
+        const SizedBox(width: 2),
+        Icon(
+          Icons.help_outline,
+          color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+          size: 13,
         ),
       ],
     );
@@ -172,6 +168,8 @@ class LabelState extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Image.asset('assets/images/two_eye.png', height: 12, width: 12),
+            const SizedBox(width: 5),
             Text(
               label,
               textAlign: TextAlign.center,
