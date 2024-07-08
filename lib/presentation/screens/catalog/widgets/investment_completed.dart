@@ -99,13 +99,17 @@ class DownloadButton extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                Icons.download,
-                color: isDarkMode
-                    ? const Color(textColorDark)
-                    : const Color(textColorLight),
-                size: 16,
-              ),
+              isDarkMode
+                  ? Image.asset(
+                      "assets/icons/dowload_icon_dark.png",
+                      width: 16,
+                      height: 16,
+                    )
+                  : Image.asset(
+                      "assets/icons/dowload_icon_light.png",
+                      width: 16,
+                      height: 16,
+                    ),
               const SizedBox(width: 3),
               Text(
                 "Descargar voucher",
