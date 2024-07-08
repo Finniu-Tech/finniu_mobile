@@ -27,18 +27,52 @@ class ProgresBarInProgress extends ConsumerWidget {
                 : const Color(backgroudLight),
           ),
           child: const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Column(
               children: [
                 AmountInvestment(),
                 SizedBox(height: 1),
                 SliderBar(),
+                FinalText(),
               ],
             ),
           ),
         ),
         const LabelState(
           label: "📉 Inversión en curso",
+        ),
+      ],
+    );
+  }
+}
+
+class FinalText extends ConsumerWidget {
+  const FinalText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const String dateFinal = '10/07/2025';
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          'Finaliza $dateFinal',
+          style: TextStyle(
+            fontSize: 11,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          'En curso',
+          style: TextStyle(
+            fontSize: 8,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
         ),
       ],
     );
