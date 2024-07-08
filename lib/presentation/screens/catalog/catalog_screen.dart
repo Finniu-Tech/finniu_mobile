@@ -10,7 +10,6 @@ import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CatalogScreen extends HookConsumerWidget {
@@ -29,7 +28,7 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const ProgresBarInvestment(),
+            const ProgresBarInProgress(),
             const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),

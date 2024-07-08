@@ -3,8 +3,8 @@ import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProgresBarInvestment extends ConsumerWidget {
-  const ProgresBarInvestment({
+class ProgresBarInProgress extends ConsumerWidget {
+  const ProgresBarInProgress({
     super.key,
   });
 
