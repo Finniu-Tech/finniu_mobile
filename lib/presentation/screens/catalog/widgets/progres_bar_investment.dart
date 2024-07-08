@@ -181,6 +181,7 @@ class LabelState extends ConsumerWidget {
                 color:
                     isDarkMode ? const Color(textDark) : const Color(textLight),
                 fontSize: 8,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],

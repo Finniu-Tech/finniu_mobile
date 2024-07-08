@@ -31,8 +31,17 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             const CompletmentInvestment(
+              amount: 777,
+              dateFinal: '11/11/2022',
+              isReInvestment: false,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const CompletmentInvestment(
               amount: 555,
               dateFinal: '10/10/2022',
+              isReInvestment: true,
             ),
             const SizedBox(
               height: 5,

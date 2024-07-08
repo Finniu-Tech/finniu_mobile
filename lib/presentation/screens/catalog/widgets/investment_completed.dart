@@ -1,23 +1,24 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CompletmentInvestment extends ConsumerWidget {
   final String dateFinal;
   final int amount;
+  final bool isReInvestment;
   const CompletmentInvestment({
     super.key,
     required this.dateFinal,
     required this.amount,
+    required this.isReInvestment,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const backgroudLight = 0xffD6F6FF;
-    const backgroudDark = 0xff08273F;
+    int backgroudLight = isReInvestment ? 0xffCFC3FF : 0xffD6F6FF;
+    int backgroudDark = isReInvestment ? 0xff6749E2 : 0xff08273F;
     return Stack(
       children: [
         Container(
@@ -25,88 +26,123 @@ class CompletmentInvestment extends ConsumerWidget {
           height: 90,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode
-                ? const Color(backgroudDark)
-                : const Color(backgroudLight),
+            color: isDarkMode ? Color(backgroudDark) : Color(backgroudLight),
           ),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AmountInvestment(
                   amount: amount,
+                  isReInvestment: isReInvestment,
                 ),
                 const SizedBox(height: 1),
-                const SliderBar(
-                  image: 'assets/images/money_bag.png',
-                  toValidate: true,
+                Text(
+                  "Finalizado el $dateFinal",
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-                const ValidationText(),
               ],
             ),
           ),
         ),
-        const LabelState(
+        LabelState(
           label: "Depositado",
+          isReInvestment: isReInvestment,
         ),
+        const DownloadButton(),
       ],
     );
   }
 }
 
-class ValidationText extends ConsumerWidget {
-  const ValidationText({
+class DownloadButton extends ConsumerWidget {
+  const DownloadButton({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int iconDark = 0xffA2E6FA;
-    const int iconLight = 0xff0D3A5C;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Text(
-          'Validacion',
-          style: TextStyle(
-            fontSize: 7,
-            color: isDarkMode ? Colors.white : Colors.black,
+    const int butonColorDark = 0xffA2E6FA;
+    const int butonColorLight = 0xff0D3A5C;
+    const int textColorDark = 0xff08273F;
+    const int textColorLight = 0xffFFFFFF;
+    return Positioned(
+      right: 7,
+      bottom: 7,
+      child: GestureDetector(
+        onTap: () {},
+        child: Container(
+          width: 144,
+          height: 26,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: isDarkMode
+                ? const Color(butonColorDark)
+                : const Color(butonColorLight),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(
+                Icons.download,
+                color: isDarkMode
+                    ? const Color(textColorDark)
+                    : const Color(textColorLight),
+                size: 16,
+              ),
+              const SizedBox(width: 3),
+              Text(
+                "Descargar voucher",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: isDarkMode
+                      ? const Color(textColorDark)
+                      : const Color(textColorLight),
+                ),
+              ),
+            ],
           ),
         ),
-        const SizedBox(width: 2),
-        Icon(
-          Icons.help_outline,
-          color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
-          size: 13,
-        ),
-      ],
+      ),
     );
   }
 }
 
 class AmountInvestment extends ConsumerWidget {
   final int amount;
+  final bool isReInvestment;
   const AmountInvestment({
     super.key,
     required this.amount,
+    required this.isReInvestment,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int amoutColorDark = 0xffA2E6FA;
-    const int amoutColorLight = 0xff0D3A5C;
-    const int dividerAmoutColor = 0xffA2E6FA;
+    int amoutColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    int amoutColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    int dividerAmoutColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    int dividerAmoutColor = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    int textColorDark = isReInvestment ? 0xffC1FF79 : 0xff0A2E6FA;
+    int textColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+
     return SizedBox(
-      height: 40,
+      height: 52,
       child: Row(
         children: [
           Container(
             width: 4,
             height: 47,
-            color: const Color(dividerAmoutColor),
+            color: isDarkMode
+                ? Color(dividerAmoutColorDark)
+                : Color(dividerAmoutColor),
           ),
           const SizedBox(width: 10),
           Column(
@@ -116,9 +152,18 @@ class AmountInvestment extends ConsumerWidget {
               Text(
                 'Inversión empresarial',
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.bold,
                   color: isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
+              Text(
+                'Monto del retorno de tu capital',
+                style: TextStyle(
+                  fontSize: 9,
+                  fontWeight: FontWeight.bold,
+                  color:
+                      isDarkMode ? Color(textColorDark) : Color(textColorLight),
                 ),
               ),
               AnimationNumber(
@@ -138,18 +183,20 @@ class AmountInvestment extends ConsumerWidget {
 
 class LabelState extends ConsumerWidget {
   final String label;
+  final bool isReInvestment;
   const LabelState({
     required this.label,
+    required this.isReInvestment,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const labelLightContainer = 0xff90E5FD;
-    const labelDarkContainer = 0xff174C74;
-    const textDark = 0xffFFFFFF;
-    const textLight = 0xff0D3A5C;
+    int labelLightContainer = isReInvestment ? 0xffA48EFF : 0xff90E5FD;
+    int labelDarkContainer = isReInvestment ? 0xffA48EFF : 0xff174C74;
+    int textDark = isReInvestment ? 0xff000000 : 0xffFFFFFF;
+    int textLight = isReInvestment ? 0xffFFFFFF : 0xff0D3A5C;
     return Positioned(
       right: 0,
       child: Container(
@@ -161,8 +208,8 @@ class LabelState extends ConsumerWidget {
             topRight: Radius.circular(10),
           ),
           color: isDarkMode
-              ? const Color(labelDarkContainer)
-              : const Color(labelLightContainer),
+              ? Color(labelDarkContainer)
+              : Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -176,9 +223,9 @@ class LabelState extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color:
-                    isDarkMode ? const Color(textDark) : const Color(textLight),
+                color: isDarkMode ? Color(textDark) : Color(textLight),
                 fontSize: 8,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ],
