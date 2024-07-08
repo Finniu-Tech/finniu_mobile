@@ -85,6 +85,16 @@ class DownloadButton extends ConsumerWidget {
             color: isDarkMode
                 ? const Color(butonColorDark)
                 : const Color(butonColorLight),
+            boxShadow: [
+              BoxShadow(
+                color: isDarkMode
+                    ? Colors.white.withOpacity(0.2)
+                    : Colors.black.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
