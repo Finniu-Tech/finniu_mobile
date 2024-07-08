@@ -33,6 +33,9 @@ class ProgresBarInProgress extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Column(
               children: [
+                const SizedBox(
+                  height: 2,
+                ),
                 AmountInvestment(
                   amount: amount,
                 ),
