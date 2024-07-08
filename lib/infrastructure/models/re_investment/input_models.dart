@@ -1,8 +1,6 @@
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
-import 'package:finniu/infrastructure/models/re_investment/responde_models.dart';
-import 'package:finniu/presentation/screens/calendar.dart';
 
 String mapReason(String reason) {
   switch (reason) {
@@ -58,7 +56,7 @@ enum OriginFoundsEnum {
 }
 
 class OriginFoundsUtil {
-  static Map<OriginFoundsEnum, String> _readableNames = {
+  static final Map<OriginFoundsEnum, String> _readableNames = {
     OriginFoundsEnum.SALARIO: 'Salario',
     OriginFoundsEnum.AHORROS: 'Ahorros',
     OriginFoundsEnum.VENTA_BIENES: 'Venta Bienes',
@@ -74,7 +72,10 @@ class OriginFoundsUtil {
 
   static OriginFoundsEnum fromReadableName(String readableName) {
     return _readableNames.entries
-        .firstWhere((entry) => entry.value == readableName, orElse: () => const MapEntry(OriginFoundsEnum.OTROS, ''))
+        .firstWhere(
+          (entry) => entry.value == readableName,
+          orElse: () => const MapEntry(OriginFoundsEnum.OTROS, ''),
+        )
         .key;
   }
 

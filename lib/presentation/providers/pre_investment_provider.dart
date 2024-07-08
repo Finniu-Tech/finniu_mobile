@@ -13,11 +13,12 @@ final preInvestmentSaveProvider =
       client: client!,
       amount: preInvestmentEntity.amount,
       // bankAccountNumber: preInvestmentEntity.bankAccountNumber,
-      bankAccountTypeUuid: preInvestmentEntity.bankAccountTypeUuid,
       deadLineUuid: preInvestmentEntity.deadLineUuid,
       planUuid: preInvestmentEntity.planUuid,
       coupon: preInvestmentEntity.coupon,
       currency: preInvestmentEntity.currency,
+      bankAccountNumber: preInvestmentEntity.bankAccountNumber,
+      originFunds: preInvestmentEntity.originFunds,
     );
     return result;
   } catch (e, stack) {
