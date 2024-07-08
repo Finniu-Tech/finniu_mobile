@@ -1,6 +1,8 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProgresBarInProgress extends ConsumerWidget {
@@ -29,6 +31,8 @@ class ProgresBarInProgress extends ConsumerWidget {
             child: Column(
               children: [
                 AmountInvestment(),
+                SizedBox(height: 1),
+                SliderBar(),
               ],
             ),
           ),
