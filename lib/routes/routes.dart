@@ -72,7 +72,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/contract_view': (BuildContext context) => const ContractViewPDF(),
     '/calendar_page': (BuildContext context) => const Calendar(),
     '/finish_investment': (BuildContext context) => const FinishInvestment(),
-    '/process_investment': (BuildContext context) => InvestmentProcess(),
+    '/process_investment': (BuildContext context) => InvestmentStatusScreen(),
     '/investment_history': (BuildContext context) => const InvestmentHistory(),
     '/reinvestment_step_1': (BuildContext context) {
       final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;

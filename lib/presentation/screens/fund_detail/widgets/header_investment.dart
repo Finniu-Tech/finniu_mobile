@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:finniu/widgets/labels.dart';
 import 'package:flutter/material.dart';
 
 class HeaderInvestment extends StatelessWidget {
@@ -86,42 +87,12 @@ class AboutContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Stack(
-                  alignment: Alignment.centerLeft,
-                  children: [
-                    Container(
-                      width: 150,
-                      height: 30,
-                      padding: const EdgeInsets.only(right: 10),
-                      alignment: Alignment.centerRight,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Color(containerColor),
-                      ),
-                      child: Text(
-                        'Acerca de',
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                          color: Color(textColor),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      child: Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Color(iconColor),
-                          borderRadius: BorderRadius.circular(100),
-                        ),
-                        child: Image.asset(
-                          urlIcon,
-                        ),
-                      ),
-                    ),
-                  ],
+                LabelWithRoundedImage(
+                  containerColor: containerColor,
+                  textColor: textColor,
+                  iconColor: iconColor,
+                  urlIcon: urlIcon,
+                  labelText: 'Acerca de',
                 ),
                 Container(
                   width: 114,

@@ -16,12 +16,12 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class InvestmentProcess extends StatefulHookConsumerWidget {
+class InvestmentStatusScreen extends StatefulHookConsumerWidget {
   @override
   _InvestmentProcessState createState() => _InvestmentProcessState();
 }
 
-class _InvestmentProcessState extends ConsumerState<InvestmentProcess> with SingleTickerProviderStateMixin {
+class _InvestmentProcessState extends ConsumerState<InvestmentStatusScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
   late Future<InvestmentRentabilityReport> _reportFuture;
 
