@@ -30,14 +30,14 @@ class BodyModalInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const backgroudDark = 0xff1A1A1A;
-    const backgroudLight = 0xffFFFFFF;
+    const backgroundDark = 0xff1A1A1A;
+    const backgroundLight = 0xffFFFFFF;
 
     return Container(
       decoration: BoxDecoration(
         color: isDarkMode
-            ? const Color(backgroudDark)
-            : const Color(backgroudLight),
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
@@ -52,7 +52,7 @@ class BodyModalInvestment extends ConsumerWidget {
             SizedBox(height: 10),
             TitleModal(),
             SizedBox(height: 10),
-            IconFond(),
+            IconFund(),
             SizedBox(height: 10),
             InvestmentAmountCardsRow(),
             SizedBox(height: 10),
@@ -144,15 +144,15 @@ class SelectedBank extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int backgroudDark = 0xff2A2929;
-    const int backgroudLight = 0xffF1FCFF;
+    const int backgroundDark = 0xff2A2929;
+    const int backgroundLight = 0xffF1FCFF;
     return Container(
       height: 66,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: isDarkMode
-            ? const Color(backgroudDark)
-            : const Color(backgroudLight),
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -310,12 +310,12 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int amoutColorDark = 0xffA2E6FA;
-    const int amoutColorLight = 0xff0D3A5C;
+    const int amountColorDark = 0xffA2E6FA;
+    const int amountColorLight = 0xff0D3A5C;
     const int rentColorDark = 0xff83BF4F;
     const int rentColorLight = 0xff0D3A5C;
     const int dividerRentColor = 0xff83BF4F;
-    const int dividerAmoutColor = 0xffA2E6FA;
+    const int dividerAmountColor = 0xffA2E6FA;
 
     return Row(
       children: [
@@ -325,7 +325,7 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
               Container(
                 width: 4,
                 height: 47,
-                color: const Color(dividerAmoutColor),
+                color: const Color(dividerAmountColor),
               ),
               const SizedBox(width: 10),
               Column(
@@ -345,7 +345,7 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                     endNumber: 10000,
                     duration: 2,
                     fontSize: 16,
-                    colorText: isDarkMode ? amoutColorDark : amoutColorLight,
+                    colorText: isDarkMode ? amountColorDark : amountColorLight,
                   ),
                 ],
               ),
@@ -390,8 +390,8 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
   }
 }
 
-class IconFond extends ConsumerWidget {
-  const IconFond({
+class IconFund extends ConsumerWidget {
+  const IconFund({
     super.key,
   });
 
