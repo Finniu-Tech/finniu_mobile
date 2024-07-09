@@ -1,4 +1,6 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
@@ -26,7 +28,12 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const ModalBenefitsTwo(),
+            const SizedBox(height: 10),
+            const ModalBenefits(),
+            const SizedBox(height: 10),
             const ModalInvestmentSummary(),
+            const SizedBox(height: 10),
             const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),
@@ -46,7 +53,8 @@ class CatalogScreen extends HookConsumerWidget {
               iconColor: aboutIconBusinessColor,
               textColor: aboutTextBusinessColor,
               urlIcon: 'assets/investment/business_loans_investment_icon.png',
-              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
+              urlImageBackground:
+                  'assets/backgroud/image-inmobiliaria-backgroud.png',
               textTitle: 'Fondo prestamos empresariales',
             ),
             const SizedBox(height: 10),
