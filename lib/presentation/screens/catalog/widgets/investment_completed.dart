@@ -3,13 +3,13 @@ import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CompletmentInvestment extends ConsumerWidget {
-  final String dateFinal;
+class CompetentInvestment extends ConsumerWidget {
+  final String dateEnds;
   final int amount;
   final bool isReInvestment;
-  const CompletmentInvestment({
+  const CompetentInvestment({
     super.key,
-    required this.dateFinal,
+    required this.dateEnds,
     required this.amount,
     required this.isReInvestment,
   });
@@ -17,8 +17,8 @@ class CompletmentInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    int backgroudLight = isReInvestment ? 0xffCFC3FF : 0xffD6F6FF;
-    int backgroudDark = isReInvestment ? 0xff6749E2 : 0xff08273F;
+    int backgroundLight = isReInvestment ? 0xffCFC3FF : 0xffD6F6FF;
+    int backgroundDark = isReInvestment ? 0xff6749E2 : 0xff08273F;
     return Stack(
       children: [
         Container(
@@ -26,7 +26,7 @@ class CompletmentInvestment extends ConsumerWidget {
           height: 90,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode ? Color(backgroudDark) : Color(backgroudLight),
+            color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -40,7 +40,7 @@ class CompletmentInvestment extends ConsumerWidget {
                 ),
                 const SizedBox(height: 1),
                 Text(
-                  "Finalizado el $dateFinal",
+                  "Finalizado el $dateEnds",
                   style: TextStyle(
                     fontSize: 10,
                     color: isDarkMode ? Colors.white : Colors.black,
@@ -68,8 +68,8 @@ class DownloadButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int butonColorDark = 0xffA2E6FA;
-    const int butonColorLight = 0xff0D3A5C;
+    const int buttonColorDark = 0xffA2E6FA;
+    const int buttonColorLight = 0xff0D3A5C;
     const int textColorDark = 0xff08273F;
     const int textColorLight = 0xffFFFFFF;
     return Positioned(
@@ -83,8 +83,8 @@ class DownloadButton extends ConsumerWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
             color: isDarkMode
-                ? const Color(butonColorDark)
-                : const Color(butonColorLight),
+                ? const Color(buttonColorDark)
+                : const Color(buttonColorLight),
             boxShadow: [
               BoxShadow(
                 color: isDarkMode
@@ -101,12 +101,12 @@ class DownloadButton extends ConsumerWidget {
             children: [
               isDarkMode
                   ? Image.asset(
-                      "assets/icons/dowload_icon_dark.png",
+                      "assets/icons/download_icon_dark.png",
                       width: 16,
                       height: 16,
                     )
                   : Image.asset(
-                      "assets/icons/dowload_icon_light.png",
+                      "assets/icons/download_icon_light.png",
                       width: 16,
                       height: 16,
                     ),
@@ -140,10 +140,10 @@ class AmountInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    int amoutColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
-    int amoutColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
-    int dividerAmoutColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
-    int dividerAmoutColor = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    int amountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    int amountColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    int dividerAmountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    int dividerAmountColor = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
     int textColorDark = isReInvestment ? 0xffC1FF79 : 0xff0A2E6FA;
     int textColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
 
@@ -155,8 +155,8 @@ class AmountInvestment extends ConsumerWidget {
             width: 4,
             height: 47,
             color: isDarkMode
-                ? Color(dividerAmoutColorDark)
-                : Color(dividerAmoutColor),
+                ? Color(dividerAmountColorDark)
+                : Color(dividerAmountColor),
           ),
           const SizedBox(width: 10),
           Column(
@@ -185,7 +185,7 @@ class AmountInvestment extends ConsumerWidget {
                 endNumber: amount,
                 duration: 1,
                 fontSize: 14,
-                colorText: isDarkMode ? amoutColorDark : amoutColorLight,
+                colorText: isDarkMode ? amountColorDark : amountColorLight,
               ),
             ],
           ),

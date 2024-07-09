@@ -30,17 +30,17 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const CompletmentInvestment(
+            const CompetentInvestment(
               amount: 777,
-              dateFinal: '11/11/2022',
+              dateEnds: '11/11/2022',
               isReInvestment: false,
             ),
             const SizedBox(
               height: 5,
             ),
-            const CompletmentInvestment(
+            const CompetentInvestment(
               amount: 555,
-              dateFinal: '10/10/2022',
+              dateEnds: '10/10/2022',
               isReInvestment: true,
             ),
             const SizedBox(
@@ -48,21 +48,21 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             const ToValidateInvestment(
               amount: 3000,
-              dateFinal: '10/10/2022',
+              dateEnds: '10/10/2022',
             ),
             const SizedBox(
               height: 5,
             ),
-            const ProgresBarInProgress(
+            const ProgressBarInProgress(
               amount: 1000,
-              dateFinal: '10/10/2022',
+              dateEnds: '10/10/2022',
             ),
             const SizedBox(
               height: 5,
             ),
-            const ProgresBarInProgress(
+            const ProgressBarInProgress(
               amount: 2000,
-              dateFinal: '11/10/2022',
+              dateEnds: '11/10/2022',
             ),
             const ValidationModal(),
             ElevatedButton(

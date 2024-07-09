@@ -4,20 +4,20 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_b
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProgresBarInProgress extends ConsumerWidget {
-  final String dateFinal;
+class ProgressBarInProgress extends ConsumerWidget {
+  final String dateEnds;
   final int amount;
-  const ProgresBarInProgress({
+  const ProgressBarInProgress({
     super.key,
-    required this.dateFinal,
+    required this.dateEnds,
     required this.amount,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const backgroudLight = 0xffD6F6FF;
-    const backgroudDark = 0xff08273F;
+    const backgroundLight = 0xffD6F6FF;
+    const backgroundDark = 0xff08273F;
     return Stack(
       children: [
         Container(
@@ -26,8 +26,8 @@ class ProgresBarInProgress extends ConsumerWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isDarkMode
-                ? const Color(backgroudDark)
-                : const Color(backgroudLight),
+                ? const Color(backgroundDark)
+                : const Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -45,7 +45,7 @@ class ProgresBarInProgress extends ConsumerWidget {
                   toValidate: false,
                 ),
                 FinalText(
-                  dateFinal: dateFinal,
+                  dateFinal: dateEnds,
                 ),
               ],
             ),
@@ -103,9 +103,9 @@ class AmountInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int amoutColorDark = 0xffA2E6FA;
-    const int amoutColorLight = 0xff0D3A5C;
-    const int dividerAmoutColor = 0xffA2E6FA;
+    const int amountColorDark = 0xffA2E6FA;
+    const int amountColorLight = 0xff0D3A5C;
+    const int dividerAmountColor = 0xffA2E6FA;
     return SizedBox(
       height: 40,
       child: Row(
@@ -113,7 +113,7 @@ class AmountInvestment extends ConsumerWidget {
           Container(
             width: 4,
             height: 47,
-            color: const Color(dividerAmoutColor),
+            color: const Color(dividerAmountColor),
           ),
           const SizedBox(width: 10),
           Column(
@@ -133,7 +133,7 @@ class AmountInvestment extends ConsumerWidget {
                 endNumber: amount,
                 duration: 1,
                 fontSize: 14,
-                colorText: isDarkMode ? amoutColorDark : amoutColorLight,
+                colorText: isDarkMode ? amountColorDark : amountColorLight,
               ),
             ],
           ),
