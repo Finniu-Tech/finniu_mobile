@@ -11,7 +11,6 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void showAccountTransferModal(
@@ -95,10 +94,10 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
       );
       return false;
     }
-    if (accountNumberController.text.length > 20) {
-      CustomSnackbar.show(context, "El número de cuenta es inválido", 'error');
-      return false;
-    }
+    // if (accountNumberController.text.length > 20) {
+    //   CustomSnackbar.show(context, "El número de cuenta es inválido", 'error');
+    //   return false;
+    // }
     if (isJointAccount) {
       if (jointHolderNameController.text.isEmpty) {
         CustomSnackbar.show(
@@ -501,8 +500,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       Navigator.of(context).pop();
                     },
                     style: ButtonStyle(
-                      overlayColor: MaterialStateProperty.all(Colors.transparent),
-                      backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                      overlayColor: WidgetStateProperty.all(Colors.transparent),
+                      backgroundColor: WidgetStateProperty.all(Colors.transparent),
                     ),
                     child: Text(
                       "Regresar",

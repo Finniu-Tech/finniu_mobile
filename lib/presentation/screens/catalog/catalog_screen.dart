@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investme
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
@@ -64,6 +65,7 @@ class CatalogScreen extends HookConsumerWidget {
               amount: 2000,
               dateEnds: '11/10/2022',
             ),
+            const ModalInvestmentSummary(),
             const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),
