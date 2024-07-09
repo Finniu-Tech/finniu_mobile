@@ -53,7 +53,8 @@ class BankAccount {
   }
   static getSafeBankAccountNumber(String bankAccount) {
     if (bankAccount.length > 4) {
-      return '************ ${bankAccount.substring(bankAccount.length - 4)}';
+      // return '************ ${bankAccount.substring(bankAccount.length - 4)}';
+      return bankAccount;
     }
     return bankAccount;
   }
