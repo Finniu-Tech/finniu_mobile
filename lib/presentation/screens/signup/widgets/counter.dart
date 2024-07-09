@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -58,20 +60,71 @@ class CircularCountdown extends ConsumerWidget {
                       ? const Color(primaryLight)
                       : const Color(primaryDark),
                 ),
-                Text(
-                  duration.toString(),
-                  style: TextStyle(
-                    fontSize: 15.0,
-                    color: currentTheme.isDarkMode
-                        ? const Color(whiteText)
-                        : const Color(primaryDark),
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                NumberAlarm(duration: duration, currentTheme: currentTheme),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class NumberAlarm extends StatefulWidget {
+  const NumberAlarm({
+    super.key,
+    required this.duration,
+    required this.currentTheme,
+  });
+
+  final int duration;
+  final SettingsProviderState currentTheme;
+
+  @override
+  State<NumberAlarm> createState() => _NumberAlarmState();
+}
+
+class _NumberAlarmState extends State<NumberAlarm> {
+  late int _remainingDuration;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _remainingDuration = widget.duration;
+    _startTimer();
+  }
+
+  void _startTimer() {
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_remainingDuration > 0) {
+        setState(() {
+          _remainingDuration--;
+        });
+      } else {
+        _timer?.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      _remainingDuration.toString(),
+      style: TextStyle(
+        fontSize: 15.0,
+        color: widget.currentTheme.isDarkMode
+            ? const Color(whiteText)
+            : const Color(
+                primaryDark,
+              ),
+        fontWeight: FontWeight.bold,
       ),
     );
   }
