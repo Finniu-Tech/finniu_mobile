@@ -66,20 +66,25 @@ class CreditCardWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              BankAccount.getSafeBankAccountNumber(bankAccount.bankAccount),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                shadows: <Shadow>[
-                  Shadow(
-                    offset: Offset(1.0, 1.0),
-                    blurRadius: 3.0,
-                    color: Color.fromARGB(150, 0, 0, 0),
-                  ),
-                ],
+            Positioned(
+              bottom: 20,
+              left: 40,
+              child: Text(
+                BankAccount.getSafeBankAccountNumber(bankAccount.bankAccount),
+                // 'xxxxx',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  shadows: <Shadow>[
+                    Shadow(
+                      offset: Offset(1.0, 1.0),
+                      blurRadius: 3.0,
+                      color: Color.fromARGB(150, 0, 0, 0),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
