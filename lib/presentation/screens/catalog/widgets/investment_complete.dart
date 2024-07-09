@@ -3,11 +3,11 @@ import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class CompetentInvestment extends ConsumerWidget {
+class CompleteInvestment extends ConsumerWidget {
   final String dateEnds;
   final int amount;
   final bool isReInvestment;
-  const CompetentInvestment({
+  const CompleteInvestment({
     super.key,
     required this.dateEnds,
     required this.amount,

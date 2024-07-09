@@ -1,7 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/investment_completed.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
@@ -30,7 +30,7 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const CompetentInvestment(
+            const CompleteInvestment(
               amount: 777,
               dateEnds: '11/11/2022',
               isReInvestment: false,
@@ -38,7 +38,7 @@ class CatalogScreen extends HookConsumerWidget {
             const SizedBox(
               height: 5,
             ),
-            const CompetentInvestment(
+            const CompleteInvestment(
               amount: 555,
               dateEnds: '10/10/2022',
               isReInvestment: true,
