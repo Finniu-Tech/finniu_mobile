@@ -23,10 +23,14 @@ class ModalBenefits extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonInvestment(
       text: 'Beneficios',
-      onPressed: () => showDialog(
-        context: context,
-        builder: (context) => const BodyModalBenefits(),
-      ),
+      onPressed: () => showBenefits(context),
+    );
+  }
+
+  Future<dynamic> showBenefits(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => const BodyModalBenefits(),
     );
   }
 }
