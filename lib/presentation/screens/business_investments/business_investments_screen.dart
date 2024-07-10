@@ -64,7 +64,7 @@ class BodyScaffold extends ConsumerWidget {
               isBold: true,
             ),
             SizedBox(height: 10),
-            InvestmentHistoryBusiness()
+            InvestmentHistoryBusiness(),
           ],
         ),
       ),

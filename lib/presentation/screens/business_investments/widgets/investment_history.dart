@@ -36,7 +36,7 @@ class _InvestmentHistoryBusiness
     ];
 
     return SizedBox(
-      height: 350,
+      height: 355,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
@@ -50,7 +50,11 @@ class _InvestmentHistoryBusiness
                   setState(() {
                     _selectedIndex = 0;
                   });
-                  _pageController.jumpToPage(0);
+                  _pageController.animateToPage(
+                    0,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
                 },
               ),
               ButtonHistory(
@@ -60,7 +64,11 @@ class _InvestmentHistoryBusiness
                   setState(() {
                     _selectedIndex = 1;
                   });
-                  _pageController.jumpToPage(1);
+                  _pageController.animateToPage(
+                    1,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
                 },
               ),
               ButtonHistory(
@@ -70,12 +78,18 @@ class _InvestmentHistoryBusiness
                   setState(() {
                     _selectedIndex = 2;
                   });
-                  _pageController.jumpToPage(2);
+                  _pageController.animateToPage(
+                    2,
+                    duration: const Duration(milliseconds: 500),
+                    curve: Curves.easeInOut,
+                  );
                 },
               ),
             ],
           ),
-          Expanded(
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 300,
             child: PageView(
               controller: _pageController,
               onPageChanged: (index) {
