@@ -1185,6 +1185,7 @@ class QueryRepository {
             uuid
             bankName
             bankAccount
+            bankCciAccount
             currency
             alias
             typeAccount
