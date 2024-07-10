@@ -28,6 +28,12 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "go to businnes investment",
+              onPressed: () {
+                Navigator.pushNamed(context, '/business_investment');
+              },
+            ),
             const ModalBenefitsTwo(),
             const SizedBox(height: 10),
             const ModalBenefits(),
