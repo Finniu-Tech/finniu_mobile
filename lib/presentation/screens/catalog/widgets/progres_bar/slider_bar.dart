@@ -42,6 +42,12 @@ class _SliderBarState extends ConsumerState<SliderBar>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(
     BuildContext context,
   ) {

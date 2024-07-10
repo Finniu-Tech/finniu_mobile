@@ -50,7 +50,7 @@ class ToValidateInvestment extends ConsumerWidget {
           ),
         ),
         const LabelState(
-          label: "En revisión",
+          label: "👀 En revisión",
         ),
       ],
     );
@@ -155,7 +155,6 @@ class LabelState extends ConsumerWidget {
     const textLight = 0xff0D3A5C;
     return Positioned(
       right: 0,
-      top: 0,
       child: Container(
         height: 24,
         width: 95,
@@ -172,8 +171,6 @@ class LabelState extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/two_eye.png', height: 12, width: 12),
-            const SizedBox(width: 5),
             Text(
               label,
               textAlign: TextAlign.center,

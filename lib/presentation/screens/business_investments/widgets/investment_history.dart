@@ -1,4 +1,5 @@
 // ignore_for_file: unused_local_variable
+import 'package:finniu/infrastructure/models/business_investments/business_investments.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
@@ -6,35 +7,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-class ToValidateItem {
-  final String dateEnds;
-  final int amount;
-  ToValidateItem({
-    required this.dateEnds,
-    required this.amount,
-  });
-}
-
-class InProgressItem {
-  final String dateEnds;
-  final int amount;
-  InProgressItem({
-    required this.dateEnds,
-    required this.amount,
-  });
-}
-
-class CompletedItem {
-  final String dateEnds;
-  final int amount;
-  final bool isReInvestment;
-  CompletedItem({
-    required this.dateEnds,
-    required this.amount,
-    required this.isReInvestment,
-  });
-}
 
 class InvestmentHistoryBusiness extends ConsumerStatefulWidget {
   const InvestmentHistoryBusiness({super.key});
@@ -52,28 +24,6 @@ class _InvestmentHistoryBusiness
   @override
   Widget build(BuildContext context) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-
-    final List<ToValidateItem> toValidateList = [
-      ToValidateItem(dateEnds: '09/07/2024', amount: 1000),
-      ToValidateItem(dateEnds: '10/07/2024', amount: 2000),
-      ToValidateItem(dateEnds: '11/07/2024', amount: 3000),
-      ToValidateItem(dateEnds: '12/07/2024', amount: 4000),
-    ];
-    final List<InProgressItem> inProgressList = [
-      InProgressItem(dateEnds: '09/07/2024', amount: 1000),
-      InProgressItem(dateEnds: '10/07/2024', amount: 2000),
-      InProgressItem(dateEnds: '11/07/2024', amount: 3000),
-      InProgressItem(dateEnds: '12/07/2024', amount: 4000),
-    ];
-    final List<CompletedItem> completedList = [
-      CompletedItem(dateEnds: '09/07/2024', amount: 1000, isReInvestment: true),
-      CompletedItem(
-          dateEnds: '09/07/2024', amount: 21000, isReInvestment: false),
-      CompletedItem(dateEnds: '09/07/2024', amount: 3000, isReInvestment: true),
-      CompletedItem(
-          dateEnds: '09/07/2024', amount: 4000, isReInvestment: false),
-      CompletedItem(dateEnds: '09/07/2024', amount: 5000, isReInvestment: true),
-    ];
 
     return SizedBox(
       height: 355,
@@ -129,6 +79,7 @@ class _InvestmentHistoryBusiness
           ),
           const SizedBox(height: 10),
           SizedBox(
+            width: 336,
             height: 300,
             child: PageView(
               controller: _pageController,
