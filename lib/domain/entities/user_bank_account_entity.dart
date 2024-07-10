@@ -22,6 +22,7 @@ class BankAccount {
   final String id;
   final String bankName;
   final String bankAccount;
+  final String? cci;
   final String currency;
   final String? alias;
   final String typeAccount;
@@ -34,6 +35,7 @@ class BankAccount {
     required this.bankAccount,
     required this.currency,
     this.alias,
+    this.cci,
     required this.typeAccount,
     required this.isJointAccount,
     required this.isDefaultAccount,
@@ -49,6 +51,7 @@ class BankAccount {
       typeAccount: json['typeAccount'],
       isJointAccount: json['isJointAccount'],
       isDefaultAccount: json['isDefaultAccount'],
+      cci: json['bankCciAccount'],
     );
   }
   static getSafeBankAccountNumber(String bankAccount) {
