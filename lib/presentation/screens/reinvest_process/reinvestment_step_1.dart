@@ -388,18 +388,17 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               constraints: const BoxConstraints(
                 minWidth: 263,
                 maxWidth: 400,
-                maxHeight: 39,
-                minHeight: 39,
+                maxHeight: 45,
+                minHeight: 45,
               ),
               child: InkWell(
                 onTap: () async {
-                  // show accounts modal
                   showBankAccountModal(
                     context,
                     ref,
                     currency,
                     true,
-                    widget.reInvestmentType,
+                    "",
                   );
                 },
                 child: IgnorePointer(
@@ -412,46 +411,140 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       }
                       return null;
                     },
+                    onChanged: (value) {},
                     decoration: InputDecoration(
                       prefixIcon: widget.bankController.text.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.only(right: 8.0, left: 20.0),
-                              child: selectedBank!.logoUrl!.isNotEmpty
-                                  ? Image.network(
-                                      selectedBank?.logoUrl ?? '',
-                                      width: 13,
-                                      height: 13,
-                                      fit: BoxFit.contain,
-                                    )
-                                  : const Icon(
-                                      Icons.account_balance,
-                                      color: Colors.grey,
-                                      size: 13,
-                                    ),
+                              child: selectedBank != null
+                                  ? selectedBank!.logoUrl!.isNotEmpty
+                                      ? Image.network(
+                                          selectedBank?.logoUrl ?? '',
+                                          width: 13,
+                                          height: 13,
+                                          fit: BoxFit.contain,
+                                        )
+                                      : const Icon(
+                                          Icons.account_balance,
+                                          color: Colors.grey,
+                                          size: 13,
+                                        )
+                                  : null,
                             )
                           : null,
-                      suffixIconConstraints: const BoxConstraints(
-                        maxHeight: 39,
-                        maxWidth: 39,
-                      ),
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      hintText: 'Nombre del banco',
+                      // suffixIcon: Padding(
+                      //   padding: const EdgeInsets.all(3),
+                      //   child: GestureDetector(
+                      //     child: Container(
+                      //       width: 10,
+                      //       decoration: BoxDecoration(
+                      //         shape: BoxShape.circle,
+                      //         color: Color(primaryLight),
+                      //         border: Border.all(
+                      //           color: Colors.grey,
+                      //           width: 0.7,
+                      //         ),
+                      //       ),
+                      //       child: const Icon(
+                      //         size: 25,
+                      //         Icons.account_balance,
+                      //         color: Color(primaryDark),
+                      //       ),
+                      //     ),
+                      //     // onTap: () async {
+                      //     //   showBankAccountModal(
+                      //     //     context,
+                      //     //     ref,
+                      //     //     currency,
+                      //     //     true,
+                      //     //     "",
+                      //     //   );
+                      //     // },
+                      //   ),
+                      // ),
+                      hintText: 'Número de cuenta',
                       hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.zero,
                       ),
-                      labelText: "Desde qué banco realizas la transferencia",
+                      label: const Text(
+                        "Desde qué banco realizas la transferencia",
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
+
+            // Container(
+            //   width: MediaQuery.of(context).size.width * 0.8,
+            //   constraints: const BoxConstraints(
+            //     minWidth: 263,
+            //     maxWidth: 400,
+            //     maxHeight: 39,
+            //     minHeight: 39,
+            //   ),
+            //   child: InkWell(
+            //     onTap: () async {
+            //       // show accounts modal
+            //       showBankAccountModal(
+            //         context,
+            //         ref,
+            //         currency,
+            //         true,
+            //         widget.reInvestmentType,
+            //       );
+            //     },
+            //     child: IgnorePointer(
+            //       child: TextFormField(
+            //         controller: widget.bankController,
+            //         readOnly: true,
+            //         validator: (value) {
+            //           if (value!.isEmpty) {
+            //             return 'Este dato es requerido';
+            //           }
+            //           return null;
+            //         },
+            //         decoration: InputDecoration(
+            //           prefixIcon: widget.bankController.text.isNotEmpty
+            //               ? Padding(
+            //                   padding: const EdgeInsets.only(right: 8.0, left: 20.0),
+            //                   child: selectedBank!.logoUrl!.isNotEmpty
+            //                       ? Image.network(
+            //                           selectedBank?.logoUrl ?? '',
+            //                           width: 13,
+            //                           height: 13,
+            //                           fit: BoxFit.contain,
+            //                         )
+            //                       : const Icon(
+            //                           Icons.account_balance,
+            //                           color: Colors.grey,
+            //                           size: 13,
+            //                         ),
+            //                 )
+            //               : null,
+            //           suffixIconConstraints: const BoxConstraints(
+            //             maxHeight: 39,
+            //             maxWidth: 39,
+            //           ),
+            //           suffixIcon: const Padding(
+            //             padding: EdgeInsets.only(right: 8.0),
+            //             child: Icon(
+            //               Icons.arrow_drop_down,
+            //               color: Colors.grey,
+            //             ),
+            //           ),
+            //           hintText: 'Nombre del banco',
+            //           hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+            //           border: const OutlineInputBorder(
+            //             borderRadius: BorderRadius.zero,
+            //           ),
+            //           labelText: "Desde qué banco realizas la transferencia",
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
             const SizedBox(
               height: 20,
