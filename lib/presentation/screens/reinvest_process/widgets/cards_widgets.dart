@@ -227,23 +227,6 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                 ),
                               ],
                             ),
-                            // SizedBox(
-                            //   width: 299,
-                            //   child: Text(
-                            //     'No. de cuenta - ${TypeAccountEnum.mapTypeAccountToLabel(bankAccountSelected!.typeAccount)} ${BankAccount.getSafeBankAccountNumber(bankAccountSelected!.bankAccount)}',
-                            //     textAlign: TextAlign.left,
-                            //   ),
-                            // ),
-                            // if (bankAccountSelected!.cci != null) ...[
-                            //   SizedBox(
-                            //     width: 299,
-                            //     child: Text(
-                            //       'CCI -  ${BankAccount.getSafeBankAccountNumber(bankAccountSelected!.cci ?? '')}',
-                            //       textAlign: TextAlign.left,
-                            //     ),
-                            //   ),
-                            // ],
-
                             const SizedBox(height: 20),
                             CreditCardWidget(
                               imageAsset: selectedImage,
