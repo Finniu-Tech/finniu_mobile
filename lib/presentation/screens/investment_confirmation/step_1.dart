@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
@@ -32,7 +31,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-
 import '../../../infrastructure/models/calculate_investment.dart';
 
 class Step1 extends HookConsumerWidget {
@@ -473,7 +471,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               ),
               child: InkWell(
                 onTap: () async {
-                  // show accounts modal
                   showBankAccountModal(
                     context,
                     ref,
@@ -492,6 +489,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                       }
                       return null;
                     },
+                    onChanged: (value) {},
                     decoration: InputDecoration(
                       prefixIcon: widget.bankController.text.isNotEmpty
                           ? Padding(
@@ -512,23 +510,14 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                                   : null,
                             )
                           : null,
-                      suffixIconConstraints: const BoxConstraints(
-                        maxHeight: 39,
-                        maxWidth: 39,
-                      ),
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      hintText: 'Nombre del banco',
+                      hintText: 'Número de cuenta',
                       hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.zero,
                       ),
-                      labelText: "Desde qué banco realizas la transferencia",
+                      label: const Text(
+                        "Desde qué banco realizas la transferencia",
+                      ),
                     ),
                   ),
                 ),
@@ -729,13 +718,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            // '${(() {
-                            //   if (widget.resultCalculator?.months == 6) {
-                            //     return widget.plan.sixMonthsReturn;
-                            //   } else {
-                            //     return widget.plan.twelveMonthsReturn;
-                            //   }
-                            // })()}%',
                             '${resultCalculator?.finalRentability?.toString() ?? 0}% ',
                             textAlign: TextAlign.right,
                             style: const TextStyle(
@@ -804,25 +786,6 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
             const SizedBox(
               height: 20,
             ),
-            // Padding(
-            //   padding: const EdgeInsets.only(right: 30, left: 42),
-            //   child: Row(
-            //     mainAxisAlignment: MainAxisAlignment.center,
-            //     crossAxisAlignment: CrossAxisAlignment.center,
-            //     children: const [
-            //       Text(
-            //         // textAlign: TextAlign.start,
-            //         "Moneda",
-            //         style: TextStyle(fontSize: 13),
-            //       ),
-            //       Spacer(),
-            //       SwitchMoney(
-            //         switchHeight: 34,
-            //         switchWidth: 67,
-            //       ),
-            //     ],
-            //   ),
-            // ),
             SizedBox(
               width: 224,
               height: 50,
@@ -926,11 +889,6 @@ class _StepBarState extends ConsumerState<StepBar> {
     const Color activeBorderColor = Colors.transparent;
     final Color activeIconColor = currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryDark);
     final Color inactiveIconColor = currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark);
-
-    // Color backgroundColor = currentTheme.isDarkMode
-    //     ? const Color(secondary)
-    //     : const Color(primaryLight);
-    // Color containerColor = inactiveColor; // Color por defecto
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

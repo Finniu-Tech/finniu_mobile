@@ -388,12 +388,11 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
               constraints: const BoxConstraints(
                 minWidth: 263,
                 maxWidth: 400,
-                maxHeight: 39,
-                minHeight: 39,
+                maxHeight: 45,
+                minHeight: 45,
               ),
               child: InkWell(
                 onTap: () async {
-                  // show accounts modal
                   showBankAccountModal(
                     context,
                     ref,
@@ -412,41 +411,35 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                       }
                       return null;
                     },
+                    onChanged: (value) {},
                     decoration: InputDecoration(
                       prefixIcon: widget.bankController.text.isNotEmpty
                           ? Padding(
                               padding: const EdgeInsets.only(right: 8.0, left: 20.0),
-                              child: selectedBank!.logoUrl!.isNotEmpty
-                                  ? Image.network(
-                                      selectedBank?.logoUrl ?? '',
-                                      width: 13,
-                                      height: 13,
-                                      fit: BoxFit.contain,
-                                    )
-                                  : const Icon(
-                                      Icons.account_balance,
-                                      color: Colors.grey,
-                                      size: 13,
-                                    ),
+                              child: selectedBank != null
+                                  ? selectedBank!.logoUrl!.isNotEmpty
+                                      ? Image.network(
+                                          selectedBank?.logoUrl ?? '',
+                                          width: 13,
+                                          height: 13,
+                                          fit: BoxFit.contain,
+                                        )
+                                      : const Icon(
+                                          Icons.account_balance,
+                                          color: Colors.grey,
+                                          size: 13,
+                                        )
+                                  : null,
                             )
                           : null,
-                      suffixIconConstraints: const BoxConstraints(
-                        maxHeight: 39,
-                        maxWidth: 39,
-                      ),
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.only(right: 8.0),
-                        child: Icon(
-                          Icons.arrow_drop_down,
-                          color: Colors.grey,
-                        ),
-                      ),
-                      hintText: 'Nombre del banco',
+                      hintText: 'Número de cuenta',
                       hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.zero,
                       ),
-                      labelText: "Desde qué banco realizas la transferencia",
+                      label: const Text(
+                        "Desde qué banco realizas la transferencia",
+                      ),
                     ),
                   ),
                 ),
@@ -470,7 +463,6 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 ),
                 child: CustomSelectButton(
                   asyncItems: (String filter) async {
-                    // return OriginFoundsEnum.values.map((e) => OriginFoundsUtil.toReadableName(e)).toList();
                     return OriginFoundsUtil.getReadableNames();
                   },
                   callbackOnChange: (value) async {
