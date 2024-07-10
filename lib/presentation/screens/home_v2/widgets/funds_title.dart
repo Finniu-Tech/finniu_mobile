@@ -15,10 +15,22 @@ class EnterpriseFundTitle extends ConsumerWidget {
       width: 250,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight)),
+        border: Border.all(
+          color: currentTheme.isDarkMode
+              ? const Color(primaryDark)
+              : const Color(primaryLight),
+        ),
         color: currentTheme.isDarkMode
             ? const Color(backGroundColorFundTitleContainer)
             : const Color(lightBackgroundTitleFund),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 5,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),

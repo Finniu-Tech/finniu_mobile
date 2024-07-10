@@ -143,7 +143,7 @@ class NavigationBarInvestment extends ConsumerWidget {
               ),
               NavigationButton(
                 icon: Icons.monetization_on_outlined,
-                title: 'Inversiones',
+                title: 'Inversion',
                 onTap: () => navigate(context, 1),
                 isSelected: selectedIndex == 1 ? true : false,
                 currentTheme: currentTheme,

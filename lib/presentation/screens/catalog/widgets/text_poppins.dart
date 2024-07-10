@@ -8,6 +8,7 @@ class TextPoppins extends ConsumerWidget {
   final int? textDark;
   final int? textLight;
   final bool? isBold;
+  final int? lines;
 
   const TextPoppins({
     super.key,
@@ -16,6 +17,7 @@ class TextPoppins extends ConsumerWidget {
     this.textDark,
     this.textLight,
     this.isBold,
+    this.lines,
   });
 
   @override
@@ -23,6 +25,8 @@ class TextPoppins extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Text(
       text,
+      maxLines: lines ?? 1,
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontFamily: "Poppins",
         fontSize: fontSize,
