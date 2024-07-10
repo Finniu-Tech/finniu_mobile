@@ -21,6 +21,7 @@ class BankAccountDataSource {
       'joinAccount': input.jointAccount?.toJson(),
       'isDefault': input.isDefault,
       'isPersonalAccount': input.isPersonalAccount,
+      'cci': input.cci,
     };
     final MutationOptions options = MutationOptions(
       document: gql(
@@ -30,7 +31,6 @@ class BankAccountDataSource {
     );
 
     final QueryResult result = await client.mutate(options);
-    print('result create bank account: ${result}');
     if (result.hasException) {
       throw Exception(result.exception.toString());
     }

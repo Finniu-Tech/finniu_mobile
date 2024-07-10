@@ -67,12 +67,12 @@ class CreditCardWidget extends StatelessWidget {
               ),
             ),
             Positioned(
-              bottom: 20,
-              left: 40,
+              bottom: bankAccount.cci == null ? 15 : 35,
+              left: 20,
               child: Text(
-                BankAccount.getSafeBankAccountNumber(bankAccount.bankAccount),
+                'No. de cuenta - ${BankAccount.getSafeBankAccountNumber(bankAccount.bankAccount)}',
                 // 'xxxxx',
-                textAlign: TextAlign.center,
+                textAlign: TextAlign.left,
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 16,
@@ -87,6 +87,28 @@ class CreditCardWidget extends StatelessWidget {
                 ),
               ),
             ),
+            if (bankAccount.cci != null) ...[
+              Positioned(
+                bottom: 15,
+                left: 20,
+                child: Text(
+                  'CCI - ${BankAccount.getSafeBankAccountNumber(bankAccount.cci ?? '')}',
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    shadows: <Shadow>[
+                      Shadow(
+                        offset: Offset(1.0, 1.0),
+                        blurRadius: 3.0,
+                        color: Color.fromARGB(150, 0, 0, 0),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -204,13 +226,6 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                   ),
                                 ),
                               ],
-                            ),
-                            SizedBox(
-                              width: 299,
-                              child: Text(
-                                '${TypeAccountEnum.mapTypeAccountToLabel(bankAccountSelected!.typeAccount)} ${BankAccount.getSafeBankAccountNumber(bankAccountSelected!.bankAccount)}',
-                                textAlign: TextAlign.left,
-                              ),
                             ),
                             const SizedBox(height: 20),
                             CreditCardWidget(

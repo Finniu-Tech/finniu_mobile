@@ -26,6 +26,7 @@ class CreateBankAccountInput {
   final String typeAccount;
   final String currency;
   final String bankAccount;
+  final String cci;
   final String? aliasBankAccount;
   final bool isDefault;
   final bool isPersonalAccount;
@@ -39,6 +40,7 @@ class CreateBankAccountInput {
     required this.aliasBankAccount,
     required this.isDefault,
     required this.isPersonalAccount,
+    required this.cci,
     this.jointAccount,
   });
 
@@ -51,6 +53,7 @@ class CreateBankAccountInput {
       'aliasBankAccount': aliasBankAccount,
       'isDefault': isDefault,
       'isPersonalAccount': isPersonalAccount,
+      'cci': cci,
       if (jointAccount != null) 'jointAccount': jointAccount!.toJson(),
     };
   }

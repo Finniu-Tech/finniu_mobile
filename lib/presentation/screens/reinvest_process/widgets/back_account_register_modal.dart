@@ -12,6 +12,7 @@ import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 void showAccountTransferModal(
   BuildContext context,
@@ -57,6 +58,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   final TextEditingController jointHolderMothersLastNameController = TextEditingController();
   final TextEditingController jointHolderDocTypeController = TextEditingController();
   final TextEditingController jointHolderDocNumberController = TextEditingController();
+  final TextEditingController cciNumberController = TextEditingController();
 
   @override
   void dispose() {
@@ -69,6 +71,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
     jointHolderMothersLastNameController.dispose();
     jointHolderDocTypeController.dispose();
     jointHolderDocNumberController.dispose();
+    cciNumberController.dispose();
     super.dispose();
   }
 
@@ -90,6 +93,14 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
       CustomSnackbar.show(
         context,
         "Debe ingresar un número de cuenta",
+        'error',
+      );
+      return false;
+    }
+    if (cciNumberController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        "Debe ingresar un número de cuenta interbancaria",
         'error',
       );
       return false;
@@ -250,6 +261,17 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                   decoration: const InputDecoration(
                     labelText: "Número de cuenta bancaria",
                     hintText: "Escribe el número de cuenta",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(25)),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                TextFormField(
+                  controller: cciNumberController,
+                  decoration: const InputDecoration(
+                    labelText: "Número de cuenta interbancaria(CCI)",
+                    hintText: "Escribe el número de cuenta interbancaria(CCI)",
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25)),
                     ),
@@ -441,6 +463,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       if (!validate(context)) {
                         return; // Detener ejecución si la validación falla
                       }
+                      context.loaderOverlay.show();
 
                       CreateBankAccountInput input = CreateBankAccountInput(
                         bankUUID: BankEntity.getUuidByName(
@@ -450,6 +473,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                         typeAccount: mapTypeAccount(accountTypeController.text),
                         currency: widget.currency == currencyEnum.PEN ? 'SOLES' : 'DOLARES',
                         bankAccount: accountNumberController.text,
+                        cci: cciNumberController.text,
                         aliasBankAccount: accountNameController.text,
                         isDefault: useForFutureOperations,
                         isPersonalAccount: personalAccountDeclaration,
@@ -465,6 +489,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       ref.read(createBankAccountProvider(input).future).then(
                         (response) {
                           if (response.success) {
+                            context.loaderOverlay.hide();
                             ref.invalidate(bankAccountFutureProvider);
                             CustomSnackbar.show(
                               context,
@@ -477,6 +502,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                               Navigator.of(context).pop();
                             });
                           } else {
+                            context.loaderOverlay.hide();
                             CustomSnackbar.show(
                               context,
                               "Hubo un error al guardar la cuenta, verifique los datos e intente nuevamente",

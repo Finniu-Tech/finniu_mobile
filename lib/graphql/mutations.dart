@@ -386,7 +386,8 @@ class MutationRepository {
         \$aliasBankAccount: String,
         \$joinAccount: JointAccountInput,
         \$isDefault: Boolean,
-        \$isPersonalAccount: Boolean
+        \$isPersonalAccount: Boolean,
+        \$cci: String
       ) {
         createBankAccount(
           input:{
@@ -394,6 +395,7 @@ class MutationRepository {
             typeAccount: \$typeAccount,
             currency: \$currency,
             bankAccount: \$bankAccount,
+            bankCciAccount: \$cci,
             aliasBankAccount: \$aliasBankAccount,
             useDefaultAccount: \$isDefault,
             checkPersonalAccount: \$isPersonalAccount,
