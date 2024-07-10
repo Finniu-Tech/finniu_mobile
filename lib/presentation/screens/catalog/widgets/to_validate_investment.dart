@@ -34,7 +34,7 @@ class ToValidateInvestment extends ConsumerWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 5,
+                  height: 2,
                 ),
                 AmountInvestment(
                   amount: amount,
@@ -155,6 +155,7 @@ class LabelState extends ConsumerWidget {
     const textLight = 0xff0D3A5C;
     return Positioned(
       right: 0,
+      top: 0,
       child: Container(
         height: 24,
         width: 95,
