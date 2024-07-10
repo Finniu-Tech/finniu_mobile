@@ -1,4 +1,6 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
@@ -65,7 +67,12 @@ class CatalogScreen extends HookConsumerWidget {
               amount: 2000,
               dateEnds: '11/10/2022',
             ),
+            const ModalBenefitsTwo(),
+            const SizedBox(height: 10),
+            const ModalBenefits(),
+            const SizedBox(height: 10),
             const ModalInvestmentSummary(),
+            const SizedBox(height: 10),
             const ValidationModal(),
             ElevatedButton(
               onPressed: () => Navigator.pushNamed(context, '/home_home'),
