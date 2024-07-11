@@ -17,34 +17,40 @@ class NavigationBarHome extends ConsumerWidget {
       switch (index) {
         case 0:
           ref.read(navigatorStateProvider.notifier).state = 0;
-          Navigator.of(context).pushNamedAndRemoveUntil('/home_v2', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home_v2', (route) => false);
           break;
         case 1:
           ref.read(navigatorStateProvider.notifier).state = 1;
-          Navigator.of(context).pushNamedAndRemoveUntil('/plan_list', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/plan_list', (route) => false);
           break;
         case 2:
           ref.read(navigatorStateProvider.notifier).state = 2;
-          Navigator.of(context).pushNamedAndRemoveUntil('/process_investment', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/process_investment', (route) => false);
           break;
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
-          Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home_home', (route) => false);
       }
     }
 
     return Container(
       height: 80,
       decoration: BoxDecoration(
-        color:
-            currentTheme.isDarkMode ? const Color(backgroundColorNavbar) : const Color(scaffoldLightGradientSecondary),
+        color: currentTheme.isDarkMode
+            ? const Color(backgroundColorNavbar)
+            : const Color(scaffoldLightGradientSecondary),
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
         child: Container(
           decoration: BoxDecoration(
-            color:
-                currentTheme.isDarkMode ? const Color(bottomBarBackgroundDark) : const Color(bottomBarBackgroundLight),
+            color: currentTheme.isDarkMode
+                ? const Color(bottomBarBackgroundDark)
+                : const Color(bottomBarBackgroundLight),
             borderRadius: const BorderRadius.all(Radius.circular(30)),
           ),
           child: Row(
@@ -60,6 +66,84 @@ class NavigationBarHome extends ConsumerWidget {
               NavigationButton(
                 icon: Icons.monetization_on_outlined,
                 title: 'Planes',
+                onTap: () => navigate(context, 1),
+                isSelected: selectedIndex == 1 ? true : false,
+                currentTheme: currentTheme,
+              ),
+              NavigationButton(
+                icon: Icons.bar_chart,
+                title: 'Invesión',
+                onTap: () => navigate(context, 2),
+                isSelected: selectedIndex == 2 ? true : false,
+                currentTheme: currentTheme,
+              ),
+              const ProfileButton(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class NavigationBarInvestment extends ConsumerWidget {
+  const NavigationBarInvestment({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(navigatorStateProvider);
+    final currentTheme = ref.watch(settingsNotifierProvider);
+
+    void navigate(BuildContext context, int index) {
+      switch (index) {
+        case 0:
+          ref.read(navigatorStateProvider.notifier).state = 0;
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home_v2', (route) => false);
+          break;
+        case 1:
+          ref.read(navigatorStateProvider.notifier).state = 1;
+          Navigator.of(context).pushNamedAndRemoveUntil(
+            '/business_investment',
+            (route) => false,
+          );
+          break;
+        case 2:
+          ref.read(navigatorStateProvider.notifier).state = 2;
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/process_investment', (route) => false);
+          break;
+        default:
+          ref.read(navigatorStateProvider.notifier).state = 0;
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home_home', (route) => false);
+      }
+    }
+
+    return SizedBox(
+      height: 80,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        child: Container(
+          decoration: BoxDecoration(
+            color: currentTheme.isDarkMode
+                ? const Color(bottomBarBackgroundDark)
+                : const Color(bottomBarBackgroundLight),
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              NavigationButton(
+                icon: Icons.home,
+                title: 'Home',
+                onTap: () => navigate(context, 0),
+                isSelected: selectedIndex == 0 ? true : false,
+                currentTheme: currentTheme,
+              ),
+              NavigationButton(
+                icon: Icons.monetization_on_outlined,
+                title: 'Inversion',
                 onTap: () => navigate(context, 1),
                 isSelected: selectedIndex == 1 ? true : false,
                 currentTheme: currentTheme,
@@ -134,7 +218,9 @@ class NavigationButton extends StatelessWidget {
                     ? Text(
                         title,
                         style: TextStyle(
-                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                           fontSize: 9,
                         ),
                       )
