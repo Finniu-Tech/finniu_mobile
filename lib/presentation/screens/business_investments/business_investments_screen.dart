@@ -2,6 +2,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/investment_history.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/see_calendar.dart';
+import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
@@ -45,7 +46,6 @@ class BodyScaffold extends ConsumerWidget {
           ? const Color(columnColorDark)
           : const Color(columnColorLight),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
       child: const Padding(
         padding: EdgeInsets.all(15.0),
         child: Column(
@@ -64,7 +64,7 @@ class BodyScaffold extends ConsumerWidget {
               isBold: true,
             ),
             SizedBox(height: 10),
-            InvestmentHistoryBusiness(),
+            TabBarBusiness(),
           ],
         ),
       ),

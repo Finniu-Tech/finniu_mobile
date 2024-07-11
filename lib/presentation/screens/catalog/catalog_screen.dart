@@ -1,4 +1,6 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/screens/business_investments/widgets/investment_history.dart';
+import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
@@ -33,6 +35,7 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            TabBarBusiness(),
             ButtonInvestment(
               text: "go to businnes investment",
               onPressed: () {

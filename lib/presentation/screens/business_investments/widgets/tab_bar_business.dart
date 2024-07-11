@@ -8,95 +8,76 @@ import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investme
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class InvestmentHistoryBusiness extends ConsumerStatefulWidget {
-  const InvestmentHistoryBusiness({super.key});
+class TabBarBusiness extends ConsumerStatefulWidget {
+  const TabBarBusiness({super.key});
 
   @override
-  ConsumerState<InvestmentHistoryBusiness> createState() =>
-      _InvestmentHistoryBusiness();
+  ConsumerState<TabBarBusiness> createState() => _InvestmentHistoryBusiness();
 }
 
-class _InvestmentHistoryBusiness
-    extends ConsumerState<InvestmentHistoryBusiness> {
-  int _selectedIndex = 0;
-  final PageController _pageController = PageController();
+class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(() {
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return Column(
+      children: [
+        TabBar(
+          padding: EdgeInsets.zero,
+          dividerColor: Colors.transparent,
+          indicatorColor: Colors.transparent,
+          overlayColor: MaterialStateProperty.all(Colors.transparent),
+          controller: _tabController,
+          tabs: [
+            ButtonHistory(
+              isSelected: _tabController.index == 0,
+              text: 'Por validar',
+            ),
+            ButtonHistory(
+              isSelected: _tabController.index == 1,
+              text: 'En Curso',
+            ),
+            ButtonHistory(
+              isSelected: _tabController.index == 2,
+              text: 'Finalizadas',
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        SizedBox(
+          width: 336,
+          height: MediaQuery.of(context).size.height * 0.3,
+          child: TabBarView(
+            controller: _tabController,
             children: [
-              ButtonHistory(
-                text: 'Por validar',
-                isSelected: _selectedIndex == 0,
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 0;
-                  });
-                  _pageController.jumpToPage(
-                    0,
-                  );
-                },
+              ToValidateList(
+                list: toValidateList,
               ),
-              ButtonHistory(
-                text: 'En curso',
-                isSelected: _selectedIndex == 1,
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 1;
-                  });
-                  _pageController.jumpToPage(
-                    1,
-                  );
-                },
-              ),
-              ButtonHistory(
-                text: 'Finalizadas',
-                isSelected: _selectedIndex == 2,
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 2;
-                  });
-                  _pageController.jumpToPage(
-                    2,
-                  );
-                },
-              ),
+              InProgressList(list: inProgressList),
+              CompletedList(list: completedList),
             ],
           ),
-          const SizedBox(height: 10),
-          SizedBox(
-            width: 336,
-            height: 300,
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              children: [
-                ToValidateList(list: toValidateList),
-                InProgressList(list: inProgressList),
-                CompletedList(list: completedList),
-              ],
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
   }
 }
 
@@ -182,12 +163,10 @@ class ToValidateList extends StatelessWidget {
 class ButtonHistory extends ConsumerWidget {
   final String text;
   final bool isSelected;
-  final VoidCallback onPressed;
   const ButtonHistory({
     super.key,
     required this.text,
     required this.isSelected,
-    required this.onPressed,
   });
 
   @override
@@ -200,29 +179,26 @@ class ButtonHistory extends ConsumerWidget {
     const int borderDark = 0xffA2E6FA;
     const int borderLight = 0xff0D3A5C;
 
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 5).copyWith(),
-        decoration: BoxDecoration(
-          color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(20),
-          ),
-          border: Border.all(
-            color:
-                isDarkMode ? const Color(borderDark) : const Color(borderLight),
-            width: 1.0,
-          ),
+    return Container(
+      padding:
+          const EdgeInsets.symmetric(horizontal: 15, vertical: 5).copyWith(),
+      decoration: BoxDecoration(
+        color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(20),
         ),
-        child: TextPoppins(
-          text: text,
-          fontSize: 12,
-          isBold: true,
-          textDark: textDark,
-          textLight: textLight,
+        border: Border.all(
+          color:
+              isDarkMode ? const Color(borderDark) : const Color(borderLight),
+          width: 1.0,
         ),
+      ),
+      child: TextPoppins(
+        text: text,
+        fontSize: 12,
+        isBold: true,
+        textDark: textDark,
+        textLight: textLight,
       ),
     );
   }
