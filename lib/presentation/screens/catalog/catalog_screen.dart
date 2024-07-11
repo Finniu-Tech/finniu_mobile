@@ -2,7 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/blue_gols_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';

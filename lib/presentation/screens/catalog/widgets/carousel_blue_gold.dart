@@ -1,5 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/blue_gols_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
 import 'package:flutter/material.dart';
 
 class CarouselBlueGold extends StatelessWidget {
