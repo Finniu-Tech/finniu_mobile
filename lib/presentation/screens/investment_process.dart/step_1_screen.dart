@@ -1,1367 +1,739 @@
+import 'dart:async';
+import 'package:finniu/constants/colors.dart';
+import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/domain/entities/bank_entity.dart';
+import 'package:finniu/domain/entities/calculate_investment.dart';
+import 'package:finniu/domain/entities/dead_line.dart';
+import 'package:finniu/domain/entities/plan_entities.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/infrastructure/models/pre_investment_form.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/bank_provider.dart';
+import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
+import 'package:finniu/presentation/providers/dead_line_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/plan_provider.dart';
+import 'package:finniu/presentation/providers/pre_investment_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
+import 'package:finniu/widgets/custom_select_button.dart';
+import 'package:finniu/widgets/labels.dart';
+import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import '../../../infrastructure/models/calculate_investment.dart';
 
-class InvestmentProcessStep1 extends ConsumerWidget {
-  const InvestmentProcessStep1({super.key});
+class InvestmentProcessStep1Screen extends HookConsumerWidget {
+  const InvestmentProcessStep1Screen({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container();
+    final currentTheme = ref.watch(settingsNotifierProvider);
+
+    return CustomLoaderOverlay(
+      child: ScaffoldInvestment(
+        isDarkMode: currentTheme.isDarkMode,
+        backgroundColor:
+            currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(scaffoldSkyBlueBackground),
+        body: const Step1Body(),
+      ),
+    );
   }
 }
 
+class Step1Body extends HookConsumerWidget {
+  const Step1Body({
+    super.key,
+  });
 
-// import 'dart:async';
-// import 'dart:ui';
-// import 'package:finniu/constants/colors.dart';
-// import 'package:finniu/presentation/providers/settings_provider.dart';
-// import 'package:finniu/widgets/scaffold.dart';
-// import 'package:flutter/material.dart';
-// import 'package:hooks_riverpod/hooks_riverpod.dart';
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentTheme = ref.watch(settingsNotifierProvider);
+    final amountController = useTextEditingController();
+    final couponController = useTextEditingController();
+    final deadLineController = useTextEditingController();
+    final bankController = useTextEditingController();
+    final originFundsController = useTextEditingController();
+    final otherFundOriginController = useTextEditingController();
 
-// class InvestmentProcess extends StatefulHookConsumerWidget {
-//   const InvestmentProcess({super.key});
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 30),
+            width: MediaQuery.of(context).size.width * 0.85,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const HeaderWidget(
+                  containerColor: primaryLight,
+                  textColor: aboutTextBusinessColor,
+                  iconColor: primaryLight,
+                  urlIcon: 'assets/investment/business_loans_investment_icon.png',
+                  labelText: 'Acerca de',
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Fondo inversiones empresariales',
+                  style: TextStyle(color: Color(primaryDark), fontSize: 20, fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  'Completa los siguientes datos',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                    fontSize: 14,
+                    height: 1.5,
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                FormStep1(
+                  amountController: amountController,
+                  couponController: couponController,
+                  deadLineController: deadLineController,
+                  bankController: bankController,
+                  originFundsController: originFundsController,
+                  otherFundOriginController: otherFundOriginController,
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 
-//   @override
-//   InvestmentProcessState createState() => InvestmentProcessState();
-// }
+class FormStep1 extends StatefulHookConsumerWidget {
+  final TextEditingController amountController;
+  final TextEditingController couponController;
+  final TextEditingController deadLineController;
+  final TextEditingController bankController;
+  final TextEditingController originFundsController;
+  final TextEditingController otherFundOriginController;
 
-// class InvestmentProcessState extends ConsumerState<InvestmentProcess> with SingleTickerProviderStateMixin {
-//   late TabController _tabController;
+  FormStep1({
+    super.key,
+    required this.amountController,
+    required this.couponController,
+    required this.deadLineController,
+    required this.bankController,
+    required this.originFundsController,
+    required this.otherFundOriginController,
+  });
 
-//   @override
-//   void initState() {
-//     _tabController = TabController(length: 2, vsync: this);
-//     super.initState();
-//   }
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() => _FormStep1State();
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final currentTheme = ref.watch(settingsNotifierProvider);
-//     return CustomScaffoldReturnLogo(
-//       hideReturnButton: true,
-//       body: Padding(
-//         padding: const EdgeInsets.only(top: 20),
-//         child: Center(
-//           child: SizedBox(
-//             width: MediaQuery.of(context).size.width * 0.9,
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               children: <Widget>[
-//                 Row(
-//                   children: [
-//                     SizedBox(
-//                       child: Text(
-//                         ' Mis inversiones 💸 ',
-//                         textAlign: TextAlign.start,
-//                         style: TextStyle(
-//                           fontSize: 24,
-//                           fontWeight: FontWeight.w600,
-//                           color: Color(
-//                             Theme.of(context).colorScheme.secondary.value,
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                     // SizedBox(
-//                     //   width: MediaQuery.of(context).size.width * 0.58,
-//                     // ),
-//                     const Spacer(),
-//                     GestureDetector(
-//                       onTap: () {
-//                         // modalsPlan(context);
-//                         Navigator.pushNamed(context, '/calendar_page');
-//                       },
-//                       child: Padding(
-//                         padding: const EdgeInsets.all(5),
-//                         child: Image.asset(
-//                           'assets/icons/calendar.png',
-//                           width: 20,
-//                           height: 20,
-//                           color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 const SizedBox(
-//                   height: 30,
-//                 ),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.center,
-//                   children: [
-//                     GestureDetector(
-//                       onTap: () {
-//                         Navigator.pushNamed(context, '/process_investment');
-//                       },
-//                       child: Container(
-//                         width: MediaQuery.of(context).size.width * 0.45,
-//                         height: 40,
-//                         decoration: BoxDecoration(
-//                           color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                           borderRadius: const BorderRadius.only(
-//                             topRight: Radius.circular(20),
-//                             topLeft: Radius.circular(20),
-//                             bottomLeft: Radius.circular(20),
-//                             bottomRight: Radius.circular(20),
-//                           ),
-//                         ),
-//                         child: Center(
-//                           child: Text(
-//                             "Rentabilidad",
-//                             style: TextStyle(
-//                               fontSize: 16,
-//                               fontWeight: FontWeight.w600,
-//                               color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                     GestureDetector(
-//                       onTap: () {
-//                         Navigator.pushNamed(context, '/investment_history');
-//                       },
-//                       child: Container(
-//                         width: MediaQuery.of(context).size.width * 0.45,
-//                         height: 40,
-//                         decoration: BoxDecoration(
-//                           color:
-//                               currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
-//                           borderRadius: const BorderRadius.only(
-//                             topRight: Radius.circular(20),
-//                             topLeft: Radius.circular(20),
-//                             bottomRight: Radius.circular(20),
-//                             bottomLeft: Radius.circular(20),
-//                           ),
-//                         ),
-//                         child: Center(
-//                           child: Text(
-//                             "Mi historial",
-//                             style: TextStyle(
-//                               fontSize: 16,
-//                               fontWeight: FontWeight.w600,
-//                               color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 const LineReportHomeWidget(
-//                   initialAmount: 550,
-//                   finalAmount: 583,
-//                   revenueAmount: 33,
-//                 ),
-//                 const SizedBox(
-//                   height: 10,
-//                 ),
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.start, // Alinear widgets en el centro horizontalmente
-//                   children: [
-//                     Container(
-//                       width: 15,
-//                       height: 15,
-//                       decoration: BoxDecoration(
-//                         border: Border.all(
-//                           width: 1,
-//                           color: const Color(primaryDark),
-//                         ),
-//                         shape: BoxShape.circle,
-//                         color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
-//                       ),
-//                       // Si desea agregar un icono dentro del círculo
-//                     ),
-//                     const SizedBox(
-//                       width: 5,
-//                     ), // Separación entre el círculo y el texto
-//                     Text(
-//                       'Dinero invertido',
-//                       style: TextStyle(
-//                         fontSize: 12,
-//                         fontWeight: FontWeight.w500,
-//                         color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                       ),
-//                     ),
+class _FormStep1State extends ConsumerState<FormStep1> {
+  // final currentTheme = ref.watch(settingsNotifierProvider);
 
-//                     const Spacer(),
+  late Future deadLineFuture;
+  late Future bankFuture;
+  late double? profitability;
+  late bool showInvestmentBoxes = false;
+  PlanSimulation? resultCalculator;
+  // late PlanEntity? selectedPlan;
+  BankEntity? selectedBank;
+  BankAccount? selectedBankAccount;
 
-//                     Container(
-//                       width: 15,
-//                       height: 15,
-//                       decoration: BoxDecoration(
-//                         border: Border.all(
-//                           width: 1,
-//                           color: const Color(primaryDark),
-//                         ),
-//                         shape: BoxShape.circle,
-//                         color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
-//                       ),
-//                       // Si desea agregar un icono dentro del círculo
-//                     ),
-//                     // Separación entre el círculo y el texto
-//                     const SizedBox(width: 5),
-//                     Text(
-//                       'Intereses generados',
-//                       style: TextStyle(
-//                         fontSize: 12,
-//                         fontWeight: FontWeight.w500,
-//                         color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                       ),
-//                     ),
-//                   ],
-//                 ),
-//                 const SizedBox(
-//                   height: 10,
-//                 ),
-//                 Text(
-//                   'Distribución de mi patrimonio',
-//                   style: TextStyle(
-//                     fontWeight: FontWeight.w500,
-//                     fontSize: 16,
-//                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                   ),
-//                 ),
-//                 Padding(
-//                   padding: const EdgeInsets.only(right: 10),
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.start,
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       TabBar(
-//                         isScrollable: true,
-//                         unselectedLabelColor:
-//                             currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
-//                         labelColor: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                         tabs: const [
-//                           Tab(
-//                             text: "Inversiones en curso",
-//                           ),
-//                           Tab(
-//                             text: "Inversiones finalizadas",
-//                           ),
-//                         ],
-//                         controller: _tabController,
-//                         indicatorSize: TabBarIndicatorSize.label,
-//                         indicatorColor: currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight),
-//                         indicatorWeight: 6,
-//                         indicatorPadding: const EdgeInsets.only(bottom: 12),
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//                 const SizedBox(
-//                   height: 10,
-//                 ),
-//                 Expanded(
-//                   child: TabBarView(
-//                     controller: _tabController,
-//                     children: [
-//                       ListView(
-//                         children: const [
-//                           TableCard(
-//                             planName: "Plan Estable",
-//                             termText: "Plazo de 12 meses:14%",
-//                             amountInvested: "S/1500",
-//                             interestGenerated: "S/150.15",
-//                             currentMoney: "S/1650.15",
-//                             moneyGrowth: "+10.01%",
-//                           ),
-//                           SizedBox(
-//                             height: 20,
-//                           ),
-//                           TableCard(
-//                             planName: "Plan Origen",
-//                             termText: "Plazo de 12 meses:12%",
-//                             amountInvested: "S/720",
-//                             interestGenerated: "S/64.87",
-//                             currentMoney: "S/784.87",
-//                             moneyGrowth: "+9.01%",
-//                           ),
-//                           SizedBox(
-//                             height: 20,
-//                           ),
-//                           TableCard(
-//                             planName: "Plan Responsable",
-//                             termText: "Plazo de 6 meses:8%",
-//                             amountInvested: "S/5400",
-//                             interestGenerated: "S/382.32",
-//                             currentMoney: "S/5782.32",
-//                             moneyGrowth: "+7.08%",
-//                             textButton: true,
-//                           ),
-//                         ],
-//                       ),
-//                       const TableCardInvest(),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
+  Future<void> _updateBankAccount() async {
+    final _selectedBankAccount = ref.read(selectedBankAccountSenderProvider);
+    if (_selectedBankAccount != null) {
+      widget.bankController.text = BankAccount.getSafeBankAccountNumber(
+        _selectedBankAccount.bankAccount,
+      );
+      final banks = await ref.read(bankFutureProvider.future);
+      final _selectedBank = BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
+      setState(() {
+        selectedBank = _selectedBank;
+        selectedBankAccount = _selectedBankAccount;
+      });
+    } else {
+      widget.bankController.text = '';
+    }
+  }
 
-// // class InvestmentProcessWrapper extends StatefulWidget {
+  bool validate() {
+    if (widget.amountController.text.isEmpty ||
+        widget.deadLineController.text.isEmpty ||
+        widget.bankController.text.isEmpty ||
+        widget.originFundsController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        'error',
+      );
 
-// //   const InvestmentProcessWrapper({Key? key}) : super(key: key);
+      return false;
+    }
 
-// //   @override
-// //   _InvestmentProcessWrapperState createState() =>
-// //       _InvestmentProcessWrapperState();
-// // }
-// // class _InvestmentProcessWrapperState extends State<InvestmentProcessWrapper> {
-// //   @override
+    if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Debe de ingresar el origen de los fondos',
+        'error',
+      );
+      return false;
+    }
 
-// //   Widget build(BuildContext context) {
-// //     return InvestmentProcess();
-// //   }
-// // }
-// // class InvestmentProcess extends ConsumerWidget {
-// //   const InvestmentProcess({Key? key}) : super(key: key);
+    return true;
+  }
 
-// //   @override
-// //   Widget build(BuildContext context, WidgetRef ref) {
-// //     final currentTheme = ref.watch(settingsNotifierProvider);
-// //     return CustomScaffoldReturnLogo(
-// //         body: SingleChildScrollView(
-// //       child: Padding(
-// //         padding: const EdgeInsets.all(15.0),
-// //         child: Column(
-// //           mainAxisAlignment: MainAxisAlignment.start,
-// //           crossAxisAlignment: CrossAxisAlignment.start,
-// //           children: <Widget>[
-// //             Row(children: [
-// //               SizedBox(
-// //                 child: Padding(
-// //                   padding: const EdgeInsets.only(left: 20),
-// //                   child: Text(
-// //                     ' Mis inversiones 💸 ',
-// //                     textAlign: TextAlign.start,
-// //                     style: TextStyle(
-// //                       fontSize: 24,
-// //                       fontWeight: FontWeight.w600,
-// //                       color:
-// //                           Color(Theme.of(context).colorScheme.secondary.value),
-// //                     ),
-// //                   ),
-// //                 ),
-// //               ),
-// //               const SizedBox(
-// //                 width: 80,
-// //               ),
-// //               const Spacer(),
-// //               GestureDetector(onTap: () {
-// //                         Navigator.pushNamed(context, '/calendar_page');
-// //                       },
-// //                 child: Image.asset(
-// //                   'assets/icons/calendar.png',
-// //                   width: 20,
-// //                   height: 20,
-// //                   color: currentTheme.isDarkMode
-// //                       ? const Color(primaryLight)
-// //                       : const Color(primaryDark),
-// //                 ),
-// //               ),
-// //             ]),
-// //             const SizedBox(
-// //               height: 30,
-// //             ),
+  Future<void> calculateInvestment(BuildContext context, WidgetRef ref, bool isSoles) async {
+    if (widget.amountController.text.isNotEmpty) {
+      context.loaderOverlay.show();
+      final inputCalculator = CalculatorInput(
+        amount: int.parse(widget.amountController.text),
+        months: int.parse(widget.deadLineController.text.split(' ')[0]),
+        coupon: widget.couponController.text,
+        currency: isSoles ? currencyNuevoSol : currencyDollar,
+      );
 
-// //             Row(
-// //               mainAxisAlignment: MainAxisAlignment.center,
-// //               children: [
-// //                 Container(
-// //                   width: 170,
-// //                   height: 40,
-// //                   decoration: BoxDecoration(
-// //                     color: currentTheme.isDarkMode
-// //                         ? const Color(primaryLight)
-// //                         : const Color(primaryDark),
-// //                     borderRadius: const BorderRadius.only(
-// //                       topRight: Radius.circular(20),
-// //                       topLeft: Radius.circular(20),
-// //                       bottomLeft: Radius.circular(20),
-// //                       bottomRight: Radius.circular(20),
-// //                     ),
-// //                   ),
-// //                   child: Center(
-// //                     child: Text(
-// //                       "Rentabilidad",
-// //                       style: TextStyle(
-// //                         color: currentTheme.isDarkMode
-// //                             ? const Color(primaryDark)
-// //                             : const Color(whiteText),
-// //                       ),
-// //                     ),
-// //                   ),
-// //                 ),
-// //                 GestureDetector(onTap: () {
-// //                           Navigator.pushNamed(context, '/investment_history');
-// //                         },
-// //                   child: Container(
-// //                     width: 170,
-// //                     height: 40,
-// //                     decoration: BoxDecoration(
-// //                       color: currentTheme.isDarkMode
-// //                           ? const Color(primaryDark)
-// //                           : const Color(primaryLight),
-// //                       borderRadius: const BorderRadius.only(
-// //                         topRight: Radius.circular(20),
-// //                         topLeft: Radius.circular(20),
-// //                         bottomRight: Radius.circular(20),
-// //                         bottomLeft: Radius.circular(20),
-// //                       ),
-// //                     ),
-// //                     child: Center(
-// //                       child: Text(
-// //                         "Mi historial",
-// //                         style: TextStyle(
-// //                           color: currentTheme.isDarkMode
-// //                               ? const Color(whiteText)
-// //                               : const Color(primaryDark),
-// //                         ),
-// //                       ),
-// //                     ),
-// //                   ),
-// //                 ),
-// //               ],
-// //             ),
+      try {
+        resultCalculator = await ref.watch(
+          calculateInvestmentFutureProvider(inputCalculator).future,
+        );
 
-// //             const LineReportHomeWidget(
-// //               initialAmount: 550,
-// //               finalAmount: 583,
-// //               revenueAmount: 33,
-// //             ),
+        setState(() {
+          if (resultCalculator?.plan != null) {
+            // selectedPlan = resultCalculator!.plan!;
+            profitability = resultCalculator!.profitability;
+            showInvestmentBoxes = true;
+          }
+        });
+        context.loaderOverlay.hide();
+      } catch (e) {
+        context.loaderOverlay.hide();
+        CustomSnackbar.show(
+          context,
+          'Hubo un problema, intenta nuevamente',
+          'error',
+        );
+      }
+    }
+  }
 
-// //             Padding(
-// //               padding: const EdgeInsets.only(right: 30, top: 10),
-// //               child: Row(
-// //                 mainAxisAlignment: MainAxisAlignment
-// //                     .start, // Alinear widgets en el centro horizontalmente
-// //                 children: [
-// //                   Container(
-// //                     width: 15,
-// //                     height: 15,
-// //                     decoration: BoxDecoration(
-// //                       border: Border.all(
-// //                         width: 1,
-// //                         color: currentTheme.isDarkMode
-// //                             ? const Color(primaryDark)
-// //                             : const Color(primaryDark),
-// //                       ),
-// //                       shape: BoxShape.circle,
-// //                       color: currentTheme.isDarkMode
-// //                           ? const Color(primaryDark)
-// //                           : const Color(primaryLight),
-// //                     ),
-// //                     // Si desea agregar un icono dentro del círculo
-// //                   ),
-// //                   const SizedBox(
-// //                       width: 5), // Separación entre el círculo y el texto
-// //                   Text(
-// //                     'Dinero invertido',
-// //                     style: TextStyle(
-// //                       fontSize: 10,
-// //                       color: currentTheme.isDarkMode
-// //                           ? const Color(whiteText)
-// //                           : const Color(blackText),
-// //                     ),
-// //                   ),
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(selectedBankAccountSenderProvider.notifier).state = null;
+    });
+  }
 
-// //                   const Spacer(),
+  @override
+  Widget build(BuildContext context) {
+    final debouncer = Debouncer(milliseconds: 3000);
+    final deadLineFuture = ref.watch(deadLineFutureProvider.future);
 
-// //                   Container(
-// //                     width: 15,
-// //                     height: 15,
-// //                     decoration: BoxDecoration(
-// //                       border:
-// //                           Border.all(width: 1, color: const Color(primaryDark)),
-// //                       shape: BoxShape.circle,
-// //                       color: currentTheme.isDarkMode
-// //                           ? const Color(primaryLight)
-// //                           : const Color(secondary),
-// //                     ),
-// //                     // Si desea agregar un icono dentro del círculo
-// //                   ),
-// //                   // Separación entre el círculo y el texto
-// //                   const SizedBox(width: 5),
-// //                   Text(
-// //                     'Intereses generados',
-// //                     style: TextStyle(
-// //                       fontSize: 10,
-// //                       color: currentTheme.isDarkMode
-// //                           ? const Color(whiteText)
-// //                           : const Color(blackText),
-// //                     ),
-// //                   ),
-// //                 ],
-// //               ),
-// //             ),
-// //             const SizedBox(
-// //               height: 10,
-// //             ),
-// //             Text(
-// //               'Distribución de mi patrimonio',
-// //               style: TextStyle(
-// //                 fontSize: 16,
-// //                 color: currentTheme.isDarkMode
-// //                     ? const Color(whiteText)
-// //                     : const Color(blackText),
-// //               ),
-// //             ),
-// //             const SizedBox(
-// //               height: 10,
-// //             ),
-// //             Row(
-// //               children: [
-// //                 Container(
-// //                   decoration: BoxDecoration(
-// //                     border: Border(
-// //                       bottom: BorderSide(
-// //                         color: currentTheme.isDarkMode
-// //                             ? const Color(secondary)
-// //                             : const Color(primaryLight), // color del subrayado
-// //                         width: 5.0, // ancho del subrayado
-// //                       ),
-// //                     ),
-// //                   ),
-// //                   child: Text(
-// //                     'Inversiones en Curso',
-// //                     style: TextStyle(
-// //                       fontSize: 12,
-// //                       color: currentTheme.isDarkMode
-// //                           ? const Color(primaryLight)
-// //                           : const Color(primaryDark),
-// //                     ),
-// //                   ),
-// //                 ),
-// //                 const SizedBox(
-// //                   width: 90,
-// //                 ),
-// //                 Spacer(),
-// //                 Padding(
-// //                   padding: const EdgeInsets.only(right: 12),
-// //                   // child:GestureDetector(
-// //                   //       onTap: () {
-// //                   //         Navigator.pushNamed(context,  '/investment_finish');
-// //                   //       },
-// //                     child: AppBar(
-// //                    bottom: TabBar (tabs:
-// //                    [
-// //                     Tab(
-// //                       icon: Icon(Icons.directions_bike),
-// //                     ),
-// //               ]),
-// //                   ),
-// //                 // )
-// //             ),
-// //             TabBarView(
-// //               children: [
-// //                 // first tab bar view widget
-// //                 Container(
-// //                    color: Colors.red,
-// //                   child: Center(
-// //                     child: Text(
-// //                       'Bike',
-// //                     ),
-// //                   ),
-// //                 ),
-// //             ],
-// //             )]
-// //           ,
-// //         ),
-// //       ],
-// //     ))));
-// //   }
-// // }
+    final isSoles = ref.watch(isSolesStateProvider);
+    final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
+    final userProfile = ref.watch(userProfileNotifierProvider);
 
-// class LineReportHomeWidget extends ConsumerStatefulWidget {
-//   final double initialAmount;
-//   final double finalAmount;
-//   final double revenueAmount;
+    useEffect(
+      () {
+        // selectedPlan = widget.plan;
+        if (userProfile.hasRequiredData() == false) {
+          completeProfileDialog(context, ref);
+        }
 
-//   const LineReportHomeWidget({
-//     super.key,
-//     required this.initialAmount,
-//     required this.finalAmount,
-//     required this.revenueAmount,
-//   });
+        _updateBankAccount();
 
-//   @override
-//   _LineReportHomeWidgetState createState() => _LineReportHomeWidgetState();
-// }
+        calculateInvestment(context, ref, isSoles);
+        return null;
+      },
+      [userProfile],
+    );
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
+      _updateBankAccount();
+    });
 
-// class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
-//   final List<String> _darkImages = [
-//     "assets/report_home/dark/step_1.png",
-//     "assets/report_home/dark/step_2.png",
-//     "assets/report_home/dark/step_3.png",
-//     "assets/report_home/dark/step_4.png",
-//   ];
-//   final List<String> _lightImages = [
-//     "assets/report_home/light/step_1.png",
-//     "assets/report_home/light/step_2.png",
-//     "assets/report_home/light/step_3.png",
-//     "assets/report_home/light/step_4.png",
-//   ];
-//   int _currentPageIndex = 0;
-//   Timer? _timer;
-//   List<String>? images;
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 45,
+              minHeight: 45,
+            ),
+            child: TextFormField(
+              controller: widget.amountController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Este dato es requerido';
+                }
+                return null;
+              },
+              onChanged: (value) {
+                debouncer.run(() {
+                  if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
+                    calculateInvestment(context, ref, isSoles);
+                  }
+                });
+              },
+              decoration: const InputDecoration(
+                hintText: 'Escriba su monto de inversion',
+                hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                label: Text("Monto"),
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(
+                  RegExp(r'^[0-9]*$'),
+                ), // Solo permite números
+              ],
+              keyboardType: TextInputType.number,
+            ),
+          ),
+          const SizedBox(height: 15),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 45,
+              minHeight: 45,
+            ),
+            child: CustomSelectButton(
+              asyncItems: (String filter) async {
+                final response = await deadLineFuture;
+                return response.map((e) => e.name).toList();
+              },
+              callbackOnChange: (value) async {
+                widget.deadLineController.text = value;
+                if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
+                  calculateInvestment(context, ref, isSoles);
+                }
+              },
+              textEditingController: widget.deadLineController,
+              labelText: "Plazo",
+              hintText: "Seleccione su plazo de inversión",
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 45,
+              minHeight: 45,
+            ),
+            child: InkWell(
+              onTap: () async {
+                showBankAccountModal(
+                  context,
+                  ref,
+                  currency,
+                  true,
+                  "",
+                );
+              },
+              child: IgnorePointer(
+                child: TextFormField(
+                  controller: widget.bankController,
+                  readOnly: true,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'Este dato es requerido';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {},
+                  decoration: InputDecoration(
+                    prefixIcon: widget.bankController.text.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.only(right: 8.0, left: 20.0),
+                            child: selectedBank != null
+                                ? selectedBank!.logoUrl!.isNotEmpty
+                                    ? Image.network(
+                                        selectedBank?.logoUrl ?? '',
+                                        width: 13,
+                                        height: 13,
+                                        fit: BoxFit.contain,
+                                      )
+                                    : const Icon(
+                                        Icons.account_balance,
+                                        color: Colors.grey,
+                                        size: 13,
+                                      )
+                                : null,
+                          )
+                        : null,
+                    hintText: 'Número de cuenta',
+                    hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                    border: const OutlineInputBorder(
+                      borderRadius: BorderRadius.zero,
+                    ),
+                    label: const Text(
+                      "Desde qué banco realizas la transferencia",
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            constraints: const BoxConstraints(
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 45,
+              minHeight: 45,
+            ),
+            child: CustomSelectButton(
+              asyncItems: (String filter) async {
+                // return OriginFoundsEnum.values.map((e) => OriginFoundsUtil.toReadableName(e)).toList();
+                return OriginFoundsUtil.getReadableNames();
+              },
+              callbackOnChange: (value) async {
+                setState(() {
+                  widget.originFundsController.text = value;
+                  if (value != 'Otros') {
+                    widget.otherFundOriginController.clear();
+                  }
+                });
+              },
+              textEditingController: widget.originFundsController,
+              labelText: "Origen de procedencia del dinero",
+              hintText: "Seleccione el origen",
+            ),
+          ),
+          if (widget.originFundsController.text == 'Otros') ...[
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
+              ),
+              child: TextFormField(
+                controller: widget.otherFundOriginController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Escriba el origen de los fondos',
+                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                  label: Text("Origen de los fondos"),
+                ),
+              ),
+            ),
+          ],
+          const SizedBox(
+            height: 15,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            constraints: const BoxConstraints(
+              minWidth: 263,
+              maxWidth: 400,
+              maxHeight: 45,
+              minHeight: 45,
+            ),
+            child: TextFormField(
+              controller: widget.couponController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Este dato es requerido';
+                }
+                return null;
+              },
+              onChanged: (value) {},
+              decoration: InputDecoration(
+                suffixIconConstraints: const BoxConstraints(
+                  maxHeight: 50,
+                  maxWidth: 150,
+                ),
+                suffixIcon: Container(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      // minimumSize: Size(80, 30),
+                      side: const BorderSide(
+                        width: 0.5,
+                        color: Color(primaryDark),
+                      ),
+                      backgroundColor: const Color(primaryLight),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
+                        ),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 10),
+                      child: Text(
+                        "Aplicarlo",
+                        style: TextStyle(
+                          color: Color(primaryDark),
+                        ),
+                      ),
+                    ),
+                    onPressed: () async {
+                      if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debes ingresar el monto y el plazo para aplicar el cupón',
+                          'error',
+                        );
+                        return; // Sale de la función para evitar que continúe el proceso
+                      }
+                      context.loaderOverlay.show();
+                      final inputCalculator = CalculatorInput(
+                        amount: int.parse(widget.amountController.text),
+                        months: int.parse(
+                          widget.deadLineController.text.split(' ')[0],
+                        ),
+                        currency: isSoles ? currencyNuevoSol : currencyDollar,
+                        coupon: widget.couponController.text,
+                      );
 
-//   @override
-//   void initState() {
-//     super.initState();
-//     // final settings = ref.watch(settingsNotifierProvider);
-//     // images = ref.watch(settingsNotifierProvider).isDarkMode
-//     //     ? _darkImages
-//     //     : _lightImages;
-//     _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-//       setState(() {
-//         if (_currentPageIndex < 3) {
-//           _currentPageIndex++;
-//         } else {
-//           _currentPageIndex = 0;
-//         }
-//       });
-//     });
-//   }
+                      resultCalculator = await ref.watch(
+                        calculateInvestmentFutureProvider(
+                          inputCalculator,
+                        ).future,
+                      );
+                      setState(() {
+                        if (resultCalculator?.plan != null) {
+                          // selectedPlan = resultCalculator!.plan!;
+                          profitability = resultCalculator!.profitability;
+                          showInvestmentBoxes = true;
+                        }
+                      });
 
-//   @override
-//   void dispose() {
-//     _timer?.cancel();
-//     super.dispose();
-//   }
+                      context.loaderOverlay.hide();
+                      if (resultCalculator?.error == null) {
+                        CustomSnackbar.show(
+                          context,
+                          'Cupón aplicado correctamente',
+                          'success',
+                        );
+                      } else {
+                        widget.couponController.clear();
+                        CustomSnackbar.show(
+                          context,
+                          resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
+                          'error',
+                        );
+                      }
+                    },
+                  ),
+                ),
+                hintText: 'Ingresa tu código',
+                hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.zero,
+                ),
+                label: const Text(
+                  "Ingresa tu códigos promocional,si tienes uno",
+                ),
+              ),
+            ),
+          ),
+          if (showInvestmentBoxes) ...[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 136,
+                    height: 81,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(primaryLightAlternative),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 0,
+                          blurRadius: 2,
+                          offset: const Offset(
+                            0,
+                            3,
+                          ), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${resultCalculator?.finalRentability?.toString() ?? 0}% ',
+                          textAlign: TextAlign.right,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                        const Text(
+                          '% de retorno',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 17),
+                  Container(
+                    width: 136,
+                    height: 81,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(secondary),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.6),
+                          spreadRadius: 0,
+                          blurRadius: 2,
+                          offset: const Offset(
+                            0,
+                            3,
+                          ), // changes position of shadow
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          isSoles ? formatterSoles.format(profitability) : formatterUSD.format(profitability),
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(primaryDark),
+                          ),
+                        ),
+                        Text(
+                          'En ${resultCalculator?.months} meses tendrías',
+                          textAlign: TextAlign.right,
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Color(blackText),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+          const SizedBox(
+            height: 20,
+          ),
+          SizedBox(
+            width: 224,
+            height: 50,
+            child: TextButton(
+              onPressed: () async {
+                if (userProfile.hasRequiredData() == false) {
+                  completeProfileDialog(context, ref);
+                  return;
+                }
+                if (validate() == false) {
+                  return;
+                }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final currentTheme = ref.watch(settingsNotifierProvider);
-//     final theme = ref.watch(settingsNotifierProvider);
-//     final images = theme.isDarkMode ? _darkImages : _lightImages;
-//     return Stack(
-//       alignment: Alignment.center,
-//       children: [
-//         ...images.map((image) {
-//           int index = images.indexOf(image);
-//           return AnimatedOpacity(
-//             duration: const Duration(milliseconds: 500),
-//             opacity: index == _currentPageIndex ? 1.0 : 0.0,
-//             child: Image.asset(
-//               image,
-//               // height: MediaQuery.of(context).size.height * 0.32,
-//               width: MediaQuery.of(context).size.width * 0.9,
-//               fit: BoxFit.cover,
-//               gaplessPlayback: true,
-//             ),
-//           );
-//         }),
-//         Positioned(
-//           top: 30,
-//           left: 16,
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Row(
-//                 children: [
-//                   Text(
-//                     'S/7620',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.w600,
-//                       color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                     ),
-//                   ),
-//                   const SizedBox(
-//                     width: 22,
-//                   ),
-//                   Text(
-//                     'S/597.34',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.w600,
-//                       color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               const SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   Text(
-//                     'Dinero total',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                       fontSize: 10,
-//                       fontWeight: FontWeight.w400,
-//                       color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                     ),
-//                   ),
-//                   const SizedBox(
-//                     width: 22,
-//                   ),
-//                   Text(
-//                     'Intereses generados',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                       fontSize: 10,
-//                       fontWeight: FontWeight.w400,
-//                       color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               const SizedBox(
-//                 height: 10,
-//               ),
-//               Text(
-//                 '3 planes',
-//                 textAlign: TextAlign.center,
-//                 style: TextStyle(
-//                   fontSize: 14,
-//                   fontWeight: FontWeight.w600,
-//                   color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   Text(
-//                     'Mis inversiones en curso',
-//                     textAlign: TextAlign.center,
-//                     style: TextStyle(
-//                       fontSize: 10,
-//                       fontWeight: FontWeight.w400,
-//                       color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                     ),
-//                   ),
-//                   const SizedBox(
-//                     width: 22,
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+                final deadLineUuid = DeadLineEntity.getUuidByName(
+                  widget.deadLineController.text,
+                  await deadLineFuture,
+                );
 
-// class TableCard extends ConsumerWidget {
-//   final String planName;
-//   final String termText;
-//   final String amountInvested;
-//   final String interestGenerated;
-//   final String currentMoney;
-//   final String moneyGrowth;
-//   final bool? textButton;
+                final originFund = widget.originFundsController.text;
 
-//   const TableCard({
-//     super.key,
-//     required this.planName,
-//     required this.termText,
-//     required this.amountInvested,
-//     required this.interestGenerated,
-//     required this.currentMoney,
-//     required this.moneyGrowth,
-//     this.textButton,
-//   });
+                final preInvestment = PreInvestmentForm(
+                  amount: int.parse(widget.amountController.text),
+                  deadLineUuid: deadLineUuid,
+                  coupon: widget.couponController.text,
+                  // planUuid: widget.plan.uuid,
+                  planUuid: 'test',
+                  currency: isSoles ? currencyNuevoSol : currencyDollar,
+                  bankAccountNumber: selectedBankAccount!.id,
+                  originFunds: OriginFunds(
+                    originFundsEnum: OriginFoundsUtil.fromReadableName(originFund),
+                    otherText: widget.otherFundOriginController.text,
+                  )
+                  // bankAccountNumber: widget.bankNumberController.text,
+                  ,
+                );
+                context.loaderOverlay.show();
+                final preInvestmentEntityResponse = await ref.watch(preInvestmentSaveProvider(preInvestment).future);
 
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final currentTheme = ref.watch(settingsNotifierProvider);
-//     return SingleChildScrollView(
-//       child: Container(
-//         width: MediaQuery.of(context).size.width * 0.8,
-//         height: 230,
-//         decoration: BoxDecoration(
-//           color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
-//           border: Border.all(
-//             color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//             width: 2,
-//           ),
-//           borderRadius: BorderRadius.circular(20),
-//         ),
-//         child: Padding(
-//           padding: const EdgeInsets.all(9.0),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.start,
-//                 children: [
-//                   Text(
-//                     planName,
-//                     style: TextStyle(
-//                       color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.w600,
-//                     ),
-//                   ),
-//                   const Spacer(),
-//                   Image.asset(
-//                     alignment: Alignment.center,
-//                     'assets/images/circle_green.png',
-//                     height: 15,
-//                   ),
-//                   const SizedBox(
-//                     width: 5,
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.only(right: 10),
-//                     child: GestureDetector(
-//                       onTap: () {
-//                         Navigator.pushNamed(context, '/investment_history');
-//                       },
-//                       child: Text(
-//                         'En curso',
-//                         style: TextStyle(
-//                           fontSize: 11,
-//                           fontWeight: FontWeight.w400,
-//                           color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//               const SizedBox(
-//                 height: 10,
-//               ),
-//               Row(
-//                 children: [
-//                   Text(
-//                     termText,
-//                     style: const TextStyle(
-//                       fontSize: 10,
-//                       fontWeight: FontWeight.w400,
-//                       color: Color(grayText2),
-//                     ),
-//                   ),
-//                   const Spacer(),
-//                   if (textButton == true)
-//                     Padding(
-//                       padding: const EdgeInsets.only(right: 10),
-//                       child: SizedBox(
-//                         width: 82,
-//                         height: 30,
-//                         child: TextButton(
-//                           onPressed: () {
-//                             Navigator.pushNamed(context, '/reinvest');
-
-//                             ButtonStyle(
-//                               elevation: MaterialStateProperty.all<double>(
-//                                 4,
-//                               ), // Altura de la sombra
-
-//                               shadowColor: MaterialStateProperty.all<Color>(Colors.grey),
-//                             );
-//                           },
-//                           child: const Text(
-//                             'Reinvertir',
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                 ],
-//               ),
-//               const SizedBox(height: 10),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                 children: [
-//                   Column(
-//                     mainAxisAlignment: MainAxisAlignment.start,
-//                     crossAxisAlignment: CrossAxisAlignment.start,
-//                     children: [
-//                       Row(
-//                         children: [
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 decoration: BoxDecoration(
-//                                   borderRadius: BorderRadius.circular(10),
-//                                   color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
-//                                   border: Border.all(
-//                                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                   ),
-//                                 ),
-//                                 height: 60,
-//                                 width: 5,
-//                               ),
-//                             ],
-//                           ),
-//                           Padding(
-//                             padding: const EdgeInsets.all(8.0),
-//                             child: Column(
-//                               children: [
-//                                 Text(
-//                                   'Dinero invertido',
-//                                   style: TextStyle(
-//                                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                     fontSize: 7,
-//                                     fontWeight: FontWeight.w400,
-//                                   ),
-//                                 ),
-//                                 const SizedBox(
-//                                   height: 10,
-//                                 ),
-//                                 Text(
-//                                   amountInvested,
-//                                   style: TextStyle(
-//                                     color:
-//                                         currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                                     fontSize: 14,
-//                                     fontWeight: FontWeight.w600,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                       const SizedBox(
-//                         height: 15,
-//                       ),
-//                       Row(
-//                         children: [
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 decoration: BoxDecoration(
-//                                   borderRadius: BorderRadius.circular(10),
-//                                   color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(secondary),
-//                                   border: Border.all(
-//                                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                   ),
-//                                 ),
-//                                 height: 60,
-//                                 width: 5,
-//                               ),
-//                             ],
-//                           ),
-//                           Padding(
-//                             padding: const EdgeInsets.all(8.0),
-//                             child: Column(
-//                               children: [
-//                                 const Text(
-//                                   'Intereses generados',
-//                                   style: TextStyle(
-//                                     fontSize: 7,
-//                                     fontWeight: FontWeight.bold,
-//                                   ),
-//                                 ),
-//                                 const SizedBox(
-//                                   height: 10,
-//                                 ),
-//                                 Text(
-//                                   interestGenerated,
-//                                   style: TextStyle(
-//                                     fontSize: 14,
-//                                     color:
-//                                         currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                                     fontWeight: FontWeight.w600,
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                   Padding(
-//                     padding: const EdgeInsets.only(right: 10, top: 20),
-//                     child: Container(
-//                       width: MediaQuery.of(context).size.width * 0.47,
-//                       height: 112,
-//                       decoration: BoxDecoration(
-//                         boxShadow: [
-//                           BoxShadow(
-//                             color: Colors.grey.withOpacity(0.6),
-//                             spreadRadius: 0,
-//                             blurRadius: 2,
-//                             offset: const Offset(
-//                               0,
-//                               3,
-//                             ), // changes position of shadow
-//                           ),
-//                         ],
-//                         color:
-//                             currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative),
-//                         borderRadius: BorderRadius.circular(10),
-//                       ),
-//                       child: Padding(
-//                         padding: const EdgeInsets.all(5.0),
-//                         child: Column(
-//                           mainAxisAlignment: MainAxisAlignment.start,
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             const SizedBox(
-//                               height: 10,
-//                             ),
-//                             Text(
-//                               'Dinero actual',
-//                               style: TextStyle(
-//                                 fontSize: 10,
-//                                 fontWeight: FontWeight.w500,
-//                                 color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                               ),
-//                             ),
-//                             const SizedBox(
-//                               height: 10,
-//                             ),
-//                             Row(
-//                               children: [
-//                                 Text(
-//                                   currentMoney,
-//                                   style: TextStyle(
-//                                     fontSize: 16,
-//                                     fontWeight: FontWeight.w600,
-//                                     color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
-//                                   ),
-//                                 ),
-//                                 SizedBox(
-//                                   width: MediaQuery.of(context).size.width * 0.03,
-//                                 ),
-//                                 const SizedBox(
-//                                   height: 10,
-//                                 ),
-//                                 Image.asset(
-//                                   alignment: Alignment.center,
-//                                   'assets/images/arrow.png',
-//                                   //  width: 15,
-//                                   height: 30,
-//                                 ),
-//                                 Text(
-//                                   moneyGrowth,
-//                                   style: const TextStyle(
-//                                     fontSize: 12,
-//                                     fontWeight: FontWeight.w600,
-//                                     color: Color(colorgreen),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                             Row(
-//                               children: [
-//                                 Text(
-//                                   'Inicio',
-//                                   style: TextStyle(
-//                                     fontSize: 7,
-//                                     fontWeight: FontWeight.w600,
-//                                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                   ),
-//                                 ),
-//                                 Text(
-//                                   '29 Mayo',
-//                                   style: TextStyle(
-//                                     fontSize: 7,
-//                                     fontWeight: FontWeight.w600,
-//                                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                   ),
-//                                 ),
-//                                 SizedBox(
-//                                   width: MediaQuery.of(context).size.width * 0.12,
-//                                 ),
-//                                 Text(
-//                                   'Finaliza',
-//                                   style: TextStyle(
-//                                     fontSize: 7,
-//                                     fontWeight: FontWeight.w600,
-//                                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                   ),
-//                                 ),
-//                                 Text(
-//                                   '29 Mayo 2023',
-//                                   style: TextStyle(
-//                                     fontSize: 7,
-//                                     fontWeight: FontWeight.w600,
-//                                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class TableCardInvest extends ConsumerWidget {
-//   const TableCardInvest({super.key});
-
-//   @override
-//   Widget build(BuildContext context, WidgetRef ref) {
-//     final currentTheme = ref.watch(settingsNotifierProvider);
-//     return SingleChildScrollView(
-//       child: Container(
-//         width: MediaQuery.of(context).size.width * 0.87,
-//         height: 200,
-//         decoration: BoxDecoration(
-//           color: currentTheme.isDarkMode ? Colors.transparent : const Color(whiteText),
-//           border: Border.all(
-//             color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//             width: 2,
-//           ),
-//           borderRadius: BorderRadius.circular(20),
-//         ),
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: [
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.start,
-//               crossAxisAlignment: CrossAxisAlignment.center,
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.only(left: 10),
-//                   child: Text(
-//                     'Plan estable',
-//                     style: TextStyle(
-//                       color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                       fontSize: 16,
-//                       fontWeight: FontWeight.w600,
-//                     ),
-//                   ),
-//                 ),
-//                 SizedBox(
-//                   width: MediaQuery.of(context).size.width * 0.27,
-//                 ),
-//                 Image.asset(
-//                   alignment: Alignment.center,
-//                   'assets/images/circle_purple.png',
-//                   height: 15,
-//                 ),
-//                 const SizedBox(
-//                   width: 5,
-//                 ),
-//                 Text(
-//                   'Finalizado',
-//                   style: TextStyle(
-//                     fontSize: 11,
-//                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(
-//               height: 10,
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.only(left: 15),
-//               child: Text(
-//                 'Finalizó:29 Enero 2023',
-//                 style: TextStyle(
-//                   fontSize: 11,
-//                   color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                   fontWeight: FontWeight.bold,
-//                 ),
-//               ),
-//             ),
-//             const SizedBox(height: 10),
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 Padding(
-//                   padding: const EdgeInsets.only(left: 14),
-//                   child: Column(
-//                     mainAxisAlignment: MainAxisAlignment.center,
-//                     crossAxisAlignment: CrossAxisAlignment.center,
-//                     children: [
-//                       Row(
-//                         children: [
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 decoration: BoxDecoration(
-//                                   borderRadius: BorderRadius.circular(10),
-//                                   color: const Color(primaryLight),
-//                                   border: Border.all(
-//                                     color: const Color(primaryLight),
-//                                   ),
-//                                 ),
-//                                 height: 60,
-//                                 width: 5,
-//                               ),
-//                             ],
-//                           ),
-//                           const SizedBox(
-//                             width: 10,
-//                           ),
-//                           Column(
-//                             children: [
-//                               Text(
-//                                 'Comenzaste con',
-//                                 style: TextStyle(
-//                                   color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-//                                   fontSize: 10,
-//                                 ),
-//                               ),
-//                               const SizedBox(
-//                                 height: 10,
-//                               ),
-//                               Text(
-//                                 'S/1000',
-//                                 style: TextStyle(
-//                                   color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
-//                                   fontSize: 16,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                           SizedBox(
-//                             width: MediaQuery.of(context).size.width * 0.1,
-//                           ),
-//                           Column(
-//                             children: [
-//                               Container(
-//                                 decoration: BoxDecoration(
-//                                   borderRadius: BorderRadius.circular(10),
-//                                   color: const Color(gradient_secondary_option),
-//                                   border: Border.all(
-//                                     color: const Color(gradient_secondary_option),
-//                                   ),
-//                                 ),
-//                                 height: 60,
-//                                 width: 5,
-//                               ),
-//                             ],
-//                           ),
-//                           const SizedBox(
-//                             width: 10,
-//                           ),
-//                           Column(
-//                             children: [
-//                               Text(
-//                                 'Dinero+ intereses',
-//                                 style: TextStyle(
-//                                   color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                                   fontSize: 10,
-//                                   fontWeight: FontWeight.bold,
-//                                 ),
-//                               ),
-//                               const SizedBox(
-//                                 height: 10,
-//                               ),
-//                               Text(
-//                                 'S/1140',
-//                                 style: TextStyle(
-//                                   color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-//                                   fontSize: 16,
-//                                   fontWeight: FontWeight.bold,
-//                                 ),
-//                               ),
-//                             ],
-//                           ),
-//                         ],
-//                       ),
-//                     ],
-//                   ),
-//                 ),
-//               ],
-//             ),
-//             const SizedBox(
-//               height: 10,
-//             ),
-//             Container(
-//               alignment: Alignment.center,
-//               child: const Text(
-//                 textAlign: TextAlign.center,
-//                 'Rentabilidad generada en 12 meses:14%',
-//                 style: TextStyle(
-//                   color: Color(grayText2),
-//                   fontSize: 10,
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// void modalsPlan(BuildContext ctx) {
-//   showDialog(
-//     context: ctx,
-//     builder: (BuildContext context) => AlertDialog(
-//       backgroundColor: Colors.transparent,
-//       content: BackdropFilter(
-//         filter: ImageFilter.blur(
-//           sigmaX: 2,
-//           sigmaY: 2,
-//         ), // Aquí se establece la cantidad de borrosidad
-//         child: Container(
-//           width: MediaQuery.of(context).size.width * 0.96,
-//           height: 290,
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(30),
-//             color: const Color(primaryLight),
-//           ),
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Image.asset(
-//                 'assets/images/billsdollars.png',
-//                 width: 130,
-//                 height: 130,
-//               ),
-//               const SizedBox(
-//                 width: 260,
-//                 child: Text(
-//                   '¿Quieres comenzar a construir tu patrimonio? ',
-//                   textAlign: TextAlign.justify,
-//                   style: TextStyle(
-//                     fontSize: 21,
-//                     fontWeight: FontWeight.bold,
-//                     color: Color(
-//                       primaryDark,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//               const SizedBox(
-//                 height: 30,
-//               ),
-//               SizedBox(
-//                 width: 150,
-//                 height: 45,
-//                 child: TextButton(
-//                   onPressed: () {
-//                     Navigator.pushNamed(context, '/plan_list');
-//                   },
-//                   child: const Text(
-//                     'Ver planes',
-//                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-//                   ),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
+                if (preInvestmentEntityResponse?.success == false) {
+                  context.loaderOverlay.hide();
+                  // CHECK HERE
+                  CustomSnackbar.show(
+                    context,
+                    preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
+                    'error',
+                  );
+                  return;
+                } else {
+                  context.loaderOverlay.hide();
+                  ref
+                      .read(
+                        preInvestmentVoucherImagesPreviewProvider.notifier,
+                      )
+                      .state = [];
+                  ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+                }
+              },
+              child: const Text(
+                'Continuar',
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

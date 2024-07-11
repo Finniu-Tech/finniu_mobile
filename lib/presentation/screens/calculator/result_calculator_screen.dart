@@ -90,6 +90,7 @@ class BodyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final returnDate = resultSimulation.plan?.returnEstimatedDate;
+    print('returnDate: $returnDate');
     final formattedReturnDate = returnDate != null ? DateFormat('d ' 'MMMM', 'es').format(returnDate) : '';
 
     return SingleChildScrollView(

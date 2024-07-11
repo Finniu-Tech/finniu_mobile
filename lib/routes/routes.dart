@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
 import 'package:finniu/presentation/screens/signup/activate_account.dart';
@@ -95,5 +96,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/empty_transference': (BuildContext context) => const EmptyTransference(),
     '/activate_account': (BuildContext context) => const ActivateAccount(),
     '/fund_detail': (BuildContext context) => const FundDetailScreen(),
+    '/v2/investment/step-1': (BuildContext context) => const InvestmentProcessStep1Screen(),
   };
 }
