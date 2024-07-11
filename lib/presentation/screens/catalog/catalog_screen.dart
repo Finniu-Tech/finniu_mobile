@@ -9,6 +9,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.da
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
@@ -38,6 +39,10 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             const CarouselBlueGold(),
+            const RowScheduleLogbook(),
+            const SizedBox(
+              height: 10,
+            ),
             const BlueGoldInvestmentCard(days: 100, progress: 50, amount: 1000),
             const NoInvestmentsButton(),
             const TabBarBusiness(),
