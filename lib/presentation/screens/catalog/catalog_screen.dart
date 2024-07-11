@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.da
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
@@ -34,6 +35,7 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const NoInvestmentsButton(),
             const TabBarBusiness(),
             ButtonInvestment(
               text: "go to businnes investment",
