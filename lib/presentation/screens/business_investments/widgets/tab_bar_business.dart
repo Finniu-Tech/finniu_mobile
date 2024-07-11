@@ -41,6 +41,7 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
     return Column(
       children: [
         TabBar(
+          labelPadding: EdgeInsets.symmetric(horizontal: 10),
           padding: EdgeInsets.zero,
           dividerColor: Colors.transparent,
           indicatorColor: Colors.transparent,
@@ -181,7 +182,7 @@ class ButtonHistory extends ConsumerWidget {
 
     return Container(
       padding:
-          const EdgeInsets.symmetric(horizontal: 15, vertical: 5).copyWith(),
+          const EdgeInsets.symmetric(horizontal: 10, vertical: 5).copyWith(),
       decoration: BoxDecoration(
         color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
         borderRadius: const BorderRadius.all(
@@ -193,12 +194,14 @@ class ButtonHistory extends ConsumerWidget {
           width: 1.0,
         ),
       ),
-      child: TextPoppins(
-        text: text,
-        fontSize: 12,
-        isBold: true,
-        textDark: textDark,
-        textLight: textLight,
+      child: Center(
+        child: TextPoppins(
+          text: text,
+          fontSize: 12,
+          isBold: true,
+          textDark: textDark,
+          textLight: textLight,
+        ),
       ),
     );
   }

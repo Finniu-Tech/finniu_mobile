@@ -1,6 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
-import 'package:finniu/presentation/screens/business_investments/widgets/investment_history.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/see_calendar.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
