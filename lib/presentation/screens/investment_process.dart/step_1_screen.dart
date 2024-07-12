@@ -4,7 +4,6 @@ import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
-import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
@@ -13,19 +12,16 @@ import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
-import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
-import 'package:finniu/widgets/labels.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +101,7 @@ class Step1Body extends HookConsumerWidget {
                   textAlign: TextAlign.left,
                   style: TextStyle(
                     color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                    // color: Colors.blue,
                     fontSize: 14,
                     height: 1.5,
                   ),
@@ -257,6 +254,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
 
     final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final userProfile = ref.watch(userProfileNotifierProvider);
 
@@ -278,7 +276,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       _updateBankAccount();
     });
 
-    return Container(
+    return Center(
       child: Column(
         children: [
           Container(
@@ -317,7 +315,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               keyboardType: TextInputType.number,
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(
@@ -340,11 +338,10 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               textEditingController: widget.deadLineController,
               labelText: "Plazo",
               hintText: "Seleccione su plazo de inversión",
+              enabledFillColor: isDarkMode ? Color(scaffoldBlackBackground) : Color(scaffoldSkyBlueBackground),
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(
@@ -407,9 +404,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               ),
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 20),
           Container(
             constraints: const BoxConstraints(
               minWidth: 263,
@@ -431,6 +426,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 });
               },
               textEditingController: widget.originFundsController,
+              enabledFillColor: isDarkMode ? Color(scaffoldBlackBackground) : Color(scaffoldSkyBlueBackground),
               labelText: "Origen de procedencia del dinero",
               hintText: "Seleccione el origen",
             ),
@@ -463,9 +459,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               ),
             ),
           ],
-          const SizedBox(
-            height: 15,
-          ),
+          const SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(
@@ -522,6 +516,14 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                         );
                         return; // Sale de la función para evitar que continúe el proceso
                       }
+                      if (widget.couponController.text.isEmpty) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debes ingresar el cupón',
+                          'error',
+                        );
+                        return;
+                      }
                       context.loaderOverlay.show();
                       final inputCalculator = CalculatorInput(
                         amount: int.parse(widget.amountController.text),
@@ -575,6 +577,9 @@ class _FormStep1State extends ConsumerState<FormStep1> {
             ),
           ),
           if (showInvestmentBoxes) ...[
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Row(
@@ -582,10 +587,10 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 children: [
                   Container(
                     width: 136,
-                    height: 81,
+                    height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                      color: const Color(primaryLightAlternative),
+                      color: const Color(primaryLight),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.grey.withOpacity(0.6),
@@ -624,7 +629,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   const SizedBox(width: 17),
                   Container(
                     width: 136,
-                    height: 81,
+                    height: 60,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: const Color(secondary),
@@ -666,10 +671,14 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+          ] else ...[
+            const SizedBox(
+              height: 80,
+            ),
           ],
-          const SizedBox(
-            height: 20,
-          ),
           SizedBox(
             width: 224,
             height: 50,
@@ -725,6 +734,16 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       )
                       .state = [];
                   ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+                  Navigator.pushNamed(context, '/v2/investment/step-2');
+                  // Navigator.pushNamed(
+                  //     context,
+                  //     '/investment_step2',
+                  //     arguments: PreInvestmentStep2Arguments(
+                  //       plan: selectedPlan!,
+                  //       preInvestment: preInvestmentEntityResponse!.preInvestment!,
+                  //       resultCalculator: resultCalculator!,
+                  //     ),
+                  //   );
                 }
               },
               child: const Text(

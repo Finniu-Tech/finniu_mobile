@@ -13,11 +13,21 @@ class CustomSelectButton extends HookConsumerWidget {
   final String? hintText;
   final String? identifier;
   final bool? enabled;
-  final double? width; //224
-  final double? height; //39
-  Color? enableColor;
+  final double? width;
+  final double? height;
+  final Color? enableColor;
+  final Color? enabledFillColor;
+  final Color? disabledFillColor;
+  final Color? enabledBorderColor;
+  final Color? disabledBorderColor;
+  final Color? selectedItemColor;
+  final Color? unselectedItemColor;
+  final Color? dropdownBackgroundColor;
+  final Color? dropdownBorderColor;
+  final Color? dropdownButtonColor;
+
   CustomSelectButton({
-    super.key,
+    Key? key,
     required this.textEditingController,
     this.items,
     this.callbackOnChange,
@@ -29,25 +39,44 @@ class CustomSelectButton extends HookConsumerWidget {
     this.width,
     this.height,
     this.enableColor,
-  });
+    this.enabledFillColor,
+    this.disabledFillColor,
+    this.enabledBorderColor,
+    this.disabledBorderColor,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.dropdownBackgroundColor,
+    this.dropdownBorderColor,
+    this.dropdownButtonColor,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    Color disabledColor = currentTheme.isDarkMode
-        ? const Color(grayText)
-        : const Color(0xffF4F4F4);
-    enableColor ??= currentTheme.isDarkMode
-        ? const Color(backgroundColorDark)
-        : const Color(whiteText);
-    // color:
-    // currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText);
-
-    // required this.currentStep,
-    if (items == null && asyncItems == null) {
-      throw ArgumentError("At least one of item and async must be provided.");
-    }
     final themeProvider = ref.watch(settingsNotifierProvider);
+
+    if (items == null && asyncItems == null) {
+      throw ArgumentError("At least one of items and asyncItems must be provided.");
+    }
+
+    final Color _enabledFillColor =
+        enabledFillColor ?? (currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText));
+    final Color _disabledFillColor =
+        disabledFillColor ?? (currentTheme.isDarkMode ? const Color(grayText) : const Color(0xffF4F4F4));
+    final Color _enabledBorderColor =
+        enabledBorderColor ?? (themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark));
+    final Color _disabledBorderColor = disabledBorderColor ?? _enabledBorderColor;
+    final Color _selectedItemColor = selectedItemColor ??
+        (themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDarkAlternative));
+    final Color _unselectedItemColor = unselectedItemColor ??
+        (themeProvider.isDarkMode ? const Color(primaryDarkAlternative) : const Color(primaryLight));
+    final Color _dropdownBackgroundColor = dropdownBackgroundColor ??
+        (themeProvider.isDarkMode ? const Color(primaryDark) : const Color(primaryLightAlternative));
+    final Color _dropdownBorderColor =
+        dropdownBorderColor ?? (themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark));
+    final Color _dropdownButtonColor =
+        dropdownButtonColor ?? (themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark));
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
       constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
@@ -55,35 +84,24 @@ class CustomSelectButton extends HookConsumerWidget {
         enabled: enabled ?? false,
         selectedItem: textEditingController.text,
         key: Key(identifier ?? ''),
-        onChanged: (value) => callbackOnChange(value),
+        onChanged: callbackOnChange,
         dropdownDecoratorProps: DropDownDecoratorProps(
           dropdownSearchDecoration: InputDecoration(
             labelText: labelText,
             hintText: hintText,
             filled: true,
-            fillColor: enabled == true
-                ? enableColor
-                : disabledColor, // Customize the background color here
-
+            fillColor: enabled == true ? _enabledFillColor : _disabledFillColor,
             enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 width: 1.0,
-                color: themeProvider.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(
-                        primaryDark,
-                      ),
+                color: _enabledBorderColor,
               ),
               borderRadius: BorderRadius.circular(20.0),
             ),
             disabledBorder: OutlineInputBorder(
               borderSide: BorderSide(
                 width: 1.0,
-                color: themeProvider.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(
-                        primaryDark,
-                      ), // Set the disabled border color to PrimaryDark
+                color: _disabledBorderColor,
               ),
               borderRadius: BorderRadius.circular(20.0),
             ),
@@ -95,25 +113,13 @@ class CustomSelectButton extends HookConsumerWidget {
           showSelectedItems: true,
           itemBuilder: (context, item, isSelected) => Container(
             decoration: BoxDecoration(
-              color: Color(
-                isSelected
-                    ? (themeProvider.isDarkMode
-                        ? primaryLight
-                        : primaryDarkAlternative)
-                    : (themeProvider.isDarkMode
-                        ? primaryDarkAlternative
-                        : primaryLight),
-              ),
+              color: isSelected ? _selectedItemColor : _unselectedItemColor,
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
               ),
               border: Border.all(
                 width: 2,
-                color: themeProvider.isDarkMode
-                    ? const Color(primaryDarkAlternative)
-                    : const Color(
-                        primaryLight,
-                      ), // Aquí especificas el color de borde deseado
+                color: _dropdownBorderColor,
               ),
             ),
             padding: const EdgeInsets.all(15),
@@ -127,28 +133,18 @@ class CustomSelectButton extends HookConsumerWidget {
               item.toString(),
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Color(
-                  isSelected
-                      ? (themeProvider.isDarkMode
-                          ? primaryDark
-                          : Colors.white.value)
-                      : (themeProvider.isDarkMode
-                          ? Colors.white.value
-                          : primaryDark),
-                ),
+                color: isSelected
+                    ? (themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white)
+                    : (themeProvider.isDarkMode ? Colors.white : const Color(primaryDark)),
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
           menuProps: MenuProps(
-            backgroundColor: Color(
-              themeProvider.isDarkMode ? primaryDark : primaryLightAlternative,
-            ),
+            backgroundColor: _dropdownBackgroundColor,
             shape: RoundedRectangleBorder(
               side: BorderSide(
-                color: Color(
-                  themeProvider.isDarkMode ? primaryLight : primaryDark,
-                ),
+                color: _dropdownBorderColor,
                 width: 1.0,
               ),
               borderRadius: const BorderRadius.vertical(
@@ -167,9 +163,7 @@ class CustomSelectButton extends HookConsumerWidget {
           ),
         ),
         dropdownButtonProps: DropdownButtonProps(
-          color: Color(
-            themeProvider.isDarkMode ? primaryLight : primaryDark,
-          ),
+          color: _dropdownButtonColor,
           padding: EdgeInsets.zero,
         ),
       ),
