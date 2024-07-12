@@ -34,7 +34,7 @@ class ToValidateInvestment extends ConsumerWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 5,
+                  height: 2,
                 ),
                 AmountInvestment(
                   amount: amount,
@@ -50,7 +50,7 @@ class ToValidateInvestment extends ConsumerWidget {
           ),
         ),
         const LabelState(
-          label: "En revisión",
+          label: "👀 En revisión",
         ),
       ],
     );
@@ -171,8 +171,6 @@ class LabelState extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset('assets/images/two_eye.png', height: 12, width: 12),
-            const SizedBox(width: 5),
             Text(
               label,
               textAlign: TextAlign.center,

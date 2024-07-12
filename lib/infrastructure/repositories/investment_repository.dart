@@ -15,7 +15,6 @@ class InvestmentRepository {
         fetchPolicy: FetchPolicy.networkOnly,
       ),
     );
-    print('response in proccess: ${response.data}');
     return response.data?['userProfile']?['haveInvestmentDraft'] ?? false;
   }
 
@@ -23,7 +22,6 @@ class InvestmentRepository {
     required GraphQLClient client,
     required String email,
   }) async {
-    print('email: $email');
     final response = await client.query(
       QueryOptions(
         document: gql(QueryRepository.lastPreInvestment),
@@ -33,7 +31,6 @@ class InvestmentRepository {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('response last pre investment: ${response.data}');
     dynamic lastPreInvestmentResponse = response.data?['getLastPreInvestment'];
     if (lastPreInvestmentResponse != null && lastPreInvestmentResponse['uuidPreInvestment'] != null) {
       return PreInvestmentForm(

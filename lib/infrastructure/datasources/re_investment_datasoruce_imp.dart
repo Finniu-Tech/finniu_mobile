@@ -59,7 +59,6 @@ class ReInvestmentDataSource {
     if (result.hasException) {
       throw result.exception!;
     }
-    print('result.data create reinvestmen: ${result}');
     return CreateReInvestmentResponse.fromJson(result.data!['createReInvestment']);
   }
 
