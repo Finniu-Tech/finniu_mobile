@@ -137,8 +137,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
     final isSoles = currencyEnum.PEN == reInvestment.currency;
     final String textCurrency = isSoles ? 'soles' : 'dólares';
 
-    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider,
-        (previous, next) {
+    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider, (previous, next) {
       context.loaderOverlay.show();
       _updateBankAccount();
       _setBankReceiverToReInvestment();
@@ -196,14 +195,10 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                             height: 35,
                             // padding: EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: currentTheme.isDarkMode
-                                  ? const Color(primaryLight)
-                                  : const Color(primaryDark),
+                              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               border: Border.all(
                                 width: 4,
-                                color: currentTheme.isDarkMode
-                                    ? const Color(primaryLight)
-                                    : const Color(primaryDark),
+                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                               ),
                               borderRadius: BorderRadius.circular(10),
                             ),
@@ -229,9 +224,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                                   textAlign: TextAlign.center,
                                   'Rentabilidad',
                                   style: TextStyle(
-                                    color: currentTheme.isDarkMode
-                                        ? const Color(blackText)
-                                        : const Color(whiteText),
+                                    color: currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText),
                                     fontSize: 7,
                                   ),
                                 ),
@@ -270,8 +263,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                         children: [
                           Text(
                             isSoles
-                                ? formatterSoles
-                                    .format(reInvestment.finalAmount)
+                                ? formatterSoles.format(reInvestment.finalAmount)
                                 : formatterUSD.format(reInvestment.finalAmount),
                             textAlign: TextAlign.right,
                             style: const TextStyle(
@@ -315,10 +307,8 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                         children: [
                           Text(
                             isSoles
-                                ? formatterSoles
-                                    .format(resultCalculator.profitability)
-                                : formatterUSD
-                                    .format(resultCalculator.profitability),
+                                ? formatterSoles.format(resultCalculator.profitability)
+                                : formatterUSD.format(resultCalculator.profitability),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
@@ -350,9 +340,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 14,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
               ),
             ),
           ),
@@ -372,9 +360,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                     )
                   : const Color(gradient_secondary),
               border: Border.all(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryDark)
-                    : const Color(gradient_secondary),
+                color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(gradient_secondary),
                 width: 1,
               ),
             ),
@@ -389,9 +375,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                     Text(
                       'Finniu S.A.C',
                       style: TextStyle(
-                        color: currentTheme.isDarkMode
-                            ? const Color(primaryLight)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         fontWeight: FontWeight.bold,
                         fontSize: 14,
                       ),
@@ -403,9 +387,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                         Text(
                           'RUC ',
                           style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -413,9 +395,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                           '20609327210',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -429,9 +409,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                         Text(
                           'N de cuenta $textCurrency Interbank ',
                           style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -443,9 +421,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                           isSoles ? '2003004077570' : '2003004754309',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -456,8 +432,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                           onTap: () {
                             Clipboard.setData(
                               ClipboardData(
-                                text:
-                                    isSoles ? "2003004077570" : "2003004754309",
+                                text: isSoles ? "2003004077570" : "2003004754309",
                               ),
                             ).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -472,9 +447,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                             });
                           },
                           child: ImageIcon(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             size: 18,
                             const AssetImage(
                               'assets/icons/double_square.png',
@@ -491,21 +464,15 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                         Text(
                           'CCI ',
                           style: TextStyle(
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
                         Text(
-                          isSoles
-                              ? '003 200 00300407757039'
-                              : '003 20000300475430932',
+                          isSoles ? '003 200 00300407757039' : '003 20000300475430932',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             fontSize: 12,
                           ),
                         ),
@@ -516,9 +483,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                           onTap: () {
                             Clipboard.setData(
                               ClipboardData(
-                                text: isSoles
-                                    ? "00320000300407757039"
-                                    : '00320000300475430932',
+                                text: isSoles ? "00320000300407757039" : '00320000300475430932',
                               ),
                             ).then((_) {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -533,9 +498,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                             });
                           },
                           child: ImageIcon(
-                            color: currentTheme.isDarkMode
-                                ? const Color(primaryLight)
-                                : const Color(grayText),
+                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
                             size: 18,
                             const AssetImage(
                               'assets/icons/double_square.png',
@@ -560,9 +523,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 14,
-                color: currentTheme.isDarkMode
-                    ? const Color(whiteText)
-                    : const Color(primaryDark),
+                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
               ),
             ),
           ),
@@ -581,9 +542,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
               ),
               color: const Color(primaryLightAlternative),
               border: Border.all(
-                color: currentTheme.isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryLightAlternative),
+                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLightAlternative),
                 width: 1,
               ),
             ),
@@ -614,49 +573,39 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                     child: InkWell(
                       onTap: () async {
                         final ImagePicker picker = ImagePicker();
-                        final List<XFile> images =
-                            await picker.pickMultiImage();
+                        final List<XFile> images = await picker.pickMultiImage();
 
                         if (images.isNotEmpty) {
                           var voucherImageListBase64 = [];
                           var voucherImageListPreview = [];
                           for (var image in images) {
                             final File imageFile = File(image.path);
-                            final List<int> imageBytes =
-                                await imageFile.readAsBytes();
-                            final base64Image =
-                                "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+                            final List<int> imageBytes = await imageFile.readAsBytes();
+                            final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
                             voucherImageListBase64.add(base64Image);
                             voucherImageListPreview.add(image.path);
                           }
-                          ref
-                              .read(preInvestmentVoucherImagesProvider.notifier)
-                              .state = List.from(voucherImageListBase64);
+                          ref.read(preInvestmentVoucherImagesProvider.notifier).state =
+                              List.from(voucherImageListBase64);
                           ref
                               .read(
-                                preInvestmentVoucherImagesPreviewProvider
-                                    .notifier,
+                                preInvestmentVoucherImagesPreviewProvider.notifier,
                               )
                               .state = List.from(voucherImageListPreview);
                         }
                       },
                       child: Builder(
                         builder: (context) {
-                          final voucherPreview = ref
-                              .watch(preInvestmentVoucherImagesPreviewProvider);
+                          final voucherPreview = ref.watch(preInvestmentVoucherImagesPreviewProvider);
                           return voucherPreview.isEmpty
                               ? ImageIcon(
                                   const AssetImage('assets/icons/photo.png'),
-                                  color: currentTheme.isDarkMode
-                                      ? const Color(grayText)
-                                      : const Color(primaryDark),
+                                  color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
                                 )
                               : SizedBox(
-                                  height:
-                                      60, // Ajusta este valor según tus necesidades
+                                  height: 60, // Ajusta este valor según tus necesidades
                                   child: ListView.builder(
-                                    scrollDirection: Axis
-                                        .horizontal, // Hace que la lista sea horizontal
+                                    scrollDirection: Axis.horizontal, // Hace que la lista sea horizontal
                                     itemCount: voucherPreview.length,
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
@@ -683,56 +632,39 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                                                 child: GestureDetector(
                                                   onTap: () {
                                                     // Código para eliminar la imagen
-                                                    List<String>
-                                                        voucherImageBase64 =
-                                                        ref.watch(
+                                                    List<String> voucherImageBase64 = ref.watch(
                                                       preInvestmentVoucherImagesProvider,
                                                     );
-                                                    List<String>
-                                                        voucherPreviewImage =
-                                                        ref.watch(
+                                                    List<String> voucherPreviewImage = ref.watch(
                                                       preInvestmentVoucherImagesPreviewProvider,
                                                     );
-                                                    List<String>
-                                                        modifiedVoucherImageBase64 =
-                                                        List.from(
+                                                    List<String> modifiedVoucherImageBase64 = List.from(
                                                       voucherImageBase64,
                                                     );
 
-                                                    List<String>
-                                                        modifiedVoucherPreviewImage =
-                                                        List.from(
+                                                    List<String> modifiedVoucherPreviewImage = List.from(
                                                       voucherPreviewImage,
                                                     );
 
-                                                    modifiedVoucherImageBase64
-                                                        .removeAt(index);
-                                                    modifiedVoucherPreviewImage
-                                                        .removeAt(index);
+                                                    modifiedVoucherImageBase64.removeAt(index);
+                                                    modifiedVoucherPreviewImage.removeAt(index);
                                                     ref
-                                                            .read(
-                                                              preInvestmentVoucherImagesProvider
-                                                                  .notifier,
-                                                            )
-                                                            .state =
-                                                        modifiedVoucherImageBase64;
+                                                        .read(
+                                                          preInvestmentVoucherImagesProvider.notifier,
+                                                        )
+                                                        .state = modifiedVoucherImageBase64;
                                                     ref
-                                                            .read(
-                                                              preInvestmentVoucherImagesPreviewProvider
-                                                                  .notifier,
-                                                            )
-                                                            .state =
-                                                        modifiedVoucherPreviewImage;
+                                                        .read(
+                                                          preInvestmentVoucherImagesPreviewProvider.notifier,
+                                                        )
+                                                        .state = modifiedVoucherPreviewImage;
                                                   },
                                                   child: Container(
                                                     width: 16,
                                                     height: 16,
-                                                    decoration:
-                                                        const BoxDecoration(
-                                                      color: Colors
-                                                          .black38, // Color semitransparente
-                                                      shape: BoxShape
-                                                          .circle, // Forma redonda
+                                                    decoration: const BoxDecoration(
+                                                      color: Colors.black38, // Color semitransparente
+                                                      shape: BoxShape.circle, // Forma redonda
                                                     ),
                                                     child: const Icon(
                                                       Icons.close,
@@ -760,9 +692,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                       child: Text(
                         'Suba la foto nitida donde sea visible el código de operación',
                         style: TextStyle(
-                          color: currentTheme.isDarkMode
-                              ? const Color(grayText)
-                              : const Color(primaryDark),
+                          color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
                           fontSize: 8,
                         ),
                         textAlign: TextAlign.center,
@@ -787,15 +717,12 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                 'He leido y acepto el ',
                 style: TextStyle(
                   fontSize: 10,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
               GestureDetector(
                 onTap: () async {
                   String contractURL = reInvestment.contractURL;
-                  print('contractURL: $contractURL');
 
                   if (contractURL.isNotEmpty) {
                     userReadContract.value = true;
@@ -812,9 +739,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                 child: Text(
                   ' Contrato de Inversión de Finniu ',
                   style: TextStyle(
-                    color: currentTheme.isDarkMode
-                        ? const Color(primaryLight)
-                        : const Color(primaryDark),
+                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
@@ -860,8 +785,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                   userReadContract: ref.watch(userAcceptedTermsProvider),
                   files: base64Image,
                 );
-                final response = await ref
-                    .read(updateReInvestmentProvider(updateParams).future);
+                final response = await ref.read(updateReInvestmentProvider(updateParams).future);
 
                 if (response.success == true) {
                   context.loaderOverlay.hide();
@@ -879,8 +803,7 @@ class _Step2BodyState extends ConsumerState<Step2Body> {
                   context.loaderOverlay.hide();
                   CustomSnackbar.show(
                     context,
-                    response.messages?[0].message ??
-                        'Hubo un problema al guardar',
+                    response.messages?[0].message ?? 'Hubo un problema al guardar',
                     'error',
                   );
                 }
@@ -925,9 +848,7 @@ class CircularCountdown extends ConsumerWidget {
             duration: 60,
             ringColor: const Color(primaryLight),
             fillColor: const Color(primaryDark),
-            backgroundColor: currentTheme.isDarkMode
-                ? const Color(backgroundColorDark)
-                : const Color(whiteText),
+            backgroundColor: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText),
             strokeWidth: 6.0,
             textStyle: const TextStyle(
               fontSize: 10.0,

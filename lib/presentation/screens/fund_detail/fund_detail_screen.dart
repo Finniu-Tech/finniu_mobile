@@ -42,7 +42,9 @@ class FundDetailBody extends StatelessWidget {
         const SizedBox(height: 10),
         ButtonInvestment(
           text: 'Quiero invertir',
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/v2/investment/step-1');
+          },
         ),
         const SizedBox(
           height: 20,
