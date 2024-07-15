@@ -93,6 +93,7 @@ class DropDownWidget extends ConsumerWidget {
         borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
       duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
       child: _isExpanded
           ? Column(
               mainAxisAlignment: MainAxisAlignment.end,
