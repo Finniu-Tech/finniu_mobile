@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.da
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/completed_progress_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
@@ -41,6 +42,13 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const CompletedBlueGoldCard(
+              time: 1,
+              timeInDay: 365,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const LessYearBlueGoldCard(
               daysPassed: 65,
               daysMissing: 300,
