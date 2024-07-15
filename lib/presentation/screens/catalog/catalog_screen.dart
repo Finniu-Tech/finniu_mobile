@@ -40,7 +40,17 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const InitProgressBlueGoldCard(),
+            const InitProgressBlueGoldCard(
+              time: 1,
+              timeInDay: 365,
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            const InitProgressBlueGoldCard(
+              time: 2,
+              timeInDay: 730,
+            ),
             const CarouselBlueGold(),
             const RowScheduleLogbook(),
             const SizedBox(

@@ -4,8 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class InitProgressBlueGoldCard extends ConsumerWidget {
+  final int time;
+  final int timeInDay;
+
   const InitProgressBlueGoldCard({
     super.key,
+    required this.time,
+    required this.timeInDay,
   });
 
   @override
@@ -18,8 +23,6 @@ class InitProgressBlueGoldCard extends ConsumerWidget {
     const int textTimeInDayDark = 0xff94C7FF;
     const int textTimeInDayLight = 0xff315AA5;
 
-    const int time = 1;
-    const int timeInDay = 120;
     return Container(
       decoration: BoxDecoration(
         color: Color(isDarkMode ? backgroundDark : backgroundLight),
@@ -31,7 +34,7 @@ class InitProgressBlueGoldCard extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const TextPoppins(
+          TextPoppins(
             text: "$time AÑO",
             fontSize: 16,
             textDark: textTimeDark,
@@ -47,7 +50,7 @@ class InitProgressBlueGoldCard extends ConsumerWidget {
                 textLight: textTimeInDayLight,
                 isBold: true,
               ),
-              const TextPoppins(
+              TextPoppins(
                 text: "$timeInDay días ",
                 fontSize: 16,
                 isBold: true,
