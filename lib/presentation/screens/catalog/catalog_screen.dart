@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart'
 import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
@@ -20,6 +21,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CatalogScreen extends HookConsumerWidget {
@@ -38,6 +40,7 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const InitProgressBlueGoldCard(),
             const CarouselBlueGold(),
             const RowScheduleLogbook(),
             const SizedBox(
