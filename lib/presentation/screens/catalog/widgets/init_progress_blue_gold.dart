@@ -29,7 +29,7 @@ class InitProgressBlueGoldCard extends ConsumerWidget {
         borderRadius: const BorderRadius.all(Radius.circular(30)),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: MediaQuery.of(context).size.width * 0.95,
       height: 50,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
