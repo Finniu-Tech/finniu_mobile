@@ -59,6 +59,8 @@ class CatalogScreen extends HookConsumerWidget {
             const InitProgressBlueGoldCard(
               time: 1,
               timeInDay: 365,
+              uuidReport: 12314,
+              uuidVoucher: 12314,
             ),
             const SizedBox(
               height: 10,
@@ -66,6 +68,8 @@ class CatalogScreen extends HookConsumerWidget {
             const InitProgressBlueGoldCard(
               time: 2,
               timeInDay: 730,
+              uuidReport: 12314,
+              uuidVoucher: 12314,
             ),
             const CarouselBlueGold(),
             const RowScheduleLogbook(),
