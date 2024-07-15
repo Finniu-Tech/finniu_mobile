@@ -54,6 +54,8 @@ class CatalogScreen extends HookConsumerWidget {
             const LessYearBlueGoldCard(
               daysPassed: 65,
               daysMissing: 300,
+              uuidReport: 12314,
+              uuidVoucher: 12314,
             ),
             const SizedBox(
               height: 10,
