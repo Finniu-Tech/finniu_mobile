@@ -78,13 +78,28 @@ class BodyVoucher extends ConsumerWidget {
                 GestureDetector(
                   onTap: () =>
                       expandedImage(context, imageFullScreen: urlImage),
-                  child: SizedBox(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 0,
+                          blurRadius: 4,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
                     width: 306,
                     height: 260,
-                    child: Image.asset(
-                      urlImage,
-                      width: 306,
-                      height: 260,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(10)),
+                      child: Image.asset(
+                        urlImage,
+                        width: 306,
+                        height: 260,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
