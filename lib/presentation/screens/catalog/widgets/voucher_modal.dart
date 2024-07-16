@@ -44,13 +44,17 @@ class BodyVoucher extends ConsumerWidget {
       child: Stack(
         children: [
           Dialog(
+            insetPadding: const EdgeInsets.all(20.0),
             backgroundColor: isDarkMode
                 ? const Color(backgroundDark)
                 : const Color(backgroundLight),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(
+                  height: 20,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,7 +77,7 @@ class BodyVoucher extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 40,
                 ),
                 GestureDetector(
                   onTap: () =>
@@ -90,7 +94,7 @@ class BodyVoucher extends ConsumerWidget {
                         ),
                       ],
                     ),
-                    width: 306,
+                    width: MediaQuery.of(context).size.width - 40,
                     height: 260,
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(10)),
