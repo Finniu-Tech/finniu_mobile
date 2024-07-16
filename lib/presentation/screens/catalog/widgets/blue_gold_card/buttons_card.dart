@@ -2,6 +2,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'dart:math' as math;
 
 class ReportButton extends ConsumerWidget {
   const ReportButton({
@@ -111,6 +112,34 @@ class VoucherButton extends ConsumerWidget {
               textLight: voucherTextLight,
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class CloseButtonModal extends ConsumerWidget {
+  const CloseButtonModal({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const iconDark = 0xffFFFFFF;
+    const iconLight = 0xff515151;
+    return Positioned(
+      right: 10,
+      top: 10,
+      child: IconButton(
+        onPressed: () => Navigator.pop(context),
+        icon: Transform.rotate(
+          angle: math.pi / 4,
+          child: Icon(
+            Icons.add_circle_outline,
+            size: 20,
+            color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+          ),
         ),
       ),
     );
