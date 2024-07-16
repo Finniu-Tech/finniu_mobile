@@ -1,0 +1,32 @@
+flavors:
+  testing:
+    app:
+      name: "Finniu Staging"
+    android:
+      applicationId: "com.finniu.app.staging"
+      icon:
+        image: "assets/icons/app_icon.png"
+      variables:
+        ENVIRONMENT: "staging"
+    ios:
+      bundleId: "com.example.finniu.app.staging"
+      icon:
+        image: "assets/icons/app_icon_staging.png"
+      variables:
+        ENVIRONMENT: "staging"
+
+  production:
+    app:
+      name: "Finniu"
+    android:
+      applicationId: "com.finniu"
+      icon:
+        image: "assets/icons/app_icon.png"
+      variables:
+        ENVIRONMENT: "staging"
+    ios:
+      bundleId: "com.finniu"
+      icon:
+        image: "assets/icons/app_icon.png"
+      variables:
+        ENVIRONMENT: "staging"
