@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/buttons_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -32,10 +33,12 @@ class _LessYearBlueGoldCardState extends State<LessYearBlueGoldCard> {
 
   void onTapVoucher() {
     print("pon tap voucher ${widget.uuidVoucher}");
+    voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
   }
 
   void onTapReport() {
     print("pon tap report ${widget.uuidReport}");
+    voucherModal(context, urlImage: "assets/blue_gold/report_example.png");
   }
 
   @override
