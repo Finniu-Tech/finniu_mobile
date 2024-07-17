@@ -33,7 +33,7 @@ class SelectedItems extends ConsumerWidget {
             plots: null,
           ),
           SelectedMonthlyFee(
-            monthly: null,
+            monthly: 1000,
           ),
         ],
       ),
@@ -136,17 +136,17 @@ class SelectedMonthlyFee extends HookConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextPoppins(
-              text: "Cuotas",
+              text: "Cuota mensual",
               fontSize: 12,
               textDark: textDark,
               textLight: textLight,
             ),
-            TextPoppins(
-              text: "${monthly ?? "-"} cuotas",
+            AnimationNumber(
+              beginNumber: 0,
+              endNumber: monthly ?? 0,
+              duration: 1,
               fontSize: 16,
-              isBold: true,
-              textDark: textDark,
-              textLight: textLight,
+              colorText: isDarkMode ? textDark : textLight,
             ),
           ],
         ),
