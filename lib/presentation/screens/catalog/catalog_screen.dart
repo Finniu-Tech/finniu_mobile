@@ -42,6 +42,12 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/investment_blue_gold');
+              },
+              child: const Text('go to blue gold'),
+            ),
             const InvestmentSimulationButton(),
             const CompletedBlueGoldCard(
               time: 1,
