@@ -132,6 +132,7 @@ flutter:
     - assets/sendcode/
     - assets/reinvestment/
     - assets/credit_cards/
+    - assets/blue_gold/
     - assets/blue_gold/calendar/
     - assets/blue_gold/leaf/
     - assets/blue_gold/money/
