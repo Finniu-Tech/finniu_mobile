@@ -52,6 +52,7 @@ class ButtonInvestment extends ConsumerWidget {
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
+          elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
               isDarkMode
