@@ -16,7 +16,7 @@ class SelectedItems extends ConsumerWidget {
     return const SizedBox(
       height: 230,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextPoppins(
@@ -26,46 +26,184 @@ class SelectedItems extends ConsumerWidget {
             textLight: textLight,
             isBold: true,
           ),
-          SelectedInstallments()
+          SelectedInstallments(
+            installment: 6,
+          ),
+          SelectedPlots(
+            plots: null,
+          ),
+          SelectedMonthlyFee(
+            monthly: null,
+          ),
         ],
       ),
     );
   }
 }
 
-class SelectedInstallments extends StatefulWidget {
+class SelectedInstallments extends HookConsumerWidget {
   const SelectedInstallments({
     super.key,
+    required this.installment,
   });
-
+  final int? installment;
   @override
-  State<SelectedInstallments> createState() => _SelectedInstallmentsState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-const int installment = 6;
+    bool isSelected = installment != null;
+    int avatarDark = isSelected ? 0xff4579E3 : 0xff222222;
+    int avatarLight = isSelected ? 0xffB0D5FF : 0xffEAEAEA;
+    int textDark = isSelected ? 0xffFFFFFF : 0xff828282;
+    int textLight = isSelected ? 0xff000000 : 0xff000000;
 
-class _SelectedInstallmentsState extends State<SelectedInstallments> {
-  @override
-  Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          backgroundColor: const Color(0xffB0D5FF),
-          child: Image.asset(
-            "assets/blue_gold/calendar/calendar_blank_selected_light.png",
-            width: 16,
-            height: 16,
+        SizedBox(
+          width: 32,
+          height: 32,
+          child: CircleAvatar(
+            backgroundColor: Color(isDarkMode ? avatarDark : avatarLight),
+            child: Image.asset(
+              "assets/blue_gold/calendar/calendar_blank_${isSelected ? "selected" : "unselected"}_${isDarkMode ? "dark" : "light"}.png",
+              width: 16,
+              height: 16,
+            ),
           ),
         ),
-        const Column(
+        const SizedBox(
+          width: 10,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextPoppins(
               text: "Cuotas",
               fontSize: 12,
+              textDark: textDark,
+              textLight: textLight,
             ),
             TextPoppins(
-              text: "$installment cuotas",
+              text: "${installment ?? "-"} cuotas",
+              fontSize: 16,
+              isBold: true,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class SelectedMonthlyFee extends HookConsumerWidget {
+  const SelectedMonthlyFee({
+    super.key,
+    required this.monthly,
+  });
+  final int? monthly;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    bool isSelected = monthly != null;
+    int avatarDark = isSelected ? 0xff4579E3 : 0xff222222;
+    int avatarLight = isSelected ? 0xffB0D5FF : 0xffEAEAEA;
+    int textDark = isSelected ? 0xffFFFFFF : 0xff828282;
+    int textLight = isSelected ? 0xff000000 : 0xff000000;
+
+    return Row(
+      children: [
+        SizedBox(
+          width: 32,
+          height: 32,
+          child: CircleAvatar(
+            backgroundColor: Color(isDarkMode ? avatarDark : avatarLight),
+            child: Image.asset(
+              "assets/blue_gold/money/money_${isSelected ? "selected" : "unselected"}_${isDarkMode ? "dark" : "light"}.png",
+              width: 16,
+              height: 16,
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextPoppins(
+              text: "Cuotas",
               fontSize: 12,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+            TextPoppins(
+              text: "${monthly ?? "-"} cuotas",
+              fontSize: 16,
+              isBold: true,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class SelectedPlots extends HookConsumerWidget {
+  const SelectedPlots({
+    super.key,
+    required this.plots,
+  });
+  final int? plots;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    bool isSelected = plots != null;
+    int avatarDark = isSelected ? 0xff4579E3 : 0xff222222;
+    int avatarLight = isSelected ? 0xffB0D5FF : 0xffEAEAEA;
+    int textDark = isSelected ? 0xffFFFFFF : 0xff828282;
+    int textLight = isSelected ? 0xff000000 : 0xff000000;
+
+    return Row(
+      children: [
+        SizedBox(
+          width: 32,
+          height: 32,
+          child: CircleAvatar(
+            backgroundColor: Color(isDarkMode ? avatarDark : avatarLight),
+            child: Image.asset(
+              "assets/blue_gold/leaf/leaf_${isSelected ? "selected" : "unselected"}_${isDarkMode ? "dark" : "light"}.png",
+              width: 16,
+              height: 16,
+            ),
+          ),
+        ),
+        const SizedBox(
+          width: 10,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextPoppins(
+              text: "Cantidad",
+              fontSize: 12,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+            TextPoppins(
+              text: "${plots ?? "-"} parcelas",
+              fontSize: 16,
+              isBold: true,
+              textDark: textDark,
+              textLight: textLight,
             ),
           ],
         ),
