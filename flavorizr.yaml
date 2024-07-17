@@ -6,7 +6,7 @@ flavors:
       applicationId: "com.finniu.app.staging"
       icon: "assets/icons/app_icon.png"
     ios:
-      bundleId: "com.example.finniu.app.staging"
+      bundleId: "com.finniu.app.staging"
       icon: "assets/icons/app_icon_staging.png"
     variables:
       ENVIRONMENT: "staging"
