@@ -12,7 +12,7 @@ class AppBarBlueGoldScreen extends ConsumerWidget
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int appBarColorDark = 0xff0E0E0E;
-    const int appBarColorLight = 0xffDFEEFF;
+    const int appBarColorLight = 0xffFFFFFF;
     const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
 
