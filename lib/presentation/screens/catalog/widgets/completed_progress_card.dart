@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/buttons_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/unfinished_investment_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -32,10 +33,12 @@ class _CompletedBlueGoldCardState extends State<CompletedBlueGoldCard> {
 
   void onTapVoucher() {
     print("pon tap voucher ${widget.uuidVoucher}");
+    unfinishedInvestmentModal(context, widget.uuidVoucher);
   }
 
   void onTapReport() {
     print("pon tap report ${widget.uuidReport}");
+    unfinishedInvestmentModal(context, widget.uuidReport);
   }
 
   @override
