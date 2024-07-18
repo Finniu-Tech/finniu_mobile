@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_investment_screen.dart';
 import 'package:finniu/presentation/screens/business_investments/business_investments_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
@@ -108,6 +109,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const InvestmentProcessStep2Screen(),
     '/business_investment': (BuildContext context) =>
         const BusinessInvestmentsScreen(),
+    '/blue_gold_investment': (BuildContext context) =>
+        const BlueGoldInvestmentsScreen(),
     '/v2/investment_blue_gold': (BuildContext context) =>
         const InvestmentBlueGoldScreen(),
   };
