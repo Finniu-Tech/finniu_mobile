@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:device_orientation/device_orientation.dart';
 import 'package:device_orientation/widgets/animated_always_down.dart';
 import 'package:flutter/material.dart';
@@ -63,9 +62,9 @@ Future<dynamic> showImageFullScreenAsset(
 
 class ImageDialog extends StatefulWidget {
   const ImageDialog({
-    super.key,
+    Key? key,
     required this.imageFullScreen,
-  });
+  }) : super(key: key);
 
   final String imageFullScreen;
 
@@ -75,21 +74,25 @@ class ImageDialog extends StatefulWidget {
 
 class _ImageDialogState extends State<ImageDialog> {
   bool isFullScreen = false;
+  bool dialogClosed = false;
   late StreamSubscription<DeviceOrientation> orientationSubscription;
 
   @override
   void initState() {
     super.initState();
     orientationSubscription = deviceOrientation$.listen((orientation) {
-      if (orientation == DeviceOrientation.portraitUp) {
-        if (isFullScreen) {
-          Navigator.of(context).pop();
+      if (!dialogClosed) {
+        if (orientation == DeviceOrientation.portraitUp) {
+          if (isFullScreen) {
+            dialogClosed = true;
+            Navigator.of(context).pop();
+          }
+        } else if (orientation == DeviceOrientation.landscapeLeft ||
+            orientation == DeviceOrientation.landscapeRight) {
+          setState(() {
+            isFullScreen = true;
+          });
         }
-      } else if (orientation == DeviceOrientation.landscapeLeft ||
-          orientation == DeviceOrientation.landscapeRight) {
-        setState(() {
-          isFullScreen = true;
-        });
       }
     });
   }
@@ -105,12 +108,15 @@ class _ImageDialogState extends State<ImageDialog> {
     return Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(10),
-      child: AnimatedAlwaysDown(
-        child: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.height * 0.9,
-            height: MediaQuery.of(context).size.width * 0.9,
+      child: GestureDetector(
+        onTap: () {
+          dialogClosed = true;
+          Navigator.of(context).pop();
+        },
+        child: SizedBox(
+          width: MediaQuery.of(context).size.height * 0.9,
+          height: MediaQuery.of(context).size.width * 0.9,
+          child: AnimatedAlwaysDown(
             child: InteractiveViewer(
               child: isFullScreen
                   ? Image.asset(
