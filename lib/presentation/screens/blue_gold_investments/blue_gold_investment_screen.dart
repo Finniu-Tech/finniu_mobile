@@ -1,3 +1,4 @@
+import 'package:finniu/infrastructure/models/blue_gold_investment/progress_blue_gold.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_title_blue_gold.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
@@ -31,7 +32,7 @@ class BlueGoldInvestmentsScreen extends HookConsumerWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            BodyScaffold(),
+            BlueGoldBody(),
           ],
         ),
       ),
@@ -39,8 +40,8 @@ class BlueGoldInvestmentsScreen extends HookConsumerWidget {
   }
 }
 
-class BodyScaffold extends ConsumerWidget {
-  const BodyScaffold({
+class BlueGoldBody extends ConsumerWidget {
+  const BlueGoldBody({
     super.key,
   });
 
@@ -64,7 +65,7 @@ class BodyScaffold extends ConsumerWidget {
             CarouselBlueGold(),
             RowScheduleLogbook(),
             TitleProgress(),
-            InvestmentList()
+            InvestmentList(),
           ],
         ),
       ),
@@ -72,14 +73,27 @@ class BodyScaffold extends ConsumerWidget {
   }
 }
 
-class InvestmentList extends StatelessWidget {
+class InvestmentList extends ConsumerWidget {
   const InvestmentList({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return ListView();
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 300,
+      child: ListView.builder(
+        itemCount: progressBlueGold.length,
+        itemBuilder: (context, index) {
+          final item = progressBlueGold[index];
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 10.0),
+            child: getCardWidget(item),
+          );
+        },
+      ),
+    );
   }
 }
 
