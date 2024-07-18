@@ -56,8 +56,8 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             const InvestmentSimulationButton(),
             const CompletedBlueGoldCard(
-              time: 1,
-              timeInDay: 365,
+              daysPassed: 0,
+              daysMissing: 365,
               uuidReport: 1234,
               uuidVoucher: 1234,
             ),
@@ -74,8 +74,8 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             const InitProgressBlueGoldCard(
-              time: 1,
-              timeInDay: 365,
+              daysPassed: 1,
+              daysMissing: 365,
               uuidReport: 12314,
               uuidVoucher: 12314,
             ),
@@ -83,8 +83,8 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             const InitProgressBlueGoldCard(
-              time: 2,
-              timeInDay: 730,
+              daysPassed: 2,
+              daysMissing: 730,
               uuidReport: 12314,
               uuidVoucher: 12314,
             ),

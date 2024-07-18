@@ -1,6 +1,9 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_title_blue_gold.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -58,9 +61,49 @@ class BodyScaffold extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             BlueGoldFundTitle(),
+            CarouselBlueGold(),
+            RowScheduleLogbook(),
+            TitleProgress(),
+            InvestmentList()
           ],
         ),
       ),
+    );
+  }
+}
+
+class InvestmentList extends StatelessWidget {
+  const InvestmentList({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView();
+  }
+}
+
+class TitleProgress extends StatelessWidget {
+  const TitleProgress({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        SizedBox(
+          height: 10,
+        ),
+        TextPoppins(
+          text: "Progreso de mi inversión",
+          fontSize: 16,
+          isBold: true,
+        ),
+        SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 }

@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class InitProgressBlueGoldCard extends StatefulWidget {
-  final int time;
-  final int timeInDay;
+  final int daysPassed;
+  final int daysMissing;
   final int uuidVoucher;
   final int uuidReport;
 
   const InitProgressBlueGoldCard({
     super.key,
-    required this.time,
-    required this.timeInDay,
+    required this.daysPassed,
+    required this.daysMissing,
     required this.uuidVoucher,
     required this.uuidReport,
   });
@@ -54,8 +54,8 @@ class _InitProgressBlueGoldCardState extends State<InitProgressBlueGoldCard> {
             closedExpand();
           },
           child: TitleCard(
-            time: widget.time,
-            timeInDay: widget.timeInDay,
+            time: widget.daysPassed,
+            timeInDay: widget.daysMissing,
           ),
         ),
       ],
