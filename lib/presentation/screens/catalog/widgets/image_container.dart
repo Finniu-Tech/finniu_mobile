@@ -1,5 +1,9 @@
-import 'package:finniu/constants/colors.dart';
+import 'dart:async';
+
+import 'package:device_orientation/device_orientation.dart';
+import 'package:device_orientation/widgets/animated_always_down.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class BlueGoldImage extends StatelessWidget {
   const BlueGoldImage({
@@ -10,7 +14,7 @@ class BlueGoldImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ImageContainer(
       imageContainer: 'assets/blue_gold/factoring_image.png',
-      imageFullScreen: 'assets/blue_gold/factoring_vertical.jpg',
+      imageFullScreen: 'assets/blue_gold/factoring_image.png',
     );
   }
 }
@@ -51,16 +55,75 @@ Future<dynamic> showImageFullScreenAsset(
 }) {
   return showDialog(
     context: context,
-    builder: (context) => Dialog(
-      child: GestureDetector(
-        onTap: () => Navigator.of(context).pop(),
-        child: InteractiveViewer(
-          child: Image.asset(
-            imageFullScreen,
-            fit: BoxFit.fill,
+    builder: (context) => ImageDialog(
+      imageFullScreen: imageFullScreen,
+    ),
+  );
+}
+
+class ImageDialog extends StatefulWidget {
+  const ImageDialog({
+    super.key,
+    required this.imageFullScreen,
+  });
+
+  final String imageFullScreen;
+
+  @override
+  State<ImageDialog> createState() => _ImageDialogState();
+}
+
+class _ImageDialogState extends State<ImageDialog> {
+  bool isFullScreen = false;
+  late StreamSubscription<DeviceOrientation> orientationSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    orientationSubscription = deviceOrientation$.listen((orientation) {
+      if (orientation == DeviceOrientation.portraitUp) {
+        if (isFullScreen) {
+          Navigator.of(context).pop();
+        }
+      } else if (orientation == DeviceOrientation.landscapeLeft ||
+          orientation == DeviceOrientation.landscapeRight) {
+        setState(() {
+          isFullScreen = true;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    orientationSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      backgroundColor: Colors.transparent,
+      insetPadding: const EdgeInsets.all(10),
+      child: AnimatedAlwaysDown(
+        child: GestureDetector(
+          onTap: () => Navigator.of(context).pop(),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.height * 0.9,
+            height: MediaQuery.of(context).size.width * 0.9,
+            child: InteractiveViewer(
+              child: isFullScreen
+                  ? Image.asset(
+                      widget.imageFullScreen,
+                      fit: BoxFit.fill,
+                    )
+                  : Image.asset(
+                      widget.imageFullScreen,
+                    ),
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

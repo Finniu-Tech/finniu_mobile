@@ -297,6 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  device_orientation:
+    dependency: "direct main"
+    description:
+      name: device_orientation
+      sha256: "69f2723ff03b7322f6c8f866f27696932d7b996abd1e8c567da9d57f6d80c4d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   dropdown_search:
     dependency: "direct main"
     description:
@@ -1184,6 +1192,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sensors_plus:
+    dependency: transitive
+    description:
+      name: sensors_plus
+      sha256: "8e7fa79b4940442bb595bfc0ee9da4af5a22a0fe6ebacc74998245ee9496a82d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
+  sensors_plus_platform_interface:
+    dependency: transitive
+    description:
+      name: sensors_plus_platform_interface
+      sha256: bc472d6cfd622acb4f020e726433ee31788b038056691ba433fec80e448a094f
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.0"
   shared_preferences:
     dependency: "direct main"
     description:
