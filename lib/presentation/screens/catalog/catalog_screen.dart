@@ -44,6 +44,12 @@ class CatalogScreen extends HookConsumerWidget {
           children: [
             ElevatedButton(
               onPressed: () {
+                Navigator.pushNamed(context, '/blue_gold_investment');
+              },
+              child: const Text('blue gold screen'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 Navigator.pushNamed(context, '/v2/investment_blue_gold');
               },
               child: const Text('go to blue gold'),
