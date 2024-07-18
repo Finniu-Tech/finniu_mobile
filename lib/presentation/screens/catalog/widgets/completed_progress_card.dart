@@ -65,7 +65,7 @@ class _CompletedBlueGoldCardState extends State<CompletedBlueGoldCard> {
   }
 }
 
-class DropDownWidget extends ConsumerWidget {
+class DropDownWidget extends ConsumerStatefulWidget {
   const DropDownWidget({
     super.key,
     required this.closed,
@@ -73,13 +73,60 @@ class DropDownWidget extends ConsumerWidget {
     required this.onTapVoucher,
     required this.onTapReport,
   }) : _isExpanded = isExpanded;
+
   final VoidCallback? closed;
   final VoidCallback? onTapVoucher;
   final VoidCallback? onTapReport;
   final bool _isExpanded;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _DropDownWidgetState createState() => _DropDownWidgetState();
+}
+
+class _DropDownWidgetState extends ConsumerState<DropDownWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _heightAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+    _heightAnimation = Tween<double>(begin: 50, end: 150).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    if (widget._isExpanded) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+  }
+
+  @override
+  void didUpdateWidget(DropDownWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget._isExpanded) {
+      _controller.forward();
+    } else {
+      _controller.reverse();
+    }
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff112445;
     const int backgroundLight = 0xffDFEEFF;
@@ -88,58 +135,61 @@ class DropDownWidget extends ConsumerWidget {
     const int iconTimeDark = 0xffFFFFFF;
     const int iconTimeLight = 0xff000000;
 
-    return AnimatedContainer(
-      width: MediaQuery.of(context).size.width * 0.95,
-      height: _isExpanded ? 150 : 50,
-      decoration: BoxDecoration(
-        color: Color(isDarkMode ? backgroundDark : backgroundLight),
-        borderRadius: const BorderRadius.all(Radius.circular(30)),
-      ),
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
-      child: _isExpanded
-          ? Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return AnimatedBuilder(
+      animation: _heightAnimation,
+      builder: (context, child) {
+        return Container(
+          width: MediaQuery.of(context).size.width * 0.95,
+          height: _heightAnimation.value,
+          decoration: BoxDecoration(
+            color: Color(isDarkMode ? backgroundDark : backgroundLight),
+            borderRadius: const BorderRadius.all(Radius.circular(30)),
+          ),
+          child: _heightAnimation.value >= 150
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    VoucherButton(
-                      onTapVoucher: onTapVoucher,
-                    ),
-                    ReportButton(
-                      onTapReport: onTapReport,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 44,
-                  child: GestureDetector(
-                    onTap: closed,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        const TextPoppins(
-                          text: "Ver menos",
-                          fontSize: 9,
-                          textDark: textTimeDark,
-                          textLight: textTimeLight,
-                          isBold: true,
+                        VoucherButton(
+                          onTapVoucher: widget.onTapVoucher,
                         ),
-                        Icon(
-                          Icons.keyboard_arrow_up,
-                          size: 24,
-                          color:
-                              Color(isDarkMode ? iconTimeDark : iconTimeLight),
+                        ReportButton(
+                          onTapReport: widget.onTapReport,
                         ),
                       ],
                     ),
-                  ),
-                ),
-              ],
-            )
-          : const SizedBox.shrink(),
+                    SizedBox(
+                      height: 44,
+                      child: GestureDetector(
+                        onTap: widget.closed,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const TextPoppins(
+                              text: "Ver menos",
+                              fontSize: 9,
+                              textDark: textTimeDark,
+                              textLight: textTimeLight,
+                              isBold: true,
+                            ),
+                            Icon(
+                              Icons.keyboard_arrow_up,
+                              size: 24,
+                              color: Color(
+                                  isDarkMode ? iconTimeDark : iconTimeLight),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

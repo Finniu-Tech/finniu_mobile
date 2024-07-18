@@ -57,6 +57,41 @@ final List<ProgressBlueGold> progressBlueGold = [
     uuidReport: 1,
     status: ProgressStatus.init,
   ),
+  ProgressBlueGold(
+    daysPassed: 365,
+    daysMissing: 0,
+    uuidVoucher: 15,
+    uuidReport: 15,
+    status: ProgressStatus.completed,
+  ),
+  ProgressBlueGold(
+    daysPassed: 720,
+    daysMissing: 0,
+    uuidVoucher: 12,
+    uuidReport: 12,
+    status: ProgressStatus.completed,
+  ),
+  ProgressBlueGold(
+    daysPassed: 210,
+    daysMissing: 155,
+    uuidVoucher: 13,
+    uuidReport: 13,
+    status: ProgressStatus.inLastYear,
+  ),
+  ProgressBlueGold(
+    daysPassed: 60,
+    daysMissing: 305,
+    uuidVoucher: 2,
+    uuidReport: 2,
+    status: ProgressStatus.inLastYear,
+  ),
+  ProgressBlueGold(
+    daysPassed: 10,
+    daysMissing: 730,
+    uuidVoucher: 1,
+    uuidReport: 1,
+    status: ProgressStatus.init,
+  ),
 ];
 
 Widget getCardWidget(ProgressBlueGold item) {
