@@ -57,7 +57,7 @@ class FundDetailBody extends StatelessWidget {
             if (fund.fundType == FundTypeEnum.corporate) {
               Navigator.pushNamed(context, '/v2/investment/step-1');
             } else {
-              Navigator.pushNamed(context, '/v2/aggro-investment');
+              Navigator.pushNamed(context, '/v2/aggro-investment', arguments: {'fund': fund});
             }
           },
         ),

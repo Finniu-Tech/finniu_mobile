@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_investment_screen.dart';
 import 'package:finniu/presentation/screens/business_investments/business_investments_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
@@ -108,9 +109,15 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     },
     '/v2/investment/step-1': (BuildContext context) => const InvestmentProcessStep1Screen(),
     '/v2/investment/step-2': (BuildContext context) => const InvestmentProcessStep2Screen(),
-    '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
-    //TODO remove this routes
+    // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
+    '/v2/aggro-investment': (BuildContext context) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      return InvestmentAggroProcessScreen(
+        fund: args['fund'],
+      );
+    },
     '/business_investment': (BuildContext context) => const BusinessInvestmentsScreen(),
     '/v2/investment_blue_gold': (BuildContext context) => const InvestmentBlueGoldScreen(),
+    '/blue_gold_investment': (BuildContext context) => const BlueGoldInvestmentsScreen(),
   };
 }
