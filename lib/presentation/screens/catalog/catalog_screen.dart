@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
@@ -15,6 +16,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
@@ -42,6 +44,19 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ElevatedButton(
+              onPressed: () {
+                addVoucherModal(context);
+              },
+              child: const Text('add voucher'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                voucherModal(context,
+                    urlImage: "assets/blue_gold/voucher_example.png");
+              },
+              child: const Text('voucher modal'),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/blue_gold_investment');
