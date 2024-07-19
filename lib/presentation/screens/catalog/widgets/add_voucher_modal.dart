@@ -1,10 +1,12 @@
+import 'dart:io';
+
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/add_image.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/buttons_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<dynamic> addVoucherModal(BuildContext context) async {
@@ -41,15 +43,16 @@ class BodyVoucher extends ConsumerWidget {
             backgroundColor: isDarkMode
                 ? const Color(backgroundDark)
                 : const Color(backgroundLight),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                TitleBody(),
-                ColumnBody()
+                const TitleBody(),
+                const ColumnBody(),
+                ButtonInvestment(text: "Subir voucher", onPressed: () {}),
               ],
             ),
           ),
@@ -60,23 +63,57 @@ class BodyVoucher extends ConsumerWidget {
   }
 }
 
-class ColumnBody extends StatelessWidget {
+class ColumnBody extends ConsumerWidget {
   const ColumnBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? imagePath = ref.watch(imagePathProvider);
+    List<Widget> notImage = [
+      const TextAddImage(),
+      const AddImageContainer(),
+    ];
+
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const TextAddImage(),
-          const AddImageContainer(),
-          ButtonInvestment(text: "Subir voucher", onPressed: () {}),
+          if (imagePath != null) const ImageRender() else ...notImage,
         ],
       ),
     );
+  }
+}
+
+class ImageRender extends ConsumerWidget {
+  const ImageRender({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? imagePath = ref.watch(imagePathProvider);
+    return imagePath != null
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width - 40,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TextPoppins(
+                  text: "Año 2024",
+                  fontSize: 14,
+                ),
+                Container(
+                    width: 178,
+                    height: 139,
+                    child: Image.file(File(imagePath))),
+              ],
+            ),
+          )
+        : const SizedBox();
   }
 }
 
@@ -92,7 +129,7 @@ class AddImageContainer extends ConsumerWidget {
     const int backgroundLight = 0xffECECEC;
     return GestureDetector(
       onTap: () {
-        addImage();
+        addImage(context: context, ref: ref);
       },
       child: Container(
         width: 320,
