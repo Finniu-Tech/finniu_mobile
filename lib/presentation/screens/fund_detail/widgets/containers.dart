@@ -63,16 +63,26 @@ class RealStateContainer extends ConsumerWidget {
 }
 
 class BlueGoldContainer extends ConsumerWidget {
+  final String amount;
   const BlueGoldContainer({
     super.key,
+    required this.amount,
   });
+
+  int parseCurrencyToInt(String currencyString) {
+    final cleanedString = currencyString.replaceAll(RegExp(r'[^\d.]'), '');
+
+    double value = double.parse(cleanedString);
+
+    return value.toInt();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
-    const int numberInSoles = 42600;
-    const int numberInUSD = 20000;
+    int numberInSoles = parseCurrencyToInt(amount);
+    const int numberInUSD = 0;
     const String titleText = "Montos de inversión";
     const String bodyText = "Desde";
 

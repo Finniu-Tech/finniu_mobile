@@ -1213,4 +1213,65 @@ class QueryRepository {
 }
     ''';
   }
+
+  static String get getFunds {
+    return '''
+      query getFunds{
+        investmentFundsQueries{
+          listInvestmentFundsAvailable{
+            uuid
+            name
+            icon
+            listBackgroundColorDark
+            listBackgroundColorLight
+            detailBackgroundColorDark
+            detailBackgroundColorLight
+            backgroundImageUrl
+            assetsUnderManagement
+            mainImageUrl
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorDarkSecondary
+            detailBackgroundColorSecondaryLight
+            createdAt
+            isDeleted
+            isActive
+            lastRentability
+            netWorthGraph{
+              date
+              value
+            }
+            netWorthAmount
+            currentInstallment{
+              date
+              value
+            }
+            
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getBenefitsFund {
+    return '''
+      query getFundBenefits(\$fundUUID:UUID!){
+      investmentFundsQueries{
+        listBenefitsInvestmentFundsAvailable(investmentFundUuid: \$fundUUID){
+          uuid
+          benefitText
+          icon
+          backgroundColorDark
+          backgroundColorLight
+          isDeleted
+          isActive
+        }
+      }
+    }
+    ''';
+  }
 }

@@ -1,64 +1,75 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class OurInvestmentFunds extends StatelessWidget {
+class OurInvestmentFunds extends ConsumerWidget {
   const OurInvestmentFunds({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    void onTapNavigate() {
-      Navigator.pushNamed(context, '/fund_detail');
+  Widget build(BuildContext context, WidgetRef ref) {
+    void onTapNavigate(FundEntity fund) {
+      Navigator.pushNamed(
+        context,
+        '/fund_detail',
+        arguments: {
+          'fund': fund,
+        },
+      );
     }
 
-    final fundCardList = [
-      CardInvestment(
-        background: const Color(cardInvestmentBusiness),
-        backgroundImage: const Color(cardImageBusiness),
-        textBody: "Fondo inversiones \nempresariales",
-        onTap: onTapNavigate,
-        imageUrl: 'assets/investment/building_investment.png',
-      ),
-      CardInvestment(
-        background: const Color(cardInvestmentRealEstate),
-        backgroundImage: const Color(cardImageRealEstate),
-        textBody: "Fondo inversiones \nagro inmobiliaria ",
-        onTap: onTapNavigate,
-        imageUrl: 'assets/investment/blueberry_investment.png',
-      ),
-    ];
+    final fundListAsyncValue = ref.watch(fundListFutureProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-    return Container(
+    return SizedBox(
       width: double.infinity,
       child: Column(
         children: [
-          const SizedBox(
-            height: 20,
-          ),
+          const SizedBox(height: 20),
           const TitleOfFunds(
             title: "Nuestros Fondos",
             icon: Icons.monetization_on_outlined,
           ),
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
-            child: CarouselSlider(
-              items: fundCardList,
-              options: CarouselOptions(
-                height: 150,
-                autoPlay: false,
-                viewportFraction: 0.8,
-                enlargeCenterPage: true,
-                clipBehavior: Clip.none,
-              ),
+            child: fundListAsyncValue.when(
+              data: (fundList) {
+                final fundCardList = fundList
+                    .map(
+                      (fund) => CardInvestment(
+                        background: isDarkMode ? Color(fund.getHexListColorDark()) : Color(fund.getHexListColorLight()),
+                        backgroundImage:
+                            isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
+                        textBody: fund.name,
+                        onTap: () => onTapNavigate(fund),
+                        imageUrl: fund.iconUrl != null
+                            ? fund.iconUrl!
+                            : 'https://finniu-statics.s3.amazonaws.com/investment_funds/backgrounds/backgroud_agro.png',
+                      ),
+                    )
+                    .toList();
+
+                return CarouselSlider(
+                  items: fundCardList,
+                  options: CarouselOptions(
+                    height: 150,
+                    autoPlay: false,
+                    viewportFraction: 0.8,
+                    enlargeCenterPage: true,
+                    clipBehavior: Clip.none,
+                  ),
+                );
+              },
+              loading: () => const CircularProgressIndicator(),
+              error: (error, stackTrace) => Text('Error: $error'),
             ),
-          )
+          ),
         ],
       ),
     );
@@ -113,9 +124,7 @@ class CardInvestment extends StatelessWidget {
                   ),
                   height: 40,
                   width: 40,
-                  child: Image.asset(
-                    imageUrl,
-                  ),
+                  child: Image.network(imageUrl),
                 ),
                 const Spacer(),
                 Transform.rotate(

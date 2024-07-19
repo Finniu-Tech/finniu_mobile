@@ -48,9 +48,10 @@ class LabelWithRoundedImage extends StatelessWidget {
               color: Color(iconColor),
               borderRadius: BorderRadius.circular(100),
             ),
-            child: Image.asset(
-              urlIcon,
-            ),
+            child: Image.network(urlIcon),
+            // child: Image.asset(
+            //   urlIcon,
+            // ),
           ),
         ),
       ],

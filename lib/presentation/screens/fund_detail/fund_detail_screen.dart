@@ -1,5 +1,7 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -8,42 +10,55 @@ import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart'
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class FundDetailScreen extends ConsumerWidget {
-  const FundDetailScreen({super.key});
+  const FundDetailScreen({super.key, required this.fund});
+  final FundEntity fund;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final backgroundColor = isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary;
+    final backgroundColor = isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight();
     return Scaffold(
       backgroundColor: Color(backgroundColor),
-      body: const FundDetailBody(),
+      body: FundDetailBody(
+        fund: fund,
+        isDarkMode: isDarkMode,
+      ),
     );
   }
 }
 
 class FundDetailBody extends StatelessWidget {
-  const FundDetailBody({super.key});
+  final FundEntity fund;
+  final bool isDarkMode;
+  const FundDetailBody({super.key, required this.fund, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const HeaderInvestment(
-          containerColor: aboutContainerBusinessColor,
-          iconColor: aboutIconBusinessColor,
+        HeaderInvestment(
+          containerColor: isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight(),
+          iconColor: isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
           textColor: aboutTextBusinessColor,
-          urlIcon: 'assets/investment/business_loans_investment_icon.png',
-          urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
-          textTitle: 'Fondo préstamos empresariales',
+          urlIcon: fund.iconUrl!,
+          urlImageBackground: fund.backgroundImageUrl!,
+          textTitle: fund.name,
         ),
-        const ScrollBody(),
+        ScrollBody(
+          fund: fund,
+        ),
         const SizedBox(height: 10),
         ButtonInvestment(
           text: 'Quiero invertir',
           onPressed: () {
-            Navigator.pushNamed(context, '/v2/investment/step-1');
+            if (fund.fundType == FundTypeEnum.corporate) {
+              Navigator.pushNamed(context, '/v2/investment/step-1');
+            } else {
+              Navigator.pushNamed(context, '/v2/aggro-investment');
+            }
           },
         ),
         const SizedBox(
@@ -55,7 +70,16 @@ class FundDetailBody extends StatelessWidget {
 }
 
 class ScrollBody extends ConsumerWidget {
-  const ScrollBody({super.key});
+  final FundEntity fund;
+  const ScrollBody({super.key, required this.fund});
+  Future<dynamic> showBenefits(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => BodyModalBenefits(
+        fundUUID: fund.uuid,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, ref) {
@@ -72,7 +96,7 @@ class ScrollBody extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Descubre el portafolio',
+                fund.fundType == FundTypeEnum.corporate ? 'Descubre el portafolio' : 'Nuestro modelo de negocio',
                 textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: mainColor),
               ),
@@ -85,41 +109,77 @@ class ScrollBody extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  Text(
-                    'Ver los beneficios',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: mainColor,
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Transform.rotate(
-                    angle: -0.7854,
-                    child: Icon(
-                      Icons.arrow_forward_sharp,
-                      size: 24,
-                      color: mainColor,
+                  GestureDetector(
+                    onTap: () {
+                      showBenefits(context);
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'Ver los beneficios',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: mainColor,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Transform.rotate(
+                          angle: -0.7854,
+                          child: Icon(
+                            Icons.arrow_forward_sharp,
+                            size: 24,
+                            color: mainColor,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const Spacer(),
-                  const SwitchMoney(
-                    switchHeight: 34,
-                    switchWidth: 67,
-                  ),
+                  if (fund.fundType == FundTypeEnum.corporate) ...[
+                    const SwitchMoney(
+                      switchHeight: 34,
+                      switchWidth: 67,
+                    ),
+                  ] else ...[
+                    TextButton(
+                      style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xff3A66BF))),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/contract_view', arguments: {
+                          'contractURL': 'https://pdfobject.com/pdf/sample.pdf',
+                        });
+                      },
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text('Ver más información'),
+                          SizedBox(width: 5),
+                          Icon(
+                            Icons.download_rounded,
+                            size: 16,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
-              const Center(
-                child: RealStateContainer(),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              const FundInfoSlider(),
+              if (fund.fundType == FundTypeEnum.aggro) ...[
+                Center(child: BlueGoldContainer(amount: fund.netWorthAmount!)),
+              ],
+              if (fund.fundType == FundTypeEnum.corporate) ...[
+                const Center(
+                  child: RealStateContainer(),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                const FundInfoSlider(),
+              ],
             ],
           ),
         ),
