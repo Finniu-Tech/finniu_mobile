@@ -1,10 +1,11 @@
+import 'dart:io';
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/add_image.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/buttons_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 Future<dynamic> addVoucherModal(BuildContext context) async {
@@ -41,15 +42,22 @@ class BodyVoucher extends ConsumerWidget {
             backgroundColor: isDarkMode
                 ? const Color(backgroundDark)
                 : const Color(backgroundLight),
-            child: const Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                TitleBody(),
-                ColumnBody()
+                const TitleBody(),
+                const ColumnBody(),
+                ButtonInvestment(
+                  text: "Subir voucher",
+                  onPressed: () {
+                    ref.read(imageBase64Provider.notifier).state = null;
+                    ref.read(imagePathProvider.notifier).state = null;
+                  },
+                ),
               ],
             ),
           ),
@@ -60,23 +68,74 @@ class BodyVoucher extends ConsumerWidget {
   }
 }
 
-class ColumnBody extends StatelessWidget {
+class ColumnBody extends ConsumerWidget {
   const ColumnBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? imagePath = ref.watch(imagePathProvider);
+    List<Widget> notImage = [
+      const TextAddImage(),
+      const AddImageContainer(),
+    ];
+
     return Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const TextAddImage(),
-          const AddImageContainer(),
-          ButtonInvestment(text: "Subir voucher", onPressed: () {}),
+          if (imagePath != null) const ImageRender() else ...notImage,
         ],
       ),
     );
+  }
+}
+
+class ImageRender extends ConsumerWidget {
+  const ImageRender({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? imagePath = ref.watch(imagePathProvider);
+    return imagePath != null
+        ? SizedBox(
+            width: MediaQuery.of(context).size.width - 40,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TextPoppins(
+                  text: "Año 2024",
+                  fontSize: 14,
+                  isBold: true,
+                ),
+                SizedBox(
+                  width: 185,
+                  height: 145,
+                  child: Expanded(
+                    child: Image.file(
+                      File(imagePath),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                const TextPoppins(text: "Adjunta tu voucher", fontSize: 14),
+                const SizedBox(
+                  height: 5,
+                ),
+                const Center(
+                  child: AddImageContainer(),
+                ),
+              ],
+            ),
+          )
+        : const SizedBox();
   }
 }
 
@@ -88,15 +147,16 @@ class AddImageContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final String? imagePath = ref.watch(imagePathProvider);
     const int backgroundDark = 0xff323232;
     const int backgroundLight = 0xffECECEC;
     return GestureDetector(
       onTap: () {
-        addImage();
+        addImage(context: context, ref: ref);
       },
       child: Container(
         width: 320,
-        height: 112,
+        height: imagePath != null ? 69 : 112,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: Color(isDarkMode ? backgroundDark : backgroundLight),
