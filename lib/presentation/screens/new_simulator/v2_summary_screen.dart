@@ -5,7 +5,8 @@ import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart'
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_transfer.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/selected_bank_deposit.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/title_simulator.dart';
 import 'package:flutter/material.dart';
@@ -63,12 +64,31 @@ class _BodyScaffold extends ConsumerWidget {
             SizedBox(height: 15),
             TermProfitabilityRow(),
             SizedBox(height: 15),
-            SelectedBank(),
+            SelectedBankTransfer(),
+            SizedBox(height: 15),
+            SelectedBankDeposit(),
+            SizedBox(height: 15),
+            SeeInterestPayment(),
             SizedBox(height: 15),
             InvestmentEnds(),
           ],
         ),
       ),
+    );
+  }
+}
+
+class SeeInterestPayment extends StatelessWidget {
+  const SeeInterestPayment({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const ButtonsSimulator(
+      text: 'Ver tabla de los pagos de intereses',
+      icon: "square_half.svg",
+      onPressed: null,
     );
   }
 }
@@ -127,7 +147,7 @@ class ButtonsSimulator extends ConsumerWidget {
       onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        height: 32,
+        height: 40,
         decoration: BoxDecoration(
           color: Color(isDarkMode ? backgroundColorDark : backgroundColorLight),
           borderRadius: BorderRadius.circular(8),

@@ -3,7 +3,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_transfer.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/title_simulator.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +63,7 @@ class BodyModalInvestment extends ConsumerWidget {
             SizedBox(height: 10),
             TermProfitabilityRow(),
             SizedBox(height: 10),
-            SelectedBank(),
+            SelectedBankTransfer(),
             SizedBox(height: 10),
             InvestmentEnds(),
           ],

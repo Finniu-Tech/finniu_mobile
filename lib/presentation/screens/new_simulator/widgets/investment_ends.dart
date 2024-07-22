@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +17,7 @@ class InvestmentEnds extends ConsumerWidget {
     const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
     return Container(
-      height: 66,
+      height: 47,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(
@@ -29,42 +30,26 @@ class InvestmentEnds extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Column(
-            children: [
-              const SizedBox(
-                height: 10,
-              ),
-              SvgPicture.asset(
-                'assets/svg_icons/calendar_blank.svg',
-                width: 18,
-                height: 18,
-                color: Color(isDarkMode ? iconColorDark : iconColorLight),
-              ),
-            ],
+          SvgPicture.asset(
+            'assets/svg_icons/calendar_blank.svg',
+            width: 24,
+            height: 24,
+            color: Color(isDarkMode ? iconColorDark : iconColorLight),
           ),
           const SizedBox(width: 10),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Tu inversión finaliza ",
-                style: TextStyle(
-                  color: isDarkMode ? Colors.white : Colors.black,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                "10/07/2025",
-                style: TextStyle(
-                  color: isDarkMode
-                      ? const Color(borderDark)
-                      : const Color(borderLight),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
+          const TextPoppins(
+            text: "Tu inversión finaliza ",
+            fontSize: 16,
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          const TextPoppins(
+            text: "10/07/2025",
+            fontSize: 16,
+            isBold: true,
+            textDark: borderDark,
+            textLight: borderLight,
           ),
         ],
       ),
