@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -11,23 +12,16 @@ class TitleModal extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundColor = 0xff55B63D;
-    const int textColorDark = 0xffFFFFFF;
-    const int textColorLight = 0xff0D3A5C;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Resumen de mi inversión",
-          style: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+        const TextPoppins(
+          text: "Resumen de mi \ninversión",
+          fontSize: 20,
+          isBold: true,
+          lines: 2,
         ),
         Container(
           width: 73,

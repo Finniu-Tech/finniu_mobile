@@ -24,9 +24,12 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
           child: Row(
             children: [
               Container(
+                decoration: BoxDecoration(
+                  color: const Color(dividerAmountColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 width: 4,
                 height: 47,
-                color: const Color(dividerAmountColor),
               ),
               const SizedBox(width: 10),
               Column(
@@ -57,9 +60,12 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
           child: Row(
             children: [
               Container(
+                decoration: BoxDecoration(
+                  color: const Color(dividerRentColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 width: 4,
                 height: 47,
-                color: const Color(dividerRentColor),
               ),
               const SizedBox(width: 10),
               Column(
