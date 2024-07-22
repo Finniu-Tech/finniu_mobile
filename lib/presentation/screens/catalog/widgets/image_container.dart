@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:device_orientation/device_orientation.dart';
-import 'package:device_orientation/widgets/animated_always_down.dart';
+
+import 'package:finniu/presentation/screens/catalog/widgets/animated_always_down.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/device_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -62,9 +63,9 @@ Future<dynamic> showImageFullScreenAsset(
 
 class ImageDialog extends StatefulWidget {
   const ImageDialog({
-    Key? key,
+    super.key,
     required this.imageFullScreen,
-  }) : super(key: key);
+  });
 
   final String imageFullScreen;
 
