@@ -2,17 +2,12 @@ import 'package:finniu/presentation/screens/catalog/widgets/device_orientation.d
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// Rotates given child widget to match
-/// device orientation with animation.
-/// To use without animation, check [AlwaysDown]
-/// widget.
 class AnimatedAlwaysDown extends StatelessWidget {
   final Widget child;
   final Duration duration;
   final Curve curve;
   final Alignment alignment;
 
-  /// Rotates given [child] according to current device orientation.
   const AnimatedAlwaysDown({
     super.key,
     required this.child,
