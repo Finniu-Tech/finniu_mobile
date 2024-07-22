@@ -1,8 +1,8 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/simulator_appbar.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/title_simulator.dart';
+import 'package:finniu/presentation/screens/simulator_v2/widgets/type_investment.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -43,6 +43,7 @@ class SimulatorBody extends ConsumerWidget {
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
     return Container(
+      padding: const EdgeInsets.only(right: 20, left: 20, top: 30),
       width: MediaQuery.of(context).size.width,
       height: 563,
       decoration: BoxDecoration(
@@ -59,19 +60,6 @@ class SimulatorBody extends ConsumerWidget {
           TypeInvestment(),
         ],
       ),
-    );
-  }
-}
-
-class TypeInvestment extends StatelessWidget {
-  const TypeInvestment({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [TextPoppins(text: "Quiero invertir en ", fontSize: 17)],
     );
   }
 }
