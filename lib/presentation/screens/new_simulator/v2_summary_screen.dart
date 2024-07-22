@@ -123,39 +123,42 @@ class ButtonsSimulator extends ConsumerWidget {
     const int backgroundColorLight = 0xffA2E6FA;
     const int contentColorDark = 0xffFFFFFF;
     const int contentColorLight = 0xff000000;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      height: 32,
-      decoration: BoxDecoration(
-        color: Color(isDarkMode ? backgroundColorDark : backgroundColorLight),
-        borderRadius: BorderRadius.circular(8),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.2),
-            spreadRadius: 1,
-            blurRadius: 5,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            'assets/svg_icons/$icon',
-            width: 16,
-            height: 16,
-            color: Color(isDarkMode ? contentColorDark : contentColorLight),
-          ),
-          const SizedBox(width: 10),
-          TextPoppins(
-            text: text,
-            fontSize: 14,
-            textDark: contentColorDark,
-            textLight: contentColorLight,
-          ),
-        ],
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        height: 32,
+        decoration: BoxDecoration(
+          color: Color(isDarkMode ? backgroundColorDark : backgroundColorLight),
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/svg_icons/$icon',
+              width: 20,
+              height: 20,
+              color: Color(isDarkMode ? contentColorDark : contentColorLight),
+            ),
+            const SizedBox(width: 10),
+            TextPoppins(
+              text: text,
+              fontSize: 14,
+              textDark: contentColorDark,
+              textLight: contentColorLight,
+            ),
+          ],
+        ),
       ),
     );
   }

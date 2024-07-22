@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TermProfitabilityRow extends ConsumerWidget {
@@ -11,7 +12,7 @@ class TermProfitabilityRow extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff2A2929;
-    const int backgroundLight = 0xffF1FCFF;
+    const int backgroundLight = 0xffD3F5FF;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
     return Row(
@@ -29,12 +30,11 @@ class TermProfitabilityRow extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Icon(
-                  Icons.calendar_today_outlined,
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
-                  size: 23,
+                SvgPicture.asset(
+                  'assets/svg_icons/calendar_blank.svg',
+                  width: 24,
+                  height: 24,
+                  color: Color(isDarkMode ? iconDark : iconLight),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -75,12 +75,11 @@ class TermProfitabilityRow extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Icon(
-                  Icons.stacked_line_chart_outlined,
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
-                  size: 23,
+                SvgPicture.asset(
+                  'assets/svg_icons/status_up.svg',
+                  width: 24,
+                  height: 24,
+                  color: Color(isDarkMode ? iconDark : iconLight),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

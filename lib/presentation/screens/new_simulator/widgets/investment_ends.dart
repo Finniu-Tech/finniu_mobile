@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class InvestmentEnds extends ConsumerWidget {
@@ -12,6 +13,8 @@ class InvestmentEnds extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int borderDark = 0xffA2E6FA;
     const int borderLight = 0xff0D3A5C;
+    const int iconColorDark = 0xffA2E6FA;
+    const int iconColorLight = 0xff0D3A5C;
     return Container(
       height: 66,
       decoration: BoxDecoration(
@@ -31,12 +34,11 @@ class InvestmentEnds extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              Icon(
-                Icons.calendar_today_outlined,
-                color: isDarkMode
-                    ? const Color(borderDark)
-                    : const Color(borderLight),
-                size: 23,
+              SvgPicture.asset(
+                'assets/svg_icons/calendar_blank.svg',
+                width: 18,
+                height: 18,
+                color: Color(isDarkMode ? iconColorDark : iconColorLight),
               ),
             ],
           ),
