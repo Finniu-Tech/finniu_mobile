@@ -47,6 +47,12 @@ class CatalogScreen extends HookConsumerWidget {
             const BlueGoldImage(),
             ElevatedButton(
               onPressed: () {
+                Navigator.pushNamed(context, '/v2/simulator');
+              },
+              child: const Text('v2 simulador'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 addVoucherModal(context);
               },
               child: const Text('add voucher'),
