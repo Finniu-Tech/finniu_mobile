@@ -53,6 +53,12 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
+                Navigator.pushNamed(context, '/v2/summary');
+              },
+              child: const Text('v2 summary'),
+            ),
+            ElevatedButton(
+              onPressed: () {
                 addVoucherModal(context);
               },
               child: const Text('add voucher'),
