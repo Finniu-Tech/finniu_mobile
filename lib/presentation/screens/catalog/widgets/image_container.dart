@@ -1,9 +1,8 @@
 import 'dart:async';
-
-import 'package:finniu/presentation/screens/catalog/widgets/animated_always_down.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/device_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:math' as math;
 
 class BlueGoldImage extends StatelessWidget {
   const BlueGoldImage({
@@ -14,7 +13,7 @@ class BlueGoldImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ImageContainer(
       imageContainer: 'assets/blue_gold/factoring_image.png',
-      imageFullScreen: 'assets/blue_gold/factoring_image.png',
+      imageFullScreen: 'assets/blue_gold/factoring_image_vertical.png',
     );
   }
 }
@@ -106,28 +105,16 @@ class _ImageDialogState extends State<ImageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(10),
-      child: GestureDetector(
-        onTap: () {
-          dialogClosed = true;
-          Navigator.of(context).pop();
-        },
-        child: SizedBox(
-          width: MediaQuery.of(context).size.height * 0.9,
-          height: MediaQuery.of(context).size.width * 0.9,
-          child: AnimatedAlwaysDown(
-            child: InteractiveViewer(
-              child: isFullScreen
-                  ? Image.asset(
-                      widget.imageFullScreen,
-                      fit: BoxFit.fill,
-                    )
-                  : Image.asset(
-                      widget.imageFullScreen,
-                    ),
-            ),
+    return GestureDetector(
+      onTap: () {
+        dialogClosed = true;
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: InteractiveViewer(
+          child: Image.asset(
+            widget.imageFullScreen,
           ),
         ),
       ),

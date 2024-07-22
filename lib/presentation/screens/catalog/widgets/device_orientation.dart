@@ -12,7 +12,8 @@ DeviceOrientation deviceOrientation = _lastKnownOrientation;
 DeviceOrientation _lastKnownOrientation = DeviceOrientation.portraitUp;
 
 DeviceOrientation _accelerometerEventToDeviceOrientation(
-    AccelerometerEvent event) {
+  AccelerometerEvent event,
+) {
   final absoluteX = event.x.abs();
   final absoluteY = event.y.abs();
   final absoluteZ = event.z.abs();
