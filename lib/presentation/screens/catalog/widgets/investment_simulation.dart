@@ -317,7 +317,91 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
           ],
         );
       },
-      error: (error, stack) => Text('Error: $error'),
+      error: (error, stack) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset(
+              "assets/images/logo_simulation${isDarkMode ? "_dark" : "_light"}.png",
+              width: 75,
+              height: 75,
+              fit: BoxFit.fill,
+            ),
+            const TextPoppins(
+              text: "Si comienzas con",
+              fontSize: 16,
+            ),
+            AnimationNumber(
+              beginNumber: 0,
+              endNumber: widget.startingAmount,
+              duration: 1,
+              fontSize: 24,
+              colorText: isDarkMode ? numberDark : numberLight,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const TextPoppins(
+                  text: "En ",
+                  fontSize: 24,
+                  isBold: true,
+                ),
+                TextPoppins(
+                  text: "${widget.mouthInvestment} meses ",
+                  fontSize: 24,
+                  isBold: true,
+                  textDark: monthTextDark,
+                  textLight: monthTextLight,
+                ),
+                const TextPoppins(
+                  text: "recibirás 💸",
+                  fontSize: 24,
+                  isBold: true,
+                ),
+              ],
+            ),
+            Container(
+              width: 287,
+              height: 66,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? const Color(returnDark)
+                    : const Color(returnLight),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+              child: const Center(
+                child: TextPoppins(
+                  text: "Error al calcular",
+                  fontSize: 24,
+                  textDark: numberDark,
+                  textLight: numberLight,
+                ),
+              ),
+            ),
+            ButtonInvestment(
+              text: "Quiero invertir",
+              onPressed: widget.toInvestPressed,
+            ),
+            GestureDetector(
+              onTap: widget.recalculatePressed,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 30,
+                child: const Center(
+                  child: TextPoppins(
+                    text: "Volver a calcular",
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -22,14 +22,22 @@ class ButtonCalculate extends ConsumerWidget {
     }
 
     Future<void> calculatePressed() async {
-      investmentSimulationModal(
-        context,
-        finalAmount: 1,
-        startingAmount: amount,
-        mouthInvestment: months.getMonthValue(),
-        toInvestPressed: toInvestPressed,
-        recalculatePressed: recalculatePressed,
-      );
+      if (amount <= 499) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, ingresa un monto mayor a \$500'),
+          ),
+        );
+      } else {
+        investmentSimulationModal(
+          context,
+          finalAmount: 1,
+          startingAmount: amount,
+          mouthInvestment: months.getMonthValue(),
+          toInvestPressed: toInvestPressed,
+          recalculatePressed: recalculatePressed,
+        );
+      }
     }
 
     return Center(
