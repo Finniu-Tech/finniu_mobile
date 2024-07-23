@@ -67,8 +67,8 @@ class _SliderMonthSelectState extends ConsumerState<SliderMonthSelect> {
                 : const Color(sliderLight).withAlpha(32),
             thumbShape: _thumbImage == null
                 ? const RoundSliderThumbShape(enabledThumbRadius: 14.0)
-                : ImageSliderThumbShape(
-                    _thumbImage!,
+                : EmojiSliderThumbShape(
+                    "💸",
                     backgroundColor:
                         Color(isDarkMode ? sliderLight : sliderDark),
                   ),

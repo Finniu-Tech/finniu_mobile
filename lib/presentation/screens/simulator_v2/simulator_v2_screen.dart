@@ -8,7 +8,6 @@ import 'package:finniu/presentation/screens/simulator_v2/widgets/slider_month_se
 import 'package:finniu/presentation/screens/simulator_v2/widgets/title_simulator.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/type_investment.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class V2SimulatorScreen extends HookConsumerWidget {
