@@ -8,7 +8,12 @@ enum V2SimulatorSlider {
 
   final int value;
   const V2SimulatorSlider(this.value);
+  int getMonthValue() {
+    return value;
+  }
 }
 
 final sliderValueProvider =
     StateProvider<V2SimulatorSlider>((ref) => V2SimulatorSlider.six);
+
+final amountValueProvider = StateProvider<int>((ref) => 0);

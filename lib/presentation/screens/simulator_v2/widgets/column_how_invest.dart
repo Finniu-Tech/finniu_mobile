@@ -1,16 +1,33 @@
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/v2_simulator_slider_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ColumnHowInvest extends ConsumerWidget {
+class ColumnHowInvest extends ConsumerStatefulWidget {
   const ColumnHowInvest({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ColumnHowInvest> createState() => _ColumnHowInvestState();
+}
+
+class _ColumnHowInvestState extends ConsumerState<ColumnHowInvest> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     const int borderDark = 0xff101010;
@@ -25,9 +42,12 @@ class ColumnHowInvest extends ConsumerWidget {
           isBold: true,
         ),
         TextField(
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
           decoration: InputDecoration(
-            hintText: "${isSoles ? 's/' : '\$'}10,000.00",
+            hintText: "${isSoles ? 's/' : '\$'} 10.000,00 ",
             border: const OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
@@ -42,6 +62,10 @@ class ColumnHowInvest extends ConsumerWidget {
               ),
             ),
           ),
+          onChanged: (value) {
+            var newValue = int.tryParse(value) ?? 0.0;
+            ref.read(amountValueProvider.notifier).state = newValue.toInt();
+          },
         ),
       ],
     );

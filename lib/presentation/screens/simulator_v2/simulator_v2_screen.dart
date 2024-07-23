@@ -1,10 +1,9 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/v2_simulator_slider_provider.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/simulator_v2/widgets/button_calculate.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/column_how_invest.dart';
+import 'package:finniu/presentation/screens/simulator_v2/widgets/custom_for_how_long.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/simulator_appbar.dart';
-import 'package:finniu/presentation/screens/simulator_v2/widgets/slider_month_select.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/title_simulator.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/type_investment.dart';
 import 'package:flutter/material.dart';
@@ -44,12 +43,13 @@ class SimulatorBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
     return Container(
       padding: const EdgeInsets.only(right: 20, left: 20, top: 30),
       width: MediaQuery.of(context).size.width,
-      height: 563,
+      height: MediaQuery.of(context).size.height * 0.6,
       decoration: BoxDecoration(
         color: isDarkMode
             ? const Color(backgroundDark)
@@ -60,58 +60,15 @@ class SimulatorBody extends ConsumerWidget {
         ),
       ),
       child: const Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TypeInvestment(),
-          SizedBox(
-            height: 20,
-          ),
           ColumnHowInvest(),
-          SizedBox(
-            height: 20,
-          ),
           ColumnForHowLong(),
+          ButtonCalculate(),
         ],
       ),
-    );
-  }
-}
-
-class ColumnForHowLong extends ConsumerWidget {
-  const ColumnForHowLong({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    int sliderValue = ref.watch(sliderValueProvider).value;
-    const int monthDark = 0xffA2E6FA;
-    const int monthLight = 0xff0D3A5C;
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const TextPoppins(
-              text: "¿Por cuento tiempo?",
-              fontSize: 17,
-              isBold: true,
-            ),
-            TextPoppins(
-              text: "$sliderValue meses",
-              fontSize: 17,
-              textDark: monthDark,
-              textLight: monthLight,
-              isBold: true,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        const SliderMonthSelect(),
-      ],
     );
   }
 }
