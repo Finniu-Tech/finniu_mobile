@@ -45,7 +45,7 @@ class SwitchIsSoles extends ConsumerWidget {
     int backgroundPositionLight = isSoles ? 0xffDCF6FF : 0xff0D3A5C;
     int textPositionDark = isSoles ? 0xff0D3A5C : 0xff0D3A5C;
     int textPositionLight = isSoles ? 0xff000000 : 0xffFFFFFF;
-    int textDark = isSoles ? 0xff0D3A5C : 0xff0FFFFFF;
+    int textDark = isSoles ? 0xffFFFFFF : 0xff000000;
     int textLight = isSoles ? 0xff000000 : 0xffFFFFFF;
 
     return Container(
@@ -56,32 +56,32 @@ class SwitchIsSoles extends ConsumerWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       padding: const EdgeInsets.all(5),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              TextPoppins(
-                text: "Soles",
-                fontSize: 14,
-                textDark: textDark,
-                textLight: textLight,
-              ),
-              TextPoppins(
-                text: "Dólares",
-                fontSize: 14,
-                textDark: textDark,
-                textLight: textLight,
-              ),
-            ],
-          ),
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 200),
-            left: isSoles ? 5 : 72,
-            child: GestureDetector(
-              onTap: onTap,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextPoppins(
+                  text: "Soles",
+                  fontSize: 14,
+                  textDark: textDark,
+                  textLight: textLight,
+                ),
+                TextPoppins(
+                  text: "Dólares",
+                  fontSize: 14,
+                  textDark: textDark,
+                  textLight: textLight,
+                ),
+              ],
+            ),
+            AnimatedPositioned(
+              duration: const Duration(milliseconds: 400),
+              left: isSoles ? 5 : 72,
               child: Container(
                 width: 71,
                 height: 40,
@@ -101,8 +101,8 @@ class SwitchIsSoles extends ConsumerWidget {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
