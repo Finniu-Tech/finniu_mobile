@@ -1,7 +1,5 @@
-import 'package:finniu/infrastructure/models/calculate_investment.dart';
-import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
-import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/v2_simulator_slider_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -13,25 +11,25 @@ class ButtonCalculate extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSoles = ref.watch(isSolesStateProvider);
     final months = ref.watch(sliderValueProvider);
     final amount = ref.watch(amountValueProvider);
-    String currency = isSoles ? 'nuevo sol' : 'dolar';
+    void toInvestPressed() {
+      Navigator.of(context).pop();
+    }
+
+    void recalculatePressed() {
+      Navigator.of(context).pop();
+    }
 
     Future<void> calculatePressed() async {
-      CalculatorInput calculatorInput = CalculatorInput(
-        amount: amount,
-        months: months.getMonthValue(),
-        currency: isSoles ? 'nuevo sol' : 'dolar',
+      investmentSimulationModal(
+        context,
+        finalAmount: 1,
+        startingAmount: amount,
+        mouthInvestment: months.getMonthValue(),
+        toInvestPressed: toInvestPressed,
+        recalculatePressed: recalculatePressed,
       );
-      final future =
-          ref.read(calculateInvestmentFutureProvider(calculatorInput));
-      try {
-        final result = future;
-        print('Resultado del cálculo: $result');
-      } catch (e) {
-        print('Error: $e');
-      }
     }
 
     return Center(
