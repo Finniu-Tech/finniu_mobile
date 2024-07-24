@@ -2,10 +2,10 @@ import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/buttons_card.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/simulation_loading.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/simulation_success.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/simulator_error.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -88,7 +88,8 @@ class BodySimulation extends ConsumerWidget {
       child: Stack(
         children: [
           Dialog(
-            insetPadding: const EdgeInsets.all(20.0),
+            insetPadding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
             backgroundColor: isDarkMode
                 ? const Color(backgroundDark)
                 : const Color(backgroundLight),
@@ -134,272 +135,35 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
       months: widget.mouthInvestment,
       currency: isSoles ? 'nuevo sol' : 'dolar',
     );
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     final response =
         ref.watch(calculateInvestmentFutureProvider(calculatorInput));
 
-    const int numberDark = 0xffFFFFFF;
-    const int numberLight = 0xff000000;
-    const int monthTextDark = 0xffA2E6FA;
-    const int monthTextLight = 0xff44879F;
-    const int returnDark = 0xff0D3A5C;
-    const int returnLight = 0xffDFF7FF;
-
     return response.when(
       data: (data) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/logo_simulation${isDarkMode ? "_dark" : "_light"}.png",
-              width: 75,
-              height: 75,
-              fit: BoxFit.fill,
-            ),
-            const TextPoppins(
-              text: "Si comienzas con",
-              fontSize: 16,
-            ),
-            AnimationNumber(
-              beginNumber: 0,
-              endNumber: widget.startingAmount,
-              duration: 1,
-              fontSize: 24,
-              colorText: isDarkMode ? numberDark : numberLight,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const TextPoppins(
-                  text: "En ",
-                  fontSize: 24,
-                  isBold: true,
-                ),
-                TextPoppins(
-                  text: "${widget.mouthInvestment} meses ",
-                  fontSize: 24,
-                  isBold: true,
-                  textDark: monthTextDark,
-                  textLight: monthTextLight,
-                ),
-                const TextPoppins(
-                  text: "recibirás 💸",
-                  fontSize: 24,
-                  isBold: true,
-                ),
-              ],
-            ),
-            Container(
-              width: 287,
-              height: 66,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(returnDark)
-                    : const Color(returnLight),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              child: Center(
-                child: AnimationNumber(
-                  beginNumber: 1,
-                  endNumber: data.profitability!.toInt(),
-                  duration: 1,
-                  fontSize: 24,
-                  colorText: isDarkMode ? numberDark : numberLight,
-                ),
-              ),
-            ),
-            ButtonInvestment(
-              text: "Quiero invertir",
-              onPressed: widget.toInvestPressed,
-            ),
-            GestureDetector(
-              onTap: widget.recalculatePressed,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 30,
-                child: const Center(
-                  child: TextPoppins(
-                    text: "Volver a calcular",
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        return SimulationSuccess(
+          mouthInvestment: widget.mouthInvestment,
+          startingAmount: widget.startingAmount,
+          toInvestPressed: widget.toInvestPressed,
+          recalculatePressed: widget.recalculatePressed,
+          profitability: data.profitability!.toInt(),
+          percentage: data.finalRentability!.toInt(),
         );
       },
       loading: () {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/logo_simulation${isDarkMode ? "_dark" : "_light"}.png",
-              width: 75,
-              height: 75,
-              fit: BoxFit.fill,
-            ),
-            const TextPoppins(
-              text: "Si comienzas con",
-              fontSize: 16,
-            ),
-            AnimationNumber(
-              beginNumber: 0,
-              endNumber: widget.startingAmount,
-              duration: 1,
-              fontSize: 24,
-              colorText: isDarkMode ? numberDark : numberLight,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const TextPoppins(
-                  text: "En ",
-                  fontSize: 24,
-                  isBold: true,
-                ),
-                TextPoppins(
-                  text: "${widget.mouthInvestment} meses ",
-                  fontSize: 24,
-                  isBold: true,
-                  textDark: monthTextDark,
-                  textLight: monthTextLight,
-                ),
-                const TextPoppins(
-                  text: "recibirás 💸",
-                  fontSize: 24,
-                  isBold: true,
-                ),
-              ],
-            ),
-            Container(
-              width: 287,
-              height: 66,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(returnDark)
-                    : const Color(returnLight),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              child: const Center(
-                child: TextPoppins(
-                  text: "Calculando...",
-                  fontSize: 24,
-                  textDark: numberDark,
-                  textLight: numberLight,
-                ),
-              ),
-            ),
-            ButtonInvestment(
-              text: "Quiero invertir",
-              onPressed: widget.toInvestPressed,
-            ),
-            GestureDetector(
-              onTap: widget.recalculatePressed,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 30,
-                child: const Center(
-                  child: TextPoppins(
-                    text: "Volver a calcular",
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        return SimulationLoading(
+          mouthInvestment: widget.mouthInvestment,
+          startingAmount: widget.startingAmount,
+          toInvestPressed: widget.toInvestPressed,
+          recalculatePressed: widget.recalculatePressed,
         );
       },
       error: (error, stack) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset(
-              "assets/images/logo_simulation${isDarkMode ? "_dark" : "_light"}.png",
-              width: 75,
-              height: 75,
-              fit: BoxFit.fill,
-            ),
-            const TextPoppins(
-              text: "Si comienzas con",
-              fontSize: 16,
-            ),
-            AnimationNumber(
-              beginNumber: 0,
-              endNumber: widget.startingAmount,
-              duration: 1,
-              fontSize: 24,
-              colorText: isDarkMode ? numberDark : numberLight,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const TextPoppins(
-                  text: "En ",
-                  fontSize: 24,
-                  isBold: true,
-                ),
-                TextPoppins(
-                  text: "${widget.mouthInvestment} meses ",
-                  fontSize: 24,
-                  isBold: true,
-                  textDark: monthTextDark,
-                  textLight: monthTextLight,
-                ),
-                const TextPoppins(
-                  text: "recibirás 💸",
-                  fontSize: 24,
-                  isBold: true,
-                ),
-              ],
-            ),
-            Container(
-              width: 287,
-              height: 66,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(returnDark)
-                    : const Color(returnLight),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-              child: const Center(
-                child: TextPoppins(
-                  text: "Error al calcular",
-                  fontSize: 24,
-                  textDark: numberDark,
-                  textLight: numberLight,
-                ),
-              ),
-            ),
-            ButtonInvestment(
-              text: "Quiero invertir",
-              onPressed: widget.toInvestPressed,
-            ),
-            GestureDetector(
-              onTap: widget.recalculatePressed,
-              child: SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 30,
-                child: const Center(
-                  child: TextPoppins(
-                    text: "Volver a calcular",
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ),
-          ],
+        return SimulationError(
+          mouthInvestment: widget.mouthInvestment,
+          startingAmount: widget.startingAmount,
+          toInvestPressed: widget.toInvestPressed,
+          recalculatePressed: widget.recalculatePressed,
         );
       },
     );
