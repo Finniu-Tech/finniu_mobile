@@ -18,16 +18,16 @@ class NoInvestmentsButton extends ConsumerWidget {
       child: const Text('new modal'),
     );
   }
+}
 
-  Future<dynamic> noInvestmentsModal(BuildContext context) {
-    return showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => NoInvestmentBody(
-        onPressed: () => Navigator.of(context).pop(),
-      ),
-    );
-  }
+Future<dynamic> noInvestmentsModal(BuildContext context) {
+  return showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (context) => NoInvestmentBody(
+      onPressed: () => Navigator.of(context).pop(),
+    ),
+  );
 }
 
 class NoInvestmentBody extends ConsumerWidget {
