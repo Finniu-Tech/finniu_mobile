@@ -1,9 +1,9 @@
-// ignore_for_file: unused_local_variable
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_info_all_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
@@ -38,13 +38,13 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final userInvestment = ref.watch(userInfoAllInvestmentFutureProvider);
     final isSoles = ref.watch(isSolesStateProvider);
     List<Investment> userToValidateList = [];
     List<Investment> userInProgressList = [];
     List<Investment> userCompletedList = [];
-    userInvestment.when(
+
+    return userInvestment.when(
       data: (data) {
         if (isSoles) {
           userToValidateList = data?.investmentInSoles.investmentPending ?? [];
@@ -58,51 +58,65 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
           userCompletedList =
               data?.investmentInDolares.investmentFinished ?? [];
         }
-      },
-      error: (error, stackTrace) {},
-      loading: () {},
-    );
 
-    return Column(
-      children: [
-        TabBar(
-          labelPadding: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.zero,
-          dividerColor: Colors.transparent,
-          indicatorColor: Colors.transparent,
-          overlayColor: MaterialStateProperty.all(Colors.transparent),
-          controller: _tabController,
-          tabs: [
-            ButtonHistory(
-              isSelected: _tabController.index == 0,
-              text: 'Por validar',
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (userCompletedList.isEmpty &&
+              userInProgressList.isEmpty &&
+              userToValidateList.isEmpty) {
+            noInvestmentsModal(context);
+          } else {}
+        });
+
+        return Column(
+          children: [
+            TabBar(
+              labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.zero,
+              dividerColor: Colors.transparent,
+              indicatorColor: Colors.transparent,
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+              controller: _tabController,
+              tabs: [
+                ButtonHistory(
+                  isSelected: _tabController.index == 0,
+                  text: 'Por validar',
+                ),
+                ButtonHistory(
+                  isSelected: _tabController.index == 1,
+                  text: 'En Curso',
+                ),
+                ButtonHistory(
+                  isSelected: _tabController.index == 2,
+                  text: 'Finalizadas',
+                ),
+              ],
             ),
-            ButtonHistory(
-              isSelected: _tabController.index == 1,
-              text: 'En Curso',
-            ),
-            ButtonHistory(
-              isSelected: _tabController.index == 2,
-              text: 'Finalizadas',
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 336,
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  ToValidateList(
+                    list: userToValidateList,
+                  ),
+                  InProgressList(list: userInProgressList),
+                  CompletedList(list: userCompletedList),
+                ],
+              ),
             ),
           ],
+        );
+      },
+      error: (error, stackTrace) => Center(child: Text('Error: $error')),
+      loading: () => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: 300,
+        child: const Center(
+          child: CircularProgressIndicator(),
         ),
-        const SizedBox(height: 10),
-        SizedBox(
-          width: 336,
-          height: MediaQuery.of(context).size.height * 0.3,
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              ToValidateList(
-                list: userToValidateList,
-              ),
-              InProgressList(list: userInProgressList),
-              CompletedList(list: userCompletedList),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
