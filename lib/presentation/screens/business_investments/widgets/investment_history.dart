@@ -1,4 +1,5 @@
 // ignore_for_file: unused_local_variable
+import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/business_investments.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
@@ -101,7 +102,7 @@ class _InvestmentHistoryBusiness
 }
 
 class CompletedList extends StatelessWidget {
-  final List<CompletedItem> list;
+  final List<Investment> list;
   const CompletedList({super.key, required this.list});
 
   @override
@@ -115,9 +116,8 @@ class CompletedList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: CompleteInvestment(
-                dateEnds: list[index].dateEnds,
+                dateEnds: list[index].finishDateInvestment,
                 amount: list[index].amount,
-                isReInvestment: list[index].isReInvestment,
               ),
             );
           },
@@ -128,7 +128,7 @@ class CompletedList extends StatelessWidget {
 }
 
 class InProgressList extends StatelessWidget {
-  final List<InProgressItem> list;
+  final List<Investment> list;
   const InProgressList({super.key, required this.list});
 
   @override
@@ -142,7 +142,7 @@ class InProgressList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: ProgressBarInProgress(
-                dateEnds: list[index].dateEnds,
+                dateEnds: list[index].finishDateInvestment,
                 amount: list[index].amount,
               ),
             );
@@ -154,7 +154,7 @@ class InProgressList extends StatelessWidget {
 }
 
 class ToValidateList extends StatelessWidget {
-  final List<ToValidateItem> list;
+  final List<Investment> list;
   const ToValidateList({super.key, required this.list});
 
   @override
@@ -168,7 +168,7 @@ class ToValidateList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: ToValidateInvestment(
-                dateEnds: list[index].dateEnds,
+                dateEnds: list[index].finishDateInvestment,
                 amount: list[index].amount,
               ),
             );
