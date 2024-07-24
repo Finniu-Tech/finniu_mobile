@@ -10,12 +10,12 @@ class SimulationError extends ConsumerWidget {
   const SimulationError({
     super.key,
     required this.startingAmount,
-    required this.mouthInvestment,
+    required this.monthInvestment,
     required this.toInvestPressed,
     required this.recalculatePressed,
   });
   final int startingAmount;
-  final int mouthInvestment;
+  final int monthInvestment;
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
 
@@ -99,7 +99,7 @@ class SimulationError extends ConsumerWidget {
               isBold: true,
             ),
             TextPoppins(
-              text: "$mouthInvestment meses ",
+              text: "$monthInvestment meses ",
               fontSize: 24,
               isBold: true,
               textDark: monthTextDark,

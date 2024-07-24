@@ -10,14 +10,14 @@ class SimulationSuccess extends ConsumerWidget {
   const SimulationSuccess({
     super.key,
     required this.startingAmount,
-    required this.mouthInvestment,
+    required this.monthInvestment,
     required this.toInvestPressed,
     required this.recalculatePressed,
     required this.profitability,
     required this.percentage,
   });
   final int startingAmount;
-  final int mouthInvestment;
+  final int monthInvestment;
   final int profitability;
   final int percentage;
   final VoidCallback? toInvestPressed;
@@ -103,7 +103,7 @@ class SimulationSuccess extends ConsumerWidget {
               isBold: true,
             ),
             TextPoppins(
-              text: "$mouthInvestment meses ",
+              text: "$monthInvestment meses ",
               fontSize: 24,
               isBold: true,
               textDark: monthTextDark,
@@ -169,7 +169,7 @@ class SimulationSuccess extends ConsumerWidget {
               ),
               TextPoppins(
                 text:
-                    "${isSoles ? "S/" : "\$"}${((profitability - startingAmount) / mouthInvestment).toStringAsFixed(0)}",
+                    "${isSoles ? "S/" : "\$"}${((profitability - startingAmount) / monthInvestment).toStringAsFixed(0)}",
                 fontSize: 16,
                 textDark: textEveryDark,
                 textLight: textEveryLight,

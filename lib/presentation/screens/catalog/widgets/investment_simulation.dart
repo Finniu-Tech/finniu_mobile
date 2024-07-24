@@ -50,7 +50,7 @@ Future<dynamic> investmentSimulationModal(
     context: context,
     builder: (context) => BodySimulation(
       startingAmount: startingAmount,
-      mouthInvestment: mouthInvestment,
+      monthInvestment: mouthInvestment,
       toInvestPressed: toInvestPressed,
       recalculatePressed: recalculatePressed,
     ),
@@ -61,12 +61,12 @@ class BodySimulation extends ConsumerWidget {
   const BodySimulation({
     super.key,
     required this.startingAmount,
-    required this.mouthInvestment,
+    required this.monthInvestment,
     this.toInvestPressed,
     this.recalculatePressed,
   });
   final int startingAmount;
-  final int mouthInvestment;
+  final int monthInvestment;
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
 
@@ -95,7 +95,7 @@ class BodySimulation extends ConsumerWidget {
                 : const Color(backgroundLight),
             child: BodyDialog(
               startingAmount: startingAmount,
-              mouthInvestment: mouthInvestment,
+              monthInvestment: monthInvestment,
               toInvestPressed: toInvestPressed,
               recalculatePressed: recalculatePressed,
             ),
@@ -111,13 +111,13 @@ class BodyDialog extends ConsumerStatefulWidget {
   const BodyDialog({
     super.key,
     required this.startingAmount,
-    required this.mouthInvestment,
+    required this.monthInvestment,
     this.toInvestPressed,
     this.recalculatePressed,
   });
 
   final int startingAmount;
-  final int mouthInvestment;
+  final int monthInvestment;
 
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
@@ -132,7 +132,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
     final isSoles = ref.watch(isSolesStateProvider);
     CalculatorInput calculatorInput = CalculatorInput(
       amount: widget.startingAmount,
-      months: widget.mouthInvestment,
+      months: widget.monthInvestment,
       currency: isSoles ? 'nuevo sol' : 'dolar',
     );
 
@@ -142,7 +142,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
     return response.when(
       data: (data) {
         return SimulationSuccess(
-          mouthInvestment: widget.mouthInvestment,
+          monthInvestment: widget.monthInvestment,
           startingAmount: widget.startingAmount,
           toInvestPressed: widget.toInvestPressed,
           recalculatePressed: widget.recalculatePressed,
@@ -152,7 +152,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
       },
       loading: () {
         return SimulationLoading(
-          mouthInvestment: widget.mouthInvestment,
+          monthInvestment: widget.monthInvestment,
           startingAmount: widget.startingAmount,
           toInvestPressed: widget.toInvestPressed,
           recalculatePressed: widget.recalculatePressed,
@@ -160,7 +160,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
       },
       error: (error, stack) {
         return SimulationError(
-          mouthInvestment: widget.mouthInvestment,
+          monthInvestment: widget.monthInvestment,
           startingAmount: widget.startingAmount,
           toInvestPressed: widget.toInvestPressed,
           recalculatePressed: widget.recalculatePressed,
