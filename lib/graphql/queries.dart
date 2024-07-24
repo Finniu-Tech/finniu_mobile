@@ -1213,4 +1213,47 @@ class QueryRepository {
 }
     ''';
   }
+
+  static String get userInfoAllInvestment {
+    return '''
+     query userInfoAllInvestment {
+      userInfoAllInvestment{
+          invesmentInSoles {
+            investmentPending{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+            }
+          }
+          invesmentInDolares{
+              investmentPending{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+            }
+          }
+        }
+      }
+    ''';
+  }
 }

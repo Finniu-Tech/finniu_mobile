@@ -133,7 +133,6 @@ class CatalogScreen extends HookConsumerWidget {
             const CompleteInvestment(
               amount: 777,
               dateEnds: '11/11/2022',
-              isReInvestment: false,
             ),
             const SizedBox(
               height: 5,
@@ -141,7 +140,6 @@ class CatalogScreen extends HookConsumerWidget {
             const CompleteInvestment(
               amount: 555,
               dateEnds: '10/10/2022',
-              isReInvestment: true,
             ),
             const SizedBox(
               height: 5,
