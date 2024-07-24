@@ -44,6 +44,13 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const BlueGoldImage(),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/simulator');
+              },
+              child: const Text('v2 simulador'),
+            ),
             ElevatedButton(
               onPressed: () {
                 addVoucherModal(context);
@@ -167,7 +174,7 @@ class CatalogScreen extends HookConsumerWidget {
               child: const Text('Ver Catalogo de Widgets'),
             ),
             const ButtonSendProof(),
-            const BlueGoldImage(),
+
             const FundInfoSlider(),
             // const SizedBox(height: 70),
             const GraphicContainer(),

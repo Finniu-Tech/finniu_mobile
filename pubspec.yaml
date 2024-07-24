@@ -71,6 +71,7 @@ dependencies:
   flutter_hooks: ^0.18.6
   flutter_flavor: ^3.1.3
   flutter_flavorizr: ^2.2.3
+  sensors_plus: ^4.0.2
 
 
 dev_dependencies:
@@ -140,6 +141,7 @@ flutter:
     - assets/blue_gold/money/
     - assets/backgroud/
     - assets/benefits_modal/
+    - assets/svg_icons/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

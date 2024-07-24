@@ -1,5 +1,8 @@
-import 'package:finniu/constants/colors.dart';
+import 'dart:async';
+import 'package:finniu/presentation/screens/catalog/widgets/device_orientation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:math' as math;
 
 class BlueGoldImage extends StatelessWidget {
   const BlueGoldImage({
@@ -10,7 +13,7 @@ class BlueGoldImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const ImageContainer(
       imageContainer: 'assets/blue_gold/factoring_image.png',
-      imageFullScreen: 'assets/blue_gold/factoring_vertical.jpg',
+      imageFullScreen: 'assets/blue_gold/factoring_image_vertical.png',
     );
   }
 }
@@ -51,16 +54,70 @@ Future<dynamic> showImageFullScreenAsset(
 }) {
   return showDialog(
     context: context,
-    builder: (context) => Dialog(
-      child: GestureDetector(
-        onTap: () => Navigator.of(context).pop(),
+    builder: (context) => ImageDialog(
+      imageFullScreen: imageFullScreen,
+    ),
+  );
+}
+
+class ImageDialog extends StatefulWidget {
+  const ImageDialog({
+    super.key,
+    required this.imageFullScreen,
+  });
+
+  final String imageFullScreen;
+
+  @override
+  State<ImageDialog> createState() => _ImageDialogState();
+}
+
+class _ImageDialogState extends State<ImageDialog> {
+  bool isFullScreen = false;
+  bool dialogClosed = false;
+  late StreamSubscription<DeviceOrientation> orientationSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    orientationSubscription = deviceOrientation$.listen((orientation) {
+      if (!dialogClosed) {
+        if (orientation == DeviceOrientation.portraitUp) {
+          if (isFullScreen) {
+            dialogClosed = true;
+            Navigator.of(context).pop();
+          }
+        } else if (orientation == DeviceOrientation.landscapeLeft ||
+            orientation == DeviceOrientation.landscapeRight) {
+          setState(() {
+            isFullScreen = true;
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    orientationSubscription.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        dialogClosed = true;
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: InteractiveViewer(
           child: Image.asset(
-            imageFullScreen,
-            fit: BoxFit.fill,
+            widget.imageFullScreen,
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }

@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_pr
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_screen.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/investment_blue_gold_screen.dart';
+import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
 import 'package:finniu/presentation/screens/signup/activate_account.dart';
@@ -119,5 +120,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/business_investment': (BuildContext context) => const BusinessInvestmentsScreen(),
     '/v2/investment_blue_gold': (BuildContext context) => const InvestmentBlueGoldScreen(),
     '/blue_gold_investment': (BuildContext context) => const BlueGoldInvestmentsScreen(),
+    '/v2/simulator': (BuildContext context) => const V2SummaryScreen(),
   };
 }
