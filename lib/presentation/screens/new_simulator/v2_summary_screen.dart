@@ -15,9 +15,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class V2SummaryScreen extends HookConsumerWidget {
   const V2SummaryScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final String uuid = ModalRoute.of(context)!.settings.arguments as String;
+    print(uuid);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
 
