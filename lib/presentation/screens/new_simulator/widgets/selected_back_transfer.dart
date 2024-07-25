@@ -7,8 +7,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SelectedBankTransfer extends ConsumerWidget {
   const SelectedBankTransfer({
     super.key,
+    required this.bank,
+    required this.bankNumber,
   });
-
+  final String? bank;
+  final String? bankNumber;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -37,19 +40,25 @@ class SelectedBankTransfer extends ConsumerWidget {
             height: 45,
           ),
           const SizedBox(width: 10),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              TextPoppins(
+              const TextPoppins(
                 text: "Banco donde se transfiere",
                 fontSize: 14,
               ),
-              TextPoppins(
-                text: "BCP *************321",
-                fontSize: 14,
-                isBold: true,
-              ),
+              bank == null
+                  ? const TextPoppins(
+                      text: "No tiene banco selecionado",
+                      fontSize: 14,
+                      isBold: true,
+                    )
+                  : TextPoppins(
+                      text: "$bank *************$bankNumber",
+                      fontSize: 14,
+                      isBold: true,
+                    ),
             ],
           ),
           const Expanded(child: SizedBox()),

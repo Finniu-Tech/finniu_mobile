@@ -6,8 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class InvestmentAmountCardsRow extends ConsumerWidget {
   const InvestmentAmountCardsRow({
     super.key,
+    required this.amountInvested,
+    required this.finalProfitability,
   });
-
+  final int? amountInvested;
+  final int? finalProfitability;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -45,8 +48,8 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                     ),
                   ),
                   AnimationNumber(
-                    beginNumber: 8000,
-                    endNumber: 10000,
+                    beginNumber: 0,
+                    endNumber: amountInvested ?? 10000,
                     duration: 2,
                     fontSize: 16,
                     colorText: isDarkMode ? amountColorDark : amountColorLight,
@@ -81,8 +84,8 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                     ),
                   ),
                   AnimationNumber(
-                    endNumber: 12000,
-                    beginNumber: 10000,
+                    endNumber: finalProfitability ?? 10000,
+                    beginNumber: 0,
                     duration: 2,
                     fontSize: 16,
                     colorText: isDarkMode ? rentColorDark : rentColorLight,

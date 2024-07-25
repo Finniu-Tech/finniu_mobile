@@ -7,7 +7,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 final userInvestmentByUuidFutureProvider = FutureProvider.family
     .autoDispose<InvestmentDetailUuid?, String>((ref, uuid) async {
   try {
-    print(uuid);
     final client = ref.watch(gqlClientProvider).value;
     final result = await client!.query(
       QueryOptions(
@@ -15,22 +14,15 @@ final userInvestmentByUuidFutureProvider = FutureProvider.family
         variables: {'preInvestmentUuid': uuid},
       ),
     );
-
     final data = result.data;
-    print("data");
-    print(data.toString());
-    print(data?['investmentDetail'].toString());
     if (data == null) {
       return null;
     }
 
     final investmentDetail =
         InvestmentDetailUuid.fromJson(data['investmentDetail']);
-    print("provider");
-    print(investmentDetail);
     return investmentDetail;
   } catch (e) {
-    print(e);
     return null;
   }
 });

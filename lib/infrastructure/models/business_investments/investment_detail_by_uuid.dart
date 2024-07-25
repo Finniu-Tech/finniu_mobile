@@ -1,8 +1,8 @@
 class InvestmentDetailUuid {
   final String uuid;
-  final String amount;
-  final String rentabilityAmount;
-  final String rentabilityPercent;
+  final int amount;
+  final int rentabilityAmount;
+  final int rentabilityPercent;
   final String finishDateInvestment;
   final String contract;
 
@@ -14,15 +14,6 @@ class InvestmentDetailUuid {
     required this.finishDateInvestment,
     required this.contract,
   })  : assert(uuid.isNotEmpty, 'UUID cannot be null or empty'),
-        assert(amount.isNotEmpty, 'Amount cannot be null or empty'),
-        assert(
-          rentabilityAmount.isNotEmpty,
-          'Rentability amount cannot be null or empty',
-        ),
-        assert(
-          rentabilityPercent.isNotEmpty,
-          'Rentability percent cannot be null or empty',
-        ),
         assert(
           finishDateInvestment.isNotEmpty,
           'Finish date investment cannot be null or empty',
@@ -32,9 +23,9 @@ class InvestmentDetailUuid {
   factory InvestmentDetailUuid.fromJson(Map<String, dynamic> json) {
     return InvestmentDetailUuid(
       uuid: json['uuid'],
-      amount: json['amount'],
-      rentabilityAmount: json['rentabilityAmmount'],
-      rentabilityPercent: json['rentabilityPercent'],
+      amount: _parseAmount(json['amount']),
+      rentabilityAmount: _parseAmount(json['rentabilityAmmount']),
+      rentabilityPercent: _parseAmount(json['rentabilityPercent']),
       finishDateInvestment: json['finishDateInvestment'],
       contract: json['contract'],
     );
@@ -49,6 +40,15 @@ class InvestmentDetailUuid {
       'finishDateInvestment': finishDateInvestment,
       'contract': contract,
     };
+  }
+
+  static int _parseAmount(String amount) {
+    double parsedDouble = double.parse(amount);
+    if (parsedDouble == parsedDouble.toInt()) {
+      return parsedDouble.toInt();
+    } else {
+      throw FormatException("Invalid amount format: $amount");
+    }
   }
 }
 

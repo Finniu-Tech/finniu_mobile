@@ -6,7 +6,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class TermProfitabilityRow extends ConsumerWidget {
   const TermProfitabilityRow({
     super.key,
+    required this.month,
+    required this.rentabilityPercent,
   });
+  final int? month;
+  final int? rentabilityPercent;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,7 +52,7 @@ class TermProfitabilityRow extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      "12 meses",
+                      "${month == null ? "-" : "$month"} meses",
                       style: TextStyle(
                         color: isDarkMode ? Colors.white : Colors.black,
                         fontSize: 16,
@@ -93,7 +97,7 @@ class TermProfitabilityRow extends ConsumerWidget {
                       ),
                     ),
                     Text(
-                      "16 %",
+                      "${rentabilityPercent == null ? "-" : "$rentabilityPercent"} %",
                       style: TextStyle(
                         color: isDarkMode ? Colors.white : Colors.black,
                         fontSize: 16,
