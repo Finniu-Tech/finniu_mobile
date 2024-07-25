@@ -1256,4 +1256,38 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get investmentDetailByUuid {
+    return '''
+     query investmentDetail (\$preInvestmentUuid : String!) {
+        investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+          uuid
+          amount
+          rentabilityAmmount
+          rentabilityPercent
+          finishDateInvestment
+          contract
+          depositBank {
+            id
+            bankName
+            bankLogo
+            slug
+            
+          }
+          bankAccountSender {
+            uuid
+            bankName
+            bankAccount
+            bankCciAccount
+            currency
+            alias
+            typeAccount
+            isJointAccount
+            isDefaultAccount
+            createdAt
+          }
+        }
+      }
+    ''';
+  }
 }

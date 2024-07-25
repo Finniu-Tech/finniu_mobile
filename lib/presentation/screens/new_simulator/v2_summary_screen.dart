@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -42,7 +43,18 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String uuid = ModalRoute.of(context)!.settings.arguments as String;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final investment_detail_by_uuid =
+        ref.watch(userInvestmentByUuidFutureProvider(uuid));
+    investment_detail_by_uuid.when(data: (data) {
+      print("screen");
+      print(data);
+    }, error: (error, stack) {
+      print(error.toString());
+    }, loading: () {
+      print("loading");
+    });
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
     return Container(
@@ -53,30 +65,41 @@ class _BodyScaffold extends ConsumerWidget {
       height: MediaQuery.of(context).size.height,
       child: const Padding(
         padding: EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TitleModal(),
-            SizedBox(height: 10),
-            IconFund(),
-            SizedBox(height: 15),
-            InvestmentAmountCardsRow(),
-            SizedBox(height: 15),
-            RowButtons(),
-            SizedBox(height: 15),
-            TermProfitabilityRow(),
-            SizedBox(height: 15),
-            SelectedBankTransfer(),
-            SizedBox(height: 15),
-            SelectedBankDeposit(),
-            SizedBox(height: 15),
-            SeeInterestPayment(),
-            SizedBox(height: 15),
-            InvestmentEnds(),
-          ],
-        ),
+        child: BodySummary(),
       ),
+    );
+  }
+}
+
+class BodySummary extends StatelessWidget {
+  const BodySummary({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TitleModal(),
+        SizedBox(height: 10),
+        IconFund(),
+        SizedBox(height: 15),
+        InvestmentAmountCardsRow(),
+        SizedBox(height: 15),
+        RowButtons(),
+        SizedBox(height: 15),
+        TermProfitabilityRow(),
+        SizedBox(height: 15),
+        SelectedBankTransfer(),
+        SizedBox(height: 15),
+        SelectedBankDeposit(),
+        SizedBox(height: 15),
+        SeeInterestPayment(),
+        SizedBox(height: 15),
+        InvestmentEnds(),
+      ],
     );
   }
 }
