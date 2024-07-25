@@ -1,7 +1,9 @@
-// ignore_for_file: unused_local_variable
-import 'package:finniu/infrastructure/models/business_investments/business_investments.dart';
+import 'package:finniu/domain/entities/user_all_investment_entity.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_info_all_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
@@ -36,54 +38,91 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final userInvestment = ref.watch(userInfoAllInvestmentFutureProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
+    List<Investment> userToValidateList = [];
+    List<Investment> userInProgressList = [];
+    List<Investment> userCompletedList = [];
 
-    return Column(
-      children: [
-        TabBar(
-          labelPadding: EdgeInsets.symmetric(horizontal: 10),
-          padding: EdgeInsets.zero,
-          dividerColor: Colors.transparent,
-          indicatorColor: Colors.transparent,
-          overlayColor: MaterialStateProperty.all(Colors.transparent),
-          controller: _tabController,
-          tabs: [
-            ButtonHistory(
-              isSelected: _tabController.index == 0,
-              text: 'Por validar',
+    return userInvestment.when(
+      data: (data) {
+        if (isSoles) {
+          userToValidateList = data?.investmentInSoles.investmentPending ?? [];
+          userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
+          userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
+        } else {
+          userToValidateList =
+              data?.investmentInDolares.investmentPending ?? [];
+          userInProgressList =
+              data?.investmentInDolares.investmentInCourse ?? [];
+          userCompletedList =
+              data?.investmentInDolares.investmentFinished ?? [];
+        }
+
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (userCompletedList.isEmpty &&
+              userInProgressList.isEmpty &&
+              userToValidateList.isEmpty) {
+            noInvestmentsModal(context);
+          } else {}
+        });
+
+        return Column(
+          children: [
+            TabBar(
+              labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: EdgeInsets.zero,
+              dividerColor: Colors.transparent,
+              indicatorColor: Colors.transparent,
+              overlayColor: WidgetStateProperty.all(Colors.transparent),
+              controller: _tabController,
+              tabs: [
+                ButtonHistory(
+                  isSelected: _tabController.index == 0,
+                  text: 'Por validar',
+                ),
+                ButtonHistory(
+                  isSelected: _tabController.index == 1,
+                  text: 'En Curso',
+                ),
+                ButtonHistory(
+                  isSelected: _tabController.index == 2,
+                  text: 'Finalizadas',
+                ),
+              ],
             ),
-            ButtonHistory(
-              isSelected: _tabController.index == 1,
-              text: 'En Curso',
-            ),
-            ButtonHistory(
-              isSelected: _tabController.index == 2,
-              text: 'Finalizadas',
+            const SizedBox(height: 10),
+            SizedBox(
+              width: 336,
+              height: MediaQuery.of(context).size.height * 0.3,
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  ToValidateList(
+                    list: userToValidateList,
+                  ),
+                  InProgressList(list: userInProgressList),
+                  CompletedList(list: userCompletedList),
+                ],
+              ),
             ),
           ],
+        );
+      },
+      error: (error, stackTrace) => Center(child: Text('Error: $error')),
+      loading: () => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: 300,
+        child: const Center(
+          child: CircularProgressIndicator(),
         ),
-        const SizedBox(height: 10),
-        SizedBox(
-          width: 336,
-          height: MediaQuery.of(context).size.height * 0.3,
-          child: TabBarView(
-            controller: _tabController,
-            children: [
-              ToValidateList(
-                list: toValidateList,
-              ),
-              InProgressList(list: inProgressList),
-              CompletedList(list: completedList),
-            ],
-          ),
-        ),
-      ],
+      ),
     );
   }
 }
 
 class CompletedList extends StatelessWidget {
-  final List<CompletedItem> list;
+  final List<Investment> list;
   const CompletedList({super.key, required this.list});
 
   @override
@@ -97,9 +136,8 @@ class CompletedList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: CompleteInvestment(
-                dateEnds: list[index].dateEnds,
+                dateEnds: list[index].finishDateInvestment,
                 amount: list[index].amount,
-                isReInvestment: list[index].isReInvestment,
               ),
             );
           },
@@ -110,7 +148,7 @@ class CompletedList extends StatelessWidget {
 }
 
 class InProgressList extends StatelessWidget {
-  final List<InProgressItem> list;
+  final List<Investment> list;
   const InProgressList({super.key, required this.list});
 
   @override
@@ -124,7 +162,7 @@ class InProgressList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: ProgressBarInProgress(
-                dateEnds: list[index].dateEnds,
+                dateEnds: list[index].finishDateInvestment,
                 amount: list[index].amount,
               ),
             );
@@ -136,7 +174,7 @@ class InProgressList extends StatelessWidget {
 }
 
 class ToValidateList extends StatelessWidget {
-  final List<ToValidateItem> list;
+  final List<Investment> list;
   const ToValidateList({super.key, required this.list});
 
   @override
@@ -150,7 +188,7 @@ class ToValidateList extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
               child: ToValidateInvestment(
-                dateEnds: list[index].dateEnds,
+                dateEnds: list[index].finishDateInvestment,
                 amount: list[index].amount,
               ),
             );

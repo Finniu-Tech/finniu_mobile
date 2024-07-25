@@ -43,6 +43,7 @@ import 'package:finniu/presentation/screens/login/start_screen.dart';
 import 'package:finniu/presentation/screens/onboarding/start_onboarding.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_3.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_1.dart';
+import 'package:finniu/presentation/screens/simulator_v2/simulator_v2_screen.dart';
 import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -121,5 +122,18 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/investment_blue_gold': (BuildContext context) => const InvestmentBlueGoldScreen(),
     '/blue_gold_investment': (BuildContext context) => const BlueGoldInvestmentsScreen(),
     '/v2/simulator': (BuildContext context) => const V2SummaryScreen(),
+    // '/fund_detail': (BuildContext context) => const FundDetailScreen(),
+    // '/v2/investment/step-1': (BuildContext context) =>
+    //     const InvestmentProcessStep1Screen(),
+    // '/v2/investment/step-2': (BuildContext context) =>
+    //     const InvestmentProcessStep2Screen(),
+    // '/business_investment': (BuildContext context) =>
+    //     const BusinessInvestmentsScreen(),
+    // '/blue_gold_investment': (BuildContext context) =>
+    //     const BlueGoldInvestmentsScreen(),
+    // '/v2/investment_blue_gold': (BuildContext context) =>
+    //     const InvestmentBlueGoldScreen(),
+    '/v2/summary': (BuildContext context) => const V2SummaryScreen(),
+    '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
   };
 }

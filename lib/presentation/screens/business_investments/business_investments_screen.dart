@@ -18,7 +18,7 @@ class BusinessInvestmentsScreen extends HookConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    final isVisible = useState<bool>(true);
+    final isVisible = useState<bool>(false);
 
     void hideNoInvestmentBody() {
       isVisible.value = false;

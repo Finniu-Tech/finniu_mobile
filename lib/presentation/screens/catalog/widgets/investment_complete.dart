@@ -6,19 +6,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class CompleteInvestment extends ConsumerWidget {
   final String dateEnds;
   final int amount;
-  final bool isReInvestment;
   const CompleteInvestment({
     super.key,
     required this.dateEnds,
     required this.amount,
-    required this.isReInvestment,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    int backgroundLight = isReInvestment ? 0xffCFC3FF : 0xffD6F6FF;
-    int backgroundDark = isReInvestment ? 0xff6749E2 : 0xff08273F;
+    // int backgroundLight = isReInvestment ? 0xffCFC3FF : 0xffD6F6FF;
+    // int backgroundDark = isReInvestment ? 0xff6749E2 : 0xff08273F;
+    int backgroundLight = 0xffD6F6FF;
+    int backgroundDark = 0xff08273F;
     return Stack(
       children: [
         Container(
@@ -36,7 +36,6 @@ class CompleteInvestment extends ConsumerWidget {
               children: [
                 AmountInvestment(
                   amount: amount,
-                  isReInvestment: isReInvestment,
                 ),
                 const SizedBox(height: 1),
                 Text(
@@ -52,7 +51,6 @@ class CompleteInvestment extends ConsumerWidget {
         ),
         LabelState(
           label: "Depositado",
-          isReInvestment: isReInvestment,
         ),
         const DownloadButton(),
       ],
@@ -130,22 +128,27 @@ class DownloadButton extends ConsumerWidget {
 
 class AmountInvestment extends ConsumerWidget {
   final int amount;
-  final bool isReInvestment;
+
   const AmountInvestment({
     super.key,
     required this.amount,
-    required this.isReInvestment,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    int amountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
-    int amountColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
-    int dividerAmountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
-    int dividerAmountColor = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
-    int textColorDark = isReInvestment ? 0xffC1FF79 : 0xff0A2E6FA;
-    int textColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    // int amountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    // int amountColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    // int dividerAmountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    // int dividerAmountColor = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    // int textColorDark = isReInvestment ? 0xffC1FF79 : 0xff0A2E6FA;
+    // int textColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    int amountColorDark = 0xffA2E6FA;
+    int amountColorLight = 0xff0D3A5C;
+    int dividerAmountColorDark = 0xffA2E6FA;
+    int dividerAmountColor = 0xff0D3A5C;
+    int textColorDark = 0xff0A2E6FA;
+    int textColorLight = 0xff0D3A5C;
 
     return SizedBox(
       height: 52,
@@ -197,20 +200,22 @@ class AmountInvestment extends ConsumerWidget {
 
 class LabelState extends ConsumerWidget {
   final String label;
-  final bool isReInvestment;
   const LabelState({
     required this.label,
-    required this.isReInvestment,
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    int labelLightContainer = isReInvestment ? 0xffA48EFF : 0xff90E5FD;
-    int labelDarkContainer = isReInvestment ? 0xffA48EFF : 0xff174C74;
-    int textDark = isReInvestment ? 0xff000000 : 0xffFFFFFF;
-    int textLight = isReInvestment ? 0xffFFFFFF : 0xff0D3A5C;
+    // int labelLightContainer = isReInvestment ? 0xffA48EFF : 0xff90E5FD;
+    // int labelDarkContainer = isReInvestment ? 0xffA48EFF : 0xff174C74;
+    // int textDark = isReInvestment ? 0xff000000 : 0xffFFFFFF;
+    // int textLight = isReInvestment ? 0xffFFFFFF : 0xff0D3A5C;
+    int labelLightContainer = 0xff90E5FD;
+    int labelDarkContainer = 0xff174C74;
+    int textDark = 0xffFFFFFF;
+    int textLight = 0xff0D3A5C;
     return Positioned(
       right: 0,
       child: Container(
