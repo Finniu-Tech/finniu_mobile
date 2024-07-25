@@ -27,3 +27,10 @@ final calculateAggroFutureProvider = FutureProvider.autoDispose
   final calculateResponse = await fundDataSource.calculateAggroInvestment(input);
   return calculateResponse;
 });
+
+final saveAggroInvestmentFutureProvider =
+    FutureProvider.autoDispose.family<SaveAggroInvestmentResponse, SaveAggroInvestmentInput>((ref, input) async {
+  final fundDataSource = ref.watch(fundDataSourceProvider);
+  final calculateResponse = await fundDataSource.saveAggroInvestment(input);
+  return calculateResponse;
+});

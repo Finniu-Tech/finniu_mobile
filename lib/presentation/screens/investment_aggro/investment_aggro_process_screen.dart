@@ -119,8 +119,8 @@ class UpperSectionWidget extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.9,
       child: Column(
         children: [
-          HeaderContainer(),
-          SizedBox(height: 20),
+          const HeaderContainer(),
+          const SizedBox(height: 20),
           Align(
             alignment: Alignment.centerLeft,
             child: TextPoppins(
@@ -132,14 +132,15 @@ class UpperSectionWidget extends StatelessWidget {
               textLight: titleColorLight,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
-                  child: AmountRow(
-                totalInvestedAmount: totalInvestedAmount,
-              )),
-              SizedBox(width: 20),
+                child: AmountRow(
+                  totalInvestedAmount: totalInvestedAmount,
+                ),
+              ),
+              const SizedBox(width: 20),
               Expanded(
                 child: SelectedItems(
                   installment: installments,
@@ -157,13 +158,14 @@ class UpperSectionWidget extends StatelessWidget {
 
 class BottomSection extends HookConsumerWidget {
   final FundEntity fund;
-  ValueNotifier<int?> installments;
-  ValueNotifier<int?> plots;
-  ValueNotifier<double?> monthlyRevenue;
-  ValueNotifier<double?> totalInvestedAmount;
+  final ValueNotifier<int?> installments;
+  final ValueNotifier<int?> plots;
+  final ValueNotifier<double?> monthlyRevenue;
+  final ValueNotifier<double?> totalInvestedAmount;
   final quoteNumberController = useTextEditingController();
   final parcelNumberController = useTextEditingController();
   final originFundsController = useTextEditingController();
+  final otherOriginFundsController = useTextEditingController();
 
   BottomSection({
     super.key,
@@ -216,6 +218,29 @@ class BottomSection extends HookConsumerWidget {
       return int.parse(item.split(' ')[0]);
     }
     return null;
+  }
+
+  bool isValidForm(context) {
+    if (quoteNumberController.text.isEmpty ||
+        parcelNumberController.text.isEmpty ||
+        originFundsController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Asegúrate de haber completado los campos anteriores',
+        'error',
+      );
+      return false;
+    }
+    if (originFundsController.text == 'Otros' && otherOriginFundsController.text.isEmpty) {
+      CustomSnackbar.show(
+        context,
+        'Debe de ingresar el origen de los fondos',
+        'error',
+      );
+      return false;
+    }
+
+    return true;
   }
 
   @override
@@ -319,13 +344,12 @@ class BottomSection extends HookConsumerWidget {
                 // return OriginFoundsEnum.values.map((e) => OriginFoundsUtil.toReadableName(e)).toList();
                 return OriginFoundsUtil.getReadableNames();
               },
-              //   setState(() {
-              //     widget.originFundsController.text = value;
-              //     if (value != 'Otros') {
-              //       widget.otherFundOriginController.clear();
-              //     }
-              //   });
-              // },
+              callbackOnChange: (value) {
+                originFundsController.text = value;
+                if (value == 'Otros') {
+                  otherOriginFundsController.clear();
+                }
+              },
               textEditingController: originFundsController,
               enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
               labelText: "Origen de procedencia del dinero",
@@ -340,6 +364,34 @@ class BottomSection extends HookConsumerWidget {
                     ),
             ),
           ),
+          if (originFundsController.text == 'Otros') ...[
+            const SizedBox(
+              height: 20,
+            ),
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
+              ),
+              child: TextFormField(
+                controller: otherOriginFundsController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Escriba el origen de los fondos',
+                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                  label: Text("Origen de los fondos"),
+                ),
+              ),
+            ),
+          ],
           const SizedBox(
             height: 50,
           ),
@@ -348,6 +400,30 @@ class BottomSection extends HookConsumerWidget {
             height: 50,
             child: TextButton(
               onPressed: () async {
+                final isValid = isValidForm(context);
+                if (!isValid) {
+                  return;
+                }
+                final SaveAggroInvestmentInput saveInput = SaveAggroInvestmentInput(
+                  numberInstallments: _getNumberFromString(quoteNumberController.text)!,
+                  numberParcel: _getNumberFromString(parcelNumberController.text)!,
+                  fundUUID: fund.uuid,
+                  originFunds: OriginFunds(
+                    originFundsEnum: OriginFoundsUtil.fromReadableName(originFundsController.text),
+                    otherText: otherOriginFundsController.text,
+                  ),
+                );
+                final SaveAggroInvestmentResponse response =
+                    await ref.read(saveAggroInvestmentFutureProvider(saveInput).future);
+                if (response.success == false) {
+                  CustomSnackbar.show(
+                    context,
+                    response.messages?[0].message ?? 'Ocurrio un error',
+                    'error',
+                  );
+                  return;
+                }
+
                 showThanksInvestmentDialog(
                   context,
                   textTitle: 'Gracias por \nconfiar en Finniu!',
@@ -359,68 +435,6 @@ class BottomSection extends HookConsumerWidget {
                     Navigator.pushNamed(context, '/blue_gold_investment'),
                   },
                 );
-
-                // if (userProfile.hasRequiredData() == false) {
-                //   completeProfileDialog(context, ref);
-                //   return;
-                // }
-                // if (validate() == false) {
-                //   return;
-                // }
-
-                // final deadLineUuid = DeadLineEntity.getUuidByName(
-                //   widget.deadLineController.text,
-                //   await deadLineFuture,
-                // );
-
-                // final originFund = widget.originFundsController.text;
-
-                // final preInvestment = PreInvestmentForm(
-                //   amount: int.parse(widget.amountController.text),
-                //   deadLineUuid: deadLineUuid,
-                //   coupon: widget.couponController.text,
-                //   // planUuid: widget.plan.uuid,
-                //   planUuid: 'test',
-                //   currency: isSoles ? currencyNuevoSol : currencyDollar,
-                //   bankAccountNumber: selectedBankAccount!.id,
-                //   originFunds: OriginFunds(
-                //     originFundsEnum: OriginFoundsUtil.fromReadableName(originFund),
-                //     otherText: widget.otherFundOriginController.text,
-                //   )
-                //   // bankAccountNumber: widget.bankNumberController.text,
-                //   ,
-                // );
-                // context.loaderOverlay.show();
-                // final preInvestmentEntityResponse = await ref.watch(preInvestmentSaveProvider(preInvestment).future);
-
-                // if (preInvestmentEntityResponse?.success == false) {
-                //   context.loaderOverlay.hide();
-                //   // CHECK HERE
-                //   CustomSnackbar.show(
-                //     context,
-                //     preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
-                //     'error',
-                //   );
-                //   return;
-                // } else {
-                //   context.loaderOverlay.hide();
-                //   ref
-                //       .read(
-                //         preInvestmentVoucherImagesPreviewProvider.notifier,
-                //       )
-                //       .state = [];
-                //   ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
-                //   Navigator.pushNamed(context, '/v2/investment/step-2');
-                //   // Navigator.pushNamed(
-                //   //     context,
-                //   //     '/investment_step2',
-                //   //     arguments: PreInvestmentStep2Arguments(
-                //   //       plan: selectedPlan!,
-                //   //       preInvestment: preInvestmentEntityResponse!.preInvestment!,
-                //   //       resultCalculator: resultCalculator!,
-                //   //     ),
-                //   //   );
-                // }
               },
               child: const Text(
                 'Continuar',

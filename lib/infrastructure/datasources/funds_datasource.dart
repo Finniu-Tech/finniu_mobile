@@ -62,4 +62,17 @@ class FundDataSource extends GraphQLBaseDataSource {
   }
 
   //TODO save aggro investment
+
+  Future<SaveAggroInvestmentResponse> saveAggroInvestment(SaveAggroInvestmentInput input) async {
+    final response = await client.mutate(
+      MutationOptions(
+        document: gql(
+          MutationRepository.saveAggroInvestment(),
+        ),
+        variables: input.toJson(),
+        fetchPolicy: FetchPolicy.noCache,
+      ),
+    );
+    return SaveAggroInvestmentResponse.fromJson(response.data?['saveAgroInvestment'] ?? {});
+  }
 }
