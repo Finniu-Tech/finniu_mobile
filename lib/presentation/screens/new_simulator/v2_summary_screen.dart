@@ -74,13 +74,13 @@ class _BodyScaffold extends ConsumerWidget {
                   finalProfitability: data.amount + data.rentabilityAmount,
                 ),
                 const SizedBox(height: 15),
-                const RowButtons(
-                  voucher: "",
-                  contract: "",
+                RowButtons(
+                  voucher: data.voucher,
+                  contract: data.contract,
                 ),
                 const SizedBox(height: 15),
                 TermProfitabilityRow(
-                  month: null,
+                  month: data.month,
                   rentabilityPercent: data.rentabilityPercent,
                 ),
                 const SizedBox(height: 15),
@@ -89,7 +89,9 @@ class _BodyScaffold extends ConsumerWidget {
                         bankAccountSender: data.bankAccountSender!,
                       )
                     : const SizedBox(),
-                const SizedBox(height: 15),
+                data.bankAccountReceiver != null
+                    ? const SizedBox()
+                    : const SizedBox(),
                 data.bankAccountReceiver != null
                     ? SelectedBankDeposit(
                         bankAccountSender: data.bankAccountReceiver!,
@@ -191,7 +193,7 @@ class RowButtons extends ConsumerWidget {
     }
 
     void downloadOnPress() {
-      print(voucher);
+      print(contract);
     }
 
     return Row(
