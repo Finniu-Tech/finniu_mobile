@@ -1,6 +1,8 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/infrastructure/models/fund/aggro_investment_models.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -8,9 +10,12 @@ import 'package:finniu/presentation/screens/investment_process.dart/widgets/scaf
 import 'package:finniu/presentation/screens/investment_process_blue_gold/widgets/header_blue_gold.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/widgets/row_items.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class InvestmentAggroProcessScreen extends ConsumerWidget {
   final FundEntity fund;
@@ -41,20 +46,42 @@ class AggroBody extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const int backgroundColorDark = 0xff0E0E0E;
-    const int backgroundColorLight = 0xffFFFFFF;
-    const String title = "Fondo inversión agro \ninmobiliaria";
+    final ValueNotifier<int?> installmentsState = useState(null);
+    final ValueNotifier<int?> plotsState = useState(null);
+    final ValueNotifier<double?> monthlyRevenueState = useState(null);
+    final ValueNotifier<double?> totalInvestedState = useState(null);
+
+    // const int backgroundColorDark = 0xff0E0E0E;
+    // const int backgroundColorLight = 0xffFFFFFF;
+    // const String title = "Fondo inversión agro \ninmobiliaria";
+    String title = fund.name;
+    // int titleColorDark = fund.getHexDetailColorSecondaryDark();
+    // int titleColorLight = fund.getHexDetailColorSecondaryLight();
     const int titleColorDark = 0xffA2E6FA;
     const int titleColorLight = 0xff0D3A5C;
     return SingleChildScrollView(
-      child: Container(
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            UpperSectionWidget(),
-            SizedBox(height: 20),
-            BottomSection(fund: fund),
+            UpperSectionWidget(
+              title: title,
+              titleColorDark: titleColorDark,
+              titleColorLight: titleColorLight,
+              installments: installmentsState.value,
+              plots: plotsState.value,
+              monthlyRevenue: monthlyRevenueState.value,
+              totalInvestedAmount: totalInvestedState.value,
+            ),
+            const SizedBox(height: 20),
+            BottomSection(
+              fund: fund,
+              installments: installmentsState,
+              plots: plotsState,
+              monthlyRevenue: monthlyRevenueState,
+              totalInvestedAmount: totalInvestedState,
+            ),
           ],
         ),
       ),
@@ -63,67 +90,143 @@ class AggroBody extends HookConsumerWidget {
 }
 
 class UpperSectionWidget extends StatelessWidget {
+  final String title;
+  final int titleColorDark;
+  final int titleColorLight;
+  final int? installments;
+  final int? plots;
+  final double? monthlyRevenue;
+  final double? totalInvestedAmount;
+
   const UpperSectionWidget({
     super.key,
+    required this.title,
+    required this.titleColorDark,
+    required this.titleColorLight,
+    required this.installments,
+    required this.plots,
+    required this.monthlyRevenue,
+    required this.totalInvestedAmount,
   });
 
   @override
   Widget build(BuildContext context) {
-    const int backgroundColorDark = 0xff0E0E0E;
-    const int backgroundColorLight = 0xffFFFFFF;
-    const String title = "Fondo inversión agro \ninmobiliaria";
-    const int titleColorDark = 0xffA2E6FA;
-    const int titleColorLight = 0xff0D3A5C;
-    return Container(
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: Column(
-          children: [
-            HeaderContainer(),
-            SizedBox(height: 20),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: TextPoppins(
-                text: title,
-                fontSize: 20,
-                isBold: true,
-                lines: 2,
-                textDark: titleColorDark,
-                textLight: titleColorLight,
-              ),
+    // const int backgroundColorDark = 0xff0E0E0E;
+    // const int backgroundColorLight = 0xffFFFFFF;
+    // const int titleColorDark = 0xffA2E6FA;
+    // const int titleColorLight = 0xff0D3A5C;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Column(
+        children: [
+          HeaderContainer(),
+          SizedBox(height: 20),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: TextPoppins(
+              text: title,
+              fontSize: 20,
+              isBold: true,
+              lines: 2,
+              textDark: titleColorDark,
+              textLight: titleColorLight,
             ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(child: AmountRow()),
-                SizedBox(width: 20),
-                Expanded(
-                  child: SelectedItems(),
+          ),
+          SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                  child: AmountRow(
+                totalInvestedAmount: totalInvestedAmount,
+              )),
+              SizedBox(width: 20),
+              Expanded(
+                child: SelectedItems(
+                  installment: installments,
+                  plots: plots,
+                  monthly: monthlyRevenue,
                 ),
-              ],
-            ),
-          ],
-        ));
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }
 
 class BottomSection extends HookConsumerWidget {
   final FundEntity fund;
+  ValueNotifier<int?> installments;
+  ValueNotifier<int?> plots;
+  ValueNotifier<double?> monthlyRevenue;
+  ValueNotifier<double?> totalInvestedAmount;
+  final quoteNumberController = useTextEditingController();
+  final parcelNumberController = useTextEditingController();
+  final originFundsController = useTextEditingController();
 
-  void calculateInvestment(String quoteNumber, String parcelNumber) {}
+  BottomSection({
+    super.key,
+    required this.fund,
+    required this.installments,
+    required this.plots,
+    required this.monthlyRevenue,
+    required this.totalInvestedAmount,
+  });
+  void calculateInvestment(String quote, String parcel, WidgetRef ref, BuildContext ctx) async {
+    if (quote.isEmpty || parcel.isEmpty) {
+      return;
+    }
+    ctx.loaderOverlay.show();
 
-  const BottomSection({super.key, required this.fund});
+    int quoteNumber = _getNumberFromString(quote)!;
+    int parcelNumber = _getNumberFromString(parcel)!;
+
+    installments.value = quoteNumber;
+    plots.value = parcelNumber;
+    // monthlyRevenue.value = (int.parse(quoteNumber) * int.parse(parcelNumber)).toInt();\
+    final CalculateAggroInvestmentInput input = CalculateAggroInvestmentInput(
+      numberParcel: parcelNumber,
+      numberInstallments: quoteNumber,
+      uuid: fund.uuid,
+    );
+
+    final CalculateAggroInvestmentResponse calculateResponse =
+        await ref.read(calculateAggroFutureProvider(input).future);
+
+    if (calculateResponse.success == false) {
+      ctx.loaderOverlay.hide();
+
+      CustomSnackbar.show(
+        ctx,
+        calculateResponse.messages?[0].message ?? 'Ocurrio un error',
+        'error',
+      );
+      return;
+    }
+    monthlyRevenue.value = calculateResponse.parcelMonthly;
+
+    totalInvestedAmount.value = calculateResponse.parcelMonthly * quoteNumber;
+
+    ctx.loaderOverlay.hide();
+  }
+
+  int? _getNumberFromString(String? item) {
+    if (item != null) {
+      return int.parse(item.split(' ')[0]);
+    }
+    return null;
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final quoteNumberController = TextEditingController();
-    final parcelNumberController = TextEditingController();
-    final originFundsController = TextEditingController();
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.5,
       //rouded border
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
         color: Color(fund.getHexDetailColorLight()),
       ),
       child: Column(
@@ -138,19 +241,17 @@ class BottomSection extends HookConsumerWidget {
               minHeight: 45,
             ),
             child: CustomSelectButton(
-              items: [
+              items: const [
                 '2 cuotas',
                 '6 cuotas',
                 '12 cuotas',
               ],
-              // asyncItems: (String filter) async {
-              //   final response = await deadLineFuture;
-              //   return response.map((e) => e.name).toList();
-              // },
               callbackOnChange: (value) async {
                 quoteNumberController.text = value;
+                // installments.value = int.parse((value).split(' ')[0]);
+                installments.value = _getNumberFromString(value);
                 if (quoteNumberController.text.isNotEmpty && parcelNumberController.text.isNotEmpty) {
-                  calculateInvestment(quoteNumberController.text, parcelNumberController.text);
+                  calculateInvestment(quoteNumberController.text, parcelNumberController.text, ref, context);
                 }
               },
               textEditingController: quoteNumberController,
@@ -167,7 +268,7 @@ class BottomSection extends HookConsumerWidget {
                     ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
             constraints: const BoxConstraints(
@@ -177,22 +278,19 @@ class BottomSection extends HookConsumerWidget {
               minHeight: 45,
             ),
             child: CustomSelectButton(
-              items: [
+              items: const [
                 '2 parcelas',
                 '3 parcelas',
                 '12 parcelas',
               ],
-              // asyncItems: (String filter) async {
-              //   final response = await deadLineFuture;
-              //   return response.map((e) => e.name).toList();
-              // },
               callbackOnChange: (value) async {
-                quoteNumberController.text = value;
+                parcelNumberController.text = value;
+                plots.value = _getNumberFromString(value);
                 if (quoteNumberController.text.isNotEmpty && parcelNumberController.text.isNotEmpty) {
-                  calculateInvestment(quoteNumberController.text, parcelNumberController.text);
+                  calculateInvestment(quoteNumberController.text, parcelNumberController.text, ref, context);
                 }
               },
-              textEditingController: quoteNumberController,
+              textEditingController: parcelNumberController,
               labelText: "Cantidad de Parcelas",
               hintText: "Seleccione numero de parcelas",
               enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
@@ -206,7 +304,7 @@ class BottomSection extends HookConsumerWidget {
                     ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Container(
@@ -242,7 +340,7 @@ class BottomSection extends HookConsumerWidget {
                     ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           SizedBox(
@@ -261,6 +359,7 @@ class BottomSection extends HookConsumerWidget {
                     Navigator.pushNamed(context, '/blue_gold_investment'),
                   },
                 );
+
                 // if (userProfile.hasRequiredData() == false) {
                 //   completeProfileDialog(context, ref);
                 //   return;

@@ -5,15 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SelectedItems extends ConsumerWidget {
+  final int? installment;
+  final int? plots;
+  final num? monthly;
+
   const SelectedItems({
     super.key,
+    this.installment,
+    this.plots,
+    this.monthly,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xff0D3A5C;
-    return const SizedBox(
+    return SizedBox(
       height: 230,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -27,13 +34,13 @@ class SelectedItems extends ConsumerWidget {
             isBold: true,
           ),
           SelectedInstallments(
-            installment: 6,
+            installment: installment,
           ),
           SelectedPlots(
-            plots: null,
+            plots: plots,
           ),
           SelectedMonthlyFee(
-            monthly: 1000,
+            monthly: monthly,
           ),
         ],
       ),
@@ -103,7 +110,7 @@ class SelectedMonthlyFee extends HookConsumerWidget {
     super.key,
     required this.monthly,
   });
-  final int? monthly;
+  final num? monthly;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -213,13 +220,15 @@ class SelectedPlots extends HookConsumerWidget {
 }
 
 class AmountRow extends ConsumerWidget {
+  final double? totalInvestedAmount;
   const AmountRow({
     super.key,
+    required this.totalInvestedAmount,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const int amountInvestment = 52000;
+    // const int amountInvestment = 52000;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int textAmountDark = 0xff0D3A5C;
     const int textAmountLight = 0xff0D3A5C;
@@ -234,9 +243,7 @@ class AmountRow extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? const Color(containerDark)
-                  : const Color(containerLight),
+              color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
             ),
             width: 200,
             height: 70,
@@ -251,13 +258,23 @@ class AmountRow extends ConsumerWidget {
                   textLight: textAmountLight,
                   isBold: true,
                 ),
-                AnimationNumber(
-                  beginNumber: 0,
-                  endNumber: amountInvestment,
-                  duration: 1,
-                  fontSize: 20,
-                  colorText: isDarkMode ? textAmountDark : textAmountLight,
-                ),
+                if (totalInvestedAmount != null) ...[
+                  AnimationNumber(
+                    beginNumber: 0,
+                    endNumber: totalInvestedAmount!,
+                    duration: 1,
+                    fontSize: 20,
+                    colorText: isDarkMode ? textAmountDark : textAmountLight,
+                  ),
+                ] else ...[
+                  const TextPoppins(
+                    text: "-",
+                    fontSize: 20,
+                    textDark: textAmountDark,
+                    textLight: textAmountLight,
+                    isBold: true,
+                  ),
+                ]
               ],
             ),
           ),

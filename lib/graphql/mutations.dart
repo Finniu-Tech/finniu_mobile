@@ -485,4 +485,40 @@ class MutationRepository {
       }
     ''';
   }
+
+  static String calculateAggroInvestment() {
+    return '''
+      mutation calculateAgroInvestment(\$numberOfInstallments: Int!, \$parcelNumber:Int!, \$fundUUID: String!){
+        calculateAgroInvestment(numberOfInstallments:\$numberOfInstallments, parcelNumber: \$parcelNumber, investmentFundUuid: \$fundUUID){
+          success
+          parcelMonthlyInstallment
+          messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
+
+  static String saveAggroInvestment() {
+    return '''
+      mutation saveAgroInvestment(\$numberOfInstallments: Int!, \$parcelNumber:Int!, \$originFunds: OriginFundsInput!, \$fundUUID: String!){
+        saveAgroInvestment(
+          numberOfInstallments:\$numberOfInstallments,
+          parcelNumber: \$parcelNumber,
+          originFunds: \$originFunds,
+          investmentFundUuid: \$fundUUID){
+          success
+          agroInvestmentUuid
+          messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
 }

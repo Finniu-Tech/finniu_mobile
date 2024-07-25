@@ -1,5 +1,6 @@
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/infrastructure/datasources/funds_datasource.dart';
+import 'package:finniu/infrastructure/models/fund/aggro_investment_models.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -18,4 +19,11 @@ final fundListFutureProvider = FutureProvider.autoDispose<List<FundEntity>>((ref
 final benefitListFutureProvider = FutureProvider.autoDispose.family<List<FundBenefit>, String>((ref, fundUUID) async {
   final fundDataSource = ref.watch(fundDataSourceProvider);
   return await fundDataSource.getBenefits(fundUUID);
+});
+
+final calculateAggroFutureProvider = FutureProvider.autoDispose
+    .family<CalculateAggroInvestmentResponse, CalculateAggroInvestmentInput>((ref, input) async {
+  final fundDataSource = ref.watch(fundDataSourceProvider);
+  final calculateResponse = await fundDataSource.calculateAggroInvestment(input);
+  return calculateResponse;
 });

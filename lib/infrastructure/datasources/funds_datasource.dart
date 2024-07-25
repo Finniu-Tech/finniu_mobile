@@ -1,6 +1,8 @@
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/infrastructure/datasources/base_datasource.dart';
+import 'package:finniu/infrastructure/models/fund/aggro_investment_models.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
 class FundDataSource extends GraphQLBaseDataSource {
@@ -42,4 +44,22 @@ class FundDataSource extends GraphQLBaseDataSource {
     final fundList = FundBenefit.listFromJson(listInvestmentResponse);
     return fundList;
   }
+
+  //TODO calculate aggro investment
+
+  Future<CalculateAggroInvestmentResponse> calculateAggroInvestment(CalculateAggroInvestmentInput input) async {
+    final response = await client.mutate(
+      MutationOptions(
+        document: gql(
+          MutationRepository.calculateAggroInvestment(),
+        ),
+        variables: input.toJson(),
+        fetchPolicy: FetchPolicy.noCache,
+      ),
+    );
+
+    return CalculateAggroInvestmentResponse.fromJson(response.data?['calculateAgroInvestment'] ?? {});
+  }
+
+  //TODO save aggro investment
 }

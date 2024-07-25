@@ -27,9 +27,7 @@ class InvestmentBlueGoldScreen extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: isDarkMode
-              ? const Color(backgroundColorDark)
-              : const Color(backgroundColorLight),
+          color: isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +44,10 @@ class InvestmentBlueGoldScreen extends HookConsumerWidget {
               SizedBox(height: 10),
               Row(
                 children: [
-                  Expanded(child: AmountRow()),
+                  Expanded(
+                      child: AmountRow(
+                    totalInvestedAmount: 52000,
+                  )),
                   SizedBox(width: 20),
                   Expanded(child: SelectedItems()),
                 ],
