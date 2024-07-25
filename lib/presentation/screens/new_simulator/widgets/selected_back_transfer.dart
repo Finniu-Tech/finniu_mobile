@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SelectedBankTransfer extends ConsumerWidget {
   const SelectedBankTransfer({
     super.key,
-    required this.bank,
-    required this.bankNumber,
+    required this.bankAccountSender,
   });
-  final String? bank;
-  final String? bankNumber;
+
+  final BankAccount bankAccountSender;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -48,17 +48,12 @@ class SelectedBankTransfer extends ConsumerWidget {
                 text: "Banco donde se transfiere",
                 fontSize: 14,
               ),
-              bank == null
-                  ? const TextPoppins(
-                      text: "No tiene banco selecionado",
-                      fontSize: 14,
-                      isBold: true,
-                    )
-                  : TextPoppins(
-                      text: "$bank *************$bankNumber",
-                      fontSize: 14,
-                      isBold: true,
-                    ),
+              TextPoppins(
+                text:
+                    "${bankAccountSender.bankAccount} - ${bankAccountSender.bankName}",
+                fontSize: 14,
+                isBold: true,
+              ),
             ],
           ),
           const Expanded(child: SizedBox()),

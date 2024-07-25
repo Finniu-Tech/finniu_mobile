@@ -1260,21 +1260,33 @@ class QueryRepository {
   static String get investmentDetailByUuid {
     return '''
      query investmentDetail (\$preInvestmentUuid : String!) {
-        investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+        deadline {
+          value
+        }
+        boucherList {
+          boucherImage
+        }
+        rentabilityIncreased
+        uuid
+        amount
+        rentabilityAmmount
+        rentabilityPercent
+        finishDateInvestment
+        contract
+        bankAccountReceiver {
           uuid
-          amount
-          rentabilityAmmount
-          rentabilityPercent
-          finishDateInvestment
-          contract
-          depositBank {
-            id
-            bankName
-            bankLogo
-            slug
-            
-          }
-          bankAccountSender {
+          bankName
+          bankAccount
+          bankCciAccount
+          currency
+          alias
+          typeAccount
+          isJointAccount
+          isDefaultAccount
+          createdAt
+        }
+        bankAccountSender {
             uuid
             bankName
             bankAccount

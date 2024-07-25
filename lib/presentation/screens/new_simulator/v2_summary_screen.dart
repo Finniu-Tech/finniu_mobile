@@ -50,6 +50,9 @@ class _BodyScaffold extends ConsumerWidget {
 
     return investmentDetailByUuid.when(
       data: (data) {
+        if (data == null) {
+          return const Center(child: CircularProgressIndicator());
+        }
         return Container(
           color: isDarkMode
               ? const Color(columnColorDark)
@@ -67,7 +70,7 @@ class _BodyScaffold extends ConsumerWidget {
                 const IconFund(),
                 const SizedBox(height: 15),
                 InvestmentAmountCardsRow(
-                  amountInvested: data!.amount,
+                  amountInvested: data.amount,
                   finalProfitability: data.amount + data.rentabilityAmount,
                 ),
                 const SizedBox(height: 15),
@@ -81,15 +84,17 @@ class _BodyScaffold extends ConsumerWidget {
                   rentabilityPercent: data.rentabilityPercent,
                 ),
                 const SizedBox(height: 15),
-                const SelectedBankTransfer(
-                  bank: null,
-                  bankNumber: "456",
-                ),
+                data.bankAccountSender != null
+                    ? SelectedBankTransfer(
+                        bankAccountSender: data.bankAccountSender!,
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 15),
-                const SelectedBankDeposit(
-                  bank: null,
-                  bankNumber: "456",
-                ),
+                data.bankAccountReceiver != null
+                    ? SelectedBankDeposit(
+                        bankAccountSender: data.bankAccountReceiver!,
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 15),
                 const SeeInterestPayment(),
                 const SizedBox(height: 15),
