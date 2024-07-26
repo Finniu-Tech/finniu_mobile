@@ -3,6 +3,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/new_simulator/helpers/pdf_launcher.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
@@ -72,6 +73,7 @@ class _BodyScaffold extends ConsumerWidget {
                 InvestmentAmountCardsRow(
                   amountInvested: data.amount,
                   finalProfitability: data.amount + data.rentabilityAmount,
+                  isLoading: false,
                 ),
                 const SizedBox(height: 15),
                 RowButtons(
@@ -82,6 +84,7 @@ class _BodyScaffold extends ConsumerWidget {
                 TermProfitabilityRow(
                   month: data.month,
                   rentabilityPercent: data.rentabilityPercent,
+                  isLoader: false,
                 ),
                 const SizedBox(height: 15),
                 data.bankAccountSender != null
@@ -94,7 +97,7 @@ class _BodyScaffold extends ConsumerWidget {
                     : const SizedBox(),
                 data.bankAccountReceiver != null
                     ? SelectedBankDeposit(
-                        bankAccountSender: data.bankAccountReceiver!,
+                        bankAccountReceiver: data.bankAccountReceiver!,
                       )
                     : const SizedBox(),
                 const SizedBox(height: 15),
@@ -129,8 +132,9 @@ class _BodyScaffold extends ConsumerWidget {
                 const IconFund(),
                 const SizedBox(height: 15),
                 const InvestmentAmountCardsRow(
-                  amountInvested: 5000,
-                  finalProfitability: 5000,
+                  amountInvested: 10000,
+                  finalProfitability: 10000,
+                  isLoading: true,
                 ),
                 const SizedBox(height: 15),
                 const RowButtons(
@@ -141,6 +145,7 @@ class _BodyScaffold extends ConsumerWidget {
                 const TermProfitabilityRow(
                   month: null,
                   rentabilityPercent: null,
+                  isLoader: true,
                 ),
                 const SizedBox(height: 15),
                 SizedBox(
@@ -189,11 +194,21 @@ class RowButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void voucherOnPress() {
-      print(voucher);
+      if (voucher == null) {
+        print("El voucher no esta disponible");
+      } else {
+        launchPdfURL(voucher!);
+      }
     }
 
     void downloadOnPress() {
       print(contract);
+      if (contract == null) {
+        print("El contrato no esta disponible");
+      } else {
+        launchPdfURL(contract!);
+      }
+      ;
     }
 
     return Row(

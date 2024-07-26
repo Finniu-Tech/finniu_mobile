@@ -16,7 +16,6 @@ final userInvestmentByUuidFutureProvider = FutureProvider.family
       ),
     );
     final data = result.data;
-    print(data);
     if (data == null) {
       return null;
     }
@@ -25,6 +24,7 @@ final userInvestmentByUuidFutureProvider = FutureProvider.family
         InvestmentDetailUuid.fromJson(data['investmentDetail']);
     return investmentDetail;
   } catch (e) {
+    print(e);
     return null;
   }
 });

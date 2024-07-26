@@ -1,5 +1,6 @@
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/business_investments/helpers/mask_string.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -50,7 +51,7 @@ class SelectedBankTransfer extends ConsumerWidget {
               ),
               TextPoppins(
                 text:
-                    "${bankAccountSender.bankAccount} - ${bankAccountSender.bankName}",
+                    "${bankAccountSender.bankName} **** **** **** ${maskString(bankAccountSender.bankAccount)}",
                 fontSize: 14,
                 isBold: true,
               ),

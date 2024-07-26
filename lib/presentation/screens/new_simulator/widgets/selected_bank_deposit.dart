@@ -1,5 +1,6 @@
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/business_investments/helpers/mask_string.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,9 +9,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SelectedBankDeposit extends ConsumerWidget {
   const SelectedBankDeposit({
     super.key,
-    required this.bankAccountSender,
+    required this.bankAccountReceiver,
   });
-  final BankAccount bankAccountSender;
+  final BankAccount bankAccountReceiver;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -48,7 +49,8 @@ class SelectedBankDeposit extends ConsumerWidget {
                 fontSize: 14,
               ),
               TextPoppins(
-                text: bankAccountSender.bankName,
+                text:
+                    "${bankAccountReceiver.bankName} **** **** **** ${maskString(bankAccountReceiver.bankAccount)}",
                 fontSize: 14,
                 isBold: true,
               ),
@@ -68,7 +70,10 @@ class SelectedBankDeposit extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    print("cambiar tarjeta con id");
+                    print(bankAccountReceiver.id);
+                  },
                   child: SvgPicture.asset(
                     'assets/svg_icons/credit-card.svg',
                     width: 20,
@@ -86,7 +91,10 @@ class SelectedBankDeposit extends ConsumerWidget {
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    print("eliminar tarjeta con id");
+                    print(bankAccountReceiver.id);
+                  },
                   child: SvgPicture.asset(
                     'assets/svg_icons/trash-2.svg',
                     width: 16,

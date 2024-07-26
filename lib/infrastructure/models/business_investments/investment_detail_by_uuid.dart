@@ -64,10 +64,7 @@ class InvestmentDetailUuid {
 
   static int _parseAmount(String amount) {
     double parsedDouble = double.parse(amount);
-    if (parsedDouble == parsedDouble.toInt()) {
-      return parsedDouble.toInt();
-    } else {
-      throw FormatException("Invalid amount format: $amount");
-    }
+    int amountParse = parsedDouble.round();
+    return amountParse;
   }
 }
