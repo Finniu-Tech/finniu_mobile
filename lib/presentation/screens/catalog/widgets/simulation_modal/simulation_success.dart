@@ -120,8 +120,7 @@ class SimulationSuccess extends ConsumerWidget {
           width: MediaQuery.of(context).size.width,
           height: 55,
           decoration: BoxDecoration(
-            color:
-                isDarkMode ? const Color(returnDark) : const Color(returnLight),
+            color: isDarkMode ? const Color(returnDark) : const Color(returnLight),
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),
@@ -140,9 +139,7 @@ class SimulationSuccess extends ConsumerWidget {
           width: MediaQuery.of(context).size.width,
           height: 49,
           decoration: BoxDecoration(
-            color: isDarkMode
-                ? const Color(monthEveryTextDark)
-                : const Color(monthEveryTextLight),
+            color: isDarkMode ? const Color(monthEveryTextDark) : const Color(monthEveryTextLight),
             borderRadius: const BorderRadius.all(
               Radius.circular(10),
             ),
@@ -153,9 +150,7 @@ class SimulationSuccess extends ConsumerWidget {
             children: [
               Icon(
                 Icons.calendar_today_outlined,
-                color: isDarkMode
-                    ? const Color(textEveryDark)
-                    : const Color(textEveryLight),
+                color: isDarkMode ? const Color(textEveryDark) : const Color(textEveryLight),
                 size: 20,
               ),
               const SizedBox(
@@ -179,7 +174,7 @@ class SimulationSuccess extends ConsumerWidget {
           ),
         ),
         ButtonInvestment(
-          text: "Contunuar",
+          text: "Continuar",
           onPressed: toInvestPressed,
         ),
         GestureDetector(

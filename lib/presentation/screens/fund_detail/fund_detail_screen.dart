@@ -55,7 +55,7 @@ class FundDetailBody extends StatelessWidget {
           text: 'Quiero invertir',
           onPressed: () {
             if (fund.fundType == FundTypeEnum.corporate) {
-              Navigator.pushNamed(context, '/v2/investment/step-1');
+              Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': fund});
             } else {
               Navigator.pushNamed(context, '/v2/aggro-investment', arguments: {'fund': fund});
             }
@@ -84,7 +84,7 @@ class ScrollBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final mainColor = currentTheme.isDarkMode ? Colors.white : Colors.black;
+    final mainColorText = currentTheme.isDarkMode ? Colors.white : Colors.black;
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
@@ -98,7 +98,7 @@ class ScrollBody extends ConsumerWidget {
               Text(
                 fund.fundType == FundTypeEnum.corporate ? 'Descubre el portafolio' : 'Nuestro modelo de negocio',
                 textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: mainColor),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: mainColorText),
               ),
               const SizedBox(
                 height: 10,
@@ -119,7 +119,7 @@ class ScrollBody extends ConsumerWidget {
                           'Ver los beneficios',
                           style: TextStyle(
                             fontSize: 12,
-                            color: mainColor,
+                            color: mainColorText,
                           ),
                         ),
                         const SizedBox(
@@ -130,7 +130,7 @@ class ScrollBody extends ConsumerWidget {
                           child: Icon(
                             Icons.arrow_forward_sharp,
                             size: 24,
-                            color: mainColor,
+                            color: mainColorText,
                           ),
                         ),
                       ],

@@ -11,11 +11,12 @@ final calculateInvestmentFutureProvider =
     final client = ref.watch(gqlClientProvider).value;
 
     final result = await calculateInvestmentRepository.calculate(
-        client: client!,
-        amount: calculatorInput.amount,
-        months: calculatorInput.months,
-        coupon: calculatorInput.coupon,
-        currency: calculatorInput.currency);
+      client: client!,
+      amount: calculatorInput.amount,
+      months: calculatorInput.months,
+      coupon: calculatorInput.coupon,
+      currency: calculatorInput.currency,
+    );
     return result;
   } catch (e, stack) {
     return Future.error('Error: $e', stack);

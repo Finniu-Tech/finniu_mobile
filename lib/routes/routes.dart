@@ -109,8 +109,20 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         fund: args['fund'],
       );
     },
-    '/v2/investment/step-1': (BuildContext context) => const InvestmentProcessStep1Screen(),
-    '/v2/investment/step-2': (BuildContext context) => const InvestmentProcessStep2Screen(),
+    '/v2/investment/step-1': (BuildContext context) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      return InvestmentProcessStep1Screen(
+        fund: args['fund'],
+      );
+    },
+    '/v2/investment/step-2': (BuildContext context) {
+      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      return InvestmentProcessStep2Screen(
+        fund: args['fund'],
+        preInvestmentUUID: args['preInvestmentUUID'],
+        amount: args['amount'],
+      );
+    },
     // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
     '/v2/aggro-investment': (BuildContext context) {
       final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;

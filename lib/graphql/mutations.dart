@@ -230,11 +230,13 @@ class MutationRepository {
 
   static String updatePreInvestment() {
     return '''
-      mutation updatePreinvestment(\$uuid: String!, \$readContract:Boolean!, \$files: [String] ){
+      mutation updatePreinvestment(\$uuid: String!, \$readContract:Boolean!, \$files: [String], \$bankAccountReceiverUUID: String, \$bankAccountSenderUUID: String){
         updatePreinvestment(
           preInvestmentUuid: \$uuid,
           userReadContract: \$readContract,
-          filesTransaction: \$files
+          filesTransaction: \$files,
+          bankAccountReceiver: \$bankAccountReceiverUUID,
+          bankAccountSender: \$bankAccountSenderUUID
         ){
           success
           preInvestmentUuid
@@ -512,6 +514,30 @@ class MutationRepository {
           investmentFundUuid: \$fundUUID){
           success
           agroInvestmentUuid
+          messages{
+            field
+            message
+            errorCode
+          }
+        }
+      }
+    ''';
+  }
+
+  static String saveCorporateInvestment() {
+    return '''
+      mutation saveCorporateInvestment(\$amount:String!, \$couponCode:String, \$currency: String!, \$deadline: String!, \$investmentFund: String!, \$originFunds: OriginFundsInput!){
+        saveCorporateInvestment(
+          amount: \$amount,
+          couponCode: \$couponCode,
+          currency: \$currency,
+          deadline: \$deadline,
+          investmentFund: \$investmentFund,
+          originFunds: \$originFunds
+          ){
+          success
+          preInvestmentUuid
+          contract
           messages{
             field
             message
