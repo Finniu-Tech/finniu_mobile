@@ -27,10 +27,10 @@ class MilestonesAchieved extends ConsumerWidget {
             ? const Color(containerDark)
             : const Color(containerLight),
       ),
-      width: 168,
+      width: 175,
       height: longShort ? 91 : 69,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TextPoppins(
