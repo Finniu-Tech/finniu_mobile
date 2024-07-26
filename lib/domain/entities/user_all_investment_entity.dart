@@ -26,10 +26,7 @@ class Investment {
   }
 
   static int _parseAmount(String amount) {
-    // Convierte la cadena a un double primero
     double parsedDouble = double.parse(amount);
-
-    // Asegúrate de que el double se puede convertir a int sin perder precisión
     if (parsedDouble == parsedDouble.toInt()) {
       return parsedDouble.toInt();
     } else {

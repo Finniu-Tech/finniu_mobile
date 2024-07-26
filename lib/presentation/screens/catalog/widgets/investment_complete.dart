@@ -74,7 +74,9 @@ class DownloadButton extends ConsumerWidget {
       right: 7,
       bottom: 7,
       child: GestureDetector(
-        onTap: () {},
+        onTap: () {
+          print("descargar voucher");
+        },
         child: Container(
           width: 144,
           height: 26,

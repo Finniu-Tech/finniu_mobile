@@ -3,12 +3,20 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
+
+String _formatDate(String inputDate) {
+  DateTime parsedDate = DateTime.parse(inputDate);
+  String formattedDate = DateFormat('dd/MM/yyyy').format(parsedDate);
+  return formattedDate;
+}
 
 class InvestmentEnds extends ConsumerWidget {
   const InvestmentEnds({
     super.key,
+    required this.finalDate,
   });
-
+  final String? finalDate;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -16,6 +24,10 @@ class InvestmentEnds extends ConsumerWidget {
     const int borderLight = 0xff0D3A5C;
     const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
+    String dateFormat = "--/--/----";
+    if (finalDate != null) {
+      dateFormat = _formatDate(finalDate!);
+    }
     return Container(
       height: 47,
       decoration: BoxDecoration(
@@ -44,8 +56,8 @@ class InvestmentEnds extends ConsumerWidget {
           const SizedBox(
             width: 5,
           ),
-          const TextPoppins(
-            text: "10/07/2025",
+          TextPoppins(
+            text: finalDate == null ? "--/--/----" : dateFormat,
             fontSize: 16,
             isBold: true,
             textDark: borderDark,

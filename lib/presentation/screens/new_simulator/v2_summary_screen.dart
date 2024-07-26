@@ -1,10 +1,14 @@
+import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/new_simulator/helpers/pdf_launcher.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/error_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/loader_container.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_transfer.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_bank_deposit.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
@@ -15,6 +19,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class V2SummaryScreen extends HookConsumerWidget {
   const V2SummaryScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -39,41 +44,95 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String uuid = ModalRoute.of(context)!.settings.arguments as String;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    return Container(
-      color: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: const Padding(
-        padding: EdgeInsets.all(15.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TitleModal(),
-            SizedBox(height: 10),
-            IconFund(),
-            SizedBox(height: 15),
-            InvestmentAmountCardsRow(),
-            SizedBox(height: 15),
-            RowButtons(),
-            SizedBox(height: 15),
-            TermProfitabilityRow(),
-            SizedBox(height: 15),
-            SelectedBankTransfer(),
-            SizedBox(height: 15),
-            SelectedBankDeposit(),
-            SizedBox(height: 15),
-            SeeInterestPayment(),
-            SizedBox(height: 15),
-            InvestmentEnds(),
-          ],
-        ),
-      ),
+    final investmentDetailByUuid =
+        ref.watch(userInvestmentByUuidFutureProvider(uuid));
+
+    return investmentDetailByUuid.when(
+      error: (error, stack) {
+        showErrorGetDetail(context);
+        return LoaderContainer(
+          isDarkMode: isDarkMode,
+          columnColorDark: columnColorDark,
+          columnColorLight: columnColorLight,
+        );
+      },
+      loading: () {
+        return LoaderContainer(
+          isDarkMode: isDarkMode,
+          columnColorDark: columnColorDark,
+          columnColorLight: columnColorLight,
+        );
+      },
+      data: (data) {
+        if (data == null) {
+          showErrorGetDetail(context);
+          return LoaderContainer(
+            isDarkMode: isDarkMode,
+            columnColorDark: columnColorDark,
+            columnColorLight: columnColorLight,
+          );
+        }
+        return Container(
+          color: isDarkMode
+              ? const Color(columnColorDark)
+              : const Color(columnColorLight),
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TitleModal(),
+                const SizedBox(height: 10),
+                const IconFund(),
+                const SizedBox(height: 15),
+                InvestmentAmountCardsRow(
+                  amountInvested: data.amount,
+                  finalProfitability: data.amount + data.rentabilityAmount,
+                  isLoading: false,
+                ),
+                const SizedBox(height: 15),
+                RowButtons(
+                  voucher: data.voucher,
+                  contract: data.contract,
+                ),
+                const SizedBox(height: 15),
+                TermProfitabilityRow(
+                  month: data.month,
+                  rentabilityPercent: data.rentabilityPercent,
+                  isLoader: false,
+                ),
+                const SizedBox(height: 15),
+                data.bankAccountSender != null
+                    ? SelectedBankTransfer(
+                        bankAccountSender: data.bankAccountSender!,
+                      )
+                    : const SizedBox(),
+                data.bankAccountReceiver != null
+                    ? const SizedBox()
+                    : const SizedBox(),
+                data.bankAccountReceiver != null
+                    ? SelectedBankDeposit(
+                        bankAccountReceiver: data.bankAccountReceiver!,
+                      )
+                    : const SizedBox(),
+                const SizedBox(height: 15),
+                const SeeInterestPayment(),
+                const SizedBox(height: 15),
+                InvestmentEnds(
+                  finalDate: data.finishDateInvestment,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
@@ -96,11 +155,30 @@ class SeeInterestPayment extends StatelessWidget {
 class RowButtons extends ConsumerWidget {
   const RowButtons({
     super.key,
+    required this.voucher,
+    required this.contract,
   });
-
+  final String? voucher;
+  final String? contract;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Row(
+    void voucherOnPress() {
+      if (voucher == null) {
+        showNotVoucherOrContract(context, true);
+      } else {
+        launchPdfURL(voucher!);
+      }
+    }
+
+    void downloadOnPress() {
+      if (contract == null) {
+        showNotVoucherOrContract(context, false);
+      } else {
+        launchPdfURL(contract!);
+      }
+    }
+
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -109,7 +187,7 @@ class RowButtons extends ConsumerWidget {
           child: ButtonsSimulator(
             text: 'Ver voucher',
             icon: "eye.svg",
-            onPressed: null,
+            onPressed: voucherOnPress,
           ),
         ),
         SizedBox(
@@ -117,7 +195,7 @@ class RowButtons extends ConsumerWidget {
           child: ButtonsSimulator(
             text: 'Descargar contrato',
             icon: "download.svg",
-            onPressed: null,
+            onPressed: downloadOnPress,
           ),
         ),
       ],

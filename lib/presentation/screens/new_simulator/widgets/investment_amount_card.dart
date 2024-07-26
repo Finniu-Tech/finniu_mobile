@@ -1,13 +1,19 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class InvestmentAmountCardsRow extends ConsumerWidget {
   const InvestmentAmountCardsRow({
     super.key,
+    required this.amountInvested,
+    required this.finalProfitability,
+    required this.isLoading,
   });
-
+  final bool isLoading;
+  final int? amountInvested;
+  final int? finalProfitability;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -44,13 +50,19 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                       color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
-                  AnimationNumber(
-                    beginNumber: 8000,
-                    endNumber: 10000,
-                    duration: 2,
-                    fontSize: 16,
-                    colorText: isDarkMode ? amountColorDark : amountColorLight,
-                  ),
+                  isLoading
+                      ? const CircularLoader(
+                          width: 20,
+                          height: 20,
+                        )
+                      : AnimationNumber(
+                          beginNumber: 0,
+                          endNumber: amountInvested ?? 0,
+                          duration: 2,
+                          fontSize: 16,
+                          colorText:
+                              isDarkMode ? amountColorDark : amountColorLight,
+                        ),
                 ],
               ),
             ],
@@ -80,13 +92,19 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                       color: isDarkMode ? Colors.white : Colors.black,
                     ),
                   ),
-                  AnimationNumber(
-                    endNumber: 12000,
-                    beginNumber: 10000,
-                    duration: 2,
-                    fontSize: 16,
-                    colorText: isDarkMode ? rentColorDark : rentColorLight,
-                  ),
+                  isLoading
+                      ? const CircularLoader(
+                          height: 20,
+                          width: 20,
+                        )
+                      : AnimationNumber(
+                          endNumber: finalProfitability ?? 0,
+                          beginNumber: 0,
+                          duration: 2,
+                          fontSize: 16,
+                          colorText:
+                              isDarkMode ? rentColorDark : rentColorLight,
+                        ),
                 ],
               ),
             ],
