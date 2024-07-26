@@ -1,4 +1,6 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
+import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -43,6 +45,43 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "go to agro",
+              onPressed: () {
+                Navigator.pushNamed(context, '/blue_gold_investment');
+              },
+            ),
+            const MilestonesAchieved(
+              longShort: true,
+              title: "Se desembolsó \$800,000.000 a los inversionistas",
+              date: "Mayo 2019",
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const MilestonesAchieved(
+              longShort: false,
+              title: "Sembramos 1000 \nLotes en el año",
+              date: "Septiembre 2020",
+            ),
+            const IconClip(
+              character: "🌱",
+            ),
+            const IconClip(
+              character: "💸",
+            ),
+            const IconClip(
+              character: "🫐",
+            ),
+            const IconClip(
+              character: "📌",
+            ),
+            const IconClip(
+              character: "👥",
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "go to businnes investment",
               onPressed: () {
