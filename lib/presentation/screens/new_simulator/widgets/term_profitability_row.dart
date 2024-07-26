@@ -54,7 +54,7 @@ class TermProfitabilityRow extends ConsumerWidget {
                       ),
                     ),
                     isLoader
-                        ? const CircularLoader()
+                        ? const CircularLoader(width: 20, height: 20)
                         : Text(
                             "${month == null ? "-" : "$month"} meses",
                             style: TextStyle(
@@ -101,7 +101,10 @@ class TermProfitabilityRow extends ConsumerWidget {
                       ),
                     ),
                     isLoader
-                        ? const CircularLoader()
+                        ? const CircularLoader(
+                            width: 20,
+                            height: 20,
+                          )
                         : Text(
                             "${rentabilityPercent == null ? "-" : "$rentabilityPercent"} %",
                             style: TextStyle(

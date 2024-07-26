@@ -4,9 +4,11 @@ import 'package:finniu/presentation/screens/business_investments/widgets/app_bar
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/new_simulator/helpers/pdf_launcher.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/error_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/loader_container.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_transfer.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_bank_deposit.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
@@ -50,9 +52,29 @@ class _BodyScaffold extends ConsumerWidget {
         ref.watch(userInvestmentByUuidFutureProvider(uuid));
 
     return investmentDetailByUuid.when(
+      error: (error, stack) {
+        showErrorGetDetail(context);
+        return LoaderContainer(
+          isDarkMode: isDarkMode,
+          columnColorDark: columnColorDark,
+          columnColorLight: columnColorLight,
+        );
+      },
+      loading: () {
+        return LoaderContainer(
+          isDarkMode: isDarkMode,
+          columnColorDark: columnColorDark,
+          columnColorLight: columnColorLight,
+        );
+      },
       data: (data) {
         if (data == null) {
-          return const Center(child: CircularProgressIndicator());
+          showErrorGetDetail(context);
+          return LoaderContainer(
+            isDarkMode: isDarkMode,
+            columnColorDark: columnColorDark,
+            columnColorLight: columnColorLight,
+          );
         }
         return Container(
           color: isDarkMode
@@ -111,59 +133,6 @@ class _BodyScaffold extends ConsumerWidget {
           ),
         );
       },
-      error: (error, stack) {
-        return const Center(child: Text("Error loading data"));
-      },
-      loading: () {
-        return Container(
-          color: isDarkMode
-              ? const Color(columnColorDark)
-              : const Color(columnColorLight),
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TitleModal(),
-                const SizedBox(height: 10),
-                const IconFund(),
-                const SizedBox(height: 15),
-                const InvestmentAmountCardsRow(
-                  amountInvested: 10000,
-                  finalProfitability: 10000,
-                  isLoading: true,
-                ),
-                const SizedBox(height: 15),
-                const RowButtons(
-                  voucher: "",
-                  contract: "",
-                ),
-                const SizedBox(height: 15),
-                const TermProfitabilityRow(
-                  month: null,
-                  rentabilityPercent: null,
-                  isLoader: true,
-                ),
-                const SizedBox(height: 15),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: 145,
-                  child: const Center(child: CircularProgressIndicator()),
-                ),
-                const SizedBox(height: 15),
-                const SeeInterestPayment(),
-                const SizedBox(height: 15),
-                const InvestmentEnds(
-                  finalDate: null,
-                ),
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
@@ -195,20 +164,18 @@ class RowButtons extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     void voucherOnPress() {
       if (voucher == null) {
-        print("El voucher no esta disponible");
+        showNotVoucherOrContract(context, true);
       } else {
         launchPdfURL(voucher!);
       }
     }
 
     void downloadOnPress() {
-      print(contract);
       if (contract == null) {
-        print("El contrato no esta disponible");
+        showNotVoucherOrContract(context, false);
       } else {
         launchPdfURL(contract!);
       }
-      ;
     }
 
     return Row(

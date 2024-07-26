@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:finniu/presentation/screens/catalog/widgets/device_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:math' as math;
 
 class BlueGoldImage extends StatelessWidget {
   const BlueGoldImage({

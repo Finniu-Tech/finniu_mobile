@@ -51,7 +51,10 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                     ),
                   ),
                   isLoading
-                      ? const CircularLoader()
+                      ? const CircularLoader(
+                          width: 20,
+                          height: 20,
+                        )
                       : AnimationNumber(
                           beginNumber: 0,
                           endNumber: amountInvested ?? 0,
@@ -90,7 +93,10 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                     ),
                   ),
                   isLoading
-                      ? const CircularLoader()
+                      ? const CircularLoader(
+                          height: 20,
+                          width: 20,
+                        )
                       : AnimationNumber(
                           endNumber: finalProfitability ?? 0,
                           beginNumber: 0,
