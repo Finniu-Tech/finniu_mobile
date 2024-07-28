@@ -26,9 +26,7 @@ class BlueGoldInvestmentCard extends ConsumerWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

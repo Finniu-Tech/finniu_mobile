@@ -135,9 +135,18 @@ class CompletedList extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: CompleteInvestment(
-                dateEnds: list[index].finishDateInvestment,
-                amount: list[index].amount,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/v2/summary',
+                    arguments: list[index].uuid,
+                  );
+                },
+                child: CompleteInvestment(
+                  dateEnds: list[index].finishDateInvestment,
+                  amount: list[index].amount,
+                ),
               ),
             );
           },
@@ -161,9 +170,19 @@ class InProgressList extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: ProgressBarInProgress(
-                dateEnds: list[index].finishDateInvestment,
-                amount: list[index].amount,
+              child: GestureDetector(
+                onTap: () {
+                  print("${list[index].uuid}");
+                  Navigator.pushNamed(
+                    context,
+                    '/v2/summary',
+                    arguments: list[index].uuid,
+                  );
+                },
+                child: ProgressBarInProgress(
+                  dateEnds: list[index].finishDateInvestment,
+                  amount: list[index].amount,
+                ),
               ),
             );
           },
@@ -187,9 +206,18 @@ class ToValidateList extends StatelessWidget {
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8.0),
-              child: ToValidateInvestment(
-                dateEnds: list[index].finishDateInvestment,
-                amount: list[index].amount,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/v2/summary',
+                    arguments: list[index].uuid,
+                  );
+                },
+                child: ToValidateInvestment(
+                  dateEnds: list[index].finishDateInvestment,
+                  amount: list[index].amount,
+                ),
               ),
             );
           },

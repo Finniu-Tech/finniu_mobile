@@ -1257,6 +1257,52 @@ class QueryRepository {
     ''';
   }
 
+  static String get investmentDetailByUuid {
+    return '''
+     query investmentDetail (\$preInvestmentUuid : String!) {
+      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+        deadline {
+          value
+        }
+        boucherList {
+          boucherImage
+        }
+        rentabilityIncreased
+        uuid
+        amount
+        rentabilityAmmount
+        rentabilityPercent
+        finishDateInvestment
+        contract
+        bankAccountReceiver {
+          uuid
+          bankName
+          bankAccount
+          bankCciAccount
+          currency
+          alias
+          typeAccount
+          isJointAccount
+          isDefaultAccount
+          createdAt
+        }
+        bankAccountSender {
+            uuid
+            bankName
+            bankAccount
+            bankCciAccount
+            currency
+            alias
+            typeAccount
+            isJointAccount
+            isDefaultAccount
+            createdAt
+          }
+        }
+      }
+    ''';
+  }
+
   static String get getFunds {
     return '''
       query getFunds{
@@ -1315,6 +1361,31 @@ class QueryRepository {
         }
       }
     }
+    ''';
+  }
+
+  static String get getAggroInvestmentList {
+    return '''
+      query AgroInvestment{
+        agroInvestmentList{
+          uuid
+          investmentFundName
+          parcelAmount
+          parcelNumber
+          numberOfInstallments
+          parcelMonthlyInstallment
+          createdAt
+          updatedAt
+          isActive
+          progressInvestment{
+            daysPassed
+            daysRemaining
+            totalDays
+            startDay
+            endDay
+          }
+        }
+      }
     ''';
   }
 }

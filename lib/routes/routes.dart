@@ -146,6 +146,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     // '/v2/investment_blue_gold': (BuildContext context) =>
     //     const InvestmentBlueGoldScreen(),
     '/v2/summary': (BuildContext context) => const V2SummaryScreen(),
-    '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
+    // '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
   };
 }

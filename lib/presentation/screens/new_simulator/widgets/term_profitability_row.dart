@@ -1,12 +1,18 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TermProfitabilityRow extends ConsumerWidget {
-  const TermProfitabilityRow({
-    super.key,
-  });
+  const TermProfitabilityRow(
+      {super.key,
+      required this.month,
+      required this.rentabilityPercent,
+      required this.isLoader});
+  final int? month;
+  final int? rentabilityPercent;
+  final bool isLoader;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,14 +53,16 @@ class TermProfitabilityRow extends ConsumerWidget {
                         fontSize: 14,
                       ),
                     ),
-                    Text(
-                      "12 meses",
-                      style: TextStyle(
-                        color: isDarkMode ? Colors.white : Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    isLoader
+                        ? const CircularLoader(width: 20, height: 20)
+                        : Text(
+                            "${month == null ? "-" : "$month"} meses",
+                            style: TextStyle(
+                              color: isDarkMode ? Colors.white : Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ],
                 ),
               ],
@@ -92,14 +100,19 @@ class TermProfitabilityRow extends ConsumerWidget {
                         fontSize: 14,
                       ),
                     ),
-                    Text(
-                      "16 %",
-                      style: TextStyle(
-                        color: isDarkMode ? Colors.white : Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    isLoader
+                        ? const CircularLoader(
+                            width: 20,
+                            height: 20,
+                          )
+                        : Text(
+                            "${rentabilityPercent == null ? "-" : "$rentabilityPercent"} %",
+                            style: TextStyle(
+                              color: isDarkMode ? Colors.white : Colors.black,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                   ],
                 ),
               ],
