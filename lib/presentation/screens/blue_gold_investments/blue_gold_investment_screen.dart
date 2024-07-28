@@ -18,16 +18,13 @@ class BlueGoldInvestmentsScreen extends HookConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    // final isVisible = useState<bool>(true);
-
-    // void hideNoInvestmentBody() {
-    //   isVisible.value = false;
-    // }
 
     return Scaffold(
       backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
-      bottomNavigationBar: const NavigationBarHome(),
+      bottomNavigationBar: const NavigationBarHome(
+        colorBackground: Colors.transparent,
+      ),
       body: const SingleChildScrollView(
         child: Stack(
           alignment: Alignment.center,

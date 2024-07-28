@@ -29,6 +29,8 @@ class FundEntity {
   bool? isDelete;
   String? lastRentability;
   String? netWorthAmount;
+  String? totalInstallmentsAmount;
+
   FundEntity({
     required this.uuid,
     required this.name,
@@ -53,6 +55,7 @@ class FundEntity {
     this.tagBenefitsID,
     this.tagDownloadInfoID,
     this.tagInvestmentButtonID,
+    this.totalInstallmentsAmount,
   });
 
   bool getActive(bool isActive) {
@@ -114,6 +117,7 @@ class FundEntity {
       netWorthAmount: data['netWorthAmount'],
       assetUnderManagementUrl: data['assetsUnderManagement'],
       netWorths: FundNetWorthEntity.listFromJson(data['netWorthGraph']),
+      totalInstallmentsAmount: data['currentInstallment']?['value'] ?? '0',
     );
   }
 

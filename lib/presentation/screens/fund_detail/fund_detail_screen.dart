@@ -7,10 +7,10 @@ import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart';
+import 'package:finniu/utils/strings.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class FundDetailScreen extends ConsumerWidget {
   const FundDetailScreen({super.key, required this.fund});
@@ -79,6 +79,10 @@ class ScrollBody extends ConsumerWidget {
         fundUUID: fund.uuid,
       ),
     );
+  }
+
+  static _getNumberFromString(String? item) {
+    return getNumberFromString(item);
   }
 
   @override
@@ -172,13 +176,18 @@ class ScrollBody extends ConsumerWidget {
                 Center(child: BlueGoldContainer(amount: fund.netWorthAmount!)),
               ],
               if (fund.fundType == FundTypeEnum.corporate) ...[
-                const Center(
-                  child: RealStateContainer(),
+                Center(
+                  child: RealStateContainer(
+                    minAmount: _getNumberFromString(fund.netWorthAmount)!,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
                 ),
-                const FundInfoSlider(),
+                FundInfoSlider(
+                  annualProfitability: getNumberFromString(fund.lastRentability),
+                  totalInstallmentsAmount: getNumberFromString(fund.totalInstallmentsAmount),
+                ),
               ],
             ],
           ),

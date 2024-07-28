@@ -1,6 +1,4 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/domain/entities/fund_entity.dart';
-import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';

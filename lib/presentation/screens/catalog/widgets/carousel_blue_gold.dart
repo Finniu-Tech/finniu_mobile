@@ -2,7 +2,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/infrastructure/models/blue_gold_investment/progress_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CarouselBlueGold extends StatelessWidget {
   final ValueNotifier<int> pageNotifier;

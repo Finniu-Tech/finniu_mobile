@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -8,8 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class FundInfoSlider extends StatelessWidget {
+  final num annualProfitability;
+  final num totalInstallmentsAmount;
   const FundInfoSlider({
     super.key,
+    required this.annualProfitability,
+    required this.totalInstallmentsAmount,
   });
 
   @override
@@ -22,14 +25,14 @@ class FundInfoSlider extends StatelessWidget {
       {"x": "Mar", "y": 50},
     ];
     final items = [
-      const ManagedAssets(
-        investmentsText: 5700,
+      ManagedAssets(
+        investmentsText: totalInstallmentsAmount.toInt(),
       ),
       InvestedCapital(
         data: data,
       ),
-      const AnnualProfitability(
-        profitability: 7,
+      AnnualProfitability(
+        profitability: annualProfitability.toInt(),
       ),
     ];
     return Container(
@@ -91,8 +94,7 @@ class AnnualProfitability extends ConsumerWidget {
           Container(
             width: 245,
             decoration: BoxDecoration(
-              color:
-                  Color(isDarkMode ? containerColorDark : containerColorLight),
+              color: Color(isDarkMode ? containerColorDark : containerColorLight),
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(

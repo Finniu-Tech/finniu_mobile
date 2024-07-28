@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RealStateContainer extends ConsumerWidget {
+  final num minAmount;
   const RealStateContainer({
     super.key,
+    required this.minAmount,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
-    const int numberInSoles = 1000;
-    const int numberInUSD = 1500;
+    // const int numberInSoles = 1000;
+    // const int numberInUSD = 1500;
     const String titleText = "Puedes comenzar a Invertir desde";
     return Container(
       width: 336,
@@ -40,7 +42,7 @@ class RealStateContainer extends ConsumerWidget {
               child: TweenAnimationBuilder(
                 tween: IntTween(
                   begin: 0,
-                  end: isSoles ? numberInSoles : numberInUSD,
+                  end: minAmount.toInt(),
                 ),
                 duration: const Duration(seconds: 1),
                 builder: (BuildContext context, int value, Widget? child) {

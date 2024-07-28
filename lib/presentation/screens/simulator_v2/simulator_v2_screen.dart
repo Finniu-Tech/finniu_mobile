@@ -18,11 +18,11 @@ class V2SimulatorScreen extends HookConsumerWidget {
     const int columnColorLight = 0xffDCF6FF;
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
+      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarSimulatorScreen(),
-      bottomNavigationBar: const NavigationBarHome(),
+      bottomNavigationBar: const NavigationBarHome(
+        colorBackground: Colors.transparent,
+      ),
       body: const SingleChildScrollView(
         child: Column(
           children: [
@@ -51,12 +51,12 @@ class SimulatorBody extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.6,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(30),
           topRight: Radius.circular(30),
+          bottomLeft: Radius.circular(30),
+          bottomRight: Radius.circular(30),
         ),
       ),
       child: const Column(

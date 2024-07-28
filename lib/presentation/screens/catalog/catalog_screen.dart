@@ -3,8 +3,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.da
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/completed_progress_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_gold.dart';
@@ -177,7 +175,9 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             const ButtonSendProof(),
 
-            const FundInfoSlider(),
+            // const FundInfoSlider(
+
+            // ),
             // const SizedBox(height: 70),
             const GraphicContainer(),
             const HeaderInvestment(
