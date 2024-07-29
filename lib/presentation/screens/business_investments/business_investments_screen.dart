@@ -5,7 +5,6 @@ import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -34,7 +33,7 @@ class BusinessInvestmentsScreen extends HookConsumerWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            const BodyScaffold(),
+            const RealEstateBody(),
             if (isVisible.value)
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.85,
@@ -55,8 +54,8 @@ class BusinessInvestmentsScreen extends HookConsumerWidget {
   }
 }
 
-class BodyScaffold extends ConsumerWidget {
-  const BodyScaffold({
+class RealEstateBody extends ConsumerWidget {
+  const RealEstateBody({
     super.key,
   });
 
@@ -71,12 +70,11 @@ class BodyScaffold extends ConsumerWidget {
           : const Color(columnColorLight),
       width: MediaQuery.of(context).size.width,
       child: const Padding(
-        padding: EdgeInsets.all(15.0),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            EnterpriseFundTitle(),
             SizedBox(height: 15),
             GraphicContainer(),
             SizedBox(height: 10),

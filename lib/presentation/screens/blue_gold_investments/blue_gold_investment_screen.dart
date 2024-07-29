@@ -1,7 +1,6 @@
 import 'package:finniu/infrastructure/models/blue_gold_investment/progress_blue_gold.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_title_blue_gold.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
@@ -20,7 +19,9 @@ class BlueGoldInvestmentsScreen extends HookConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+      backgroundColor: isDarkMode
+          ? const Color(columnColorDark)
+          : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
       bottomNavigationBar: const NavigationBarHome(
         colorBackground: Colors.transparent,
@@ -49,29 +50,34 @@ class BlueGoldBody extends HookConsumerWidget {
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
 
-    final aggroInvestmentListAsyncValue = ref.watch(aggroInvestmentListFutureProvider);
+    final aggroInvestmentListAsyncValue =
+        ref.watch(aggroInvestmentListFutureProvider);
 
     return aggroInvestmentListAsyncValue.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => Center(child: Text('Error: $error')),
       data: (data) {
         return Container(
-          color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+          color: isDarkMode
+              ? const Color(columnColorDark)
+              : const Color(columnColorLight),
           width: MediaQuery.of(context).size.width,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const BlueGoldFundTitle(),
                 CarouselBlueGold(
                   pageNotifier: pageNotifier,
                   aggroInvestmentList: data,
                 ),
                 const RowScheduleLogbook(),
                 const TitleProgress(),
-                InvestmentList(pageNotifier: pageNotifier, aggroInvestmentList: data),
+                InvestmentList(
+                  pageNotifier: pageNotifier,
+                  aggroInvestmentList: data,
+                ),
               ],
             ),
           ),
@@ -92,7 +98,8 @@ class InvestmentList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<ProgressBlueGold> items = aggroInvestmentList[pageNotifier.value].progressList;
+    final List<ProgressBlueGold> items =
+        aggroInvestmentList[pageNotifier.value].progressList;
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.4,
