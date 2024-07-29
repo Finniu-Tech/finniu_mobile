@@ -5,8 +5,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.da
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/completed_progress_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_gold.dart';
@@ -109,8 +107,7 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context,
-                    urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),
@@ -160,7 +157,7 @@ class CatalogScreen extends HookConsumerWidget {
               uuidReport: 12314,
               uuidVoucher: 12314,
             ),
-            const CarouselBlueGold(),
+            // const CarouselBlueGold(),
             const RowScheduleLogbook(),
             const SizedBox(
               height: 10,
@@ -217,7 +214,9 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             const ButtonSendProof(),
 
-            const FundInfoSlider(),
+            // const FundInfoSlider(
+
+            // ),
             // const SizedBox(height: 70),
             const GraphicContainer(),
             const HeaderInvestment(
@@ -225,8 +224,7 @@ class CatalogScreen extends HookConsumerWidget {
               iconColor: aboutIconBusinessColor,
               textColor: aboutTextBusinessColor,
               urlIcon: 'assets/investment/business_loans_investment_icon.png',
-              urlImageBackground:
-                  'assets/backgroud/image-inmobiliaria-backgroud.png',
+              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
               textTitle: 'Fondo prestamos empresariales',
             ),
             const SizedBox(height: 10),

@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:flutter/material.dart';
@@ -7,10 +8,14 @@ import 'dart:math' as math;
 class GridItem {
   final String image;
   final String text;
+  final int backgroundColorDark;
+  final int backgroundColorLight;
 
   GridItem({
     required this.image,
     required this.text,
+    required this.backgroundColorDark,
+    required this.backgroundColorLight,
   });
 }
 
@@ -30,14 +35,18 @@ class ModalBenefits extends StatelessWidget {
   Future<dynamic> showBenefits(BuildContext context) {
     return showDialog(
       context: context,
-      builder: (context) => const BodyModalBenefits(),
+      builder: (context) => const BodyModalBenefits(
+        fundUUID: '111',
+      ),
     );
   }
 }
 
 class BodyModalBenefits extends ConsumerWidget {
+  final String fundUUID;
   const BodyModalBenefits({
     super.key,
+    required this.fundUUID,
   });
 
   @override
@@ -45,40 +54,14 @@ class BodyModalBenefits extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const backgroundDark = 0xff0E0E0E;
     const backgroundLight = 0xffFFFFFF;
-    final List<GridItem> gridItems = [
-      GridItem(
-        image: 'assets/benefits_modal/benefits_modal_01.png',
-        text: 'Socio de la cooperativa agraria',
-      ),
-      GridItem(
-        image: 'assets/benefits_modal/benefits_modal_02.png',
-        text: 'Participa en la toma de decisiones',
-      ),
-      GridItem(
-        image: 'assets/benefits_modal/benefits_modal_03.png',
-        text: 'Régimen especial de inafectación del IR',
-      ),
-      GridItem(
-        image: 'assets/benefits_modal/benefits_modal_04.png',
-        text: 'Buen gobierno corporativo',
-      ),
-      GridItem(
-        image: 'assets/benefits_modal/benefits_modal_05.png',
-        text: 'Tasa reducida del 0% hasta S/154,500 al año Ing. Netos',
-      ),
-      GridItem(
-        image: 'assets/benefits_modal/benefits_modal_06.png',
-        text: 'Integración de cooperativismo y comercio justo',
-      ),
-    ];
+
+    final benefitListAsyncValue = ref.watch(benefitListFutureProvider(fundUUID));
 
     return Dialog(
       insetPadding: const EdgeInsets.all(15),
       child: Container(
         decoration: BoxDecoration(
-          color: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
@@ -91,8 +74,26 @@ class BodyModalBenefits extends ConsumerWidget {
             children: [
               const CloseButton(),
               const TextTitle(),
-              GridContainer(
-                items: gridItems,
+              const SizedBox(height: 20),
+              Expanded(
+                child: benefitListAsyncValue.when(
+                  data: (benefitList) {
+                    final gridItems = benefitList
+                        .map(
+                          (benefit) => GridItem(
+                            image: benefit.iconUrl,
+                            text: benefit.title,
+                            backgroundColorDark: benefit.getHexBackgroundColorDark,
+                            backgroundColorLight: benefit.getHexBackgroundColorLight,
+                          ),
+                        )
+                        .toList();
+
+                    return GridContainer(items: gridItems);
+                  },
+                  loading: () => const Center(child: CircularProgressIndicator()),
+                  error: (error, stackTrace) => Center(child: Text('Error: $error')),
+                ),
               ),
             ],
           ),
@@ -102,6 +103,73 @@ class BodyModalBenefits extends ConsumerWidget {
   }
 }
 
+// class BodyModalBenefits extends ConsumerWidget {
+//   final String fundUUID;
+//   const BodyModalBenefits({
+//     super.key,
+//     required this.fundUUID,
+//   });
+
+//   @override
+//   Widget build(BuildContext context, WidgetRef ref) {
+//     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+//     const backgroundDark = 0xff0E0E0E;
+//     const backgroundLight = 0xffFFFFFF;
+//     final List<GridItem> gridItems = [
+//       GridItem(
+//         image: 'assets/benefits_modal/benefits_modal_01.png',
+//         text: 'Socio de la cooperativa agraria',
+//       ),
+//       GridItem(
+//         image: 'assets/benefits_modal/benefits_modal_02.png',
+//         text: 'Participa en la toma de decisiones',
+//       ),
+//       GridItem(
+//         image: 'assets/benefits_modal/benefits_modal_03.png',
+//         text: 'Régimen especial de inafectación del IR',
+//       ),
+//       GridItem(
+//         image: 'assets/benefits_modal/benefits_modal_04.png',
+//         text: 'Buen gobierno corporativo',
+//       ),
+//       GridItem(
+//         image: 'assets/benefits_modal/benefits_modal_05.png',
+//         text: 'Tasa reducida del 0% hasta S/154,500 al año Ing. Netos',
+//       ),
+//       GridItem(
+//         image: 'assets/benefits_modal/benefits_modal_06.png',
+//         text: 'Integración de cooperativismo y comercio justo',
+//       ),
+//     ];
+
+//     return Dialog(
+//       insetPadding: const EdgeInsets.all(15),
+//       child: Container(
+//         decoration: BoxDecoration(
+//           color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+//           borderRadius: const BorderRadius.all(
+//             Radius.circular(20),
+//           ),
+//         ),
+//         width: MediaQuery.of(context).size.width,
+//         height: 529,
+//         child: Padding(
+//           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+//           child: Column(
+//             children: [
+//               const CloseButton(),
+//               const TextTitle(),
+//               GridContainer(
+//                 items: gridItems,
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 class GridContainer extends ConsumerWidget {
   final List<GridItem> items;
 
@@ -110,8 +178,6 @@ class GridContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const backgroundDark = 0xff1C1B1B;
-    const backgroundLight = 0xffB0D6FF;
 
     return SizedBox(
       height: 455,
@@ -128,9 +194,7 @@ class GridContainer extends ConsumerWidget {
           return Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color: isDarkMode ? Color(item.backgroundColorDark) : Color(item.backgroundColorLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(15),
               ),
@@ -140,15 +204,14 @@ class GridContainer extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(item.image, width: 50, height: 50),
+                // Image.asset(item.image, width: 50, height: 50),
+                Image.network(item.image, width: 50, height: 50),
                 const SizedBox(height: 5),
                 Text(
                   item.text,
                   style: TextStyle(
                     fontSize: 12,
-                    color: isDarkMode
-                        ? const Color(0xffFFFFFF)
-                        : const Color(0xff000000),
+                    color: isDarkMode ? const Color(0xffFFFFFF) : const Color(0xff000000),
                     fontWeight: FontWeight.bold,
                   ),
                   maxLines: 3,
@@ -181,8 +244,7 @@ class TextTitle extends ConsumerWidget {
         Text(
           "Beneficios",
           style: TextStyle(
-            color:
-                isDarkMode ? const Color(colorDark) : const Color(colorLight),
+            color: isDarkMode ? const Color(colorDark) : const Color(colorLight),
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -214,10 +276,8 @@ class CloseButton extends ConsumerWidget {
               angle: math.pi / 4,
               child: Icon(
                 Icons.add_circle_outline,
-                size: 20,
-                color: isDarkMode
-                    ? const Color(colorDark)
-                    : const Color(colorLight),
+                size: 25,
+                color: isDarkMode ? const Color(colorDark) : const Color(colorLight),
               ),
             ),
           ),

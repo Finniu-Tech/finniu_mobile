@@ -22,13 +22,9 @@ class BlueGoldFundTitle extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: currentTheme.isDarkMode
-              ? const Color(borderDark)
-              : const Color(borderLight),
+          color: currentTheme.isDarkMode ? const Color(borderDark) : const Color(borderLight),
         ),
-        color: currentTheme.isDarkMode
-            ? const Color(backgroundColorDark)
-            : const Color(backgroundColorLight),
+        color: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),

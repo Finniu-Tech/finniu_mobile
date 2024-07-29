@@ -1,18 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/widgets/image_circle.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/buttons.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
+import 'package:finniu/utils/color_utils.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +28,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-import '../investment_confirmation/widgets/modal_set_bank_account_user_input.dart';
-
 class InvestmentProcessStep2Screen extends ConsumerWidget {
-  const InvestmentProcessStep2Screen({super.key});
+  final FundEntity fund;
+  final String preInvestmentUUID;
+  final String amount;
+
+  const InvestmentProcessStep2Screen({
+    super.key,
+    required this.fund,
+    required this.preInvestmentUUID,
+    required this.amount,
+  });
 
   @override
   @override
@@ -35,225 +48,94 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
         isDarkMode: currentTheme.isDarkMode,
+        // backgroundColor:
+        //     currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(scaffoldSkyBlueBackground),
         backgroundColor:
-            currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(scaffoldSkyBlueBackground),
-        body: const Step2Body(),
+            currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
+        body: Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID),
       ),
     );
   }
 }
 
 class Step2Body extends HookConsumerWidget {
-  const Step2Body({super.key});
+  final FundEntity fund;
+  final String amount;
+  final String preInvestmentUUID;
+  const Step2Body({
+    super.key,
+    required this.fund,
+    required this.amount,
+    required this.preInvestmentUUID,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final voucherImageBase64 = ref.watch(preInvestmentVoucherImagesProvider);
     final userReadContract = useState(false);
+    ValueNotifier<BankAccount?> senderBankAccountState = useState(null);
+    ValueNotifier<BankAccount?> receiverBankAccountState = useState(null);
     final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = currentTheme.isDarkMode;
     final String textCurrency = isSoles ? 'soles' : 'dólares';
+    final String currencyValue = isSoles ? currencyEnum.PEN : currencyEnum.USD;
+    final String symbolCurrency = isSoles ? 'S/' : 'US\$';
+
+    final effectExecuted = useState(false);
+
+    useEffect(
+      () {
+        if (!effectExecuted.value) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            ref.read(selectedBankAccountSenderProvider.notifier).state = null;
+            ref.read(selectedBankAccountReceiverProvider.notifier).state = null;
+            ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+            ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
+            ref.read(userAcceptedTermsProvider.notifier).state = false;
+            effectExecuted.value = true;
+          });
+        }
+        return null;
+      },
+      [],
+    );
+
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
+      senderBankAccountState.value = next;
+    });
+
+    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider, (previous, next) {
+      receiverBankAccountState.value = next;
+    });
 
     return Center(
       child: SingleChildScrollView(
-        child: Container(
+        child: SizedBox(
+          // margin: const EdgeInsets.symmetric(horizontal: 30),
           width: MediaQuery.of(context).size.width * 0.85,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 30),
-              Container(
-                alignment: Alignment.centerLeft,
-                width: 310,
-                height: 40,
-                child: Text(
-                  // plan.name,
-                  'Plan test',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Color(Theme.of(context).colorScheme.secondary.value),
-                  ),
-                ),
+              HeaderWidget(
+                containerColor:
+                    isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+                textColor: aboutTextBusinessColor,
+                iconColor: isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+                urlIcon: fund.iconUrl!,
+                labelText: 'Acerca de',
               ),
-              const SizedBox(height: 15),
-              Container(
-                constraints: const BoxConstraints(
-                  maxWidth: 400,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      // height: 100,
-                      // width: MediaQuery.of(context).size.width * 0.60,
-                      // width: double.maxFinite,
-                      alignment: Alignment.center,
-
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          CircularImage(
-                            // months: resultCalculator.months,
-                            months: 12,
-                            planImageUrl:
-                                'https://finniu-statics.s3.amazonaws.com/finniu/images/plan/b16f8016/7dd34ecb.png',
-                            // planImageUrl: plan.imageUrl,
-                          ),
-                          Positioned(
-                            right: 108,
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Container(
-                                width: 59.49,
-                                height: 35,
-                                // padding: EdgeInsets.all(10),
-                                decoration: BoxDecoration(
-                                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                                  border: Border.all(
-                                    width: 4,
-                                    color:
-                                        currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                                  ),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                // color: Color(primaryDark),
-
-                                child: Column(
-                                  children: [
-                                    Center(
-                                      child: Text(
-                                        textAlign: TextAlign.left,
-                                        // '${resultCalculator.finalRentability?.toString() ?? 0}% ',
-                                        '10.00%',
-                                        style: TextStyle(
-                                          color: currentTheme.isDarkMode
-                                              ? const Color(primaryDark)
-                                              : const Color(primaryLight),
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      textAlign: TextAlign.center,
-                                      'Rentabilidad',
-                                      style: TextStyle(
-                                        color:
-                                            currentTheme.isDarkMode ? const Color(blackText) : const Color(whiteText),
-                                        fontSize: 7,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 20),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 60,
-                          width: 116,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color(primaryLight),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 0,
-                                blurRadius: 2,
-                                offset: const Offset(
-                                  0,
-                                  3,
-                                ), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                // isSoles
-                                //     ? formatterSoles.format(preInvestment.amount)
-                                //     : formatterUSD.format(preInvestment.amount),
-                                '11 000.00',
-                                textAlign: TextAlign.right,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(primaryDark),
-                                ),
-                              ),
-                              const Text(
-                                'Tu monto invertido',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color(blackText),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Container(
-                          height: 60,
-                          width: 116,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: const Color(secondary),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                spreadRadius: 0,
-                                blurRadius: 2,
-                                offset: const Offset(
-                                  0,
-                                  3,
-                                ), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                // isSoles
-                                //     ? formatterSoles.format(resultCalculator.profitability)
-                                //     : formatterUSD.format(resultCalculator.profitability),
-                                '11 000.00',
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(primaryDark),
-                                ),
-                              ),
-                              const Text(
-                                'Monto que recibirás',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(
-                                  fontSize: 10,
-                                  color: Color(blackText),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              const SizedBox(height: 20),
+              Text(
+                fund.name,
+                style: const TextStyle(color: Color(primaryDark), fontSize: 20, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 20),
               SizedBox(
                 width: 320,
                 child: Text(
-                  'Realiza tu transferencia a la cuenta bancaria de Finniu: ',
+                  'Agrega tus cuentas',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontSize: 14,
@@ -261,173 +143,84 @@ class Step2Body extends HookConsumerWidget {
                   ),
                 ),
               ),
+              const SizedBox(height: 12),
+              SelectBankAccountButtonWidget(
+                isDarkMode: currentTheme.isDarkMode,
+                onPressed: () {
+                  showBankAccountModal(
+                    context,
+                    ref,
+                    currencyValue,
+                    true,
+                    "",
+                  );
+                },
+                textButton: senderBankAccountState.value == null
+                    ? 'Desde que banco nos transfieres'
+                    : senderBankAccountState.value!.bankAccount,
+                svgPath: 'assets/svg_icons/card-send.svg',
+                backgroundColor: isDarkMode
+                    ? Color(fund.getHexDetailColorSecondaryDark())
+                    : Color(fund.getHexDetailColorSecondaryLight()),
+              ),
+              const SizedBox(height: 10),
+              SelectBankAccountButtonWidget(
+                isDarkMode: currentTheme.isDarkMode,
+                onPressed: () {
+                  showBankAccountModal(
+                    context,
+                    ref,
+                    currencyValue,
+                    false,
+                    "",
+                  );
+                },
+                textButton: receiverBankAccountState.value == null
+                    ? 'A que banco te depositamos'
+                    : receiverBankAccountState.value!.bankAccount,
+                svgPath: 'assets/svg_icons/card-receive.svg',
+                backgroundColor: isDarkMode
+                    ? Color(fund.getHexDetailColorSecondaryDark())
+                    : Color(fund.getHexDetailColorSecondaryLight()),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 320,
+                child: RichText(
+                  textAlign: TextAlign.justify,
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark), // Reemplaza estos valores con tus constantes
+                    ),
+                    children: [
+                      const TextSpan(
+                        text: 'Realiza tu transferencia de ',
+                      ),
+                      TextSpan(
+                        text: symbolCurrency,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      TextSpan(
+                        text: amount,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      const TextSpan(
+                        text: ' a la cuenta bancaria de Finniu: ',
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               const SizedBox(
                 height: 12,
               ),
-              Container(
-                width: 320,
-                height: 154,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.only(
-                    bottomRight: Radius.circular(38),
-                  ),
-                  color: currentTheme.isDarkMode
-                      ? const Color(
-                          primaryDark,
-                        )
-                      : const Color(gradient_secondary),
-                  border: Border.all(
-                    color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(gradient_secondary),
-                    width: 1,
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.8,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Finniu S.A.C',
-                          style: TextStyle(
-                            color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Text(
-                              'RUC ',
-                              style: TextStyle(
-                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              '20609327210',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'N de cuenta $textCurrency Interbank ',
-                              style: TextStyle(
-                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
-                                fontSize: 12,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              isSoles ? '2003004077570' : '2003004754309',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Clipboard.setData(
-                                  ClipboardData(
-                                    text: isSoles ? "2003004077570" : "2003004754309",
-                                  ),
-                                ).then((_) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text('Copiado!'),
-                                      behavior: SnackBarBehavior.floating,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                  );
-                                });
-                              },
-                              child: ImageIcon(
-                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
-                                size: 18,
-                                const AssetImage(
-                                  'assets/icons/double_square.png',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Row(
-                          children: [
-                            Text(
-                              'CCI ',
-                              style: TextStyle(
-                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
-                                fontSize: 12,
-                              ),
-                            ),
-                            Text(
-                              isSoles ? '003 200 00300407757039' : '003 20000300475430932',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
-                                fontSize: 12,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Clipboard.setData(
-                                  ClipboardData(
-                                    text: isSoles ? "00320000300407757039" : '00320000300475430932',
-                                  ),
-                                ).then((_) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: const Text('Copiado!'),
-                                      behavior: SnackBarBehavior.floating,
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                      ),
-                                    ),
-                                  );
-                                });
-                              },
-                              child: ImageIcon(
-                                color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
-                                size: 18,
-                                const AssetImage(
-                                  'assets/icons/double_square.png',
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+              AccountNumbersWidget(
+                currentTheme: currentTheme,
+                textCurrency: textCurrency,
+                isSoles: isSoles,
               ),
               const SizedBox(
                 height: 10,
@@ -458,7 +251,11 @@ class Step2Body extends HookConsumerWidget {
                     bottomRight: Radius.circular(21),
                   ),
                   // color: const Color(primaryLightAlternative)
-                  color: const Color(primaryLight),
+                  color: adjustColor(
+                    currentTheme.isDarkMode
+                        ? Color(fund.getHexDetailColorSecondaryDark())
+                        : Color(fund.getHexDetailColorSecondaryLight()),
+                  ),
                   border: Border.all(
                     color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLightAlternative),
                     width: 1,
@@ -581,8 +378,8 @@ class Step2Body extends HookConsumerWidget {
                                                         width: 16,
                                                         height: 16,
                                                         decoration: const BoxDecoration(
-                                                          color: Colors.black38, // Color semitransparente
-                                                          shape: BoxShape.circle, // Forma redonda
+                                                          color: Colors.black38,
+                                                          shape: BoxShape.circle,
                                                         ),
                                                         child: const Icon(
                                                           Icons.close,
@@ -641,8 +438,7 @@ class Step2Body extends HookConsumerWidget {
                   GestureDetector(
                     onTap: () async {
                       String contractURL = await ContractDataSourceImp().getContract(
-                        // uuid: preInvestment.uuid,
-                        uuid: "123123123",
+                        uuid: preInvestmentUUID,
                         client: ref.watch(gqlClientProvider).value!,
                       );
 
@@ -672,57 +468,68 @@ class Step2Body extends HookConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              SizedBox(
-                width: 224,
-                height: 50,
-                child: TextButton(
-                  onPressed: () async {
-                    final base64Image = voucherImageBase64;
-                    if (base64Image.isEmpty) {
-                      CustomSnackbar.show(
-                        context,
-                        'Debe subir una imagen de la constancia de transferencia',
-                        'error',
-                      );
-                      return;
-                    }
+              Center(
+                child: SizedBox(
+                  width: 224,
+                  height: 50,
+                  child: TextButton(
+                    onPressed: () async {
+                      final base64Image = voucherImageBase64;
+                      if (base64Image.isEmpty) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debe subir una imagen de la constancia de transferencia',
+                          'error',
+                        );
+                        return;
+                      }
 
-                    if (ref.watch(userAcceptedTermsProvider) == false) {
-                      CustomSnackbar.show(
-                        context,
-                        'Debe aceptar y leer el contrato',
-                        'error',
+                      if (ref.watch(userAcceptedTermsProvider) == false) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debe aceptar y leer el contrato',
+                          'error',
+                        );
+                        return;
+                      }
+                      if (senderBankAccountState.value == null || receiverBankAccountState.value == null) {
+                        CustomSnackbar.show(
+                          context,
+                          'Debe seleccionar una cuenta bancaria',
+                          'error',
+                        );
+                        return;
+                      }
+                      context.loaderOverlay.show();
+                      final response = await PreInvestmentDataSourceImp().update(
+                        client: ref.watch(gqlClientProvider).value!,
+                        uuid: preInvestmentUUID,
+                        readContract: ref.watch(userAcceptedTermsProvider),
+                        bankAccountReceiverUUID: receiverBankAccountState.value!.id,
+                        bankAccountSenderUUID: senderBankAccountState.value!.id,
+                        files: base64Image,
                       );
-                      return;
-                    }
-                    context.loaderOverlay.show();
-                    final response = await PreInvestmentDataSourceImp().update(
-                      client: ref.watch(gqlClientProvider).value!,
-                      // uuid: preInvestment.uuid,
-                      uuid: "123123123",
-                      readContract: ref.watch(userAcceptedTermsProvider),
-                      files: base64Image,
-                    );
-                    if (response.success == false) {
-                      context.loaderOverlay.hide();
-                      CustomSnackbar.show(
-                        context,
-                        response.error ?? 'Hubo un problema al guardar',
-                        'error',
-                      );
-                    } else {
-                      final isSoles = ref.watch(isSolesStateProvider);
-                      final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
-                      // showBankAccountSetBankMutationModal(context, ref, currency, false, "", preInvestment.uuid);
-                      showBankAccountSetBankMutationModal(context, ref, currency, false, "", "123123123");
-                    }
-                  },
-                  style: ButtonStyle(
-                    elevation: WidgetStateProperty.all<double>(2),
-                    shadowColor: WidgetStateProperty.all<Color>(Colors.grey),
-                  ),
-                  child: const Text(
-                    'Finalizar mi proceso',
+                      if (response.success == false) {
+                        context.loaderOverlay.hide();
+                        CustomSnackbar.show(
+                          context,
+                          response.error ?? 'Hubo un problema al guardar',
+                          'error',
+                        );
+                      } else {
+                        context.loaderOverlay.hide();
+                        showThanksForInvestingModal(context, () {
+                          Navigator.pushReplacementNamed(context, '/business_investment');
+                        });
+                      }
+                    },
+                    style: ButtonStyle(
+                      elevation: WidgetStateProperty.all<double>(2),
+                      shadowColor: WidgetStateProperty.all<Color>(Colors.grey),
+                    ),
+                    child: const Text(
+                      'Finalizar mi proceso',
+                    ),
                   ),
                 ),
               ),

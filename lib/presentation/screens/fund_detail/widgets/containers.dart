@@ -6,16 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class RealStateContainer extends ConsumerWidget {
+  final num minAmount;
   const RealStateContainer({
     super.key,
+    required this.minAmount,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
-    const int numberInSoles = 1000;
-    const int numberInUSD = 1500;
+    // const int numberInSoles = 1000;
+    // const int numberInUSD = 1500;
     const String titleText = "Puedes comenzar a Invertir desde";
     return Container(
       width: 336,
@@ -40,7 +42,7 @@ class RealStateContainer extends ConsumerWidget {
               child: TweenAnimationBuilder(
                 tween: IntTween(
                   begin: 0,
-                  end: isSoles ? numberInSoles : numberInUSD,
+                  end: minAmount.toInt(),
                 ),
                 duration: const Duration(seconds: 1),
                 builder: (BuildContext context, int value, Widget? child) {
@@ -63,16 +65,26 @@ class RealStateContainer extends ConsumerWidget {
 }
 
 class BlueGoldContainer extends ConsumerWidget {
+  final String amount;
   const BlueGoldContainer({
     super.key,
+    required this.amount,
   });
+
+  int parseCurrencyToInt(String currencyString) {
+    final cleanedString = currencyString.replaceAll(RegExp(r'[^\d.]'), '');
+
+    double value = double.parse(cleanedString);
+
+    return value.toInt();
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
-    const int numberInSoles = 42600;
-    const int numberInUSD = 20000;
+    int numberInSoles = parseCurrencyToInt(amount);
+    const int numberInUSD = 0;
     const String titleText = "Montos de inversión";
     const String bodyText = "Desde";
 

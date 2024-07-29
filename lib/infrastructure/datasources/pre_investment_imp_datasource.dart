@@ -1,12 +1,10 @@
-import 'package:finniu/domain/datasources/pre_investment_datasource.dart';
 import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/graphql/mutations.dart';
 import 'package:finniu/infrastructure/models/pre_investment_response.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
-  @override
+class PreInvestmentDataSourceImp {
   Future<PreInvestmentResponseAPI> save({
     required GraphQLClient client,
     required int amount,
@@ -55,27 +53,31 @@ class PreInvestmentDataSourceImp extends PreInvestmentDataSource {
     );
   }
 
-  @override
   Future<PreInvestmentUpdateResponseAPI> update({
     required GraphQLClient client,
     required String uuid,
     required bool readContract,
+    String? bankAccountSenderUUID,
+    String? bankAccountReceiverUUID,
     required List<String> files,
   }) async {
+    final vars = {
+      'uuid': uuid,
+      'readContract': readContract,
+      'files': files,
+      'bankAccountSenderUUID': bankAccountSenderUUID,
+      'bankAccountReceiverUUID': bankAccountReceiverUUID,
+    };
     try {
       final response = await client.mutate(
         MutationOptions(
           document: gql(
             MutationRepository.updatePreInvestment(),
           ),
-          variables: {
-            'uuid': uuid,
-            'readContract': readContract,
-            'files': files,
-          },
+          variables: vars,
         ),
       );
-      // return response.data?['updatePreinvestment']['success'];
+
       return PreInvestmentUpdateResponseAPI(
         success: response.data?['updatePreinvestment']['success'],
         error: response.data?['updatePreinvestment']['messages']?[0]['message'],

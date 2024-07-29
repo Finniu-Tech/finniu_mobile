@@ -13,24 +13,28 @@ class ValidationModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: ElevatedButton(
-        onPressed: () => showValidationModal(context),
+        onPressed: () => showValidationModal(context, () {}),
         child: const Text('showValidationModal'),
       ),
     );
   }
 }
 
-Future<dynamic> showValidationModal(BuildContext context) {
+Future<dynamic> showValidationModal(BuildContext context, VoidCallback onPressed) {
   return showDialog(
     barrierDismissible: false,
     context: context,
-    builder: (context) => const ValidationDialog(),
+    builder: (context) => ValidationDialog(
+      onPressed: onPressed,
+    ),
   );
 }
 
 class ValidationDialog extends ConsumerWidget {
+  final VoidCallback onPressed;
   const ValidationDialog({
     super.key,
+    required this.onPressed,
   });
   final String titleText = "Validación de tu";
   final String secondTitleText = "inversión";
@@ -43,10 +47,43 @@ class ValidationDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    void onPressed() {
-      Navigator.pop(context);
-    }
 
+    return ModalBody(
+        titleText: titleText,
+        isDarkMode: isDarkMode,
+        secondTitleText: secondTitleText,
+        textBody: textBody,
+        textTanks: textTanks,
+        anyResponse: anyResponse,
+        onPressed: onPressed,
+        textButton: textButton);
+  }
+}
+
+class ModalBody extends StatelessWidget {
+  const ModalBody({
+    super.key,
+    required this.titleText,
+    required this.isDarkMode,
+    required this.secondTitleText,
+    required this.textBody,
+    required this.textTanks,
+    required this.anyResponse,
+    required this.onPressed,
+    required this.textButton,
+  });
+
+  final String titleText;
+  final bool isDarkMode;
+  final String secondTitleText;
+  final String textBody;
+  final String textTanks;
+  final String anyResponse;
+  final VoidCallback onPressed;
+  final String textButton;
+
+  @override
+  Widget build(BuildContext context) {
     return Dialog(
       insetPadding: const EdgeInsets.all(20),
       child: Container(
@@ -84,9 +121,7 @@ class ValidationDialog extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: isDarkMode
-                              ? const Color(labelTextDarkColor)
-                              : const Color(labelTextLightColor),
+                          color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                         ),
                       ),
                       Row(
@@ -97,9 +132,7 @@ class ValidationDialog extends ConsumerWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: isDarkMode
-                                  ? const Color(labelTextDarkColor)
-                                  : const Color(labelTextLightColor),
+                              color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                             ),
                           ),
                           const SizedBox(
@@ -132,9 +165,7 @@ class ValidationDialog extends ConsumerWidget {
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Poppins",
-                          color: isDarkMode
-                              ? const Color(labelTextDarkColor)
-                              : const Color(labelTextLightColor),
+                          color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                         ),
                         maxLines: 1,
                         textAlign: TextAlign.start,

@@ -3,24 +3,22 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
-import 'package:finniu/domain/entities/dead_line.dart';
-import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/infrastructure/models/calculate_investment.dart';
+import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
-import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
+import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
-import 'package:finniu/presentation/providers/pre_investment_provider.dart';
-import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
-import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
-import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -29,11 +27,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import '../../../infrastructure/models/calculate_investment.dart';
 
-class InvestmentProcessStep1Screen extends HookConsumerWidget {
+class InvestmentProcessStep1Screen extends ConsumerWidget {
+  final FundEntity fund;
   const InvestmentProcessStep1Screen({
     super.key,
+    required this.fund,
   });
 
   @override
@@ -43,17 +42,24 @@ class InvestmentProcessStep1Screen extends HookConsumerWidget {
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
         isDarkMode: currentTheme.isDarkMode,
-        backgroundColor:
-            currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(scaffoldSkyBlueBackground),
-        body: const Step1Body(),
+        backgroundColor: currentTheme.isDarkMode
+            ? Color(
+                fund.getHexDetailColorDark(),
+              )
+            : Color(fund.getHexDetailColorLight()),
+        body: Step1Body(fund: fund, isDarkMode: currentTheme.isDarkMode),
       ),
     );
   }
 }
 
 class Step1Body extends HookConsumerWidget {
+  final FundEntity fund;
+  final bool isDarkMode;
   const Step1Body({
     super.key,
+    required this.fund,
+    required this.isDarkMode,
   });
 
   @override
@@ -62,7 +68,7 @@ class Step1Body extends HookConsumerWidget {
     final amountController = useTextEditingController();
     final couponController = useTextEditingController();
     final deadLineController = useTextEditingController();
-    final bankController = useTextEditingController();
+    // final bankController = useTextEditingController();
     final originFundsController = useTextEditingController();
     final otherFundOriginController = useTextEditingController();
 
@@ -79,18 +85,20 @@ class Step1Body extends HookConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const HeaderWidget(
-                  containerColor: primaryLight,
+                HeaderWidget(
+                  containerColor:
+                      isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
                   textColor: aboutTextBusinessColor,
-                  iconColor: primaryLight,
-                  urlIcon: 'assets/investment/business_loans_investment_icon.png',
+                  iconColor:
+                      isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+                  urlIcon: fund.iconUrl!,
                   labelText: 'Acerca de',
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const Text(
-                  'Fondo inversiones empresariales',
+                Text(
+                  fund.name,
                   style: TextStyle(color: Color(primaryDark), fontSize: 20, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
@@ -113,9 +121,10 @@ class Step1Body extends HookConsumerWidget {
                   amountController: amountController,
                   couponController: couponController,
                   deadLineController: deadLineController,
-                  bankController: bankController,
+                  // bankController: bankController,
                   originFundsController: originFundsController,
                   otherFundOriginController: otherFundOriginController,
+                  fund: fund,
                 ),
                 const SizedBox(
                   height: 40,
@@ -133,18 +142,19 @@ class FormStep1 extends StatefulHookConsumerWidget {
   final TextEditingController amountController;
   final TextEditingController couponController;
   final TextEditingController deadLineController;
-  final TextEditingController bankController;
+  // final TextEditingController bankController;
   final TextEditingController originFundsController;
   final TextEditingController otherFundOriginController;
+  final FundEntity fund;
 
-  FormStep1({
+  const FormStep1({
     super.key,
     required this.amountController,
     required this.couponController,
     required this.deadLineController,
-    required this.bankController,
     required this.originFundsController,
     required this.otherFundOriginController,
+    required this.fund,
   });
 
   @override
@@ -159,31 +169,42 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   late double? profitability;
   late bool showInvestmentBoxes = false;
   PlanSimulation? resultCalculator;
-  // late PlanEntity? selectedPlan;
   BankEntity? selectedBank;
   BankAccount? selectedBankAccount;
 
-  Future<void> _updateBankAccount() async {
-    final _selectedBankAccount = ref.read(selectedBankAccountSenderProvider);
-    if (_selectedBankAccount != null) {
-      widget.bankController.text = BankAccount.getSafeBankAccountNumber(
-        _selectedBankAccount.bankAccount,
+  Future<void> _savePreInvestment(BuildContext context, WidgetRef ref, SaveCorporateInvestmentInput input) async {
+    Navigator.pop(context);
+    context.loaderOverlay.show();
+    final response = await ref.read(saveCorporateInvestmentFutureProvider(input).future);
+
+    if (!response.success) {
+      context.loaderOverlay.hide();
+
+      CustomSnackbar.show(
+        context,
+        response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
+        'error',
       );
-      final banks = await ref.read(bankFutureProvider.future);
-      final _selectedBank = BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
-      setState(() {
-        selectedBank = _selectedBank;
-        selectedBankAccount = _selectedBankAccount;
-      });
-    } else {
-      widget.bankController.text = '';
+      return;
     }
+
+    context.loaderOverlay.hide();
+
+    Navigator.pushNamed(
+      context,
+      '/v2/investment/step-2',
+      arguments: {
+        'fund': widget.fund,
+        'preInvestmentUUID': response.preInvestmentUUID,
+        'amount': input.amount,
+      },
+    );
   }
 
-  bool validate() {
+  bool validateForm() {
     if (widget.amountController.text.isEmpty ||
         widget.deadLineController.text.isEmpty ||
-        widget.bankController.text.isEmpty ||
+        // widget.bankController.text.isEmpty ||
         widget.originFundsController.text.isEmpty) {
       CustomSnackbar.show(
         context,
@@ -206,75 +227,32 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     return true;
   }
 
-  Future<void> calculateInvestment(BuildContext context, WidgetRef ref, bool isSoles) async {
-    if (widget.amountController.text.isNotEmpty) {
-      context.loaderOverlay.show();
-      final inputCalculator = CalculatorInput(
-        amount: int.parse(widget.amountController.text),
-        months: int.parse(widget.deadLineController.text.split(' ')[0]),
-        coupon: widget.couponController.text,
-        currency: isSoles ? currencyNuevoSol : currencyDollar,
-      );
-
-      try {
-        resultCalculator = await ref.watch(
-          calculateInvestmentFutureProvider(inputCalculator).future,
-        );
-
-        setState(() {
-          if (resultCalculator?.plan != null) {
-            // selectedPlan = resultCalculator!.plan!;
-            profitability = resultCalculator!.profitability;
-            showInvestmentBoxes = true;
-          }
-        });
-        context.loaderOverlay.hide();
-      } catch (e) {
-        context.loaderOverlay.hide();
-        CustomSnackbar.show(
-          context,
-          'Hubo un problema, intenta nuevamente',
-          'error',
-        );
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(selectedBankAccountSenderProvider.notifier).state = null;
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     ref.read(selectedBankAccountSenderProvider.notifier).state = null;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final debouncer = Debouncer(milliseconds: 3000);
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
 
     final isSoles = ref.watch(isSolesStateProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final userProfile = ref.watch(userProfileNotifierProvider);
 
     useEffect(
       () {
-        // selectedPlan = widget.plan;
         if (userProfile.hasRequiredData() == false) {
           completeProfileDialog(context, ref);
         }
 
-        _updateBankAccount();
-
-        calculateInvestment(context, ref, isSoles);
         return null;
       },
       [userProfile],
     );
-    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
-      _updateBankAccount();
-    });
 
     return Center(
       child: Column(
@@ -295,13 +273,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 }
                 return null;
               },
-              onChanged: (value) {
-                debouncer.run(() {
-                  if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
-                    calculateInvestment(context, ref, isSoles);
-                  }
-                });
-              },
+              onChanged: (value) {},
               decoration: const InputDecoration(
                 hintText: 'Escriba su monto de inversion',
                 hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
@@ -331,77 +303,21 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               },
               callbackOnChange: (value) async {
                 widget.deadLineController.text = value;
-                if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
-                  calculateInvestment(context, ref, isSoles);
-                }
               },
               textEditingController: widget.deadLineController,
               labelText: "Plazo",
               hintText: "Seleccione su plazo de inversión",
-              enabledFillColor: isDarkMode ? Color(scaffoldBlackBackground) : Color(scaffoldSkyBlueBackground),
-            ),
-          ),
-          const SizedBox(height: 20),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            constraints: const BoxConstraints(
-              minWidth: 263,
-              maxWidth: 400,
-              maxHeight: 45,
-              minHeight: 45,
-            ),
-            child: InkWell(
-              onTap: () async {
-                showBankAccountModal(
-                  context,
-                  ref,
-                  currency,
-                  true,
-                  "",
-                );
-              },
-              child: IgnorePointer(
-                child: TextFormField(
-                  controller: widget.bankController,
-                  readOnly: true,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Este dato es requerido';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {},
-                  decoration: InputDecoration(
-                    prefixIcon: widget.bankController.text.isNotEmpty
-                        ? Padding(
-                            padding: const EdgeInsets.only(right: 8.0, left: 20.0),
-                            child: selectedBank != null
-                                ? selectedBank!.logoUrl!.isNotEmpty
-                                    ? Image.network(
-                                        selectedBank?.logoUrl ?? '',
-                                        width: 13,
-                                        height: 13,
-                                        fit: BoxFit.contain,
-                                      )
-                                    : const Icon(
-                                        Icons.account_balance,
-                                        color: Colors.grey,
-                                        size: 13,
-                                      )
-                                : null,
-                          )
-                        : null,
-                    hintText: 'Número de cuenta',
-                    hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
-                    border: const OutlineInputBorder(
-                      borderRadius: BorderRadius.zero,
+              // enabledFillColor: isDarkMode ? Color(scaffoldBlackBackground) : Color(scaffoldSkyBlueBackground),
+              enabledFillColor:
+                  isDarkMode ? Color(widget.fund.getHexDetailColorDark()) : Color(widget.fund.getHexDetailColorLight()),
+              unselectedItemColor: isDarkMode
+                  ? Color(widget.fund.getHexDetailColorSecondaryDark())
+                  : Color(widget.fund.getHexDetailColorSecondaryLight()),
+              dropdownBackgroundColor: isDarkMode
+                  ? Color(widget.fund.getHexDetailColorDark())
+                  : Color(
+                      widget.fund.getHexDetailColorLight(),
                     ),
-                    label: const Text(
-                      "Desde qué banco realizas la transferencia",
-                    ),
-                  ),
-                ),
-              ),
             ),
           ),
           const SizedBox(height: 20),
@@ -414,7 +330,6 @@ class _FormStep1State extends ConsumerState<FormStep1> {
             ),
             child: CustomSelectButton(
               asyncItems: (String filter) async {
-                // return OriginFoundsEnum.values.map((e) => OriginFoundsUtil.toReadableName(e)).toList();
                 return OriginFoundsUtil.getReadableNames();
               },
               callbackOnChange: (value) async {
@@ -426,9 +341,18 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 });
               },
               textEditingController: widget.originFundsController,
-              enabledFillColor: isDarkMode ? Color(scaffoldBlackBackground) : Color(scaffoldSkyBlueBackground),
               labelText: "Origen de procedencia del dinero",
               hintText: "Seleccione el origen",
+              enabledFillColor:
+                  isDarkMode ? Color(widget.fund.getHexDetailColorDark()) : Color(widget.fund.getHexDetailColorLight()),
+              unselectedItemColor: isDarkMode
+                  ? Color(widget.fund.getHexDetailColorSecondaryDark())
+                  : Color(widget.fund.getHexDetailColorSecondaryLight()),
+              dropdownBackgroundColor: isDarkMode
+                  ? Color(widget.fund.getHexDetailColorDark())
+                  : Color(
+                      widget.fund.getHexDetailColorLight(),
+                    ),
             ),
           ),
           if (widget.originFundsController.text == 'Otros') ...[
@@ -688,63 +612,35 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   completeProfileDialog(context, ref);
                   return;
                 }
-                if (validate() == false) {
+                if (validateForm() == false) {
                   return;
                 }
-
-                final deadLineUuid = DeadLineEntity.getUuidByName(
-                  widget.deadLineController.text,
-                  await deadLineFuture,
+                investmentSimulationModal(
+                  context,
+                  startingAmount: int.parse(widget.amountController.text),
+                  finalAmount: int.parse(widget.amountController.text),
+                  mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
+                  toInvestPressed: () {
+                    _savePreInvestment(
+                      context,
+                      ref,
+                      SaveCorporateInvestmentInput(
+                        amount: widget.amountController.text,
+                        months: widget.deadLineController.text.split(' ')[0],
+                        coupon: widget.couponController.text,
+                        currency: isSoles ? currencyNuevoSol : currencyDollar,
+                        originFunds: OriginFunds(
+                          originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
+                          otherText: widget.otherFundOriginController.text,
+                        ),
+                        fundUUID: widget.fund.uuid,
+                      ),
+                    );
+                  },
+                  recalculatePressed: () {
+                    Navigator.pop(context);
+                  },
                 );
-
-                final originFund = widget.originFundsController.text;
-
-                final preInvestment = PreInvestmentForm(
-                  amount: int.parse(widget.amountController.text),
-                  deadLineUuid: deadLineUuid,
-                  coupon: widget.couponController.text,
-                  // planUuid: widget.plan.uuid,
-                  planUuid: 'test',
-                  currency: isSoles ? currencyNuevoSol : currencyDollar,
-                  bankAccountNumber: selectedBankAccount!.id,
-                  originFunds: OriginFunds(
-                    originFundsEnum: OriginFoundsUtil.fromReadableName(originFund),
-                    otherText: widget.otherFundOriginController.text,
-                  )
-                  // bankAccountNumber: widget.bankNumberController.text,
-                  ,
-                );
-                context.loaderOverlay.show();
-                final preInvestmentEntityResponse = await ref.watch(preInvestmentSaveProvider(preInvestment).future);
-
-                if (preInvestmentEntityResponse?.success == false) {
-                  context.loaderOverlay.hide();
-                  // CHECK HERE
-                  CustomSnackbar.show(
-                    context,
-                    preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
-                    'error',
-                  );
-                  return;
-                } else {
-                  context.loaderOverlay.hide();
-                  ref
-                      .read(
-                        preInvestmentVoucherImagesPreviewProvider.notifier,
-                      )
-                      .state = [];
-                  ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
-                  Navigator.pushNamed(context, '/v2/investment/step-2');
-                  // Navigator.pushNamed(
-                  //     context,
-                  //     '/investment_step2',
-                  //     arguments: PreInvestmentStep2Arguments(
-                  //       plan: selectedPlan!,
-                  //       preInvestment: preInvestmentEntityResponse!.preInvestment!,
-                  //       resultCalculator: resultCalculator!,
-                  //     ),
-                  //   );
-                }
               },
               child: const Text(
                 'Continuar',

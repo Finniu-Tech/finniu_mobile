@@ -172,7 +172,8 @@ class BackgroundImage extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(urlImageBackground),
+          // image: AssetImage(urlImageBackground),
+          image: NetworkImage(urlImageBackground),
           fit: BoxFit.fill,
         ),
       ),
