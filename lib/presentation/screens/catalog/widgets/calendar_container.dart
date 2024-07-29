@@ -35,6 +35,7 @@ class CalendarBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    List<DateTime> markedDays = [];
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int calendarDark = 0xff1E1E1E;
     const int calendarLight = 0xffEEFBFF;
@@ -156,6 +157,88 @@ class CalendarBody extends ConsumerWidget {
         },
         dayCrossAxisAlignment: CrossAxisAlignment.center,
         dayMainAxisAlignment: MainAxisAlignment.center,
+        dayButtonColor: Colors.transparent,
+        customDayBuilder: (
+          bool isSelectable,
+          int index,
+          bool isSelectedDay,
+          bool isToday,
+          bool isPrevMonthDay,
+          TextStyle textStyle,
+          bool isNextMonthDay,
+          bool isThisMonthDay,
+          DateTime day,
+        ) {
+          final isMarkedDay = markedDays.contains(day);
+          Color backgroundColor = Color(
+            isDarkMode ? (calendarDark) : (calendarLight),
+          );
+          Color borderColor = isThisMonthDay && !isSelectable
+              ? Color(isDarkMode ? borderColorDark : borderColorLight)
+              : Color(
+                  isDarkMode ? calendarDark : calendarLight,
+                );
+          if (isThisMonthDay &&
+              !isSelectable &&
+              !isSelectedDay &&
+              !isPrevMonthDay &&
+              !isNextMonthDay) {
+            borderColor =
+                Color(isDarkMode ? borderColorDark : borderColorLight);
+          }
+          if (!isThisMonthDay) {
+            borderColor = Colors
+                .transparent; // establece el color del borde en transparente para los días que no son del mes actual
+          }
+          if (isSelectedDay) {
+            backgroundColor = Color(
+              (isDarkMode ? (calendarLight) : (calendarDark)),
+            );
+            // borderColor = Colors.transparent;
+          }
+          if (isMarkedDay) {
+            backgroundColor = Color(
+              (isDarkMode ? (calendarDark) : (calendarLight)),
+            );
+            borderColor = Colors.black;
+            textStyle = const TextStyle(
+              color: Colors.white,
+              fontSize: 11.0,
+              fontWeight: FontWeight.bold,
+            );
+          }
+
+          if (!isThisMonthDay) {
+            textStyle = TextStyle(
+              color: isDarkMode
+                  ? const Color(textNotMonthDark)
+                  : const Color(textNotMonthLight),
+              fontSize: 11.0,
+              fontWeight: FontWeight.bold,
+            );
+          }
+
+          return Center(
+            child: Container(
+              width: 40,
+              // height: 35,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: backgroundColor,
+                border: Border.all(
+                  color: borderColor,
+                  width: 1,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  '${day.day}',
+                  style: textStyle,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

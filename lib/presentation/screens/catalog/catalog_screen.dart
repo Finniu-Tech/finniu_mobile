@@ -13,6 +13,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/v2_calendar.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
@@ -40,6 +41,12 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "go calendar",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/calendar');
+              },
+            ),
             const CalendarContainer(),
             const SizedBox(
               height: 10,
