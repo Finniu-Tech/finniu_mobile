@@ -27,7 +27,7 @@ class CarouselBlueGold extends StatelessWidget {
     return Container(
       height: 240,
       color: Colors.transparent,
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 15),
       child: CarouselSlider(
         items: items,
         options: CarouselOptions(
