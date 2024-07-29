@@ -21,6 +21,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/circular_loader.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -41,6 +42,10 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const CircularLoader(
+              width: 10,
+              height: 10,
+            ),
             ButtonInvestment(
               text: "go to businnes investment",
               onPressed: () {
@@ -68,7 +73,8 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context,
+                    urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),
@@ -185,7 +191,8 @@ class CatalogScreen extends HookConsumerWidget {
               iconColor: aboutIconBusinessColor,
               textColor: aboutTextBusinessColor,
               urlIcon: 'assets/investment/business_loans_investment_icon.png',
-              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
+              urlImageBackground:
+                  'assets/backgroud/image-inmobiliaria-backgroud.png',
               textTitle: 'Fondo prestamos empresariales',
             ),
             const SizedBox(height: 10),
