@@ -1,8 +1,8 @@
-import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/calendar_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/completed_progress_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_gold.dart';
@@ -14,7 +14,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investme
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
-import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -41,6 +40,10 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const CalendarContainer(),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "go to businnes investment",
               onPressed: () {
@@ -68,7 +71,8 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context,
+                    urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),
@@ -180,23 +184,9 @@ class CatalogScreen extends HookConsumerWidget {
             // ),
             // const SizedBox(height: 70),
             const GraphicContainer(),
-            const HeaderInvestment(
-              containerColor: aboutContainerBusinessColor,
-              iconColor: aboutIconBusinessColor,
-              textColor: aboutTextBusinessColor,
-              urlIcon: 'assets/investment/business_loans_investment_icon.png',
-              urlImageBackground: 'assets/backgroud/image-inmobiliaria-backgroud.png',
-              textTitle: 'Fondo prestamos empresariales',
-            ),
+
             const SizedBox(height: 10),
-            const HeaderInvestment(
-              containerColor: aboutContainerAgroColor,
-              iconColor: aboutIconAgroColor,
-              textColor: aboutTextAgroColor,
-              urlIcon: 'assets/investment/real_estate_agro_icon.png',
-              urlImageBackground: 'assets/backgroud/backgroud_agro.png',
-              textTitle: 'Fondo inversión agro inmobiliaria',
-            ),
+
             const SizedBox(height: 10),
             const NonInvestmentContainer(),
           ],
