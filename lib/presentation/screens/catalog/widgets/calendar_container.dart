@@ -54,104 +54,109 @@ class CalendarBody extends ConsumerWidget {
         color:
             isDarkMode ? const Color(calendarDark) : const Color(calendarLight),
       ),
-      width: 289,
+      width: 270,
       height: 280.0,
       child: CalendarCarousel(
-          width: 289,
-          height: 289,
-          daysHaveCircularBorder: true,
-          headerMargin: const EdgeInsets.symmetric(vertical: 1.0),
-          locale: 'es',
-          dayPadding: 4,
-          // selected month border, previous , next and today
-          thisMonthDayBorderColor: isDarkMode
-              ? const Color(borderColorDark)
-              : const Color(borderColorLight),
-          prevMonthDayBorderColor: isDarkMode
-              ? const Color(borderColorDark)
-              : const Color(borderColorLight),
-          nextMonthDayBorderColor: isDarkMode
-              ? const Color(borderColorDark)
-              : const Color(borderColorLight),
-          todayBorderColor: isDarkMode
-              ? const Color(borderColorDark)
-              : const Color(borderColorLight),
-          //------------------------------------------------
-          // text style month,( today , day , weekend , prev , next )
-          todayTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
-            fontSize: 11.0,
-            fontWeight: FontWeight.bold,
-          ),
-          daysTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-          ),
-          weekendTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-          ),
-          prevDaysTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textNotMonthDark)
-                : const Color(textNotMonthLight),
-            fontSize: 11,
-            fontWeight: FontWeight.bold,
-          ),
-          nextDaysTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textNotMonthDark)
-                : const Color(textNotMonthLight),
-            fontSize: 11.0,
-            fontWeight: FontWeight.bold,
-          ),
-          //---------------------------------------------------
-          // style button today
-          todayButtonColor: Colors.transparent,
-          //---------------------------------------------------
-          //days of week style
-          weekdayTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
-            fontSize: 11.0,
-            fontWeight: FontWeight.bold,
-          ),
-
-          //---------------------------------------------------
-          // icons style navigation
-          iconColor: isDarkMode
+        width: 289,
+        height: 289,
+        daysHaveCircularBorder: true,
+        headerMargin: const EdgeInsets.symmetric(vertical: 1.0),
+        locale: 'es',
+        dayPadding: 4,
+        // selected month border, previous , next and today
+        thisMonthDayBorderColor: isDarkMode
+            ? const Color(borderColorDark)
+            : const Color(borderColorLight),
+        prevMonthDayBorderColor: isDarkMode
+            ? const Color(borderColorDark)
+            : const Color(borderColorLight),
+        nextMonthDayBorderColor: isDarkMode
+            ? const Color(borderColorDark)
+            : const Color(borderColorLight),
+        todayBorderColor: isDarkMode
+            ? const Color(borderColorDark)
+            : const Color(borderColorLight),
+        //------------------------------------------------
+        // text style month,( today , day , weekend , prev , next )
+        todayTextStyle: TextStyle(
+          color: isDarkMode
               ? const Color(textColorDark)
               : const Color(textColorLight),
+          fontSize: 11.0,
+          fontWeight: FontWeight.bold,
+        ),
+        daysTextStyle: TextStyle(
+          color: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+        ),
+        weekendTextStyle: TextStyle(
+          color: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+        ),
+        prevDaysTextStyle: TextStyle(
+          color: isDarkMode
+              ? const Color(textNotMonthDark)
+              : const Color(textNotMonthLight),
+          fontSize: 11,
+          fontWeight: FontWeight.bold,
+        ),
+        nextDaysTextStyle: TextStyle(
+          color: isDarkMode
+              ? const Color(textNotMonthDark)
+              : const Color(textNotMonthLight),
+          fontSize: 11.0,
+          fontWeight: FontWeight.bold,
+        ),
+        //---------------------------------------------------
+        // style button today
+        todayButtonColor: Colors.transparent,
+        //---------------------------------------------------
+        //days of week style
+        weekdayTextStyle: TextStyle(
+          color: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
+          fontSize: 11.0,
+          fontWeight: FontWeight.bold,
+        ),
 
-          //---------------------------------------------------
-          // header text
-          headerTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
-            fontSize: 16.0,
-            fontWeight: FontWeight.bold,
-          ),
-          headerText: "jills"
-          //---------------------------------------------------
-          //onCalendarChanged: _handlePageChange,
+        //---------------------------------------------------
+        // icons style navigation
+        iconColor: isDarkMode
+            ? const Color(textColorDark)
+            : const Color(textColorLight),
 
-          //selectedDateTime: widget.selectedDay,
-
-          // headerText: _selectedMonth,
-          // onDayPressed: (DateTime date, List events) {
-          //   setState(() => selectedDay = date);
-          // },
-          ),
+        //---------------------------------------------------
+        // header text
+        headerTextStyle: TextStyle(
+          color: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
+          fontSize: 16.0,
+          fontWeight: FontWeight.bold,
+        ),
+        //---------------------------------------------------
+        customWeekDayBuilder: (weekday, weekdayName) {
+          return Text(
+            weekdayName[0].toUpperCase(),
+            style: TextStyle(
+              color: isDarkMode
+                  ? const Color(textColorDark)
+                  : const Color(textColorLight),
+              fontSize: 11.0,
+              fontWeight: FontWeight.bold,
+            ),
+          );
+        },
+        dayCrossAxisAlignment: CrossAxisAlignment.center,
+        dayMainAxisAlignment: MainAxisAlignment.center,
+      ),
     );
   }
 }
