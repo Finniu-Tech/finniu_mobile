@@ -12,8 +12,9 @@ class RowScheduleLogbook extends StatelessWidget {
     print('Cronograma');
   }
 
-  void logbookButton() {
+  void logbookButton(BuildContext context) {
     print('Bitácora');
+    Navigator.pushNamed(context, "/v2/binnacle");
   }
 
   @override
@@ -35,7 +36,7 @@ class RowScheduleLogbook extends StatelessWidget {
         ),
         Expanded(
           child: RowImageItem(
-            onPressed: logbookButton,
+            onPressed: () => logbookButton(context),
             text: 'Bitácora',
             image: "logbook_icon",
           ),

@@ -7,6 +7,7 @@ class AppBarBusinessScreen extends ConsumerWidget
   const AppBarBusinessScreen({
     super.key,
   });
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
