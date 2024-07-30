@@ -4,13 +4,14 @@ import 'package:finniu/presentation/screens/business_investments/widgets/app_bar
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/new_simulator/helpers/pdf_launcher.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/error_modal.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/modal/error_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/loader_container.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_transfer.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_bank_deposit.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/modal/show_table_pay.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/title_simulator.dart';
 import 'package:flutter/material.dart';
@@ -144,10 +145,10 @@ class SeeInterestPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ButtonsSimulator(
+    return ButtonsSimulator(
       text: 'Ver tabla de los pagos de intereses',
       icon: "square_half.svg",
-      onPressed: null,
+      onPressed: () => showTablePay(context),
     );
   }
 }
