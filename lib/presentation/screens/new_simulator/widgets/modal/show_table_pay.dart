@@ -1,3 +1,5 @@
+import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/buttons_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -35,7 +37,7 @@ class ProfitabilityTable extends ConsumerWidget {
           color: isDarkMode
               ? const Color(backgroundDark)
               : const Color(backgroundLight),
-          borderRadius: const BorderRadius.all(Radius.circular(20)),
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: Stack(
           children: [
@@ -62,12 +64,144 @@ class ProfitabilityTable extends ConsumerWidget {
                     height: 20,
                   ),
                   TitleData(),
+                  ProfitabilityList()
                 ],
               ),
             ),
             const CloseButtonModal(),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ProfitabilityList extends ConsumerWidget {
+  const ProfitabilityList({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
+    const int borderColorDark = 0xffD0D0D0;
+    const int borderColorLight = 0xffD0D0D0;
+    List<Map<String, int>> list = [
+      {
+        "Enero": 50,
+      },
+      {
+        "Febrero": 50,
+      },
+      {
+        "Marzo": 50,
+      },
+      {
+        "Abril": 50,
+      },
+      {
+        "Mayo": 50,
+      },
+      {
+        "Enero": 50,
+      },
+      {
+        "Febrero": 50,
+      },
+      {
+        "Marzo": 50,
+      },
+      {
+        "Abril": 50,
+      },
+      {
+        "Mayo": 50,
+      },
+      {
+        "Enero": 50,
+      },
+      {
+        "Febrero": 50,
+      },
+      {
+        "Marzo": 50,
+      },
+      {
+        "Abril": 50,
+      },
+      {
+        "Mayo": 50,
+      },
+    ];
+
+    return SizedBox(
+      width: 277,
+      height: 300,
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return Container(
+            width: 277,
+            height: 38,
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 1,
+                color: isDarkMode
+                    ? const Color(borderColorDark)
+                    : const Color(borderColorLight),
+              ),
+              borderRadius: index == list.length - 1
+                  ? const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    )
+                  : BorderRadius.zero,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 100,
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      TextPoppins(
+                        text: list[index].keys.first,
+                        fontSize: 16,
+                      ),
+                    ],
+                  ),
+                ),
+                VerticalDivider(
+                  thickness: 1,
+                  color: isDarkMode
+                      ? const Color(borderColorDark)
+                      : const Color(borderColorLight),
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      TextPoppins(
+                        text: isSoles
+                            ? formatterSoles.format(list[index].values.first)
+                            : formatterUSD.format(list[index].values.first),
+                        fontSize: 16,
+                        isBold: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -102,34 +236,40 @@ class TitleData extends ConsumerWidget {
               : const Color(borderColorLight),
         ),
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
         ),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Icon(
-                Icons.calendar_today_outlined,
-                size: 15,
-                color: isDarkMode
-                    ? const Color(titleTableDark)
-                    : const Color(titleTableLight),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              const TextPoppins(
-                text: "Mes",
-                fontSize: 16,
-                isBold: true,
-                textDark: titleTableDark,
-                textLight: titleTableLight,
-              ),
-            ],
+          SizedBox(
+            width: 100,
+            child: Row(
+              children: [
+                const SizedBox(
+                  width: 20,
+                ),
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: 15,
+                  color: isDarkMode
+                      ? const Color(titleTableDark)
+                      : const Color(titleTableLight),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                const TextPoppins(
+                  text: "Mes",
+                  fontSize: 16,
+                  isBold: true,
+                  textDark: titleTableDark,
+                  textLight: titleTableLight,
+                ),
+              ],
+            ),
           ),
           VerticalDivider(
             thickness: 1,
@@ -138,7 +278,12 @@ class TitleData extends ConsumerWidget {
                 : const Color(borderColorLight),
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              const SizedBox(
+                width: 20,
+              ),
               SvgPicture.asset(
                 'assets/svg_icons/status_up_two.svg',
                 width: 17,
