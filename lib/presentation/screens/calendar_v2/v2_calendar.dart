@@ -1,6 +1,8 @@
 import 'package:finniu/presentation/providers/important_days_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
+import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_calendar_carousel/flutter_calendar_carousel.dart';
@@ -47,7 +49,9 @@ class CalendarState extends ConsumerState<CalendarV2> {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return Scaffold(
-      appBar: const AppBarBusinessScreen(),
+      appBar: const AppBarBusinessScreen(
+        title: "Mi calendario de pagos",
+      ),
       bottomNavigationBar: const NavigationBarHome(),
       body: SingleChildScrollView(
         child: HookBuilder(
@@ -56,11 +60,29 @@ class CalendarState extends ConsumerState<CalendarV2> {
 
             return importantDays.when(
               data: (data) {
-                return CalendarBody(
-                  isDarkMode: isDarkMode,
-                  currentDay: _currentDate,
-                  selectedDay: _selectedDate,
-                  importantDays: data,
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Center(
+                        child: CalendarBody(
+                          isDarkMode: isDarkMode,
+                          currentDay: _currentDate,
+                          selectedDay: _selectedDate,
+                          importantDays: data,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const TextPoppins(
+                        text: "Historial de inversiones",
+                        fontSize: 16,
+                        isBold: true,
+                      ),
+                      const SizedBox(height: 10),
+                      const TabBarBusiness(),
+                    ],
+                  ),
                 );
               },
               loading: () => const Center(
@@ -151,8 +173,8 @@ class CalendarBodyState extends State<CalendarBody> {
     return Center(
       child: Container(
         constraints: const BoxConstraints(
-          maxWidth: 330,
-          maxHeight: 350,
+          maxWidth: 289,
+          maxHeight: 280,
         ),
         padding: const EdgeInsets.all(10.0),
         width: MediaQuery.of(context).size.width * 0.90,
