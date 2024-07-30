@@ -1,26 +1,83 @@
 import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/buttons_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/new_simulator/helpers/month_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showTablePay(BuildContext context) {
+void showTablePay(
+  BuildContext context, {
+  required List<ProfitabilityItem> list,
+}) {
   showDialog(
     context: context,
     builder: (context) {
-      return const ProfitabilityTable();
+      if (list.isEmpty) return const NotProfitability();
+      return ProfitabilityTable(
+        list: list,
+      );
     },
   );
+}
+
+class NotProfitability extends ConsumerWidget {
+  const NotProfitability({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff1A1A1A;
+    const int backgroundLight = 0xffFFFFFF;
+    const int titleDark = 0xffA2E6FA;
+    const int titleLight = 0xff0D3A5C;
+    return Dialog(
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
+        ),
+        width: 300,
+        height: 150,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const TextPoppins(
+              text: "Rentabilidad no disponible",
+              fontSize: 16,
+              isBold: true,
+              textDark: titleDark,
+              textLight: titleLight,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ButtonInvestment(
+                text: "Precione para volver",
+                onPressed: () => Navigator.pop(context),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class ProfitabilityTable extends ConsumerWidget {
   const ProfitabilityTable({
     super.key,
+    required this.list,
   });
-
+  final List<ProfitabilityItem> list;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -46,25 +103,25 @@ class ProfitabilityTable extends ConsumerWidget {
               backgroundColor: isDarkMode
                   ? const Color(backgroundDark)
                   : const Color(backgroundLight),
-              child: const Column(
+              child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  TextPoppins(
+                  const TextPoppins(
                     text: "Tabla de mis rentabilidades ",
                     fontSize: 16,
                     isBold: true,
                     textDark: titleDark,
                     textLight: titleLight,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
-                  TitleData(),
-                  ProfitabilityList()
+                  const TitleData(),
+                  ProfitabilityList(list: list),
                 ],
               ),
             ),
@@ -79,61 +136,15 @@ class ProfitabilityTable extends ConsumerWidget {
 class ProfitabilityList extends ConsumerWidget {
   const ProfitabilityList({
     super.key,
+    required this.list,
   });
-
+  final List<ProfitabilityItem> list;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     const int borderColorDark = 0xffD0D0D0;
     const int borderColorLight = 0xffD0D0D0;
-    List<Map<String, int>> list = [
-      {
-        "Enero": 50,
-      },
-      {
-        "Febrero": 50,
-      },
-      {
-        "Marzo": 50,
-      },
-      {
-        "Abril": 50,
-      },
-      {
-        "Mayo": 50,
-      },
-      {
-        "Enero": 50,
-      },
-      {
-        "Febrero": 50,
-      },
-      {
-        "Marzo": 50,
-      },
-      {
-        "Abril": 50,
-      },
-      {
-        "Mayo": 50,
-      },
-      {
-        "Enero": 50,
-      },
-      {
-        "Febrero": 50,
-      },
-      {
-        "Marzo": 50,
-      },
-      {
-        "Abril": 50,
-      },
-      {
-        "Mayo": 50,
-      },
-    ];
 
     return SizedBox(
       width: 277,
@@ -167,10 +178,10 @@ class ProfitabilityList extends ConsumerWidget {
                   child: Row(
                     children: [
                       const SizedBox(
-                        width: 20,
+                        width: 10,
                       ),
                       TextPoppins(
-                        text: list[index].keys.first,
+                        text: monthToString(list[index].paymentDate),
                         fontSize: 16,
                       ),
                     ],
@@ -190,8 +201,8 @@ class ProfitabilityList extends ConsumerWidget {
                       ),
                       TextPoppins(
                         text: isSoles
-                            ? formatterSoles.format(list[index].values.first)
-                            : formatterUSD.format(list[index].values.first),
+                            ? formatterSoles.format(list[index].amount)
+                            : formatterUSD.format(list[index].amount),
                         fontSize: 16,
                         isBold: true,
                       ),
@@ -249,7 +260,7 @@ class TitleData extends ConsumerWidget {
             child: Row(
               children: [
                 const SizedBox(
-                  width: 20,
+                  width: 10,
                 ),
                 Icon(
                   Icons.calendar_today_outlined,

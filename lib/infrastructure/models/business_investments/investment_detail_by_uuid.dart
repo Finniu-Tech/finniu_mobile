@@ -11,6 +11,7 @@ class InvestmentDetailUuid {
   final String? voucher;
   final BankAccount? bankAccountReceiver;
   final BankAccount? bankAccountSender;
+  final List<ProfitabilityItem> profitabilityListMonth;
 
   InvestmentDetailUuid({
     required this.uuid,
@@ -19,6 +20,7 @@ class InvestmentDetailUuid {
     required this.rentabilityAmount,
     required this.rentabilityPercent,
     required this.finishDateInvestment,
+    required this.profitabilityListMonth,
     this.contract,
     this.voucher,
     this.bankAccountReceiver,
@@ -47,6 +49,9 @@ class InvestmentDetailUuid {
       bankAccountSender: json['bankAccountSender'] != null
           ? BankAccount.fromJson(json['bankAccountSender'])
           : null,
+      profitabilityListMonth: (json['paymentRentability'] as List<dynamic>)
+          .map((item) => ProfitabilityItem.fromJson(item))
+          .toList(),
     );
   }
 
@@ -63,8 +68,38 @@ class InvestmentDetailUuid {
   }
 
   static int _parseAmount(String amount) {
-    double parsedDouble = double.parse(amount);
-    int amountParse = parsedDouble.round();
-    return amountParse;
+    try {
+      double parsedDouble = double.parse(amount);
+      int amountParse = parsedDouble.round();
+      return amountParse;
+    } catch (e) {
+      return 0;
+    }
+  }
+}
+
+class ProfitabilityItem {
+  final DateTime paymentDate;
+  final int amount;
+  ProfitabilityItem({
+    required this.paymentDate,
+    required this.amount,
+  });
+
+  factory ProfitabilityItem.fromJson(Map<String, dynamic> json) {
+    return ProfitabilityItem(
+      paymentDate: DateTime.parse(json['paymentDate']),
+      amount: _parseAmount(json['amount']),
+    );
+  }
+
+  static int _parseAmount(String amount) {
+    try {
+      double parsedDouble = double.parse(amount);
+      int amountParse = parsedDouble.round();
+      return amountParse;
+    } catch (e) {
+      return 0;
+    }
   }
 }
