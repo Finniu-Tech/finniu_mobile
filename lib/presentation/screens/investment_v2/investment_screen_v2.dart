@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_investment_screen.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_title_blue_gold.dart';
@@ -6,6 +7,7 @@ import 'package:finniu/presentation/screens/business_investments/widgets/app_bar
 import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PageWidget {
@@ -17,19 +19,28 @@ class PageWidget {
   });
 }
 
-class InvestmentsV2Screen extends StatefulWidget {
+class InvestmentsV2Screen extends StatefulHookConsumerWidget {
   const InvestmentsV2Screen({super.key});
 
   @override
   InvestmentsV2ScreenState createState() => InvestmentsV2ScreenState();
 }
 
-class InvestmentsV2ScreenState extends State<InvestmentsV2Screen> {
+class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
   final PageController pageController = PageController();
   int selectedPage = 0;
 
   @override
   Widget build(BuildContext context) {
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(navigatorStateProvider.notifier).state = 2;
+        });
+        return null;
+      },
+      [],
+    );
     return HookConsumer(
       builder: (context, ref, _) {
         final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -78,9 +89,7 @@ class InvestmentsV2ScreenState extends State<InvestmentsV2Screen> {
         ];
 
         return Scaffold(
-          backgroundColor: isDarkMode
-              ? const Color(columnColorDark)
-              : const Color(columnColorLight),
+          backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
           appBar: const AppBarBusinessScreen(),
           bottomNavigationBar: const NavigationBarHome(
             colorBackground: Colors.transparent,

@@ -1,4 +1,3 @@
-import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
 import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
@@ -120,8 +119,7 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context,
-                    urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),

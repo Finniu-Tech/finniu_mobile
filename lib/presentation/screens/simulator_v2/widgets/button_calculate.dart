@@ -17,7 +17,7 @@ class ButtonCalculate extends ConsumerWidget {
     final amount = ref.watch(amountValueProvider);
     final isSoles = ref.watch(isSolesStateProvider);
     void toInvestPressed() {
-      Navigator.of(context).pop();
+      Navigator.pushNamed(context, '/v2/investment');
     }
 
     void recalculatePressed() {
@@ -31,8 +31,7 @@ class ButtonCalculate extends ConsumerWidget {
             duration: const Duration(seconds: 1),
             backgroundColor: Colors.transparent.withOpacity(0),
             content: SnackBarBody(
-              message:
-                  'Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000',
+              message: 'Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000',
               type: "error",
               onDismiss: () {},
             ),
