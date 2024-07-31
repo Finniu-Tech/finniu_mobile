@@ -1,10 +1,9 @@
 import 'package:finniu/infrastructure/models/notifications_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/notifications/widgets/app_bar_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NotificationsScreen extends ConsumerWidget {
@@ -13,13 +12,13 @@ class NotificationsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
-    const int columnColorLight = 0xffF8F8F8;
+    const int columnColorLight = 0xffFFFFFF;
 
     return Scaffold(
       backgroundColor: isDarkMode
           ? const Color(columnColorDark)
           : const Color(columnColorLight),
-      appBar: const AppBarBusinessScreen(),
+      appBar: const AppBarNotificationsScreen(),
       bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
         child: Padding(
