@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/button_calculate.dart';
@@ -7,6 +8,7 @@ import 'package:finniu/presentation/screens/simulator_v2/widgets/simulator_appba
 import 'package:finniu/presentation/screens/simulator_v2/widgets/title_simulator.dart';
 import 'package:finniu/presentation/screens/simulator_v2/widgets/type_investment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class V2SimulatorScreen extends HookConsumerWidget {
@@ -16,6 +18,16 @@ class V2SimulatorScreen extends HookConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffDCF6FF;
+
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(navigatorStateProvider.notifier).state = 1;
+        });
+        return null;
+      },
+      [],
+    );
 
     return Scaffold(
       backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),

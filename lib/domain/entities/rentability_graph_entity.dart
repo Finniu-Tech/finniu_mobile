@@ -42,6 +42,8 @@ class RentabilityGraphicResponseAPI {
     this.error,
     this.success,
   });
+
+  get isEmpty => rentabilityInPen!.isEmpty && rentabilityInUsd!.isEmpty;
 }
 
 enum TimePeriod {

@@ -26,7 +26,7 @@ class NavigationBarHome extends ConsumerWidget {
           break;
         case 2:
           ref.read(navigatorStateProvider.notifier).state = 2;
-          Navigator.of(context).pushNamedAndRemoveUntil('/blue_gold_investment', (route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil('/v2/investment', (route) => false);
           break;
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
