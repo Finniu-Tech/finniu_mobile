@@ -19,7 +19,6 @@ class NotificationsScreen extends ConsumerWidget {
           ? const Color(columnColorDark)
           : const Color(columnColorLight),
       appBar: const AppBarNotificationsScreen(),
-      bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.0),
@@ -50,17 +49,10 @@ class _BodyListView extends ConsumerWidget {
         textDay: 'Ayer',
         icon: Icons.notifications_none_outlined,
       ),
-      NotificationsDetail(
-        textTitle: '¡Ya puedes ver tu inversión!aaaassaaaaaaaaaaaaaaaaaaaaa',
-        textBody:
-            'Tu inversión fue validada exitosamente, ingresa a la App de Finniu para ver más a detalle',
-        textDay: '29/07',
-        icon: Icons.calendar_today_outlined,
-      ),
     ];
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      height: MediaQuery.of(context).size.height - 100,
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {

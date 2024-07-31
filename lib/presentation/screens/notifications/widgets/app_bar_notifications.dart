@@ -15,7 +15,7 @@ class AppBarNotificationsScreen extends ConsumerWidget
     const int titleColorLight = 0xff000000;
     const int appBarColorDark = 0xff0E0E0E;
     const int appBarColorLight = 0xffFFFFFF;
-    const int iconColorDark = 0xff000000;
+    const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
 
     return AppBar(
