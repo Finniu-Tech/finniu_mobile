@@ -6,8 +6,9 @@ class AppBarBusinessScreen extends ConsumerWidget
     implements PreferredSizeWidget {
   const AppBarBusinessScreen({
     super.key,
+    this.title,
   });
-
+  final String? title;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -23,7 +24,7 @@ class AppBarBusinessScreen extends ConsumerWidget
     return AppBar(
       centerTitle: true,
       title: Text(
-        "Mis inversiones",
+        title ?? "Mis inversiones",
         style: TextStyle(
           fontFamily: "Poppins",
           fontSize: 17,
