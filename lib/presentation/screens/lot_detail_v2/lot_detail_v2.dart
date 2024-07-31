@@ -1,9 +1,9 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
+import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/lot_detail_v2/widget/harvest_status.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class LotDetailScreenV2 extends ConsumerWidget {
@@ -97,15 +97,79 @@ class _BodyScaffold extends StatelessWidget {
         children: [
           _TitleBody(),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           _HarvestDate(),
           SizedBox(
-            height: 10,
+            height: 20,
           ),
           HarvestStatus(),
+          SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                _InvestmentAmount(),
+                SizedBox(
+                  height: 30,
+                ),
+                _ProfitabilityToday(),
+              ],
+            ),
+          ),
         ],
       ),
+    );
+  }
+}
+
+class _ProfitabilityToday extends StatelessWidget {
+  const _ProfitabilityToday();
+
+  @override
+  Widget build(BuildContext context) {
+    const int amountDark = 0xffFFFFFF;
+    const int amountLight = 0xff000000;
+    const int lineRow = 0xff83BF4F;
+    return const RowTitleAmount(
+      height: 74,
+      lineRow: lineRow,
+      textTitle: "Mi rendimiento hasta hoy",
+      titleSize: 16,
+      titleColorDark: amountDark,
+      titleColorLight: amountLight,
+      amountNumber: 250,
+      amountSize: 36,
+      amountColorDark: amountDark,
+      amountColorLight: amountLight,
+    );
+  }
+}
+
+class _InvestmentAmount extends StatelessWidget {
+  const _InvestmentAmount();
+
+  @override
+  Widget build(BuildContext context) {
+    const int amountDark = 0xffFFFFFF;
+    const int amountLight = 0xff000000;
+    const int lineRow = 0xffC3DFFF;
+    return const RowTitleAmount(
+      height: 74,
+      lineRow: lineRow,
+      textTitle: "Monto invertido",
+      titleSize: 16,
+      titleColorDark: amountDark,
+      titleColorLight: amountLight,
+      amountNumber: 82000,
+      amountSize: 36,
+      amountColorDark: amountDark,
+      amountColorLight: amountLight,
     );
   }
 }

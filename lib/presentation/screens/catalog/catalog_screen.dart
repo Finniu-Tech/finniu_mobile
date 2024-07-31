@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
 import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
+import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -47,6 +48,18 @@ class CatalogScreen extends HookConsumerWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/lot_detail');
               },
+            ),
+            const RowTitleAmount(
+              height: 74,
+              lineRow: 0xff83BF4F,
+              textTitle: "Mi rendimiento hasta hoy",
+              titleSize: 16,
+              titleColorDark: 0xffFFFFFF,
+              titleColorLight: 0xff000000,
+              amountNumber: 250,
+              amountSize: 36,
+              amountColorDark: 0xffFFFFFF,
+              amountColorLight: 0xff000000,
             ),
             const SizedBox(
               height: 10,
