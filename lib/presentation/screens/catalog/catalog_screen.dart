@@ -42,6 +42,12 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "notificaciones",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/notifications');
+              },
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -119,7 +125,8 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context,
+                    urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),
