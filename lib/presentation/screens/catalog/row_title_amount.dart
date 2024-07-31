@@ -64,8 +64,8 @@ class RowTitleAmount extends ConsumerWidget {
               ),
               isLoader
                   ? CircularLoader(
-                      height: height - 20,
-                      width: height - 20,
+                      height: height - 30,
+                      width: height - 30,
                     )
                   : AnimationNumber(
                       beginNumber: 0,

@@ -6,8 +6,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class HarvestStatus extends ConsumerWidget {
   const HarvestStatus({
     super.key,
+    required this.harvestNumber,
+    required this.passedDays,
+    required this.missingDays,
+    required this.progress,
   });
-
+  final String harvestNumber;
+  final String passedDays;
+  final String missingDays;
+  final double progress;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -24,13 +31,20 @@ class HarvestStatus extends ConsumerWidget {
         ),
       ),
       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-      child: const Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _ProcessStatus(),
-          _ImageStack(),
-          _SlideStatus(),
-          _DaysPassedMissing(),
+          _ProcessStatus(
+            harvestNumber: harvestNumber,
+          ),
+          const _ImageStack(),
+          _SlideStatus(
+            progress: progress,
+          ),
+          _DaysPassedMissing(
+            passedDays: passedDays,
+            missingDays: missingDays,
+          ),
         ],
       ),
     );
@@ -38,20 +52,24 @@ class HarvestStatus extends ConsumerWidget {
 }
 
 class _DaysPassedMissing extends StatelessWidget {
-  const _DaysPassedMissing();
-
+  const _DaysPassedMissing({
+    required this.passedDays,
+    required this.missingDays,
+  });
+  final String passedDays;
+  final String missingDays;
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextPoppins(
-          text: "2 AÑOS",
+          text: passedDays,
           fontSize: 12,
           isBold: true,
         ),
         TextPoppins(
-          text: "4 AÑOS",
+          text: missingDays,
           fontSize: 12,
           isBold: true,
         ),
@@ -61,8 +79,10 @@ class _DaysPassedMissing extends StatelessWidget {
 }
 
 class _SlideStatus extends StatefulWidget {
-  const _SlideStatus();
-
+  const _SlideStatus({
+    required this.progress,
+  });
+  final double progress;
   @override
   State<_SlideStatus> createState() => _SlideStatusState();
 }
@@ -75,7 +95,7 @@ class _SlideStatusState extends State<_SlideStatus> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
-        _widthFactor = 0.6;
+        _widthFactor = widget.progress;
       });
     });
   }
@@ -131,17 +151,17 @@ class _ImageStack extends StatelessWidget {
 }
 
 class _ProcessStatus extends StatelessWidget {
-  const _ProcessStatus();
-
+  const _ProcessStatus({required this.harvestNumber});
+  final String harvestNumber;
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        TextPoppins(text: "Proceso de ", fontSize: 11),
+        const TextPoppins(text: "Proceso de ", fontSize: 11),
         TextPoppins(
-          text: "2 cosecha",
+          text: "$harvestNumber cosecha",
           fontSize: 11,
           isBold: true,
         ),
