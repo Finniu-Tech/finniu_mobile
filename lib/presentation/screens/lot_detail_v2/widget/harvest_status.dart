@@ -119,31 +119,12 @@ class _ImageStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      width: MediaQuery.of(context).size.width,
       height: 90,
-      child: Stack(
-        children: [
-          Center(
-            child: Image.asset("assets/blue_gold/line_blue_gold.png"),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            child: Image.asset(
-              "assets/blue_gold/person_blue_gold.png",
-              width: 65,
-              height: 65,
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: Image.asset(
-              "assets/blue_gold/detail_blue_gold.png",
-              height: 90,
-              width: 90,
-            ),
-          ),
-        ],
+      child: Image.asset(
+        "assets/blue_gold/image_detail.png",
+        width: MediaQuery.of(context).size.width,
+        height: 90,
       ),
     );
   }

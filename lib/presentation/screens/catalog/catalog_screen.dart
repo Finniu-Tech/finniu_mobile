@@ -22,7 +22,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

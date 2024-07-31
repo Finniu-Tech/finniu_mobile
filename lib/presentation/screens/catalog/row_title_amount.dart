@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,6 +17,7 @@ class RowTitleAmount extends ConsumerWidget {
     required this.amountNumber,
     required this.titleSize,
     required this.amountSize,
+    this.isLoader = false,
   });
   final int lineRow;
   final int titleColorDark;
@@ -27,6 +29,7 @@ class RowTitleAmount extends ConsumerWidget {
   final int amountNumber;
   final double titleSize;
   final double amountSize;
+  final bool isLoader;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,13 +62,19 @@ class RowTitleAmount extends ConsumerWidget {
                       : Color(titleColorLight),
                 ),
               ),
-              AnimationNumber(
-                beginNumber: 0,
-                endNumber: amountNumber,
-                duration: 1,
-                fontSize: amountSize,
-                colorText: isDarkMode ? amountColorDark : amountColorLight,
-              ),
+              isLoader
+                  ? CircularLoader(
+                      height: height - 20,
+                      width: height - 20,
+                    )
+                  : AnimationNumber(
+                      beginNumber: 0,
+                      endNumber: amountNumber,
+                      duration: 1,
+                      fontSize: amountSize,
+                      colorText:
+                          isDarkMode ? amountColorDark : amountColorLight,
+                    ),
             ],
           ),
         ],

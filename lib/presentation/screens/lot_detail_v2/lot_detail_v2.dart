@@ -27,7 +27,9 @@ class LotDetailScreenV2 extends ConsumerWidget {
         child: Stack(
           alignment: Alignment.center,
           children: [
-            _BodyScaffold(),
+            _BodyScaffold(
+              title: "11",
+            ),
           ],
         ),
       ),
@@ -50,6 +52,7 @@ class _FloatingActionButton extends ConsumerWidget {
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
+          elevation: const WidgetStatePropertyAll(10),
           backgroundColor: isDarkMode
               ? const WidgetStatePropertyAll(
                   Color(buttonColorDark),
@@ -85,17 +88,21 @@ class _FloatingActionButton extends ConsumerWidget {
 }
 
 class _BodyScaffold extends StatelessWidget {
-  const _BodyScaffold();
-
+  const _BodyScaffold({
+    required this.title,
+  });
+  final String title;
   @override
   Widget build(BuildContext context) {
-    return const Padding(
+    return Padding(
       padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _TitleBody(),
+          _TitleBody(
+            title: title,
+          ),
           SizedBox(
             height: 20,
           ),
@@ -206,14 +213,16 @@ class _HarvestDate extends ConsumerWidget {
 }
 
 class _TitleBody extends StatelessWidget {
-  const _TitleBody();
-
+  const _TitleBody({
+    required this.title,
+  });
+  final String title;
   @override
   Widget build(BuildContext context) {
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
-    return const TextPoppins(
-      text: "Cosecha Lote 12",
+    return TextPoppins(
+      text: "Cosecha Lote $title",
       fontSize: 24,
       isBold: true,
       textDark: titleDark,
