@@ -1,7 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/lot_detail_v2/widget/harvest_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +14,7 @@ class LotDetailScreenV2 extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
+
     return Scaffold(
       backgroundColor: isDarkMode
           ? const Color(columnColorDark)
@@ -22,11 +22,62 @@ class LotDetailScreenV2 extends ConsumerWidget {
       appBar: const AppBarBusinessScreen(
         title: "",
       ),
-      bottomNavigationBar: const NavigationBarHome(),
+      floatingActionButton: const _FloatingActionButton(),
       body: const SingleChildScrollView(
         child: Stack(
           alignment: Alignment.center,
-          children: [_BodyScaffold()],
+          children: [
+            _BodyScaffold(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _FloatingActionButton extends ConsumerWidget {
+  const _FloatingActionButton();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int buttonColorDark = 0xffA2E6FA;
+    const int buttonColorLight = 0xff0D3A5C;
+    const int textColorDark = 0xff000000;
+    const int textColorLight = 0xffFFFFFF;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: 50,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: isDarkMode
+              ? const WidgetStatePropertyAll(
+                  Color(buttonColorDark),
+                )
+              : const WidgetStatePropertyAll(
+                  Color(buttonColorLight),
+                ),
+        ),
+        onPressed: () {},
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const TextPoppins(
+              text: "Guardar mi progreso",
+              fontSize: 16,
+              isBold: true,
+              textDark: textColorDark,
+              textLight: textColorLight,
+            ),
+            const SizedBox(width: 10),
+            Icon(
+              Icons.file_download_outlined,
+              size: 24,
+              color: isDarkMode
+                  ? const Color(textColorDark)
+                  : const Color(textColorLight),
+            ),
+          ],
         ),
       ),
     );
@@ -39,9 +90,9 @@ class _BodyScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _TitleBody(),
