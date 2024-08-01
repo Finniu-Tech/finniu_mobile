@@ -1,5 +1,5 @@
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
@@ -59,7 +59,9 @@ class LoaderContainer extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15),
-            SeeInterestPayment(),
+            SeeInterestPayment(
+              list: [],
+            ),
             SizedBox(height: 15),
             InvestmentEnds(
               finalDate: null,

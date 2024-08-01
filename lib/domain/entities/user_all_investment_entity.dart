@@ -48,15 +48,9 @@ class InvestmentCategory {
 
   factory InvestmentCategory.fromJson(Map<String, dynamic> json) {
     return InvestmentCategory(
-      investmentPending: (json['investmentPending'] as List)
-          .map((item) => Investment.fromJson(item))
-          .toList(),
-      investmentInCourse: (json['invesmentInCourse'] as List)
-          .map((item) => Investment.fromJson(item))
-          .toList(),
-      investmentFinished: (json['invesmentFinished'] as List)
-          .map((item) => Investment.fromJson(item))
-          .toList(),
+      investmentPending: (json['investmentPending'] as List).map((item) => Investment.fromJson(item)).toList(),
+      investmentInCourse: (json['invesmentInCourse'] as List).map((item) => Investment.fromJson(item)).toList(),
+      investmentFinished: (json['invesmentFinished'] as List).map((item) => Investment.fromJson(item)).toList(),
     );
   }
 
@@ -80,10 +74,8 @@ class UserInfoAllInvestment {
 
   factory UserInfoAllInvestment.fromJson(Map<String, dynamic> json) {
     return UserInfoAllInvestment(
-      investmentInSoles:
-          InvestmentCategory.fromJson(json['invesmentInSoles'][0]),
-      investmentInDolares:
-          InvestmentCategory.fromJson(json['invesmentInDolares'][0]),
+      investmentInSoles: InvestmentCategory.fromJson(json['invesmentInSoles'][0]),
+      investmentInDolares: InvestmentCategory.fromJson(json['invesmentInDolares'][0]),
     );
   }
 
@@ -92,6 +84,15 @@ class UserInfoAllInvestment {
       'invesmentInSoles': [investmentInSoles.toJson()],
       'invesmentInDolares': [investmentInDolares.toJson()],
     };
+  }
+
+  bool hasAnyInvestment() {
+    return investmentInSoles.investmentPending.isNotEmpty ||
+        investmentInSoles.investmentInCourse.isNotEmpty ||
+        investmentInSoles.investmentFinished.isNotEmpty ||
+        investmentInDolares.investmentPending.isNotEmpty ||
+        investmentInDolares.investmentInCourse.isNotEmpty ||
+        investmentInDolares.investmentFinished.isNotEmpty;
   }
 }
 
@@ -104,8 +105,7 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-      userInfoAllInvestment:
-          UserInfoAllInvestment.fromJson(json['userInfoAllInvestment']),
+      userInfoAllInvestment: UserInfoAllInvestment.fromJson(json['userInfoAllInvestment']),
     );
   }
 

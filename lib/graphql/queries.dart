@@ -1286,6 +1286,11 @@ class QueryRepository {
           isDefaultAccount
           createdAt
         }
+         paymentRentability {
+          paymentDate
+          amount
+          numberPayment
+        }
         bankAccountSender {
             uuid
             bankName

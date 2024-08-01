@@ -1,3 +1,7 @@
+
+import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
+import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
+import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -20,6 +24,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

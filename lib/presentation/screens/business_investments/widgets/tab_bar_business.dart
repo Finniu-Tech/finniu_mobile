@@ -3,7 +3,6 @@ import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_info_all_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
@@ -17,8 +16,7 @@ class TabBarBusiness extends ConsumerStatefulWidget {
   ConsumerState<TabBarBusiness> createState() => _InvestmentHistoryBusiness();
 }
 
-class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
-    with SingleTickerProviderStateMixin {
+class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -51,21 +49,10 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
           userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
         } else {
-          userToValidateList =
-              data?.investmentInDolares.investmentPending ?? [];
-          userInProgressList =
-              data?.investmentInDolares.investmentInCourse ?? [];
-          userCompletedList =
-              data?.investmentInDolares.investmentFinished ?? [];
+          userToValidateList = data?.investmentInDolares.investmentPending ?? [];
+          userInProgressList = data?.investmentInDolares.investmentInCourse ?? [];
+          userCompletedList = data?.investmentInDolares.investmentFinished ?? [];
         }
-
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (userCompletedList.isEmpty &&
-              userInProgressList.isEmpty &&
-              userToValidateList.isEmpty) {
-            noInvestmentsModal(context);
-          } else {}
-        });
 
         return Column(
           children: [
@@ -247,16 +234,14 @@ class ButtonHistory extends ConsumerWidget {
     const int borderLight = 0xff0D3A5C;
 
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 10, vertical: 5).copyWith(),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5).copyWith(),
       decoration: BoxDecoration(
         color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
         border: Border.all(
-          color:
-              isDarkMode ? const Color(borderDark) : const Color(borderLight),
+          color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
           width: 1.0,
         ),
       ),

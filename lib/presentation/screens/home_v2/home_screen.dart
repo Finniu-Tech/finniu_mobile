@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -23,6 +24,16 @@ class HomeScreenV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
+
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(navigatorStateProvider.notifier).state = 0;
+        });
+        return null;
+      },
+      [],
+    );
 
     return PopScope(
       child: Scaffold(
