@@ -83,7 +83,7 @@ class _BodyScaffold extends ConsumerWidget {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -144,7 +144,7 @@ class SeeInterestPayment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ButtonsSimulator(
+    return const ButtonsTable(
       text: 'Ver tabla de los pagos de intereses',
       icon: "square_half.svg",
       onPressed: null,
@@ -183,7 +183,7 @@ class RowButtons extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         SizedBox(
-          width: 130,
+          width: 131,
           child: ButtonsSimulator(
             text: 'Ver voucher',
             icon: "eye.svg",
@@ -191,7 +191,7 @@ class RowButtons extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          width: 170,
+          width: 171,
           child: ButtonsSimulator(
             text: 'Descargar contrato',
             icon: "download.svg",
@@ -225,7 +225,7 @@ class ButtonsSimulator extends ConsumerWidget {
       onTap: onPressed,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        height: 40,
+        height: 32,
         decoration: BoxDecoration(
           color: Color(isDarkMode ? backgroundColorDark : backgroundColorLight),
           borderRadius: BorderRadius.circular(8),
@@ -244,14 +244,73 @@ class ButtonsSimulator extends ConsumerWidget {
           children: [
             SvgPicture.asset(
               'assets/svg_icons/$icon',
-              width: 20,
-              height: 20,
+              width: 16,
+              height: 16,
               color: Color(isDarkMode ? contentColorDark : contentColorLight),
             ),
             const SizedBox(width: 10),
             TextPoppins(
               text: text,
               fontSize: 14,
+              textDark: contentColorDark,
+              textLight: contentColorLight,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonsTable extends ConsumerWidget {
+  const ButtonsTable({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.onPressed,
+  });
+  final String text;
+  final String icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundColorDark = 0xff08273F;
+    const int backgroundColorLight = 0xffA2E6FA;
+    const int contentColorDark = 0xffFFFFFF;
+    const int contentColorLight = 0xff000000;
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        height: 41,
+        decoration: BoxDecoration(
+          color: Color(isDarkMode ? backgroundColorDark : backgroundColorLight),
+          borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/svg_icons/$icon',
+              width: 24,
+              height: 24,
+              color: Color(isDarkMode ? contentColorDark : contentColorLight),
+            ),
+            const SizedBox(width: 10),
+            TextPoppins(
+              text: text,
+              fontSize: 15,
               textDark: contentColorDark,
               textLight: contentColorLight,
             ),

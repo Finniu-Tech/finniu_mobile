@@ -33,7 +33,7 @@ class TextPoppins extends ConsumerWidget {
         color: isDarkMode
             ? Color(textDark ?? 0xffffffff)
             : Color(textLight ?? 0xff000000),
-        fontWeight: (isBold ?? false) ? FontWeight.bold : FontWeight.normal,
+        fontWeight: (isBold ?? false) ? FontWeight.w600 : FontWeight.w500,
       ),
     );
   }

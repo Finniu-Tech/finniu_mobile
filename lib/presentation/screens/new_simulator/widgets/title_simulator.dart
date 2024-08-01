@@ -17,14 +17,17 @@ class TitleModal extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TextPoppins(
-          text: "Resumen de mi \ninversión",
-          fontSize: 20,
-          isBold: true,
-          lines: 2,
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.6,
+          child: const TextPoppins(
+            text: "Resumen de mi inversión",
+            fontSize: 20,
+            isBold: true,
+            lines: 2,
+          ),
         ),
         Container(
-          width: 73,
+          width: 84,
           height: 26,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
