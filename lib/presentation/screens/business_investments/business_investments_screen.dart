@@ -25,14 +25,16 @@ class BusinessInvestmentsScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+      backgroundColor: isDarkMode
+          ? const Color(columnColorDark)
+          : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
       bottomNavigationBar: const NavigationBarHome(),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Stack(
           alignment: Alignment.center,
           children: [
-            const RealEstateBody(),
+            RealEstateBody(),
             // if (isVisible.value)
             //   SizedBox(
             //     width: MediaQuery.of(context).size.width * 0.85,
@@ -66,7 +68,9 @@ class RealEstateBody extends ConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Container(
-      color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+      color: isDarkMode
+          ? const Color(columnColorDark)
+          : const Color(columnColorLight),
       width: MediaQuery.of(context).size.width,
       child: userInvestment.when(
         data: (investment) {
@@ -76,7 +80,9 @@ class RealEstateBody extends ConsumerWidget {
                 _buildNormalContent(),
                 Positioned.fill(
                   child: Container(
-                    color: isDarkMode ? Colors.black.withOpacity(0.7) : Colors.white.withOpacity(0.7),
+                    color: isDarkMode
+                        ? Colors.black.withOpacity(0.7)
+                        : Colors.white.withOpacity(0.7),
                     child: NoInvestmentBody(
                       onPressed: () {
                         Navigator.pushNamed(context, '/home_v2');
