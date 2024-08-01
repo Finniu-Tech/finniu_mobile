@@ -1,4 +1,3 @@
-
 import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
 import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
 import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
@@ -13,6 +12,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_g
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/less_year_progress_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
@@ -45,6 +45,22 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const NoInvestmentCase(
+              title: "Aún no tienes inversiones en curso",
+              textBody:
+                  "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const NoInvestmentCase(
+              title: "Aún no tienes inversiones por validar",
+              textBody:
+                  "Recuerda que vas a poder visualizar tus inversiones por validar cuando hayas realizado una inversión reciente y no ha sido aprobada aún",
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "notificaciones",
               onPressed: () {
@@ -91,8 +107,7 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context,
-                    urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),

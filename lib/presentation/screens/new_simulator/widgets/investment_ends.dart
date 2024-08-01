@@ -38,23 +38,25 @@ class InvestmentEnds extends ConsumerWidget {
               isDarkMode ? const Color(borderDark) : const Color(borderLight),
         ),
       ),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SvgPicture.asset(
-            'assets/svg_icons/calendar_blank.svg',
-            width: 24,
-            height: 24,
-            color: Color(isDarkMode ? iconColorDark : iconColorLight),
-          ),
-          const SizedBox(width: 10),
-          const TextPoppins(
-            text: "Tu inversión finaliza ",
-            fontSize: 16,
-          ),
-          const SizedBox(
-            width: 5,
+          Row(
+            children: [
+              SvgPicture.asset(
+                'assets/svg_icons/calendar_blank.svg',
+                width: 24,
+                height: 24,
+                color: Color(isDarkMode ? iconColorDark : iconColorLight),
+              ),
+              const SizedBox(width: 5),
+              const TextPoppins(
+                text: "Tu inversión finaliza ",
+                fontSize: 16,
+              ),
+            ],
           ),
           TextPoppins(
             text: finalDate == null ? "--/--/----" : dateFormat,

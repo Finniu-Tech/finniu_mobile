@@ -24,7 +24,7 @@ class IconFund extends ConsumerWidget {
           alignment: Alignment.centerLeft,
           children: [
             Container(
-              width: 273,
+              width: MediaQuery.of(context).size.width * 0.8,
               height: 30,
               padding: const EdgeInsets.only(right: 10),
               alignment: Alignment.centerRight,
@@ -34,16 +34,25 @@ class IconFund extends ConsumerWidget {
                     ? const Color(containerDark)
                     : const Color(containerLight),
               ),
-              child: Text(
-                'Fondo préstamo empresarial ',
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                  color: isDarkMode
-                      ? const Color(textDark)
-                      : const Color(textLight),
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    'Fondo préstamo empresarial ',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      color: isDarkMode
+                          ? const Color(textDark)
+                          : const Color(textLight),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             Positioned(

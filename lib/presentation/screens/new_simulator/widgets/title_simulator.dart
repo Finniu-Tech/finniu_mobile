@@ -6,8 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class TitleModal extends ConsumerWidget {
   const TitleModal({
     super.key,
+    required this.status,
   });
-
+  final String status;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -17,14 +18,17 @@ class TitleModal extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TextPoppins(
-          text: "Resumen de mi \ninversión",
-          fontSize: 20,
-          isBold: true,
-          lines: 2,
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.6,
+          child: const TextPoppins(
+            text: "Resumen de mi inversión",
+            fontSize: 20,
+            isBold: true,
+            lines: 2,
+          ),
         ),
         Container(
-          width: 73,
+          width: 84,
           height: 26,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
@@ -32,7 +36,7 @@ class TitleModal extends ConsumerWidget {
           ),
           child: Center(
             child: Text(
-              "En curso",
+              status,
               style: TextStyle(
                 color: isDarkMode ? Colors.black : Colors.white,
                 fontSize: 11,

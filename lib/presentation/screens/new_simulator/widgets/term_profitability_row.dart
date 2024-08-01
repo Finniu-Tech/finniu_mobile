@@ -34,7 +34,7 @@ class TermProfitabilityRow extends ConsumerWidget {
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
                   'assets/svg_icons/calendar_blank.svg',
@@ -42,8 +42,11 @@ class TermProfitabilityRow extends ConsumerWidget {
                   height: 24,
                   color: Color(isDarkMode ? iconDark : iconLight),
                 ),
+                const SizedBox(
+                  width: 10,
+                ),
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -81,13 +84,16 @@ class TermProfitabilityRow extends ConsumerWidget {
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgPicture.asset(
                   'assets/svg_icons/status_up.svg',
                   width: 24,
                   height: 24,
                   color: Color(isDarkMode ? iconDark : iconLight),
+                ),
+                const SizedBox(
+                  width: 10,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

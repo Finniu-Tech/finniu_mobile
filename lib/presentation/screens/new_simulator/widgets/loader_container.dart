@@ -13,11 +13,13 @@ class LoaderContainer extends StatelessWidget {
     required this.isDarkMode,
     required this.columnColorDark,
     required this.columnColorLight,
+    required this.status,
   });
 
   final bool isDarkMode;
   final int columnColorDark;
   final int columnColorLight;
+  final String status;
 
   @override
   Widget build(BuildContext context) {
@@ -25,45 +27,45 @@ class LoaderContainer extends StatelessWidget {
       color: isDarkMode ? Color(columnColorDark) : Color(columnColorLight),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      child: const Padding(
-        padding: EdgeInsets.all(15.0),
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TitleModal(),
-            SizedBox(height: 10),
-            IconFund(),
-            SizedBox(height: 15),
-            InvestmentAmountCardsRow(
+            TitleModal(
+              status: status,
+            ),
+            const SizedBox(height: 10),
+            const IconFund(),
+            const SizedBox(height: 15),
+            const InvestmentAmountCardsRow(
               amountInvested: 10000,
               finalProfitability: 10000,
               isLoading: true,
             ),
-            SizedBox(height: 15),
-            RowButtons(
+            const SizedBox(height: 15),
+            const RowButtons(
               voucher: "",
               contract: "",
             ),
-            SizedBox(height: 15),
-            TermProfitabilityRow(
+            const SizedBox(height: 15),
+            const TermProfitabilityRow(
               month: null,
               rentabilityPercent: null,
               isLoader: true,
             ),
-            SizedBox(height: 15),
-            Center(
+            const SizedBox(height: 15),
+            const Center(
               child: CircularLoader(
                 width: 140,
                 height: 140,
               ),
             ),
-            SizedBox(height: 15),
-            SeeInterestPayment(
-              list: [],
-            ),
-            SizedBox(height: 15),
-            InvestmentEnds(
+            const SizedBox(height: 15),
+            const SeeInterestPayment(),
+            const SizedBox(height: 15),
+            const InvestmentEnds(
               finalDate: null,
             ),
           ],
