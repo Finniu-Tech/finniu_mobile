@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
 import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
+import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -21,7 +22,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -42,6 +43,24 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "detail lot",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/lot_detail');
+              },
+            ),
+            const RowTitleAmount(
+              height: 74,
+              lineRow: 0xff83BF4F,
+              textTitle: "Mi rendimiento hasta hoy",
+              titleSize: 16,
+              titleColorDark: 0xffFFFFFF,
+              titleColorLight: 0xff000000,
+              amountNumber: 250,
+              amountSize: 36,
+              amountColorDark: 0xffFFFFFF,
+              amountColorLight: 0xff000000,
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -119,7 +138,8 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context,
+                    urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),
