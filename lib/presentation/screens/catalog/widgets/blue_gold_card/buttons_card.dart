@@ -137,7 +137,7 @@ class CloseButtonModal extends ConsumerWidget {
           angle: math.pi / 4,
           child: Icon(
             Icons.add_circle_outline,
-            size: 20,
+            size: 25,
             color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
           ),
         ),
