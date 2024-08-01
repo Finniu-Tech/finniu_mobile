@@ -52,7 +52,9 @@ class BodyModalInvestment extends ConsumerWidget {
           children: [
             CloseButton(),
             SizedBox(height: 10),
-            TitleModal(),
+            TitleModal(
+              status: "En curso",
+            ),
             SizedBox(height: 10),
             IconFund(),
             SizedBox(height: 10),

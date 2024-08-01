@@ -1,3 +1,4 @@
+import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
@@ -44,12 +45,14 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String uuid = ModalRoute.of(context)!.settings.arguments as String;
+    final ArgumentsNavigator arguments =
+        ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
+    print(arguments.uuid);
     final investmentDetailByUuid =
-        ref.watch(userInvestmentByUuidFutureProvider(uuid));
+        ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
     return investmentDetailByUuid.when(
       error: (error, stack) {
@@ -58,6 +61,7 @@ class _BodyScaffold extends ConsumerWidget {
           isDarkMode: isDarkMode,
           columnColorDark: columnColorDark,
           columnColorLight: columnColorLight,
+          status: arguments.status,
         );
       },
       loading: () {
@@ -65,6 +69,7 @@ class _BodyScaffold extends ConsumerWidget {
           isDarkMode: isDarkMode,
           columnColorDark: columnColorDark,
           columnColorLight: columnColorLight,
+          status: arguments.status,
         );
       },
       data: (data) {
@@ -74,6 +79,7 @@ class _BodyScaffold extends ConsumerWidget {
             isDarkMode: isDarkMode,
             columnColorDark: columnColorDark,
             columnColorLight: columnColorLight,
+            status: arguments.status,
           );
         }
         return Container(
@@ -88,7 +94,9 @@ class _BodyScaffold extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TitleModal(),
+                TitleModal(
+                  status: arguments.status,
+                ),
                 const SizedBox(height: 10),
                 const IconFund(),
                 const SizedBox(height: 15),

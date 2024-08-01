@@ -6,8 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class TitleModal extends ConsumerWidget {
   const TitleModal({
     super.key,
+    required this.status,
   });
-
+  final String status;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -35,7 +36,7 @@ class TitleModal extends ConsumerWidget {
           ),
           child: Center(
             child: Text(
-              "En curso",
+              status,
               style: TextStyle(
                 color: isDarkMode ? Colors.black : Colors.white,
                 fontSize: 11,
