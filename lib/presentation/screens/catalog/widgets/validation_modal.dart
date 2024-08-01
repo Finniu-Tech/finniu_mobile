@@ -49,14 +49,15 @@ class ValidationDialog extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return ModalBody(
-        titleText: titleText,
-        isDarkMode: isDarkMode,
-        secondTitleText: secondTitleText,
-        textBody: textBody,
-        textTanks: textTanks,
-        anyResponse: anyResponse,
-        onPressed: onPressed,
-        textButton: textButton);
+      titleText: titleText,
+      isDarkMode: isDarkMode,
+      secondTitleText: secondTitleText,
+      textBody: textBody,
+      textTanks: textTanks,
+      anyResponse: anyResponse,
+      onPressed: onPressed,
+      textButton: textButton,
+    );
   }
 }
 

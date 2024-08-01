@@ -83,6 +83,9 @@ class FundEntity {
   }
 
   int getHexDetailColorSecondaryDark() {
+    if (hexDetailColorSecondaryDark == null) {
+      return parseHexColor(hexDetailColorDark!);
+    }
     return parseHexColor(hexDetailColorSecondaryDark!);
   }
 

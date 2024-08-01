@@ -27,6 +27,7 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class InvestmentProcessStep2Screen extends ConsumerWidget {
   final FundEntity fund;
@@ -68,6 +69,63 @@ class Step2Body extends HookConsumerWidget {
     required this.amount,
     required this.preInvestmentUUID,
   });
+
+  Future<void> getImageFromGallery(context, ref) async {
+    // Verify if the device has permission to access the gallery
+    PermissionStatus status = await Permission.photos.status;
+    bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    if (status.isGranted) {
+      // The permission is already granted, proceed with the image selection
+      _openGallery(context, ref);
+    } else if (status.isDenied) {
+      // The user has not granted access to the gallery, request it
+      if (status.isGranted) {
+        _openGallery(context, ref);
+      } else {
+        // The user has denied access to the gallery
+        _showPermissionDeniedDialog(context, isDarkMode);
+      }
+    } else if (status.isLimited) {
+      // The user has limited access to the gallery
+      _openGallery(context, ref);
+    } else if (status.isPermanentlyDenied) {
+      // The user has permanently denied access to the gallery
+      _showOpenSettingsDialog(context, isDarkMode);
+    }
+  }
+
+  void _showPermissionDeniedDialog(context, isDarkMode) {
+    // Show a dialog indicating that the user has denied access to the gallery
+    showGrantPermissionModal(context, isDarkMode, false);
+  }
+
+  void _showOpenSettingsDialog(context, isDarkMode) {
+    // Show a dialog indicating that the user has permanently denied access to the gallery
+    showGrantPermissionModal(context, isDarkMode, true);
+  }
+
+  void _openGallery(context, ref) async {
+    final ImagePicker picker = ImagePicker();
+    final List<XFile> images = await picker.pickMultiImage();
+    if (images.isNotEmpty) {
+      List<String> voucherImageListBase64 = [];
+      List<String> voucherImageListPreview = [];
+      for (var image in images) {
+        final File imageFile = File(image.path);
+        final List<int> imageBytes = await imageFile.readAsBytes();
+        final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+        voucherImageListBase64.add(base64Image);
+        voucherImageListPreview.add(image.path);
+      }
+      ref.read(preInvestmentVoucherImagesProvider.notifier).state = voucherImageListBase64;
+      ref
+          .read(
+            preInvestmentVoucherImagesPreviewProvider.notifier,
+          )
+          .state = voucherImageListPreview;
+    }
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -286,29 +344,14 @@ class Step2Body extends HookConsumerWidget {
                       Align(
                         alignment: Alignment.center,
                         child: InkWell(
-                          onTap: () async {
-                            final ImagePicker picker = ImagePicker();
-                            final List<XFile> images = await picker.pickMultiImage();
-
-                            if (images.isNotEmpty) {
-                              var voucherImageListBase64 = [];
-                              var voucherImageListPreview = [];
-                              for (var image in images) {
-                                final File imageFile = File(image.path);
-                                final List<int> imageBytes = await imageFile.readAsBytes();
-                                final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
-                                voucherImageListBase64.add(base64Image);
-                                voucherImageListPreview.add(image.path);
-                              }
-                              ref.read(preInvestmentVoucherImagesProvider.notifier).state =
-                                  List.from(voucherImageListBase64);
-                              ref
-                                  .read(
-                                    preInvestmentVoucherImagesPreviewProvider.notifier,
-                                  )
-                                  .state = List.from(voucherImageListPreview);
-                            }
+                          onTap: () {
+                            print('Abrir galeria');
+                            getImageFromGallery(context, ref);
                           },
+                          // onTap: () async {
+                          //   final ImagePicker picker = ImagePicker();
+                          //   final List<XFile> images = await picker.pickMultiImage();
+
                           child: Builder(
                             builder: (context) {
                               final voucherPreview = ref.watch(preInvestmentVoucherImagesPreviewProvider);

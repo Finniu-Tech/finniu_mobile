@@ -2,8 +2,10 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:math' as math;
+import 'package:permission_handler/permission_handler.dart';
 
 Future<dynamic> showThanksForInvestingModal(BuildContext context, VoidCallback onPressed) {
   return showDialog(
@@ -397,6 +399,141 @@ class AccountNumbersWidget extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+void showGrantPermissionModal(BuildContext ctx, bool isDarkMode, bool showRequestVersionModal) {
+  showDialog(
+    context: ctx,
+    builder: (ctx) => AlertDialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(20),
+        ),
+      ),
+      backgroundColor: isDarkMode ? const Color(backgroundColorDark) : const Color(orangeLight),
+      content: GrantPermissionModalBody(
+        showRequestVersionModal: showRequestVersionModal,
+      ),
+    ),
+  );
+}
+
+class GrantPermissionModalBody extends HookConsumerWidget {
+  final bool showRequestVersionModal;
+  const GrantPermissionModalBody({super.key, required this.showRequestVersionModal});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeProvider = ref.watch(settingsNotifierProvider);
+    const int darkModeOKButtonColor = 0xff333333;
+    final String textBody = showRequestVersionModal
+        ? 'Se ha denegado el acceso a la fototeca, porfavor habilítelo en Ajustes para poder adjuntar la foto de tu comprobante de pago.'
+        : 'Se ha denegado el acceso a la fototeca, no podemos adjuntar la foto de tu comprobante de pago sin los permisos';
+    return Container(
+      height: 298,
+      width: 319,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          showRequestVersionModal
+              ? const SizedBox.shrink()
+              : Align(
+                  alignment: Alignment.topRight,
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: SvgPicture.asset(
+                      'assets/svg_icons/x-circle.svg',
+                      width: 24,
+                      height: 24,
+                      color: Color(themeProvider.isDarkMode ? whiteText : blackText),
+                    ),
+                  ),
+                ),
+          showRequestVersionModal ? const SizedBox.shrink() : const SizedBox(height: 20),
+          const Center(
+            child: Image(
+              image: AssetImage('assets/images/cellphone.png'),
+              height: 92,
+              alignment: Alignment.center,
+            ),
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            'Finniu',
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 20),
+          Text(
+            textBody,
+            textAlign: TextAlign.left,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
+            ),
+          ),
+          const SizedBox(height: 20),
+          showRequestVersionModal
+              ? SizedBox(
+                  width: double.infinity,
+                  child: Row(
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
+                          backgroundColor: Color(
+                            themeProvider.isDarkMode ? darkModeOKButtonColor : primaryLight,
+                          ),
+                        ),
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: themeProvider.isDarkMode ? Colors.white : Color(primaryDark),
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                          backgroundColor: Color(
+                            themeProvider.isDarkMode ? primaryLight : primaryDark,
+                          ),
+                        ),
+                        onPressed: () {
+                          openAppSettings();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'Ir a los ajustes',
+                          style: TextStyle(
+                            color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : const SizedBox.shrink(),
+        ],
       ),
     );
   }
