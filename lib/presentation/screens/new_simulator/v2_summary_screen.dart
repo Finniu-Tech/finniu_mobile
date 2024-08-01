@@ -1,17 +1,19 @@
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
+import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/new_simulator/helpers/pdf_launcher.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/error_modal.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/modal/error_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/loader_container.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_transfer.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_bank_deposit.dart';
+import 'package:finniu/presentation/screens/new_simulator/widgets/modal/show_table_pay.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/title_simulator.dart';
 import 'package:flutter/material.dart';
@@ -28,9 +30,7 @@ class V2SummaryScreen extends HookConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
+      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
       bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
@@ -45,13 +45,26 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ArgumentsNavigator arguments =
-        ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
+    final ArgumentsNavigator arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    final investmentDetailByUuid =
-        ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
+    final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
+
+    final List<ProfitabilityItem> list = [
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 1, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 2, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 3, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 4, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 5, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 6, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 7, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 8, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 9, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 10, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 11, 15)),
+      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 12, 15)),
+    ];
 
     return investmentDetailByUuid.when(
       error: (error, stack) {
@@ -82,9 +95,7 @@ class _BodyScaffold extends ConsumerWidget {
           );
         }
         return Container(
-          color: isDarkMode
-              ? const Color(columnColorDark)
-              : const Color(columnColorLight),
+          color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Padding(
@@ -121,16 +132,14 @@ class _BodyScaffold extends ConsumerWidget {
                         bankAccountSender: data.bankAccountSender!,
                       )
                     : const SizedBox(),
-                data.bankAccountReceiver != null
-                    ? const SizedBox()
-                    : const SizedBox(),
+                data.bankAccountReceiver != null ? const SizedBox() : const SizedBox(),
                 data.bankAccountReceiver != null
                     ? SelectedBankDeposit(
                         bankAccountReceiver: data.bankAccountReceiver!,
                       )
                     : const SizedBox(),
                 const SizedBox(height: 15),
-                const SeeInterestPayment(),
+                SeeInterestPayment(),
                 const SizedBox(height: 15),
                 InvestmentEnds(
                   finalDate: data.finishDateInvestment,

@@ -1,6 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 

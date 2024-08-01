@@ -2,13 +2,12 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AppBarBusinessScreen extends ConsumerWidget
+class AppBarNotificationsScreen extends ConsumerWidget
     implements PreferredSizeWidget {
-  const AppBarBusinessScreen({
+  const AppBarNotificationsScreen({
     super.key,
-    this.title,
   });
-  final String? title;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -18,23 +17,20 @@ class AppBarBusinessScreen extends ConsumerWidget
     const int appBarColorLight = 0xffFFFFFF;
     const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
-    const int borderColorDark = 0xff1E1E1E;
-    const int borderColorLight = 0xff1E1E1E;
 
     return AppBar(
-      centerTitle: true,
       title: Text(
-        title != null ? title! : "Mis inversiones",
+        "Mis notificaciones",
         style: TextStyle(
           fontFamily: "Poppins",
-          fontSize: 17,
+          fontSize: 24,
           color: isDarkMode
               ? const Color(titleColorDark)
               : const Color(titleColorLight),
           fontWeight: FontWeight.bold,
         ),
       ),
-      scrolledUnderElevation: 1,
+      scrolledUnderElevation: 0,
       backgroundColor: isDarkMode
           ? const Color(appBarColorDark)
           : const Color(appBarColorLight),
@@ -46,15 +42,6 @@ class AppBarBusinessScreen extends ConsumerWidget
             : const Color(
                 iconColorLight,
               ),
-      ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(1.0),
-        child: Container(
-          color: isDarkMode
-              ? const Color(borderColorDark)
-              : const Color(borderColorLight),
-          height: 1.0,
-        ),
       ),
     );
   }
