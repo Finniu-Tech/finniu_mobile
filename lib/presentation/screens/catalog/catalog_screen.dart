@@ -1,3 +1,4 @@
+
 import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
 import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
 import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
@@ -5,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.da
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/calendar_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/completed_progress_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_gold.dart';
@@ -44,70 +46,12 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
-              text: "detail lot",
+              text: "go calendar",
               onPressed: () {
-                Navigator.pushNamed(context, '/v2/lot_detail');
+                Navigator.pushNamed(context, '/v2/calendar');
               },
             ),
-            const RowTitleAmount(
-              height: 74,
-              lineRow: 0xff83BF4F,
-              textTitle: "Mi rendimiento hasta hoy",
-              titleSize: 16,
-              titleColorDark: 0xffFFFFFF,
-              titleColorLight: 0xff000000,
-              amountNumber: 250,
-              amountSize: 36,
-              amountColorDark: 0xffFFFFFF,
-              amountColorLight: 0xff000000,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            ButtonInvestment(
-              text: "all investment",
-              onPressed: () {
-                Navigator.pushNamed(context, '/v2/investment');
-              },
-            ),
-            const CircularLoader(
-              width: 10,
-              height: 10,
-            ),
-            ButtonInvestment(
-              text: "go to agro",
-              onPressed: () {
-                Navigator.pushNamed(context, '/blue_gold_investment');
-              },
-            ),
-            const MilestonesAchieved(
-              longShort: true,
-              title: "Se desembolsó \$800,000.000 a los inversionistas",
-              date: "Mayo 2019",
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const MilestonesAchieved(
-              longShort: false,
-              title: "Sembramos 1000 \nLotes en el año",
-              date: "Septiembre 2020",
-            ),
-            const IconClip(
-              character: "🌱",
-            ),
-            const IconClip(
-              character: "💸",
-            ),
-            const IconClip(
-              character: "🫐",
-            ),
-            const IconClip(
-              character: "📌",
-            ),
-            const IconClip(
-              character: "👥",
-            ),
+            const CalendarContainer(),
             const SizedBox(
               height: 10,
             ),

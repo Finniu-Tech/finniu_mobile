@@ -24,7 +24,7 @@ class AppBarBusinessScreen extends ConsumerWidget
     return AppBar(
       centerTitle: true,
       title: Text(
-        title ?? "Mis inversiones",
+        title != null ? title! : "Mis inversiones",
         style: TextStyle(
           fontFamily: "Poppins",
           fontSize: 17,
