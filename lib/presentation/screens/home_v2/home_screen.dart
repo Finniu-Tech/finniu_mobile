@@ -41,7 +41,9 @@ class HomeScreenV2 extends HookConsumerWidget {
           currentTheme: currentTheme,
           userProfile: userProfile,
         ),
-        backgroundColor: Color(currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary),
+        backgroundColor: Color(currentTheme.isDarkMode
+            ? scaffoldBlackBackground
+            : scaffoldLightGradientPrimary),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -96,7 +98,8 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context)
+                .pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -111,7 +114,10 @@ class HomeBody extends HookConsumerWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: currentTheme.isDarkMode
-                ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+                ? [
+                    const Color(scaffoldBlackBackground),
+                    const Color(backgroundColorNavbar)
+                  ]
                 : [
                     const Color(scaffoldLightGradientPrimary),
                     const Color(scaffoldLightGradientSecondary),
@@ -158,7 +164,9 @@ class HomeBody extends HookConsumerWidget {
                       ),
                       AllInvestmentButton(
                         text: 'Ver todas mis inversiones',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/v2/investment');
+                        },
                       ),
                     ],
                   ),
@@ -166,7 +174,8 @@ class HomeBody extends HookConsumerWidget {
                       ? Positioned.fill(
                           child: IgnorePointer(
                             child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                              filter:
+                                  ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.transparent.withOpacity(0.1),
