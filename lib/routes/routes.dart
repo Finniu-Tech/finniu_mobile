@@ -12,6 +12,7 @@ import 'package:finniu/presentation/screens/investment_process_blue_gold/investm
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
 import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
+import 'package:finniu/presentation/screens/notifications/notifications_screen.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
 import 'package:finniu/presentation/screens/signup/activate_account.dart';
@@ -165,6 +166,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/calendar': (BuildContext context) => const CalendarV2(),
     '/v2/investment': (BuildContext context) => const InvestmentsV2Screen(),
     // '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
+    '/v2/notifications': (BuildContext context) => const NotificationsScreen(),
     '/v2/lot_detail': (BuildContext context) => const LotDetailScreenV2(),
   };
 }

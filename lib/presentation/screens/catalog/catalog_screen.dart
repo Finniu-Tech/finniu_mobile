@@ -46,6 +46,15 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "notificaciones",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/notifications');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "go calendar",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/calendar');
