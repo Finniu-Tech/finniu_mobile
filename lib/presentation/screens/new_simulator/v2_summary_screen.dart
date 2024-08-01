@@ -50,7 +50,6 @@ class _BodyScaffold extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    print(arguments.uuid);
     final investmentDetailByUuid =
         ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
