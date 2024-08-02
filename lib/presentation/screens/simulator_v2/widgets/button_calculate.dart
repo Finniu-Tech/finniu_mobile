@@ -26,17 +26,7 @@ class ButtonCalculate extends ConsumerWidget {
 
     Future<void> calculatePressed() async {
       if (amount < 1000) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            duration: const Duration(seconds: 1),
-            backgroundColor: Colors.transparent.withOpacity(0),
-            content: SnackBarBody(
-              message: 'Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000',
-              type: "error",
-              onDismiss: () {},
-            ),
-          ),
-        );
+        CustomSnackbar.show(context, "Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000", 'error');
       } else {
         investmentSimulationModal(
           context,

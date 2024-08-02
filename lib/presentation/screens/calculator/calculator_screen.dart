@@ -32,17 +32,13 @@ class _CalculatorState extends ConsumerState<Calculator> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    // final monthsController = useTextEditingController();
+
     final deadLineController = useTextEditingController();
     final amountController = useTextEditingController();
     final isSoles = ref.watch(isSolesStateProvider);
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
-    // PlanSimulation? planSimulation;
 
-    List<Color> dayColors = [
-      const Color(gradient_primary),
-      const Color(gradient_secondary)
-    ];
+    List<Color> dayColors = [const Color(gradient_primary), const Color(gradient_secondary)];
     List<Color> nightColors = [
       const Color(primaryDark),
       const Color(primaryDark),
@@ -74,9 +70,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                       'assets/images/logo_small.png',
                       width: 70,
                       height: 70,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                 ),
@@ -91,9 +85,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: currentTheme.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -149,9 +141,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                       hintText: 'Ingrese su monto de inversion',
                       hintStyle: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(grayText1),
+                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText1),
                       ),
                       suffixIconConstraints: const BoxConstraints(
                         maxHeight: 38,
@@ -173,9 +163,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                     style: TextStyle(
                       fontSize: 12,
                       height: 1.5,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                 ),
@@ -201,9 +189,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                     style: TextStyle(
                       fontSize: 12,
                       height: 1.5,
-                      color: currentTheme.isDarkMode
-                          ? const Color(whiteText)
-                          : const Color(blackText),
+                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                     ),
                   ),
                 ),
@@ -232,8 +218,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   margin: const EdgeInsets.only(top: 10),
                   child: TextButton(
                     onPressed: () async {
-                      if (amountController.text.isEmpty ||
-                          deadLineController.text.isEmpty) {
+                      if (amountController.text.isEmpty || deadLineController.text.isEmpty) {
                         CustomSnackbar.show(
                           context,
                           'Recuerda que todos los campos son requeridos',
@@ -251,23 +236,19 @@ class _CalculatorState extends ConsumerState<Calculator> {
                           '/calculator_result',
                           arguments: CalculatorInput(
                             amount: int.parse(amountController.text),
-                            months: int.parse(
-                                deadLineController.text.split(' ')[0]),
-                            currency:
-                                isSoles ? currencyNuevoSol : currencyDollar,
+                            months: int.parse(deadLineController.text.split(' ')[0]),
+                            currency: isSoles ? currencyNuevoSol : currencyDollar,
                           ),
                         );
                       }
                       setState(() {});
                     },
                     style: ButtonStyle(
-                      elevation: MaterialStateProperty.all<double>(
-                          4), // Altura de la sombra
+                      elevation: WidgetStateProperty.all<double>(4), // Altura de la sombra
 
-                      shadowColor:
-                          MaterialStateProperty.all<Color>(Colors.grey),
+                      shadowColor: WidgetStateProperty.all<Color>(Colors.grey),
 
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
                           horizontal: 50,
                           vertical: 10,
@@ -348,12 +329,8 @@ class CustomSelectButtonCalculator extends HookConsumerWidget {
             decoration: BoxDecoration(
               color: Color(
                 isSelected
-                    ? (themeProvider.isDarkMode
-                        ? primaryLight
-                        : primaryDarkAlternative)
-                    : (themeProvider.isDarkMode
-                        ? primaryDarkAlternative
-                        : primaryLight),
+                    ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative)
+                    : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
@@ -380,12 +357,8 @@ class CustomSelectButtonCalculator extends HookConsumerWidget {
               style: TextStyle(
                 color: Color(
                   isSelected
-                      ? (themeProvider.isDarkMode
-                          ? primaryDark
-                          : Colors.white.value)
-                      : (themeProvider.isDarkMode
-                          ? Colors.white.value
-                          : primaryDark),
+                      ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value)
+                      : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
                 ),
                 fontWeight: FontWeight.w500,
               ),

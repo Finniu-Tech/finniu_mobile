@@ -17,6 +17,7 @@ class LanguagesStart extends HookConsumerWidget {
     languageController.text = 'Español';
     return CustomScaffoldReturnLogo(
       hideReturnButton: false,
+      hideNavBar: true,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
@@ -35,9 +36,7 @@ class LanguagesStart extends HookConsumerWidget {
                   "Lenguajes",
                   style: TextStyle(
                       fontSize: 24,
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(primaryDark),
+                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                       fontWeight: FontWeight.bold),
                 ),
               ],
@@ -71,9 +70,7 @@ class LanguagesStart extends HookConsumerWidget {
                         'Configuración de lenguaje',
                         style: TextStyle(
                             fontSize: 14,
-                            color: currentTheme.isDarkMode
-                                ? const Color(whiteText)
-                                : const Color(blackText),
+                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                             fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -88,9 +85,8 @@ class LanguagesStart extends HookConsumerWidget {
               decoration: BoxDecoration(
                 border: Border(
                   bottom: BorderSide(
-                      color: currentTheme.isDarkMode
-                          ? const Color(primaryLight)
-                          : const Color(gradient_secondary_option),
+                      color:
+                          currentTheme.isDarkMode ? const Color(primaryLight) : const Color(gradient_secondary_option),
                       width: 2),
                 ),
               ),
@@ -104,9 +100,7 @@ class LanguagesStart extends HookConsumerWidget {
                 style: TextStyle(
                   fontSize: 12,
                   height: 1.5,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(blackText),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
                 ),
               ),
             ),

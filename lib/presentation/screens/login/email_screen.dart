@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:email_validator/email_validator.dart';
+import 'package:finniu/domain/entities/feature_flag_entity.dart';
+import 'package:finniu/domain/entities/routes_entity.dart';
+import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -191,9 +194,18 @@ class EmailLoginScreen extends HookConsumerWidget {
                                             value: passwordController.value.text,
                                           );
                                         }
+
+                                        final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+                                        ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
+
+                                        final String route =
+                                            ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
+                                                ? FeatureRoutes.getRouteForFlag(FeatureFlags.homeV2, defaultHomeRoute)
+                                                : defaultHomeRoute;
+
                                         Navigator.pushNamed(
                                           context,
-                                          '/home_home',
+                                          route,
                                         );
                                       } else {
                                         showError.value = true;

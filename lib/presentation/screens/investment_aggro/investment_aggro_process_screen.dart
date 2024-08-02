@@ -432,7 +432,7 @@ class BottomSection extends HookConsumerWidget {
                       'Recuerda que tu solicitud de Inversion agroInmobiliaria sera derivada a un asesor del Proyecto, quien se contactara contigo en las proxima 24h.',
                   textButton: 'Ver mi progreso',
                   onPressed: () => {
-                    Navigator.pushNamed(context, '/blue_gold_investment'),
+                    Navigator.pushNamed(context, '/v2/investment'),
                   },
                 );
               },

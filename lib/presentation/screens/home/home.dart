@@ -1,7 +1,9 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/infrastructure/repositories/investment_repository.dart';
+import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
@@ -116,7 +118,8 @@ class HomeBody extends HookConsumerWidget {
                 ),
               ],
             ),
-            TextButton(onPressed: () => Navigator.pushNamed(context, '/home_v2'), child: Text('Go to Home V2')),
+            if ((ref.watch(featureFlagsProvider)[FeatureFlags.admin]) == true)
+              TextButton(onPressed: () => Navigator.pushNamed(context, '/home_v2'), child: Text('Go to Home V2')),
             const ReinvestmentSlider(),
 
             HookBuilder(

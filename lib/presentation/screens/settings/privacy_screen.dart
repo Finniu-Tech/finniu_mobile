@@ -26,6 +26,7 @@ class PrivacyScreen extends HookConsumerWidget {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return CustomScaffoldReturnLogo(
       hideReturnButton: false,
+      hideNavBar: true,
       body: Center(
         child: SingleChildScrollView(
           child: ConstrainedBox(
