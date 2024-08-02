@@ -1393,4 +1393,20 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get userFeatureFlags {
+    return '''
+      query userData{
+        userProfile{
+          featuresFlagsAvailable{
+              uuid
+              name
+              slug
+              description
+              isActive
+          }
+        }
+      }
+      ''';
+  }
 }

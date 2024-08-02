@@ -1,6 +1,8 @@
 import 'dart:ui';
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
@@ -41,9 +43,7 @@ class HomeScreenV2 extends HookConsumerWidget {
           currentTheme: currentTheme,
           userProfile: userProfile,
         ),
-        backgroundColor: Color(currentTheme.isDarkMode
-            ? scaffoldBlackBackground
-            : scaffoldLightGradientPrimary),
+        backgroundColor: Color(currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -98,8 +98,7 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context)
-                .pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -114,10 +113,7 @@ class HomeBody extends HookConsumerWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: currentTheme.isDarkMode
-                ? [
-                    const Color(scaffoldBlackBackground),
-                    const Color(backgroundColorNavbar)
-                  ]
+                ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
                 : [
                     const Color(scaffoldLightGradientPrimary),
                     const Color(scaffoldLightGradientSecondary),
@@ -174,8 +170,7 @@ class HomeBody extends HookConsumerWidget {
                       ? Positioned.fill(
                           child: IgnorePointer(
                             child: BackdropFilter(
-                              filter:
-                                  ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.transparent.withOpacity(0.1),
@@ -203,13 +198,16 @@ class HomeBody extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            ElevatedButton(
-              onPressed: () => Navigator.pushNamed(context, '/home_home'),
-              child: const Text('Ir a home normal'),
-            ),
-            TextButton(
+            if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] == true) ...[
+              ElevatedButton(
+                onPressed: () => Navigator.pushNamed(context, '/home_home'),
+                child: const Text('Ir a home normal'),
+              ),
+              TextButton(
                 onPressed: () => Navigator.pushNamed(context, '/catalog'),
-                child: const Text('Ver Catalogo de Widgets')),
+                child: const Text('Ver Catalogo de Widgets'),
+              ),
+            ]
           ],
         ),
       ),

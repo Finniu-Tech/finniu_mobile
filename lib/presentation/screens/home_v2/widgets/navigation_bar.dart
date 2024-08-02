@@ -143,7 +143,7 @@ class NavigationBarInvestment extends ConsumerWidget {
               ),
               NavigationButton(
                 icon: Icons.bar_chart,
-                title: 'Invesión',
+                title: 'Inversión',
                 onTap: () => navigate(context, 2),
                 isSelected: selectedIndex == 2 ? true : false,
                 currentTheme: currentTheme,
@@ -177,8 +177,8 @@ class NavigationButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(5),
-      width: 53,
-      height: 53,
+      width: 58,
+      height: 58,
       decoration: BoxDecoration(
         // color: isSelected ? const Color(backgroundColorNavbar) : const Color(primaryDark),
 
@@ -212,7 +212,7 @@ class NavigationButton extends StatelessWidget {
                         title,
                         style: TextStyle(
                           color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                          fontSize: 9,
+                          fontSize: 7,
                         ),
                       )
                     : const SizedBox(),

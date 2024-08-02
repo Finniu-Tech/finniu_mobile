@@ -135,7 +135,7 @@ class CardCustom extends ConsumerWidget {
                 'Ver más',
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                  fontSize: 10,
+                  fontSize: 9,
                   color: Color(
                     currentTheme.isDarkMode ? primaryDark : whiteText,
                   ),
@@ -694,7 +694,7 @@ class InitialCardBody extends ConsumerWidget {
                   "Comenzar a invertir",
                   style: TextStyle(
                     color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
-                    fontSize: 11.0,
+                    fontSize: 10.0,
                   ),
                   maxLines: 1,
                 ),

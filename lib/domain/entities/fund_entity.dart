@@ -1,3 +1,5 @@
+import 'package:finniu/main.dart';
+
 class FundTypeEnum {
   static const String aggro = 'agro_real_state_funds';
   static const String corporate = 'corporate_investment_funds';
