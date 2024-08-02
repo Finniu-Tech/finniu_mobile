@@ -11,6 +11,8 @@ class RegisterScreenV2 extends StatelessWidget {
   const RegisterScreenV2({super.key});
   final String title = "Bienvenido";
   final String subTitle = "Crea tu cuenta y comienza a invertir en Finniu.";
+  final int textDark = 0xffFFFFFF;
+  final int textLight = 0xff0D3A5C;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,13 @@ class RegisterScreenV2 extends StatelessWidget {
       children: [
         const LogoFinniu(),
         const SizedBox(height: 10),
-        TextPoppins(text: title, fontSize: 24, isBold: true),
+        TextPoppins(
+          text: title,
+          fontSize: 24,
+          isBold: true,
+          textDark: textDark,
+          textLight: textLight,
+        ),
         const SizedBox(height: 10),
         SizedBox(
           width: 244,
@@ -28,8 +36,11 @@ class RegisterScreenV2 extends StatelessWidget {
             fontSize: 18,
             isBold: true,
             lines: 2,
+            textDark: textDark,
+            textLight: textLight,
           ),
         ),
+        const SizedBox(height: 10),
         const FormRegister(),
       ],
     );
