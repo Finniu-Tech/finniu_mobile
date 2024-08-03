@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 enum V2SimulatorSlider {
@@ -13,7 +14,8 @@ enum V2SimulatorSlider {
   }
 }
 
-final sliderValueProvider =
-    StateProvider<V2SimulatorSlider>((ref) => V2SimulatorSlider.six);
+final sliderValueProvider = StateProvider<V2SimulatorSlider>((ref) => V2SimulatorSlider.six);
 
 final amountValueProvider = StateProvider<int>((ref) => 0);
+
+final defaultCorporateFundProvider = StateProvider<FundEntity?>((ref) => null);

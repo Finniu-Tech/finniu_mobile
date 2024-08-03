@@ -562,7 +562,7 @@ class Step2Body extends HookConsumerWidget {
                       } else {
                         context.loaderOverlay.hide();
                         showThanksForInvestingModal(context, () {
-                          Navigator.pushReplacementNamed(context, '/business_investment');
+                          Navigator.pushReplacementNamed(context, '/v2/investment');
                         });
                       }
                     },
