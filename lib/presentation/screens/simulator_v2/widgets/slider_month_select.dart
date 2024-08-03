@@ -56,21 +56,15 @@ class _SliderMonthSelectState extends ConsumerState<SliderMonthSelect> {
         SliderTheme(
           data: SliderTheme.of(context).copyWith(
             trackHeight: 6.0,
-            activeTrackColor:
-                isDarkMode ? const Color(sliderDark) : const Color(sliderLight),
-            inactiveTrackColor:
-                isDarkMode ? const Color(sliderDark) : const Color(sliderLight),
-            thumbColor:
-                isDarkMode ? const Color(sliderLight) : const Color(sliderDark),
-            overlayColor: isDarkMode
-                ? const Color(sliderDark).withAlpha(32)
-                : const Color(sliderLight).withAlpha(32),
+            activeTrackColor: isDarkMode ? const Color(sliderDark) : const Color(sliderLight),
+            inactiveTrackColor: isDarkMode ? const Color(sliderDark) : const Color(sliderLight),
+            thumbColor: isDarkMode ? const Color(sliderLight) : const Color(sliderDark),
+            overlayColor: isDarkMode ? const Color(sliderDark).withAlpha(32) : const Color(sliderLight).withAlpha(32),
             thumbShape: _thumbImage == null
                 ? const RoundSliderThumbShape(enabledThumbRadius: 14.0)
                 : EmojiSliderThumbShape(
                     "💸",
-                    backgroundColor:
-                        Color(isDarkMode ? sliderLight : sliderDark),
+                    backgroundColor: Color(isDarkMode ? sliderLight : sliderDark),
                   ),
           ),
           child: Slider(

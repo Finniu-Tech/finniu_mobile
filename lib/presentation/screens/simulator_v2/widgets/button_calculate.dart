@@ -16,8 +16,11 @@ class ButtonCalculate extends ConsumerWidget {
     final months = ref.watch(sliderValueProvider);
     final amount = ref.watch(amountValueProvider);
     final isSoles = ref.watch(isSolesStateProvider);
+    final defaultCorporateFund = ref.watch(defaultCorporateFundProvider);
+
     void toInvestPressed() {
-      Navigator.pushNamed(context, '/v2/investment');
+      Navigator.pushNamed(context, '/v2/investment/step-1',
+          arguments: {'fund': defaultCorporateFund, 'amount': amount, 'deadLine': '${months.getMonthValue()} meses'});
     }
 
     void recalculatePressed() {
