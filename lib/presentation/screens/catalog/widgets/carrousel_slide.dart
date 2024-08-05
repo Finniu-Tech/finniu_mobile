@@ -53,6 +53,7 @@ class FundInfoSlider extends StatelessWidget {
     // ];
 
     final netWorthFormattedData = formatNetWorthData(netWorthData!);
+    print('netWorthFormattedData: $netWorthFormattedData');
 
     final items = [
       ManagedAssets(
@@ -211,13 +212,7 @@ class InvestedCapital extends ConsumerWidget {
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
                   ),
-                  dataSource: const [
-                    {"x": "Nov", "y": 10},
-                    {"x": "Dic", "y": 20},
-                    {"x": "Ene", "y": 30},
-                    {"x": "Feb", "y": 40},
-                    {"x": "Mar", "y": 50},
-                  ],
+                  dataSource: data,
                   xValueMapper: (datum, index) => datum["x"],
                   yValueMapper: (datum, index) => datum["y"],
                   dataLabelSettings: const DataLabelSettings(
@@ -295,7 +290,7 @@ class ManagedAssets extends ConsumerWidget {
             builder: (BuildContext context, int value, Widget? child) {
               return Text(
                 isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
-                style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
               );
             },
           ),
