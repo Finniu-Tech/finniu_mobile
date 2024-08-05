@@ -15,7 +15,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investme
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
@@ -91,7 +90,7 @@ class CatalogScreen extends HookConsumerWidget {
                 Navigator.pushNamed(context, '/business_investment');
               },
             ),
-            const BlueGoldImage(),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/simulator');

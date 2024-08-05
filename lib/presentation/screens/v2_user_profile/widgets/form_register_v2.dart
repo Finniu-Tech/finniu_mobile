@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,36 +27,39 @@ class FormRegister extends HookConsumerWidget {
       child: Column(
         children: [
           RegisterTextFile(
-              hintText: "Como te llaman",
-              controller: namesController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa tu nombre';
-                }
-                return null;
-              }),
+            hintText: "Como te llaman",
+            controller: namesController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor ingresa tu nombre';
+              }
+              return null;
+            },
+          ),
           RegisterTextFile(
-              isNumeric: true,
-              hintText: "Número telefónico",
-              controller: phoneController,
-              validator: (value) {
-                if (value == null || value.isEmpty || value.length < 8) {
-                  return 'Ingresa tu nómero de telémefono';
-                }
-                return null;
-              }),
+            isNumeric: true,
+            hintText: "Número telefónico",
+            controller: phoneController,
+            validator: (value) {
+              if (value == null || value.isEmpty || value.length < 8) {
+                return 'Ingresa tu nómero de telémefono';
+              }
+              return null;
+            },
+          ),
           RegisterTextFile(
-              hintText: "Correo electronico",
-              controller: emailController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa tu correo electrónico';
-                } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                  return 'Ingresar un correo electrónico válido';
-                } else {
-                  return null;
-                }
-              }),
+            hintText: "Correo electronico",
+            controller: emailController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor ingresa tu correo electrónico';
+              } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                return 'Ingresar un correo electrónico válido';
+              } else {
+                return null;
+              }
+            },
+          ),
           RegisterPasswordField(
             controller: passwordController,
             hintText: "Contraseña ",
@@ -102,10 +106,43 @@ class FormRegister extends HookConsumerWidget {
                 print(passwordController.text);
                 print("confirmacion");
                 print(passwordConfirmController.text);
+                print(checkboxValue.value);
               }
             },
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          const TextPoppins(
+            text: "¿Ya tienes una cuenta creada?,",
+            fontSize: 14,
+          ),
+          RedirectLogin(),
         ],
+      ),
+    );
+  }
+}
+
+class RedirectLogin extends ConsumerWidget {
+  const RedirectLogin({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const int linkDark = 0xffA2E6FA;
+    const int linkLight = 0xff0D3A5C;
+    return GestureDetector(
+      onTap: () {
+        print("login");
+      },
+      child: const TextPoppins(
+        text: "Inicia sesión",
+        fontSize: 14,
+        isBold: true,
+        textDark: linkDark,
+        textLight: linkLight,
       ),
     );
   }
@@ -134,10 +171,13 @@ class CheckConditions extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Checkbox(
-              value: checkboxValue,
-              onChanged: (onChanged) {
-                onPressed();
-              }),
+            activeColor:
+                isDarkMode ? const Color(linkDark) : const Color(linkLight),
+            value: checkboxValue,
+            onChanged: (onChanged) {
+              onPressed();
+            },
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.6,
             child: Column(
@@ -173,7 +213,8 @@ class CheckConditions extends ConsumerWidget {
                           ..onTap = () {
                             print("tap");
                             print(
-                                "al usuario que lea los terminos y condiciones hay que darle un premio");
+                              "al usuario que lea los terminos y condiciones hay que darle un premio",
+                            );
                           },
                       ),
                     ],
