@@ -174,7 +174,7 @@ class Step2Body extends HookConsumerWidget {
           width: MediaQuery.of(context).size.width * 0.85,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               HeaderWidget(
                 containerColor:
