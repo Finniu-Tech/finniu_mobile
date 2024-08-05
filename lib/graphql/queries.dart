@@ -1196,4 +1196,217 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get rentabilityGraphic {
+    return '''
+      query rentabilityGraph(\$timeLine: TimeLineEnum) {
+        rentabilityGraph(timeLine: \$timeLine) {
+          rentabilityInPen {
+            month
+            amountPoint
+          }
+          rentabilityInUsd {
+            month
+            amountPoint
+          }
+        }
+}
+    ''';
+  }
+
+  static String get userInfoAllInvestment {
+    return '''
+     query userInfoAllInvestment {
+      userInfoAllInvestment{
+          invesmentInSoles {
+            investmentPending{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+            }
+          }
+          invesmentInDolares{
+              investmentPending{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+            }
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get investmentDetailByUuid {
+    return '''
+     query investmentDetail (\$preInvestmentUuid : String!) {
+      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+        deadline {
+          value
+        }
+        boucherList {
+          boucherImage
+        }
+        rentabilityIncreased
+        uuid
+        amount
+        rentabilityAmmount
+        rentabilityPercent
+        finishDateInvestment
+        contract
+        bankAccountReceiver {
+          uuid
+          bankName
+          bankAccount
+          bankCciAccount
+          currency
+          alias
+          typeAccount
+          isJointAccount
+          isDefaultAccount
+          createdAt
+        }
+         paymentRentability {
+          paymentDate
+          amount
+          numberPayment
+        }
+        bankAccountSender {
+            uuid
+            bankName
+            bankAccount
+            bankCciAccount
+            currency
+            alias
+            typeAccount
+            isJointAccount
+            isDefaultAccount
+            createdAt
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getFunds {
+    return '''
+      query getFunds{
+        investmentFundsQueries{
+          listInvestmentFundsAvailable{
+            uuid
+            name
+            icon
+            listBackgroundColorDark
+            listBackgroundColorLight
+            detailBackgroundColorDark
+            detailBackgroundColorLight
+            backgroundImageUrl
+            assetsUnderManagement
+            mainImageUrl
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorDarkSecondary
+            detailBackgroundColorSecondaryLight
+            createdAt
+            isDeleted
+            isActive
+            lastRentability
+            netWorthGraph{
+              date
+              value
+            }
+            netWorthAmount
+            currentInstallment{
+              date
+              value
+            }
+            
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getBenefitsFund {
+    return '''
+      query getFundBenefits(\$fundUUID:UUID!){
+      investmentFundsQueries{
+        listBenefitsInvestmentFundsAvailable(investmentFundUuid: \$fundUUID){
+          uuid
+          benefitText
+          icon
+          backgroundColorDark
+          backgroundColorLight
+          isDeleted
+          isActive
+        }
+      }
+    }
+    ''';
+  }
+
+  static String get getAggroInvestmentList {
+    return '''
+      query AgroInvestment{
+        agroInvestmentList{
+          uuid
+          investmentFundName
+          parcelAmount
+          parcelNumber
+          numberOfInstallments
+          parcelMonthlyInstallment
+          createdAt
+          updatedAt
+          isActive
+          progressInvestment{
+            daysPassed
+            daysRemaining
+            totalDays
+            startDay
+            endDay
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get userFeatureFlags {
+    return '''
+      query userData{
+        userProfile{
+          featuresFlagsAvailable{
+              uuid
+              name
+              slug
+              description
+              isActive
+          }
+        }
+      }
+      ''';
+  }
 }

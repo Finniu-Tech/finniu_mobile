@@ -6,8 +6,7 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class InvestmentRepository {
   InvestmentRepository();
 
-  Future<bool> userHasInvestmentInProcess(
-      {required GraphQLClient client}) async {
+  Future<bool> userHasInvestmentInProcess({required GraphQLClient client}) async {
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -33,12 +32,10 @@ class InvestmentRepository {
       ),
     );
     dynamic lastPreInvestmentResponse = response.data?['getLastPreInvestment'];
-    if (lastPreInvestmentResponse != null &&
-        lastPreInvestmentResponse['uuidPreInvestment'] != null) {
+    if (lastPreInvestmentResponse != null && lastPreInvestmentResponse['uuidPreInvestment'] != null) {
       return PreInvestmentForm(
         uuid: lastPreInvestmentResponse['uuidPreInvestment'],
-        amount: double.parse(lastPreInvestmentResponse['amount'].toString())
-            .round(),
+        amount: double.parse(lastPreInvestmentResponse['amount'].toString()).round(),
         currency: lastPreInvestmentResponse['currency'],
         deadLineUuid: lastPreInvestmentResponse['uuidDeadline'],
         planUuid: lastPreInvestmentResponse['uuidPlan'],

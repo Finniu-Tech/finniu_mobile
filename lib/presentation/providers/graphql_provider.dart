@@ -1,11 +1,18 @@
+import 'package:finniu/main.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:finniu/app_config.dart';
+
+final appConfigProvider = Provider<AppConfig>((ref) => appConfig);
 
 final gqlClientProvider = FutureProvider<GraphQLClient>(
   (ref) async {
+    print('GraphQLClient: ${ref.watch(appConfigProvider).apiBaseUrl}');
+    final appConfig = ref.watch(appConfigProvider);
+
     final HttpLink httpLink = HttpLink(
-      'https://www.finniu.com/api/v1/graph/finniu/',
+      appConfig.apiBaseUrl,
       defaultHeaders: {
         'Content-Type': 'application/json; charset=utf-8',
       },

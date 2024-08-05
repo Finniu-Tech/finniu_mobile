@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:finniu/domain/entities/app_version_entity.dart';
 import 'package:finniu/infrastructure/datasources/app_version_datasource_imp.dart';
+import 'package:finniu/main.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/widgets/fonts.dart';
@@ -76,34 +77,10 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = ref.watch(settingsNotifierProvider);
-    // final client = ref.watch(gqlClientProvider).value;
 
     Timer(const Duration(seconds: 3), () {
       _initializeAppVersion(context); // Pass the context here
     });
-
-    // Timer(const Duration(seconds: 3), () {
-    //   final currentContext = context; // Capture the context
-
-    //   Future.delayed(Duration.zero, () async {
-    //     appVersion =
-    //         await AppVersionDataSourceImp().getLastVersion(client: client!);
-    //     appVersion.currentVersion = appCurrentVersion;
-    //     String statusVersion = appVersion.getStatusVersion();
-
-    //     if (statusVersion == StatusVersion.upgrade) {
-    //       _showUpdateModal(currentContext, false);
-    //     } else if (statusVersion == StatusVersion.forceUpgrade) {
-    //       _showUpdateModal(currentContext, true);
-    //     } else {
-    //       Navigator.of(currentContext).pushReplacement(
-    //         MaterialPageRoute(
-    //           builder: (BuildContext context) => StartLoginScreen(),
-    //         ),
-    //       );
-    //     }
-    //   });
-    // });
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,

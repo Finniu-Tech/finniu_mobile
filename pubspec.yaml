@@ -67,6 +67,13 @@ dependencies:
   package_info_plus: ^4.2.0
   flutter_secure_storage: ^9.0.0
   cached_network_image: ^3.3.1
+  syncfusion_flutter_charts: ^24.2.9
+  flutter_hooks: ^0.18.6
+  flutter_flavor: ^3.1.3
+  flutter_flavorizr: ^2.2.3
+  sensors_plus: ^4.0.2
+  permission_handler: ^11.3.1
+
 
 dev_dependencies:
   flutter_test:
@@ -129,6 +136,14 @@ flutter:
     - assets/sendcode/
     - assets/reinvestment/
     - assets/credit_cards/
+    - assets/blue_gold/
+    - assets/blue_gold/calendar/
+    - assets/blue_gold/leaf/
+    - assets/blue_gold/money/
+    - assets/backgroud/
+    - assets/benefits_modal/
+    - assets/svg_icons/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

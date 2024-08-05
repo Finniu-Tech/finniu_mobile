@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:finniu/main.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -39,7 +41,6 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
     final themeProvider = ref.watch(settingsNotifierProvider);
     final settings = ref.read(settingsNotifierProvider.notifier);
     // final themeProvider = Provider.of<SettingsProvider>(context, listen: false);
-
     return Scaffold(
       // backgroundColor: Colors.white,
       appBar: AppBar(
@@ -52,9 +53,20 @@ class _CustomScaffoldStartState extends ConsumerState<CustomScaffoldStart> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text('V${appCurrentVersion}',
-                  style: TextStyle(
-                      fontWeight: FontWeight.w600, fontSize: 12, color: Theme.of(context).colorScheme.primary)),
+              Text(
+                'V${appCurrentVersion}',
+                style:
+                    TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Theme.of(context).colorScheme.primary),
+              ),
+              if (appConfig.environment != 'production') ...[
+                const SizedBox(width: 5),
+                TextPoppins(
+                  text: appConfig.environment,
+                  colorText: 0xffff0000,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
               const Spacer(),
               TextPoppins(
                 text: themeProvider.isDarkMode ? 'Dark mode' : 'Light mode',
@@ -167,6 +179,7 @@ class CustomScaffoldReturnLogo extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
+      // bottomNavigationBar: !hideNavBar ? const NavigationBarHome() : null,
       bottomNavigationBar: !hideNavBar ? const BottomNavigationBarHome() : null,
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -213,6 +226,7 @@ class CustomScaffoldReturnDirect extends ConsumerWidget {
 
     return Scaffold(
       // backgroundColor: Theme.of(context).backgroundColor,
+      // bottomNavigationBar: const NavigationBarHome(),
       bottomNavigationBar: const BottomNavigationBarHome(),
       appBar: AppBar(
         scrolledUnderElevation: 0,
