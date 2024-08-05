@@ -1310,7 +1310,7 @@ class QueryRepository {
 
   static String get getFunds {
     return '''
-      query getFunds{
+       query getFunds{
         investmentFundsQueries{
           listInvestmentFundsAvailable{
             uuid
@@ -1331,6 +1331,7 @@ class QueryRepository {
             mainImageHorizontalUrl
             detailBackgroundColorDarkSecondary
             detailBackgroundColorSecondaryLight
+          
             createdAt
             isDeleted
             isActive
@@ -1344,6 +1345,9 @@ class QueryRepository {
               date
               value
             }
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
             
           }
         }

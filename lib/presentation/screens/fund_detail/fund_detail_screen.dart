@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
@@ -11,6 +12,7 @@ import 'package:finniu/utils/strings.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FundDetailScreen extends ConsumerWidget {
   const FundDetailScreen({super.key, required this.fund});
@@ -89,6 +91,9 @@ class ScrollBody extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final mainColorText = currentTheme.isDarkMode ? Colors.white : Colors.black;
+    final Color downloadInfoButtonColor =
+        fund.fundType == FundTypeEnum.corporate ? const Color(primaryDark) : const Color(0xff3A66BF);
+    final bool isSoles = ref.watch(isSolesStateProvider);
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
@@ -109,7 +114,7 @@ class ScrollBody extends ConsumerWidget {
               ),
               ImageContainer(
                 imageContainer: fund.mainImageUrl!,
-                imageFullScreen: fund.mainImageUrl!,
+                imageFullScreen: fund.mainImageHorizontalUrl!,
               ),
               const SizedBox(
                 height: 10,
@@ -123,7 +128,7 @@ class ScrollBody extends ConsumerWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Ver los beneficios',
+                          'Ver los beneficioss',
                           style: TextStyle(
                             fontSize: 12,
                             color: mainColorText,
@@ -144,30 +149,44 @@ class ScrollBody extends ConsumerWidget {
                     ),
                   ),
                   const Spacer(),
+                  TextButton(
+                    style: ButtonStyle(backgroundColor: WidgetStateProperty.all((downloadInfoButtonColor))),
+                    onPressed: () {
+                      //url launch
+                      launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
+
+                      // Navigator.pushNamed(
+                      //   context,
+                      //   '/contract_view',
+                      //   arguments: {
+                      //     'contractURL':  fund.moreInfoDownloadUrl
+                      //   },
+                      // );
+                    },
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text('Ver más información'),
+                        SizedBox(width: 5),
+                        Icon(
+                          Icons.download_rounded,
+                          size: 16,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
                   if (fund.fundType == FundTypeEnum.corporate) ...[
                     const SwitchMoney(
                       switchHeight: 34,
                       switchWidth: 67,
-                    ),
-                  ] else ...[
-                    TextButton(
-                      style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xff3A66BF))),
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/contract_view', arguments: {
-                          'contractURL': 'https://pdfobject.com/pdf/sample.pdf',
-                        });
-                      },
-                      child: const Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text('Ver más información'),
-                          SizedBox(width: 5),
-                          Icon(
-                            Icons.download_rounded,
-                            size: 16,
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ],
@@ -176,12 +195,16 @@ class ScrollBody extends ConsumerWidget {
                 height: 20,
               ),
               if (fund.fundType == FundTypeEnum.aggro) ...[
-                Center(child: BlueGoldContainer(amount: fund.netWorthAmount!)),
+                Center(
+                  child:
+                      BlueGoldContainer(amount: isSoles ? fund.minAmountInvestmentPEN! : fund.minAmountInvestmentUSD!),
+                ),
               ],
               if (fund.fundType == FundTypeEnum.corporate) ...[
                 Center(
                   child: RealStateContainer(
-                    minAmount: _getNumberFromString(fund.netWorthAmount)!,
+                    minAmount:
+                        _getNumberFromString(isSoles ? fund.minAmountInvestmentPEN : fund.minAmountInvestmentUSD)!,
                   ),
                 ),
                 const SizedBox(
@@ -190,6 +213,9 @@ class ScrollBody extends ConsumerWidget {
                 FundInfoSlider(
                   annualProfitability: getNumberFromString(fund.lastRentability),
                   totalInstallmentsAmount: getNumberFromString(fund.totalInstallmentsAmount),
+                  totalAssetsUnderManagement: getNumberFromString(fund.assetUnderManagementAmount),
+                  netWorthData: fund.netWorths,
+                  netWorthAmount: getNumberFromString(fund.netWorthAmount),
                 ),
               ],
             ],
