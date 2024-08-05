@@ -1,7 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profil.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/widgets/form_register_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,10 +16,8 @@ class RegisterScreenV2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldUserProfile(
-      bottomNavigationBar: const NavigationBarHome(),
       children: [
         const LogoFinniu(),
-        const SizedBox(height: 10),
         TextPoppins(
           text: title,
           fontSize: 24,
@@ -28,7 +25,6 @@ class RegisterScreenV2 extends StatelessWidget {
           textDark: textDark,
           textLight: textLight,
         ),
-        const SizedBox(height: 10),
         SizedBox(
           width: 244,
           child: TextPoppins(
@@ -40,7 +36,6 @@ class RegisterScreenV2 extends StatelessWidget {
             textLight: textLight,
           ),
         ),
-        const SizedBox(height: 10),
         const FormRegister(),
       ],
     );

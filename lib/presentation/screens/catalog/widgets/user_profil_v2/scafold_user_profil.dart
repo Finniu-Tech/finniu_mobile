@@ -29,12 +29,11 @@ class ScaffoldUserProfile extends ConsumerWidget {
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.8,
+            width: MediaQuery.of(context).size.width * 0.85,
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: children,
               ),

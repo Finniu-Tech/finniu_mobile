@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -94,7 +95,7 @@ class FormRegister extends HookConsumerWidget {
             },
           ),
           const SizedBox(
-            height: 10,
+            height: 5,
           ),
           ButtonInvestment(
             text: "Crear mi cuenta",
@@ -107,17 +108,21 @@ class FormRegister extends HookConsumerWidget {
                 print("confirmacion");
                 print(passwordConfirmController.text);
                 print(checkboxValue.value);
+                if (checkboxValue.value == false) {
+                  CustomSnackbar.show(context,
+                      "Debe aceptar los terminos y condiciones", 'error');
+                }
               }
             },
           ),
           const SizedBox(
-            height: 10,
+            height: 5,
           ),
           const TextPoppins(
             text: "¿Ya tienes una cuenta creada?,",
             fontSize: 14,
           ),
-          RedirectLogin(),
+          const RedirectLogin(),
         ],
       ),
     );
@@ -291,7 +296,7 @@ class RegisterTextFile extends ConsumerWidget {
           validator: validator,
           keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -382,7 +387,7 @@ class RegisterPasswordField extends HookConsumerWidget {
           validator: validator,
           keyboardType: TextInputType.text,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
       ],
     );
   }
