@@ -19,7 +19,9 @@ class FundDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final backgroundColor = isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight();
+    final backgroundColor = isDarkMode
+        ? fund.getHexDetailColorDark()
+        : fund.getHexDetailColorLight();
     return Scaffold(
       backgroundColor: Color(backgroundColor),
       body: FundDetailBody(
@@ -33,15 +35,20 @@ class FundDetailScreen extends ConsumerWidget {
 class FundDetailBody extends StatelessWidget {
   final FundEntity fund;
   final bool isDarkMode;
-  const FundDetailBody({super.key, required this.fund, required this.isDarkMode});
+  const FundDetailBody(
+      {super.key, required this.fund, required this.isDarkMode});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         HeaderInvestment(
-          containerColor: isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight(),
-          iconColor: isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+          containerColor: isDarkMode
+              ? fund.getHexDetailColorDark()
+              : fund.getHexDetailColorLight(),
+          iconColor: isDarkMode
+              ? fund.getHexDetailColorSecondaryDark()
+              : fund.getHexDetailColorSecondaryLight(),
           textColor: aboutTextBusinessColor,
           urlIcon: fund.iconUrl!,
           urlImageBackground: fund.backgroundImageUrl!,
@@ -55,9 +62,11 @@ class FundDetailBody extends StatelessWidget {
           text: 'Quiero invertir',
           onPressed: () {
             if (fund.fundType == FundTypeEnum.corporate) {
-              Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': fund});
+              Navigator.pushNamed(context, '/v2/investment/step-1',
+                  arguments: {'fund': fund});
             } else {
-              Navigator.pushNamed(context, '/v2/aggro-investment', arguments: {'fund': fund});
+              Navigator.pushNamed(context, '/v2/aggro-investment',
+                  arguments: {'fund': fund});
             }
           },
         ),
@@ -100,16 +109,21 @@ class ScrollBody extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                fund.fundType == FundTypeEnum.corporate ? 'Descubre el portafolio' : 'Nuestro modelo de negocio',
+                fund.fundType == FundTypeEnum.corporate
+                    ? 'Descubre el portafolio'
+                    : 'Nuestro modelo de negocio',
                 textAlign: TextAlign.start,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: mainColorText),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: mainColorText),
               ),
               const SizedBox(
                 height: 10,
               ),
               ImageContainer(
                 imageContainer: fund.mainImageUrl!,
-                imageFullScreen: fund.mainImageUrl!,
+                imageFullScreen: fund.mainImageHorizontalUrl!,
               ),
               const SizedBox(
                 height: 10,
@@ -123,7 +137,7 @@ class ScrollBody extends ConsumerWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Ver los beneficios',
+                          'Ver los beneficioss',
                           style: TextStyle(
                             fontSize: 12,
                             color: mainColorText,
@@ -151,11 +165,15 @@ class ScrollBody extends ConsumerWidget {
                     ),
                   ] else ...[
                     TextButton(
-                      style: ButtonStyle(backgroundColor: WidgetStateProperty.all(const Color(0xff3A66BF))),
+                      style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.all(const Color(0xff3A66BF))),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/contract_view', arguments: {
-                          'contractURL': 'https://pdfobject.com/pdf/sample.pdf',
-                        });
+                        Navigator.pushNamed(context, '/contract_view',
+                            arguments: {
+                              'contractURL':
+                                  'https://pdfobject.com/pdf/sample.pdf',
+                            });
                       },
                       child: const Row(
                         mainAxisSize: MainAxisSize.min,
@@ -188,8 +206,10 @@ class ScrollBody extends ConsumerWidget {
                   height: 10,
                 ),
                 FundInfoSlider(
-                  annualProfitability: getNumberFromString(fund.lastRentability),
-                  totalInstallmentsAmount: getNumberFromString(fund.totalInstallmentsAmount),
+                  annualProfitability:
+                      getNumberFromString(fund.lastRentability),
+                  totalInstallmentsAmount:
+                      getNumberFromString(fund.totalInstallmentsAmount),
                 ),
               ],
             ],

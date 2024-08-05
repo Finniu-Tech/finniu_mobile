@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -33,6 +35,9 @@ class FundInfoSlider extends StatelessWidget {
       ),
       AnnualProfitability(
         profitability: annualProfitability.toInt(),
+      ),
+      FundAssets(
+        investmentsText: totalInstallmentsAmount.toInt(),
       ),
     ];
     return Container(
@@ -94,7 +99,8 @@ class AnnualProfitability extends ConsumerWidget {
           Container(
             width: 245,
             decoration: BoxDecoration(
-              color: Color(isDarkMode ? containerColorDark : containerColorLight),
+              color:
+                  Color(isDarkMode ? containerColorDark : containerColorLight),
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(
@@ -116,7 +122,8 @@ class AnnualProfitability extends ConsumerWidget {
                       TweenAnimationBuilder(
                         tween: IntTween(begin: 0, end: profitability),
                         duration: const Duration(seconds: 1),
-                        builder: (BuildContext context, int value, Widget? child) {
+                        builder:
+                            (BuildContext context, int value, Widget? child) {
                           return Text(
                             "${value.toString()}.0%",
                             style: const TextStyle(
@@ -258,8 +265,11 @@ class ManagedAssets extends ConsumerWidget {
             duration: const Duration(seconds: 2),
             builder: (BuildContext context, int value, Widget? child) {
               return Text(
-                isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
-                style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                isSoles
+                    ? formatterSoles.format(value)
+                    : formatterUSD.format(value),
+                style:
+                    const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
               );
             },
           ),
@@ -288,6 +298,85 @@ class SlideCarouselCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: body,
+      ),
+    );
+  }
+}
+
+class FundAssets extends ConsumerWidget {
+  final int investmentsText;
+
+  const FundAssets({
+    super.key,
+    required this.investmentsText,
+  });
+  final int cardColorLight = 0xff0D3A5C;
+  final int cardColorDark = 0xff262626;
+
+  final int dividerColorDark = 0xffA2E6FA;
+  final int dividerColorLight = 0xffA2E6FA;
+  final int textColorDark = 0xffFFFFFF;
+  final int textColorLight = 0xffFFFFFF;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    return SlideCarouselCard(
+      color: isDarkMode ? cardColorDark : cardColorLight,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextPoppins(
+            text: "Patrimonio del fondo",
+            fontSize: 16,
+            textDark: textColorDark,
+            textLight: textColorLight,
+          ),
+          TextPoppins(
+            text: "Patrimonio del fondo",
+            fontSize: 12,
+            textDark: textColorDark,
+            textLight: textColorLight,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AnimationNumberNotComma(
+                endNumber: 4900000,
+                duration: 2,
+                fontSize: 32,
+                colorText: isDarkMode ? textColorDark : textColorLight,
+                beginNumber: 0,
+              ),
+            ],
+          ),
+          Divider(
+            height: 2,
+            color: Color(
+              isDarkMode ? dividerColorDark : dividerColorLight,
+            ),
+          ),
+          TextPoppins(
+            text: "Valor cuota vigente",
+            fontSize: 11,
+            textDark: textColorDark,
+            textLight: textColorLight,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AnimationNumberNotComma(
+                endNumber: 2000000,
+                duration: 2,
+                fontSize: 32,
+                colorText: isDarkMode ? textColorDark : textColorLight,
+                beginNumber: 0,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

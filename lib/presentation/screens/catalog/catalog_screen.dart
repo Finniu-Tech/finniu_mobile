@@ -1,6 +1,3 @@
-import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
-import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
-import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -18,13 +15,11 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investme
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
-import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -86,7 +81,7 @@ class CatalogScreen extends HookConsumerWidget {
                 Navigator.pushNamed(context, '/business_investment');
               },
             ),
-            const BlueGoldImage(),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/simulator');
@@ -107,7 +102,8 @@ class CatalogScreen extends HookConsumerWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
+                voucherModal(context,
+                    urlImage: "assets/blue_gold/voucher_example.png");
               },
               child: const Text('voucher modal'),
             ),
