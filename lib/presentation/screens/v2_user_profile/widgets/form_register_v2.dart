@@ -1,10 +1,9 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FormRegister extends HookConsumerWidget {
@@ -20,7 +19,7 @@ class FormRegister extends HookConsumerWidget {
     final phoneController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
-    bool checkboxValue = false;
+    final checkboxValue = useState(false);
 
     return Form(
       key: formKey,
@@ -84,8 +83,13 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          CheckConditions(),
-          SizedBox(
+          CheckConditions(
+            checkboxValue: checkboxValue.value,
+            onPressed: () {
+              checkboxValue.value = !checkboxValue.value;
+            },
+          ),
+          const SizedBox(
             height: 10,
           ),
           ButtonInvestment(
@@ -107,13 +111,21 @@ class FormRegister extends HookConsumerWidget {
   }
 }
 
-class CheckConditions extends StatelessWidget {
+class CheckConditions extends ConsumerWidget {
   const CheckConditions({
     super.key,
+    required this.checkboxValue,
+    required this.onPressed,
   });
-
+  final bool checkboxValue;
+  final VoidCallback onPressed;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int spanDark = 0xffFFFFFF;
+    const int spanLight = 0xff000000;
+    const int linkDark = 0xffA2E6FA;
+    const int linkLight = 0xff0D3A5C;
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       height: 60,
@@ -121,22 +133,50 @@ class CheckConditions extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Checkbox(value: true, onChanged: (onChanged) {}),
+          Checkbox(
+              value: checkboxValue,
+              onChanged: (onChanged) {
+                onPressed();
+              }),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.6,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const TextPoppins(
-                    text: "Estoy de acuerdo con los ", fontSize: 14),
-                GestureDetector(
-                  onTap: () {},
-                  child: const TextPoppins(
-                    text: "Términos & condiciones y Políticas de privacidad",
-                    fontSize: 14,
-                    isBold: true,
-                    lines: 2,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: 'Estoy de acuerdo con los ',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isDarkMode
+                              ? const Color(spanDark)
+                              : const Color(spanLight),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Poppins",
+                        ),
+                      ),
+                      TextSpan(
+                        text:
+                            'Términos & condiciones y Políticas de privacidad',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: isDarkMode
+                              ? const Color(linkDark)
+                              : const Color(linkLight),
+                          fontWeight: FontWeight.w500,
+                          fontFamily: "Poppins",
+                        ),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            print("tap");
+                            print(
+                                "al usuario que lea los terminos y condiciones hay que darle un premio");
+                          },
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -237,6 +277,8 @@ class RegisterPasswordField extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isObscure = useState(true);
+    const int iconDark = 0xFFA2E6FA;
+    const int iconLight = 0xFF000000;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,10 +317,22 @@ class RegisterPasswordField extends HookConsumerWidget {
               borderSide: BorderSide.none,
             ),
             suffixIcon: IconButton(
-              icon: Icon(
-                isObscure.value ? Icons.visibility_off : Icons.visibility,
-                color: isDarkMode ? Colors.white : Colors.black,
-              ),
+              icon: isObscure.value
+                  ? SvgPicture.asset(
+                      "assets/svg_icons/eye_close.svg",
+                      width: 24,
+                      height: 24,
+                      color: isDarkMode
+                          ? const Color(iconDark)
+                          : const Color(iconLight),
+                    )
+                  : Icon(
+                      Icons.visibility,
+                      color: isDarkMode
+                          ? const Color(iconDark)
+                          : const Color(iconLight),
+                      size: 24,
+                    ),
               onPressed: () {
                 isObscure.value = !isObscure.value;
               },
