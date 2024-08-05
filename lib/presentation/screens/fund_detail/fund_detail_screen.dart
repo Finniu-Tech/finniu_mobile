@@ -107,7 +107,10 @@ class ScrollBody extends ConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              const BlueGoldImage(),
+              ImageContainer(
+                imageContainer: fund.mainImageUrl!,
+                imageFullScreen: fund.mainImageUrl!,
+              ),
               const SizedBox(
                 height: 10,
               ),

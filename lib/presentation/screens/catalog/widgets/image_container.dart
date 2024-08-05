@@ -40,7 +40,7 @@ class ImageContainer extends StatelessWidget {
             context,
             imageFullScreen: imageFullScreen,
           ),
-          child: Image.asset(imageContainer, fit: BoxFit.fill),
+          child: Image.network(imageContainer, fit: BoxFit.fill),
         ),
       ),
     );
@@ -82,12 +82,13 @@ class _ImageDialogState extends State<ImageDialog> {
     orientationSubscription = deviceOrientation$.listen((orientation) {
       if (!dialogClosed) {
         if (orientation == DeviceOrientation.portraitUp) {
+          print('portrait');
           if (isFullScreen) {
             dialogClosed = true;
             Navigator.of(context).pop();
           }
-        } else if (orientation == DeviceOrientation.landscapeLeft ||
-            orientation == DeviceOrientation.landscapeRight) {
+        } else if (orientation == DeviceOrientation.landscapeLeft || orientation == DeviceOrientation.landscapeRight) {
+          print('landscape');
           setState(() {
             isFullScreen = true;
           });
@@ -112,7 +113,7 @@ class _ImageDialogState extends State<ImageDialog> {
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: InteractiveViewer(
-          child: Image.asset(
+          child: Image.network(
             widget.imageFullScreen,
           ),
         ),

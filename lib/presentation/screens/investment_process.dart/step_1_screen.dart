@@ -30,9 +30,13 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 class InvestmentProcessStep1Screen extends ConsumerWidget {
   final FundEntity fund;
+  final int? amount;
+  final String? deadLine;
   const InvestmentProcessStep1Screen({
     super.key,
     required this.fund,
+    this.amount,
+    this.deadLine,
   });
 
   @override
@@ -47,7 +51,7 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
                 fund.getHexDetailColorDark(),
               )
             : Color(fund.getHexDetailColorLight()),
-        body: Step1Body(fund: fund, isDarkMode: currentTheme.isDarkMode),
+        body: Step1Body(fund: fund, isDarkMode: currentTheme.isDarkMode, amount: amount, deadLine: deadLine),
       ),
     );
   }
@@ -56,18 +60,22 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
 class Step1Body extends HookConsumerWidget {
   final FundEntity fund;
   final bool isDarkMode;
+  final int? amount;
+  final String? deadLine;
   const Step1Body({
     super.key,
     required this.fund,
     required this.isDarkMode,
+    this.amount,
+    this.deadLine,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final amountController = useTextEditingController();
+    final amountController = useTextEditingController(text: amount == null ? '' : amount.toString());
     final couponController = useTextEditingController();
-    final deadLineController = useTextEditingController();
+    final deadLineController = useTextEditingController(text: deadLine == null ? '' : deadLine);
     // final bankController = useTextEditingController();
     final originFundsController = useTextEditingController();
     final otherFundOriginController = useTextEditingController();
@@ -226,14 +234,6 @@ class _FormStep1State extends ConsumerState<FormStep1> {
 
     return true;
   }
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     ref.read(selectedBankAccountSenderProvider.notifier).state = null;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -207,7 +207,7 @@ class RowButtons extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          width: 171,
+          width: 190,
           child: ButtonsSimulator(
             text: 'Descargar contrato',
             icon: "download.svg",
