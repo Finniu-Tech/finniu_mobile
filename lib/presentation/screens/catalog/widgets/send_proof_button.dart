@@ -69,8 +69,9 @@ class ButtonInvestment extends ConsumerWidget {
             color: isDarkMode
                 ? const Color(colorTextButtonDarkColor)
                 : const Color(colorTextButtonLightColor),
-            fontSize: 14,
+            fontSize: 16,
             fontFamily: "Poppins",
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

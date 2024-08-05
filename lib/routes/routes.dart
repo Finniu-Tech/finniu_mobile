@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_investment_screen.dart';
 import 'package:finniu/presentation/screens/business_investments/business_investments_screen.dart';
@@ -174,5 +175,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/lot_detail': (BuildContext context) => const LotDetailScreenV2(),
     '/v2/register': (BuildContext context) => const RegisterScreenV2(),
     '/v2/send_code': (BuildContext context) => const SendCodeV2(),
+    'v2/activate_account': (BuildContext context) => const ActivateAccountV2(),
   };
 }

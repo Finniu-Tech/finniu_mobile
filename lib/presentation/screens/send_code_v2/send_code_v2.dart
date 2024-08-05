@@ -1,20 +1,21 @@
-// import 'package:finniu/presentation/providers/graphql_provider.dart';
-// import 'package:finniu/presentation/providers/settings_provider.dart';
-// import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
+import 'package:finniu/presentation/providers/otp_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profil.dart';
+import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class SendCodeV2 extends ConsumerWidget {
   const SendCodeV2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final themeProvider = ref.watch(settingsNotifierProvider);
-    // final userProfileProvider = ref.watch(userProfileNotifierProvider);
-    // final graphQLClient = ref.watch(gqlClientProvider);
+    final userProfileProvider = ref.watch(userProfileNotifierProvider);
+    final graphQLClient = ref.watch(gqlClientProvider);
 
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
@@ -41,6 +42,7 @@ class SendCodeV2 extends ConsumerWidget {
                 fontSize: 24,
                 textDark: titleDark,
                 textLight: titleLight,
+                align: TextAlign.center,
               ),
               const SizedBox(
                 height: 20,
@@ -51,11 +53,37 @@ class SendCodeV2 extends ConsumerWidget {
                 lines: 2,
                 textDark: subTitleDark,
                 textLight: subTitleLight,
+                align: TextAlign.center,
               ),
               const SizedBox(
                 height: 20,
               ),
-              ButtonInvestment(text: "Recibir código ", onPressed: () {}),
+              ButtonInvestment(
+                text: "Recibir código ",
+                onPressed: () {
+                  context.loaderOverlay.show();
+
+                  graphQLClient.when(
+                    data: (client) async {
+                      final result = await sendEmailOTPCode(
+                          userProfileProvider.email!, client);
+
+                      if (result == true) {
+                        context.loaderOverlay.hide();
+                        Navigator.of(context).pushNamed('v2/activate_account');
+                      } else {
+                        CustomSnackbar.show(
+                          context,
+                          'No se pudo enviar el correo',
+                          "error",
+                        );
+                      }
+                    },
+                    loading: () => null,
+                    error: (error, stackTrace) => null,
+                  );
+                },
+              ),
             ],
           ),
         ),
