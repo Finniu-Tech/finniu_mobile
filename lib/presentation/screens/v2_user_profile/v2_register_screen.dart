@@ -18,12 +18,18 @@ class RegisterScreenV2 extends StatelessWidget {
     return ScaffoldUserProfile(
       children: [
         const LogoFinniu(),
+        const SizedBox(
+          height: 10,
+        ),
         TextPoppins(
           text: title,
           fontSize: 24,
           isBold: true,
           textDark: textDark,
           textLight: textLight,
+        ),
+        const SizedBox(
+          height: 10,
         ),
         SizedBox(
           width: 244,
@@ -35,6 +41,9 @@ class RegisterScreenV2 extends StatelessWidget {
             textDark: textDark,
             textLight: textLight,
           ),
+        ),
+        const SizedBox(
+          height: 10,
         ),
         const FormRegister(),
       ],
