@@ -245,7 +245,6 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 
     return GestureDetector(
       onTap: () {
-        print('onTap focusss');
         FocusScope.of(context).unfocus();
       },
       child: SingleChildScrollView(
@@ -781,9 +780,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                   final createReInvestmentResponse = await ref.watch(
                     createReInvestmentProvider(reInvestmentParams).future,
                   );
-                  print(
-                    'createReInvestmentResponse: $createReInvestmentResponse',
-                  );
+
                   if (createReInvestmentResponse.success == false) {
                     context.loaderOverlay.hide();
                     // CHECK HERE

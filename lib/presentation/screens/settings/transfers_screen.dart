@@ -1,10 +1,10 @@
+import 'package:finniu/domain/entities/feature_flag_entity.dart';
+import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/domain/entities/transference_entity.dart';
-import 'package:finniu/infrastructure/datasources/transferences_datasource_imp.dart';
-import 'package:finniu/presentation/providers/graphql_provider.dart';
+import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/transferences_provider.dart';
 import 'package:finniu/presentation/screens/settings/widgets.dart';
-import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/colors.dart';
@@ -20,6 +20,7 @@ class TransfersScreen extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomScaffoldReturnLogo(
       hideReturnButton: false,
+      hideNavBar: true,
       body: Column(
         children: [
           Padding(
@@ -316,7 +317,11 @@ class EmptyTransference extends ConsumerWidget {
           height: 32,
           child: TextButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/plan_list');
+              if ((ref.watch(featureFlagsProvider)[FeatureFlags.homeV2]) == true) {
+                Navigator.pushNamed(context, Routes.homeV2);
+              } else {
+                Navigator.pushNamed(context, '/plan_list');
+              }
             },
             child: const Text(
               style: TextStyle(fontSize: 12),

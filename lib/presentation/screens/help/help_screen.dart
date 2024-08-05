@@ -19,6 +19,7 @@ class HelpScreen extends ConsumerWidget {
 
     return CustomScaffoldReturnLogo(
       hideReturnButton: false,
+      hideNavBar: true,
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: SingleChildScrollView(

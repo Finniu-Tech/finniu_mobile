@@ -38,12 +38,8 @@ class UserProfileDataSourceImp {
         variables: variables,
       ),
     );
-
-    print('Variables: $variables');
-    print('response!!!');
-    print(response.data);
     bool success = response.data?['updateUser']['success'];
-    int percentCompleteProfile = response.data?['updateUser']['userProfile']['percentCompleteProfile'];
+    int percentCompleteProfile = response.data?['updateUser']['userProfile']?['percentCompleteProfile'] ?? 0;
     return {'success': success, 'percentCompleteProfile': percentCompleteProfile};
   }
 
