@@ -4,6 +4,7 @@ import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_inve
 import 'package:finniu/presentation/screens/business_investments/business_investments_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
+import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
@@ -176,5 +177,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/register': (BuildContext context) => const RegisterScreenV2(),
     '/v2/send_code': (BuildContext context) => const SendCodeV2(),
     'v2/activate_account': (BuildContext context) => const ActivateAccountV2(),
+    'v2/complete_details': (BuildContext context) =>
+        const CompleteDetailsScreenV2(),
   };
 }
