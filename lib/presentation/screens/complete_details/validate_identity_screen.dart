@@ -21,7 +21,7 @@ class ValidateIdentityScreenV2 extends StatelessWidget {
       children: [
         const ContainerSlide(),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         TextPoppins(
           text: textTitle,

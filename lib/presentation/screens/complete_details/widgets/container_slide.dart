@@ -11,7 +11,7 @@ class ContainerSlide extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-    final _selectedIndex = useState(0);
+    final selectedIndex = useState(0);
     final PageController pageController = PageController();
     const int containerSelectedDark = 0xffA2E6FA;
     const int containerSelectedLight = 0xff0D3A5C;
@@ -21,18 +21,19 @@ class ContainerSlide extends HookConsumerWidget {
       builder: (context) {
         return Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.45,
+          height: MediaQuery.of(context).size.height * 0.5,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 child: PageView(
                   controller: pageController,
                   onPageChanged: (index) {
-                    _selectedIndex.value = index;
+                    selectedIndex.value = index;
                   },
                   children: const [
                     UploadDocument(),
@@ -40,39 +41,43 @@ class ContainerSlide extends HookConsumerWidget {
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: _selectedIndex.value == 0
-                          ? isDarkMode
-                              ? const Color(containerSelectedDark)
-                              : const Color(containerSelectedLight)
-                          : isDarkMode
-                              ? const Color(containerUnselectedDark)
-                              : const Color(containerUnselectedLight),
+              const SizedBox(height: 10),
+              SizedBox(
+                height: 10,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: selectedIndex.value == 0
+                            ? isDarkMode
+                                ? const Color(containerSelectedDark)
+                                : const Color(containerSelectedLight)
+                            : isDarkMode
+                                ? const Color(containerUnselectedDark)
+                                : const Color(containerUnselectedLight),
+                      ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    height: 8,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: _selectedIndex.value == 1
-                          ? isDarkMode
-                              ? const Color(containerSelectedDark)
-                              : const Color(containerSelectedLight)
-                          : isDarkMode
-                              ? const Color(containerUnselectedDark)
-                              : const Color(containerUnselectedLight),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      height: 8,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: selectedIndex.value == 1
+                            ? isDarkMode
+                                ? const Color(containerSelectedDark)
+                                : const Color(containerSelectedLight)
+                            : isDarkMode
+                                ? const Color(containerUnselectedDark)
+                                : const Color(containerUnselectedLight),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           ),
@@ -91,7 +96,7 @@ class UploadDocument extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.4,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -125,7 +130,7 @@ class UploadDocument extends StatelessWidget {
             text:
                 "Necesitamos una foto clara de ambas caras tu DNI. Asegúrate de que toda la información sea legible.",
             fontSize: 14,
-            isBold: true,
+            isBold: false,
             lines: 3,
             align: TextAlign.center,
           ),
@@ -135,16 +140,22 @@ class UploadDocument extends StatelessWidget {
   }
 }
 
-class DataSecurity extends StatelessWidget {
+class DataSecurity extends ConsumerWidget {
   const DataSecurity({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int textDark = 0xffFFFFFF;
+    const int textLight = 0xff000000;
+    const int textRichDark = 0xffA2E6FA;
+    const int textRichLight = 0xff0D3A5C;
+
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height * 0.4,
+      width: MediaQuery.of(context).size.width * 0.70,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -156,18 +167,50 @@ class DataSecurity extends StatelessWidget {
               Image.asset(
                 "assets/images/data_security.png",
                 width: 186,
-                height: 124,
+                height: 100,
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           const TextPoppins(
             text: "Protección de tus Datos",
             fontSize: 16,
             isBold: true,
             align: TextAlign.center,
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
+          RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text:
+                      'Tus datos de tu DNI solo se usará para validación de identidad, no lo usaremos para compartir tus datos. Tu privacidad es nuestra prioridad. Respaldamos la ',
+                  style: TextStyle(
+                    height: 1.3,
+                    fontSize: 14,
+                    color: isDarkMode
+                        ? const Color(textDark)
+                        : const Color(textLight),
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                TextSpan(
+                  text: 'ley N.º 29733, Ley de Protección de Datos Personales',
+                  style: TextStyle(
+                    height: 1.3,
+                    fontSize: 14,
+                    color: isDarkMode
+                        ? const Color(textRichDark)
+                        : const Color(textRichLight),
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+            maxLines: 6,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );
