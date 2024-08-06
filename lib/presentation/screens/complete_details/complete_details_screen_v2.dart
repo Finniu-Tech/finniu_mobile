@@ -68,7 +68,7 @@ class CompleteDetailsScreenV2 extends StatelessWidget {
               ButtonInvestment(
                 text: "Comenzar",
                 onPressed: () {
-                  print("comensar");
+                  Navigator.pushNamed(context, 'v2/validate_identity');
                 },
               ),
             ],
