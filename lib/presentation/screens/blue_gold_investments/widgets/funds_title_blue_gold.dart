@@ -22,13 +22,9 @@ class BlueGoldFundTitle extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: currentTheme.isDarkMode
-              ? const Color(borderDark)
-              : const Color(borderLight),
+          color: currentTheme.isDarkMode ? const Color(borderDark) : const Color(borderLight),
         ),
-        color: currentTheme.isDarkMode
-            ? const Color(backgroundColorDark)
-            : const Color(backgroundColorLight),
+        color: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -41,6 +37,7 @@ class BlueGoldFundTitle extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               "assets/blue_gold/blue_gold_investment.png",
@@ -75,8 +72,7 @@ class BlueGoldTitleAndNavigate extends StatefulWidget {
   });
 
   @override
-  BlueGoldTitleAndNavigateState createState() =>
-      BlueGoldTitleAndNavigateState();
+  BlueGoldTitleAndNavigateState createState() => BlueGoldTitleAndNavigateState();
 }
 
 class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
@@ -102,13 +98,9 @@ class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: widget.isDarkMode
-                ? const Color(borderDark)
-                : const Color(borderLight),
+            color: widget.isDarkMode ? const Color(borderDark) : const Color(borderLight),
           ),
-          color: widget.isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          color: widget.isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
