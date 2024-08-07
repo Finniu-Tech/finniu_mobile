@@ -60,7 +60,7 @@ class ValidateIdentityScreenV2 extends StatelessWidget {
           svgUrl: "assets/svg_icons/note_add.svg",
           textBody: "Completar  mis datos manualmente",
           onTap: () {
-            print("completar datos manuealmente");
+            Navigator.pushNamed(context, '/v2/form_personal_data');
           },
         ),
       ],
