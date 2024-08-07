@@ -18,7 +18,9 @@ class FormPersonalDataV2 extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        SliderForm(),
+        SliderForm(
+          progress: 0.5,
+        ),
       ],
     );
   }
@@ -27,8 +29,9 @@ class FormPersonalDataV2 extends StatelessWidget {
 class SliderForm extends ConsumerWidget {
   const SliderForm({
     super.key,
+    required this.progress,
   });
-
+  final double progress;
   final int progressDark = 0xffA2E6FA;
   final int progressLight = 0xff0D3A5C;
   final int unSelectDark = 0xff353535;
@@ -52,7 +55,7 @@ class SliderForm extends ConsumerWidget {
             color: isDarkMode ? Color(progressDark) : Color(progressLight),
             borderRadius: BorderRadius.circular(10),
           ),
-          width: MediaQuery.of(context).size.width * 0.3,
+          width: MediaQuery.of(context).size.width * progress,
           height: 7,
         ),
       ],
