@@ -50,6 +50,7 @@ import 'package:finniu/presentation/screens/investment_confirmation/step_3.dart'
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_1.dart';
 import 'package:finniu/presentation/screens/simulator_v2/simulator_v2_screen.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/v2_register_screen.dart';
+import 'package:finniu/presentation/screens/user_profil_v2/user_register_v2.dart';
 import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -172,5 +173,16 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/notifications': (BuildContext context) => const NotificationsScreen(),
     '/v2/lot_detail': (BuildContext context) => const LotDetailScreenV2(),
     '/v2/register': (BuildContext context) => const RegisterScreenV2(),
+    '/v2/login': (BuildContext context) => const UserRegisterV2(),
+    '/v2/register': (BuildContext context) => const UserRegisterV2(),
+    '/v2/verification_code': (BuildContext context) => const UserRegisterV2(),
+    '/v2/activate_account': (BuildContext context) => const UserRegisterV2(),
+    '/v2/upload_document': (BuildContext context) => const UserRegisterV2(),
+    '/v2/scan_document': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_personal_data': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_location': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_job': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_legal_terms': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_about_me': (BuildContext context) => const UserRegisterV2(),
   };
 }

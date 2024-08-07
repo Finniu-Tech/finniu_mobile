@@ -70,8 +70,8 @@ class _SliderMonthSelectState extends ConsumerState<SliderMonthSelect> {
           child: Slider(
             value: sliderValue.value.toDouble(),
             min: 6,
-            max: 36,
-            divisions: 3,
+            max: 24,
+            divisions: 2,
             onChanged: (double value) {
               V2SimulatorSlider newValue;
               if (value <= 9) {
@@ -81,7 +81,8 @@ class _SliderMonthSelectState extends ConsumerState<SliderMonthSelect> {
               } else if (value <= 30) {
                 newValue = V2SimulatorSlider.twentyFour;
               } else {
-                newValue = V2SimulatorSlider.thirtySix;
+                // newValue = V2SimulatorSlider.thirtySix;
+                newValue = V2SimulatorSlider.twentyFour;
               }
               if (newValue != sliderValue) {
                 ref.read(sliderValueProvider.notifier).state = newValue;
@@ -128,17 +129,17 @@ class _SliderMonthSelectState extends ConsumerState<SliderMonthSelect> {
                 fontWeight: FontWeight.w400,
               ),
             ),
-            Text(
-              "36 meses",
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: "Poppins",
-                fontSize: 12,
-                color: getColorForValue(V2SimulatorSlider.thirtySix),
-                fontWeight: FontWeight.w400,
-              ),
-            ),
+            // Text(
+            //   "36 meses",
+            //   maxLines: 1,
+            //   overflow: TextOverflow.ellipsis,
+            //   style: TextStyle(
+            //     fontFamily: "Poppins",
+            //     fontSize: 12,
+            //     color: getColorForValue(V2SimulatorSlider.thirtySix),
+            //     fontWeight: FontWeight.w400,
+            //   ),
+            // ),
           ],
         ),
       ],

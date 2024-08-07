@@ -120,14 +120,13 @@ class ButtonDialog extends ConsumerWidget {
   }
 }
 
-Future<dynamic> showThanksInvestmentDialog(
-  BuildContext context, {
-  required String textTanks,
-  required String textBody,
-  required String textTitle,
-  required String textButton,
-  required VoidCallback? onPressed,
-}) {
+Future<dynamic> showThanksInvestmentDialog(BuildContext context,
+    {required String textTanks,
+    required String textBody,
+    required String textTitle,
+    required String textButton,
+    required VoidCallback? onPressed,
+    VoidCallback? onClosePressed}) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -138,6 +137,7 @@ Future<dynamic> showThanksInvestmentDialog(
         textTitle: textTitle,
         textButton: textButton,
         onPressed: onPressed,
+        onClosePressed: onClosePressed,
       ),
     ),
   );
@@ -149,14 +149,15 @@ class BodyDialog extends ConsumerWidget {
   final String textTitle;
   final String textButton;
   final VoidCallback? onPressed;
-  const BodyDialog({
-    super.key,
-    required this.textTanks,
-    required this.textBody,
-    required this.textTitle,
-    required this.textButton,
-    required this.onPressed,
-  });
+  final VoidCallback? onClosePressed;
+  const BodyDialog(
+      {super.key,
+      required this.textTanks,
+      required this.textBody,
+      required this.textTitle,
+      required this.textButton,
+      required this.onPressed,
+      this.onClosePressed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -171,7 +172,7 @@ class BodyDialog extends ConsumerWidget {
             top: 0,
             right: 0,
             child: IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: onClosePressed ?? () => Navigator.pop(context),
               icon: Transform.rotate(
                 angle: math.pi / 4,
                 child: const Icon(
