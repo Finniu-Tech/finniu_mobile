@@ -27,6 +27,8 @@ class ScanDocumentScreenV2 extends HookConsumerWidget {
 
     void continueLater() {
       print("continue later");
+
+      Navigator.pop(context);
     }
 
     return ScaffoldUserProfile(
