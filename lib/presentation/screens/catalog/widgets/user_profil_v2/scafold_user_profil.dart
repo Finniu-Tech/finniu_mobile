@@ -9,11 +9,15 @@ class ScaffoldUserProfile extends ConsumerWidget {
     this.appBar,
     this.bottomNavigationBar,
     this.floatingActionButton,
+    this.mainAxisAlignment,
+    this.crossAxisAlignment,
   });
   final PreferredSizeWidget? appBar;
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
   final List<Widget> children;
+  final MainAxisAlignment? mainAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -33,8 +37,10 @@ class ScaffoldUserProfile extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 15),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment:
+                    mainAxisAlignment ?? MainAxisAlignment.spaceAround,
+                crossAxisAlignment:
+                    crossAxisAlignment ?? CrossAxisAlignment.start,
                 children: children,
               ),
             ),
