@@ -43,3 +43,8 @@ final saveCorporateInvestmentFutureProvider = FutureProvider.autoDispose
   final calculateResponse = await fundDataSource.saveCorporateInvestment(input);
   return calculateResponse;
 });
+
+final getAggroInvestmentQuotesFutureProvider = FutureProvider.autoDispose<List<int>>((ref) async {
+  final fundDataSource = ref.watch(fundDataSourceProvider);
+  return await fundDataSource.getAggroQuotes();
+});

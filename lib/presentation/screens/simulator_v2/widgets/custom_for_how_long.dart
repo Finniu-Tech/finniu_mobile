@@ -20,7 +20,7 @@ class ColumnForHowLong extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const TextPoppins(
-              text: "¿Por cuento tiempo?",
+              text: "¿Por cuánto tiempo?",
               fontSize: 17,
               isBold: true,
             ),

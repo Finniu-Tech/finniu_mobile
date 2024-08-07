@@ -100,9 +100,10 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: 45,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       pageWidgets[0].title,

@@ -46,6 +46,23 @@ class FundDataSource extends GraphQLBaseDataSource {
     return fundList;
   }
 
+  Future<List<int>> getAggroQuotes() async {
+    print('getAggroQuotes');
+    final response = await client.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.aggroInvestmentQuotes,
+        ),
+        fetchPolicy: FetchPolicy.noCache,
+      ),
+    );
+    print('response: ${response.data}');
+    final quoteList = response.data?['agroInvestmentQueries']['calculateQuotesAvailable'];
+    print('quoteList zero : ${quoteList}');
+    //iterate over the quoteList and parse each vaalue to int
+    return (quoteList as List<dynamic>).map((quote) => quote as int).toList();
+  }
+
   //TODO calculate aggro investment
 
   Future<CalculateAggroInvestmentResponse> calculateAggroInvestment(CalculateAggroInvestmentInput input) async {
