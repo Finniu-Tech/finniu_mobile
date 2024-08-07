@@ -185,7 +185,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     'v2/validate_identity': (BuildContext context) =>
         const ValidateIdentityScreenV2(),
     '/v2/login': (BuildContext context) => const UserRegisterV2(),
-    '/v2/register': (BuildContext context) => const UserRegisterV2(),
     '/v2/verification_code': (BuildContext context) => const UserRegisterV2(),
     '/v2/activate_account': (BuildContext context) => const UserRegisterV2(),
     '/v2/upload_document': (BuildContext context) => const UserRegisterV2(),
@@ -195,6 +194,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/form_job': (BuildContext context) => const UserRegisterV2(),
     '/v2/form_legal_terms': (BuildContext context) => const UserRegisterV2(),
     '/v2/form_about_me': (BuildContext context) => const UserRegisterV2(),
-
   };
 }
