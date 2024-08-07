@@ -50,7 +50,7 @@ class ValidateIdentityScreenV2 extends StatelessWidget {
           svgUrl: "assets/svg_icons/document_icon.svg",
           textBody: "Escanear mi documento de identidad",
           onTap: () {
-            print("escanear documento");
+            Navigator.pushNamed(context, '/v2/scan_document');
           },
         ),
         const SizedBox(

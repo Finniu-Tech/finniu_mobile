@@ -5,7 +5,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafo
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/dotted_vertical_line.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CompleteDetailsScreenV2 extends StatelessWidget {
