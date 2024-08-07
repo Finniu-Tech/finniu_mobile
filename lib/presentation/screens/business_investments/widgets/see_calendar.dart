@@ -20,7 +20,7 @@ class SeeCalendar extends ConsumerWidget {
     const int iconArrowLight = 0xff000000;
     return GestureDetector(
       onTap: () {
-        print("hola harol");
+        Navigator.pushNamed(context, '/v2/calendar');
       },
       child: Container(
         decoration: BoxDecoration(
