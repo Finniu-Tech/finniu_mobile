@@ -90,7 +90,7 @@ class ScrollBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final mainColorText = currentTheme.isDarkMode ? Colors.white : Colors.black;
+    final mainColorText = Colors.black;
     final Color downloadInfoButtonColor =
         fund.fundType == FundTypeEnum.corporate ? const Color(primaryDark) : const Color(0xff3A66BF);
     final bool isSoles = ref.watch(isSolesStateProvider);
@@ -166,7 +166,7 @@ class ScrollBody extends ConsumerWidget {
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text('Ver más información'),
+                        Text('Ver más información', style: TextStyle(color: Colors.white)),
                         SizedBox(width: 5),
                         Icon(
                           Icons.download_rounded,

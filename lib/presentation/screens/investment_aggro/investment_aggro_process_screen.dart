@@ -266,11 +266,17 @@ class BottomSection extends HookConsumerWidget {
               minHeight: 45,
             ),
             child: CustomSelectButton(
-              items: const [
-                '2 cuotas',
-                '6 cuotas',
-                '12 cuotas',
-              ],
+              // items: const [
+              //   '2 cuotas',
+              //   '6 cuotas',
+              //   '12 cuotas',
+              // ],
+              asyncItems: (String filter) async {
+                final quoteNumbers = await ref.watch(getAggroInvestmentQuotesFutureProvider.future);
+                print('quoteNumbers222: $quoteNumbers');
+                // append the word "cuota" to each item in the list
+                return quoteNumbers.map((item) => '$item ${item == 1 ? "cuota" : "cuotas"}').toList();
+              },
               callbackOnChange: (value) async {
                 quoteNumberController.text = value;
                 // installments.value = int.parse((value).split(' ')[0]);
@@ -424,17 +430,18 @@ class BottomSection extends HookConsumerWidget {
                   return;
                 }
 
-                showThanksInvestmentDialog(
-                  context,
-                  textTitle: 'Gracias por \nconfiar en Finniu!',
-                  textTanks: 'Gracias por tu comprensión!',
-                  textBody:
-                      'Recuerda que tu solicitud de Inversion agroInmobiliaria sera derivada a un asesor del Proyecto, quien se contactara contigo en las proxima 24h.',
-                  textButton: 'Ver mi progreso',
-                  onPressed: () => {
-                    Navigator.pushNamed(context, '/v2/investment'),
-                  },
-                );
+                showThanksInvestmentDialog(context,
+                    textTitle: 'Gracias por \nconfiar en Finniu!',
+                    textTanks: 'Gracias por tu comprensión!',
+                    textBody:
+                        'Recuerda que tu solicitud de Inversion agroInmobiliaria sera derivada a un asesor del Proyecto, quien se contactara contigo en las proxima 24h.',
+                    textButton: 'Ver mi progreso',
+                    onPressed: () => {
+                          Navigator.pushNamed(context, '/v2/investment'),
+                        },
+                    onClosePressed: () => {
+                          Navigator.pushNamed(context, '/v2/investment'),
+                        });
               },
               child: const Text(
                 'Continuar',

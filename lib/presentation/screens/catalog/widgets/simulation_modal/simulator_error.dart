@@ -76,9 +76,7 @@ class SimulationError extends ConsumerWidget {
                 width: 2,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(dividerDark)
-                      : const Color(dividerLight),
+                  color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
                 ),
               ),
               const Column(
@@ -129,9 +127,7 @@ class SimulationError extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: 66,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(returnDark)
-                  : const Color(returnLight),
+              color: isDarkMode ? const Color(returnDark) : const Color(returnLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
@@ -149,9 +145,7 @@ class SimulationError extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: 49,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(monthEveryTextDark)
-                  : const Color(monthEveryTextLight),
+              color: isDarkMode ? const Color(monthEveryTextDark) : const Color(monthEveryTextLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
@@ -162,9 +156,7 @@ class SimulationError extends ConsumerWidget {
               children: [
                 Icon(
                   Icons.calendar_today_outlined,
-                  color: isDarkMode
-                      ? const Color(textEveryDark)
-                      : const Color(textEveryLight),
+                  color: isDarkMode ? const Color(textEveryDark) : const Color(textEveryLight),
                   size: 20,
                 ),
                 const SizedBox(
@@ -187,7 +179,7 @@ class SimulationError extends ConsumerWidget {
             ),
           ),
           ButtonInvestment(
-            text: "Contunuar",
+            text: "Continuar",
             onPressed: toInvestPressed,
           ),
           GestureDetector(

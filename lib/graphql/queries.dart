@@ -1413,4 +1413,14 @@ class QueryRepository {
       }
       ''';
   }
+
+  static String get aggroInvestmentQuotes {
+    return '''
+      query getAggroQuotes{
+        agroInvestmentQueries{
+          calculateQuotesAvailable
+        }
+      }
+    ''';
+  }
 }
