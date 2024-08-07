@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:finniu/presentation/providers/add_document_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
@@ -20,8 +21,20 @@ class ScanDocumentScreenV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String? imagePathFront = ref.watch(imagePathFrontProvider);
     final String? imagePathBack = ref.watch(imagePathBackProvider);
+    void uploadDocuments() {
+      print("upload documents");
+    }
+
+    void continueLater() {
+      print("continue later");
+    }
+
     return ScaffoldUserProfile(
       appBar: const AppBarLogo(),
+      bottomNavigationBar: ActionButtonScanDocument(
+        uploadDocuments: () => uploadDocuments(),
+        continueLater: () => continueLater(),
+      ),
       children: [
         const _TitleHeader(),
         const SizedBox(height: 20),
@@ -56,7 +69,49 @@ class ScanDocumentScreenV2 extends HookConsumerWidget {
             : ScanBack(
                 onTap: () => addDocumentBack(context: context, ref: ref),
               ),
+        const SizedBox(height: 100),
       ],
+    );
+  }
+}
+
+class ActionButtonScanDocument extends StatelessWidget {
+  const ActionButtonScanDocument({
+    super.key,
+    required this.uploadDocuments,
+    required this.continueLater,
+  });
+  final VoidCallback? uploadDocuments;
+  final VoidCallback? continueLater;
+
+  final int textDark = 0xffB3B3B3;
+  final int textLight = 0xff0D3A5C;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      width: MediaQuery.of(context).size.width * 0.8,
+      height: 100,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ButtonInvestment(
+              text: "Guardar mi documento", onPressed: uploadDocuments),
+          const SizedBox(height: 10),
+          GestureDetector(
+            onTap: continueLater,
+            child: TextPoppins(
+              text: "Continuar más tarde",
+              fontSize: 14,
+              isBold: true,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
