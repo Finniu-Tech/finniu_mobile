@@ -1,8 +1,12 @@
+import 'dart:io';
+import 'package:finniu/presentation/providers/add_document_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
-import 'package:finniu/presentation/screens/scan_document_v2/widgets/custom_border_container.dart';
+import 'package:finniu/presentation/screens/scan_document_v2/helpers/add_document.dart';
+import 'package:finniu/presentation/screens/scan_document_v2/widgets/scan_back.dart';
+import 'package:finniu/presentation/screens/scan_document_v2/widgets/scan_front.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,45 +18,65 @@ class ScanDocumentScreenV2 extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const ScaffoldUserProfile(
-      appBar: AppBarLogo(),
+    final String? imagePathFront = ref.watch(imagePathFrontProvider);
+    final String? imagePathBack = ref.watch(imagePathBackProvider);
+    return ScaffoldUserProfile(
+      appBar: const AppBarLogo(),
       children: [
-        _TitleHeader(),
-        SizedBox(height: 20),
-        _WarningMessage(),
-        SizedBox(height: 20),
-        TextPoppins(
+        const _TitleHeader(),
+        const SizedBox(height: 20),
+        const _WarningMessage(),
+        const SizedBox(height: 20),
+        const TextPoppins(
           text: "Cara frontal",
           fontSize: 16,
           isBold: true,
         ),
-        SizedBox(height: 20),
-        _ScanFront(),
+        const SizedBox(height: 10),
+        imagePathFront != null
+            ? UploadedImageFront(
+                imagePath: imagePathFront,
+                onTap: () => addDocumentFront(context: context, ref: ref),
+              )
+            : ScanFront(
+                onTap: () => addDocumentFront(context: context, ref: ref),
+              ),
+        const SizedBox(height: 20),
+        const TextPoppins(
+          text: "Cara trasera",
+          fontSize: 16,
+          isBold: true,
+        ),
+        const SizedBox(height: 10),
+        imagePathBack != null
+            ? UploadedImageFront(
+                imagePath: imagePathBack,
+                onTap: () => addDocumentBack(context: context, ref: ref),
+              )
+            : ScanBack(
+                onTap: () => addDocumentBack(context: context, ref: ref),
+              ),
       ],
     );
   }
 }
 
-class _ScanFront extends ConsumerWidget {
-  const _ScanFront();
+class UploadedImage extends StatelessWidget {
+  const UploadedImage({
+    super.key,
+    required this.imagePath,
+  });
+
+  final String imagePath;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int borderDark = 0xffA2E6FA;
-    const int borderLight = 0xff0D3A5C;
-    return CustomBorderContainer(
-      borderColorDark: borderDark,
-      borderColorLight: borderLight,
-      isDarkMode: isDarkMode,
-      height: 170,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-        ),
-        width: MediaQuery.of(context).size.width,
-        height: 170,
+  Widget build(BuildContext context) {
+    return Image.file(
+      File(
+        imagePath,
       ),
+      width: 87,
+      height: 55,
     );
   }
 }
