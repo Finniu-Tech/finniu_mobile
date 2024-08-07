@@ -40,6 +40,15 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "go to register v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/register');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const NoInvestmentCase(
               title: "Aún no tienes inversiones en curso",
               textBody:

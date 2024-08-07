@@ -49,16 +49,15 @@ class ButtonInvestment extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
       width: MediaQuery.of(context).size.width,
-      constraints: const BoxConstraints(
-        maxWidth: 320,
-      ),
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -67,7 +66,9 @@ class ButtonInvestment extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
+            color: isDarkMode
+                ? const Color(colorTextButtonDarkColor)
+                : const Color(colorTextButtonLightColor),
             fontSize: 14,
             fontFamily: "Poppins",
           ),
@@ -96,7 +97,9 @@ class ButtonDialog extends ConsumerWidget {
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -105,7 +108,9 @@ class ButtonDialog extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
+            color: isDarkMode
+                ? const Color(colorTextButtonDarkColor)
+                : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
           ),
@@ -192,7 +197,9 @@ class BodyDialog extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                        color: isDarkMode
+                            ? const Color(labelTextDarkColor)
+                            : const Color(labelTextLightColor),
                       ),
                     ),
                     Image.asset('assets/icons/icon_tanks.png'),
@@ -220,7 +227,9 @@ class BodyDialog extends ConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Poppins",
-                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                        color: isDarkMode
+                            ? const Color(labelTextDarkColor)
+                            : const Color(labelTextLightColor),
                       ),
                       maxLines: 1,
                       textAlign: TextAlign.start,
