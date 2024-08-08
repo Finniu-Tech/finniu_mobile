@@ -97,7 +97,7 @@ class RealEstateBody extends ConsumerWidget {
             final isReinvest = args != null && args['reinvest'] != null
                 ? args['reinvest']
                 : false;
-            print(isReinvest);
+
             return _buildNormalContent(isReinvest: isReinvest);
           }
         },
