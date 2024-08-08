@@ -9,6 +9,7 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
@@ -43,7 +44,9 @@ class HomeScreenV2 extends HookConsumerWidget {
           currentTheme: currentTheme,
           userProfile: userProfile,
         ),
-        backgroundColor: Color(currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary),
+        backgroundColor: Color(currentTheme.isDarkMode
+            ? scaffoldBlackBackground
+            : scaffoldLightGradientPrimary),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -98,7 +101,8 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context)
+                .pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -113,7 +117,10 @@ class HomeBody extends HookConsumerWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: currentTheme.isDarkMode
-                ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+                ? [
+                    const Color(scaffoldBlackBackground),
+                    const Color(backgroundColorNavbar)
+                  ]
                 : [
                     const Color(scaffoldLightGradientPrimary),
                     const Color(scaffoldLightGradientSecondary),
@@ -125,10 +132,9 @@ class HomeBody extends HookConsumerWidget {
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.45,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(50),
+                  bottomRight: Radius.circular(20),
                 ),
                 color: currentTheme.isDarkMode
                     ? const Color(scaffoldBlackBackground)
@@ -164,13 +170,15 @@ class HomeBody extends HookConsumerWidget {
                           Navigator.pushNamed(context, '/v2/investment');
                         },
                       ),
+                      const CarrouselSlider(),
                     ],
                   ),
                   renderNonInvestment
                       ? Positioned.fill(
                           child: IgnorePointer(
                             child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                              filter:
+                                  ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.transparent.withOpacity(0.1),
@@ -198,7 +206,8 @@ class HomeBody extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] == true) ...[
+            if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] ==
+                true) ...[
               ElevatedButton(
                 onPressed: () => Navigator.pushNamed(context, '/home_home'),
                 child: const Text('Ir a home normal'),
@@ -207,7 +216,7 @@ class HomeBody extends HookConsumerWidget {
                 onPressed: () => Navigator.pushNamed(context, '/catalog'),
                 child: const Text('Ver Catalogo de Widgets'),
               ),
-            ]
+            ],
           ],
         ),
       ),

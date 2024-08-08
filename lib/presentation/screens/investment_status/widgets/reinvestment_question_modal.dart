@@ -7,10 +7,7 @@ import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/widgets/snackbar.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -19,8 +16,9 @@ void reinvestmentQuestionModal(
   WidgetRef ref,
   String preInvestmentUUID,
   double preInvestmentAmount,
-  String currency,
-) {
+  String currency, [
+  bool? isReinvest = false,
+]) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showModalBottomSheet(
@@ -33,13 +31,17 @@ void reinvestmentQuestionModal(
       ),
     ),
     elevation: 10,
-    backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
+    backgroundColor: themeProvider.isDarkMode
+        ? const Color(backgroundColorDark)
+        : Colors.white,
     context: ctx,
     builder: (ctx) => ReinvestmentQuestionBody(
-        themeProvider: themeProvider,
-        preInvestmentUUID: preInvestmentUUID,
-        preInvestmentAmount: preInvestmentAmount,
-        currency: currency),
+      themeProvider: themeProvider,
+      preInvestmentUUID: preInvestmentUUID,
+      preInvestmentAmount: preInvestmentAmount,
+      currency: currency,
+      isReInvestment: isReinvest ?? false,
+    ),
   );
 }
 
@@ -50,12 +52,14 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
     required this.preInvestmentUUID,
     required this.preInvestmentAmount,
     required this.currency,
+    this.isReInvestment = false,
   });
 
   final SettingsProviderState themeProvider;
   final String preInvestmentUUID;
   final double preInvestmentAmount;
   final String currency;
+  final bool isReInvestment;
   // final UserNotificationEntity userNotification;
 
   @override
@@ -64,7 +68,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
 
     return Container(
       // customize background color
-      color: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
+      color: themeProvider.isDarkMode
+          ? const Color(backgroundColorDark)
+          : Colors.white,
 
       height: 400,
       width: double.infinity,
@@ -77,7 +83,11 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
             SizedBox(
               width: 90,
               height: 90,
-              child: Image.asset('assets/reinvestment/avatar_with_money.png'),
+              child: Image.asset(
+                isReInvestment
+                    ? 'assets/reinvestment/reinvestment_image.png'
+                    : 'assets/reinvestment/avatar_with_money.png',
+              ),
             ),
             const SizedBox(height: 20),
             SizedBox(
@@ -88,7 +98,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   height: 1.5,
-                  color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                  color: themeProvider.isDarkMode
+                      ? Colors.white
+                      : const Color(primaryDark),
                 ),
                 "¡Muchas gracias por tu interés de reinvertir en Finniu!",
               ),
@@ -105,7 +117,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                   Container(
                     width: 70,
                     height: 1,
-                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                    color: themeProvider.isDarkMode
+                        ? Colors.white
+                        : const Color(primaryDark),
                   ),
                   const SizedBox(width: 10),
                   //text in the middle of lines
@@ -115,7 +129,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -123,7 +139,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                   Container(
                     width: 70,
                     height: 1,
-                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                    color: themeProvider.isDarkMode
+                        ? Colors.white
+                        : const Color(primaryDark),
                   ),
                 ],
               ),
@@ -136,7 +154,8 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
 
             // first button
             SizedBox(
-              width: 220,
+              width: MediaQuery.of(context).size.width * 0.80,
+              height: 50,
               child: TextButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -149,7 +168,8 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                       'preInvestmentUUID': preInvestmentUUID,
                       'preInvestmentAmount': preInvestmentAmount,
                       'currency': currency,
-                      'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                      'reInvestmentType':
+                          typeReinvestmentEnum.CAPITAL_ADITIONAL,
                     },
                   );
                 },
@@ -162,10 +182,12 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                 child: Text(
                   'Aumentar mi capital',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
-                    color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                    color: themeProvider.isDarkMode
+                        ? const Color(primaryDark)
+                        : Colors.white,
                   ),
                 ),
               ),
@@ -174,7 +196,8 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
             const SizedBox(height: 10),
 
             SizedBox(
-              width: 220,
+              width: MediaQuery.of(context).size.width * 0.80,
+              height: 50,
               child: OutlinedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -192,20 +215,25 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   side: BorderSide(
-                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                    color: themeProvider.isDarkMode
+                        ? Colors.white
+                        : const Color(primaryDark),
                     width: 1,
                   ),
                   padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                  backgroundColor:
-                      themeProvider.isDarkMode ? const Color(primaryDark) : const Color(backgroundColorLight),
+                  backgroundColor: themeProvider.isDarkMode
+                      ? Colors.transparent
+                      : const Color(backgroundColorLight),
                 ),
                 child: Text(
                   'Reinvertir el mismo capital',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 16,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
-                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                    color: themeProvider.isDarkMode
+                        ? Colors.white
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -217,7 +245,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
             TextButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(
-                  themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
+                  themeProvider.isDarkMode
+                      ? const Color(backgroundColorDark)
+                      : Colors.white,
                 ),
                 elevation: MaterialStateProperty.all<double>(0.0),
               ),
@@ -230,7 +260,7 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                 style: TextStyle(
                   decoration: TextDecoration.underline,
                   decorationStyle: TextDecorationStyle.solid,
-                  fontSize: 12,
+                  fontSize: 16,
                   fontWeight: FontWeight.w500,
                   height: 1.5,
                   color: Color(0xff989797),
@@ -247,7 +277,11 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
 
 //this widget will return a modal with a a different reasons to decline a question, it will have a title, a list of reasons like a buttons scrollable, and en the end on the modal in a row two buttons, one for cancel and other for send
 
-void showDialogRefuseReasons(BuildContext ctx, WidgetRef ref, String preInvestmentUUID) {
+void showDialogRefuseReasons(
+  BuildContext ctx,
+  WidgetRef ref,
+  String preInvestmentUUID,
+) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
   showDialog(
@@ -260,8 +294,13 @@ void showDialogRefuseReasons(BuildContext ctx, WidgetRef ref, String preInvestme
           Radius.circular(20),
         ),
       ),
-      backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
-      content: QuestionDeclineReasonsModal(themeProvider: themeProvider, preInvestmentUUID: preInvestmentUUID),
+      backgroundColor: themeProvider.isDarkMode
+          ? const Color(backgroundColorDark)
+          : Colors.white,
+      content: QuestionDeclineReasonsModal(
+        themeProvider: themeProvider,
+        preInvestmentUUID: preInvestmentUUID,
+      ),
     ),
   );
 }
@@ -285,45 +324,72 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
       () {
         selectedReason.value = null;
         otherReasonController.clear();
+        return null;
       },
       [],
     );
 
-    return Container(
-      height: 480,
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.80,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Image.asset(
+            "assets/reinvestment/tell_your_reason_image.png",
+            width: 79,
+            height: 61,
+          ),
           const SizedBox(height: 20),
           Text(
             "Cuéntanos tus motivos",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 20,
               fontWeight: FontWeight.w600,
               height: 1.5,
-              color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+              color: themeProvider.isDarkMode
+                  ? Colors.white
+                  : const Color(primaryDark),
             ),
           ),
           const SizedBox(height: 20),
           SizedBox(
-            height: 280,
+            height: MediaQuery.of(context).size.height * 0.35,
             child: ListView(
               children: [
-                reasonButton(context, themeProvider, selectedReason, 'Ya completé mi meta'),
+                reasonButton(
+                  context,
+                  themeProvider,
+                  selectedReason,
+                  'Ya completé mi meta',
+                ),
                 const SizedBox(height: 10),
-                reasonButton(context, themeProvider, selectedReason, 'Necesito mi dinero'),
+                reasonButton(
+                  context,
+                  themeProvider,
+                  selectedReason,
+                  'Necesito mi dinero',
+                ),
                 const SizedBox(height: 10),
-                reasonButton(context, themeProvider, selectedReason, 'Me han ofrecido mejor rentabilidad'),
+                reasonButton(
+                  context,
+                  themeProvider,
+                  selectedReason,
+                  'Me han ofrecido mejor rentabilidad',
+                ),
                 const SizedBox(height: 10),
-                reasonButton(context, themeProvider, selectedReason, 'Percibo mucho riesgo'),
+                reasonButton(
+                  context,
+                  themeProvider,
+                  selectedReason,
+                  'Percibo mucho riesgo',
+                ),
                 const SizedBox(height: 10),
                 reasonButton(context, themeProvider, selectedReason, 'Otros'),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          if (selectedReason.value == 'Otros') const SizedBox(height: 20),
           if (selectedReason.value == 'Otros')
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -335,56 +401,71 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
                 ),
               ),
             ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(
-                width: 120,
+                width: MediaQuery.of(context).size.width * 0.3,
+                height: 43,
                 child: OutlinedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                       width: 1,
                     ),
                     padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
-                    backgroundColor:
-                        themeProvider.isDarkMode ? const Color(primaryDark) : const Color(backgroundColorLight),
+                    backgroundColor: Colors.transparent,
                   ),
                   child: Text(
                     'Cancelar',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ),
               ),
               const Spacer(),
               SizedBox(
-                width: 120,
+                width: MediaQuery.of(context).size.width * 0.3,
+                height: 43,
                 child: TextButton(
                   onPressed: () {
                     // validate if the user selected a reason , if other is selected validate if the user wrote a reason
 
                     if (selectedReason.value == null ||
-                        selectedReason.value == 'Otros' && otherReasonController.text.isEmpty) {
-                      CustomSnackbar.show(context, 'Selecciona un motivo', 'error');
+                        selectedReason.value == 'Otros' &&
+                            otherReasonController.text.isEmpty) {
+                      CustomSnackbar.show(
+                        context,
+                        'Selecciona un motivo',
+                        'error',
+                      );
                       return;
                     }
                     final reason = mapReason(selectedReason.value!);
-                    final otherReason = selectedReason.value == 'Otros' ? otherReasonController.text : '';
+                    final otherReason = selectedReason.value == 'Otros'
+                        ? otherReasonController.text
+                        : '';
 
                     ref
                         .read(
                       rejectReInvestmentProvider(
                         RejectReInvestmentParams(
-                            preInvestmentUUID: preInvestmentUUID, rejectMotivation: reason!, textRejected: otherReason),
+                          preInvestmentUUID: preInvestmentUUID,
+                          rejectMotivation: reason!,
+                          textRejected: otherReason,
+                        ),
                       ).future,
                     )
                         .then((value) {
@@ -392,7 +473,11 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
                         Navigator.of(context).pop();
                         showGreetingsModal(context, ref);
                       } else {
-                        CustomSnackbar.show(context, 'Error al enviar la respuesta', 'error');
+                        CustomSnackbar.show(
+                          context,
+                          'Error al enviar la respuesta',
+                          'error',
+                        );
                       }
                     });
                   },
@@ -405,10 +490,12 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
                   child: Text(
                     'Enviar',
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 13,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                      color: themeProvider.isDarkMode
+                          ? const Color(primaryDark)
+                          : Colors.white,
                     ),
                   ),
                 ),
@@ -421,34 +508,51 @@ class QuestionDeclineReasonsModal extends HookConsumerWidget {
   }
 
   Widget reasonButton(
-      BuildContext context, SettingsProviderState themeProvider, ValueNotifier<String?> selectedReason, String reason) {
-    return TextButton(
-      onPressed: () {
-        selectedReason.value = reason;
-      },
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-        backgroundColor: selectedReason.value == reason
-            ? themeProvider.isDarkMode
-                ? const Color(primaryDark)
-                : const Color(0xffD3D3D3)
-            : themeProvider.isDarkMode
-                ? const Color(primaryDark)
-                : const Color(0xffF2F2F2),
-      ),
-      child: Text(
-        reason,
-        style: TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-          height: 1.5,
-          color: selectedReason.value == reason
+    BuildContext context,
+    SettingsProviderState themeProvider,
+    ValueNotifier<String?> selectedReason,
+    String reason,
+  ) {
+    const int selectDark = 0xffA2E6FA;
+    const int selectlight = 0xff0D3A5C;
+    const int notsSelectDark = 0xff444444;
+    const int notSelectlight = 0xffF2F2F2;
+    const int textSelectDark = 0xff0D3A5C;
+    const int textSelectlight = 0xffFFFFFF;
+    const int textSotsSelectDark = 0xffFFFFFF;
+    const int textSotSelectLight = 0xff000000;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.75,
+      height: 46,
+      child: TextButton(
+        onPressed: () {
+          selectedReason.value = reason;
+        },
+        style: TextButton.styleFrom(
+          padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+          backgroundColor: selectedReason.value == reason
               ? themeProvider.isDarkMode
-                  ? Colors.white
-                  : Colors.black
+                  ? const Color(selectDark)
+                  : const Color(selectlight)
               : themeProvider.isDarkMode
-                  ? const Color(grayText)
-                  : Colors.black,
+                  ? const Color(notsSelectDark)
+                  : const Color(notSelectlight),
+        ),
+        child: Text(
+          reason,
+          style: TextStyle(
+            overflow: TextOverflow.ellipsis,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            height: 1.5,
+            color: selectedReason.value == reason
+                ? themeProvider.isDarkMode
+                    ? const Color(textSelectDark)
+                    : const Color(textSelectlight)
+                : themeProvider.isDarkMode
+                    ? const Color(textSotsSelectDark)
+                    : const Color(textSotSelectLight),
+          ),
         ),
       ),
     );
@@ -470,7 +574,9 @@ void showGreetingsModal(BuildContext ctx, WidgetRef ref) {
           Radius.circular(20),
         ),
       ),
-      backgroundColor: themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(orangeLight),
+      backgroundColor: themeProvider.isDarkMode
+          ? const Color(backgroundColorDark)
+          : const Color(orangeLight),
       content: const GreetingsModalBody(),
     ),
   );
@@ -525,7 +631,9 @@ class GreetingsModalBody extends HookConsumerWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   height: 1.5,
-                  color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                  color: themeProvider.isDarkMode
+                      ? const Color(primaryDark)
+                      : Colors.white,
                 ),
               ),
             ),

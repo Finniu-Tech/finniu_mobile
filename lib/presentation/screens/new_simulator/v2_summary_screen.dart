@@ -1,10 +1,14 @@
+import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/helpers/pdf_launcher.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/modal/error_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
@@ -50,6 +54,7 @@ class _BodyScaffold extends ConsumerWidget {
     final ArgumentsNavigator arguments =
         ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
     final investmentDetailByUuid =
@@ -154,6 +159,19 @@ class _BodyScaffold extends ConsumerWidget {
                 InvestmentEnds(
                   finalDate: data.finishDateInvestment,
                 ),
+                const SizedBox(height: 15),
+                arguments.isReinvest
+                    ? ButtonInvestment(
+                        text: 'Reinvertir mi inversión',
+                        onPressed: () => reinvestmentQuestionModal(
+                            context,
+                            ref,
+                            arguments.uuid,
+                            data.amount.toDouble(),
+                            isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                            true),
+                      )
+                    : const SizedBox(height: 15),
               ],
             ),
           ),

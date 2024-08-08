@@ -144,6 +144,7 @@ class InProgressList extends StatelessWidget {
               child: ProgressBarInProgress(
                 dateEnds: list[index].finishDateInvestment,
                 amount: list[index].amount,
+                onPressed: () {},
               ),
             );
           },

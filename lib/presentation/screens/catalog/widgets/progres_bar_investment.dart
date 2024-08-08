@@ -1,16 +1,21 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProgressBarInProgress extends ConsumerWidget {
   final String dateEnds;
   final int amount;
+  final bool isReinvest;
+  final VoidCallback? onPressed;
   const ProgressBarInProgress({
     super.key,
     required this.dateEnds,
     required this.amount,
+    this.isReinvest = false,
+    required this.onPressed,
   });
 
   @override
@@ -22,7 +27,6 @@ class ProgressBarInProgress extends ConsumerWidget {
       children: [
         Container(
           width: 336,
-          height: 90,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isDarkMode
@@ -32,6 +36,8 @@ class ProgressBarInProgress extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(
                   height: 2,
@@ -47,6 +53,10 @@ class ProgressBarInProgress extends ConsumerWidget {
                 FinalText(
                   dateFinal: dateEnds,
                 ),
+                const SizedBox(height: 3),
+                isReinvest
+                    ? ButtonReinvest(onPressed: onPressed)
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -55,6 +65,55 @@ class ProgressBarInProgress extends ConsumerWidget {
           label: "📉 Inversión en curso",
         ),
       ],
+    );
+  }
+}
+
+class ButtonReinvest extends ConsumerWidget {
+  const ButtonReinvest({
+    super.key,
+    required this.onPressed,
+  });
+  final VoidCallback? onPressed;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const backgroundDark = 0xffA2E6FA;
+    const backgroundLight = 0xff0D3A5C;
+    const textDark = 0xff0D3A5C;
+    const textLight = 0xffFFFFFF;
+
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 188,
+        height: 24,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const TextPoppins(
+              text: 'Reinvertir mi inversión',
+              fontSize: 12,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+            const SizedBox(width: 5),
+            Icon(
+              Icons.arrow_forward_rounded,
+              size: 16,
+              color:
+                  isDarkMode ? const Color(textDark) : const Color(textLight),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
