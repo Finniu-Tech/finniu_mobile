@@ -44,22 +44,29 @@ class NoInvestmentBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Stack(
-      children: [
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-          child: Container(
-            color: isDarkMode ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.4),
-          ),
-        ),
-        Dialog(
-          backgroundColor: Colors.transparent,
-          insetPadding: const EdgeInsets.all(5),
-          child: ContainerEmptyMessageWidget(
-            onPressed: onPressed,
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: [
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              child: Container(
+                color: isDarkMode ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.4),
+              ),
+            ),
+            Positioned(
+              top: constraints.maxHeight * 0.3,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: ContainerEmptyMessageWidget(
+                  onPressed: onPressed,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

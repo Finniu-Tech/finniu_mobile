@@ -35,7 +35,7 @@ class NavigationBarHome extends ConsumerWidget {
     }
 
     return Container(
-      height: 80,
+      height: 105,
       decoration: BoxDecoration(
         color: colorBackground ??
             (currentTheme.isDarkMode
@@ -43,7 +43,8 @@ class NavigationBarHome extends ConsumerWidget {
                 : const Color(scaffoldLightGradientSecondary)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        padding: EdgeInsets.fromLTRB(60, 0, 60, 45),
         child: Container(
           decoration: BoxDecoration(
             color:

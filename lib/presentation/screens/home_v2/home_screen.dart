@@ -106,21 +106,22 @@ class HomeBody extends HookConsumerWidget {
       [],
     );
 
-    return SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: currentTheme.isDarkMode
-                ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
-                : [
-                    const Color(scaffoldLightGradientPrimary),
-                    const Color(scaffoldLightGradientSecondary),
-                  ],
-            stops: const [0.4, 0.6],
-          ),
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: currentTheme.isDarkMode
+              ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+              : [
+                  const Color(scaffoldLightGradientPrimary),
+                  const Color(scaffoldLightGradientSecondary),
+                ],
+          stops: const [0.4, 0.6],
         ),
+      ),
+      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
