@@ -16,7 +16,7 @@ class Investment {
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       finishDateInvestment: json['finishDateInvestment'],
-      isReinvest: json['reinvestmentAvailable'] == null ? false : true,
+      isReinvest: json['reinvestmentAvailable'] ?? false,
     );
   }
 
