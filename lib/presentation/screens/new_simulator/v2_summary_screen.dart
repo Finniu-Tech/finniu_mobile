@@ -164,12 +164,12 @@ class _BodyScaffold extends ConsumerWidget {
                     ? ButtonInvestment(
                         text: 'Reinvertir mi inversión',
                         onPressed: () => reinvestmentQuestionModal(
-                          context,
-                          ref,
-                          arguments.uuid,
-                          data.amount.toDouble(),
-                          isSoles ? currencyEnum.PEN : currencyEnum.USD,
-                        ),
+                            context,
+                            ref,
+                            arguments.uuid,
+                            data.amount.toDouble(),
+                            isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                            true),
                       )
                     : const SizedBox(height: 15),
               ],
