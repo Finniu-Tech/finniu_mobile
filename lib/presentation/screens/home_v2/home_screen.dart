@@ -171,9 +171,6 @@ class HomeBody extends HookConsumerWidget {
                         },
                       ),
                       const CarrouselSlider(),
-                      const SizedBox(
-                        height: 10,
-                      ),
                     ],
                   ),
                   renderNonInvestment

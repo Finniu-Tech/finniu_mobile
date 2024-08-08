@@ -45,40 +45,32 @@ class CarrouselSliderState extends State<CarrouselSlider> {
         imageUrl: "assets/investment/tree_money.png",
         onPressed: () => Navigator.pushNamed(context, '/v2/investment'),
       ),
-      SliderItem(
-        title: "¡Ya puedes reinvertir!",
-        bodyText: "Tienes algunas inversiones disponibles para reinvertir",
-        imageUrl: "assets/investment/tree_money.png",
-        onPressed: () => Navigator.pushNamed(context, '/v2/investment'),
-      ),
     ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: 90,
-          child: Center(
-            child: CarouselSlider(
-              items: sliderItems.map((item) {
-                return SliderReinvest(
-                  title: item.title,
-                  bodyText: item.bodyText,
-                  imageUrl: item.imageUrl,
-                  onPressed: item.onPressed,
-                );
-              }).toList(),
-              options: CarouselOptions(
-                height: 67,
-                viewportFraction: 0.9,
-                enlargeCenterPage: false,
-                enableInfiniteScroll: false,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-              ),
+        const SizedBox(height: 10),
+        Center(
+          child: CarouselSlider(
+            items: sliderItems.map((item) {
+              return SliderReinvest(
+                title: item.title,
+                bodyText: item.bodyText,
+                imageUrl: item.imageUrl,
+                onPressed: item.onPressed,
+              );
+            }).toList(),
+            options: CarouselOptions(
+              height: 67,
+              viewportFraction: 0.9,
+              enlargeCenterPage: false,
+              enableInfiniteScroll: false,
+              onPageChanged: (index, reason) {
+                setState(() {
+                  _currentIndex = index;
+                });
+              },
             ),
           ),
         ),
