@@ -2,7 +2,7 @@ class Investment {
   final String uuid;
   final int amount;
   final String finishDateInvestment;
-  final bool isReinvest;
+  final bool? isReinvest;
 
   Investment({
     required this.uuid,
@@ -16,6 +16,7 @@ class Investment {
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       finishDateInvestment: json['finishDateInvestment'],
+      isReinvest: json['reinvestmentAvailable'] == null ? false : true,
     );
   }
 

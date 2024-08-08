@@ -191,13 +191,17 @@ class InProgressList extends StatelessWidget {
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
                             status: "En Curso",
+                            isReinvest: list[index].isReinvest ?? false,
                           ),
                         );
                       },
                       child: ProgressBarInProgress(
                         dateEnds: list[index].finishDateInvestment,
                         amount: list[index].amount,
-                        isReinvest: list[index].isReinvest,
+                        isReinvest: list[index].isReinvest ?? false,
+                        onPressed: () {
+                          print("pon tap reinvest ${list[index].uuid}");
+                        },
                       ),
                     ),
                   );

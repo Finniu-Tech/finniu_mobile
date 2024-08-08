@@ -9,11 +9,13 @@ class ProgressBarInProgress extends ConsumerWidget {
   final String dateEnds;
   final int amount;
   final bool isReinvest;
+  final VoidCallback? onPressed;
   const ProgressBarInProgress({
     super.key,
     required this.dateEnds,
     required this.amount,
     this.isReinvest = false,
+    required this.onPressed,
   });
 
   @override
@@ -52,7 +54,9 @@ class ProgressBarInProgress extends ConsumerWidget {
                   dateFinal: dateEnds,
                 ),
                 const SizedBox(height: 3),
-                isReinvest ? const ButtonReinvest() : const SizedBox(),
+                isReinvest
+                    ? ButtonReinvest(onPressed: onPressed)
+                    : const SizedBox(),
               ],
             ),
           ),
@@ -68,8 +72,9 @@ class ProgressBarInProgress extends ConsumerWidget {
 class ButtonReinvest extends ConsumerWidget {
   const ButtonReinvest({
     super.key,
+    required this.onPressed,
   });
-
+  final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -78,32 +83,36 @@ class ButtonReinvest extends ConsumerWidget {
     const textDark = 0xff0D3A5C;
     const textLight = 0xffFFFFFF;
 
-    return Container(
-      width: 188,
-      height: 24,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const TextPoppins(
-            text: 'Reinvertir mi inversión',
-            fontSize: 12,
-            textDark: textDark,
-            textLight: textLight,
-          ),
-          const SizedBox(width: 5),
-          Icon(
-            Icons.arrow_forward_rounded,
-            size: 16,
-            color: isDarkMode ? const Color(textDark) : const Color(textLight),
-          ),
-        ],
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 188,
+        height: 24,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const TextPoppins(
+              text: 'Reinvertir mi inversión',
+              fontSize: 12,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+            const SizedBox(width: 5),
+            Icon(
+              Icons.arrow_forward_rounded,
+              size: 16,
+              color:
+                  isDarkMode ? const Color(textDark) : const Color(textLight),
+            ),
+          ],
+        ),
       ),
     );
   }
