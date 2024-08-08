@@ -37,13 +37,11 @@ class CarrouselSliderState extends State<CarrouselSlider> {
         title: "¡Ya puedes reinvertir!",
         bodyText: "Tienes algunas inversiones disponibles para reinvertir",
         imageUrl: "assets/investment/tree_money.png",
-        onPressed: () => Navigator.pushNamed(context, '/v2/investment'),
-      ),
-      SliderItem(
-        title: "¡Ya puedes reinvertir!",
-        bodyText: "Tienes algunas inversiones disponibles para reinvertir",
-        imageUrl: "assets/investment/tree_money.png",
-        onPressed: () => Navigator.pushNamed(context, '/v2/investment'),
+        onPressed: () => Navigator.pushNamed(
+          context,
+          '/v2/investment',
+          arguments: {'reinvest': true},
+        ),
       ),
     ];
     return Column(

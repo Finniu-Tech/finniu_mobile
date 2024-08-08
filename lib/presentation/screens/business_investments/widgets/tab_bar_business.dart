@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TabBarBusiness extends ConsumerStatefulWidget {
-  const TabBarBusiness({super.key});
+  const TabBarBusiness({super.key, this.isReinvest});
+  final bool? isReinvest;
 
   @override
   ConsumerState<TabBarBusiness> createState() => _InvestmentHistoryBusiness();
@@ -24,7 +25,11 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
 
   @override
   void initState() {
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: widget.isReinvest == true ? 1 : 0,
+    );
     _tabController.addListener(() {
       setState(() {});
     });
