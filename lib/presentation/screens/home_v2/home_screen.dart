@@ -9,6 +9,7 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
@@ -106,30 +107,28 @@ class HomeBody extends HookConsumerWidget {
       [],
     );
 
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: currentTheme.isDarkMode
-              ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
-              : [
-                  const Color(scaffoldLightGradientPrimary),
-                  const Color(scaffoldLightGradientSecondary),
-                ],
-          stops: const [0.4, 0.6],
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: currentTheme.isDarkMode
+                ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+                : [
+                    const Color(scaffoldLightGradientPrimary),
+                    const Color(scaffoldLightGradientSecondary),
+                  ],
+            stops: const [0.4, 0.6],
+          ),
         ),
-      ),
-      child: SingleChildScrollView(
         child: Column(
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.45,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(50),
+                  bottomRight: Radius.circular(20),
                 ),
                 color: currentTheme.isDarkMode
                     ? const Color(scaffoldBlackBackground)
@@ -165,6 +164,7 @@ class HomeBody extends HookConsumerWidget {
                           Navigator.pushNamed(context, '/v2/investment');
                         },
                       ),
+                      const CarrouselSlider(),
                     ],
                   ),
                   renderNonInvestment
@@ -208,7 +208,7 @@ class HomeBody extends HookConsumerWidget {
                 onPressed: () => Navigator.pushNamed(context, '/catalog'),
                 child: const Text('Ver Catalogo de Widgets'),
               ),
-            ]
+            ],
           ],
         ),
       ),
