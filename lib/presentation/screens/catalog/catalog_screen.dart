@@ -14,7 +14,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
@@ -40,6 +39,33 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "go to v2/complete_details v2",
+              onPressed: () {
+                Navigator.pushNamed(context, 'v2/complete_details');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to sendcode v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/send_code');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to register v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/register');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const NoInvestmentCase(
               title: "Aún no tienes inversiones en curso",
               textBody:
@@ -100,13 +126,7 @@ class CatalogScreen extends HookConsumerWidget {
               },
               child: const Text('add voucher'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                voucherModal(context,
-                    urlImage: "assets/blue_gold/voucher_example.png");
-              },
-              child: const Text('voucher modal'),
-            ),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/blue_gold_investment');
