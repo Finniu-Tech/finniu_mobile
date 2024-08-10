@@ -205,6 +205,7 @@ class CatalogScreen extends HookConsumerWidget {
             const ProgressBarInProgress(
               amount: 1000,
               dateEnds: '10/10/2022',
+              onPressed: null,
             ),
             const SizedBox(
               height: 5,
@@ -212,6 +213,7 @@ class CatalogScreen extends HookConsumerWidget {
             const ProgressBarInProgress(
               amount: 2000,
               dateEnds: '11/10/2022',
+              onPressed: null,
             ),
             const ModalBenefitsTwo(),
             const SizedBox(height: 10),
