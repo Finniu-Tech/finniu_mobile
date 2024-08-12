@@ -7,8 +7,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class SliderDraft extends ConsumerWidget {
   const SliderDraft({
     super.key,
+    required this.onTap,
+    required this.amountNumber,
   });
-
+  final int amountNumber;
+  final VoidCallback? onTap;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -16,50 +19,53 @@ class SliderDraft extends ConsumerWidget {
     const int backgroundLight = 0xffD6F6FF;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
-      ),
-      width: MediaQuery.of(context).size.width * 0.9,
-      height: 90,
-      child: Stack(
-        children: [
-          const LabelText(),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                RowNumber(
-                  amountNumber: 1200,
-                ),
-                SizedBox(height: 5),
-                LineStateInvestment(),
-              ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
+        ),
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 90,
+        child: Stack(
+          children: [
+            const LabelText(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  RowNumber(
+                    amountNumber: amountNumber,
+                  ),
+                  const SizedBox(height: 5),
+                  const LineStateInvestment(),
+                ],
+              ),
             ),
-          ),
-          Positioned(
-            left: 20,
-            bottom: 5,
-            child: Row(
-              children: [
-                const TextPoppins(
-                  text: "Reinversión en borrador",
-                  fontSize: 8,
-                ),
-                Icon(
-                  Icons.help_outline,
-                  size: 12,
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
-                ),
-              ],
+            Positioned(
+              left: 20,
+              bottom: 5,
+              child: Row(
+                children: [
+                  const TextPoppins(
+                    text: "Reinversión en borrador",
+                    fontSize: 8,
+                  ),
+                  Icon(
+                    Icons.help_outline,
+                    size: 12,
+                    color: isDarkMode
+                        ? const Color(iconDark)
+                        : const Color(iconLight),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -93,7 +99,9 @@ class LineStateInvestment extends ConsumerWidget {
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.2),
+                    color: isDarkMode
+                        ? Colors.white.withOpacity(0.2)
+                        : Colors.black.withOpacity(0.2),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: const Offset(0, 3),

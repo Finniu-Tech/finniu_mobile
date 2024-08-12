@@ -175,7 +175,10 @@ class HomeBody extends HookConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      const SliderDraft(),
+                      const SliderDraft(
+                        amountNumber: 10000,
+                        onTap: null,
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
