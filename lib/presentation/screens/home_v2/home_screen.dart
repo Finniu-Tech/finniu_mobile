@@ -176,6 +176,9 @@ class HomeBody extends HookConsumerWidget {
                         height: 10,
                       ),
                       const SliderDraft(),
+                      const SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                   renderNonInvestment
