@@ -143,13 +143,13 @@ class RowNumber extends ConsumerWidget {
     const int amountColorLight = 0xff0D3A5C;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.4,
+            width: 160,
             child: RowTitleAmount(
               lineRow: lineColor,
               textTitle: 'Inversión empresarial',
@@ -166,8 +166,8 @@ class RowNumber extends ConsumerWidget {
           ),
           Image.asset(
             "assets/reinvestment/reinvestment_image.png",
-            width: 39,
-            height: 39,
+            width: 40,
+            height: 40,
           ),
         ],
       ),
