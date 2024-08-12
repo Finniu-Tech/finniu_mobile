@@ -11,9 +11,13 @@ class SliderDraftModal extends ConsumerWidget {
     super.key,
     required this.amountNumber,
     required this.isReinvest,
+    required this.profitability,
+    required this.termMonth,
   });
   final int amountNumber;
   final bool isReinvest;
+  final int profitability;
+  final int termMonth;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -42,6 +46,8 @@ class SliderDraftModal extends ConsumerWidget {
                 const SizedBox(height: 10),
                 _InvestmentData(
                   isReinvest: isReinvest,
+                  profitability: profitability,
+                  termMonth: termMonth,
                 ),
               ],
             ),
@@ -55,8 +61,12 @@ class SliderDraftModal extends ConsumerWidget {
 class _InvestmentData extends ConsumerWidget {
   const _InvestmentData({
     required this.isReinvest,
+    required this.profitability,
+    required this.termMonth,
   });
   final bool isReinvest;
+  final int profitability;
+  final int termMonth;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -109,7 +119,7 @@ class _InvestmentData extends ConsumerWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  const TextPoppins(text: "Plazo 6 meses", fontSize: 12),
+                  TextPoppins(text: "Plazo $termMonth meses", fontSize: 12),
                 ],
               ),
               Row(
@@ -125,8 +135,8 @@ class _InvestmentData extends ConsumerWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  const TextPoppins(
-                    text: "14% rentabilidad",
+                  TextPoppins(
+                    text: "$profitability% rentabilidad",
                     fontSize: 12,
                   ),
                 ],

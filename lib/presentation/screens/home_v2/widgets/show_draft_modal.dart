@@ -5,13 +5,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showDraftModal(BuildContext context) {
-  final bool isReinvest = true;
+void showDraftModal(BuildContext context,
+    {required bool isReinvest,
+    required int profitability,
+    required int termMonth,
+    required String uuid,
+    required bool moneyIcon,
+    required bool cardSend,
+    required bool statusUp,
+    required int amountNumber}) {
   showModalBottomSheet(
     scrollControlDisabledMaxHeightRatio: 1,
     context: context,
     builder: (context) => _DraftBody(
       isReinvest: isReinvest,
+      profitability: profitability,
+      termMonth: termMonth,
+      uuid: uuid,
+      moneyIcon: moneyIcon,
+      cardSend: cardSend,
+      statusUp: statusUp,
+      amountNumber: amountNumber,
     ),
   );
 }
@@ -19,16 +33,29 @@ void showDraftModal(BuildContext context) {
 class _DraftBody extends ConsumerWidget {
   const _DraftBody({
     required this.isReinvest,
+    required this.profitability,
+    required this.termMonth,
+    required this.uuid,
+    required this.moneyIcon,
+    required this.cardSend,
+    required this.statusUp,
+    required this.amountNumber,
   });
   final bool isReinvest;
-
+  final int profitability;
+  final int termMonth;
+  final int amountNumber;
+  final String uuid;
+  final bool moneyIcon;
+  final bool cardSend;
+  final bool statusUp;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void navigate() {
       if (isReinvest) {
-        print("navegar a reinversion");
+        print("navegar a reinversion $uuid");
       } else {
-        print("navegar a inversion");
+        print("navegar a inversion $uuid");
       }
     }
 
@@ -76,10 +103,16 @@ class _DraftBody extends ConsumerWidget {
               fontSize: 14,
               lines: 2,
             ),
-            const RowIconStatus(),
+            RowIconStatus(
+              cardSend: cardSend,
+              moneyIcon: moneyIcon,
+              statusUp: statusUp,
+            ),
             SliderDraftModal(
-              amountNumber: 100,
+              amountNumber: amountNumber,
               isReinvest: isReinvest,
+              profitability: profitability,
+              termMonth: termMonth,
             ),
             ButtonGoInvest(
               isReinvest: isReinvest,
@@ -231,23 +264,29 @@ class ButtonGoInvest extends ConsumerWidget {
 class RowIconStatus extends ConsumerWidget {
   const RowIconStatus({
     super.key,
+    required this.moneyIcon,
+    required this.cardSend,
+    required this.statusUp,
   });
+  final bool moneyIcon;
+  final bool cardSend;
+  final bool statusUp;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         IconStatus(
-          isSelect: true,
+          isSelect: moneyIcon,
           iconSvg: "assets/svg_icons/money_icon_draft.svg",
         ),
         IconStatus(
-          isSelect: true,
+          isSelect: cardSend,
           iconSvg: "assets/svg_icons/card_send_icon_draft.svg",
         ),
         IconStatus(
-          isSelect: true,
+          isSelect: statusUp,
           iconSvg: "assets/svg_icons/status_up_icon_draft.svg",
         ),
       ],

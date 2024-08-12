@@ -176,10 +176,7 @@ class HomeBody extends HookConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      SliderDraft(
-                        amountNumber: 10000,
-                        onTap: () => showDraftModal(context),
-                      ),
+                      ContainerSliderDraft(),
                       const SizedBox(
                         height: 10,
                       ),
@@ -231,6 +228,62 @@ class HomeBody extends HookConsumerWidget {
             ],
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SliderDraftData {
+  final String uuid;
+  final int amountNumber;
+  final bool isReinvest;
+  final int profitability;
+  final int termMonth;
+  final bool moneyIcon;
+  final bool cardSend;
+  final bool statusUp;
+
+  SliderDraftData({
+    required this.uuid,
+    required this.amountNumber,
+    required this.isReinvest,
+    required this.profitability,
+    required this.termMonth,
+    required this.moneyIcon,
+    required this.cardSend,
+    required this.statusUp,
+  });
+}
+
+class ContainerSliderDraft extends ConsumerWidget {
+  const ContainerSliderDraft({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SliderDraftData sliderDraftData = SliderDraftData(
+      uuid: '123',
+      amountNumber: 10000,
+      isReinvest: false,
+      profitability: 10,
+      termMonth: 12,
+      moneyIcon: true,
+      cardSend: true,
+      statusUp: true,
+    );
+    return SliderDraft(
+      amountNumber: sliderDraftData.amountNumber,
+      onTap: () => showDraftModal(
+        context,
+        amountNumber: sliderDraftData.amountNumber,
+        isReinvest: sliderDraftData.isReinvest,
+        profitability: sliderDraftData.profitability,
+        termMonth: sliderDraftData.termMonth,
+        uuid: sliderDraftData.uuid,
+        moneyIcon: sliderDraftData.moneyIcon,
+        cardSend: sliderDraftData.cardSend,
+        statusUp: sliderDraftData.statusUp,
       ),
     );
   }
