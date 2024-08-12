@@ -236,7 +236,7 @@ class LabelText extends ConsumerWidget {
           ),
           color: isDarkMode ? const Color(labelDark) : const Color(labelLight),
         ),
-        width: 112,
+        width: 100,
         height: 24,
         child: const Center(
           child: TextPoppins(text: "Proceso por completar", fontSize: 8),

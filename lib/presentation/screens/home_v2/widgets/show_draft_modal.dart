@@ -75,7 +75,7 @@ class _DraftBody extends ConsumerWidget {
         : "Si necesitas ayuda, estamos aquí para ti. 🚀";
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 610,
+      height: 580,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 25),
         child: Column(
