@@ -88,48 +88,43 @@ class TourSix extends StatelessWidget {
   Widget build(BuildContext context) {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
-    const String title =
-        "¡Ahora puedes cambiar de fondo de inversión en un click! ";
-    const String textBody =
-        "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
+    const String title = "¡Simula tus próximas inversiones!";
+    const String textBody = "Simula tus inversiones en soles y dólares";
 
     void closedTour1(BuildContext context) {
       Navigator.pop(context);
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.4,
-            decoration: const BoxDecoration(
-              color: Color(imageContainerColor),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            child: Image.asset(
-              "assets/tour/imagen_tour1.png",
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.4,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        BodyTour(
+          indexTour: 5,
+          title: title,
+          textColor: textColor,
+          textBody: textBody,
+          onPressed: onPressed,
+          onClosePressed: () => closedTour1(context),
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.5,
+          decoration: const BoxDecoration(
+            color: Color(imageContainerColor),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
             ),
           ),
-          BodyTour(
-            indexTour: 5,
-            title: title,
-            textColor: textColor,
-            textBody: textBody,
-            onPressed: onPressed,
-            onClosePressed: () => closedTour1(context),
+          child: Image.asset(
+            "assets/tour/imagen_tour6.png",
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -145,48 +140,45 @@ class TourFive extends StatelessWidget {
   Widget build(BuildContext context) {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
-    const String title =
-        "¡Ahora puedes cambiar de fondo de inversión en un click! ";
+    const String title = "Información mas detallada de tus inversiones";
     const String textBody =
-        "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
+        "Visualiza todos los detalles de cada una de tus inversiones";
 
     void closedTour1(BuildContext context) {
       Navigator.pop(context);
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.4,
-            decoration: const BoxDecoration(
-              color: Color(imageContainerColor),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            child: Image.asset(
-              "assets/tour/imagen_tour1.png",
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.4,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        BodyTour(
+          indexTour: 4,
+          title: title,
+          textColor: textColor,
+          textBody: textBody,
+          onPressed: onPressed,
+          onClosePressed: () => closedTour1(context),
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: MediaQuery.of(context).size.height * 0.5,
+          decoration: const BoxDecoration(
+            color: Color(imageContainerColor),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
             ),
           ),
-          BodyTour(
-            indexTour: 4,
-            title: title,
-            textColor: textColor,
-            textBody: textBody,
-            onPressed: onPressed,
-            onClosePressed: () => closedTour1(context),
+          child: Image.asset(
+            "assets/tour/imagen_tour5.png",
+            width: MediaQuery.of(context).size.width,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -202,48 +194,44 @@ class TourFour extends StatelessWidget {
   Widget build(BuildContext context) {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
-    const String title =
-        "¡Ahora puedes cambiar de fondo de inversión en un click! ";
+    const String title = "¡Entérate de tus próximos pagos!";
     const String textBody =
-        "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
+        "Visualiza el historial de tus pagos de tus inversiones.";
 
     void closedTour1(BuildContext context) {
       Navigator.pop(context);
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.4,
-            decoration: const BoxDecoration(
-              color: Color(imageContainerColor),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            child: Image.asset(
-              "assets/tour/imagen_tour1.png",
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.4,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        BodyTour(
+          indexTour: 3,
+          title: title,
+          textColor: textColor,
+          textBody: textBody,
+          onPressed: onPressed,
+          onClosePressed: () => closedTour1(context),
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: const BoxDecoration(
+            color: Color(imageContainerColor),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
             ),
           ),
-          BodyTour(
-            indexTour: 3,
-            title: title,
-            textColor: textColor,
-            textBody: textBody,
-            onPressed: onPressed,
-            onClosePressed: () => closedTour1(context),
+          child: Image.asset(
+            "assets/tour/imagen_tour4.png",
+            width: MediaQuery.of(context).size.width * 0.9,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -259,47 +247,43 @@ class TourThree extends StatelessWidget {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
     const String title =
-        "¡Ahora puedes cambiar de fondo de inversión en un click! ";
-    const String textBody =
-        "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
+        "¡En Mis inversiones puedes ver historial de sus inversiones !";
+    const String textBody = "Conoce el estado de tus inversiones a tiempo real";
 
     void closedTour1(BuildContext context) {
       Navigator.pop(context);
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(10),
-            width: MediaQuery.of(context).size.width * 0.8,
-            height: MediaQuery.of(context).size.height * 0.4,
-            decoration: const BoxDecoration(
-              color: Color(imageContainerColor),
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            child: Image.asset(
-              "assets/tour/imagen_tour1.png",
-              width: MediaQuery.of(context).size.width * 0.9,
-              height: MediaQuery.of(context).size.height * 0.4,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        BodyTour(
+          indexTour: 2,
+          title: title,
+          textColor: textColor,
+          textBody: textBody,
+          onPressed: onPressed,
+          onClosePressed: () => closedTour1(context),
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        Container(
+          padding: const EdgeInsets.all(10),
+          width: MediaQuery.of(context).size.width * 0.9,
+          decoration: const BoxDecoration(
+            color: Color(imageContainerColor),
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
             ),
           ),
-          BodyTour(
-            indexTour: 2,
-            title: title,
-            textColor: textColor,
-            textBody: textBody,
-            onPressed: onPressed,
-            onClosePressed: () => closedTour1(context),
+          child: Image.asset(
+            "assets/tour/imagen_tour3.png",
+            width: MediaQuery.of(context).size.width * 0.9,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
