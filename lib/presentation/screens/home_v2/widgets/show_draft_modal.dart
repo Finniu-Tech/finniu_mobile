@@ -5,15 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showDraftModal(BuildContext context,
-    {required bool isReinvest,
-    required int profitability,
-    required int termMonth,
-    required String uuid,
-    required bool moneyIcon,
-    required bool cardSend,
-    required bool statusUp,
-    required int amountNumber}) {
+void showDraftModal(
+  BuildContext context, {
+  required bool isReinvest,
+  required int profitability,
+  required int termMonth,
+  required String uuid,
+  required bool moneyIcon,
+  required bool cardSend,
+  required bool statusUp,
+  required int amountNumber,
+}) {
   showModalBottomSheet(
     scrollControlDisabledMaxHeightRatio: 1,
     context: context,
