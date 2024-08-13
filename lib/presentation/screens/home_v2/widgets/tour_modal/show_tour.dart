@@ -3,7 +3,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/body_tour
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/button_icon_tour.dart';
 import 'package:flutter/material.dart';
 
-void shotTourV2(BuildContext context) {
+void showTourV2(BuildContext context) {
   const int background = 0xff08273F;
   showDialog(
     barrierColor: const Color(background).withOpacity(0.9),

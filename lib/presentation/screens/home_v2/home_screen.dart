@@ -116,7 +116,7 @@ class HomeBody extends HookConsumerWidget {
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          shotTourV2(context);
+          showTourV2(context);
         });
         return null;
       },
@@ -195,8 +195,8 @@ class HomeBody extends HookConsumerWidget {
                         icon: const Icon(
                           Icons.close,
                         ),
-                        label: Text("comenszar"),
-                        onPressed: () => shotTourV2(context),
+                        label: Text("ver tour"),
+                        onPressed: () => showTourV2(context),
                       )
                     ],
                   ),
