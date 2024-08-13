@@ -16,7 +16,7 @@ class StateTour extends StatelessWidget {
 
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.9,
         height: 40,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
