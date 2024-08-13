@@ -29,7 +29,7 @@ class StateTour extends StatelessWidget {
                     ? const Color(selectColor)
                     : const Color(unselectColor),
               ),
-              width: 50,
+              width: MediaQuery.of(context).size.width * 0.7 / items,
               height: 9,
             );
           }),
