@@ -144,11 +144,15 @@ class TourOne extends StatelessWidget {
   Widget build(BuildContext context) {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
-
     const String title =
         "¡Ahora puedes cambiar de fondo de inversión en un click! ";
     const String textBody =
         "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
+
+    void closedTour1(BuildContext context) {
+      Navigator.pop(context);
+    }
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       height: MediaQuery.of(context).size.height,
@@ -157,6 +161,7 @@ class TourOne extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Container(
+            padding: const EdgeInsets.all(10),
             width: MediaQuery.of(context).size.width * 0.8,
             height: MediaQuery.of(context).size.height * 0.4,
             decoration: const BoxDecoration(
@@ -167,64 +172,98 @@ class TourOne extends StatelessWidget {
             ),
             child: Image.asset(
               "assets/tour/imagen_tour1.png",
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height * 0.4,
             ),
           ),
-          const StateTour(
-            items: 6,
-            indexTour: 0,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: const TextPoppins(
-              text: title,
-              fontSize: 20,
-              isBold: true,
-              textDark: textColor,
-              textLight: textColor,
-              align: TextAlign.start,
-              lines: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: const TextPoppins(
-              text: textBody,
-              fontSize: 16,
-              isBold: false,
-              textDark: textColor,
-              textLight: textColor,
-              lines: 2,
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              ButtonCloseTour(
-                widthPercent: 0.4,
-                onPressed: () => Navigator.pop(context),
-                label: "Saltar",
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              ButtonIconTour(
-                widthPercent: 0.4,
-                onPressed: onPressed,
-                label: "Comenzar",
-              ),
-            ],
+          BodyTour(
+            title: title,
+            textColor: textColor,
+            textBody: textBody,
+            onPressed: onPressed,
+            onClosePressed: () => closedTour1(context),
           ),
         ],
       ),
+    );
+  }
+}
+
+class BodyTour extends StatelessWidget {
+  const BodyTour({
+    super.key,
+    required this.title,
+    required this.textColor,
+    required this.textBody,
+    required this.onPressed,
+    required this.onClosePressed,
+  });
+
+  final String title;
+  final int textColor;
+  final String textBody;
+  final VoidCallback? onPressed;
+  final VoidCallback? onClosePressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        const StateTour(
+          items: 6,
+          indexTour: 0,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: TextPoppins(
+            text: title,
+            fontSize: 20,
+            isBold: true,
+            textDark: textColor,
+            textLight: textColor,
+            align: TextAlign.start,
+            lines: 2,
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.8,
+          child: TextPoppins(
+            text: textBody,
+            fontSize: 16,
+            isBold: false,
+            textDark: textColor,
+            textLight: textColor,
+            lines: 2,
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ButtonCloseTour(
+              widthPercent: 0.4,
+              onPressed: onClosePressed,
+              label: "Saltar",
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            ButtonIconTour(
+              widthPercent: 0.4,
+              onPressed: onPressed,
+              label: "Comenzar",
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
