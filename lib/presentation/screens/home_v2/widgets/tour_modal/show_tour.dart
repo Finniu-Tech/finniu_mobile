@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/button_icon_tour.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/state_tour.dart';
 import 'package:flutter/material.dart';
 
 void shotTourV2(BuildContext context) {
@@ -38,11 +39,11 @@ class _TourContainerState extends State<TourContainer> {
         TourOne(
           onPressed: () => Navigator.pop(context),
         ),
-        TourTwo(),
-        TourThree(),
-        TourFour(),
-        TourFive(),
-        TourSix(),
+        const TourTwo(),
+        const TourThree(),
+        const TourFour(),
+        const TourFive(),
+        const TourSix(),
       ],
     );
   }
@@ -141,15 +142,88 @@ class TourOne extends StatelessWidget {
   final VoidCallback? onPressed;
   @override
   Widget build(BuildContext context) {
+    const int textColor = 0xffFFFFFF;
+    const int imageContainerColor = 0xffFFFFFF;
+
+    const String title =
+        "¡Ahora puedes cambiar de fondo de inversión en un click! ";
+    const String textBody =
+        "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
     return SizedBox(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width * 0.8,
       height: MediaQuery.of(context).size.height,
-      child: Center(
-        child: ButtonIconTour(
-          widthPercent: 0.4,
-          onPressed: onPressed,
-          label: "Comenzar",
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.4,
+            decoration: const BoxDecoration(
+              color: Color(imageContainerColor),
+              borderRadius: BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            child: Image.asset(
+              "assets/tour/imagen_tour1.png",
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: MediaQuery.of(context).size.height * 0.4,
+            ),
+          ),
+          const StateTour(
+            items: 6,
+            indexTour: 0,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: const TextPoppins(
+              text: title,
+              fontSize: 20,
+              isBold: true,
+              textDark: textColor,
+              textLight: textColor,
+              align: TextAlign.start,
+              lines: 2,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: const TextPoppins(
+              text: textBody,
+              fontSize: 16,
+              isBold: false,
+              textDark: textColor,
+              textLight: textColor,
+              lines: 2,
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              ButtonCloseTour(
+                widthPercent: 0.4,
+                onPressed: () => Navigator.pop(context),
+                label: "Saltar",
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              ButtonIconTour(
+                widthPercent: 0.4,
+                onPressed: onPressed,
+                label: "Comenzar",
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
