@@ -1,7 +1,6 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/body_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/button_icon_tour.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/state_tour.dart';
 import 'package:flutter/material.dart';
 
 void shotTourV2(BuildContext context) {
@@ -100,15 +99,13 @@ class TourSix extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BodyTour(
+          isFinal: true,
           indexTour: 5,
           title: title,
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
           onClosePressed: () => closedTour1(context),
-        ),
-        const SizedBox(
-          height: 40,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -153,15 +150,13 @@ class TourFive extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BodyTour(
+          eyeRender: true,
           indexTour: 4,
           title: title,
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
           onClosePressed: () => closedTour1(context),
-        ),
-        const SizedBox(
-          height: 40,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -207,15 +202,13 @@ class TourFour extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BodyTour(
+          eyeRender: true,
           indexTour: 3,
           title: title,
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
           onClosePressed: () => closedTour1(context),
-        ),
-        const SizedBox(
-          height: 40,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -259,15 +252,13 @@ class TourThree extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BodyTour(
+          eyeRender: true,
           indexTour: 2,
           title: title,
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
           onClosePressed: () => closedTour1(context),
-        ),
-        const SizedBox(
-          height: 40,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -282,6 +273,12 @@ class TourThree extends StatelessWidget {
             "assets/tour/imagen_tour3.png",
             width: MediaQuery.of(context).size.width * 0.9,
           ),
+        ),
+        const SizedBox(height: 10),
+        Image.asset(
+          "assets/tour/investment_button.png",
+          width: 120,
+          height: 60,
         ),
       ],
     );
@@ -311,15 +308,13 @@ class TourTwo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         BodyTour(
+          eyeRender: true,
           indexTour: 1,
           title: title,
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
           onClosePressed: () => closedTour1(context),
-        ),
-        const SizedBox(
-          height: 40,
         ),
         Container(
           margin: const EdgeInsets.only(left: 20),
@@ -365,6 +360,11 @@ class TourOne extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        Image.asset(
+          "assets/tour/eye_down_one.png",
+          width: 106,
+          height: 88,
+        ),
         Container(
           padding: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.9,
@@ -378,10 +378,11 @@ class TourOne extends StatelessWidget {
           child: Image.asset(
             "assets/tour/imagen_tour1.png",
             width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.4,
+            fit: BoxFit.fill,
           ),
         ),
         BodyTour(
+          eyeRender: false,
           indexTour: 0,
           title: title,
           textColor: textColor,
