@@ -42,6 +42,17 @@ class BodyTour extends StatelessWidget {
                   ),
                 )
               : const SizedBox(),
+          isFinal
+              ? Positioned(
+                  bottom: 10,
+                  right: 40,
+                  child: Image.asset(
+                    "assets/tour/eye_down_two.png",
+                    width: 80,
+                    height: 120,
+                  ),
+                )
+              : const SizedBox(),
           Padding(
             padding: const EdgeInsets.only(left: 20),
             child: SizedBox(
