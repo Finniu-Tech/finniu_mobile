@@ -18,6 +18,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/show_draft_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -35,6 +36,7 @@ class HomeScreenV2 extends HookConsumerWidget {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ref.read(navigatorStateProvider.notifier).state = 0;
         });
+
         return null;
       },
       [],
@@ -111,6 +113,15 @@ class HomeBody extends HookConsumerWidget {
       },
       [],
     );
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          shotTourV2(context);
+        });
+        return null;
+      },
+      [],
+    );
 
     return SingleChildScrollView(
       child: Container(
@@ -176,10 +187,17 @@ class HomeBody extends HookConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      ContainerSliderDraft(),
+                      const ContainerSliderDraft(),
                       const SizedBox(
                         height: 10,
                       ),
+                      TextButton.icon(
+                        icon: const Icon(
+                          Icons.close,
+                        ),
+                        label: Text("comenszar"),
+                        onPressed: () => shotTourV2(context),
+                      )
                     ],
                   ),
                   renderNonInvestment
