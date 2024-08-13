@@ -15,24 +15,28 @@ class StateTour extends StatelessWidget {
     const int unselectColor = 0xff0E4D7D;
 
     return Center(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 40,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: List.generate(items, (index) {
-            return Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: indexTour == index
-                    ? const Color(selectColor)
-                    : const Color(unselectColor),
-              ),
-              width: MediaQuery.of(context).size.width * 0.7 / items,
-              height: 9,
-            );
-          }),
+      child: Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: SizedBox(
+          // width: MediaQuery.of(context).size.width * 0.9,
+          width: MediaQuery.of(context).size.width,
+          height: 40,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: List.generate(items, (index) {
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: indexTour == index
+                      ? const Color(selectColor)
+                      : const Color(unselectColor),
+                ),
+                width: MediaQuery.of(context).size.width * 0.7 / items,
+                height: 9,
+              );
+            }),
+          ),
         ),
       ),
     );

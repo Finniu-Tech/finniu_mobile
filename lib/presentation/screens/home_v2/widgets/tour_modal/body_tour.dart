@@ -28,7 +28,7 @@ class BodyTour extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.35,
+      height: 300,
       child: Stack(
         children: [
           eyeRender
@@ -42,71 +42,53 @@ class BodyTour extends StatelessWidget {
                   ),
                 )
               : const SizedBox(),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              StateTour(
-                items: 6,
-                indexTour: indexTour,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: TextPoppins(
-                  text: title,
-                  fontSize: 20,
-                  isBold: true,
-                  textDark: textColor,
-                  textLight: textColor,
-                  align: TextAlign.start,
-                  lines: 2,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: TextPoppins(
-                  text: textBody,
-                  fontSize: 16,
-                  isBold: false,
-                  textDark: textColor,
-                  textLight: textColor,
-                  lines: 2,
-                ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              eyeRender
-                  ? SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ButtonCloseTour(
-                            widthPercent: 0.4,
-                            onPressed: onClosePressed,
-                            label: "Saltar",
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          ButtonIconTour(
-                            widthPercent: 0.4,
-                            onPressed: onPressed,
-                            label: "Comenzar",
-                          ),
-                        ],
-                      ),
-                    )
-                  : !isFinal
+          Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StateTour(
+                    items: 6,
+                    indexTour: indexTour,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: TextPoppins(
+                      text: title,
+                      fontSize: 20,
+                      isBold: true,
+                      textDark: textColor,
+                      textLight: textColor,
+                      align: TextAlign.start,
+                      lines: 2,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.75,
+                    child: TextPoppins(
+                      text: textBody,
+                      fontSize: 16,
+                      isBold: false,
+                      textDark: textColor,
+                      textLight: textColor,
+                      lines: 3,
+                      align: TextAlign.start,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  eyeRender
                       ? SizedBox(
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               ButtonCloseTour(
@@ -125,20 +107,45 @@ class BodyTour extends StatelessWidget {
                             ],
                           ),
                         )
-                      : SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.9,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              ButtonIconTour(
-                                widthPercent: 0.4,
-                                onPressed: onClosePressed,
-                                label: "Finalizar",
+                      : !isFinal
+                          ? SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  ButtonCloseTour(
+                                    widthPercent: 0.4,
+                                    onPressed: onClosePressed,
+                                    label: "Saltar",
+                                  ),
+                                  const SizedBox(
+                                    width: 10,
+                                  ),
+                                  ButtonIconTour(
+                                    widthPercent: 0.4,
+                                    onPressed: onPressed,
+                                    label: "Comenzar",
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        ),
-            ],
+                            )
+                          : SizedBox(
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ButtonIconTour(
+                                    widthPercent: 0.4,
+                                    onPressed: onClosePressed,
+                                    label: "Finalizar",
+                                  ),
+                                ],
+                              ),
+                            ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

@@ -27,6 +27,7 @@ class _TourContainerState extends State<TourContainer> {
     final PageController controller = PageController();
     return PageView(
       physics: const NeverScrollableScrollPhysics(),
+      allowImplicitScrolling: true,
       controller: controller,
       children: [
         TourInit(
@@ -110,7 +111,7 @@ class TourSix extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.45,
           decoration: const BoxDecoration(
             color: Color(imageContainerColor),
             borderRadius: BorderRadius.all(
@@ -161,7 +162,7 @@ class TourFive extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.45,
           decoration: const BoxDecoration(
             color: Color(imageContainerColor),
             borderRadius: BorderRadius.all(
@@ -272,13 +273,14 @@ class TourThree extends StatelessWidget {
           child: Image.asset(
             "assets/tour/imagen_tour3.png",
             width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.3,
           ),
         ),
         const SizedBox(height: 10),
         Image.asset(
           "assets/tour/investment_button.png",
           width: 120,
-          height: 60,
+          height: MediaQuery.of(context).size.height * 0.1,
         ),
       ],
     );
@@ -363,12 +365,12 @@ class TourOne extends StatelessWidget {
         Image.asset(
           "assets/tour/eye_down_one.png",
           width: 106,
-          height: 88,
+          height: 70,
         ),
         Container(
           padding: const EdgeInsets.all(10),
           width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.4,
+          height: MediaQuery.of(context).size.height * 0.35,
           decoration: const BoxDecoration(
             color: Color(imageContainerColor),
             borderRadius: BorderRadius.all(
@@ -411,7 +413,7 @@ class TourInit extends StatelessWidget {
 
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.8,
+        width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
