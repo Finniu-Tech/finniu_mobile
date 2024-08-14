@@ -1,8 +1,8 @@
-import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
+import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FormPersonalDataV2 extends StatelessWidget {
   const FormPersonalDataV2({super.key});
@@ -12,51 +12,29 @@ class FormPersonalDataV2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // void uploadPersonalData() {
+    //   print("add personal  data");
+    // }
+
+    // void continueLater() {
+    //   print("continue later");
+
+    //   Navigator.pop(context);
+    // }
+
     return const ScaffoldUserProfile(
+      // bottomNavigationBar: ActionButtonScanDocument(
+      //   uploadDocuments: () => uploadPersonalData(),
+      //   continueLater: () => continueLater(),
+      // ),
+      bottomNavigationBar: NavigationBarHome(),
       appBar: AppBarLogo(),
       children: [
         SizedBox(
           height: 10,
         ),
-        SliderForm(
-          progress: 0.5,
-        ),
-      ],
-    );
-  }
-}
-
-class SliderForm extends ConsumerWidget {
-  const SliderForm({
-    super.key,
-    required this.progress,
-  });
-  final double progress;
-  final int progressDark = 0xffA2E6FA;
-  final int progressLight = 0xff0D3A5C;
-  final int unSelectDark = 0xff353535;
-  final int unSelectLight = 0xffC1F1FF;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: isDarkMode ? Color(unSelectDark) : Color(unSelectLight),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          width: MediaQuery.of(context).size.width,
-          height: 7,
-        ),
-        Container(
-          decoration: BoxDecoration(
-            color: isDarkMode ? Color(progressDark) : Color(progressLight),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          width: MediaQuery.of(context).size.width * progress,
-          height: 7,
+        ProgressForm(
+          progress: 0.2,
         ),
       ],
     );

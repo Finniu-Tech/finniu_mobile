@@ -31,7 +31,8 @@ class HomeScreen extends HookConsumerWidget {
 
     return PopScope(
       child: Scaffold(
-        backgroundColor: Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
+        backgroundColor:
+            Color(currentTheme.isDarkMode ? backgroundColorDark : whiteText),
         // bottomNavigationBar: const NavigationBarHome(),
         bottomNavigationBar: const BottomNavigationBarHome(),
         body: HookBuilder(
@@ -72,7 +73,8 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context)
+                .pushReplacementNamed('/onboarding_questions_start');
           });
         }
 
@@ -91,6 +93,10 @@ class HomeBody extends HookConsumerWidget {
           children: [
             Row(
               children: [
+                IconButton(
+                  onPressed: () => Navigator.pushNamed(context, '/catalog'),
+                  icon: Icon(Icons.menu),
+                ),
                 const ProfileButton(),
                 const SizedBox(
                   width: 10,
@@ -103,7 +109,9 @@ class HomeBody extends HookConsumerWidget {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -113,13 +121,17 @@ class HomeBody extends HookConsumerWidget {
                     'assets/images/logo_small.png',
                     width: 60,
                     height: 60,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(blackText),
                   ),
                 ),
               ],
             ),
             if ((ref.watch(featureFlagsProvider)[FeatureFlags.admin]) == true)
-              TextButton(onPressed: () => Navigator.pushNamed(context, '/home_v2'), child: Text('Go to Home V2')),
+              TextButton(
+                  onPressed: () => Navigator.pushNamed(context, '/home_v2'),
+                  child: Text('Go to Home V2')),
             const ReinvestmentSlider(),
 
             HookBuilder(
@@ -130,8 +142,10 @@ class HomeBody extends HookConsumerWidget {
                   data: (data) {
                     var reportSoles = data.solesBalance;
                     var reportDollar = data.dolarBalance;
-                    var homeReport = isSoles ? data.solesBalance : data.dolarBalance;
-                    if (reportSoles.totalBalance == 0 && reportDollar.totalBalance == 0) {
+                    var homeReport =
+                        isSoles ? data.solesBalance : data.dolarBalance;
+                    if (reportSoles.totalBalance == 0 &&
+                        reportDollar.totalBalance == 0) {
                       return SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: const Center(
@@ -169,7 +183,9 @@ class HomeBody extends HookConsumerWidget {
             Container(
               height: 2,
               width: MediaQuery.of(context).size.width * 0.8,
-              color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+              color: currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryDark),
             ),
             const SizedBox(
               height: 15,
@@ -199,10 +215,12 @@ class PendingInvestmentCardWidget extends StatefulHookConsumerWidget {
   final SettingsProviderState currentTheme;
 
   @override
-  ConsumerState<PendingInvestmentCardWidget> createState() => PendingInvestmentCardWidgetState();
+  ConsumerState<PendingInvestmentCardWidget> createState() =>
+      PendingInvestmentCardWidgetState();
 }
 
-class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCardWidget> {
+class PendingInvestmentCardWidgetState
+    extends ConsumerState<PendingInvestmentCardWidget> {
   // bool hasInvestmentInProcess = false;
   bool isLoading = false;
   PreInvestmentForm? preInvestmentForm;
@@ -218,7 +236,9 @@ class PendingInvestmentCardWidgetState extends ConsumerState<PendingInvestmentCa
         setState(() {
           isLoading = true;
         });
-        InvestmentRepository().userHasInvestmentInProcess(client: gqlClient!).then(
+        InvestmentRepository()
+            .userHasInvestmentInProcess(client: gqlClient!)
+            .then(
           (success) {
             if (mounted) {
               setState(() {

@@ -1,11 +1,12 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FormRegister extends HookConsumerWidget {
@@ -27,7 +28,7 @@ class FormRegister extends HookConsumerWidget {
       key: formKey,
       child: Column(
         children: [
-          RegisterTextFile(
+          InputTextFileUserProfile(
             hintText: "Como te llaman",
             controller: namesController,
             validator: (value) {
@@ -37,7 +38,7 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          RegisterTextFile(
+          InputTextFileUserProfile(
             isNumeric: true,
             hintText: "Número telefónico",
             controller: phoneController,
@@ -48,7 +49,7 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          RegisterTextFile(
+          InputTextFileUserProfile(
             hintText: "Correo electronico",
             controller: emailController,
             validator: (value) {
@@ -61,7 +62,7 @@ class FormRegister extends HookConsumerWidget {
               }
             },
           ),
-          RegisterPasswordField(
+          InputPasswordFieldUserProfile(
             controller: passwordController,
             hintText: "Contraseña ",
             validator: (value) {
@@ -73,7 +74,7 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          RegisterPasswordField(
+          InputPasswordFieldUserProfile(
             controller: passwordConfirmController,
             hintText: "Confirmar contraseña",
             validator: (value) {
@@ -230,165 +231,6 @@ class CheckConditions extends ConsumerWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class RegisterTextFile extends ConsumerWidget {
-  const RegisterTextFile({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.validator,
-    this.isNumeric = false,
-  });
-
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-  final String hintText;
-  final bool isNumeric;
-
-  final int hintDark = 0xFF989898;
-  final int hintLight = 0xFF989898;
-  final int fillDark = 0xFF222222;
-  final int fillLight = 0xFFF7F7F7;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              fontSize: 12,
-              color: isDarkMode ? Color(hintDark) : Color(hintLight),
-              fontWeight: FontWeight.w400,
-              fontFamily: "Poppins",
-            ),
-            hintText: hintText,
-            fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
-            filled: true,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-          ),
-          validator: validator,
-          keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
-        ),
-        const SizedBox(height: 15),
-      ],
-    );
-  }
-}
-
-class RegisterPasswordField extends HookConsumerWidget {
-  const RegisterPasswordField({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.validator,
-  });
-
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-  final String hintText;
-
-  final int hintDark = 0xFF989898;
-  final int hintLight = 0xFF989898;
-  final int fillDark = 0xFF222222;
-  final int fillLight = 0xFFF7F7F7;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isObscure = useState(true);
-    const int iconDark = 0xFFA2E6FA;
-    const int iconLight = 0xFF000000;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          controller: controller,
-          obscureText: isObscure.value,
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              fontSize: 12,
-              color: isDarkMode ? Color(hintDark) : Color(hintLight),
-              fontWeight: FontWeight.w400,
-              fontFamily: "Poppins",
-            ),
-            hintText: hintText,
-            fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
-            filled: true,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: IconButton(
-              icon: isObscure.value
-                  ? SvgPicture.asset(
-                      "assets/svg_icons/eye_close.svg",
-                      width: 24,
-                      height: 24,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
-                    )
-                  : Icon(
-                      Icons.visibility,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
-                      size: 24,
-                    ),
-              onPressed: () {
-                isObscure.value = !isObscure.value;
-              },
-            ),
-          ),
-          validator: validator,
-          keyboardType: TextInputType.text,
-        ),
-        const SizedBox(height: 15),
-      ],
     );
   }
 }
