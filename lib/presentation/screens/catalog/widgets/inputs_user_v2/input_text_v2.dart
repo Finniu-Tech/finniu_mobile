@@ -20,6 +20,8 @@ class InputTextFileUserProfile extends ConsumerWidget {
   final int hintLight = 0xFF989898;
   final int fillDark = 0xFF222222;
   final int fillLight = 0xFFF7F7F7;
+  final int textDark = 0xFFFFFFFF;
+  final int textLight = 0xFF000000;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -30,6 +32,12 @@ class InputTextFileUserProfile extends ConsumerWidget {
       children: [
         TextFormField(
           controller: controller,
+          style: TextStyle(
+            fontSize: 14,
+            color: isDarkMode ? Color(textDark) : Color(textLight),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Poppins",
+          ),
           decoration: InputDecoration(
             hintStyle: TextStyle(
               fontSize: 12,

@@ -20,6 +20,8 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
   final int hintLight = 0xFF989898;
   final int fillDark = 0xFF222222;
   final int fillLight = 0xFFF7F7F7;
+  final int textDark = 0xFFFFFFFF;
+  final int textLight = 0xFF000000;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,6 +34,12 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          style: TextStyle(
+            fontSize: 14,
+            color: isDarkMode ? Color(textDark) : Color(textLight),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Poppins",
+          ),
           controller: controller,
           obscureText: isObscure.value,
           decoration: InputDecoration(
