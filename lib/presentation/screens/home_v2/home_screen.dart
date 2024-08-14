@@ -16,6 +16,8 @@ import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_butto
 import 'package:finniu/presentation/screens/home_v2/widgets/custom_app_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/show_draft_modal.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -171,6 +173,13 @@ class HomeBody extends HookConsumerWidget {
                         },
                       ),
                       const CarrouselSlider(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ContainerSliderDraft(),
+                      const SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                   renderNonInvestment
@@ -219,6 +228,62 @@ class HomeBody extends HookConsumerWidget {
             ],
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SliderDraftData {
+  final String uuid;
+  final int amountNumber;
+  final bool isReinvest;
+  final int profitability;
+  final int termMonth;
+  final bool moneyIcon;
+  final bool cardSend;
+  final bool statusUp;
+
+  SliderDraftData({
+    required this.uuid,
+    required this.amountNumber,
+    required this.isReinvest,
+    required this.profitability,
+    required this.termMonth,
+    required this.moneyIcon,
+    required this.cardSend,
+    required this.statusUp,
+  });
+}
+
+class ContainerSliderDraft extends ConsumerWidget {
+  const ContainerSliderDraft({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SliderDraftData sliderDraftData = SliderDraftData(
+      uuid: '123',
+      amountNumber: 10000,
+      isReinvest: false,
+      profitability: 10,
+      termMonth: 12,
+      moneyIcon: true,
+      cardSend: true,
+      statusUp: true,
+    );
+    return SliderDraft(
+      amountNumber: sliderDraftData.amountNumber,
+      onTap: () => showDraftModal(
+        context,
+        amountNumber: sliderDraftData.amountNumber,
+        isReinvest: sliderDraftData.isReinvest,
+        profitability: sliderDraftData.profitability,
+        termMonth: sliderDraftData.termMonth,
+        uuid: sliderDraftData.uuid,
+        moneyIcon: sliderDraftData.moneyIcon,
+        cardSend: sliderDraftData.cardSend,
+        statusUp: sliderDraftData.statusUp,
       ),
     );
   }
