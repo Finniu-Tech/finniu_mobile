@@ -44,7 +44,7 @@ class FormRegister extends HookConsumerWidget {
             controller: phoneController,
             validator: (value) {
               if (value == null || value.isEmpty || value.length < 8) {
-                return 'Ingresa tu nómero de telémefono';
+                return 'Ingresa tu nómero de telefono';
               }
               return null;
             },
