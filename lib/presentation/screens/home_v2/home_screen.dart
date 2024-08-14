@@ -9,12 +9,15 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/custom_app_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/show_draft_modal.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -43,7 +46,9 @@ class HomeScreenV2 extends HookConsumerWidget {
           currentTheme: currentTheme,
           userProfile: userProfile,
         ),
-        backgroundColor: Color(currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary),
+        backgroundColor: Color(currentTheme.isDarkMode
+            ? scaffoldBlackBackground
+            : scaffoldLightGradientPrimary),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -98,7 +103,8 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context)
+                .pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -113,7 +119,10 @@ class HomeBody extends HookConsumerWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: currentTheme.isDarkMode
-                ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+                ? [
+                    const Color(scaffoldBlackBackground),
+                    const Color(backgroundColorNavbar)
+                  ]
                 : [
                     const Color(scaffoldLightGradientPrimary),
                     const Color(scaffoldLightGradientSecondary),
@@ -125,10 +134,9 @@ class HomeBody extends HookConsumerWidget {
           children: [
             Container(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.45,
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(50),
+                  bottomRight: Radius.circular(20),
                 ),
                 color: currentTheme.isDarkMode
                     ? const Color(scaffoldBlackBackground)
@@ -164,13 +172,22 @@ class HomeBody extends HookConsumerWidget {
                           Navigator.pushNamed(context, '/v2/investment');
                         },
                       ),
+                      const CarrouselSlider(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ContainerSliderDraft(),
+                      const SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
                   renderNonInvestment
                       ? Positioned.fill(
                           child: IgnorePointer(
                             child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                              filter:
+                                  ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.transparent.withOpacity(0.1),
@@ -198,7 +215,8 @@ class HomeBody extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] == true) ...[
+            if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] ==
+                true) ...[
               ElevatedButton(
                 onPressed: () => Navigator.pushNamed(context, '/home_home'),
                 child: const Text('Ir a home normal'),
@@ -207,9 +225,65 @@ class HomeBody extends HookConsumerWidget {
                 onPressed: () => Navigator.pushNamed(context, '/catalog'),
                 child: const Text('Ver Catalogo de Widgets'),
               ),
-            ]
+            ],
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SliderDraftData {
+  final String uuid;
+  final int amountNumber;
+  final bool isReinvest;
+  final int profitability;
+  final int termMonth;
+  final bool moneyIcon;
+  final bool cardSend;
+  final bool statusUp;
+
+  SliderDraftData({
+    required this.uuid,
+    required this.amountNumber,
+    required this.isReinvest,
+    required this.profitability,
+    required this.termMonth,
+    required this.moneyIcon,
+    required this.cardSend,
+    required this.statusUp,
+  });
+}
+
+class ContainerSliderDraft extends ConsumerWidget {
+  const ContainerSliderDraft({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final SliderDraftData sliderDraftData = SliderDraftData(
+      uuid: '123',
+      amountNumber: 10000,
+      isReinvest: false,
+      profitability: 10,
+      termMonth: 12,
+      moneyIcon: true,
+      cardSend: true,
+      statusUp: true,
+    );
+    return SliderDraft(
+      amountNumber: sliderDraftData.amountNumber,
+      onTap: () => showDraftModal(
+        context,
+        amountNumber: sliderDraftData.amountNumber,
+        isReinvest: sliderDraftData.isReinvest,
+        profitability: sliderDraftData.profitability,
+        termMonth: sliderDraftData.termMonth,
+        uuid: sliderDraftData.uuid,
+        moneyIcon: sliderDraftData.moneyIcon,
+        cardSend: sliderDraftData.cardSend,
+        statusUp: sliderDraftData.statusUp,
       ),
     );
   }

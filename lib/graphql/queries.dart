@@ -1228,6 +1228,7 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+              reinvestmentAvailable
             }
             invesmentFinished{
               uuid
@@ -1245,6 +1246,7 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+              reinvestmentAvailable
             }
             invesmentFinished{
               uuid
