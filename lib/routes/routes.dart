@@ -191,8 +191,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/activate_account': (BuildContext context) => const UserRegisterV2(),
     '/v2/upload_document': (BuildContext context) => const UserRegisterV2(),
     '/v2/scan_document': (BuildContext context) => const ScanDocumentScreenV2(),
-    '/v2/form_personal_data': (BuildContext context) =>
-        const FormPersonalDataV2(),
+    '/v2/form_personal_data': (BuildContext context) => FormPersonalDataV2(),
     '/v2/form_location': (BuildContext context) => const UserRegisterV2(),
     '/v2/form_job': (BuildContext context) => const UserRegisterV2(),
     '/v2/form_legal_terms': (BuildContext context) => const UserRegisterV2(),

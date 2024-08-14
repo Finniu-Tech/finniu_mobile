@@ -93,10 +93,6 @@ class HomeBody extends HookConsumerWidget {
           children: [
             Row(
               children: [
-                IconButton(
-                  onPressed: () => Navigator.pushNamed(context, '/catalog'),
-                  icon: Icon(Icons.menu),
-                ),
                 const ProfileButton(),
                 const SizedBox(
                   width: 10,
