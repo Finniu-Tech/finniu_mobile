@@ -1,4 +1,3 @@
-import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/infrastructure/datasources/funds_datasource.dart';
 import 'package:finniu/infrastructure/models/fund/aggro_investment_models.dart';

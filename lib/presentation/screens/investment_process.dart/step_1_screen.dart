@@ -32,11 +32,19 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
   final FundEntity fund;
   final int? amount;
   final String? deadLine;
+  final String? currency;
+  final bool? isReInvestment;
+  final String? typeReInvestmentType;
+  final String? preInvestmentUUID; //USED FOR REINVESTMENT
   const InvestmentProcessStep1Screen({
     super.key,
     required this.fund,
     this.amount,
     this.deadLine,
+    this.currency,
+    this.isReInvestment,
+    this.typeReInvestmentType,
+    this.preInvestmentUUID,
   });
 
   @override

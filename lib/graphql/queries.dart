@@ -1425,4 +1425,39 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get getLastOperationStatus {
+    return '''
+      query getLastOperations(\$fundUUID: String!){
+        getStatusLastOperation(investmentFundsUuid: \$fundUUID){
+          investmentFund{
+            name
+            uuid
+            fundType
+          }
+          typeInvestment
+          agroInvestment{
+            investmentFundName
+            uuid
+            parcelAmount
+            parcelNumber
+            numberOfInstallments
+            parcelMonthlyInstallment
+            
+          }
+          preInvestment{
+            uuidPreInvestment
+            amount
+            status
+            actionStatus
+            currency
+            rentability
+            deadline
+            isReinvestment
+          }
+        }
+        
+      }
+  ''';
+  }
 }

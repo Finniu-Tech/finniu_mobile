@@ -27,8 +27,7 @@ class EmailLoginScreen extends HookConsumerWidget {
 
   final secureStorage = const FlutterSecureStorage();
   final passwordController = TextEditingController();
-  final TextEditingController _emailController =
-      TextEditingController(text: Preferences.username ?? "");
+  final TextEditingController _emailController = TextEditingController(text: Preferences.username ?? "");
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -62,8 +61,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                 alignment: Alignment.center,
                 child: TextPoppins(
                   text: '¡Bienvenido a Finniu!',
-                  colorText:
-                      themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                  colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
@@ -79,8 +77,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                         alignment: Alignment.topLeft,
                         child: TextPoppins(
                           text: 'Ingresa a tu cuenta',
-                          colorText:
-                              themeProvider.isDarkMode ? whiteText : blackText,
+                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -97,8 +94,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                             ;
                             // Mueve el cursor al final del texto
                             _emailController.selection =
-                                TextSelection.fromPosition(TextPosition(
-                                    offset: _emailController.text.length));
+                                TextSelection.fromPosition(TextPosition(offset: _emailController.text.length));
                           },
                           decoration: const InputDecoration(
                             hintText: 'Escriba su correo electrónico',
@@ -139,9 +135,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                               alignment: Alignment.topRight,
                               child: TextPoppins(
                                 text: 'Olvidé mi contraseña',
-                                colorText: themeProvider.isDarkMode
-                                    ? skyBlueText
-                                    : primaryDark,
+                                colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -174,8 +168,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                               context.loaderOverlay.show();
                               final loginResponse = AuthRepository().login(
                                 client: await graphqlProvider,
-                                username:
-                                    _emailController.value.text.toLowerCase(),
+                                username: _emailController.value.text.toLowerCase(),
                                 password: passwordController.value.text,
                               );
                               loginResponse.then((value) {
@@ -183,8 +176,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                                   final token = ref.watch(
                                     authTokenMutationProvider(
                                       LoginModel(
-                                        email: _emailController.value.text
-                                            .toLowerCase(),
+                                        email: _emailController.value.text.toLowerCase(),
                                         password: passwordController.value.text,
                                       ),
                                     ).future,
@@ -192,23 +184,19 @@ class EmailLoginScreen extends HookConsumerWidget {
                                   token.then(
                                     (value) async {
                                       if (value != null) {
-                                        ref
-                                            .read(authTokenProvider.notifier)
-                                            .state = value;
-                                        Preferences.username = _emailController
-                                            .value.text
-                                            .toLowerCase();
+                                        ref.read(authTokenProvider.notifier).state = value;
+                                        Preferences.username = _emailController.value.text.toLowerCase();
                                         context.loaderOverlay.hide();
                                         if (rememberPassword.value) {
                                           // print(password.value);
                                           await secureStorage.write(
                                             key: 'password',
-                                            value:
-                                                passwordController.value.text,
+                                            value: passwordController.value.text,
                                           );
                                         }
 
                                         final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+                                        print('featureFlags: $featureFlags');
                                         ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
 
                                         final String route =
@@ -231,31 +219,21 @@ class EmailLoginScreen extends HookConsumerWidget {
                                   );
                                 } else {
                                   context.loaderOverlay.hide();
-                                  if (value.error ==
-                                      'Su usuario no a sido activado') {
+                                  if (value.error == 'Su usuario no a sido activado') {
                                     CustomSnackbar.show(
                                       context,
-                                      value.error ??
-                                          'Su usuario no a sido activado',
+                                      value.error ?? 'Su usuario no a sido activado',
                                       'error',
                                     );
-                                    ref
-                                        .read(userProfileNotifierProvider
-                                            .notifier)
-                                        .updateFields(
-                                            email: _emailController.value.text,
-                                            password:
-                                                passwordController.value.text);
-                                    Future.delayed(const Duration(seconds: 3),
-                                        () {
-                                      Navigator.pushNamed(
-                                          context, '/send_code');
+                                    ref.read(userProfileNotifierProvider.notifier).updateFields(
+                                        email: _emailController.value.text, password: passwordController.value.text);
+                                    Future.delayed(const Duration(seconds: 3), () {
+                                      Navigator.pushNamed(context, '/send_code');
                                     });
                                   } else {
                                     CustomSnackbar.show(
                                       context,
-                                      value.error ??
-                                          'No se pudo validar sus credenciales',
+                                      value.error ?? 'No se pudo validar sus credenciales',
                                       'error',
                                     );
                                   }
@@ -269,8 +247,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                       Center(
                         child: TextPoppins(
                           text: '¿Aún no tienes una cuenta creada?',
-                          colorText:
-                              themeProvider.isDarkMode ? whiteText : blackText,
+                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
                         ),
@@ -283,9 +260,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                         child: Center(
                           child: TextPoppins(
                             text: 'Registrarme',
-                            colorText: themeProvider.isDarkMode
-                                ? skyBlueText
-                                : primaryDark,
+                            colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),

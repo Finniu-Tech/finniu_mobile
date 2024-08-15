@@ -73,6 +73,7 @@ class Step2Body extends HookConsumerWidget {
   Future<void> getImageFromGallery(context, ref) async {
     // Verify if the device has permission to access the gallery
     PermissionStatus status = await Permission.photos.status;
+    print('status: $status');
     bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     if (status.isGranted) {
@@ -83,8 +84,9 @@ class Step2Body extends HookConsumerWidget {
       if (status.isGranted) {
         _openGallery(context, ref);
       } else {
+        print('Permission denied else');
         // The user has denied access to the gallery
-        _showPermissionDeniedDialog(context, isDarkMode);
+        _showOpenSettingsDialog(context, isDarkMode);
       }
     } else if (status.isLimited) {
       // The user has limited access to the gallery
