@@ -104,3 +104,18 @@ final List<String> documentType = [
   'DNI',
   'Carné de extranjeria',
 ];
+final List<String> workSituation = [
+  'Empleado',
+  'Independiente',
+  'Desempleado',
+];
+final List<String> serviceTime = [
+  'Menos de 6 meses',
+  '6 meses a 1 año',
+  '1 año a 2 años',
+  '2 años a 3 años',
+  '3 años a 4 años',
+  '4 años a 5 años',
+  '5 años a 6 años',
+  'Mas de 6 años',
+];

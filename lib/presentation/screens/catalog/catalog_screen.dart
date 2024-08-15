@@ -40,6 +40,15 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "go to /v2/form_job v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_job');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "go to /v2/form_location v2",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/form_location');

@@ -25,7 +25,7 @@ class FormLocationDataV2 extends HookConsumerWidget {
     final provinceSelectController = useTextEditingController();
     final districtSelectController = useTextEditingController();
 
-    void uploadPersonalData() {
+    void uploadLocationData() {
       if (formKey.currentState!.validate()) {
         print("add personal data");
         print(addressTextController.text);
@@ -48,7 +48,7 @@ class FormLocationDataV2 extends HookConsumerWidget {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ScaffoldUserProfile(
         bottomNavigationBar: FormDataNavigator(
-          addData: () => uploadPersonalData(),
+          addData: () => uploadLocationData(),
           continueLater: () => continueLater(),
         ),
         appBar: const AppBarLogo(),
