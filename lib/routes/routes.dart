@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
+import 'package:finniu/presentation/screens/form_location_v2/form_location_v2.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/form_personal_v2.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
@@ -192,7 +193,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/upload_document': (BuildContext context) => const UserRegisterV2(),
     '/v2/scan_document': (BuildContext context) => const ScanDocumentScreenV2(),
     '/v2/form_personal_data': (BuildContext context) => FormPersonalDataV2(),
-    '/v2/form_location': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_location': (BuildContext context) => FormLocationDataV2(),
     '/v2/form_job': (BuildContext context) => const UserRegisterV2(),
     '/v2/form_legal_terms': (BuildContext context) => const UserRegisterV2(),
     '/v2/form_about_me': (BuildContext context) => const UserRegisterV2(),

@@ -43,8 +43,14 @@ class FormRegister extends HookConsumerWidget {
             hintText: "Número telefónico",
             controller: phoneController,
             validator: (value) {
-              if (value == null || value.isEmpty || value.length < 8) {
+              if (value == null || value.isEmpty) {
                 return 'Ingresa tu nómero de telefono';
+              }
+              if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                return 'Solo puedes usar números';
+              }
+              if (value.length < 8) {
+                return 'El nómero debe tener 8 digitos';
               }
               return null;
             },

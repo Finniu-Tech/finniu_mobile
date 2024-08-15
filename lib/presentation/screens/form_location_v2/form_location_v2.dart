@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
@@ -11,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FormPersonalDataV2 extends HookConsumerWidget {
-  FormPersonalDataV2({super.key});
+class FormLocationDataV2 extends HookConsumerWidget {
+  FormLocationDataV2({super.key});
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
@@ -57,22 +56,22 @@ class FormPersonalDataV2 extends HookConsumerWidget {
             height: 10,
           ),
           const ProgressForm(
-            progress: 0.2,
+            progress: 0.4,
           ),
           const TitleForm(
-            title: "Datos personales",
-            subTitle: "¿Cuales son tus datos personales?",
-            icon: "assets/svg_icons/user_icon_v2.svg",
+            title: "Ubicación",
+            subTitle: "¿Donde te encuentras?",
+            icon: "assets/svg_icons/map_icon_v2.svg",
           ),
-          PersonalForm(
+          LocationForm(
             formKey: formKey,
-            namesCompleteController: namesCompleteController,
-            namesFaderController: namesFaderController,
-            namesMotherController: namesMotherController,
-            documentTypeController: documentTypeController,
-            documentNumberController: documentNumberController,
-            maritalStatusController: maritalStatusController,
-            phoneController: phoneController,
+            addressTextCompleteController: namesCompleteController,
+            addressNumberController: namesFaderController,
+            zipCodeController: namesMotherController,
+            countrySelectController: documentTypeController,
+            departmentSelectController: documentNumberController,
+            provinceSelectController: maritalStatusController,
+            districtSelectController: phoneController,
           ),
           const ContainerMessage(),
         ],
@@ -81,33 +80,40 @@ class FormPersonalDataV2 extends HookConsumerWidget {
   }
 }
 
-class PersonalForm extends ConsumerWidget {
-  const PersonalForm({
+class LocationForm extends ConsumerWidget {
+  const LocationForm({
     super.key,
     required this.formKey,
-    required this.namesCompleteController,
-    required this.namesFaderController,
-    required this.namesMotherController,
-    required this.documentTypeController,
-    required this.documentNumberController,
-    required this.maritalStatusController,
-    required this.phoneController,
+    required this.addressTextCompleteController,
+    required this.addressNumberController,
+    required this.zipCodeController,
+    required this.countrySelectController,
+    required this.departmentSelectController,
+    required this.provinceSelectController,
+    required this.districtSelectController,
   });
   final GlobalKey<FormState> formKey;
-  final TextEditingController namesCompleteController;
-  final TextEditingController namesFaderController;
-  final TextEditingController namesMotherController;
-  final TextEditingController documentTypeController;
-  final TextEditingController documentNumberController;
-  final TextEditingController maritalStatusController;
-  final TextEditingController phoneController;
+  final TextEditingController addressTextCompleteController;
+  final TextEditingController addressNumberController;
+  final TextEditingController zipCodeController;
+  final TextEditingController countrySelectController;
+  final TextEditingController departmentSelectController;
+  final TextEditingController provinceSelectController;
+  final TextEditingController districtSelectController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> maritalStatus = [
-      'Soltero',
-      'Casado',
-      'Divorciadoa',
+    final List<String> countrys = [
+      'Peru',
+      'Chile',
+      'Bolivia',
+      'Colombia',
+      'Venezuela',
+      'Ecuador',
+      'Brasil',
+      'Paraguay',
+      'Uruguay',
+      'Bolivia',
     ];
     final List<String> documentType = [
       'DNI',
@@ -138,40 +144,55 @@ class PersonalForm extends ConsumerWidget {
       key: formKey,
       child: Column(
         children: [
-          InputTextFileUserProfile(
-            controller: namesCompleteController,
-            hintText: "Nombres completos",
+          SelectableDropdownItem(
+            itemSelectedValue: countrySelectController.text,
+            options: countrys,
+            selectController: countrySelectController,
+            hintText: "Selecciona el país de residencia",
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu nombre';
+                return 'Por favor selecione tipo';
               }
               return null;
             },
           ),
-          InputTextFileUserProfile(
-            controller: namesFaderController,
-            hintText: "Apellido Paterno",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu padre';
-              }
-              return null;
-            },
-          ),
-          InputTextFileUserProfile(
-            controller: namesMotherController,
-            hintText: "Apellido Materno",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu madre';
-              }
-              return null;
-            },
+          const SizedBox(
+            height: 15,
           ),
           SelectableDropdownItem(
-            itemSelectedValue: documentTypeController.text,
+            itemSelectedValue: countrySelectController.text,
             options: documentType,
-            selectController: documentTypeController,
+            selectController: countrySelectController,
+            hintText: "Selecciona tu documento de identidad",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor selecione tipo';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          SelectableDropdownItem(
+            itemSelectedValue: countrySelectController.text,
+            options: documentType,
+            selectController: countrySelectController,
+            hintText: "Selecciona tu documento de identidad",
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Por favor selecione tipo';
+              }
+              return null;
+            },
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          SelectableDropdownItem(
+            itemSelectedValue: countrySelectController.text,
+            options: documentType,
+            selectController: countrySelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -184,39 +205,34 @@ class PersonalForm extends ConsumerWidget {
             height: 15,
           ),
           InputTextFileUserProfile(
-            isNumeric: true,
-            controller: documentNumberController,
-            hintText: "Ingrese su Nº de documento de identidad",
-            validator: (value) {
-              if (value == null || value.isEmpty || value.length < 8) {
-                return 'Ingresa tu nómero de documento';
-              }
-              return null;
-            },
-          ),
-          SelectableDropdownItem(
-            itemSelectedValue: maritalStatusController.text,
-            options: maritalStatus,
-            selectController: maritalStatusController,
-            hintText: "Seleccione su estado civil",
+            controller: addressTextCompleteController,
+            hintText: "Escribe tu dirección de domicilio",
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Por favor selecione tipo';
+                return 'Por favor ingresa tu domicilioo';
               }
               return null;
             },
-          ),
-          const SizedBox(
-            height: 15,
           ),
           InputTextFileUserProfile(
             isNumeric: true,
-            controller: phoneController,
-            hintText: "Número telefónico",
+            controller: addressNumberController,
+            hintText: "Número de tu domicilio",
             validator: (value) {
-              if (value == null || value.isEmpty || value.length < 8) {
-                return 'Ingresa tu nómero de telefono';
+              if (value == null || value.isEmpty) {
+                return 'Ingresa tu nómero de domicilio';
               }
+              if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                return 'Solo puedes usar números';
+              }
+              return null;
+            },
+          ),
+          InputTextFileUserProfile(
+            isNumeric: true,
+            controller: zipCodeController,
+            hintText: "Código postal (opcional)",
+            validator: (value) {
               return null;
             },
           ),

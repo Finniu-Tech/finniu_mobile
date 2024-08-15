@@ -35,7 +35,7 @@ class InputTextFileUserProfile extends ConsumerWidget {
         TextFormField(
           controller: controller,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 12,
             color: isDarkMode ? Color(textDark) : Color(textLight),
             fontWeight: FontWeight.w400,
             fontFamily: "Poppins",

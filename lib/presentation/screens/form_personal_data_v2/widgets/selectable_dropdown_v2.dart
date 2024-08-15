@@ -49,7 +49,7 @@ class SelectableDropdownItemState
               (item) => Text(
                 item,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 12,
                   color: isDarkMode
                       ? Color(textSelectDark)
                       : Color(textSelectLight),
@@ -119,7 +119,7 @@ class SelectableDropdownItemState
                   Text(
                     option,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       color: isDarkMode
                           ? Color(textSelectDark)
                           : Color(textSelectLight),
