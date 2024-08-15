@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
@@ -53,7 +54,9 @@ class HomeScreenV2 extends HookConsumerWidget {
           currentTheme: currentTheme,
           userProfile: userProfile,
         ),
-        backgroundColor: Color(currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary),
+        backgroundColor: Color(currentTheme.isDarkMode
+            ? scaffoldBlackBackground
+            : scaffoldLightGradientPrimary),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -108,7 +111,8 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context)
+                .pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -126,7 +130,10 @@ class HomeBody extends HookConsumerWidget {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: currentTheme.isDarkMode
-                    ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+                    ? [
+                        const Color(scaffoldBlackBackground),
+                        const Color(backgroundColorNavbar)
+                      ]
                     : [
                         const Color(scaffoldLightGradientPrimary),
                         const Color(scaffoldLightGradientSecondary),
@@ -136,7 +143,9 @@ class HomeBody extends HookConsumerWidget {
             ),
             child: Column(
               children: [
-                BodyHomeUpperSectionWidget(currentTheme: currentTheme, renderNonInvestment: renderNonInvestment),
+                BodyHomeUpperSectionWidget(
+                    currentTheme: currentTheme,
+                    renderNonInvestment: renderNonInvestment),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: OurInvestmentFunds(),
@@ -144,7 +153,8 @@ class HomeBody extends HookConsumerWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] == true) ...[
+                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] ==
+                    true) ...[
                   ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/home_home'),
                     child: const Text('Ir a home normal'),
@@ -165,19 +175,21 @@ class HomeBody extends HookConsumerWidget {
 
 class BodyHomeUpperSectionWidget extends StatefulHookConsumerWidget {
   const BodyHomeUpperSectionWidget({
-    Key? key,
+    super.key,
     required this.currentTheme,
     required this.renderNonInvestment,
-  }) : super(key: key);
+  });
 
   final SettingsProviderState currentTheme;
   final bool renderNonInvestment;
 
   @override
-  _BodyHomeUpperSectionWidgetState createState() => _BodyHomeUpperSectionWidgetState();
+  _BodyHomeUpperSectionWidgetState createState() =>
+      _BodyHomeUpperSectionWidgetState();
 }
 
-class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectionWidget> {
+class _BodyHomeUpperSectionWidgetState
+    extends ConsumerState<BodyHomeUpperSectionWidget> {
   final PageController pageController = PageController();
   int selectedPage = 0;
 
@@ -213,10 +225,9 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
 
         return LayoutBuilder(
           builder: (context, constraints) {
-            print('BodyHomeUpperSectionWidget constraints: $constraints');
             return Container(
-              width: double.infinity,
-              height: 450,
+              width: MediaQuery.of(context).size.width,
+
               // constraints: BoxConstraints(
               //   minHeight: 300,
               //   maxHeight: 450,
@@ -238,29 +249,25 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
                     height: 35,
                     child: ListView(
                       scrollDirection: Axis.horizontal,
-                      children: pageWidgets.map((widget) => widget.title).toList(),
+                      children:
+                          pageWidgets.map((widget) => widget.title).toList(),
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Flexible(
-                    fit: FlexFit.loose,
-                    child: PageView.builder(
-                      itemCount: pageWidgets.length,
-                      itemBuilder: (context, index) {
-                        return SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 15),
-                            child: pageWidgets[index].itemBuilder,
-                          ),
-                        );
-                      },
-                      controller: pageController,
-                      onPageChanged: (index) {
-                        setState(() {
-                          selectedPage = index;
-                        });
-                      },
-                    ),
+                  ExpandablePageView.builder(
+                    itemCount: pageWidgets.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: pageWidgets[index].itemBuilder,
+                      );
+                    },
+                    controller: pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        selectedPage = index;
+                      });
+                    },
                   ),
                   if (widget.renderNonInvestment)
                     Positioned.fill(
@@ -295,13 +302,15 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
 class FundTitleAndNavigate extends ConsumerWidget {
   final FundEntity fund;
   final bool isSelect;
-  const FundTitleAndNavigate({super.key, required this.fund, required this.isSelect});
+  const FundTitleAndNavigate(
+      {super.key, required this.fund, required this.isSelect});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return fund.fundType == FundTypeEnum.corporate
-        ? RealStateTitleAndNavigate(isSelect: isSelect, isDarkMode: isDarkMode, funName: fund.name)
+        ? RealStateTitleAndNavigate(
+            isSelect: isSelect, isDarkMode: isDarkMode, funName: fund.name)
         : BlueGoldTitleAndNavigate(
             isDarkMode: isDarkMode,
             isSelect: isSelect,
@@ -319,16 +328,18 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('fund uuid: ${fund.uuid}');
-    final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(fund.uuid));
+    //print('fund uuid: ${fund.uuid}');
+    final lastOperationsAsyncValue =
+        ref.watch(lastOperationsFutureProvider(fund.uuid));
     List<LastOperation> reinvestmentOperations = [];
     return lastOperationsAsyncValue.when(
       data: (lastOperations) {
-        print('lastOperations: $lastOperations');
+        //print('lastOperations: $lastOperations');
         if (fund.fundType == FundTypeEnum.corporate) {
-          reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
+          reinvestmentOperations =
+              LastOperation.filterByReInvestmentOperations(lastOperations);
         }
-        print('reinvestmentOperations: $reinvestmentOperations');
+        // print('reinvestmentOperations: $reinvestmentOperations');
         return Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -443,12 +454,12 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
   @override
   Widget build(BuildContext context) {
     List<SliderDraftData> sliderItems = widget.lastOperations.map((operation) {
-      print('operation rentability: ${operation.enterprisePreInvestment?.rentability}');
       return SliderDraftData(
         uuid: operation.enterprisePreInvestment!.uuidPreInvestment,
         amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
         isReinvest: operation.enterprisePreInvestment!.isReInvestment,
-        profitability: operation.enterprisePreInvestment!.rentability?.toInt() ?? 0,
+        profitability:
+            operation.enterprisePreInvestment!.rentability?.toInt() ?? 0,
         termMonth: operation.enterprisePreInvestment?.deadline ?? 0,
         moneyIcon: false,
         cardSend: false,
@@ -511,14 +522,18 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: sliderItems.asMap().entries.map((entry) {
             return GestureDetector(
-              onTap: () => {}, // Aquí puedes implementar la lógica para cambiar de slide al tocar un dot
+              onTap: () =>
+                  {}, // Aquí puedes implementar la lógica para cambiar de slide al tocar un dot
               child: Container(
                 width: 8.0,
                 height: 8.0,
-                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
+                  color: (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black)
                       .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
                 ),
               ),
