@@ -1,11 +1,12 @@
 // ignore_for_file: avoid_print
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/selectable_dropdown_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -104,35 +105,6 @@ class PersonalForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> maritalStatus = [
-      'Soltero',
-      'Casado',
-      'Divorciado',
-    ];
-    final List<String> documentType = [
-      'DNI',
-      'Carné de extranjeria',
-      'DNI1',
-      'Carné de extranjeria1',
-      'DNI2',
-      'Carné de extranjeria2',
-      'DNI3',
-      'Carné de extranjeria3',
-      'DNI4',
-      'Carné de extranjeria4',
-      'DNI5',
-      'Carné de extranjeria5',
-      'DNI6',
-      'Carné de extranjeria6',
-      'DNI7',
-      'Carné de extranjeria7',
-      'DNI8',
-      'Carné de extranjeria8',
-      'DNI9',
-      'Carné de extranjeria9',
-      'DNI10',
-      'Carné de extranjeria10',
-    ];
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,

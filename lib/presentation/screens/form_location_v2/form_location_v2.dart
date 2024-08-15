@@ -1,10 +1,11 @@
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/selectable_dropdown_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -103,36 +104,6 @@ class LocationForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<String> countrys = [
-      'Peru',
-    ];
-    final List<String> departmentsPeru = [
-      'Amazonas',
-      'Áncash',
-      'Apurímac',
-      'Arequipa',
-      'Ayacucho',
-      'Cajamarca',
-      'Callao',
-      'Cusco',
-      'Huancavelica',
-      'Huánuco',
-      'Ica',
-      'Junín',
-      'La Libertad',
-      'Lambayeque',
-      'Lima',
-      'Loreto',
-      'Madre de Dios',
-      'Moquegua',
-      'Pasco',
-      'Piura',
-      'Puno',
-      'San Martín',
-      'Tacna',
-      'Tumbes',
-      'Ucayali',
-    ];
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
@@ -170,7 +141,7 @@ class LocationForm extends ConsumerWidget {
           ),
           SelectableDropdownItem(
             itemSelectedValue: provinceSelectController.text,
-            options: departmentsPeru,
+            options: provincialPeru,
             selectController: provinceSelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
