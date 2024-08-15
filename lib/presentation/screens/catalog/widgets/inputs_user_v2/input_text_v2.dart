@@ -22,6 +22,8 @@ class InputTextFileUserProfile extends ConsumerWidget {
   final int fillLight = 0xFFF7F7F7;
   final int textDark = 0xFFFFFFFF;
   final int textLight = 0xFF000000;
+  final int borderColorDark = 0xFFA2E6FA;
+  final int borderColorLight = 0xFF0D3A5C;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,9 +58,14 @@ class InputTextFileUserProfile extends ConsumerWidget {
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
               borderSide: BorderSide.none,
             ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
+            focusedBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              borderSide: BorderSide(
+                color: isDarkMode
+                    ? Color(borderColorDark)
+                    : Color(borderColorLight),
+                width: 1,
+              ),
             ),
             errorBorder: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),

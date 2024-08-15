@@ -35,6 +35,8 @@ class SelectableDropdownItemState
   final int dividerLight = 0xFFD9D9D9;
   final int dropdownColorDark = 0xFF222222;
   final int dropdownColorLight = 0xFFF7F7F7;
+  final int borderColorDark = 0xFFA2E6FA;
+  final int borderColorLight = 0xFF0D3A5C;
 
   @override
   Widget build(BuildContext context) {
