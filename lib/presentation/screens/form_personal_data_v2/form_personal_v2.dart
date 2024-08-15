@@ -107,7 +107,7 @@ class PersonalForm extends ConsumerWidget {
     final List<String> maritalStatus = [
       'Soltero',
       'Casado',
-      'Divorciadoa',
+      'Divorciado',
     ];
     final List<String> documentType = [
       'DNI',

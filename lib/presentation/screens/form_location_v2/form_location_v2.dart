@@ -16,24 +16,24 @@ class FormLocationDataV2 extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final namesCompleteController = useTextEditingController();
-    final namesFaderController = useTextEditingController();
-    final namesMotherController = useTextEditingController();
-    final documentTypeController = useTextEditingController();
-    final documentNumberController = useTextEditingController();
-    final maritalStatusController = useTextEditingController();
-    final phoneController = useTextEditingController();
+    final addressTextController = useTextEditingController();
+    final addressNumberController = useTextEditingController();
+    final zipCodeController = useTextEditingController();
+    final countrySelectController = useTextEditingController();
+    final departmentSelectController = useTextEditingController();
+    final provinceSelectController = useTextEditingController();
+    final districtSelectController = useTextEditingController();
 
     void uploadPersonalData() {
       if (formKey.currentState!.validate()) {
         print("add personal data");
-        print(namesCompleteController.text);
-        print(namesFaderController.text);
-        print(namesMotherController.text);
-        print(documentTypeController.text);
-        print(documentNumberController.text);
-        print(maritalStatusController.text);
-        print(phoneController.text);
+        print(addressTextController.text);
+        print(addressNumberController.text);
+        print(zipCodeController.text);
+        print(countrySelectController.text);
+        print(departmentSelectController.text);
+        print(provinceSelectController.text);
+        print(districtSelectController.text);
       }
     }
 
@@ -65,13 +65,13 @@ class FormLocationDataV2 extends HookConsumerWidget {
           ),
           LocationForm(
             formKey: formKey,
-            addressTextCompleteController: namesCompleteController,
-            addressNumberController: namesFaderController,
-            zipCodeController: namesMotherController,
-            countrySelectController: documentTypeController,
-            departmentSelectController: documentNumberController,
-            provinceSelectController: maritalStatusController,
-            districtSelectController: phoneController,
+            addressTextCompleteController: addressTextController,
+            addressNumberController: addressNumberController,
+            zipCodeController: zipCodeController,
+            countrySelectController: countrySelectController,
+            departmentSelectController: departmentSelectController,
+            provinceSelectController: provinceSelectController,
+            districtSelectController: districtSelectController,
           ),
           const ContainerMessage(),
         ],
@@ -105,39 +105,33 @@ class LocationForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final List<String> countrys = [
       'Peru',
-      'Chile',
-      'Bolivia',
-      'Colombia',
-      'Venezuela',
-      'Ecuador',
-      'Brasil',
-      'Paraguay',
-      'Uruguay',
-      'Bolivia',
     ];
-    final List<String> documentType = [
-      'DNI',
-      'Carné de extranjeria',
-      'DNI1',
-      'Carné de extranjeria1',
-      'DNI2',
-      'Carné de extranjeria2',
-      'DNI3',
-      'Carné de extranjeria3',
-      'DNI4',
-      'Carné de extranjeria4',
-      'DNI5',
-      'Carné de extranjeria5',
-      'DNI6',
-      'Carné de extranjeria6',
-      'DNI7',
-      'Carné de extranjeria7',
-      'DNI8',
-      'Carné de extranjeria8',
-      'DNI9',
-      'Carné de extranjeria9',
-      'DNI10',
-      'Carné de extranjeria10',
+    final List<String> departmentsPeru = [
+      'Amazonas',
+      'Áncash',
+      'Apurímac',
+      'Arequipa',
+      'Ayacucho',
+      'Cajamarca',
+      'Callao',
+      'Cusco',
+      'Huancavelica',
+      'Huánuco',
+      'Ica',
+      'Junín',
+      'La Libertad',
+      'Lambayeque',
+      'Lima',
+      'Loreto',
+      'Madre de Dios',
+      'Moquegua',
+      'Pasco',
+      'Piura',
+      'Puno',
+      'San Martín',
+      'Tacna',
+      'Tumbes',
+      'Ucayali',
     ];
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
@@ -160,9 +154,9 @@ class LocationForm extends ConsumerWidget {
             height: 15,
           ),
           SelectableDropdownItem(
-            itemSelectedValue: countrySelectController.text,
-            options: documentType,
-            selectController: countrySelectController,
+            itemSelectedValue: departmentSelectController.text,
+            options: departmentsPeru,
+            selectController: departmentSelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -175,9 +169,9 @@ class LocationForm extends ConsumerWidget {
             height: 15,
           ),
           SelectableDropdownItem(
-            itemSelectedValue: countrySelectController.text,
-            options: documentType,
-            selectController: countrySelectController,
+            itemSelectedValue: provinceSelectController.text,
+            options: departmentsPeru,
+            selectController: provinceSelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -190,9 +184,9 @@ class LocationForm extends ConsumerWidget {
             height: 15,
           ),
           SelectableDropdownItem(
-            itemSelectedValue: countrySelectController.text,
-            options: documentType,
-            selectController: countrySelectController,
+            itemSelectedValue: districtSelectController.text,
+            options: departmentsPeru,
+            selectController: districtSelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
               if (value == null || value.isEmpty) {
