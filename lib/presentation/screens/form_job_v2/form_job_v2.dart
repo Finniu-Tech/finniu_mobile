@@ -51,12 +51,12 @@ class FormJobDataV2 extends HookConsumerWidget {
             height: 10,
           ),
           const ProgressForm(
-            progress: 0.4,
+            progress: 0.6,
           ),
           const TitleForm(
-            title: "Ubicación",
-            subTitle: "¿Donde te encuentras?",
-            icon: "assets/svg_icons/map_icon_v2.svg",
+            title: "Mi ocupación",
+            subTitle: "¿Cuál es tu ocupación o profesión?",
+            icon: "assets/svg_icons/bag_icon_v2.svg",
           ),
           LocationForm(
             formKey: formKey,
