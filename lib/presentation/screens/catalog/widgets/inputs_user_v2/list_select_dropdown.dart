@@ -29,26 +29,26 @@ final List<String> departmentsPeru = [
   'Ucayali',
 ];
 final List<String> provincialPeru = [
-  'Chachapoyas', // Amazonas
-  'Bagua', // Amazonas
-  'Huaraz', // Áncash
-  'Aija', // Áncash
-  'Abancay', // Apurímac
-  'Andahuaylas', // Apurímac
-  'Arequipa', // Arequipa
-  'Camaná', // Arequipa
-  'Huamanga', // Ayacucho
-  'Cangallo', // Ayacucho
-  'Cajamarca', // Cajamarca
-  'Jaén', // Cajamarca
-  'Cusco', // Cusco
-  'Urubamba', // Cusco
-  'Huancavelica', // Huancavelica
-  'Acobamba', // Huancavelica
-  'Huánuco', // Huánuco
-  'Leoncio Prado', // Huánuco
-  'Ica', // Ica
-  'Chincha', // Ica
+  'Chachapoyas',
+  'Bagua',
+  'Huaraz',
+  'Aija',
+  'Abancay',
+  'Andahuaylas',
+  'Arequipa',
+  'Camaná',
+  'Huamanga',
+  'Cangallo',
+  'Cajamarca',
+  'Jaén',
+  'Cusco',
+  'Urubamba',
+  'Huancavelica',
+  'Acobamba',
+  'Huánuco',
+  'Leoncio Prado',
+  'Ica',
+  'Chincha',
 ];
 final List<String> distritosLima = [
   'Ancón',
