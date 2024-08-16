@@ -1,5 +1,6 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -162,12 +163,14 @@ class SelectableGeoLocationDropdownItem extends ConsumerStatefulWidget {
     required this.hintText,
     required this.validator,
     required this.itemSelectedValue,
+    this.isLoading = false,
   });
   final List<GeoLocationItemV2> options;
   final TextEditingController selectController;
   final String hintText;
   final String? Function(String?)? validator;
   final String? itemSelectedValue;
+  final bool isLoading;
 
   @override
   SelectableGeoLocationDropdownItemState createState() =>
@@ -190,6 +193,16 @@ class SelectableGeoLocationDropdownItemState
   final int dropdownColorLight = 0xFFF7F7F7;
   final int borderColorDark = 0xFFA2E6FA;
   final int borderColorLight = 0xFF0D3A5C;
+
+  @override
+  initState() {
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,11 +228,16 @@ class SelectableGeoLocationDropdownItemState
             .toList();
       },
       validator: widget.validator,
-      icon: Icon(
-        Icons.keyboard_arrow_down,
-        size: 24,
-        color: isDarkMode ? Color(iconDark) : Color(iconLight),
-      ),
+      icon: widget.isLoading
+          ? const CircularLoader(
+              width: 10,
+              height: 10,
+            )
+          : Icon(
+              Icons.keyboard_arrow_down,
+              size: 24,
+              color: isDarkMode ? Color(iconDark) : Color(iconLight),
+            ),
       value: widget.selectController.text.isNotEmpty
           ? widget.selectController.text
           : null,
@@ -301,6 +319,81 @@ class SelectableGeoLocationDropdownItemState
         setState(() {
           widget.selectController.text = newValue!;
         });
+      },
+    );
+  }
+}
+
+class ProviderSelectableDropdownItem extends ConsumerStatefulWidget {
+  const ProviderSelectableDropdownItem({
+    super.key,
+    required this.selectController,
+    required this.hintText,
+    required this.validator,
+    required this.itemSelectedValue,
+    required this.regionsSelectProvider,
+  });
+
+  final TextEditingController selectController;
+  final String hintText;
+  final String? Function(String?)? validator;
+  final String? itemSelectedValue;
+  final AutoDisposeFutureProvider<GeoLocationResponseV2> regionsSelectProvider;
+
+  @override
+  ProviderSelectableDropdownItemState createState() =>
+      ProviderSelectableDropdownItemState();
+}
+
+class ProviderSelectableDropdownItemState
+    extends ConsumerState<ProviderSelectableDropdownItem> {
+  @override
+  initState() {
+    super.initState();
+  }
+
+  @override
+  dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
+        ref.watch(widget.regionsSelectProvider);
+    return geoLocationResponse.when(
+      data: (data) {
+        return SelectableGeoLocationDropdownItem(
+          itemSelectedValue: widget.selectController.text,
+          options: data.regions,
+          selectController: widget.selectController,
+          hintText: widget.hintText,
+          validator: widget.validator,
+        );
+      },
+      loading: () {
+        return SelectableGeoLocationDropdownItem(
+          itemSelectedValue: widget.selectController.text,
+          options: const [],
+          selectController: widget.selectController,
+          hintText: "Cargando...",
+          validator: widget.validator,
+          isLoading: true,
+        );
+      },
+      error: (error, stack) {
+        return SelectableGeoLocationDropdownItem(
+          itemSelectedValue: widget.selectController.text,
+          options: [
+            GeoLocationItemV2(
+              id: "Error de carga",
+              name: "Error de carga",
+            ),
+          ],
+          selectController: widget.selectController,
+          hintText: widget.hintText,
+          validator: widget.validator,
+        );
       },
     );
   }

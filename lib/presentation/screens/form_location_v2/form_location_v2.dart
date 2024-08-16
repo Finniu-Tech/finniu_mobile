@@ -83,7 +83,7 @@ class FormLocationDataV2 extends HookConsumerWidget {
   }
 }
 
-class LocationForm extends HookConsumerWidget {
+class LocationForm extends ConsumerStatefulWidget {
   const LocationForm({
     super.key,
     required this.formKey,
@@ -95,6 +95,7 @@ class LocationForm extends HookConsumerWidget {
     required this.provinceSelectController,
     required this.districtSelectController,
   });
+
   final GlobalKey<FormState> formKey;
   final TextEditingController addressTextCompleteController;
   final TextEditingController addressNumberController;
@@ -105,58 +106,51 @@ class LocationForm extends HookConsumerWidget {
   final TextEditingController districtSelectController;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    List<GeoLocationItemV2> regions = [];
-    final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
-        ref.watch(regionsSelectProvider);
-    geoLocationResponse.when(
-      data: (data) {
-        regions = data.regions;
-      },
-      loading: () {},
-      error: (error, stack) {
-        regions = [
-          GeoLocationItemV2(
-            id: "Error de carga",
-            name: "Error de carga",
-          ),
-        ];
-      },
-    );
-    List<GeoLocationItemV2> provinces = [];
-    final AsyncValue<GeoLocationResponseV2> getProvincesResponse =
-        ref.watch(provincesSelectProvider(regionsSelectController.text));
-    getProvincesResponse.when(
-      data: (data) {
-        provinces = data.regions;
-      },
-      loading: () {},
-      error: (error, stack) {
-        provinces = [
-          GeoLocationItemV2(
-            id: "Error de carga",
-            name: "Error de carga",
-          ),
-        ];
-      },
-    );
+  LocationFormState createState() => LocationFormState();
+}
 
-    List<GeoLocationItemV2> districts = [
-      GeoLocationItemV2(
-        id: "Error de carga",
-        name: "Error de carga",
-      ),
-    ];
+class LocationFormState extends ConsumerState<LocationForm> {
+  List<GeoLocationItemV2> districts = [
+    GeoLocationItemV2(
+      id: "Error de carga",
+      name: "Error de carga",
+    ),
+  ];
+  @override
+  void initState() {
+    super.initState();
+    widget.regionsSelectController.addListener(() {
+      ref.invalidate(
+          provincesSelectProvider(widget.regionsSelectController.text));
+      widget.provinceSelectController.clear();
+      widget.districtSelectController.clear();
+      setState(() {});
+    });
+  }
 
+  @override
+  dispose() {
+    widget.addressTextCompleteController.dispose();
+    widget.addressNumberController.dispose();
+    widget.zipCodeController.dispose();
+    widget.countrySelectController.dispose();
+    widget.regionsSelectController.dispose();
+    widget.provinceSelectController.dispose();
+    widget.districtSelectController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
-      key: formKey,
+      key: widget.formKey,
       child: Column(
         children: [
           SelectableDropdownItem(
-            itemSelectedValue: countrySelectController.text,
+            itemSelectedValue: widget.countrySelectController.text,
             options: countrys,
-            selectController: countrySelectController,
+            selectController: widget.countrySelectController,
             hintText: "Selecciona el país de residencia",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -168,10 +162,10 @@ class LocationForm extends HookConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          SelectableGeoLocationDropdownItem(
-            itemSelectedValue: regionsSelectController.text,
-            options: regions,
-            selectController: regionsSelectController,
+          ProviderSelectableDropdownItem(
+            regionsSelectProvider: regionsSelectProvider,
+            itemSelectedValue: widget.regionsSelectController.text,
+            selectController: widget.regionsSelectController,
             hintText: "Selecciona el departamento",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -183,25 +177,39 @@ class LocationForm extends HookConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          SelectableGeoLocationDropdownItem(
-            itemSelectedValue: provinceSelectController.text,
-            options: provinces,
-            selectController: provinceSelectController,
-            hintText: "Selecciona la provincia",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor selecione tipo';
-              }
-              return null;
-            },
-          ),
+          widget.regionsSelectController.text.isEmpty
+              ? SelectableGeoLocationDropdownItem(
+                  itemSelectedValue: widget.provinceSelectController.text,
+                  options: const [],
+                  selectController: widget.provinceSelectController,
+                  hintText: "Debe seleccionar un departamento",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor selecione tipo';
+                    }
+                    return null;
+                  },
+                )
+              : ProviderSelectableDropdownItem(
+                  regionsSelectProvider: provincesSelectProvider(
+                      widget.regionsSelectController.text),
+                  itemSelectedValue: widget.provinceSelectController.text,
+                  selectController: widget.provinceSelectController,
+                  hintText: "Selecciona la provincia",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor selecione tipo';
+                    }
+                    return null;
+                  },
+                ),
           const SizedBox(
             height: 15,
           ),
           SelectableGeoLocationDropdownItem(
-            itemSelectedValue: districtSelectController.text,
+            itemSelectedValue: widget.districtSelectController.text,
             options: districts,
-            selectController: districtSelectController,
+            selectController: widget.districtSelectController,
             hintText: "Selecciona el distrito ",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -214,7 +222,7 @@ class LocationForm extends HookConsumerWidget {
             height: 15,
           ),
           InputTextFileUserProfile(
-            controller: addressTextCompleteController,
+            controller: widget.addressTextCompleteController,
             hintText: "Escribe tu dirección de domicilio",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -225,11 +233,11 @@ class LocationForm extends HookConsumerWidget {
           ),
           InputTextFileUserProfile(
             isNumeric: true,
-            controller: addressNumberController,
+            controller: widget.addressNumberController,
             hintText: "Número de tu domicilio",
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Ingresa tu nómero de domicilio';
+                return 'Ingresa tu número de domicilio';
               }
               if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
                 return 'Solo puedes usar números';
@@ -239,7 +247,7 @@ class LocationForm extends HookConsumerWidget {
           ),
           InputTextFileUserProfile(
             isNumeric: true,
-            controller: zipCodeController,
+            controller: widget.zipCodeController,
             hintText: "Código postal (opcional)",
             validator: (value) {
               return null;
