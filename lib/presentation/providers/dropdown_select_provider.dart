@@ -95,3 +95,57 @@ final provincesSelectProvider =
     );
   }
 });
+
+final districtsSelectProvider =
+    FutureProvider.autoDispose.family<GeoLocationResponseV2, String>((
+  ref,
+  regionId,
+) async {
+  if (regionId == "") {
+    return GeoLocationResponseV2(
+      regions: [
+        GeoLocationItemV2(
+          id: "Debe selecionar una provincia",
+          name: "Debe selecionar una provincia",
+        ),
+      ],
+    );
+  }
+  try {
+    final client = ref.watch(gqlClientProvider).value;
+    final result = await client!.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.getDistrictsByProvinceIdV2,
+        ),
+        variables: {
+          "idProv": regionId,
+        },
+      ),
+    );
+    final data = result.data;
+    if (data == null) {
+      return GeoLocationResponseV2(
+        regions: [
+          GeoLocationItemV2(
+            id: "Error de carga data null",
+            name: "Error de carga",
+          ),
+        ],
+      );
+    }
+    GeoLocationResponseV2 regions =
+        GeoLocationResponseV2.fromJson(data, TypeList.districts.name);
+    return regions;
+  } catch (e) {
+    print(e);
+    return GeoLocationResponseV2(
+      regions: [
+        GeoLocationItemV2(
+          id: "Error de carga catch",
+          name: "Error de carga",
+        ),
+      ],
+    );
+  }
+});

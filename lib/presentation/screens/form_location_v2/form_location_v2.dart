@@ -121,8 +121,17 @@ class LocationFormState extends ConsumerState<LocationForm> {
     super.initState();
     widget.regionsSelectController.addListener(() {
       ref.invalidate(
-          provincesSelectProvider(widget.regionsSelectController.text));
+        provincesSelectProvider(widget.regionsSelectController.text),
+      );
       widget.provinceSelectController.clear();
+      widget.districtSelectController.clear();
+      setState(() {});
+    });
+    widget.provinceSelectController.addListener(() {
+      ref.invalidate(
+        districtsSelectProvider(widget.provinceSelectController.text),
+      );
+
       widget.districtSelectController.clear();
       setState(() {});
     });
@@ -192,7 +201,8 @@ class LocationFormState extends ConsumerState<LocationForm> {
                 )
               : ProviderSelectableDropdownItem(
                   regionsSelectProvider: provincesSelectProvider(
-                      widget.regionsSelectController.text),
+                    widget.regionsSelectController.text,
+                  ),
                   itemSelectedValue: widget.provinceSelectController.text,
                   selectController: widget.provinceSelectController,
                   hintText: "Selecciona la provincia",
@@ -206,18 +216,33 @@ class LocationFormState extends ConsumerState<LocationForm> {
           const SizedBox(
             height: 15,
           ),
-          SelectableGeoLocationDropdownItem(
-            itemSelectedValue: widget.districtSelectController.text,
-            options: districts,
-            selectController: widget.districtSelectController,
-            hintText: "Selecciona el distrito ",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor selecione tipo';
-              }
-              return null;
-            },
-          ),
+          widget.provinceSelectController.text.isEmpty
+              ? SelectableGeoLocationDropdownItem(
+                  itemSelectedValue: widget.districtSelectController.text,
+                  options: const [],
+                  selectController: widget.districtSelectController,
+                  hintText: "Debe seleccionar una provincia",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor selecione tipo';
+                    }
+                    return null;
+                  },
+                )
+              : ProviderSelectableDropdownItem(
+                  regionsSelectProvider: districtsSelectProvider(
+                    widget.provinceSelectController.text,
+                  ),
+                  itemSelectedValue: widget.districtSelectController.text,
+                  selectController: widget.districtSelectController,
+                  hintText: "Selecciona el distrito",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor selecione tipo';
+                    }
+                    return null;
+                  },
+                ),
           const SizedBox(
             height: 15,
           ),

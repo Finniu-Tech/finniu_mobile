@@ -1,7 +1,4 @@
-enum TypeList {
-  regions,
-  provinces,
-}
+enum TypeList { regions, provinces, districts }
 
 extension TypeListExtension on TypeList {
   String get name {
@@ -10,6 +7,8 @@ extension TypeListExtension on TypeList {
         return "regions";
       case TypeList.provinces:
         return "provincias";
+      case TypeList.districts:
+        return "distritos";
       default:
         return "";
     }
@@ -28,6 +27,9 @@ class GeoLocationItemV2 {
     String getName = 'nomDpto';
     if (typeList == TypeList.provinces.name) {
       getName = 'nomProv';
+    }
+    if (typeList == TypeList.districts.name) {
+      getName = 'nomDist';
     }
     return GeoLocationItemV2(
       id: json['id'] as String,
