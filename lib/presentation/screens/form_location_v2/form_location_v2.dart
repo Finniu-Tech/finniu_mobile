@@ -106,27 +106,33 @@ class LocationForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<GeoLocationItemV2> regions = [];
-    List<GeoLocationItemV2> provinces = [
-      GeoLocationItemV2(
-        id: "Error de carga",
-        name: "Error de carga",
-      ),
-    ];
-    List<GeoLocationItemV2> districts = [
-      GeoLocationItemV2(
-        id: "Error de carga",
-        name: "Error de carga",
-      ),
-    ];
-    final geoLocationResponse = ref.watch(regionsSelectProvider);
-    geoLocationResponse.when(
+    // List<GeoLocationItemV2> regions = [];
+    // final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
+    //     ref.watch(regionsSelectProvider);
+    // geoLocationResponse.when(
+    //   data: (data) {
+    //     regions = data.regions;
+    //   },
+    //   loading: () {},
+    //   error: (error, stack) {
+    //     regions = [
+    //       GeoLocationItemV2(
+    //         id: "Error de carga",
+    //         name: "Error de carga",
+    //       ),
+    //     ];
+    //   },
+    // );
+    List<GeoLocationItemV2> provinces = [];
+    final AsyncValue<GeoLocationResponseV2> getProvincesResponse =
+        ref.watch(provincesSelectProvider("14"));
+    getProvincesResponse.when(
       data: (data) {
-        regions = data.regions;
+        provinces = data.regions;
       },
       loading: () {},
       error: (error, stack) {
-        regions = [
+        provinces = [
           GeoLocationItemV2(
             id: "Error de carga",
             name: "Error de carga",
@@ -134,6 +140,13 @@ class LocationForm extends HookConsumerWidget {
         ];
       },
     );
+
+    List<GeoLocationItemV2> districts = [
+      GeoLocationItemV2(
+        id: "Error de carga",
+        name: "Error de carga",
+      ),
+    ];
 
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
@@ -157,7 +170,7 @@ class LocationForm extends HookConsumerWidget {
           ),
           SelectableGeoLocationDropdownItem(
             itemSelectedValue: regionsSelectController.text,
-            options: regions,
+            options: [],
             selectController: regionsSelectController,
             hintText: "Selecciona el departamento",
             validator: (value) {

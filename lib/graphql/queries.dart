@@ -1437,15 +1437,15 @@ class QueryRepository {
     ''';
   }
 
-  static String get provinciaV2 {
+  static String get getProvincesByIdV2 {
     return '''
-    query Provincia{
-      provincias(\$idDpto : String!)  {
-        id
-        nomProv
+      query getProvinciasByIdV2(\$idDpto: String!) {
+        provincias(idDpto: \$idDpto) {
+          id
+          nomProv
+        }
       }
-    }
-    ''';
+      ''';
   }
 
   static String get districtV2 {

@@ -261,7 +261,7 @@ class SelectableGeoLocationDropdownItemState
           isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
       items: widget.options.map((option) {
         return DropdownMenuItem<String>(
-          value: option.name,
+          value: option.id,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
