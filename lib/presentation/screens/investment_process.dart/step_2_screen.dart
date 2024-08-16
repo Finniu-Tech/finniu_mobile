@@ -70,30 +70,58 @@ class Step2Body extends HookConsumerWidget {
     required this.preInvestmentUUID,
   });
 
-  Future<void> getImageFromGallery(context, ref) async {
-    // Verify if the device has permission to access the gallery
+  Future<void> getImageFromGallery(BuildContext context, WidgetRef ref) async {
     PermissionStatus status = await Permission.photos.status;
-    print('status: $status');
+    print('Initial status: $status');
     bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-    if (status.isGranted) {
-      // The permission is already granted, proceed with the image selection
-      _openGallery(context, ref);
-    } else if (status.isDenied) {
-      // The user has not granted access to the gallery, request it
-      if (status.isGranted) {
-        _openGallery(context, ref);
-      } else {
-        print('Permission denied else');
-        // The user has denied access to the gallery
+    if (Platform.isIOS) {
+      if (status.isGranted || status.isLimited) {
+        await _openGallery(context, ref);
+      } else if (status.isDenied) {
+        status = await Permission.photos.request();
+        if (status.isGranted || status.isLimited) {
+          await _openGallery(context, ref);
+        } else {
+          _showPermissionDeniedDialog(context, isDarkMode);
+        }
+      } else if (status.isPermanentlyDenied) {
         _showOpenSettingsDialog(context, isDarkMode);
       }
-    } else if (status.isLimited) {
-      // The user has limited access to the gallery
-      _openGallery(context, ref);
-    } else if (status.isPermanentlyDenied) {
-      // The user has permanently denied access to the gallery
-      _showOpenSettingsDialog(context, isDarkMode);
+    } else {
+      // Para Android
+      if (status.isGranted) {
+        await _openGallery(context, ref);
+      } else {
+        await _openGallery(context, ref);
+      }
+    }
+  }
+
+  Future<void> _openGallery(context, ref) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final List<XFile> images = await picker.pickMultiImage();
+      if (images.isNotEmpty) {
+        List<String> voucherImageListBase64 = [];
+        List<String> voucherImageListPreview = [];
+        for (var image in images) {
+          final File imageFile = File(image.path);
+          final List<int> imageBytes = await imageFile.readAsBytes();
+          final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+          voucherImageListBase64.add(base64Image);
+          voucherImageListPreview.add(image.path);
+        }
+        ref.read(preInvestmentVoucherImagesProvider.notifier).state = voucherImageListBase64;
+        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = voucherImageListPreview;
+      }
+    } catch (e) {
+      bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+      if (e is PlatformException && e.code == 'photo_access_denied') {
+        _showOpenSettingsDialog(context, isDarkMode);
+      } else {
+        _showPermissionDeniedDialog(context, isDarkMode);
+      }
     }
   }
 
@@ -105,28 +133,6 @@ class Step2Body extends HookConsumerWidget {
   void _showOpenSettingsDialog(context, isDarkMode) {
     // Show a dialog indicating that the user has permanently denied access to the gallery
     showGrantPermissionModal(context, isDarkMode, true);
-  }
-
-  void _openGallery(context, ref) async {
-    final ImagePicker picker = ImagePicker();
-    final List<XFile> images = await picker.pickMultiImage();
-    if (images.isNotEmpty) {
-      List<String> voucherImageListBase64 = [];
-      List<String> voucherImageListPreview = [];
-      for (var image in images) {
-        final File imageFile = File(image.path);
-        final List<int> imageBytes = await imageFile.readAsBytes();
-        final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
-        voucherImageListBase64.add(base64Image);
-        voucherImageListPreview.add(image.path);
-      }
-      ref.read(preInvestmentVoucherImagesProvider.notifier).state = voucherImageListBase64;
-      ref
-          .read(
-            preInvestmentVoucherImagesPreviewProvider.notifier,
-          )
-          .state = voucherImageListPreview;
-    }
   }
 
   @override
