@@ -1,10 +1,13 @@
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft_modal.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void showDraftModal(
   BuildContext context, {
@@ -17,6 +20,7 @@ void showDraftModal(
   required bool statusUp,
   required int amountNumber,
   required String currency,
+  required FundEntity fund,
 }) {
   showModalBottomSheet(
     scrollControlDisabledMaxHeightRatio: 1,
@@ -31,6 +35,7 @@ void showDraftModal(
       statusUp: statusUp,
       amountNumber: amountNumber,
       currency: currency,
+      fund: fund,
     ),
   );
 }
@@ -46,6 +51,7 @@ class _DraftBody extends ConsumerWidget {
     required this.statusUp,
     required this.amountNumber,
     required this.currency,
+    required this.fund,
   });
   final bool isReinvest;
   final int profitability;
@@ -56,34 +62,47 @@ class _DraftBody extends ConsumerWidget {
   final bool cardSend;
   final bool statusUp;
   final String currency;
+  final FundEntity fund;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void navigate() {
-      if (isReinvest) {
-        print("navegar a reinversion $uuid");
-        reinvestmentQuestionModal(
-          context,
-          ref,
-          uuid,
-          amountNumber.toDouble(),
-          currency,
-          true,
-        );
-      } else {
-        print("navegar a inversion $uuid");
-        reinvestmentQuestionModal(
-          context,
-          ref,
-          uuid,
-          amountNumber.toDouble(),
-          currency,
-          true,
-        );
-      }
+      //pop the actual modal
+      Navigator.pop(context);
+      Navigator.pushNamed(
+        context,
+        '/v2/investment/step-2',
+        arguments: {
+          'fund': fund,
+          'preInvestmentUUID': uuid,
+          'amount': amountNumber.toString(),
+        },
+      );
+      // if (isReinvest) {
+      //   print("navegar a reinversion $uuid");
+
+      //   reinvestmentQuestionModal(
+      //       context, ref, uuid, amountNumber.toDouble(), currency, true, fund, profitability, termMonth);
+      // } else {
+      //   // todo draft investment
+      //   print("navegar a inversion $uuid");
+      //   reinvestmentQuestionModal(
+      //       context, ref, uuid, amountNumber.toDouble(), currency, true, fund, profitability, termMonth);
+      // }
     }
 
-    void contact() {
-      print("contact");
+    void contact() async {
+      var whatsappNumber = "51940206852";
+      var whatsappMessage = "Hola";
+      var whatsappUrlAndroid = Uri.parse(
+        "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
+      );
+      var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await launchUrl(whatsappUrlAndroid);
+      } else {
+        await launchUrl(whatsappUrlIphone);
+      }
     }
 
     String title = isReinvest ? "¡Hola!👋🏼" : "¡Hola!👋🏼";

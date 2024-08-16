@@ -53,8 +53,8 @@ class ReInvestmentSliderState extends State<ReInvestmentSlider> {
     }).toList();
     //if items mayor than 6 , only show 6
 
-    if (sliderItems.length > 6) {
-      sliderItems = sliderItems.sublist(0, 6);
+    if (sliderItems.length > 1) {
+      sliderItems = sliderItems.sublist(0, 1);
     }
 
     // List<SliderItem> sliderItems = [
@@ -85,8 +85,8 @@ class ReInvestmentSliderState extends State<ReInvestmentSlider> {
               );
             }).toList(),
             options: CarouselOptions(
-              height: 67,
-              viewportFraction: 0.9,
+              height: 80,
+              viewportFraction: 1,
               enlargeCenterPage: false,
               enableInfiniteScroll: false,
               onPageChanged: (index, reason) {
@@ -173,7 +173,7 @@ class SliderReinvest extends StatelessWidget {
       margin: const EdgeInsets.symmetric(
         horizontal: 8.0,
       ),
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: 326,
       height: 67,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),

@@ -34,9 +34,7 @@ class V2SummaryScreen extends HookConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
+      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
       bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
@@ -51,14 +49,12 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ArgumentsNavigator arguments =
-        ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
+    final ArgumentsNavigator arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    final investmentDetailByUuid =
-        ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
+    final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
     final List<ProfitabilityItem> list = [
       ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 1, 15)),
@@ -104,9 +100,7 @@ class _BodyScaffold extends ConsumerWidget {
           );
         }
         return Container(
-          color: isDarkMode
-              ? const Color(columnColorDark)
-              : const Color(columnColorLight),
+          color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Padding(
@@ -143,9 +137,7 @@ class _BodyScaffold extends ConsumerWidget {
                         bankAccountSender: data.bankAccountSender!,
                       )
                     : const SizedBox(),
-                data.bankAccountReceiver != null
-                    ? const SizedBox()
-                    : const SizedBox(),
+                data.bankAccountReceiver != null ? const SizedBox() : const SizedBox(),
                 data.bankAccountReceiver != null
                     ? SelectedBankDeposit(
                         bankAccountReceiver: data.bankAccountReceiver!,
@@ -164,12 +156,16 @@ class _BodyScaffold extends ConsumerWidget {
                     ? ButtonInvestment(
                         text: 'Reinvertir mi inversión',
                         onPressed: () => reinvestmentQuestionModal(
-                            context,
-                            ref,
-                            arguments.uuid,
-                            data.amount.toDouble(),
-                            isSoles ? currencyEnum.PEN : currencyEnum.USD,
-                            true),
+                          context,
+                          ref,
+                          arguments.uuid,
+                          data.amount.toDouble(),
+                          isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                          true,
+                          data.fund,
+                          data.rentabilityPercent,
+                          data.month,
+                        ),
                       )
                     : const SizedBox(height: 15),
               ],

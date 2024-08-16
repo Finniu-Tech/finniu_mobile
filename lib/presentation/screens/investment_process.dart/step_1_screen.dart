@@ -4,6 +4,7 @@ import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
@@ -17,16 +18,33 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/cards_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+
+String formatDeadLine(String? deadLine) {
+  //if  deadline doesn;t ends with the worc "meses" we add it
+  if (deadLine != null) {
+    if (deadLine.endsWith('meses')) {
+      return deadLine;
+    } else {
+      return deadLine + ' meses';
+    }
+  } else {
+    return '';
+  }
+}
 
 class InvestmentProcessStep1Screen extends ConsumerWidget {
   final FundEntity fund;
@@ -34,8 +52,9 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
   final String? deadLine;
   final String? currency;
   final bool? isReInvestment;
-  final String? typeReInvestmentType;
+  final String? reInvestmentType;
   final String? preInvestmentUUID; //USED FOR REINVESTMENT
+  final int? originInvestmentRentability;
   const InvestmentProcessStep1Screen({
     super.key,
     required this.fund,
@@ -43,13 +62,23 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
     this.deadLine,
     this.currency,
     this.isReInvestment,
-    this.typeReInvestmentType,
+    this.reInvestmentType,
     this.preInvestmentUUID,
+    this.originInvestmentRentability,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
+    print('fund: $fund');
+    print('amount: $amount');
+    print('deadLine: $deadLine');
+    print('currency: $currency');
+    print('isReInvestment: $isReInvestment');
+    print('typeReInvestmentType: $reInvestmentType');
+    print('preInvestmentUUID: $preInvestmentUUID');
+    print('originInvestmentRentability: $originInvestmentRentability');
+    final bool isSoles = currency == 'nuevo sol' ? true : false;
 
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
@@ -59,7 +88,16 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
                 fund.getHexDetailColorDark(),
               )
             : Color(fund.getHexDetailColorLight()),
-        body: Step1Body(fund: fund, isDarkMode: currentTheme.isDarkMode, amount: amount, deadLine: deadLine),
+        body: Step1Body(
+            fund: fund,
+            isDarkMode: currentTheme.isDarkMode,
+            amount: amount,
+            deadLine: deadLine,
+            isReInvestment: isReInvestment,
+            reInvestmentType: reInvestmentType,
+            preInvestmentUUID: preInvestmentUUID,
+            isSoles: isSoles,
+            originInvestmentRentability: originInvestmentRentability),
       ),
     );
   }
@@ -70,20 +108,32 @@ class Step1Body extends HookConsumerWidget {
   final bool isDarkMode;
   final int? amount;
   final String? deadLine;
+  final bool? isReInvestment;
+  final String? reInvestmentType;
+  final String? preInvestmentUUID;
+  final bool isSoles;
+  final int? originInvestmentRentability;
   const Step1Body({
     super.key,
     required this.fund,
     required this.isDarkMode,
     this.amount,
     this.deadLine,
+    this.isReInvestment,
+    this.reInvestmentType,
+    this.preInvestmentUUID,
+    this.originInvestmentRentability,
+    required this.isSoles,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final amountController = useTextEditingController(text: amount == null ? '' : amount.toString());
+    final additionalAmountController = useTextEditingController(text: '0');
+
     final couponController = useTextEditingController();
-    final deadLineController = useTextEditingController(text: deadLine == null ? '' : deadLine);
+    final deadLineController = useTextEditingController(text: formatDeadLine(deadLine));
     // final bankController = useTextEditingController();
     final originFundsController = useTextEditingController();
     final otherFundOriginController = useTextEditingController();
@@ -108,18 +158,29 @@ class Step1Body extends HookConsumerWidget {
                   iconColor:
                       isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
                   urlIcon: fund.iconUrl!,
-                  labelText: 'Acerca de',
+                  labelText: isReInvestment == true ? 'Invierte' : 'Acerca de',
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 Text(
-                  fund.name,
-                  style: TextStyle(color: Color(primaryDark), fontSize: 20, fontWeight: FontWeight.w600),
+                  isReInvestment == true ? 'Tu operación en curso' : fund.name,
+                  style: const TextStyle(color: Color(primaryDark), fontSize: 24, fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
+                if (isReInvestment == true) ...[
+                  ReinvestmentRentabilityCard(
+                    rentability: originInvestmentRentability?.toDouble() ?? 0.0,
+                    amount: amount?.toDouble() ?? 0.0,
+                    isSoles: isSoles,
+                    deadline: int.parse(deadLine ?? '0'),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ],
                 Text(
                   'Completa los siguientes datos',
                   textAlign: TextAlign.left,
@@ -140,7 +201,13 @@ class Step1Body extends HookConsumerWidget {
                   // bankController: bankController,
                   originFundsController: originFundsController,
                   otherFundOriginController: otherFundOriginController,
+                  additionalAmountController: additionalAmountController,
                   fund: fund,
+                  isReInvestment: isReInvestment ?? false,
+                  reInvestmentType: reInvestmentType,
+                  preInvestmentUUID: preInvestmentUUID,
+                  isSoles: isSoles,
+                  reinvestmentOriginAmount: amount,
                 ),
                 const SizedBox(
                   height: 40,
@@ -156,12 +223,18 @@ class Step1Body extends HookConsumerWidget {
 
 class FormStep1 extends StatefulHookConsumerWidget {
   final TextEditingController amountController;
+  final TextEditingController additionalAmountController;
   final TextEditingController couponController;
   final TextEditingController deadLineController;
   // final TextEditingController bankController;
   final TextEditingController originFundsController;
   final TextEditingController otherFundOriginController;
   final FundEntity fund;
+  final bool isReInvestment;
+  final String? reInvestmentType;
+  final String? preInvestmentUUID;
+  final bool? isSoles;
+  final int? reinvestmentOriginAmount;
 
   const FormStep1({
     super.key,
@@ -170,7 +243,13 @@ class FormStep1 extends StatefulHookConsumerWidget {
     required this.deadLineController,
     required this.originFundsController,
     required this.otherFundOriginController,
+    required this.additionalAmountController,
     required this.fund,
+    required this.isReInvestment,
+    this.reInvestmentType,
+    this.preInvestmentUUID,
+    this.reinvestmentOriginAmount,
+    this.isSoles,
   });
 
   @override
@@ -246,10 +325,11 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   @override
   Widget build(BuildContext context) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
-
     final isSoles = ref.watch(isSolesStateProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final userProfile = ref.watch(userProfileNotifierProvider);
+    final debouncer = Debouncer(milliseconds: 3000);
+    final finalReinvestmentAmount = useState(widget.reinvestmentOriginAmount ?? 0);
 
     useEffect(
       () {
@@ -265,36 +345,81 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     return Center(
       child: Column(
         children: [
-          Container(
-            width: MediaQuery.of(context).size.width * 0.8,
-            constraints: const BoxConstraints(
-              minWidth: 263,
-              maxWidth: 400,
-              maxHeight: 45,
-              minHeight: 45,
-            ),
-            child: TextFormField(
-              controller: widget.amountController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Este dato es requerido';
-                }
-                return null;
-              },
-              onChanged: (value) {},
-              decoration: const InputDecoration(
-                hintText: 'Escriba su monto de inversion',
-                hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
-                label: Text("Monto"),
+          if (widget.isReInvestment == false) ...[
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
               ),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(
-                  RegExp(r'^[0-9]*$'),
-                ), // Solo permite números
-              ],
-              keyboardType: TextInputType.number,
+              child: TextFormField(
+                controller: widget.amountController,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                onChanged: (value) {},
+                decoration: const InputDecoration(
+                  hintText: 'Escriba su monto de inversion',
+                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                  label: Text("Monto"),
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'^[0-9]*$'),
+                  ), // Solo permite números
+                ],
+                keyboardType: TextInputType.number,
+              ),
             ),
-          ),
+          ],
+          if (widget.isReInvestment == true) ...[
+            Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              constraints: const BoxConstraints(
+                minWidth: 263,
+                maxWidth: 400,
+                maxHeight: 45,
+                minHeight: 45,
+              ),
+              child: TextFormField(
+                controller: widget.additionalAmountController,
+                enabled: widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY ? false : true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Este dato es requerido';
+                  }
+                  return null;
+                },
+                onChanged: (value) {
+                  debouncer.run(() {
+                    finalReinvestmentAmount.value =
+                        int.parse(widget.additionalAmountController.text) + (widget.reinvestmentOriginAmount ?? 0);
+                  });
+                },
+                decoration: const InputDecoration(
+                  hintText: 'Ingresa tu monto adicional',
+                  hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
+                  label: Text("Monto adicional"),
+                ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'^[0-9]*$'),
+                  ), // Solo permite números
+                ],
+                keyboardType: TextInputType.number,
+              ),
+            ),
+            const SizedBox(height: 20),
+            FinalAmountWidget(
+              amount: finalReinvestmentAmount.value.toDouble(),
+              isSoles: isSoles,
+            ),
+          ],
           const SizedBox(height: 20),
           Container(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -616,6 +741,17 @@ class _FormStep1State extends ConsumerState<FormStep1> {
             height: 50,
             child: TextButton(
               onPressed: () async {
+                String amount = '${widget.amountController.text}';
+                if (widget.isReInvestment == true &&
+                    widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+                  final originAmount = widget.reinvestmentOriginAmount;
+                  final additionalAmount = widget.additionalAmountController.text;
+                  amount = '${originAmount! + int.parse(additionalAmount)}';
+                } else if (widget.isReInvestment == true &&
+                    widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) {
+                  amount = widget.reinvestmentOriginAmount.toString();
+                }
+
                 if (userProfile.hasRequiredData() == false) {
                   completeProfileDialog(context, ref);
                   return;
@@ -625,7 +761,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 }
                 investmentSimulationModal(
                   context,
-                  startingAmount: int.parse(widget.amountController.text),
+                  startingAmount: int.parse(amount),
                   finalAmount: int.parse(widget.amountController.text),
                   mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
                   toInvestPressed: () {
@@ -633,7 +769,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       context,
                       ref,
                       SaveCorporateInvestmentInput(
-                        amount: widget.amountController.text,
+                        amount: amount,
                         months: widget.deadLineController.text.split(' ')[0],
                         coupon: widget.couponController.text,
                         currency: isSoles ? currencyNuevoSol : currencyDollar,
@@ -654,6 +790,198 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 'Continuar',
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReinvestmentRentabilityCard extends HookConsumerWidget {
+  const ReinvestmentRentabilityCard(
+      {super.key, required this.rentability, required this.amount, required this.isSoles, required this.deadline});
+
+  final double rentability;
+  final double amount;
+  final bool isSoles;
+  final int deadline;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final Color backgroundColor = isDarkMode ? const Color(0xff08273F) : const Color(0xffF2FCFF);
+    final Color verticalLineColor = isDarkMode ? const Color(0xff0D3A5C) : const Color(0xffA8DFEF);
+    final Color rentabilityBackgroundColor = isDarkMode ? const Color(0xffB4EEFF) : const Color(0xffB4EEFF);
+
+    return Center(
+      child: Container(
+        width: 297,
+        height: 65,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: backgroundColor,
+        ),
+        child: Row(
+          children: [
+            Container(
+              height: double.infinity,
+              width: 5,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                color: verticalLineColor,
+              ),
+            ),
+            const SizedBox(
+              width: 4,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    ColorFiltered(
+                      colorFilter: ColorFilter.mode(
+                        isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                        BlendMode.srcIn,
+                      ),
+                      child: Image.asset(
+                        'assets/investment/dollar-circle.png',
+                        height: 14,
+                        width: 14,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 4,
+                    ),
+                    Text(
+                      '${isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount)}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: isDarkMode ? Color(whiteText) : Color(primaryDark),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  'Capital a reinvertir',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: isDarkMode ? Color(whiteText) : Color(blackText),
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 120,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    color: rentabilityBackgroundColor,
+                    borderRadius: BorderRadius.circular(7),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ColorFiltered(
+                        colorFilter: ColorFilter.mode(
+                          isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          BlendMode.srcIn,
+                        ),
+                        child: Image.asset(
+                          'assets/icons/double_dollar.png',
+                          height: 20,
+                          width: 20,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 2,
+                      ),
+                      Text(
+                        '$rentability% x ${deadline} meses',
+                        style: const TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                          color: Color(primaryDark),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class FinalAmountWidget extends HookConsumerWidget {
+  final double amount;
+  final bool isSoles;
+
+  const FinalAmountWidget({
+    super.key,
+    required this.amount,
+    required this.isSoles,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const activeTextColor = Color(primaryDark);
+    const backgroundColor = Color(0xFFC7F3FF);
+
+    return Container(
+      width: 300,
+      padding: const EdgeInsets.all(10.0),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      child: Row(
+        children: [
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(
+              isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+              BlendMode.srcIn,
+            ),
+            child: Image.asset(
+              'assets/investment/dollar-circle.png',
+              height: 14,
+              width: 14,
+            ),
+          ),
+          const SizedBox(width: 8.0),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Monto final',
+                  style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w800, color: activeTextColor),
+                ),
+                const SizedBox(height: 4.0),
+                Text(
+                  '(Capital de la operación en curso + monto adicional)',
+                  style: TextStyle(fontSize: 7.0, fontWeight: FontWeight.w600, color: activeTextColor.withOpacity(0.6)),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8.0),
+          AutoSizeText(
+            isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
+            style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w800, color: activeTextColor),
+            maxLines: 1,
+            minFontSize: 8,
           ),
         ],
       ),

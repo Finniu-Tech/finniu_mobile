@@ -1,6 +1,7 @@
 // I need a bottomSheetModal where  start with a image at center top, then have a title  , then it show two button bottom, one for cancel and other for accept
 
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 // import 'package:finniu/domain/entities/user_notification_entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
@@ -18,6 +19,9 @@ void reinvestmentQuestionModal(
   double preInvestmentAmount,
   String currency, [
   bool? isV2 = false,
+  FundEntity? fund,
+  int? rentability,
+  int? deadline,
 ]) {
   final themeProvider = ref.watch(settingsNotifierProvider);
   // final themeProvider = Provider.of<SettingsProvider>(ctx, listen: false);
@@ -39,6 +43,9 @@ void reinvestmentQuestionModal(
       preInvestmentAmount: preInvestmentAmount,
       currency: currency,
       isV2: isV2 ?? false,
+      fund: fund,
+      rentability: rentability,
+      deadline: deadline,
     ),
   );
 }
@@ -51,6 +58,10 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
     required this.preInvestmentAmount,
     required this.currency,
     this.isV2 = false,
+    this.fund,
+    this.rentability,
+    this.deadline,
+    // required this.userNotification,
   });
 
   final SettingsProviderState themeProvider;
@@ -58,6 +69,9 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
   final double preInvestmentAmount;
   final String currency;
   final bool isV2;
+  final FundEntity? fund;
+  final int? rentability;
+  final int? deadline;
   // final UserNotificationEntity userNotification;
 
   @override
@@ -147,13 +161,20 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
                   Navigator.of(context).pop();
                   //navigate to reinvestment_step_1
                   if (isV2) {
-                    Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {
-                      'preInvestmentUUID': preInvestmentUUID,
-                      'amount': preInvestmentAmount,
-                      'isReinvestment': true,
-                      'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
-                      'currency': currency,
-                    });
+                    Navigator.pushNamed(
+                      context,
+                      '/v2/investment/step-1',
+                      arguments: {
+                        'fund': fund,
+                        'preInvestmentUUID': preInvestmentUUID,
+                        'amount': preInvestmentAmount.toInt(),
+                        'isReInvestment': true,
+                        'reInvestmentType': typeReinvestmentEnum.CAPITAL_ADITIONAL,
+                        'currency': currency,
+                        'deadLine': deadline.toString(),
+                        'originInvestmentRentability': rentability
+                      },
+                    );
                   } else {
                     Navigator.pushNamed(
                       context,
@@ -193,16 +214,34 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
               child: OutlinedButton(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  Navigator.pushNamed(
-                    context,
-                    '/reinvestment_step_1',
-                    arguments: {
-                      'preInvestmentUUID': preInvestmentUUID,
-                      'preInvestmentAmount': preInvestmentAmount,
-                      'currency': currency,
-                      'reInvestmentType': typeReinvestmentEnum.CAPITAL_ONLY,
-                    },
-                  );
+                  if (isV2) {
+                    Navigator.pushNamed(
+                      context,
+                      '/v2/investment/step-1',
+                      arguments: {
+                        'fund': fund,
+                        'preInvestmentUUID': preInvestmentUUID,
+                        'amount': preInvestmentAmount.toInt(),
+                        'isReInvestment': true,
+                        'reInvestmentType': typeReinvestmentEnum.CAPITAL_ONLY,
+                        'currency': currency,
+                        'deadLine': deadline.toString(),
+                        'originInvestmentRentability': rentability
+                      },
+                    );
+                  } else {
+                    Navigator.pushNamed(
+                      context,
+                      '/reinvestment_step_1',
+                      arguments: {
+                        'preInvestmentUUID': preInvestmentUUID,
+                        'preInvestmentAmount': preInvestmentAmount,
+                        'currency': currency,
+                        'reInvestmentType': typeReinvestmentEnum.CAPITAL_ONLY,
+                      },
+                    );
+                  }
+
                   // showThanksModal(context);
                 },
                 style: OutlinedButton.styleFrom(
@@ -230,10 +269,10 @@ class ReinvestmentQuestionBody extends HookConsumerWidget {
 
             TextButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(
+                backgroundColor: WidgetStateProperty.all<Color>(
                   themeProvider.isDarkMode ? const Color(backgroundColorDark) : Colors.white,
                 ),
-                elevation: MaterialStateProperty.all<double>(0.0),
+                elevation: WidgetStateProperty.all<double>(0.0),
               ),
               onPressed: () {
                 Navigator.of(context).pop();

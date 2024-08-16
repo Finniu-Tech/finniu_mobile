@@ -19,8 +19,7 @@ class TabBarBusiness extends ConsumerStatefulWidget {
   ConsumerState<TabBarBusiness> createState() => _InvestmentHistoryBusiness();
 }
 
-class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
-    with SingleTickerProviderStateMixin {
+class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -57,12 +56,9 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
           userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
         } else {
-          userToValidateList =
-              data?.investmentInDolares.investmentPending ?? [];
-          userInProgressList =
-              data?.investmentInDolares.investmentInCourse ?? [];
-          userCompletedList =
-              data?.investmentInDolares.investmentFinished ?? [];
+          userToValidateList = data?.investmentInDolares.investmentPending ?? [];
+          userInProgressList = data?.investmentInDolares.investmentInCourse ?? [];
+          userCompletedList = data?.investmentInDolares.investmentFinished ?? [];
         }
 
         return Column(
@@ -200,7 +196,15 @@ class InProgressList extends StatelessWidget {
                         amount: list[index].amount,
                         isReinvest: list[index].isReinvest ?? false,
                         onPressed: () {
-                          print("pon tap reinvest ${list[index].uuid}");
+                          Navigator.pushNamed(
+                            context,
+                            '/v2/summary',
+                            arguments: ArgumentsNavigator(
+                              uuid: list[index].uuid,
+                              status: "En Curso",
+                              isReinvest: list[index].isReinvest ?? false,
+                            ),
+                          );
                         },
                       ),
                     ),
@@ -276,16 +280,14 @@ class ButtonHistory extends ConsumerWidget {
     const int borderLight = 0xff0D3A5C;
 
     return Container(
-      padding:
-          const EdgeInsets.symmetric(horizontal: 10, vertical: 5).copyWith(),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5).copyWith(),
       decoration: BoxDecoration(
         color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
         border: Border.all(
-          color:
-              isDarkMode ? const Color(borderDark) : const Color(borderLight),
+          color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
           width: 1.0,
         ),
       ),

@@ -153,7 +153,10 @@ class FundNetWorthEntity {
     );
   }
 
-  static List<FundNetWorthEntity>? listFromJson(List<dynamic> data) {
+  static List<FundNetWorthEntity>? listFromJson(List<dynamic>? data) {
+    if (data == null) {
+      return null;
+    }
     return data.map((netWorth) => FundNetWorthEntity(date: netWorth['date'], value: netWorth['value'])).toList();
   }
 }

@@ -4,9 +4,8 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userInvestmentByUuidFutureProvider = FutureProvider.family
-    .autoDispose<InvestmentDetailUuid?, String>((ref, uuid) async {
-  print(uuid);
+final userInvestmentByUuidFutureProvider =
+    FutureProvider.family.autoDispose<InvestmentDetailUuid?, String>((ref, uuid) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
     final result = await client!.query(
@@ -20,8 +19,7 @@ final userInvestmentByUuidFutureProvider = FutureProvider.family
       return null;
     }
 
-    final investmentDetail =
-        InvestmentDetailUuid.fromJson(data['investmentDetail']);
+    final investmentDetail = InvestmentDetailUuid.fromJson(data['investmentDetail']);
     return investmentDetail;
   } catch (e) {
     print(e);

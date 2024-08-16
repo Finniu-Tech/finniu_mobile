@@ -127,6 +127,11 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         fund: args['fund'],
         amount: args['amount'],
         deadLine: args['deadLine'],
+        preInvestmentUUID: args['preInvestmentUUID'],
+        isReInvestment: args['isReInvestment'],
+        reInvestmentType: args['reInvestmentType'],
+        currency: args['currency'],
+        originInvestmentRentability: args['originInvestmentRentability'],
       );
     },
     '/v2/investment/step-2': (BuildContext context) {
