@@ -106,26 +106,26 @@ class LocationForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // List<GeoLocationItemV2> regions = [];
-    // final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
-    //     ref.watch(regionsSelectProvider);
-    // geoLocationResponse.when(
-    //   data: (data) {
-    //     regions = data.regions;
-    //   },
-    //   loading: () {},
-    //   error: (error, stack) {
-    //     regions = [
-    //       GeoLocationItemV2(
-    //         id: "Error de carga",
-    //         name: "Error de carga",
-    //       ),
-    //     ];
-    //   },
-    // );
+    List<GeoLocationItemV2> regions = [];
+    final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
+        ref.watch(regionsSelectProvider);
+    geoLocationResponse.when(
+      data: (data) {
+        regions = data.regions;
+      },
+      loading: () {},
+      error: (error, stack) {
+        regions = [
+          GeoLocationItemV2(
+            id: "Error de carga",
+            name: "Error de carga",
+          ),
+        ];
+      },
+    );
     List<GeoLocationItemV2> provinces = [];
     final AsyncValue<GeoLocationResponseV2> getProvincesResponse =
-        ref.watch(provincesSelectProvider("14"));
+        ref.watch(provincesSelectProvider(regionsSelectController.text));
     getProvincesResponse.when(
       data: (data) {
         provinces = data.regions;
@@ -170,7 +170,7 @@ class LocationForm extends HookConsumerWidget {
           ),
           SelectableGeoLocationDropdownItem(
             itemSelectedValue: regionsSelectController.text,
-            options: [],
+            options: regions,
             selectController: regionsSelectController,
             hintText: "Selecciona el departamento",
             validator: (value) {

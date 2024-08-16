@@ -53,9 +53,6 @@ class GeoLocationResponseV2 {
     String typeList,
   ) {
     var list = json[typeList] as List;
-    print("print list");
-    print(typeList);
-    print(list);
     List<GeoLocationItemV2> regionsList =
         list.map((i) => GeoLocationItemV2.fromJson(i, typeList)).toList();
     return GeoLocationResponseV2(regions: regionsList);

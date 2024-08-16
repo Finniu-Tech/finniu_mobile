@@ -280,7 +280,7 @@ class SelectableGeoLocationDropdownItemState
                       fontFamily: "Poppins",
                     ),
                   ),
-                  if (option.name == widget.selectController.text)
+                  if (option.id == widget.selectController.text)
                     Icon(
                       Icons.check_circle_outline,
                       size: 24,
