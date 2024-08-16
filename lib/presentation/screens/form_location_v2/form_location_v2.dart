@@ -81,7 +81,7 @@ class FormLocationDataV2 extends HookConsumerWidget {
   }
 }
 
-class LocationForm extends ConsumerWidget {
+class LocationForm extends HookConsumerWidget {
   const LocationForm({
     super.key,
     required this.formKey,
@@ -104,6 +104,10 @@ class LocationForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    List<String> departments = [];
+    List<String> provinces = [];
+    List<String> districts = [];
+
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
@@ -126,7 +130,7 @@ class LocationForm extends ConsumerWidget {
           ),
           SelectableDropdownItem(
             itemSelectedValue: departmentSelectController.text,
-            options: departmentsPeru,
+            options: departments,
             selectController: departmentSelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
@@ -141,7 +145,7 @@ class LocationForm extends ConsumerWidget {
           ),
           SelectableDropdownItem(
             itemSelectedValue: provinceSelectController.text,
-            options: provincialPeru,
+            options: provinces,
             selectController: provinceSelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
@@ -156,7 +160,7 @@ class LocationForm extends ConsumerWidget {
           ),
           SelectableDropdownItem(
             itemSelectedValue: districtSelectController.text,
-            options: departmentsPeru,
+            options: districts,
             selectController: districtSelectController,
             hintText: "Selecciona tu documento de identidad",
             validator: (value) {
