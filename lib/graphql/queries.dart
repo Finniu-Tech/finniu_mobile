@@ -1425,4 +1425,37 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get regionsV2 {
+    return '''
+     query Region{
+      regions {
+        id
+        nomDpto
+      }
+    }
+    ''';
+  }
+
+  static String get provinciaV2 {
+    return '''
+    query Provincia{
+      provincias(\$idDpto : String!)  {
+        id
+        nomProv
+      }
+    }
+    ''';
+  }
+
+  static String get districtV2 {
+    return '''
+   query Distritos{
+    distritos(\$idProv : String!) {
+      id
+      nomDist
+    }
+  }
+    ''';
+  }
 }

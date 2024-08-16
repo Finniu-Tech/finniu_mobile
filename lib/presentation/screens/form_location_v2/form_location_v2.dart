@@ -1,3 +1,5 @@
+import 'package:finniu/domain/entities/form_select_entity.dart';
+import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
@@ -21,20 +23,20 @@ class FormLocationDataV2 extends HookConsumerWidget {
     final addressNumberController = useTextEditingController();
     final zipCodeController = useTextEditingController();
     final countrySelectController = useTextEditingController();
-    final departmentSelectController = useTextEditingController();
+    final regionsSelectController = useTextEditingController();
     final provinceSelectController = useTextEditingController();
     final districtSelectController = useTextEditingController();
 
     void uploadLocationData() {
       if (formKey.currentState!.validate()) {
         print("add personal data");
+        print(countrySelectController.text);
+        print(regionsSelectController.text);
+        print(provinceSelectController.text);
+        print(districtSelectController.text);
         print(addressTextController.text);
         print(addressNumberController.text);
         print(zipCodeController.text);
-        print(countrySelectController.text);
-        print(departmentSelectController.text);
-        print(provinceSelectController.text);
-        print(districtSelectController.text);
       }
     }
 
@@ -70,7 +72,7 @@ class FormLocationDataV2 extends HookConsumerWidget {
             addressNumberController: addressNumberController,
             zipCodeController: zipCodeController,
             countrySelectController: countrySelectController,
-            departmentSelectController: departmentSelectController,
+            regionsSelectController: regionsSelectController,
             provinceSelectController: provinceSelectController,
             districtSelectController: districtSelectController,
           ),
@@ -89,7 +91,7 @@ class LocationForm extends HookConsumerWidget {
     required this.addressNumberController,
     required this.zipCodeController,
     required this.countrySelectController,
-    required this.departmentSelectController,
+    required this.regionsSelectController,
     required this.provinceSelectController,
     required this.districtSelectController,
   });
@@ -98,15 +100,40 @@ class LocationForm extends HookConsumerWidget {
   final TextEditingController addressNumberController;
   final TextEditingController zipCodeController;
   final TextEditingController countrySelectController;
-  final TextEditingController departmentSelectController;
+  final TextEditingController regionsSelectController;
   final TextEditingController provinceSelectController;
   final TextEditingController districtSelectController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<String> departments = [];
-    List<String> provinces = [];
-    List<String> districts = [];
+    List<GeoLocationItemV2> regions = [];
+    List<GeoLocationItemV2> provinces = [
+      GeoLocationItemV2(
+        id: "Error de carga",
+        name: "Error de carga",
+      ),
+    ];
+    List<GeoLocationItemV2> districts = [
+      GeoLocationItemV2(
+        id: "Error de carga",
+        name: "Error de carga",
+      ),
+    ];
+    final geoLocationResponse = ref.watch(regionsSelectProvider);
+    geoLocationResponse.when(
+      data: (data) {
+        regions = data.regions;
+      },
+      loading: () {},
+      error: (error, stack) {
+        regions = [
+          GeoLocationItemV2(
+            id: "Error de carga",
+            name: "Error de carga",
+          ),
+        ];
+      },
+    );
 
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
@@ -128,11 +155,11 @@ class LocationForm extends HookConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          SelectableDropdownItem(
-            itemSelectedValue: departmentSelectController.text,
-            options: departments,
-            selectController: departmentSelectController,
-            hintText: "Selecciona tu documento de identidad",
+          SelectableGeoLocationDropdownItem(
+            itemSelectedValue: regionsSelectController.text,
+            options: regions,
+            selectController: regionsSelectController,
+            hintText: "Selecciona el departamento",
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor selecione tipo';
@@ -143,11 +170,11 @@ class LocationForm extends HookConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          SelectableDropdownItem(
+          SelectableGeoLocationDropdownItem(
             itemSelectedValue: provinceSelectController.text,
             options: provinces,
             selectController: provinceSelectController,
-            hintText: "Selecciona tu documento de identidad",
+            hintText: "Selecciona la provincia",
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor selecione tipo';
@@ -158,11 +185,11 @@ class LocationForm extends HookConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          SelectableDropdownItem(
+          SelectableGeoLocationDropdownItem(
             itemSelectedValue: districtSelectController.text,
             options: districts,
             selectController: districtSelectController,
-            hintText: "Selecciona tu documento de identidad",
+            hintText: "Selecciona el distrito ",
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor selecione tipo';
