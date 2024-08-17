@@ -18,6 +18,14 @@ class LastOperationFund {
       fundTypeSlug: json['fundType'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'uuid': uuid,
+      'fundType': fundTypeSlug,
+    };
+  }
 }
 
 class LastOperationAggroInvestment {
@@ -39,8 +47,8 @@ class LastOperationAggroInvestment {
 
   factory LastOperationAggroInvestment.fromJson(Map<String, dynamic> json) {
     return LastOperationAggroInvestment(
-      investmentFundName: json['investmentFundName'],
-      uuid: json['uuid'],
+      investmentFundName: json['investmentFundName'] ?? '',
+      uuid: json['uuid'] ?? '',
       parcelAmount: num.parse(json['parcelAmount'] ?? '0').toDouble(),
       parcelNumber: num.parse(json['parcelNumber'] ?? '0').toInt(),
       // numberOfInstallments: json['numberOfInstallments'],
@@ -48,6 +56,17 @@ class LastOperationAggroInvestment {
       // parcelMonthlyInstallment: json['parcelMonthlyInstallment'],
       parcelMonthlyInstallment: num.parse(json['parcelMonthlyInstallment'] ?? '0').toDouble(),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'investmentFundName': investmentFundName,
+      'uuid': uuid,
+      'parcelAmount': parcelAmount,
+      'parcelNumber': parcelNumber,
+      'numberOfInstallments': numberOfInstallments,
+      'parcelMonthlyInstallment': parcelMonthlyInstallment,
+    };
   }
 }
 
@@ -95,6 +114,20 @@ class LastOperationEnterprisePreInvestment {
       return null;
     }
   }
+
+  //to json method
+  Map<String, dynamic> toJson() {
+    return {
+      'uuidPreInvestment': uuidPreInvestment,
+      'amount': amount,
+      'status': status,
+      'actionStatus': actionStatus,
+      'currency': currency,
+      'rentability': rentability,
+      'deadline': deadline,
+      'isReInvestment': isReInvestment,
+    };
+  }
 }
 
 // lib/models/last_operation.dart
@@ -127,7 +160,17 @@ class LastOperation {
     if (lastOperations.isEmpty) {
       return [];
     }
-    return lastOperations.where((element) => element.enterprisePreInvestment?.isReInvestment == false).toList();
+    return lastOperations.where((element) => element.enterprisePreInvestment?.isReInvestment == true).toList();
+  }
+
+  //to json method
+  Map<String, dynamic> toJson() {
+    return {
+      'investmentFund': investmentFund.toJson(),
+      'typeInvestment': typeInvestment,
+      'agroInvestment': aggroInvestment?.toJson(),
+      'preInvestment': enterprisePreInvestment?.toJson(),
+    };
   }
 }
 

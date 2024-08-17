@@ -1199,8 +1199,8 @@ class QueryRepository {
 
   static String get rentabilityGraphic {
     return '''
-      query rentabilityGraph(\$timeLine: TimeLineEnum) {
-        rentabilityGraph(timeLine: \$timeLine) {
+      query rentabilityGraph(\$timeLine: TimeLineEnum, \$fundUUID: String) {
+        rentabilityGraph(timeLine: \$timeLine, investmentFundUuid: \$fundUUID) {
           rentabilityInPen {
             month
             amountPoint
@@ -1210,6 +1210,7 @@ class QueryRepository {
             amountPoint
           }
         }
+}
 }
     ''';
   }

@@ -44,7 +44,7 @@ class FundDetailBody extends StatelessWidget {
         HeaderInvestment(
           containerColor: isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight(),
           iconColor: isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
-          textColor: aboutTextBusinessColor,
+          textColor: isDarkMode ? whiteText : blackText,
           urlIcon: fund.iconUrl!,
           urlImageBackground: fund.backgroundImageUrl!,
           textTitle: fund.name,
@@ -89,8 +89,8 @@ class ScrollBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final currentTheme = ref.watch(settingsNotifierProvider);
-    final mainColorText = Colors.black;
+    final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final Color mainColorText = isDarkMode ? Colors.white : Colors.black;
     final Color downloadInfoButtonColor =
         fund.fundType == FundTypeEnum.corporate ? const Color(primaryDark) : const Color(0xff3A66BF);
     final bool isSoles = ref.watch(isSolesStateProvider);
@@ -128,7 +128,7 @@ class ScrollBody extends ConsumerWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Ver los beneficioss',
+                          'Ver los beneficios',
                           style: TextStyle(
                             fontSize: 12,
                             color: mainColorText,
@@ -152,16 +152,7 @@ class ScrollBody extends ConsumerWidget {
                   TextButton(
                     style: ButtonStyle(backgroundColor: WidgetStateProperty.all((downloadInfoButtonColor))),
                     onPressed: () {
-                      //url launch
                       launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
-
-                      // Navigator.pushNamed(
-                      //   context,
-                      //   '/contract_view',
-                      //   arguments: {
-                      //     'contractURL':  fund.moreInfoDownloadUrl
-                      //   },
-                      // );
                     },
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,

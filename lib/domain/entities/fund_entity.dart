@@ -203,4 +203,17 @@ class FundBenefit {
   static List<FundBenefit> listFromJson(List<dynamic> data) {
     return data.map((benefit) => FundBenefit.fromJson(benefit)).toList();
   }
+  //to json
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uuid': uuid,
+      'benefitText': title,
+      'icon': iconUrl,
+      'backgroundColorDark': hexBackgroundColorLight,
+      'backgroundColorLight': hexBackgroundColorDark,
+      'isActive': isActive,
+      'isDeleted': isDelete,
+    };
+  }
 }

@@ -39,6 +39,9 @@ class ReInvestmentSliderState extends State<ReInvestmentSlider> {
       const String title = "¡Ya puedes reinvertir!";
       const String bodyText = "Tienes algunas inversiones disponibles para reinvertir";
       const String imageUrl = "assets/investment/tree_money.png";
+      // print operation json
+
+      print('operation reinvest: ${operation.toJson()}');
 
       return SliderItem(
         title: title,

@@ -127,6 +127,7 @@ class HomeBody extends HookConsumerWidget {
         print('HomeBody constraints: $constraints');
         return SingleChildScrollView(
           child: Container(
+            height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -216,7 +217,6 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
             itemBuilder: FundHomeUpperSectionWidget(fund: fund),
           );
         }).toList();
-
         return LayoutBuilder(
           builder: (context, constraints) {
             return Container(
@@ -229,33 +229,37 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
                     ? const Color(scaffoldBlackBackground)
                     : const Color(scaffoldLightGradientPrimary),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+              child: Stack(
                 children: [
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: 35,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: pageWidgets.map((widget) => widget.title).toList(),
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  ExpandablePageView.builder(
-                    itemCount: pageWidgets.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: pageWidgets[index].itemBuilder,
-                      );
-                    },
-                    controller: pageController,
-                    onPageChanged: (index) {
-                      setState(() {
-                        selectedPage = index;
-                      });
-                    },
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: 35,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: pageWidgets.map((widget) => widget.title).toList(),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ExpandablePageView.builder(
+                        itemCount: pageWidgets.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 15),
+                            child: pageWidgets[index].itemBuilder,
+                          );
+                        },
+                        controller: pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            selectedPage = index;
+                          });
+                        },
+                      ),
+                    ],
                   ),
                   if (widget.renderNonInvestment)
                     Positioned.fill(
@@ -319,7 +323,7 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
     List<LastOperation> reinvestmentOperations = [];
     return lastOperationsAsyncValue.when(
       data: (lastOperations) {
-        //print('lastOperations: $lastOperations');
+        print('lastOperations: $lastOperations');
         if (fund.fundType == FundTypeEnum.corporate) {
           reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
         }
@@ -330,7 +334,7 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
-            const GraphicContainer(),
+            GraphicContainer(fund: fund),
             const SizedBox(height: 10),
             if (lastOperations.isNotEmpty && fund.fundType == FundTypeEnum.corporate) ...[
               LastOperationsSlider(

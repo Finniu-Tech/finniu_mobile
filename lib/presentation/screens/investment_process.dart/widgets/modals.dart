@@ -296,7 +296,7 @@ class AccountNumbersWidget extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'N de cuenta $textCurrency Interbank ',
+                    'N de cuenta corriente $textCurrency Interbank ',
                     style: TextStyle(
                       color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                       fontSize: 12,

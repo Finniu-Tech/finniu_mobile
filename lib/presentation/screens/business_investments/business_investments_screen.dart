@@ -25,9 +25,7 @@ class BusinessInvestmentsScreen extends HookConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
+      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
       bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
@@ -68,9 +66,7 @@ class RealEstateBody extends ConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Container(
-      color: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
+      color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       width: MediaQuery.of(context).size.width,
       child: userInvestment.when(
         data: (investment) {
@@ -80,9 +76,7 @@ class RealEstateBody extends ConsumerWidget {
                 _buildNormalContent(),
                 Positioned.fill(
                   child: Container(
-                    color: isDarkMode
-                        ? Colors.black.withOpacity(0.7)
-                        : Colors.white.withOpacity(0.7),
+                    color: isDarkMode ? Colors.black.withOpacity(0.7) : Colors.white.withOpacity(0.7),
                     child: NoInvestmentBody(
                       onPressed: () {
                         Navigator.pushNamed(context, '/home_v2');
@@ -94,9 +88,7 @@ class RealEstateBody extends ConsumerWidget {
             );
           } else {
             final args = ModalRoute.of(context)?.settings.arguments as Map?;
-            final isReinvest = args != null && args['reinvest'] != null
-                ? args['reinvest']
-                : false;
+            final isReinvest = args != null && args['reinvest'] != null ? args['reinvest'] : false;
 
             return _buildNormalContent(isReinvest: isReinvest);
           }
@@ -115,7 +107,7 @@ class RealEstateBody extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 15),
-          const GraphicContainer(),
+          GraphicContainer(),
           const SizedBox(height: 10),
           const SeeCalendar(),
           const SizedBox(height: 10),

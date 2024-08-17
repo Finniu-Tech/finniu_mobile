@@ -764,6 +764,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   startingAmount: int.parse(amount),
                   finalAmount: int.parse(widget.amountController.text),
                   mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
+                  coupon: widget.couponController.text,
                   toInvestPressed: () {
                     _savePreInvestment(
                       context,

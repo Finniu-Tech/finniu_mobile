@@ -349,7 +349,7 @@ class Step2Body extends HookConsumerWidget {
                     Row(
                       children: [
                         Text(
-                          'N de cuenta $textCurrency Interbank ',
+                          'N de cuenta corriente $textCurrency Interbank ',
                           style: TextStyle(
                             color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                             fontSize: 12,
@@ -461,7 +461,7 @@ class Step2Body extends HookConsumerWidget {
             width: 305,
             // alignment: Alignment.centerLeft,
             child: Text(
-              'Adjunta tu constancia de transferencia: ',
+              'Adjunta tu constancia(s) de transferencia: ',
               textAlign: TextAlign.justify,
               style: TextStyle(
                 fontSize: 14,
@@ -632,7 +632,7 @@ class Step2Body extends HookConsumerWidget {
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: Text(
-                        'Suba la foto nitida donde sea visible el código de operación',
+                        'Suba la foto(s) nítida donde sea visible el código de operación',
                         style: TextStyle(
                           color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
                           fontSize: 8,

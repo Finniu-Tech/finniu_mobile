@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/rentability_graph_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/rentability_graphic_provider.dart';
@@ -8,8 +9,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphicContainer extends ConsumerWidget {
-  const GraphicContainer({
+  final FundEntity? fund;
+  GraphicContainer({
     super.key,
+    this.fund,
   });
 
   @override
@@ -23,14 +26,16 @@ class GraphicContainer extends ConsumerWidget {
       ),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
-      child: const GraphicLinealWidget(),
+      child: GraphicLinealWidget(fund: fund),
     );
   }
 }
 
 class GraphicLinealWidget extends ConsumerStatefulWidget {
+  final FundEntity? fund;
   const GraphicLinealWidget({
     super.key,
+    this.fund,
   });
 
   @override
@@ -47,7 +52,9 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
   @override
   Widget build(BuildContext context) {
     final isSoles = ref.watch(isSolesStateProvider);
-    final rentabilityGraph = ref.watch(rentabilityGraphicFutureProvider);
+    final timeLine = ref.watch(timePeriodProvider);
+
+    final rentabilityGraph = ref.watch(rentabilityGraphicFutureProvider((timeLine.value, widget.fund?.uuid ?? '')));
     if (rentabilityGraph.asData == null) {
       return SizedBox(
         height: MediaQuery.of(context).size.height * 0.4,
@@ -104,7 +111,7 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                   ),
                   child: const Center(
-                    child: Text('No hay datos'),
+                    child: Text(''),
                   ),
                 ),
               )

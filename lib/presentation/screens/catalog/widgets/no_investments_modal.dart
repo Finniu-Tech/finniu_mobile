@@ -81,9 +81,10 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const String titleText = "Aún no haz realizado tu primera inversión 🥹";
-    const String bodyText =
-        "Descubre nuestros fondos y realiza tu primera inversión en uno de nuestros fondos que tenermos para ti";
+    const String titleText = "Aún no has realizado tu primera inversión";
+    // const String titleText = "Aún no has realizado tu primera inversión 🥹";
+    const String bodyText = "Descubre los fondos que tenemos para ti y realiza tu primera inversión.";
+    // "Descubre nuestros fondos y realiza tu primera inversión en uno de nuestros fondos que tenemos para ti.";
     const int buttonTextColorDark = 0xff0D3A5C;
     const int buttonTextColorLight = 0xffFFFFFF;
     const int buttonBackgroundColorDark = 0xffA2E6FA;

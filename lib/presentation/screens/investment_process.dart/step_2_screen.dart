@@ -222,7 +222,7 @@ class Step2Body extends HookConsumerWidget {
                   );
                 },
                 textButton: senderBankAccountState.value == null
-                    ? 'Desde que banco nos transfieres'
+                    ? 'Desde qué banco nos transfieres'
                     : senderBankAccountState.value!.bankAccount,
                 svgPath: 'assets/svg_icons/card-send.svg',
                 backgroundColor: isDarkMode
@@ -242,7 +242,7 @@ class Step2Body extends HookConsumerWidget {
                   );
                 },
                 textButton: receiverBankAccountState.value == null
-                    ? 'A que banco te depositamos'
+                    ? 'A qué banco te depositamos'
                     : receiverBankAccountState.value!.bankAccount,
                 svgPath: 'assets/svg_icons/card-receive.svg',
                 backgroundColor: isDarkMode
@@ -295,7 +295,7 @@ class Step2Body extends HookConsumerWidget {
                 width: 305,
                 // alignment: Alignment.centerLeft,
                 child: Text(
-                  'Adjunta tu constancia de transferencia: ',
+                  'Adjunta tu constancia(s) de transferencia: ',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontSize: 14,
@@ -456,7 +456,7 @@ class Step2Body extends HookConsumerWidget {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Text(
-                            'Suba la foto nitida donde sea visible el código de operación',
+                            'Suba la foto(s) nítida donde sea visible el código de operación',
                             style: TextStyle(
                               color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
                               fontSize: 8,
