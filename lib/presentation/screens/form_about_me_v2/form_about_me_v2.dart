@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/add_image.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
@@ -7,6 +12,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progre
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AboutMeDataV2 extends HookConsumerWidget {
@@ -23,6 +29,7 @@ class AboutMeDataV2 extends HookConsumerWidget {
     final linkedinTextController =
         useTextEditingController(text: "https://linkendIn.com/");
     final profilAreaController = useTextEditingController();
+    final String? imagePath = ref.watch(imagePathProvider);
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
         print("add personal data");
@@ -30,6 +37,7 @@ class AboutMeDataV2 extends HookConsumerWidget {
         print(instagramTextController.text);
         print(linkedinTextController.text);
         print(profilAreaController.text);
+        print(imagePath);
       }
     }
 
@@ -90,12 +98,22 @@ class AboutMeForm extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String? imagePath = ref.watch(imagePathProvider);
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(
+            height: 10,
+          ),
+          imagePath == null
+              ? const AddImageProfile()
+              : const ImageProfileRender(),
+          const SizedBox(
+            height: 10,
+          ),
           InputTextAreaUserProfile(
             controller: profilAreaController,
             hintText: "Escribe una breve biografía sobre tí.",
@@ -132,5 +150,103 @@ class AboutMeForm extends ConsumerWidget {
         ],
       ),
     );
+  }
+}
+
+class AddImageProfile extends ConsumerWidget {
+  const AddImageProfile({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff222222;
+    const int backgroundLight = 0xffEEEEEE;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          GestureDetector(
+            onTap: () {
+              addImage(context: context, ref: ref);
+            },
+            child: Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? const Color(backgroundDark)
+                    : const Color(backgroundLight),
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Center(
+                child: SvgPicture.asset(
+                  "assets/svg_icons/gallery_add_icon_v2.svg",
+                  width: 20,
+                  height: 20,
+                  color: isDarkMode
+                      ? const Color(iconDark)
+                      : const Color(iconLight),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          const TextPoppins(
+            text: "Sube una foto",
+            fontSize: 12,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ImageProfileRender extends ConsumerWidget {
+  const ImageProfileRender({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final String? imagePath = ref.watch(imagePathProvider);
+    return imagePath != null
+        ? GestureDetector(
+            onTap: () {
+              addImage(context: context, ref: ref);
+            },
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ClipOval(
+                    clipBehavior: Clip.hardEdge,
+                    child: Image.file(
+                      File(imagePath),
+                      fit: BoxFit.fill,
+                      width: 80,
+                      height: 80,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  const TextPoppins(
+                    text: "Sube una foto",
+                    fontSize: 12,
+                  ),
+                ],
+              ),
+            ),
+          )
+        : const SizedBox();
   }
 }
