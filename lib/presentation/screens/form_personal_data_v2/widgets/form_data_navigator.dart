@@ -8,10 +8,12 @@ class FormDataNavigator extends StatelessWidget {
     required this.addData,
     required this.continueLater,
     this.continueLaterBool = true,
+    this.finishBool = false,
   });
   final VoidCallback? addData;
   final VoidCallback? continueLater;
   final bool continueLaterBool;
+  final bool finishBool;
   final int textDark = 0xffB3B3B3;
   final int textLight = 0xff0D3A5C;
 
@@ -26,7 +28,7 @@ class FormDataNavigator extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ButtonInvestment(
-            text: "Siguente",
+            text: finishBool ? "Terminar" : "Siguente",
             onPressed: addData,
           ),
           const SizedBox(height: 10),

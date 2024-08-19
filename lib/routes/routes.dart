@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
+import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
 import 'package:finniu/presentation/screens/form_job_v2/form_job_v2.dart';
 import 'package:finniu/presentation/screens/form_legal_terms/form_legal_v2.dart';
 import 'package:finniu/presentation/screens/form_location_v2/form_location_v2.dart';
@@ -198,6 +199,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/form_location': (BuildContext context) => FormLocationDataV2(),
     '/v2/form_job': (BuildContext context) => FormJobDataV2(),
     '/v2/form_legal_terms': (BuildContext context) => FormLegalTermsDataV2(),
-    '/v2/form_about_me': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_about_me': (BuildContext context) => AboutMeDataV2(),
   };
 }
