@@ -4,9 +4,27 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+class RentabilityParamsProvider {
+  final String timeline;
+  final String fundUUID;
+  RentabilityParamsProvider({required this.timeline, required this.fundUUID});
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is RentabilityParamsProvider &&
+          runtimeType == other.runtimeType &&
+          timeline == other.timeline &&
+          fundUUID == other.fundUUID;
+
+  @override
+  int get hashCode => timeline.hashCode ^ fundUUID.hashCode;
+}
+
 final rentabilityGraphicFutureProvider =
-    FutureProvider.autoDispose.family<RentabilityGraphicResponseAPI, (String, String)>((ref, params) async {
-  final (timeline, fundUUID) = params;
+    FutureProvider.autoDispose.family<RentabilityGraphicResponseAPI, RentabilityParamsProvider>((ref, params) async {
+  final timeline = params.timeline;
+  final fundUUID = params.fundUUID;
+
   try {
     final client = ref.watch(gqlClientProvider).value;
     final result = await client!.query(
@@ -14,6 +32,7 @@ final rentabilityGraphicFutureProvider =
         document: gql(
           QueryRepository.rentabilityGraphic,
         ),
+        fetchPolicy: FetchPolicy.noCache,
         variables: {"timeLine": timeline, "fundUUID": fundUUID},
       ),
     );

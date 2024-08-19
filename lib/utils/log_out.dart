@@ -10,6 +10,7 @@ import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/plan_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
+import 'package:finniu/presentation/providers/rentability_graphic_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -53,6 +54,7 @@ logOut(BuildContext context, WidgetRef ref) {
   ref.invalidate(bankRepositoryProvider);
   ref.invalidate(featureFlagsProvider);
   ref.invalidate(userFeatureFlagListFutureProvider);
+  ref.invalidate(rentabilityGraphicFutureProvider);
   // logout(ref);
   Navigator.of(context).pushNamedAndRemoveUntil(
     '/login_start',

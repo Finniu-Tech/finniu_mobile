@@ -1210,8 +1210,8 @@ class QueryRepository {
             amountPoint
           }
         }
-}
-}
+      }
+
     ''';
   }
 
@@ -1221,6 +1221,11 @@ class QueryRepository {
       userInfoAllInvestment{
           invesmentInSoles {
             investmentPending{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInProcess{
               uuid
               amount
               finishDateInvestment
@@ -1239,6 +1244,11 @@ class QueryRepository {
           }
           invesmentInDolares{
               investmentPending{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInProcess{
               uuid
               amount
               finishDateInvestment

@@ -10,7 +10,7 @@ class ButtonSendProof extends StatelessWidget {
   });
 
   final String textBody =
-      '''Recuerda que las tranferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!''';
+      '''Recuerda que las transferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!''';
   final String textTitle = 'Gracias por \ninvertir en Finniu!';
   final String textTanks = 'Gracias por tu comprensión! ';
   final String textButton = 'Ver mi progreso';

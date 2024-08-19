@@ -1,3 +1,5 @@
+import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_investment_screen.dart';
@@ -41,98 +43,105 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
       },
       [],
     );
+
     return HookConsumer(
       builder: (context, ref, _) {
         final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
         const int columnColorDark = 0xff0E0E0E;
         const int columnColorLight = 0xffF8F8F8;
 
-        List<PageWidget> pageWidgets = [
-          PageWidget(
-            title: GestureDetector(
-              onTap: () {
-                pageController.animateToPage(
-                  0,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
-                setState(() {
-                  selectedPage = 0;
-                });
-              },
-              child: RealStateTitleAndNavigate(
-                isSelect: selectedPage == 0,
-                isDarkMode: isDarkMode,
-              ),
-            ),
-            itemBuilder: const RealEstateBody(),
-          ),
-          PageWidget(
-            title: GestureDetector(
-              onTap: () {
-                pageController.animateToPage(
-                  1,
-                  duration: const Duration(milliseconds: 500),
-                  curve: Curves.ease,
-                );
-                setState(() {
-                  selectedPage = 1;
-                });
-              },
-              child: BlueGoldTitleAndNavigate(
-                isSelect: selectedPage == 1,
-                isDarkMode: isDarkMode,
-              ),
-            ),
-            itemBuilder: const BlueGoldBody(),
-          ),
-        ];
+        final fundListAsyncValue = ref.watch(fundListFutureProvider);
 
-        return Scaffold(
-          backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
-          appBar: const AppBarBusinessScreen(),
-          bottomNavigationBar: const NavigationBarHome(
-            colorBackground: Colors.transparent,
-          ),
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  height: 45,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      pageWidgets[0].title,
-                      const SizedBox(width: 7),
-                      pageWidgets[1].title,
-                    ],
+        return fundListAsyncValue.when(
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (error, stack) => Center(child: Text('Error: $error')),
+          data: (fundList) {
+            List<PageWidget> pageWidgets = fundList.map((fund) {
+              return PageWidget(
+                title: GestureDetector(
+                  onTap: () {
+                    pageController.animateToPage(
+                      fundList.indexOf(fund),
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.ease,
+                    );
+                    setState(() {
+                      selectedPage = fundList.indexOf(fund);
+                    });
+                  },
+                  child: SizedBox(
+                    child: FundTitleAndNavigate(
+                      isSelect: selectedPage == fundList.indexOf(fund),
+                      fund: fund,
+                    ),
                   ),
                 ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height * 0.9,
-                  child: PageView.builder(
-                    itemCount: pageWidgets.length,
-                    itemBuilder: (context, index) {
-                      return pageWidgets[index].itemBuilder;
-                    },
-                    controller: pageController,
-                    onPageChanged: (index) {
-                      setState(() {
-                        selectedPage = index;
-                      });
-                    },
-                  ),
+                itemBuilder:
+                    fund.fundType == FundTypeEnum.corporate ? RealEstateBody(fund: fund) : BlueGoldBody(fund: fund),
+              );
+            }).toList();
+
+            return Scaffold(
+              backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+              appBar: const AppBarBusinessScreen(),
+              bottomNavigationBar: const NavigationBarHome(
+                colorBackground: Colors.transparent,
+              ),
+              body: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 10, bottom: 5),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: 36,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: pageWidgets.map((widget) => widget.title).toList(),
+                      ),
+                    ),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.9,
+                      child: PageView.builder(
+                        itemCount: pageWidgets.length,
+                        itemBuilder: (context, index) {
+                          return pageWidgets[index].itemBuilder;
+                        },
+                        controller: pageController,
+                        onPageChanged: (index) {
+                          setState(() {
+                            selectedPage = index;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         );
       },
     );
+  }
+}
+
+class FundTitleAndNavigate extends ConsumerWidget {
+  final FundEntity fund;
+  final bool isSelect;
+  const FundTitleAndNavigate({super.key, required this.fund, required this.isSelect});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    return fund.fundType == FundTypeEnum.corporate
+        ? RealStateTitleAndNavigate(isSelect: isSelect, isDarkMode: isDarkMode, funName: fund.name)
+        : BlueGoldTitleAndNavigate(
+            isDarkMode: isDarkMode,
+            isSelect: isSelect,
+            fundName: fund.name,
+          );
   }
 }

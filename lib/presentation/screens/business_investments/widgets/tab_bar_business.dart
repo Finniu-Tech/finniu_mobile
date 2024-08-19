@@ -25,7 +25,7 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
   @override
   void initState() {
     _tabController = TabController(
-      length: 3,
+      length: 4,
       vsync: this,
       initialIndex: widget.isReinvest == true ? 1 : 0,
     );
@@ -45,6 +45,7 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
   Widget build(BuildContext context) {
     final userInvestment = ref.watch(userInfoAllInvestmentFutureProvider);
     final isSoles = ref.watch(isSolesStateProvider);
+    List<Investment> userInPendingList = [];
     List<Investment> userToValidateList = [];
     List<Investment> userInProgressList = [];
     List<Investment> userCompletedList = [];
@@ -52,13 +53,15 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
     return userInvestment.when(
       data: (data) {
         if (isSoles) {
-          userToValidateList = data?.investmentInSoles.investmentPending ?? [];
+          userToValidateList = data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
           userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
+          userInPendingList = data?.investmentInSoles.investmentPending ?? [];
         } else {
-          userToValidateList = data?.investmentInDolares.investmentPending ?? [];
+          userToValidateList = data?.investmentInDolares.investmentInProcess ?? [];
           userInProgressList = data?.investmentInDolares.investmentInCourse ?? [];
           userCompletedList = data?.investmentInDolares.investmentFinished ?? [];
+          userInPendingList = data?.investmentInDolares.investmentPending ?? [];
         }
 
         return Column(
@@ -70,6 +73,7 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
               indicatorColor: Colors.transparent,
               overlayColor: WidgetStateProperty.all(Colors.transparent),
               controller: _tabController,
+              isScrollable: true,
               tabs: [
                 ButtonHistory(
                   isSelected: _tabController.index == 0,
@@ -77,10 +81,14 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
                 ),
                 ButtonHistory(
                   isSelected: _tabController.index == 1,
-                  text: 'En Curso',
+                  text: 'En curso',
                 ),
                 ButtonHistory(
                   isSelected: _tabController.index == 2,
+                  text: 'Pendientes',
+                ),
+                ButtonHistory(
+                  isSelected: _tabController.index == 3,
                   text: 'Finalizadas',
                 ),
               ],
@@ -96,6 +104,9 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
                     list: userToValidateList,
                   ),
                   InProgressList(list: userInProgressList),
+                  PendingList(
+                    list: userInPendingList,
+                  ),
                   CompletedList(list: userCompletedList),
                 ],
               ),
@@ -244,6 +255,50 @@ class ToValidateList extends StatelessWidget {
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
                             status: "Por validar",
+                          ),
+                        );
+                      },
+                      child: ToValidateInvestment(
+                        dateEnds: list[index].finishDateInvestment,
+                        amount: list[index].amount,
+                      ),
+                    ),
+                  );
+                },
+              ),
+      ),
+    );
+  }
+}
+
+class PendingList extends StatelessWidget {
+  final List<Investment> list;
+  const PendingList({super.key, required this.list});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: SizedBox(
+        height: 336,
+        child: list.isEmpty
+            ? const NoInvestmentCase(
+                title: "Aún no tienes inversiones pendientes",
+                textBody:
+                    "Recuerda que vas a poder visualizar tus inversiones por validar cuando hayas realizado una inversión reciente y no ha sido aprobada aún",
+              )
+            : ListView.builder(
+                itemCount: list.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(
+                          context,
+                          '/v2/summary',
+                          arguments: ArgumentsNavigator(
+                            uuid: list[index].uuid,
+                            status: "Pendiente",
                           ),
                         );
                       },

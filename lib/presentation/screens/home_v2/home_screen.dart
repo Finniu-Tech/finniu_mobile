@@ -330,13 +330,11 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
       data: (lastOperations) {
         if (fund.fundType == FundTypeEnum.corporate) {
           reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
-          //filterd by currecny
           filteredOperations =
               lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
           lastOperations = filteredOperations;
         }
 
-        // print('reinvestmentOperations: $reinvestmentOperations');
         return Column(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -441,6 +439,7 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
       case 'draft':
         return SliderDraft(
           amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
+          isReInvestment: operation.enterprisePreInvestment?.isReInvestment ?? false,
           onTap: () => showDraftModal(
             context,
             amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,

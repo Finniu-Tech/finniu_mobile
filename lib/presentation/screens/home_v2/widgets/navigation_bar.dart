@@ -100,10 +100,7 @@ class NavigationBarInvestment extends ConsumerWidget {
           break;
         case 1:
           ref.read(navigatorStateProvider.notifier).state = 1;
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/business_investment',
-            (route) => false,
-          );
+
           break;
         case 2:
           ref.read(navigatorStateProvider.notifier).state = 2;

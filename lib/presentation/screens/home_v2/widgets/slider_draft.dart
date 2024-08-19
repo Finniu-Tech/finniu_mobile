@@ -9,9 +9,11 @@ class SliderDraft extends ConsumerWidget {
     super.key,
     required this.onTap,
     required this.amountNumber,
+    required this.isReInvestment,
   });
   final int amountNumber;
   final VoidCallback? onTap;
+  final bool isReInvestment;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -49,8 +51,8 @@ class SliderDraft extends ConsumerWidget {
               bottom: 5,
               child: Row(
                 children: [
-                  const TextPoppins(
-                    text: "Reinversión en borrador",
+                  TextPoppins(
+                    text: isReInvestment ? "Reinversión en borrador" : "Inversión en borrador",
                     fontSize: 8,
                   ),
                   Icon(

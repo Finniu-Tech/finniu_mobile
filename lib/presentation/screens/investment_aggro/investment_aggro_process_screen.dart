@@ -252,7 +252,7 @@ class BottomSection extends HookConsumerWidget {
       //rouded border
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        color: Color(fund.getHexDetailColorLight()),
+        color: Color(isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight()),
       ),
       child: Column(
         children: [
