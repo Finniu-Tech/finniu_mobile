@@ -19,6 +19,8 @@ class FormLegalTermsDataV2 extends HookConsumerWidget {
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
         print("add personal data");
+        print(publicOfficialCheckboxValue.value);
+        print(amDirectorCheckboxValue.value);
       }
     }
 

@@ -19,6 +19,9 @@ class CheckBoxInput extends ConsumerWidget {
 
     const int linkDark = 0xffA2E6FA;
     const int linkLight = 0xff0D3A5C;
+    const int checkColorDark = 0xff0D3A5C;
+    const int checkColorLight = 0xffFFFFFF;
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       height: 60,
@@ -35,6 +38,21 @@ class CheckBoxInput extends ConsumerWidget {
             ),
           ),
           Checkbox(
+            visualDensity: VisualDensity(horizontal: 3.0, vertical: 3.0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4.0),
+            ),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            splashRadius: 10,
+            checkColor: isDarkMode
+                ? const Color(checkColorDark)
+                : const Color(checkColorLight),
+            side: BorderSide(
+              style: BorderStyle.solid,
+              width: 1,
+              color:
+                  isDarkMode ? const Color(linkDark) : const Color(linkLight),
+            ),
             activeColor:
                 isDarkMode ? const Color(linkDark) : const Color(linkLight),
             value: checkboxValue,
