@@ -330,6 +330,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
           'fund': widget.fund,
           'preInvestmentUUID': response.reInvestmentUuid,
           'amount': input.finalAmount,
+          'isReInvestment': true,
         },
       );
     } else {

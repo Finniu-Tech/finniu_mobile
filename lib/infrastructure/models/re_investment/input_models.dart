@@ -134,17 +134,23 @@ class UpdateReInvestmentParams {
   final String preInvestmentUUID;
   final bool userReadContract;
   final List<String>? files;
+  final String? bankAccountSender;
+  final String? bankAccountReceiver;
 
   UpdateReInvestmentParams({
     required this.preInvestmentUUID,
     required this.userReadContract,
     this.files,
+    this.bankAccountSender,
+    this.bankAccountReceiver,
   });
 
   Map<String, dynamic> toJson() => {
         'preInvestmentUUID': preInvestmentUUID,
         'userReadContract': userReadContract,
         'files': files,
+        'bankAccountSenderUUID': bankAccountSender,
+        'bankAccountReceiverUUID': bankAccountReceiver,
       };
 }
 

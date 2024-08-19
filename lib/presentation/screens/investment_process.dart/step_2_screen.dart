@@ -6,6 +6,7 @@ import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
@@ -33,12 +34,14 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
   final FundEntity fund;
   final String preInvestmentUUID;
   final String amount;
+  final bool? isReInvestment;
 
   const InvestmentProcessStep2Screen({
     super.key,
     required this.fund,
     required this.preInvestmentUUID,
     required this.amount,
+    this.isReInvestment,
   });
 
   @override
@@ -49,8 +52,6 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
         isDarkMode: currentTheme.isDarkMode,
-        // backgroundColor:
-        //     currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(scaffoldSkyBlueBackground),
         backgroundColor:
             currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
         body: Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID),
@@ -63,11 +64,13 @@ class Step2Body extends HookConsumerWidget {
   final FundEntity fund;
   final String amount;
   final String preInvestmentUUID;
+  final bool? isReInvestment;
   const Step2Body({
     super.key,
     required this.fund,
     required this.amount,
     required this.preInvestmentUUID,
+    this.isReInvestment,
   });
 
   Future<void> getImageFromGallery(BuildContext context, WidgetRef ref) async {
@@ -81,6 +84,7 @@ class Step2Body extends HookConsumerWidget {
       } else if (status.isDenied) {
         status = await Permission.photos.request();
         if (status.isGranted || status.isLimited) {
+          // ignore: use_build_context_synchronously
           await _openGallery(context, ref);
         } else {
           _showPermissionDeniedDialog(context, isDarkMode);
@@ -525,6 +529,7 @@ class Step2Body extends HookConsumerWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
+                      var response;
                       final base64Image = voucherImageBase64;
                       if (base64Image.isEmpty) {
                         CustomSnackbar.show(
@@ -551,15 +556,27 @@ class Step2Body extends HookConsumerWidget {
                         );
                         return;
                       }
-                      context.loaderOverlay.show();
-                      final response = await PreInvestmentDataSourceImp().update(
-                        client: ref.watch(gqlClientProvider).value!,
-                        uuid: preInvestmentUUID,
-                        readContract: ref.watch(userAcceptedTermsProvider),
-                        bankAccountReceiverUUID: receiverBankAccountState.value!.id,
-                        bankAccountSenderUUID: senderBankAccountState.value!.id,
-                        files: base64Image,
-                      );
+                      if (isReInvestment == true) {
+                        final UpdateReInvestmentParams updateReInvestmentParams = UpdateReInvestmentParams(
+                          preInvestmentUUID: preInvestmentUUID,
+                          userReadContract: ref.watch(userAcceptedTermsProvider),
+                          files: base64Image,
+                          bankAccountReceiver: receiverBankAccountState.value!.id,
+                          bankAccountSender: senderBankAccountState.value!.id,
+                        );
+                        response = await ref.read(updateReInvestmentProvider(updateReInvestmentParams).future);
+                      } else {
+                        context.loaderOverlay.show();
+                        response = await PreInvestmentDataSourceImp().update(
+                          client: ref.watch(gqlClientProvider).value!,
+                          uuid: preInvestmentUUID,
+                          readContract: ref.watch(userAcceptedTermsProvider),
+                          bankAccountReceiverUUID: receiverBankAccountState.value!.id,
+                          bankAccountSenderUUID: senderBankAccountState.value!.id,
+                          files: base64Image,
+                        );
+                      }
+
                       if (response.success == false) {
                         context.loaderOverlay.hide();
                         CustomSnackbar.show(

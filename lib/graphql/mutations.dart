@@ -452,11 +452,13 @@ class MutationRepository {
 
   static String updateReInvestment() {
     return '''
-      mutation updateReInvestment(\$preInvestmentUUID: String!, \$userReadContract:Boolean!, \$files: [String]){
+      mutation updateReInvestment(\$preInvestmentUUID: String!, \$userReadContract:Boolean!, \$files: [String], \$bankAccountReceiverUUID: String, \$bankAccountSenderUUID: String){
         updateReInvestment(input:{
           preInvestmentUuid: \$preInvestmentUUID,
           userReadContract: \$userReadContract,
           filesTransaction: \$files,
+          bankAccountReceiver: \$bankAccountReceiverUUID,
+          bankAccountSender: \$bankAccountSenderUUID
         }){
           success
           reInvestmentUuid

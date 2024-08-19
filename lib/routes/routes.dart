@@ -140,6 +140,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         fund: args['fund'],
         preInvestmentUUID: args['preInvestmentUUID'],
         amount: args['amount'],
+        isReInvestment: args['isReInvestment'] ?? false,
       );
     },
     // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
