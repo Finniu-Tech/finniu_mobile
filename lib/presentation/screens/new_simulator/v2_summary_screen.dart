@@ -107,7 +107,7 @@ class _BodyScaffold extends ConsumerWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TitleModal(
                   status: arguments.status,
@@ -144,9 +144,10 @@ class _BodyScaffold extends ConsumerWidget {
                       )
                     : const SizedBox(),
                 const SizedBox(height: 15),
-                SeeInterestPayment(
-                  list: list,
-                ),
+                //TODO do the integration for v
+                // SeeInterestPayment(
+                //   list: list,
+                // ),
                 const SizedBox(height: 15),
                 InvestmentEnds(
                   finalDate: data.finishDateInvestment,

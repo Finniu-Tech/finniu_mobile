@@ -9,6 +9,7 @@ import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/last_operation_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
@@ -29,6 +30,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/show_draft_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
+import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -321,12 +323,19 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
     //print('fund uuid: ${fund.uuid}');
     final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(fund.uuid));
     List<LastOperation> reinvestmentOperations = [];
+    final isSoles = ref.watch(isSolesStateProvider);
+    final selectedCurrency = isSoles ? 'nuevo sol' : 'dolar';
+    List<LastOperation> filteredOperations = [];
     return lastOperationsAsyncValue.when(
       data: (lastOperations) {
-        print('lastOperations: $lastOperations');
         if (fund.fundType == FundTypeEnum.corporate) {
           reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
+          //filterd by currecny
+          filteredOperations =
+              lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
+          lastOperations = filteredOperations;
         }
+
         // print('reinvestmentOperations: $reinvestmentOperations');
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -334,6 +343,15 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 10),
+            if (fund.fundType == FundTypeEnum.corporate) ...[
+              const SwitchMoney(
+                switchHeight: 30,
+                switchWidth: 67,
+              ),
+              const SizedBox(
+                height: 10,
+              )
+            ],
             GraphicContainer(fund: fund),
             const SizedBox(height: 10),
             if (lastOperations.isNotEmpty && fund.fundType == FundTypeEnum.corporate) ...[
@@ -452,12 +470,10 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         return SliderInCourse(
           amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
           fundName: widget.fund.name,
-          onPressed: () {}, // Añade la lógica necesaria aquí
+          onPressed: () {},
         );
       default:
-        return Container(
-          child: Text('Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado'),
-        ); // Un widget vacío para estados no manejados
+        return Text('Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
 

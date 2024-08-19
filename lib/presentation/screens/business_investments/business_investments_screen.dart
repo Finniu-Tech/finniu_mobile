@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.da
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -107,6 +108,11 @@ class RealEstateBody extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 15),
+          const SwitchMoney(
+            switchHeight: 30,
+            switchWidth: 67,
+          ),
+          const SizedBox(height: 10),
           GraphicContainer(),
           const SizedBox(height: 10),
           const SeeCalendar(),

@@ -1,27 +1,37 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
+import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/infrastructure/models/re_investment/responde_models.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/pre_investment_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/buttons.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
-import 'package:finniu/presentation/screens/reinvest_process/widgets/cards_widgets.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -296,6 +306,39 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     );
   }
 
+  //save ReInvestment
+  Future<void> _saveReInvestment(BuildContext context, WidgetRef ref, CreateReInvestmentParams input) async {
+    Navigator.pop(context);
+    context.loaderOverlay.show();
+    final CreateReInvestmentResponse response = await ref.read(createReInvestmentProvider(input).future);
+    if (response.success == false) {
+      context.loaderOverlay.hide();
+      CustomSnackbar.show(
+        context,
+        response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
+        'error',
+      );
+      return;
+    }
+
+    context.loaderOverlay.hide();
+    if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+      Navigator.pushNamed(
+        context,
+        '/v2/investment/step-2',
+        arguments: {
+          'fund': widget.fund,
+          'preInvestmentUUID': response.reInvestmentUuid,
+          'amount': input.finalAmount,
+        },
+      );
+    } else {
+      showThanksForInvestingModal(context, () {
+        Navigator.pushReplacementNamed(context, '/v2/investment');
+      });
+    }
+  }
+
   bool validateForm() {
     if (widget.amountController.text.isEmpty ||
         widget.deadLineController.text.isEmpty ||
@@ -322,6 +365,44 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     return true;
   }
 
+  bool validateReinvestmentForm(
+    bool userAcceptedTerms,
+    CreateReInvestmentParams reinvestmentParams,
+    BankAccount? receiverBankAccount,
+    String? aditionalAmount,
+  ) {
+    if (reinvestmentParams.typeReinvestment == typeReinvestmentEnum.CAPITAL_ONLY) {
+      if (!userAcceptedTerms) {
+        CustomSnackbar.show(
+          context,
+          'Debe de leer y aceptar el contrato',
+          'error',
+        );
+        return false;
+      }
+      if (receiverBankAccount == null) {
+        CustomSnackbar.show(
+          context,
+          'Debe de seleccionar una cuenta de destino',
+          'error',
+        );
+        return false;
+      }
+    }
+    if (reinvestmentParams.typeReinvestment == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+      if (aditionalAmount == '' || aditionalAmount == '0') {
+        CustomSnackbar.show(
+          context,
+          'Debe de ingresar un monto',
+          'error',
+        );
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
@@ -330,6 +411,10 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final debouncer = Debouncer(milliseconds: 3000);
     final finalReinvestmentAmount = useState(widget.reinvestmentOriginAmount ?? 0);
+    final userReadContract = useState(false);
+    bool userAcceptedTerms = ref.watch(userAcceptedTermsProvider);
+    ValueNotifier<BankAccount?> receiverBankAccountState = useState(null);
+    CreateReInvestmentParams? reinvestmentParams;
 
     useEffect(
       () {
@@ -341,7 +426,20 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       },
       [userProfile],
     );
+    //on init change the userAcceptedTermsProvider provider to false
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+          ref.read(userAcceptedTermsProvider.notifier).state = false;
+        });
+        return null;
+      },
+      [],
+    );
 
+    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider, (previous, next) {
+      receiverBankAccountState.value = next;
+    });
     return Center(
       child: Column(
         children: [
@@ -633,8 +731,76 @@ class _FormStep1State extends ConsumerState<FormStep1> {
               ),
             ),
           ),
+          if (widget.isReInvestment && widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) ...[
+            const SizedBox(
+              height: 15,
+            ),
+            SelectBankAccountButtonWidget(
+              isDarkMode: isDarkMode,
+              onPressed: () {
+                showBankAccountModal(
+                  context,
+                  ref,
+                  isSoles ? CurrencyEnum.PEN : CurrencyEnum.USD,
+                  false,
+                  "",
+                );
+              },
+              textButton: receiverBankAccountState.value == null
+                  ? 'A qué banco te depositamos'
+                  : receiverBankAccountState.value!.bankAccount,
+              svgPath: 'assets/svg_icons/card-receive.svg',
+              backgroundColor: isDarkMode
+                  ? Color(widget.fund.getHexDetailColorSecondaryDark())
+                  : Color(widget.fund.getHexDetailColorSecondaryLight()),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(
+                  width: 25,
+                  child: AcceptedTermCheckBox(),
+                ),
+                Text(
+                  'He leido y acepto el ',
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: isDarkMode ? const Color(whiteText) : const Color(blackText),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    String contractURL = await ContractDataSourceImp().getContract(
+                      uuid: widget.preInvestmentUUID!,
+                      client: ref.watch(gqlClientProvider).value!,
+                    );
+
+                    if (contractURL.isNotEmpty) {
+                      userReadContract.value = true;
+
+                      Navigator.pushNamed(
+                        context,
+                        '/contract_view',
+                        arguments: {
+                          'contractURL': contractURL,
+                        },
+                      );
+                    }
+                  },
+                  child: Text(
+                    ' Contrato de Inversión de Finniu ',
+                    style: TextStyle(
+                      color: isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
           if (showInvestmentBoxes) ...[
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
@@ -733,7 +899,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
             ),
           ] else ...[
             const SizedBox(
-              height: 80,
+              height: 30,
             ),
           ],
           SizedBox(
@@ -759,28 +925,63 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 if (validateForm() == false) {
                   return;
                 }
+                if (widget.isReInvestment == true) {
+                  final deadLineUuid = DeadLineEntity.getUuidByName(
+                    widget.deadLineController.text,
+                    await deadLineFuture,
+                  );
+                  reinvestmentParams = CreateReInvestmentParams(
+                    preInvestmentUUID: widget.preInvestmentUUID!,
+                    finalAmount: amount,
+                    deadlineUUID: deadLineUuid,
+                    currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                    coupon: widget.couponController.text,
+                    originFounds: OriginFunds(
+                      originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
+                      otherText: widget.otherFundOriginController.text,
+                    ),
+                    typeReinvestment: widget.reInvestmentType!,
+                  );
+                  bool isValidReinvestment = validateReinvestmentForm(
+                    userAcceptedTerms,
+                    reinvestmentParams!,
+                    receiverBankAccountState.value,
+                    widget.additionalAmountController.text,
+                  );
+                  if (isValidReinvestment == false) {
+                    return;
+                  }
+                }
                 investmentSimulationModal(
                   context,
                   startingAmount: int.parse(amount),
                   finalAmount: int.parse(widget.amountController.text),
                   mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
                   coupon: widget.couponController.text,
-                  toInvestPressed: () {
-                    _savePreInvestment(
-                      context,
-                      ref,
-                      SaveCorporateInvestmentInput(
-                        amount: amount,
-                        months: widget.deadLineController.text.split(' ')[0],
-                        coupon: widget.couponController.text,
-                        currency: isSoles ? currencyNuevoSol : currencyDollar,
-                        originFunds: OriginFunds(
-                          originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
-                          otherText: widget.otherFundOriginController.text,
+                  toInvestPressed: () async {
+                    if (widget.isReInvestment == true) {
+                      _saveReInvestment(
+                        context,
+                        ref,
+                        reinvestmentParams!,
+                      );
+                    } else {
+                      _savePreInvestment(
+                        context,
+                        ref,
+                        SaveCorporateInvestmentInput(
+                          amount: amount,
+                          months: widget.deadLineController.text.split(' ')[0],
+                          coupon: widget.couponController.text,
+                          currency: isSoles ? currencyNuevoSol : currencyDollar,
+                          originFunds: OriginFunds(
+                            originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
+                            otherText: widget.otherFundOriginController.text,
+                          ),
+                          fundUUID: widget.fund.uuid,
                         ),
-                        fundUUID: widget.fund.uuid,
-                      ),
-                    );
+                      );
+                    }
                   },
                   recalculatePressed: () {
                     Navigator.pop(context);

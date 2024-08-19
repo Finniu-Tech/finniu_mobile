@@ -22,7 +22,6 @@ final userInvestmentByUuidFutureProvider =
     final investmentDetail = InvestmentDetailUuid.fromJson(data['investmentDetail']);
     return investmentDetail;
   } catch (e) {
-    print(e);
     return null;
   }
 });
