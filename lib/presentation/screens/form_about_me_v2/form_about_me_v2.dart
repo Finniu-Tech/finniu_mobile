@@ -1,4 +1,5 @@
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
@@ -21,12 +22,14 @@ class AboutMeDataV2 extends HookConsumerWidget {
         useTextEditingController(text: "https://instagram.com/");
     final linkedinTextController =
         useTextEditingController(text: "https://linkendIn.com/");
+    final profilAreaController = useTextEditingController();
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
         print("add personal data");
         print(facebookTextController.text);
         print(instagramTextController.text);
         print(linkedinTextController.text);
+        print(profilAreaController.text);
       }
     }
 
@@ -62,6 +65,7 @@ class AboutMeDataV2 extends HookConsumerWidget {
             facebookTextController: facebookTextController,
             instagramTextController: instagramTextController,
             linkedinTextController: linkedinTextController,
+            profilAreaController: profilAreaController,
           ),
         ],
       ),
@@ -76,11 +80,13 @@ class AboutMeForm extends ConsumerWidget {
     required this.facebookTextController,
     required this.instagramTextController,
     required this.linkedinTextController,
+    required this.profilAreaController,
   });
   final GlobalKey<FormState> formKey;
   final TextEditingController facebookTextController;
   final TextEditingController instagramTextController;
   final TextEditingController linkedinTextController;
+  final TextEditingController profilAreaController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -88,7 +94,20 @@ class AboutMeForm extends ConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          InputTextAreaUserProfile(
+            controller: profilAreaController,
+            hintText: "Escribe una breve biografía sobre tí.",
+            validator: null,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          const TextPoppins(text: "Redes Sociales", fontSize: 14),
+          const SizedBox(
+            height: 5,
+          ),
           InputTextNetworkUserProfile(
             urlIcon: "assets/svg_icons/facebook_icon_v2.svg",
             textTitle: "Facebook",
