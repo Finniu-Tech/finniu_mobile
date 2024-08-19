@@ -37,9 +37,9 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          InputTextFileUserProfile(
+          InputPhoneUserProfile(
             isNumeric: true,
-            hintText: "Número telefónico",
+            hintText: "Escribe tu número telefónico",
             controller: phoneController,
             validator: (value) {
               if (value == null || value.isEmpty) {
