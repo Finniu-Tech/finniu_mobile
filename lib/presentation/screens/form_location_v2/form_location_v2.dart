@@ -138,18 +138,6 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   @override
-  dispose() {
-    widget.addressTextCompleteController.dispose();
-    widget.addressNumberController.dispose();
-    widget.zipCodeController.dispose();
-    widget.countrySelectController.dispose();
-    widget.regionsSelectController.dispose();
-    widget.provinceSelectController.dispose();
-    widget.districtSelectController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,

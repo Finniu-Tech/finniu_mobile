@@ -155,7 +155,66 @@ class SelectableDropdownItemState
   }
 }
 
-class SelectableGeoLocationDropdownItem extends ConsumerStatefulWidget {
+class ProviderSelectableDropdownItem extends ConsumerWidget {
+  const ProviderSelectableDropdownItem({
+    super.key,
+    required this.selectController,
+    required this.hintText,
+    required this.validator,
+    required this.itemSelectedValue,
+    required this.regionsSelectProvider,
+  });
+
+  final TextEditingController selectController;
+  final String hintText;
+  final String? Function(String?)? validator;
+  final String? itemSelectedValue;
+  final AutoDisposeFutureProvider<GeoLocationResponseV2> regionsSelectProvider;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
+        ref.watch(regionsSelectProvider);
+
+    return geoLocationResponse.when(
+      data: (data) {
+        return SelectableGeoLocationDropdownItem(
+          itemSelectedValue: selectController.text,
+          options: data.regions,
+          selectController: selectController,
+          hintText: hintText,
+          validator: validator,
+        );
+      },
+      loading: () {
+        return SelectableGeoLocationDropdownItem(
+          itemSelectedValue: selectController.text,
+          options: const [],
+          selectController: selectController,
+          hintText: "Cargando...",
+          validator: validator,
+          isLoading: true,
+        );
+      },
+      error: (error, stack) {
+        return SelectableGeoLocationDropdownItem(
+          itemSelectedValue: selectController.text,
+          options: [
+            GeoLocationItemV2(
+              id: "Error de carga",
+              name: "Error de carga",
+            ),
+          ],
+          selectController: selectController,
+          hintText: hintText,
+          validator: validator,
+        );
+      },
+    );
+  }
+}
+
+class SelectableGeoLocationDropdownItem extends ConsumerWidget {
   const SelectableGeoLocationDropdownItem({
     super.key,
     required this.options,
@@ -165,6 +224,7 @@ class SelectableGeoLocationDropdownItem extends ConsumerStatefulWidget {
     required this.itemSelectedValue,
     this.isLoading = false,
   });
+
   final List<GeoLocationItemV2> options;
   final TextEditingController selectController;
   final String hintText;
@@ -172,13 +232,6 @@ class SelectableGeoLocationDropdownItem extends ConsumerStatefulWidget {
   final String? itemSelectedValue;
   final bool isLoading;
 
-  @override
-  SelectableGeoLocationDropdownItemState createState() =>
-      SelectableGeoLocationDropdownItemState();
-}
-
-class SelectableGeoLocationDropdownItemState
-    extends ConsumerState<SelectableGeoLocationDropdownItem> {
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
   final int fillDark = 0xFF222222;
@@ -195,22 +248,12 @@ class SelectableGeoLocationDropdownItemState
   final int borderColorLight = 0xFF0D3A5C;
 
   @override
-  initState() {
-    super.initState();
-  }
-
-  @override
-  dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
-        return widget.options
+        return options
             .map(
               (item) => Text(
                 item.name,
@@ -227,8 +270,8 @@ class SelectableGeoLocationDropdownItemState
             )
             .toList();
       },
-      validator: widget.validator,
-      icon: widget.isLoading
+      validator: validator,
+      icon: isLoading
           ? const CircularLoader(
               width: 10,
               height: 10,
@@ -238,11 +281,9 @@ class SelectableGeoLocationDropdownItemState
               size: 24,
               color: isDarkMode ? Color(iconDark) : Color(iconLight),
             ),
-      value: widget.selectController.text.isNotEmpty
-          ? widget.selectController.text
-          : null,
+      value: selectController.text.isNotEmpty ? selectController.text : null,
       hint: Text(
-        widget.hintText,
+        hintText,
         style: TextStyle(
           fontSize: 12,
           color: isDarkMode ? Color(hintDark) : Color(hintLight),
@@ -277,7 +318,7 @@ class SelectableGeoLocationDropdownItemState
       ),
       dropdownColor:
           isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
-      items: widget.options.map((option) {
+      items: options.map((option) {
         return DropdownMenuItem<String>(
           value: option.id,
           child: Column(
@@ -298,7 +339,7 @@ class SelectableGeoLocationDropdownItemState
                       fontFamily: "Poppins",
                     ),
                   ),
-                  if (option.id == widget.selectController.text)
+                  if (option.id == selectController.text)
                     Icon(
                       Icons.check_circle_outline,
                       size: 24,
@@ -316,84 +357,7 @@ class SelectableGeoLocationDropdownItemState
         );
       }).toList(),
       onChanged: (newValue) {
-        setState(() {
-          widget.selectController.text = newValue!;
-        });
-      },
-    );
-  }
-}
-
-class ProviderSelectableDropdownItem extends ConsumerStatefulWidget {
-  const ProviderSelectableDropdownItem({
-    super.key,
-    required this.selectController,
-    required this.hintText,
-    required this.validator,
-    required this.itemSelectedValue,
-    required this.regionsSelectProvider,
-  });
-
-  final TextEditingController selectController;
-  final String hintText;
-  final String? Function(String?)? validator;
-  final String? itemSelectedValue;
-  final AutoDisposeFutureProvider<GeoLocationResponseV2> regionsSelectProvider;
-
-  @override
-  ProviderSelectableDropdownItemState createState() =>
-      ProviderSelectableDropdownItemState();
-}
-
-class ProviderSelectableDropdownItemState
-    extends ConsumerState<ProviderSelectableDropdownItem> {
-  @override
-  initState() {
-    super.initState();
-  }
-
-  @override
-  dispose() {
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final AsyncValue<GeoLocationResponseV2> geoLocationResponse =
-        ref.watch(widget.regionsSelectProvider);
-    return geoLocationResponse.when(
-      data: (data) {
-        return SelectableGeoLocationDropdownItem(
-          itemSelectedValue: widget.selectController.text,
-          options: data.regions,
-          selectController: widget.selectController,
-          hintText: widget.hintText,
-          validator: widget.validator,
-        );
-      },
-      loading: () {
-        return SelectableGeoLocationDropdownItem(
-          itemSelectedValue: widget.selectController.text,
-          options: const [],
-          selectController: widget.selectController,
-          hintText: "Cargando...",
-          validator: widget.validator,
-          isLoading: true,
-        );
-      },
-      error: (error, stack) {
-        return SelectableGeoLocationDropdownItem(
-          itemSelectedValue: widget.selectController.text,
-          options: [
-            GeoLocationItemV2(
-              id: "Error de carga",
-              name: "Error de carga",
-            ),
-          ],
-          selectController: widget.selectController,
-          hintText: widget.hintText,
-          validator: widget.validator,
-        );
+        selectController.text = newValue!;
       },
     );
   }

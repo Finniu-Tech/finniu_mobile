@@ -38,7 +38,7 @@ class CheckBoxInput extends ConsumerWidget {
             ),
           ),
           Checkbox(
-            visualDensity: VisualDensity(horizontal: 3.0, vertical: 3.0),
+            visualDensity: const VisualDensity(horizontal: 3.0, vertical: 3.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4.0),
             ),
