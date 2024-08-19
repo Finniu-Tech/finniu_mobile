@@ -149,6 +149,12 @@ class HomeBody extends HookConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
+                      IconButton(
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/catalog'),
+                          icon: const Icon(
+                            Icons.add_circle_outline,
+                          )),
                       const Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Align(

@@ -7,10 +7,11 @@ class FormDataNavigator extends StatelessWidget {
     super.key,
     required this.addData,
     required this.continueLater,
+    this.continueLaterBool = true,
   });
   final VoidCallback? addData;
   final VoidCallback? continueLater;
-
+  final bool continueLaterBool;
   final int textDark = 0xffB3B3B3;
   final int textLight = 0xff0D3A5C;
 
@@ -29,16 +30,18 @@ class FormDataNavigator extends StatelessWidget {
             onPressed: addData,
           ),
           const SizedBox(height: 10),
-          GestureDetector(
-            onTap: continueLater,
-            child: TextPoppins(
-              text: "Continuar más tarde",
-              fontSize: 14,
-              isBold: true,
-              textDark: textDark,
-              textLight: textLight,
-            ),
-          ),
+          continueLaterBool
+              ? GestureDetector(
+                  onTap: continueLater,
+                  child: TextPoppins(
+                    text: "Continuar más tarde",
+                    fontSize: 14,
+                    isBold: true,
+                    textDark: textDark,
+                    textLight: textLight,
+                  ),
+                )
+              : const SizedBox(),
         ],
       ),
     );
