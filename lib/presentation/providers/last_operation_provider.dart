@@ -12,5 +12,9 @@ final lastOperationDataSourceProvider = Provider<LastOperationDataSource>((ref) 
 final lastOperationsFutureProvider =
     FutureProvider.autoDispose.family<List<LastOperation>, String>((ref, fundUUID) async {
   final dataSource = ref.watch(lastOperationDataSourceProvider);
-  return dataSource.getLastOperations(fundUUID);
+  try {
+    return await dataSource.getLastOperations(fundUUID);
+  } catch (e) {
+    return <LastOperation>[];
+  }
 });
