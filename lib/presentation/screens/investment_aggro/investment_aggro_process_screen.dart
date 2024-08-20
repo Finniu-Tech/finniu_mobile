@@ -252,7 +252,7 @@ class BottomSection extends HookConsumerWidget {
       //rouded border
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        color: Color(fund.getHexDetailColorLight()),
+        color: Color(isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight()),
       ),
       child: Column(
         children: [
@@ -266,11 +266,17 @@ class BottomSection extends HookConsumerWidget {
               minHeight: 45,
             ),
             child: CustomSelectButton(
-              items: const [
-                '2 cuotas',
-                '6 cuotas',
-                '12 cuotas',
-              ],
+              // items: const [
+              //   '2 cuotas',
+              //   '6 cuotas',
+              //   '12 cuotas',
+              // ],
+              asyncItems: (String filter) async {
+                final quoteNumbers = await ref.watch(getAggroInvestmentQuotesFutureProvider.future);
+                print('quoteNumbers222: $quoteNumbers');
+                // append the word "cuota" to each item in the list
+                return quoteNumbers.map((item) => '$item ${item == 1 ? "cuota" : "cuotas"}').toList();
+              },
               callbackOnChange: (value) async {
                 quoteNumberController.text = value;
                 // installments.value = int.parse((value).split(' ')[0]);
@@ -304,8 +310,17 @@ class BottomSection extends HookConsumerWidget {
             ),
             child: CustomSelectButton(
               items: const [
+                '1 parcela',
                 '2 parcelas',
                 '3 parcelas',
+                '4 parcelas',
+                '5 parcelas',
+                '6 parcelas',
+                '7 parcelas',
+                '8 parcelas',
+                '9 parcelas',
+                '10 parcelas',
+                '11 parcelas',
                 '12 parcelas',
               ],
               callbackOnChange: (value) async {
@@ -424,17 +439,18 @@ class BottomSection extends HookConsumerWidget {
                   return;
                 }
 
-                showThanksInvestmentDialog(
-                  context,
-                  textTitle: 'Gracias por \nconfiar en Finniu!',
-                  textTanks: 'Gracias por tu comprensión!',
-                  textBody:
-                      'Recuerda que tu solicitud de Inversion agroInmobiliaria sera derivada a un asesor del Proyecto, quien se contactara contigo en las proxima 24h.',
-                  textButton: 'Ver mi progreso',
-                  onPressed: () => {
-                    Navigator.pushNamed(context, '/v2/investment'),
-                  },
-                );
+                showThanksInvestmentDialog(context,
+                    textTitle: 'Gracias por \nconfiar en Finniu!',
+                    textTanks: 'Gracias por tu comprensión!',
+                    textBody:
+                        'Recuerda que tu solicitud de Inversión Agro Inmobiliaria sera derivada a un asesor del Proyecto, quien se contactará contigo en las proxima 24h.',
+                    textButton: 'Ver mi progreso',
+                    onPressed: () => {
+                          Navigator.pushNamed(context, '/v2/investment'),
+                        },
+                    onClosePressed: () => {
+                          Navigator.pushNamed(context, '/v2/investment'),
+                        });
               },
               child: const Text(
                 'Continuar',

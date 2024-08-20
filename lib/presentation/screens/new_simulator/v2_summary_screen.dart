@@ -1,10 +1,14 @@
+import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/helpers/pdf_launcher.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/modal/error_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
@@ -47,6 +51,7 @@ class _BodyScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ArgumentsNavigator arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
     final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
@@ -102,7 +107,7 @@ class _BodyScaffold extends ConsumerWidget {
             padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TitleModal(
                   status: arguments.status,
@@ -139,11 +144,31 @@ class _BodyScaffold extends ConsumerWidget {
                       )
                     : const SizedBox(),
                 const SizedBox(height: 15),
-                SeeInterestPayment(),
+                //TODO do the integration for v
+                // SeeInterestPayment(
+                //   list: list,
+                // ),
                 const SizedBox(height: 15),
                 InvestmentEnds(
                   finalDate: data.finishDateInvestment,
                 ),
+                const SizedBox(height: 15),
+                arguments.isReinvest
+                    ? ButtonInvestment(
+                        text: 'Reinvertir mi inversión',
+                        onPressed: () => reinvestmentQuestionModal(
+                          context,
+                          ref,
+                          arguments.uuid,
+                          data.amount.toDouble(),
+                          isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                          true,
+                          data.fund,
+                          data.rentabilityPercent,
+                          data.month,
+                        ),
+                      )
+                    : const SizedBox(height: 15),
               ],
             ),
           ),
@@ -156,14 +181,15 @@ class _BodyScaffold extends ConsumerWidget {
 class SeeInterestPayment extends StatelessWidget {
   const SeeInterestPayment({
     super.key,
+    required this.list,
   });
-
+  final List<ProfitabilityItem> list;
   @override
   Widget build(BuildContext context) {
-    return const ButtonsTable(
+    return ButtonsTable(
       text: 'Ver tabla de los pagos de intereses',
       icon: "square_half.svg",
-      onPressed: null,
+      onPressed: () => showTablePay(context, list: list),
     );
   }
 }

@@ -72,15 +72,41 @@ class AboutContainer extends StatelessWidget {
           //CustomButtonRoundedDark(), //transform  to 90 degrees
 
           // Transform(transform: Matrix4.rotationZ(1.5708), child: CustomButtonRoundedDark()),
-          Transform.rotate(
-            angle: -3,
-            child: CustomButtonRoundedDark(
-              color: Colors.white,
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
+          // Transform.rotate(
+          //   angle: -3,
+          //   child: CustomButtonRoundedDark(
+          //     color: Colors.white,
+          //     onTap: () {
+          //       Navigator.pop(context);
+          //     },
+          //   ),
+          // ),
+          //Arrow back icon button widget
+
+          GestureDetector(
+            child: Icon(Icons.arrow_back, size: 30, color: Colors.white),
+            onTap: () => Navigator.pop(context),
           ),
+
+          //     child: Container(
+          //   margin: const EdgeInsets.all(10),
+          //   // padding: EdgeInsets.all(6),
+          //   width: 28.67,
+          //   height: 28.67,
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(50),
+          //     color: Colors.transparent,
+          //     border: Border.all(color: color),
+          //   ),
+          //   child: Center(
+          //     child: Icon(
+          //       size: 20,
+          //       color: color,
+          //       Icons.arrow_forward,
+          //     ),
+          //   ),
+          // ),
+
           SizedBox(
             height: 60,
             child: Row(

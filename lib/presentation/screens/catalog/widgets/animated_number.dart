@@ -48,3 +48,51 @@ class AnimationNumber extends ConsumerWidget {
     );
   }
 }
+
+class AnimationNumberNotComma extends ConsumerWidget {
+  const AnimationNumberNotComma({
+    super.key,
+    required this.endNumber,
+    required this.duration,
+    required this.fontSize,
+    required this.colorText,
+    required this.beginNumber,
+  });
+
+  final num endNumber;
+  final num beginNumber;
+  final int duration;
+  final double fontSize;
+  final int colorText;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final isSoles = ref.watch(isSolesStateProvider);
+    const isSoles = true;
+
+    return TweenAnimationBuilder(
+      tween: Tween<double>(begin: beginNumber.toDouble(), end: endNumber.toDouble()),
+      duration: Duration(seconds: duration),
+      builder: (BuildContext context, double value, Widget? child) {
+        final formattedValue = value % 1 == 0 ? value.toInt() : value;
+
+        String formattedString;
+        try {
+          formattedString =
+              isSoles ? formatterSolesNotComma.format(formattedValue) : formatterUSDNotComma.format(formattedValue);
+        } catch (e) {
+          formattedString = formattedValue.toStringAsFixed(2);
+        }
+
+        return Text(
+          formattedString,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontWeight: FontWeight.bold,
+            color: Color(colorText),
+          ),
+        );
+      },
+    );
+  }
+}

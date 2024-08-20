@@ -22,13 +22,9 @@ class BlueGoldFundTitle extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: currentTheme.isDarkMode
-              ? const Color(borderDark)
-              : const Color(borderLight),
+          color: currentTheme.isDarkMode ? const Color(borderDark) : const Color(borderLight),
         ),
-        color: currentTheme.isDarkMode
-            ? const Color(backgroundColorDark)
-            : const Color(backgroundColorLight),
+        color: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -41,6 +37,7 @@ class BlueGoldFundTitle extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               "assets/blue_gold/blue_gold_investment.png",
@@ -67,16 +64,17 @@ class BlueGoldFundTitle extends ConsumerWidget {
 class BlueGoldTitleAndNavigate extends StatefulWidget {
   final bool isSelect;
   final bool isDarkMode;
+  String? fundName;
 
-  const BlueGoldTitleAndNavigate({
+  BlueGoldTitleAndNavigate({
     super.key,
     required this.isSelect,
     required this.isDarkMode,
+    this.fundName,
   });
 
   @override
-  BlueGoldTitleAndNavigateState createState() =>
-      BlueGoldTitleAndNavigateState();
+  BlueGoldTitleAndNavigateState createState() => BlueGoldTitleAndNavigateState();
 }
 
 class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
@@ -93,6 +91,7 @@ class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
     const int backgroundLight = 0xffC8E2FF;
     const int textDark = 0xff000000;
     const int textLight = 0xff000000;
+    final String fundName = widget.fundName ?? "Inversiones agroinmobiliaria";
 
     return LayoutBuilder(
       builder: (context, constraints) => AnimatedContainer(
@@ -102,13 +101,9 @@ class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: widget.isDarkMode
-                ? const Color(borderDark)
-                : const Color(borderLight),
+            color: widget.isDarkMode ? const Color(borderDark) : const Color(borderLight),
           ),
-          color: widget.isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          color: widget.isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -119,30 +114,33 @@ class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
           ],
         ),
         child: widget.isSelect
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/blue_gold/blue_gold_investment.png",
-                    width: 16,
-                    height: 16,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  constraints.maxWidth > 230
-                      ? const Flexible(
-                          child: TextPoppins(
-                            text: "Inversiones agroinmobiliaria",
-                            fontSize: 14,
-                            isBold: true,
-                            textDark: textDark,
-                            textLight: textLight,
-                          ),
-                        )
-                      : const SizedBox(),
-                ],
+            ? Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/blue_gold/blue_gold_investment.png",
+                      width: 16,
+                      height: 16,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    constraints.maxWidth > 230
+                        ? Flexible(
+                            child: TextPoppins(
+                              text: fundName,
+                              fontSize: 14,
+                              isBold: true,
+                              textDark: textDark,
+                              textLight: textLight,
+                            ),
+                          )
+                        : const SizedBox(),
+                  ],
+                ),
               )
             : Center(
                 child: Image.asset(

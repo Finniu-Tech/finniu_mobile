@@ -43,6 +43,7 @@ Future<dynamic> investmentSimulationModal(
   required int startingAmount,
   required int finalAmount,
   required int mouthInvestment,
+  String? coupon,
   VoidCallback? toInvestPressed,
   VoidCallback? recalculatePressed,
 }) async {
@@ -53,22 +54,24 @@ Future<dynamic> investmentSimulationModal(
       monthInvestment: mouthInvestment,
       toInvestPressed: toInvestPressed,
       recalculatePressed: recalculatePressed,
+      coupon: coupon,
     ),
   );
 }
 
 class BodySimulation extends ConsumerWidget {
-  const BodySimulation({
-    super.key,
-    required this.startingAmount,
-    required this.monthInvestment,
-    this.toInvestPressed,
-    this.recalculatePressed,
-  });
+  const BodySimulation(
+      {super.key,
+      required this.startingAmount,
+      required this.monthInvestment,
+      this.toInvestPressed,
+      this.recalculatePressed,
+      this.coupon});
   final int startingAmount;
   final int monthInvestment;
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
+  final String? coupon;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -77,9 +80,7 @@ class BodySimulation extends ConsumerWidget {
     const int backgroundLight = 0xffFFFFFF;
     return Container(
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -88,17 +89,14 @@ class BodySimulation extends ConsumerWidget {
       child: Stack(
         children: [
           Dialog(
-            insetPadding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-            backgroundColor: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             child: BodyDialog(
-              startingAmount: startingAmount,
-              monthInvestment: monthInvestment,
-              toInvestPressed: toInvestPressed,
-              recalculatePressed: recalculatePressed,
-            ),
+                startingAmount: startingAmount,
+                monthInvestment: monthInvestment,
+                toInvestPressed: toInvestPressed,
+                recalculatePressed: recalculatePressed,
+                coupon: coupon),
           ),
           const CloseButtonModal(),
         ],
@@ -108,19 +106,20 @@ class BodySimulation extends ConsumerWidget {
 }
 
 class BodyDialog extends ConsumerStatefulWidget {
-  const BodyDialog({
-    super.key,
-    required this.startingAmount,
-    required this.monthInvestment,
-    this.toInvestPressed,
-    this.recalculatePressed,
-  });
+  const BodyDialog(
+      {super.key,
+      required this.startingAmount,
+      required this.monthInvestment,
+      this.toInvestPressed,
+      this.recalculatePressed,
+      this.coupon});
 
   final int startingAmount;
   final int monthInvestment;
 
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
+  final String? coupon;
 
   @override
   ConsumerState<BodyDialog> createState() => _BodyDialogState();
@@ -134,10 +133,10 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
       amount: widget.startingAmount,
       months: widget.monthInvestment,
       currency: isSoles ? 'nuevo sol' : 'dolar',
+      coupon: widget.coupon,
     );
 
-    final response =
-        ref.watch(calculateInvestmentFutureProvider(calculatorInput));
+    final response = ref.watch(calculateInvestmentFutureProvider(calculatorInput));
 
     return response.when(
       data: (data) {

@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:math' as math;
@@ -42,7 +43,7 @@ class ValidationDialog extends ConsumerWidget {
   final String textTanks = "Gracias por tu comprensión!";
   final String anyResponse = "¿No tuviste ninguna respuesta?";
   final String textBody =
-      "Recuerda que las tranferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!";
+      "Recuerda que las transferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!";
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -85,6 +86,7 @@ class ModalBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('onPressed: $onPressed');
     return Dialog(
       insetPadding: const EdgeInsets.all(20),
       child: Container(
@@ -107,107 +109,110 @@ class ModalBody extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
-              width: 282,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        titleText,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+            Center(
+              child: SizedBox(
+                width: 282,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          titleText,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                          ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            secondTitleText,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                        Row(
+                          children: [
+                            Text(
+                              secondTitleText,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                              ),
                             ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Image.asset('assets/icons/validation_icon.png'),
+                          ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          textBody,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontFamily: "Poppins",
                           ),
-                          const SizedBox(
-                            width: 10,
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          textTanks,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Poppins",
+                            color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                           ),
-                          Image.asset('assets/icons/validation_icon.png'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        textBody,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontFamily: "Poppins",
+                          maxLines: 1,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        textTanks,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Poppins",
-                          color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Row(
+                      children: [
+                        const Expanded(
+                          child: Divider(
+                            height: 3,
+                            color: Color(dividerColor),
+                          ),
                         ),
-                        maxLines: 1,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Row(
-                    children: [
-                      const Expanded(
-                        child: Divider(
-                          height: 3,
-                          color: Color(dividerColor),
+                        const SizedBox(
+                          width: 2,
                         ),
-                      ),
-                      const SizedBox(
-                        width: 2,
-                      ),
-                      Text(anyResponse),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      const Expanded(
-                        child: Divider(
-                          height: 2,
-                          color: Color(dividerColor),
+                        Text(anyResponse),
+                        const SizedBox(
+                          width: 3,
                         ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ButtonIconDialog(
-                    onPressed: onPressed,
-                    text: textButton,
-                  ),
-                ],
+                        const Expanded(
+                          child: Divider(
+                            height: 2,
+                            color: Color(dividerColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ButtonIconDialog(
+                      onPressed: onPressed,
+                      text: textButton,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -219,7 +224,7 @@ class ModalBody extends StatelessWidget {
 
 class ButtonIconDialog extends ConsumerWidget {
   final String text;
-  final VoidCallback? onPressed;
+  final VoidCallback onPressed;
   const ButtonIconDialog({
     super.key,
     required this.text,

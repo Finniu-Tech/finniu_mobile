@@ -1,5 +1,3 @@
-import 'package:finniu/main.dart';
-
 class FundTypeEnum {
   static const String aggro = 'agro_real_state_funds';
   static const String corporate = 'corporate_investment_funds';
@@ -12,7 +10,7 @@ class FundEntity {
   String? mainImageUrl;
   String? mainImageHorizontalUrl;
   String? backgroundImageUrl;
-  String? assetUnderManagementUrl;
+  String? assetUnderManagementAmount;
   String? hexListColorLight;
   String? hexListColorDark;
   String? hexDetailColorLight;
@@ -32,6 +30,9 @@ class FundEntity {
   String? lastRentability;
   String? netWorthAmount;
   String? totalInstallmentsAmount;
+  String? moreInfoDownloadUrl;
+  String? minAmountInvestmentPEN;
+  String? minAmountInvestmentUSD;
 
   FundEntity({
     required this.uuid,
@@ -50,7 +51,7 @@ class FundEntity {
     this.isDelete,
     this.lastRentability,
     this.netWorthAmount,
-    this.assetUnderManagementUrl,
+    this.assetUnderManagementAmount,
     this.netWorths,
     this.fundType,
     this.tagDetailID,
@@ -58,6 +59,9 @@ class FundEntity {
     this.tagDownloadInfoID,
     this.tagInvestmentButtonID,
     this.totalInstallmentsAmount,
+    this.moreInfoDownloadUrl,
+    this.minAmountInvestmentPEN,
+    this.minAmountInvestmentUSD,
   });
 
   bool getActive(bool isActive) {
@@ -120,9 +124,12 @@ class FundEntity {
       isDelete: data['isDeleted'],
       lastRentability: data['lastRentability'],
       netWorthAmount: data['netWorthAmount'],
-      assetUnderManagementUrl: data['assetsUnderManagement'],
+      assetUnderManagementAmount: data['assetsUnderManagement'],
       netWorths: FundNetWorthEntity.listFromJson(data['netWorthGraph']),
       totalInstallmentsAmount: data['currentInstallment']?['value'] ?? '0',
+      moreInfoDownloadUrl: data['moreInfoDownloadUrl'],
+      minAmountInvestmentPEN: data['minAmountInvestmentPen'],
+      minAmountInvestmentUSD: data['minAmountInvestmentUsd'],
     );
   }
 
@@ -146,7 +153,10 @@ class FundNetWorthEntity {
     );
   }
 
-  static List<FundNetWorthEntity>? listFromJson(List<dynamic> data) {
+  static List<FundNetWorthEntity>? listFromJson(List<dynamic>? data) {
+    if (data == null) {
+      return null;
+    }
     return data.map((netWorth) => FundNetWorthEntity(date: netWorth['date'], value: netWorth['value'])).toList();
   }
 }
@@ -192,5 +202,18 @@ class FundBenefit {
 
   static List<FundBenefit> listFromJson(List<dynamic> data) {
     return data.map((benefit) => FundBenefit.fromJson(benefit)).toList();
+  }
+  //to json
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uuid': uuid,
+      'benefitText': title,
+      'icon': iconUrl,
+      'backgroundColorDark': hexBackgroundColorLight,
+      'backgroundColorLight': hexBackgroundColorDark,
+      'isActive': isActive,
+      'isDeleted': isDelete,
+    };
   }
 }

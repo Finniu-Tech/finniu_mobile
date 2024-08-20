@@ -53,6 +53,8 @@ final updateReInvestmentProvider =
     preInvestmentUUID: params.preInvestmentUUID,
     userReadContract: params.userReadContract,
     files: params.files,
+    bankAccountSender: params.bankAccountSender,
+    bankAccountReceiver: params.bankAccountReceiver,
   );
 });
 

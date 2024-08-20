@@ -82,9 +82,7 @@ class BlueGoldContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isSoles = ref.watch(isSolesStateProvider);
     int numberInSoles = parseCurrencyToInt(amount);
-    const int numberInUSD = 0;
     const String titleText = "Montos de inversión";
     const String bodyText = "Desde";
 
@@ -125,12 +123,12 @@ class BlueGoldContainer extends ConsumerWidget {
                 TweenAnimationBuilder(
                   tween: IntTween(
                     begin: 0,
-                    end: isSoles ? numberInSoles : numberInUSD,
+                    end: numberInSoles,
                   ),
                   duration: const Duration(seconds: 1),
                   builder: (BuildContext context, int value, Widget? child) {
                     return Text(
-                      isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
+                      formatterSoles.format(value),
                       style: const TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,

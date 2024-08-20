@@ -1,6 +1,3 @@
-import 'package:finniu/presentation/screens/binnacle/widgets/icon_clip.dart';
-import 'package:finniu/presentation/screens/binnacle/widgets/milestones_achieved.dart';
-import 'package:finniu/presentation/screens/catalog/row_title_amount.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -17,14 +14,11 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/voucher_modal.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
-import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -45,6 +39,33 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "go to v2/complete_details v2",
+              onPressed: () {
+                Navigator.pushNamed(context, 'v2/complete_details');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to sendcode v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/send_code');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to register v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/register');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const NoInvestmentCase(
               title: "Aún no tienes inversiones en curso",
               textBody:
@@ -86,7 +107,7 @@ class CatalogScreen extends HookConsumerWidget {
                 Navigator.pushNamed(context, '/business_investment');
               },
             ),
-            const BlueGoldImage(),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/simulator');
@@ -105,12 +126,7 @@ class CatalogScreen extends HookConsumerWidget {
               },
               child: const Text('add voucher'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                voucherModal(context, urlImage: "assets/blue_gold/voucher_example.png");
-              },
-              child: const Text('voucher modal'),
-            ),
+
             ElevatedButton(
               onPressed: () {
                 Navigator.pushNamed(context, '/blue_gold_investment');
@@ -189,6 +205,7 @@ class CatalogScreen extends HookConsumerWidget {
             const ProgressBarInProgress(
               amount: 1000,
               dateEnds: '10/10/2022',
+              onPressed: null,
             ),
             const SizedBox(
               height: 5,
@@ -196,6 +213,7 @@ class CatalogScreen extends HookConsumerWidget {
             const ProgressBarInProgress(
               amount: 2000,
               dateEnds: '11/10/2022',
+              onPressed: null,
             ),
             const ModalBenefitsTwo(),
             const SizedBox(height: 10),
@@ -218,7 +236,7 @@ class CatalogScreen extends HookConsumerWidget {
 
             // ),
             // const SizedBox(height: 70),
-            const GraphicContainer(),
+            GraphicContainer(),
 
             const SizedBox(height: 10),
 
