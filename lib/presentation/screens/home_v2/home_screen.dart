@@ -129,7 +129,6 @@ class HomeBody extends HookConsumerWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        print('HomeBody constraints: $constraints');
         return SingleChildScrollView(
           child: Container(
             height: MediaQuery.of(context).size.height,
@@ -140,7 +139,7 @@ class HomeBody extends HookConsumerWidget {
                 colors: currentTheme.isDarkMode
                     ? [
                         const Color(scaffoldBlackBackground),
-                        const Color(backgroundColorNavbar)
+                        const Color(backgroundColorNavbar),
                       ]
                     : [
                         const Color(scaffoldLightGradientPrimary),
@@ -171,7 +170,7 @@ class HomeBody extends HookConsumerWidget {
                     onPressed: () => Navigator.pushNamed(context, '/catalog'),
                     child: const Text('Ver Catalogo de Widgets'),
                   ),
-                ]
+                ],
               ],
             ),
           ),
@@ -247,13 +246,6 @@ class _BodyHomeUpperSectionWidgetState
                   Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 20),
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: EnterpriseFundTitle(),
-                        ),
-                      ),
                       const SizedBox(height: 10),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.9,
@@ -316,15 +308,21 @@ class _BodyHomeUpperSectionWidgetState
 class FundTitleAndNavigate extends ConsumerWidget {
   final FundEntity fund;
   final bool isSelect;
-  const FundTitleAndNavigate(
-      {super.key, required this.fund, required this.isSelect});
+  const FundTitleAndNavigate({
+    super.key,
+    required this.fund,
+    required this.isSelect,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return fund.fundType == FundTypeEnum.corporate
         ? RealStateTitleAndNavigate(
-            isSelect: isSelect, isDarkMode: isDarkMode, funName: fund.name)
+            isSelect: isSelect,
+            isDarkMode: isDarkMode,
+            funName: fund.name,
+          )
         : BlueGoldTitleAndNavigate(
             isDarkMode: isDarkMode,
             isSelect: isSelect,
