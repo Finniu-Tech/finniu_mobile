@@ -17,9 +17,7 @@ class EnterpriseFundTitle extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: currentTheme.isDarkMode
-              ? const Color(primaryDark)
-              : const Color(primaryLight),
+          color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
         ),
         color: currentTheme.isDarkMode
             ? const Color(backGroundColorFundTitleContainer)
@@ -52,16 +50,17 @@ class EnterpriseFundTitle extends ConsumerWidget {
 class RealStateTitleAndNavigate extends StatefulWidget {
   final bool isSelect;
   final bool isDarkMode;
+  final String? funName;
 
   const RealStateTitleAndNavigate({
     super.key,
     required this.isSelect,
     required this.isDarkMode,
+    this.funName,
   });
 
   @override
-  RealStateTitleAndNavigateState createState() =>
-      RealStateTitleAndNavigateState();
+  RealStateTitleAndNavigateState createState() => RealStateTitleAndNavigateState();
 }
 
 class RealStateTitleAndNavigateState extends State<RealStateTitleAndNavigate> {
@@ -76,6 +75,7 @@ class RealStateTitleAndNavigateState extends State<RealStateTitleAndNavigate> {
     const int borderLight = 0xffA2E6FA;
     const int backgroundDark = 0xff05627D;
     const int backgroundLight = 0xffE4F9FF;
+    final String fundName = widget.funName ?? "Inversiones Empresariales";
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
@@ -84,13 +84,9 @@ class RealStateTitleAndNavigateState extends State<RealStateTitleAndNavigate> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: widget.isDarkMode
-              ? const Color(borderDark)
-              : const Color(borderLight),
+          color: widget.isDarkMode ? const Color(borderDark) : const Color(borderLight),
         ),
-        color: widget.isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: widget.isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -104,7 +100,7 @@ class RealStateTitleAndNavigateState extends State<RealStateTitleAndNavigate> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: TextPoppins(
-            text: widget.isSelect ? "🏢 Inversiones empresariales" : "🏢",
+            text: widget.isSelect ? "🏢 $fundName" : "🏢",
             fontSize: 14,
             isBold: true,
           ),

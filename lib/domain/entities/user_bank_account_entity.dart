@@ -18,6 +18,11 @@ class TypeAccountEnum {
   }
 }
 
+class CurrencyEnum {
+  static const String PEN = 'SOLES';
+  static const String USD = 'DOLARES';
+}
+
 class BankAccount {
   final String id;
   final String bankName;

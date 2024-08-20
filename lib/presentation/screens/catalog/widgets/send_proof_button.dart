@@ -10,7 +10,7 @@ class ButtonSendProof extends StatelessWidget {
   });
 
   final String textBody =
-      '''Recuerda que las tranferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!''';
+      '''Recuerda que las transferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!''';
   final String textTitle = 'Gracias por \ninvertir en Finniu!';
   final String textTanks = 'Gracias por tu comprensión! ';
   final String textButton = 'Ver mi progreso';
@@ -48,10 +48,7 @@ class ButtonInvestment extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
-      width: MediaQuery.of(context).size.width,
-      constraints: const BoxConstraints(
-        maxWidth: 320,
-      ),
+      width: MediaQuery.of(context).size.width * 0.85,
       height: 50,
       child: ElevatedButton(
         style: ButtonStyle(
@@ -68,8 +65,9 @@ class ButtonInvestment extends ConsumerWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
-            fontSize: 14,
+            fontSize: 16,
             fontFamily: "Poppins",
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),
@@ -115,14 +113,13 @@ class ButtonDialog extends ConsumerWidget {
   }
 }
 
-Future<dynamic> showThanksInvestmentDialog(
-  BuildContext context, {
-  required String textTanks,
-  required String textBody,
-  required String textTitle,
-  required String textButton,
-  required VoidCallback? onPressed,
-}) {
+Future<dynamic> showThanksInvestmentDialog(BuildContext context,
+    {required String textTanks,
+    required String textBody,
+    required String textTitle,
+    required String textButton,
+    required VoidCallback? onPressed,
+    VoidCallback? onClosePressed}) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -133,6 +130,7 @@ Future<dynamic> showThanksInvestmentDialog(
         textTitle: textTitle,
         textButton: textButton,
         onPressed: onPressed,
+        onClosePressed: onClosePressed,
       ),
     ),
   );
@@ -144,14 +142,15 @@ class BodyDialog extends ConsumerWidget {
   final String textTitle;
   final String textButton;
   final VoidCallback? onPressed;
-  const BodyDialog({
-    super.key,
-    required this.textTanks,
-    required this.textBody,
-    required this.textTitle,
-    required this.textButton,
-    required this.onPressed,
-  });
+  final VoidCallback? onClosePressed;
+  const BodyDialog(
+      {super.key,
+      required this.textTanks,
+      required this.textBody,
+      required this.textTitle,
+      required this.textButton,
+      required this.onPressed,
+      this.onClosePressed});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -166,7 +165,7 @@ class BodyDialog extends ConsumerWidget {
             top: 0,
             right: 0,
             child: IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: onClosePressed ?? () => Navigator.pop(context),
               icon: Transform.rotate(
                 angle: math.pi / 4,
                 child: const Icon(

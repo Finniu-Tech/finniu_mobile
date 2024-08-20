@@ -385,7 +385,7 @@ class _LineReportHomeWidgetState extends ConsumerState<LineReportHomeWidget> {
                       ),
                       const SizedBox(height: 5),
                       const Text(
-                        'Mis inversiones',
+                        'Mis inversiones  ',
                         style: TextStyle(
                           fontSize: 10,
                           color: Color(blackText),

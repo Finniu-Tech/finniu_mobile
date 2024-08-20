@@ -1,40 +1,77 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/number_format.dart';
-import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class FundInfoSlider extends StatelessWidget {
   final num annualProfitability;
   final num totalInstallmentsAmount;
+  final num totalAssetsUnderManagement;
+  final num netWorthAmount;
+
+  final List<FundNetWorthEntity>? netWorthData;
   const FundInfoSlider({
     super.key,
     required this.annualProfitability,
     required this.totalInstallmentsAmount,
+    required this.totalAssetsUnderManagement,
+    required this.netWorthData,
+    required this.netWorthAmount,
   });
+
+  List<Map<String, dynamic>> formatNetWorthData(List<FundNetWorthEntity> netWorthData) {
+    final DateFormat dateFormat = DateFormat('yyyy-MM-ddTHH:mm:ss');
+    final DateFormat monthFormat = DateFormat('MMM', 'es_ES');
+
+    return netWorthData.map((entity) {
+      final date = dateFormat.parse(entity.date);
+      final monthAbbr = capitalize(monthFormat.format(date));
+
+      return {
+        "x": monthAbbr,
+        "y": entity.value,
+      };
+    }).toList();
+  }
+
+  String capitalize(String s) => s.isNotEmpty ? '${s[0].toUpperCase()}${s.substring(1)}' : s;
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> data = const [
-      {"x": "Nov", "y": 10},
-      {"x": "Dic", "y": 20},
-      {"x": "Ene", "y": 30},
-      {"x": "Feb", "y": 40},
-      {"x": "Mar", "y": 50},
-    ];
+    // List<dynamic> data = const [
+    //   {"x": "Nov", "y": 10},
+    //   {"x": "Dic", "y": 20},
+    //   {"x": "Ene", "y": 30},
+    //   {"x": "Feb", "y": 40},
+    //   {"x": "Mar", "y": 50},
+    // ];
+
+    final netWorthFormattedData = formatNetWorthData(netWorthData!);
+    print('netWorthFormattedData: $netWorthFormattedData');
+
     final items = [
       ManagedAssets(
-        investmentsText: totalInstallmentsAmount.toInt(),
+        investmentsText: totalAssetsUnderManagement.toInt(),
       ),
       InvestedCapital(
-        data: data,
+        data: netWorthFormattedData,
       ),
       AnnualProfitability(
         profitability: annualProfitability.toInt(),
       ),
+      FundAssets(
+        investmentsText: totalInstallmentsAmount.toInt(),
+        netWorthAmount: netWorthAmount,
+      ),
     ];
+
     return Container(
       color: Colors.transparent,
       padding: const EdgeInsets.symmetric(vertical: 20),
@@ -176,13 +213,7 @@ class InvestedCapital extends ConsumerWidget {
                     topLeft: Radius.circular(5),
                     topRight: Radius.circular(5),
                   ),
-                  dataSource: const [
-                    {"x": "Nov", "y": 10},
-                    {"x": "Dic", "y": 20},
-                    {"x": "Ene", "y": 30},
-                    {"x": "Feb", "y": 40},
-                    {"x": "Mar", "y": 50},
-                  ],
+                  dataSource: data,
                   xValueMapper: (datum, index) => datum["x"],
                   yValueMapper: (datum, index) => datum["y"],
                   dataLabelSettings: const DataLabelSettings(
@@ -222,7 +253,8 @@ class ManagedAssets extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSoles = ref.watch(isSolesStateProvider);
+    // final isSoles = ref.watch(isSolesStateProvider);
+    const isSoles = true;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SlideCarouselCard(
       color: isDarkMode ? cardColorDark : cardColorLight,
@@ -257,9 +289,9 @@ class ManagedAssets extends ConsumerWidget {
             tween: IntTween(begin: 0, end: investmentsText),
             duration: const Duration(seconds: 2),
             builder: (BuildContext context, int value, Widget? child) {
-              return Text(
-                isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
-                style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+              return AutoSizeText(
+                formatterSoles.format(value),
+                style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               );
             },
           ),
@@ -288,6 +320,87 @@ class SlideCarouselCard extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: body,
+      ),
+    );
+  }
+}
+
+class FundAssets extends ConsumerWidget {
+  final num investmentsText;
+  final num netWorthAmount;
+
+  const FundAssets({
+    super.key,
+    required this.investmentsText,
+    required this.netWorthAmount,
+  });
+  final int cardColorLight = 0xff0D3A5C;
+  final int cardColorDark = 0xff262626;
+
+  final int dividerColorDark = 0xffA2E6FA;
+  final int dividerColorLight = 0xffA2E6FA;
+  final int textColorDark = 0xffFFFFFF;
+  final int textColorLight = 0xffFFFFFF;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    return SlideCarouselCard(
+      color: isDarkMode ? cardColorDark : cardColorLight,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextPoppins(
+            text: "Patrimonio del fondo",
+            fontSize: 16,
+            textDark: textColorDark,
+            textLight: textColorLight,
+          ),
+          TextPoppins(
+            text: "Patrimonio del fondo",
+            fontSize: 12,
+            textDark: textColorDark,
+            textLight: textColorLight,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AnimationNumberNotComma(
+                endNumber: netWorthAmount,
+                duration: 2,
+                fontSize: 32,
+                colorText: isDarkMode ? textColorDark : textColorLight,
+                beginNumber: 0,
+              ),
+            ],
+          ),
+          Divider(
+            height: 2,
+            color: Color(
+              isDarkMode ? dividerColorDark : dividerColorLight,
+            ),
+          ),
+          TextPoppins(
+            text: "Valor cuota vigente",
+            fontSize: 11,
+            textDark: textColorDark,
+            textLight: textColorLight,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              AnimationNumberNotComma(
+                endNumber: investmentsText,
+                duration: 2,
+                fontSize: 32,
+                colorText: isDarkMode ? textColorDark : textColorLight,
+                beginNumber: 0,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

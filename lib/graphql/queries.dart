@@ -1199,8 +1199,8 @@ class QueryRepository {
 
   static String get rentabilityGraphic {
     return '''
-      query rentabilityGraph(\$timeLine: TimeLineEnum) {
-        rentabilityGraph(timeLine: \$timeLine) {
+      query rentabilityGraph(\$timeLine: TimeLineEnum, \$fundUUID: String) {
+        rentabilityGraph(timeLine: \$timeLine, investmentFundUuid: \$fundUUID) {
           rentabilityInPen {
             month
             amountPoint
@@ -1210,7 +1210,8 @@ class QueryRepository {
             amountPoint
           }
         }
-}
+      }
+
     ''';
   }
 
@@ -1224,10 +1225,17 @@ class QueryRepository {
               amount
               finishDateInvestment
             }
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+            }
             invesmentInCourse{
               uuid
               amount
               finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
             }
             invesmentFinished{
               uuid
@@ -1241,10 +1249,17 @@ class QueryRepository {
               amount
               finishDateInvestment
             }
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+            }
             invesmentInCourse{
               uuid
               amount
               finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
             }
             invesmentFinished{
               uuid
@@ -1303,6 +1318,26 @@ class QueryRepository {
             isDefaultAccount
             createdAt
           }
+          investmentFund{
+            uuid
+            name
+            icon
+            listBackgroundColorDark
+            listBackgroundColorLight
+            detailBackgroundColorDark
+            detailBackgroundColorLight
+            backgroundImageUrl
+            assetsUnderManagement
+            mainImageUrl
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorDarkSecondary
+            detailBackgroundColorSecondaryLight
+          }
         }
       }
     ''';
@@ -1310,7 +1345,7 @@ class QueryRepository {
 
   static String get getFunds {
     return '''
-      query getFunds{
+       query getFunds{
         investmentFundsQueries{
           listInvestmentFundsAvailable{
             uuid
@@ -1331,6 +1366,7 @@ class QueryRepository {
             mainImageHorizontalUrl
             detailBackgroundColorDarkSecondary
             detailBackgroundColorSecondaryLight
+          
             createdAt
             isDeleted
             isActive
@@ -1344,6 +1380,9 @@ class QueryRepository {
               date
               value
             }
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
             
           }
         }
@@ -1408,5 +1447,50 @@ class QueryRepository {
         }
       }
       ''';
+  }
+
+  static String get aggroInvestmentQuotes {
+    return '''
+      query getAggroQuotes{
+        agroInvestmentQueries{
+          calculateQuotesAvailable
+        }
+      }
+    ''';
+  }
+
+  static String get getLastOperationStatus {
+    return '''
+      query getLastOperations(\$fundUUID: String!){
+        getStatusLastOperation(investmentFundsUuid: \$fundUUID){
+          investmentFund{
+            name
+            uuid
+            fundType
+          }
+          typeInvestment
+          agroInvestment{
+            investmentFundName
+            uuid
+            parcelAmount
+            parcelNumber
+            numberOfInstallments
+            parcelMonthlyInstallment
+            
+          }
+          preInvestment{
+            uuidPreInvestment
+            amount
+            status
+            actionStatus
+            currency
+            rentability
+            deadline
+            isReinvestment
+          }
+        }
+        
+      }
+  ''';
   }
 }

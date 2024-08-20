@@ -1,8 +1,11 @@
+import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_investment_screen.dart';
 import 'package:finniu/presentation/screens/business_investments/business_investments_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
+import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
+import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
@@ -15,6 +18,8 @@ import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart
 import 'package:finniu/presentation/screens/notifications/notifications_screen.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
+import 'package:finniu/presentation/screens/scan_document_v2/scan_document_screen_v2.dart';
+import 'package:finniu/presentation/screens/send_code_v2/send_code_v2.dart';
 import 'package:finniu/presentation/screens/signup/activate_account.dart';
 import 'package:finniu/presentation/screens/calculator/calculator_screen.dart';
 import 'package:finniu/presentation/screens/calculator/result_calculator_screen.dart';
@@ -49,6 +54,8 @@ import 'package:finniu/presentation/screens/onboarding/start_onboarding.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_3.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_1.dart';
 import 'package:finniu/presentation/screens/simulator_v2/simulator_v2_screen.dart';
+import 'package:finniu/presentation/screens/v2_user_profile/v2_register_screen.dart';
+import 'package:finniu/presentation/screens/user_profil_v2/user_register_v2.dart';
 import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -120,6 +127,11 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         fund: args['fund'],
         amount: args['amount'],
         deadLine: args['deadLine'],
+        preInvestmentUUID: args['preInvestmentUUID'],
+        isReInvestment: args['isReInvestment'],
+        reInvestmentType: args['reInvestmentType'],
+        currency: args['currency'],
+        originInvestmentRentability: args['originInvestmentRentability'],
       );
     },
     '/v2/investment/step-2': (BuildContext context) {
@@ -128,6 +140,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         fund: args['fund'],
         preInvestmentUUID: args['preInvestmentUUID'],
         amount: args['amount'],
+        isReInvestment: args['isReInvestment'] ?? false,
       );
     },
     // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
@@ -137,9 +150,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         fund: args['fund'],
       );
     },
-    '/business_investment': (BuildContext context) => const BusinessInvestmentsScreen(),
     '/v2/investment_blue_gold': (BuildContext context) => const InvestmentBlueGoldScreen(),
-    '/blue_gold_investment': (BuildContext context) => const BlueGoldInvestmentsScreen(),
     '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
     '/v2/binnacle': (BuildContext context) => const BinnacleScreen(),
 
@@ -160,5 +171,21 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     // '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
     '/v2/notifications': (BuildContext context) => const NotificationsScreen(),
     '/v2/lot_detail': (BuildContext context) => const LotDetailScreenV2(),
+    '/v2/register': (BuildContext context) => const RegisterScreenV2(),
+    '/v2/send_code': (BuildContext context) => const SendCodeV2(),
+    'v2/activate_account': (BuildContext context) => const ActivateAccountV2(),
+
+    'v2/complete_details': (BuildContext context) => const CompleteDetailsScreenV2(),
+    'v2/validate_identity': (BuildContext context) => const ValidateIdentityScreenV2(),
+    '/v2/login': (BuildContext context) => const UserRegisterV2(),
+    '/v2/verification_code': (BuildContext context) => const UserRegisterV2(),
+    '/v2/activate_account': (BuildContext context) => const UserRegisterV2(),
+    '/v2/upload_document': (BuildContext context) => const UserRegisterV2(),
+    '/v2/scan_document': (BuildContext context) => const ScanDocumentScreenV2(),
+    '/v2/form_personal_data': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_location': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_job': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_legal_terms': (BuildContext context) => const UserRegisterV2(),
+    '/v2/form_about_me': (BuildContext context) => const UserRegisterV2(),
   };
 }

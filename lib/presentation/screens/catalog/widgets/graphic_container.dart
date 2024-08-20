@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/rentability_graph_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/rentability_graphic_provider.dart';
@@ -8,8 +9,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class GraphicContainer extends ConsumerWidget {
-  const GraphicContainer({
+  final FundEntity? fund;
+  GraphicContainer({
     super.key,
+    this.fund,
   });
 
   @override
@@ -23,14 +26,16 @@ class GraphicContainer extends ConsumerWidget {
       ),
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
-      child: const GraphicLinealWidget(),
+      child: GraphicLinealWidget(fund: fund),
     );
   }
 }
 
 class GraphicLinealWidget extends ConsumerStatefulWidget {
+  final FundEntity? fund;
   const GraphicLinealWidget({
     super.key,
+    this.fund,
   });
 
   @override
@@ -47,91 +52,98 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
   @override
   Widget build(BuildContext context) {
     final isSoles = ref.watch(isSolesStateProvider);
-    final rentabilityGraph = ref.watch(rentabilityGraphicFutureProvider);
-    if (rentabilityGraph.asData == null) {
-      return SizedBox(
-        height: MediaQuery.of(context).size.height * 0.4,
-        width: MediaQuery.of(context).size.width,
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-    if (rentabilityGraph.asData!.value.success == false) {}
-    data = isSoles ? rentabilityGraph.asData!.value.rentabilityInPen : rentabilityGraph.asData!.value.rentabilityInUsd;
+    final timeLine = ref.watch(timePeriodProvider);
+    final rentabilityParams = RentabilityParamsProvider(timeline: timeLine.value, fundUUID: widget.fund?.uuid ?? '');
+    final rentabilityGraph = ref.watch(rentabilityGraphicFutureProvider(rentabilityParams).select((value) => value));
 
-    return Stack(
-      children: [
-        SfCartesianChart(
-          borderWidth: 5,
-          plotAreaBorderWidth: 0,
-          primaryXAxis: const CategoryAxis(
-            majorGridLines: MajorGridLines(width: 0),
-            labelPlacement: LabelPlacement.onTicks,
-            plotOffset: 10,
-          ),
-          primaryYAxis: NumericAxis(
-            labelFormat: isSoles ? 'S/{value}K' : '\${value}K',
-            axisLine: const AxisLine(width: 0),
-          ),
-          tooltipBehavior: TooltipBehavior(
-            enable: true,
-            duration: 1000,
-            header: "",
-          ),
-          series: <CartesianSeries<RentabilityGraphicEntity, String>>[
-            LineSeries<RentabilityGraphicEntity, String>(
-              color: const Color(primaryLight),
-              dataSource: data,
-              xValueMapper: (RentabilityGraphicEntity rentability, _) =>
-                  rentability.month.substring(0, 3).toUpperCase(),
-              yValueMapper: (RentabilityGraphicEntity rentability, _) => double.parse(rentability.amountPoint) / 1000,
-              markerSettings: const MarkerSettings(
-                isVisible: true,
-                shape: DataMarkerType.circle,
-                borderColor: Color(graphicMarker),
-                borderWidth: 2,
-                color: Color(graphicMarker),
+    //add a future builder
+    return rentabilityGraph.when(
+      data: (data) {
+        return Stack(
+          children: [
+            SfCartesianChart(
+              borderWidth: 5,
+              plotAreaBorderWidth: 0,
+              primaryXAxis: const CategoryAxis(
+                majorGridLines: MajorGridLines(width: 0),
+                labelPlacement: LabelPlacement.onTicks,
+                plotOffset: 10,
               ),
+              primaryYAxis: NumericAxis(
+                labelFormat: isSoles ? 'S/{value}K' : '\${value}K',
+                axisLine: const AxisLine(width: 0),
+              ),
+              tooltipBehavior: TooltipBehavior(
+                enable: true,
+                duration: 1000,
+                header: "",
+              ),
+              series: <CartesianSeries<RentabilityGraphicEntity, String>>[
+                LineSeries<RentabilityGraphicEntity, String>(
+                  color: const Color(primaryLight),
+                  dataSource: isSoles ? data.rentabilityInPen : data.rentabilityInUsd,
+                  xValueMapper: (RentabilityGraphicEntity rentability, _) =>
+                      rentability.month.substring(0, 3).toUpperCase(),
+                  yValueMapper: (RentabilityGraphicEntity rentability, _) =>
+                      double.parse(rentability.amountPoint) / 1000,
+                  markerSettings: const MarkerSettings(
+                    isVisible: true,
+                    shape: DataMarkerType.circle,
+                    borderColor: Color(graphicMarker),
+                    borderWidth: 2,
+                    color: Color(graphicMarker),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-        rentabilityGraph.asData!.value.success == false
-            ? Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.5),
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: const Center(
-                    child: Text('No hay datos'),
-                  ),
-                ),
-              )
-            : const SizedBox(),
-        data?.isEmpty == true
-            ? Positioned.fill(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.5),
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'No hay invesiones en ${isSoles ? 'soles' : 'dólares'}',
+            rentabilityGraph.asData!.value.success == false
+                ? Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.5),
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: const Center(
+                        child: Text(''),
+                      ),
                     ),
+                  )
+                : const SizedBox(),
+            data?.isEmpty == true
+                ? Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withOpacity(0.5),
+                        borderRadius: const BorderRadius.all(Radius.circular(20)),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'No hay inversiones en ${isSoles ? 'soles' : 'dólares'}',
+                        ),
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
+            data?.isEmpty == true
+                ? const SizedBox()
+                : const Positioned(
+                    right: 10,
+                    top: 10,
+                    child: TimeLineSelect(),
                   ),
-                ),
-              )
-            : const SizedBox(),
-        data?.isEmpty == true
-            ? const SizedBox()
-            : const Positioned(
-                right: 10,
-                top: 10,
-                child: TimeLineSelect(),
-              ),
-      ],
+          ],
+        );
+      },
+      error: (error, stackTrace) {
+        return const Center(
+          child: Text('Error'),
+        );
+      },
+      loading: () {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

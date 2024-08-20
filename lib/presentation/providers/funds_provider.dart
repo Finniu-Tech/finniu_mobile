@@ -1,4 +1,3 @@
-import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/infrastructure/datasources/funds_datasource.dart';
 import 'package:finniu/infrastructure/models/fund/aggro_investment_models.dart';
@@ -42,4 +41,9 @@ final saveCorporateInvestmentFutureProvider = FutureProvider.autoDispose
   final fundDataSource = ref.watch(fundDataSourceProvider);
   final calculateResponse = await fundDataSource.saveCorporateInvestment(input);
   return calculateResponse;
+});
+
+final getAggroInvestmentQuotesFutureProvider = FutureProvider.autoDispose<List<int>>((ref) async {
+  final fundDataSource = ref.watch(fundDataSourceProvider);
+  return await fundDataSource.getAggroQuotes();
 });

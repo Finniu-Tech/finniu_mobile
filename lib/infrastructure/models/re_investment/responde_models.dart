@@ -36,9 +36,9 @@ class CreateReInvestmentResponse {
 
   factory CreateReInvestmentResponse.fromJson(Map<String, dynamic> json) {
     return CreateReInvestmentResponse(
-      success: json['success'],
-      reInvestmentUuid: json['reInvestmentUuid'],
-      reInvestmentContractUrl: json['reInvestmentContractUrl'],
+      success: json['success'] as bool?,
+      reInvestmentUuid: json['reInvestmentUuid'] as String?,
+      reInvestmentContractUrl: json['reInvestmentContractUrl'] as String?,
       messages: (json['messages'] as List?)
           ?.where((e) => e != null)
           .map((e) => GraphQLErrorMessage.fromJson(e as Map<String, dynamic>))
