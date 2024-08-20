@@ -15,38 +15,41 @@ class RegisterScreenV2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldUserProfile(
-      children: [
-        const LogoFinniu(),
-        const SizedBox(
-          height: 10,
-        ),
-        TextPoppins(
-          text: title,
-          fontSize: 24,
-          isBold: true,
-          textDark: textDark,
-          textLight: textLight,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        SizedBox(
-          width: 244,
-          child: TextPoppins(
-            text: subTitle,
-            fontSize: 18,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: ScaffoldUserProfile(
+        children: [
+          const LogoFinniu(),
+          const SizedBox(
+            height: 10,
+          ),
+          TextPoppins(
+            text: title,
+            fontSize: 24,
             isBold: true,
-            lines: 2,
             textDark: textDark,
             textLight: textLight,
           ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        const FormRegister(),
-      ],
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            width: 244,
+            child: TextPoppins(
+              text: subTitle,
+              fontSize: 18,
+              isBold: true,
+              lines: 2,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const FormRegister(),
+        ],
+      ),
     );
   }
 }
