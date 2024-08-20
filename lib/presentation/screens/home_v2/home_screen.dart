@@ -128,10 +128,9 @@ class HomeBody extends HookConsumerWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        print('HomeBody constraints: $constraints');
         return SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -457,11 +456,9 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
           ),
         );
       case 'pending':
-        print('operation.enterprisePreInvestment?.status: ${operation.enterprisePreInvestment?.status}');
-        print('actionStatus: ${operation.enterprisePreInvestment?.actionStatus}');
         if (operation.enterprisePreInvestment?.isReInvestment == true &&
-                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.pendingReInvestment ||
-            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.pendingReInvestment.toLowerCase()) {
+                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment ||
+            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment.toLowerCase()) {
           return ReinvestmentPendingSlider(
             amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
             fundName: widget.fund.name,
@@ -488,8 +485,6 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         return Text('Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
-
-  //add slider controller on init page
 
   @override
   Widget build(BuildContext context) {
@@ -697,7 +692,7 @@ class SliderValidationText extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Validacion',
+          'Validación',
           style: TextStyle(
             fontSize: 7,
             color: isDarkMode ? Colors.white : Colors.black,

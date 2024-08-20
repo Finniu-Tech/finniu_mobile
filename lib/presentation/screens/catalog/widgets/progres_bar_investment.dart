@@ -9,14 +9,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class ProgressBarInProgress extends ConsumerWidget {
   final String dateEnds;
   final int amount;
-  final bool isReinvest;
+  final bool isReinvestmentAvailable;
   final VoidCallback? onPressed;
   final String? actionStatus;
   const ProgressBarInProgress({
     super.key,
     required this.dateEnds,
     required this.amount,
-    this.isReinvest = false,
+    this.isReinvestmentAvailable = false,
     required this.onPressed,
     this.actionStatus,
   });
@@ -57,9 +57,15 @@ class ProgressBarInProgress extends ConsumerWidget {
                   dateFinal: dateEnds,
                 ),
                 const SizedBox(height: 3),
-                isReinvest && actionStatus == ActionStatusEnum.defaultReInvestment
-                    ? ButtonReinvest(onPressed: onPressed)
-                    : const SizedBox(),
+                if (isReinvestmentAvailable == true && actionStatus == ActionStatusEnum.defaultReInvestment) ...[
+                  ButtonReinvest(onPressed: onPressed),
+                ],
+                if (isReinvestmentAvailable == true && actionStatus == ActionStatusEnum.pendingReInvestment) ...[
+                  const Align(alignment: Alignment.centerRight, child: ReinvestmentRequestedTag()),
+                ],
+                if (isReinvestmentAvailable == true && actionStatus == ActionStatusEnum.disabledReInvestment) ...[
+                  const Align(alignment: Alignment.centerRight, child: ReinvestmentCancelledTag()),
+                ]
               ],
             ),
           ),
@@ -112,6 +118,67 @@ class ButtonReinvest extends ConsumerWidget {
               color: isDarkMode ? const Color(textDark) : const Color(textLight),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReinvestmentRequestedTag extends ConsumerWidget {
+  const ReinvestmentRequestedTag({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const backgroundDark = 0xff9AD666;
+    const textDark = 0xffffffff;
+    const textLight = 0xff0D3A5C;
+
+    return GestureDetector(
+      child: Container(
+        width: 188,
+        height: 22,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: const Color(backgroundDark),
+        ),
+        child: const Center(
+          child: TextPoppins(
+            text: 'Re-inversión Solicitada',
+            fontSize: 12,
+            textDark: textDark,
+            textLight: textLight,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ReinvestmentCancelledTag extends ConsumerWidget {
+  const ReinvestmentCancelledTag({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const backgroundDark = 0xff7C73FE;
+    const textColor = 0xffffffff;
+
+    return GestureDetector(
+      child: Container(
+        width: 188,
+        height: 22,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: const Color(backgroundDark),
+        ),
+        child: const Center(
+          child: TextPoppins(
+            text: 'Devolución Solicitada',
+            fontSize: 12,
+            textDark: textColor,
+            textLight: textColor,
+          ),
         ),
       ),
     );
