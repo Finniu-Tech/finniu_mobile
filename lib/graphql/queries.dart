@@ -1459,7 +1459,6 @@ class QueryRepository {
     ''';
   }
 
-
   static String get regionsV2 {
     return '''
      query Region{
@@ -1490,6 +1489,8 @@ class QueryRepository {
         nomDist
       }
     }
+''';
+  }
 
   static String get getLastOperationStatus {
     return '''
