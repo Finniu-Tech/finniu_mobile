@@ -153,7 +153,10 @@ class FundNetWorthEntity {
     );
   }
 
-  static List<FundNetWorthEntity>? listFromJson(List<dynamic> data) {
+  static List<FundNetWorthEntity>? listFromJson(List<dynamic>? data) {
+    if (data == null) {
+      return null;
+    }
     return data.map((netWorth) => FundNetWorthEntity(date: netWorth['date'], value: netWorth['value'])).toList();
   }
 }
@@ -199,5 +202,18 @@ class FundBenefit {
 
   static List<FundBenefit> listFromJson(List<dynamic> data) {
     return data.map((benefit) => FundBenefit.fromJson(benefit)).toList();
+  }
+  //to json
+
+  Map<String, dynamic> toJson() {
+    return {
+      'uuid': uuid,
+      'benefitText': title,
+      'icon': iconUrl,
+      'backgroundColorDark': hexBackgroundColorLight,
+      'backgroundColorLight': hexBackgroundColorDark,
+      'isActive': isActive,
+      'isDeleted': isDelete,
+    };
   }
 }

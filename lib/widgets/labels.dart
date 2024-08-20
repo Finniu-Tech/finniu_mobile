@@ -32,7 +32,7 @@ class LabelWithRoundedImage extends StatelessWidget {
           ),
           child: Text(
             labelText,
-            textAlign: TextAlign.end,
+            textAlign: TextAlign.center,
             style: TextStyle(
               color: Color(textColor),
               fontSize: 16,

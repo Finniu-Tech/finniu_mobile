@@ -73,55 +73,44 @@ class DownloadButton extends ConsumerWidget {
     return Positioned(
       right: 7,
       bottom: 7,
-      child: GestureDetector(
-        onTap: () {
-          print("descargar voucher");
-        },
-        child: Container(
-          width: 144,
-          height: 26,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20),
-            color: isDarkMode
-                ? const Color(buttonColorDark)
-                : const Color(buttonColorLight),
-            boxShadow: [
-              BoxShadow(
-                color: isDarkMode
-                    ? Colors.white.withOpacity(0.2)
-                    : Colors.black.withOpacity(0.2),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
+      child: Container(
+        width: 144,
+        height: 26,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: isDarkMode ? const Color(buttonColorDark) : const Color(buttonColorLight),
+          boxShadow: [
+            BoxShadow(
+              color: isDarkMode ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2),
+              spreadRadius: 2,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            isDarkMode
+                ? Image.asset(
+                    "assets/icons/download_icon_dark.png",
+                    width: 16,
+                    height: 16,
+                  )
+                : Image.asset(
+                    "assets/icons/download_icon_light.png",
+                    width: 16,
+                    height: 16,
+                  ),
+            const SizedBox(width: 3),
+            Text(
+              "Descargar voucher",
+              style: TextStyle(
+                fontSize: 10,
+                color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
               ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              isDarkMode
-                  ? Image.asset(
-                      "assets/icons/download_icon_dark.png",
-                      width: 16,
-                      height: 16,
-                    )
-                  : Image.asset(
-                      "assets/icons/download_icon_light.png",
-                      width: 16,
-                      height: 16,
-                    ),
-              const SizedBox(width: 3),
-              Text(
-                "Descargar voucher",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: isDarkMode
-                      ? const Color(textColorDark)
-                      : const Color(textColorLight),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -159,9 +148,7 @@ class AmountInvestment extends ConsumerWidget {
           Container(
             width: 4,
             height: 47,
-            color: isDarkMode
-                ? Color(dividerAmountColorDark)
-                : Color(dividerAmountColor),
+            color: isDarkMode ? Color(dividerAmountColorDark) : Color(dividerAmountColor),
           ),
           const SizedBox(width: 10),
           Column(
@@ -181,8 +168,7 @@ class AmountInvestment extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 9,
                   fontWeight: FontWeight.bold,
-                  color:
-                      isDarkMode ? Color(textColorDark) : Color(textColorLight),
+                  color: isDarkMode ? Color(textColorDark) : Color(textColorLight),
                 ),
               ),
               AnimationNumber(
@@ -228,9 +214,7 @@ class LabelState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode
-              ? Color(labelDarkContainer)
-              : Color(labelLightContainer),
+          color: isDarkMode ? Color(labelDarkContainer) : Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

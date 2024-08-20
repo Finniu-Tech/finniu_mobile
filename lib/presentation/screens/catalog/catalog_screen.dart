@@ -236,7 +236,7 @@ class CatalogScreen extends HookConsumerWidget {
 
             // ),
             // const SizedBox(height: 70),
-            const GraphicContainer(),
+            GraphicContainer(),
 
             const SizedBox(height: 10),
 

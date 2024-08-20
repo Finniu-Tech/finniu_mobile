@@ -90,7 +90,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                           autocorrect: false,
                           onChanged: (value) {
                             // Actualiza _email y el textvalue.toLowerCase();
-                            _emailController.text = value.toLowerCase();
+                            _emailController.text = value.trim().toLowerCase();
                             ;
                             // Mueve el cursor al final del texto
                             _emailController.selection =
@@ -196,6 +196,7 @@ class EmailLoginScreen extends HookConsumerWidget {
                                         }
 
                                         final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+                                        print('featureFlags: $featureFlags');
                                         ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
 
                                         final String route =

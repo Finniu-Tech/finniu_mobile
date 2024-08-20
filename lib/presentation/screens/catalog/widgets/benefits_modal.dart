@@ -78,6 +78,8 @@ class BodyModalBenefits extends ConsumerWidget {
               Expanded(
                 child: benefitListAsyncValue.when(
                   data: (benefitList) {
+                    print('benefitList: ${benefitList[0].toJson()}');
+                    print('get background color: ${benefitList[0].getHexBackgroundColorDark}');
                     final gridItems = benefitList
                         .map(
                           (benefit) => GridItem(

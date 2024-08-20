@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:finniu/domain/entities/last_operation_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
@@ -18,32 +19,59 @@ class SliderItem {
   });
 }
 
-class CarrouselSlider extends StatefulWidget {
-  const CarrouselSlider({
+class ReInvestmentSlider extends StatefulWidget {
+  final List<LastOperation> operations;
+  const ReInvestmentSlider({
     super.key,
+    required this.operations,
   });
 
   @override
-  CarrouselSliderState createState() => CarrouselSliderState();
+  ReInvestmentSliderState createState() => ReInvestmentSliderState();
 }
 
-class CarrouselSliderState extends State<CarrouselSlider> {
+class ReInvestmentSliderState extends State<ReInvestmentSlider> {
   int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
-    List<SliderItem> sliderItems = [
-      SliderItem(
-        title: "¡Ya puedes reinvertir!",
-        bodyText: "Tienes algunas inversiones disponibles para reinvertir",
-        imageUrl: "assets/investment/tree_money.png",
+    List<SliderItem> sliderItems = widget.operations.map((operation) {
+      const String title = "¡Ya puedes reinvertir!";
+      const String bodyText = "Tienes algunas inversiones disponibles para reinvertir";
+      const String imageUrl = "assets/investment/tree_money.png";
+      // print operation json
+
+      print('operation reinvest: ${operation.toJson()}');
+
+      return SliderItem(
+        title: title,
+        bodyText: bodyText,
+        imageUrl: imageUrl,
         onPressed: () => Navigator.pushNamed(
           context,
           '/v2/investment',
           arguments: {'reinvest': true},
         ),
-      ),
-    ];
+      );
+    }).toList();
+    //if items mayor than 6 , only show 6
+
+    if (sliderItems.length > 1) {
+      sliderItems = sliderItems.sublist(0, 1);
+    }
+
+    // List<SliderItem> sliderItems = [
+    //   SliderItem(
+    //     title: "¡Ya puedes reinvertir!",
+    //     bodyText: "Tienes algunas inversiones disponibles para reinvertir",
+    //     imageUrl: "assets/investment/tree_money.png",
+    //     onPressed: () => Navigator.pushNamed(
+    //       context,
+    //       '/v2/investment',
+    //       arguments: {'reinvest': true},
+    //     ),
+    //   ),
+    // ];
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -60,8 +88,8 @@ class CarrouselSliderState extends State<CarrouselSlider> {
               );
             }).toList(),
             options: CarouselOptions(
-              height: 67,
-              viewportFraction: 0.9,
+              height: 80,
+              viewportFraction: 1,
               enlargeCenterPage: false,
               enableInfiniteScroll: false,
               onPageChanged: (index, reason) {
@@ -148,7 +176,7 @@ class SliderReinvest extends StatelessWidget {
       margin: const EdgeInsets.symmetric(
         horizontal: 8.0,
       ),
-      width: MediaQuery.of(context).size.width * 0.9,
+      width: 326,
       height: 67,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
