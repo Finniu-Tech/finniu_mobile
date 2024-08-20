@@ -181,7 +181,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                     },
                     onChanged: (value) {
                       // Transforma el texto a minúsculas y actualiza el controlador
-                      String lowerCaseValue = value.toLowerCase();
+                      String lowerCaseValue = value.trim().toLowerCase();
                       emailController.text = lowerCaseValue;
                       // Mueve el cursor al final del texto
                       emailController.selection = TextSelection.fromPosition(

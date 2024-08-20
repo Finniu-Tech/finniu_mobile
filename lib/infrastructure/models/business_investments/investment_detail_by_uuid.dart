@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 
 class InvestmentDetailUuid {
@@ -12,6 +13,7 @@ class InvestmentDetailUuid {
   final BankAccount? bankAccountReceiver;
   final BankAccount? bankAccountSender;
   final List<ProfitabilityItem> profitabilityListMonth;
+  final FundEntity? fund;
 
   InvestmentDetailUuid({
     required this.uuid,
@@ -25,6 +27,7 @@ class InvestmentDetailUuid {
     this.voucher,
     this.bankAccountReceiver,
     this.bankAccountSender,
+    this.fund,
   })  : assert(uuid.isNotEmpty, 'UUID cannot be null or empty'),
         assert(
           finishDateInvestment.isNotEmpty,
@@ -36,22 +39,17 @@ class InvestmentDetailUuid {
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       month: json['deadline']['value'],
-      voucher: (json['boucherList'] as List<dynamic>).isNotEmpty
-          ? json['boucherList'][0]["boucherImage"]
-          : null,
+      voucher: (json['boucherList'] as List<dynamic>).isNotEmpty ? json['boucherList'][0]["boucherImage"] : null,
       rentabilityAmount: _parseAmount(json['rentabilityAmmount']),
       rentabilityPercent: _parseAmount(json['rentabilityPercent']),
       finishDateInvestment: json['finishDateInvestment'],
       contract: json['contract'],
-      bankAccountReceiver: json['bankAccountReceiver'] != null
-          ? BankAccount.fromJson(json['bankAccountReceiver'])
-          : null,
-      bankAccountSender: json['bankAccountSender'] != null
-          ? BankAccount.fromJson(json['bankAccountSender'])
-          : null,
-      profitabilityListMonth: (json['paymentRentability'] as List<dynamic>)
-          .map((item) => ProfitabilityItem.fromJson(item))
-          .toList(),
+      bankAccountReceiver:
+          json['bankAccountReceiver'] != null ? BankAccount.fromJson(json['bankAccountReceiver']) : null,
+      bankAccountSender: json['bankAccountSender'] != null ? BankAccount.fromJson(json['bankAccountSender']) : null,
+      profitabilityListMonth:
+          (json['paymentRentability'] as List<dynamic>).map((item) => ProfitabilityItem.fromJson(item)).toList(),
+      fund: json['investmentFund'] != null ? FundEntity.fromJson(json['investmentFund']) : null,
     );
   }
 

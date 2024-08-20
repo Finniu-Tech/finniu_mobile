@@ -9,9 +9,11 @@ class SliderDraft extends ConsumerWidget {
     super.key,
     required this.onTap,
     required this.amountNumber,
+    required this.isReInvestment,
   });
   final int amountNumber;
   final VoidCallback? onTap;
+  final bool isReInvestment;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -22,14 +24,13 @@ class SliderDraft extends ConsumerWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        margin: const EdgeInsets.only(left: 3, right: 3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         ),
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 90,
+        width: 330,
+        height: 70,
         child: Stack(
           children: [
             const LabelText(),
@@ -40,7 +41,7 @@ class SliderDraft extends ConsumerWidget {
                   RowNumber(
                     amountNumber: amountNumber,
                   ),
-                  const SizedBox(height: 5),
+                  const SizedBox(height: 4),
                   const LineStateInvestment(),
                 ],
               ),
@@ -50,16 +51,14 @@ class SliderDraft extends ConsumerWidget {
               bottom: 5,
               child: Row(
                 children: [
-                  const TextPoppins(
-                    text: "Reinversión en borrador",
+                  TextPoppins(
+                    text: isReInvestment ? "Reinversión en borrador" : "Inversión en borrador",
                     fontSize: 8,
                   ),
                   Icon(
                     Icons.help_outline,
                     size: 12,
-                    color: isDarkMode
-                        ? const Color(iconDark)
-                        : const Color(iconLight),
+                    color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                   ),
                 ],
               ),
@@ -83,7 +82,7 @@ class LineStateInvestment extends ConsumerWidget {
     const int backgroundLight = 0xffA2E6FA;
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
-      height: 15,
+      height: 20,
       child: Center(
         child: Stack(
           alignment: Alignment.centerLeft,
@@ -91,33 +90,30 @@ class LineStateInvestment extends ConsumerWidget {
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
               height: 3,
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             ),
             Container(
               decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
-                    color: isDarkMode
-                        ? Colors.white.withOpacity(0.2)
-                        : Colors.black.withOpacity(0.2),
+                    color: isDarkMode ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2),
                     spreadRadius: 1,
                     blurRadius: 5,
                     offset: const Offset(0, 3),
                   ),
                 ],
-                borderRadius: BorderRadius.circular(20),
-                color: isDarkMode
-                    ? const Color(backgroundDark)
-                    : const Color(backgroundLight),
+                borderRadius: BorderRadius.circular(25),
+                color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
               ),
               width: 20,
               height: 20,
-              child: const Center(
-                child: TextPoppins(
-                  text: '📄',
-                  fontSize: 9,
+              child: const Padding(
+                padding: EdgeInsets.only(left: 3, bottom: 1),
+                child: Center(
+                  child: TextPoppins(
+                    text: '📄',
+                    fontSize: 14,
+                  ),
                 ),
               ),
             ),

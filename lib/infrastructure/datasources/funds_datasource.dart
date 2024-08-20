@@ -102,6 +102,7 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
+    print('response save corporate: ${response.data}');
     return SaveCorporateInvestmentResponse.fromJson(response.data?['saveCorporateInvestment'] ?? {});
   }
 }
