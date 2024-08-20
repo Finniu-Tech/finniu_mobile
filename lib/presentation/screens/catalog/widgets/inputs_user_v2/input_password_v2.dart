@@ -83,8 +83,8 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
               icon: isObscure.value
                   ? SvgPicture.asset(
                       "assets/svg_icons/eye_close.svg",
-                      width: 24,
-                      height: 24,
+                      width: 20,
+                      height: 20,
                       color: isDarkMode
                           ? const Color(iconDark)
                           : const Color(iconLight),

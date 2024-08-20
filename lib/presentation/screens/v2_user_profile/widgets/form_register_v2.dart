@@ -19,6 +19,7 @@ class FormRegister extends HookConsumerWidget {
     final namesController = useTextEditingController();
     final emailController = useTextEditingController();
     final phoneController = useTextEditingController();
+    final countryController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
     final checkboxValue = useState(false);
@@ -38,9 +39,8 @@ class FormRegister extends HookConsumerWidget {
             },
           ),
           InputPhoneUserProfile(
-            isNumeric: true,
-            hintText: "Escribe tu número telefónico",
             controller: phoneController,
+            countryController: countryController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Ingresa tu nómero de telefono';
@@ -53,6 +53,10 @@ class FormRegister extends HookConsumerWidget {
               }
               return null;
             },
+            hintText: "Escribe tu número telefónico",
+          ),
+          const SizedBox(
+            height: 15,
           ),
           InputTextFileUserProfile(
             hintText: "Correo electronico",
@@ -114,6 +118,7 @@ class FormRegister extends HookConsumerWidget {
                 print("confirmacion");
                 print(passwordConfirmController.text);
                 print(checkboxValue.value);
+                print(countryController.text);
                 if (checkboxValue.value == false) {
                   CustomSnackbar.show(context,
                       "Debe aceptar los terminos y condiciones", 'error');
