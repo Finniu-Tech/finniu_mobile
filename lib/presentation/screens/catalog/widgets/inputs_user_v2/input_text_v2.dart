@@ -215,7 +215,7 @@ class _PrefixIconCountriesState extends State<PrefixIconCountries> {
   @override
   void initState() {
     super.initState();
-    widget.countryController.text = _selectedCountry.name;
+    widget.countryController.text = _selectedCountry.dialCode;
   }
 
   @override
