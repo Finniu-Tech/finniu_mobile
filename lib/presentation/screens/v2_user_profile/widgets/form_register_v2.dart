@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_phone_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
