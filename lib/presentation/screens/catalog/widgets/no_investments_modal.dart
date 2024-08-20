@@ -44,22 +44,29 @@ class NoInvestmentBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Stack(
-      children: [
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-          child: Container(
-            color: isDarkMode ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.4),
-          ),
-        ),
-        Dialog(
-          backgroundColor: Colors.transparent,
-          insetPadding: const EdgeInsets.all(5),
-          child: ContainerEmptyMessageWidget(
-            onPressed: onPressed,
-          ),
-        ),
-      ],
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return Stack(
+          children: [
+            BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+              child: Container(
+                color: isDarkMode ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.4),
+              ),
+            ),
+            Positioned(
+              top: constraints.maxHeight * 0.3,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: ContainerEmptyMessageWidget(
+                  onPressed: onPressed,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }
@@ -74,9 +81,10 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const String titleText = "Aún no haz realizado tu primera inversión 🥹";
-    const String bodyText =
-        "Descubre nuestros fondos y realiza tu primera inversión en uno de nuestros fondos que tenermos para ti";
+    const String titleText = "Aún no has realizado tu primera inversión";
+    // const String titleText = "Aún no has realizado tu primera inversión 🥹";
+    const String bodyText = "Descubre los fondos que tenemos para ti y realiza tu primera inversión.";
+    // "Descubre nuestros fondos y realiza tu primera inversión en uno de nuestros fondos que tenemos para ti.";
     const int buttonTextColorDark = 0xff0D3A5C;
     const int buttonTextColorLight = 0xffFFFFFF;
     const int buttonBackgroundColorDark = 0xffA2E6FA;

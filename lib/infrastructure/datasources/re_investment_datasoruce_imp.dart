@@ -66,14 +66,19 @@ class ReInvestmentDataSource {
     required String preInvestmentUUID,
     required bool userReadContract,
     List<String>? files,
+    String? bankAccountSender,
+    String? bankAccountReceiver,
   }) async {
+    final dynamic variables = {
+      'preInvestmentUUID': preInvestmentUUID,
+      'userReadContract': userReadContract,
+      'bankAccountSenderUUID': bankAccountSender,
+      'bankAccountReceiverUUID': bankAccountReceiver,
+      'files': files,
+    };
     final MutationOptions options = MutationOptions(
       document: gql(MutationRepository.updateReInvestment()),
-      variables: {
-        'preInvestmentUUID': preInvestmentUUID,
-        'userReadContract': userReadContract,
-        'files': files,
-      },
+      variables: variables,
     );
 
     final QueryResult result = await client.mutate(options);

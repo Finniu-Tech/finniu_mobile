@@ -35,7 +35,7 @@ class NavigationBarHome extends ConsumerWidget {
     }
 
     return Container(
-      height: 80,
+      height: 105,
       decoration: BoxDecoration(
         color: colorBackground ??
             (currentTheme.isDarkMode
@@ -43,7 +43,8 @@ class NavigationBarHome extends ConsumerWidget {
                 : const Color(scaffoldLightGradientSecondary)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+        // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
+        padding: EdgeInsets.fromLTRB(60, 0, 60, 45),
         child: Container(
           decoration: BoxDecoration(
             color:
@@ -99,10 +100,7 @@ class NavigationBarInvestment extends ConsumerWidget {
           break;
         case 1:
           ref.read(navigatorStateProvider.notifier).state = 1;
-          Navigator.of(context).pushNamedAndRemoveUntil(
-            '/business_investment',
-            (route) => false,
-          );
+
           break;
         case 2:
           ref.read(navigatorStateProvider.notifier).state = 2;

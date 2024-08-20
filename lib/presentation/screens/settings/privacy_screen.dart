@@ -99,7 +99,7 @@ class PrivacyScreen extends HookConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Visualizacion de contraseña",
+                        "Visualización de contraseña",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,

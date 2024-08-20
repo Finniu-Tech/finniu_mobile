@@ -109,6 +109,14 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
     //   CustomSnackbar.show(context, "El número de cuenta es inválido", 'error');
     //   return false;
     // }
+    if (accountTypeController.text == 'Mancomunada' && isJointAccount == false) {
+      CustomSnackbar.show(
+        context,
+        "Debe completar los datos de la cuenta mancomunada",
+        'error',
+      );
+      return false;
+    }
     if (isJointAccount) {
       if (jointHolderNameController.text.isEmpty) {
         CustomSnackbar.show(

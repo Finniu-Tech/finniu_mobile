@@ -1199,8 +1199,8 @@ class QueryRepository {
 
   static String get rentabilityGraphic {
     return '''
-      query rentabilityGraph(\$timeLine: TimeLineEnum) {
-        rentabilityGraph(timeLine: \$timeLine) {
+      query rentabilityGraph(\$timeLine: TimeLineEnum, \$fundUUID: String) {
+        rentabilityGraph(timeLine: \$timeLine, investmentFundUuid: \$fundUUID) {
           rentabilityInPen {
             month
             amountPoint
@@ -1210,7 +1210,8 @@ class QueryRepository {
             amountPoint
           }
         }
-}
+      }
+
     ''';
   }
 
@@ -1224,11 +1225,17 @@ class QueryRepository {
               amount
               finishDateInvestment
             }
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+            }
             invesmentInCourse{
               uuid
               amount
               finishDateInvestment
               reinvestmentAvailable
+              actionStatus
             }
             invesmentFinished{
               uuid
@@ -1242,11 +1249,17 @@ class QueryRepository {
               amount
               finishDateInvestment
             }
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+            }
             invesmentInCourse{
               uuid
               amount
               finishDateInvestment
               reinvestmentAvailable
+              actionStatus
             }
             invesmentFinished{
               uuid
@@ -1304,6 +1317,26 @@ class QueryRepository {
             isJointAccount
             isDefaultAccount
             createdAt
+          }
+          investmentFund{
+            uuid
+            name
+            icon
+            listBackgroundColorDark
+            listBackgroundColorLight
+            detailBackgroundColorDark
+            detailBackgroundColorLight
+            backgroundImageUrl
+            assetsUnderManagement
+            mainImageUrl
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorDarkSecondary
+            detailBackgroundColorSecondaryLight
           }
         }
       }
@@ -1426,6 +1459,7 @@ class QueryRepository {
     ''';
   }
 
+
   static String get regionsV2 {
     return '''
      query Region{
@@ -1456,6 +1490,40 @@ class QueryRepository {
         nomDist
       }
     }
+
+  static String get getLastOperationStatus {
+    return '''
+      query getLastOperations(\$fundUUID: String!){
+        getStatusLastOperation(investmentFundsUuid: \$fundUUID){
+          investmentFund{
+            name
+            uuid
+            fundType
+          }
+          typeInvestment
+          agroInvestment{
+            investmentFundName
+            uuid
+            parcelAmount
+            parcelNumber
+            numberOfInstallments
+            parcelMonthlyInstallment
+            
+          }
+          preInvestment{
+            uuidPreInvestment
+            amount
+            status
+            actionStatus
+            currency
+            rentability
+            deadline
+            isReinvestment
+          }
+        }
+        
+      }
+
   ''';
   }
 }

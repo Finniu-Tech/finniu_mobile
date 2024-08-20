@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
@@ -288,9 +289,9 @@ class ManagedAssets extends ConsumerWidget {
             tween: IntTween(begin: 0, end: investmentsText),
             duration: const Duration(seconds: 2),
             builder: (BuildContext context, int value, Widget? child) {
-              return Text(
-                isSoles ? formatterSoles.format(value) : formatterUSD.format(value),
-                style: const TextStyle(fontSize: 34, fontWeight: FontWeight.bold),
+              return AutoSizeText(
+                formatterSoles.format(value),
+                style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               );
             },
           ),
