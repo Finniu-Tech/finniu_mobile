@@ -215,7 +215,7 @@ class _PrefixIconCountriesState extends State<PrefixIconCountries> {
   @override
   void initState() {
     super.initState();
-    widget.countryController.text = _selectedCountry.name; // Set initial value
+    widget.countryController.text = _selectedCountry.name;
   }
 
   @override
@@ -298,7 +298,7 @@ void selectCountry(
       final TextEditingController searchController = TextEditingController();
       List<Country> filteredCountries = countries;
 
-      void _filterCountries(String query) {
+      void filterCountries(String query) {
         if (query.isEmpty) {
           filteredCountries = countries;
         } else {
@@ -337,7 +337,7 @@ void selectCountry(
                     ),
                     onChanged: (query) {
                       setState(() {
-                        _filterCountries(query);
+                        filterCountries(query);
                       });
                     },
                   ),
