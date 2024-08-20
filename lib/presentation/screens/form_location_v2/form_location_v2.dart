@@ -1,7 +1,6 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
@@ -22,7 +21,9 @@ class FormLocationDataV2 extends HookConsumerWidget {
     final addressTextController = useTextEditingController();
     final addressNumberController = useTextEditingController();
     final zipCodeController = useTextEditingController();
-    final countrySelectController = useTextEditingController();
+    final countrySelectController = useTextEditingController(
+      text: "Peru",
+    );
     final regionsSelectController = useTextEditingController();
     final provinceSelectController = useTextEditingController();
     final districtSelectController = useTextEditingController();
@@ -116,9 +117,24 @@ class LocationFormState extends ConsumerState<LocationForm> {
       name: "Error de carga",
     ),
   ];
+
+  bool showRegionProvinceDistrict = true;
+
   @override
   void initState() {
     super.initState();
+
+    widget.countrySelectController.addListener(() {
+      setState(() {
+        // Mostrar u ocultar widgets según el país seleccionado
+        showRegionProvinceDistrict =
+            widget.countrySelectController.text == "Peru";
+      });
+      widget.regionsSelectController.clear();
+      widget.provinceSelectController.clear();
+      widget.districtSelectController.clear();
+    });
+
     widget.regionsSelectController.addListener(() {
       ref.invalidate(
         provincesSelectProvider(widget.regionsSelectController.text),
@@ -127,11 +143,11 @@ class LocationFormState extends ConsumerState<LocationForm> {
       widget.districtSelectController.clear();
       setState(() {});
     });
+
     widget.provinceSelectController.addListener(() {
       ref.invalidate(
         districtsSelectProvider(widget.provinceSelectController.text),
       );
-
       widget.districtSelectController.clear();
       setState(() {});
     });
@@ -144,14 +160,13 @@ class LocationFormState extends ConsumerState<LocationForm> {
       key: widget.formKey,
       child: Column(
         children: [
-          SelectableDropdownItem(
+          GetFunctionSelectableDropdownItem(
             itemSelectedValue: widget.countrySelectController.text,
-            options: countrys,
             selectController: widget.countrySelectController,
             hintText: "Selecciona el país de residencia",
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Por favor selecione tipo';
+                return 'Por favor seleccione tipo';
               }
               return null;
             },
@@ -159,87 +174,120 @@ class LocationFormState extends ConsumerState<LocationForm> {
           const SizedBox(
             height: 15,
           ),
-          ProviderSelectableDropdownItem(
-            regionsSelectProvider: regionsSelectProvider,
-            itemSelectedValue: widget.regionsSelectController.text,
-            selectController: widget.regionsSelectController,
-            hintText: "Selecciona el departamento",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor selecione tipo';
-              }
-              return null;
-            },
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          widget.regionsSelectController.text.isEmpty
-              ? SelectableGeoLocationDropdownItem(
-                  itemSelectedValue: widget.provinceSelectController.text,
-                  options: const [],
-                  selectController: widget.provinceSelectController,
-                  hintText: "Debe seleccionar un departamento",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor selecione tipo';
-                    }
-                    return null;
-                  },
-                )
-              : ProviderSelectableDropdownItem(
-                  regionsSelectProvider: provincesSelectProvider(
-                    widget.regionsSelectController.text,
+          if (showRegionProvinceDistrict) ...[
+            ProviderSelectableDropdownItem(
+              regionsSelectProvider: regionsSelectProvider,
+              itemSelectedValue: widget.regionsSelectController.text,
+              selectController: widget.regionsSelectController,
+              hintText: "Selecciona el departamento",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor seleccione tipo';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            widget.regionsSelectController.text.isEmpty
+                ? SelectableGeoLocationDropdownItem(
+                    itemSelectedValue: widget.provinceSelectController.text,
+                    options: const [],
+                    selectController: widget.provinceSelectController,
+                    hintText: "Debe seleccionar un departamento",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor seleccione tipo';
+                      }
+                      return null;
+                    },
+                  )
+                : ProviderSelectableDropdownItem(
+                    regionsSelectProvider: provincesSelectProvider(
+                      widget.regionsSelectController.text,
+                    ),
+                    itemSelectedValue: widget.provinceSelectController.text,
+                    selectController: widget.provinceSelectController,
+                    hintText: "Selecciona la provincia",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor seleccione tipo';
+                      }
+                      return null;
+                    },
                   ),
-                  itemSelectedValue: widget.provinceSelectController.text,
-                  selectController: widget.provinceSelectController,
-                  hintText: "Selecciona la provincia",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor selecione tipo';
-                    }
-                    return null;
-                  },
-                ),
-          const SizedBox(
-            height: 15,
-          ),
-          widget.provinceSelectController.text.isEmpty
-              ? SelectableGeoLocationDropdownItem(
-                  itemSelectedValue: widget.districtSelectController.text,
-                  options: const [],
-                  selectController: widget.districtSelectController,
-                  hintText: "Debe seleccionar una provincia",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor selecione tipo';
-                    }
-                    return null;
-                  },
-                )
-              : ProviderSelectableDropdownItem(
-                  regionsSelectProvider: districtsSelectProvider(
-                    widget.provinceSelectController.text,
+            const SizedBox(
+              height: 15,
+            ),
+            widget.provinceSelectController.text.isEmpty
+                ? SelectableGeoLocationDropdownItem(
+                    itemSelectedValue: widget.districtSelectController.text,
+                    options: const [],
+                    selectController: widget.districtSelectController,
+                    hintText: "Debe seleccionar una provincia",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor seleccione tipo';
+                      }
+                      return null;
+                    },
+                  )
+                : ProviderSelectableDropdownItem(
+                    regionsSelectProvider: districtsSelectProvider(
+                      widget.provinceSelectController.text,
+                    ),
+                    itemSelectedValue: widget.districtSelectController.text,
+                    selectController: widget.districtSelectController,
+                    hintText: "Selecciona el distrito",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Por favor seleccione tipo';
+                      }
+                      return null;
+                    },
                   ),
-                  itemSelectedValue: widget.districtSelectController.text,
-                  selectController: widget.districtSelectController,
-                  hintText: "Selecciona el distrito",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor selecione tipo';
-                    }
-                    return null;
-                  },
-                ),
-          const SizedBox(
-            height: 15,
-          ),
+            const SizedBox(
+              height: 15,
+            ),
+          ] else ...[
+            InputTextFileUserProfile(
+              controller: widget.regionsSelectController,
+              hintText: "Escribe tu departamento",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor ingresa tu departamento';
+                }
+                return null;
+              },
+            ),
+            InputTextFileUserProfile(
+              controller: widget.provinceSelectController,
+              hintText: "Escribe tu provincia",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor ingresa tu provincia';
+                }
+                return null;
+              },
+            ),
+            InputTextFileUserProfile(
+              controller: widget.districtSelectController,
+              hintText: "Escribe tu distrito",
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Por favor ingresa tu distrito';
+                }
+                return null;
+              },
+            ),
+          ],
           InputTextFileUserProfile(
             controller: widget.addressTextCompleteController,
             hintText: "Escribe tu dirección de domicilio",
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu domicilioo';
+                return 'Por favor ingresa tu domicilio';
               }
               return null;
             },

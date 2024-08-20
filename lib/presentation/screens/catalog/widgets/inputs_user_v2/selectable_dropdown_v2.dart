@@ -1,3 +1,4 @@
+import 'package:finniu/constants/country.dart';
 import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
@@ -358,6 +359,94 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
       }).toList(),
       onChanged: (newValue) {
         selectController.text = newValue!;
+      },
+    );
+  }
+}
+
+class GetFunctionSelectableDropdownItem extends StatefulWidget {
+  const GetFunctionSelectableDropdownItem({
+    super.key,
+    required this.selectController,
+    required this.hintText,
+    required this.validator,
+    required this.itemSelectedValue,
+  });
+
+  final TextEditingController selectController;
+  final String hintText;
+  final String? Function(String?)? validator;
+  final String? itemSelectedValue;
+
+  @override
+  State<GetFunctionSelectableDropdownItem> createState() =>
+      _GetFunctionSelectableDropdownItemState();
+}
+
+class _GetFunctionSelectableDropdownItemState
+    extends State<GetFunctionSelectableDropdownItem> {
+  late Future<List<String>> futureCountries;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCountries = loadListStringCountriesFromFile();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<List<String>>(
+      future: futureCountries,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return SelectableGeoLocationDropdownItem(
+            itemSelectedValue: widget.selectController.text,
+            options: const [],
+            selectController: widget.selectController,
+            hintText: "Cargando...",
+            validator: widget.validator,
+            isLoading: true,
+          );
+        } else if (snapshot.hasError) {
+          return SelectableGeoLocationDropdownItem(
+            itemSelectedValue: widget.selectController.text,
+            options: [
+              GeoLocationItemV2(
+                id: "Error de carga",
+                name: "Error de carga",
+              ),
+            ],
+            selectController: widget.selectController,
+            hintText: widget.hintText,
+            validator: widget.validator,
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return SelectableGeoLocationDropdownItem(
+            itemSelectedValue: widget.selectController.text,
+            options: [
+              GeoLocationItemV2(
+                id: "01",
+                name: "Peru",
+              ),
+            ],
+            selectController: widget.selectController,
+            hintText: widget.hintText,
+            validator: widget.validator,
+          );
+        }
+
+        return SelectableDropdownItem(
+          itemSelectedValue: widget.selectController.text,
+          options: snapshot.data!,
+          selectController: widget.selectController,
+          hintText: "Selecciona el país de residencia",
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Por favor seleccione un país';
+            }
+            return null;
+          },
+        );
       },
     );
   }

@@ -56,9 +56,6 @@ class FormRegister extends HookConsumerWidget {
             },
             hintText: "Escribe tu número telefónico",
           ),
-          const SizedBox(
-            height: 15,
-          ),
           InputTextFileUserProfile(
             hintText: "Correo electronico",
             controller: emailController,

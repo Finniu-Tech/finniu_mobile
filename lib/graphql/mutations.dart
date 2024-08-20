@@ -547,4 +547,41 @@ class MutationRepository {
       }
     ''';
   }
+
+  static String saveCreateUserV2() {
+    return '''
+     mutation CreateUserV2 (
+      \$nickName: String!
+      \$countryPrefix: String!
+      \$phoneNumber: String!
+      \$email: String!
+      \$password: String!
+      \$confirmPassword: String!
+      \$acceptTermsConditions: Boolean!
+      \$acceptPrivacyPolicy: Boolean!
+      ){
+      registerUserV2(input:{
+        nickName: \$nickName,
+        countryPrefix:\$countryPrefix,
+        phoneNumber: \$phoneNumber,
+        email:\$email,
+        password:\$password",
+        confirmPassword:\$confirmPassword,
+        acceptPrivacyPolicy:\$acceptTermsConditions,
+        acceptTermsConditions:\$acceptPrivacyPolicy
+      }){
+        success
+        messages{
+          field
+          message
+          errorCode
+        }
+        user {
+          id
+          email
+        }
+      }
+    }
+    ''';
+  }
 }

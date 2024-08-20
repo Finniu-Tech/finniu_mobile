@@ -39,6 +39,15 @@ Future<List<Country>> loadCountriesFromFile() async {
   }
 }
 
+Future<List<String>> loadListStringCountriesFromFile() async {
+  try {
+    return countries.map((json) => Country.fromJson(json).name).toList();
+  } catch (e) {
+    print('Error al leer o parsear el archivo: $e');
+    return [];
+  }
+}
+
 final countries = [
   {"name": "Afghanistan", "flag": "🇦🇫", "code": "AF", "dial_code": "+93"},
   {"name": "Åland Islands", "flag": "🇦🇽", "code": "AX", "dial_code": "+358"},

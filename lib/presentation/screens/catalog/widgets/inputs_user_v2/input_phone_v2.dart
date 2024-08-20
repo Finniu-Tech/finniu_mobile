@@ -168,6 +168,7 @@ class _PrefixIconCountriesState extends State<PrefixIconCountries> {
           },
           child: SizedBox(
             width: 95,
+            height: 30,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
