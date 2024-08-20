@@ -242,6 +242,7 @@ void selectCountry(
                   ? const Color(backgroundColorDark)
                   : const Color(backgroundColorLight),
             ),
+            height: MediaQuery.of(context).size.height * 0.7,
             width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
@@ -301,35 +302,40 @@ void selectCountry(
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      country.dialCode,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: isDarkMode
-                                            ? const Color(textSelectDark)
-                                            : const Color(textSelectLight),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "Poppins",
-                                        overflow: TextOverflow.ellipsis,
+                                SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.6,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        country.dialCode,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: isDarkMode
+                                              ? const Color(textSelectDark)
+                                              : const Color(textSelectLight),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "Poppins",
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      country.name,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: isDarkMode
-                                            ? const Color(textSelectDark)
-                                            : const Color(textSelectLight),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "Poppins",
-                                        overflow: TextOverflow.ellipsis,
+                                      Text(
+                                        country.name,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: isDarkMode
+                                              ? const Color(textSelectDark)
+                                              : const Color(textSelectLight),
+                                          fontWeight: FontWeight.w400,
+                                          fontFamily: "Poppins",
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
