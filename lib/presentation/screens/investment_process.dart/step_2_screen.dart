@@ -54,7 +54,8 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
         isDarkMode: currentTheme.isDarkMode,
         backgroundColor:
             currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
-        body: Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID),
+        body:
+            Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID, isReInvestment: isReInvestment),
       ),
     );
   }
@@ -557,6 +558,7 @@ class Step2Body extends HookConsumerWidget {
                         return;
                       }
                       if (isReInvestment == true) {
+                        context.loaderOverlay.show();
                         final UpdateReInvestmentParams updateReInvestmentParams = UpdateReInvestmentParams(
                           preInvestmentUUID: preInvestmentUUID,
                           userReadContract: ref.watch(userAcceptedTermsProvider),

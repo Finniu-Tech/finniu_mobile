@@ -3,12 +3,14 @@ class Investment {
   final int amount;
   final String finishDateInvestment;
   final bool? isReinvest;
+  final String? actionStatus;
 
   Investment({
     required this.uuid,
     required this.amount,
     required this.finishDateInvestment,
     this.isReinvest = false,
+    this.actionStatus,
   });
 
   factory Investment.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class Investment {
       amount: _parseAmount(json['amount']),
       finishDateInvestment: json['finishDateInvestment'],
       isReinvest: json['reinvestmentAvailable'] ?? false,
+      actionStatus: json['actionStatus'] ?? '',
     );
   }
 
@@ -25,6 +28,8 @@ class Investment {
       'uuid': uuid,
       'amount': amount.toString(),
       'finishDateInvestment': finishDateInvestment,
+      'reinvestmentAvailable': isReinvest,
+      'actionStatus': actionStatus,
     };
   }
 

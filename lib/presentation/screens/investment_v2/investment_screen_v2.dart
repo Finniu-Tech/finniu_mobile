@@ -93,7 +93,7 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 10, bottom: 5),
+                      margin: const EdgeInsets.only(top: 10, bottom: 5),
                       width: MediaQuery.of(context).size.width * 0.9,
                       height: 36,
                       child: ListView(

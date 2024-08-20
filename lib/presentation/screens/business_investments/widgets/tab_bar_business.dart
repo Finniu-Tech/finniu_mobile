@@ -206,6 +206,7 @@ class InProgressList extends StatelessWidget {
                         dateEnds: list[index].finishDateInvestment,
                         amount: list[index].amount,
                         isReinvest: list[index].isReinvest ?? false,
+                        actionStatus: list[index].actionStatus ?? "",
                         onPressed: () {
                           Navigator.pushNamed(
                             context,

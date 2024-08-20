@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
@@ -10,16 +11,19 @@ class ProgressBarInProgress extends ConsumerWidget {
   final int amount;
   final bool isReinvest;
   final VoidCallback? onPressed;
+  final String? actionStatus;
   const ProgressBarInProgress({
     super.key,
     required this.dateEnds,
     required this.amount,
     this.isReinvest = false,
     required this.onPressed,
+    this.actionStatus,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    print('actionStatus: $actionStatus');
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const backgroundLight = 0xffD6F6FF;
     const backgroundDark = 0xff08273F;
@@ -53,7 +57,9 @@ class ProgressBarInProgress extends ConsumerWidget {
                   dateFinal: dateEnds,
                 ),
                 const SizedBox(height: 3),
-                isReinvest ? ButtonReinvest(onPressed: onPressed) : const SizedBox(),
+                isReinvest && actionStatus == ActionStatusEnum.defaultReInvestment
+                    ? ButtonReinvest(onPressed: onPressed)
+                    : const SizedBox(),
               ],
             ),
           ),
