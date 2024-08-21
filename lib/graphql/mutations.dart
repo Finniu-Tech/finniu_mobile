@@ -564,13 +564,13 @@ class MutationRepository {
       ){
       registerUserV2(input:{
         nickName: \$nickName,
-        countryPrefix:\$countryPrefix,
+        countryPrefix: \$countryPrefix,
         phoneNumber: \$phoneNumber,
-        email:\$email,
-        password:\$password",
-        confirmPassword:\$confirmPassword,
-        acceptPrivacyPolicy:\$acceptTermsConditions,
-        acceptTermsConditions:\$acceptPrivacyPolicy
+        email: \$email,
+        password: \$password,
+        confirmPassword: \$confirmPassword,
+        acceptPrivacyPolicy: \$acceptTermsConditions,
+        acceptTermsConditions: \$acceptPrivacyPolicy
       }){
         success
         messages{

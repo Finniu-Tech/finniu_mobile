@@ -1,3 +1,6 @@
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_register_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_phone_v2.dart';
@@ -17,13 +20,36 @@ class FormRegister extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final namesController = useTextEditingController();
+    final nickNameController = useTextEditingController();
+    final countryPrefixController = useTextEditingController();
+    final phoneNumberController = useTextEditingController();
     final emailController = useTextEditingController();
-    final phoneController = useTextEditingController();
-    final countryController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
-    final checkboxValue = useState(false);
+    final acceptPrivacyAndTerms = useState(false);
+
+    void saveAndPush() async {
+      if (formKey.currentState!.validate()) {
+        final DtoRegisterForm data = DtoRegisterForm(
+          nickName: nickNameController.text,
+          countryPrefix: countryPrefixController.text,
+          phoneNumber: phoneNumberController.text,
+          email: emailController.text,
+          password: passwordController.text,
+          confirmPassword: passwordConfirmController.text,
+          acceptTermsConditions: acceptPrivacyAndTerms.value,
+          acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
+        );
+        if (acceptPrivacyAndTerms.value == false) {
+          CustomSnackbar.show(
+            context,
+            "Debe aceptar los terminos y condiciones",
+            'error',
+          );
+        }
+        pushDataForm(context, data, ref);
+      }
+    }
 
     return Form(
       key: formKey,
@@ -31,7 +57,7 @@ class FormRegister extends HookConsumerWidget {
         children: [
           InputTextFileUserProfile(
             hintText: "Como te llaman",
-            controller: namesController,
+            controller: nickNameController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor ingresa tu nombre';
@@ -40,8 +66,8 @@ class FormRegister extends HookConsumerWidget {
             },
           ),
           InputPhoneUserProfile(
-            controller: phoneController,
-            countryController: countryController,
+            controller: phoneNumberController,
+            countryController: countryPrefixController,
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Ingresa tu nómero de telefono';
@@ -97,9 +123,9 @@ class FormRegister extends HookConsumerWidget {
             },
           ),
           CheckTermsAndConditions(
-            checkboxValue: checkboxValue.value,
+            checkboxValue: acceptPrivacyAndTerms.value,
             onPressed: () {
-              checkboxValue.value = !checkboxValue.value;
+              acceptPrivacyAndTerms.value = !acceptPrivacyAndTerms.value;
             },
           ),
           const SizedBox(
@@ -107,22 +133,7 @@ class FormRegister extends HookConsumerWidget {
           ),
           ButtonInvestment(
             text: "Crear mi cuenta",
-            onPressed: () {
-              if (formKey.currentState!.validate()) {
-                print(namesController.text);
-                print(emailController.text);
-                print(phoneController.text);
-                print(passwordController.text);
-                print("confirmacion");
-                print(passwordConfirmController.text);
-                print(checkboxValue.value);
-                print(countryController.text);
-                if (checkboxValue.value == false) {
-                  CustomSnackbar.show(context,
-                      "Debe aceptar los terminos y condiciones", 'error');
-                }
-              }
-            },
+            onPressed: () => saveAndPush(),
           ),
           const SizedBox(
             height: 5,
