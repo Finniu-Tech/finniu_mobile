@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_terms_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_box_input.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
@@ -7,6 +9,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class FormLegalTermsDataV2 extends HookConsumerWidget {
   FormLegalTermsDataV2({super.key});
@@ -14,13 +17,17 @@ class FormLegalTermsDataV2 extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final publicOfficialCheckboxValue = useState(false);
-    final amDirectorCheckboxValue = useState(false);
+    final isPublicOfficialOrFamilyCheckbox = useState(false);
+    final isDirectorOrShareholder10PercentCheckbox = useState(false);
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
-        print("add personal data");
-        print(publicOfficialCheckboxValue.value);
-        print(amDirectorCheckboxValue.value);
+        context.loaderOverlay.show();
+        final data = DtoLegalTermsForm(
+          isPublicOfficialOrFamily: isPublicOfficialOrFamilyCheckbox.value,
+          isDirectorOrShareholder10Percent:
+              isDirectorOrShareholder10PercentCheckbox.value,
+        );
+        pushLegalTermsDataForm(context, data, ref);
       }
     }
 
@@ -53,8 +60,8 @@ class FormLegalTermsDataV2 extends HookConsumerWidget {
           ),
           LegalTermsForm(
             formKey: formKey,
-            publicOfficialCheckboxValue: publicOfficialCheckboxValue,
-            amDirectorCheckboxValue: amDirectorCheckboxValue,
+            publicOfficialCheckboxValue: isPublicOfficialOrFamilyCheckbox,
+            amDirectorCheckboxValue: isDirectorOrShareholder10PercentCheckbox,
           ),
         ],
       ),

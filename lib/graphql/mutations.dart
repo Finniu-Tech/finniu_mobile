@@ -675,4 +675,28 @@ class MutationRepository {
     }
     ''';
   }
+
+  static String saveLegalTermsDataV2() {
+    return '''
+    mutation registerLegalTerms (
+    \$isPublicOfficialOrFamily : Boolean!
+    \$isDirectorOrShareholder10Percent : Boolean!
+    ){
+      registerUserLegalTerms(
+        input: {
+          isPublicOfficialOrFamily: \$isPublicOfficialOrFamily,
+          isDirectorOrShareholder10Percent: \$isDirectorOrShareholder10Percent
+        }
+      ) {
+        success
+        messages {
+          field
+          message
+          errorCode
+        }
+      
+      }
+  }
+    ''';
+  }
 }

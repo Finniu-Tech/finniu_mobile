@@ -236,3 +236,13 @@ ServiceTimeEnum? getServiceTimeEnum(String valor) {
       return ServiceTimeEnum.LESS_THAN_ONE_YEAR;
   }
 }
+
+class DtoLegalTermsForm {
+  final bool isPublicOfficialOrFamily;
+  final bool isDirectorOrShareholder10Percent;
+
+  DtoLegalTermsForm({
+    required this.isPublicOfficialOrFamily,
+    required this.isDirectorOrShareholder10Percent,
+  });
+}
