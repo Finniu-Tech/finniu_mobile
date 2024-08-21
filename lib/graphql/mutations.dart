@@ -679,13 +679,42 @@ class MutationRepository {
   static String saveLegalTermsDataV2() {
     return '''
     mutation registerLegalTerms (
-    \$isPublicOfficialOrFamily : Boolean!
-    \$isDirectorOrShareholder10Percent : Boolean!
-    ){
-      registerUserLegalTerms(
+      \$isPublicOfficialOrFamily : Boolean!
+      \$isDirectorOrShareholder10Percent : Boolean!
+      ){
+        registerUserLegalTerms(
+          input: {
+            isPublicOfficialOrFamily: \$isPublicOfficialOrFamily,
+            isDirectorOrShareholder10Percent: \$isDirectorOrShareholder10Percent
+          }
+        ) {
+          success
+          messages {
+            field
+            message
+            errorCode
+          }
+        
+        }
+    }
+    ''';
+  }
+
+  static String saveAboutMeDataV2() {
+    return '''
+   mutation registerUserAboutMe (
+    \$imageProfile: String!
+    \$backgroundPhoto: String!
+    \$biography: String!
+    \$socialMedia: SocialMediaInput
+
+   ){
+      registerUserAboutMe(
         input: {
-          isPublicOfficialOrFamily: \$isPublicOfficialOrFamily,
-          isDirectorOrShareholder10Percent: \$isDirectorOrShareholder10Percent
+          imageProfile: \$imageProfile,
+          backgroundPhoto: \$backgroundPhoto,
+          biography: \$biography,
+          socialMedia:  \$socialMedia
         }
       ) {
         success
@@ -694,9 +723,9 @@ class MutationRepository {
           message
           errorCode
         }
-      
+    
       }
-  }
+    }
     ''';
   }
 }

@@ -246,3 +246,23 @@ class DtoLegalTermsForm {
     required this.isDirectorOrShareholder10Percent,
   });
 }
+
+class DtoAboutMeForm {
+  final String imageProfile;
+  final String backgroundPhoto;
+  final String biography;
+  final String facebook;
+  final String instagram;
+  final String linkedin;
+  final String other;
+
+  DtoAboutMeForm({
+    required this.imageProfile,
+    required this.backgroundPhoto,
+    required this.biography,
+    required this.facebook,
+    required this.instagram,
+    required this.linkedin,
+    required this.other,
+  });
+}
