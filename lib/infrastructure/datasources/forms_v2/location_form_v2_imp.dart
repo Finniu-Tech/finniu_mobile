@@ -4,26 +4,26 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_response.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
-class PersonalFormV2Imp extends GraphQLBaseDataSource {
-  PersonalFormV2Imp(super.client);
+class LocationFormV2Imp extends GraphQLBaseDataSource {
+  LocationFormV2Imp(super.client);
 
-  Future<RegisterUserV2Response> savePersonalDataUserV2({
-    required DtoPersonalForm data,
+  Future<RegisterUserV2Response> saveLocationDataUserV2({
+    required DtoLocationForm data,
   }) async {
     try {
       final response = await client.mutate(
         MutationOptions(
           document: gql(
-            MutationRepository.savePersonalDataV2(),
+            MutationRepository.saveLocationDataV2(),
           ),
           variables: {
-            "firstName": data.firstName,
-            "lastNameFather": data.lastNameFather,
-            "lastNameMother": data.lastNameMother,
-            "documentType": data.documentType.name,
-            "documentNumber": data.documentNumber,
-            "civilStatus": data.civilStatus.name,
-            "gender": "Male",
+            "country": data.country,
+            "region": data.region,
+            "province": data.province,
+            "district": data.district,
+            "address": data.address,
+            "houseNumber": data.houseNumber,
+            "postalCode": data.postalCode,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),
@@ -43,7 +43,7 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
       }
       final RegisterUserV2Response registerUserV2Response =
           RegisterUserV2Response.fromJson(
-        response.data?["registerPersonalData"] ?? {},
+        response.data?["registerUserUbication"] ?? {},
       );
       return registerUserV2Response;
     } catch (e) {

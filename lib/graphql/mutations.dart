@@ -619,4 +619,35 @@ class MutationRepository {
 }
     ''';
   }
+
+  static String saveLocationDataV2() {
+    return '''
+  mutation RegisterUserUbication(
+      \$country: String!
+      \$region: String!
+      \$province: String!
+      \$district: String!
+      \$address: String!
+      \$houseNumber: String!
+      \$postalCode: String!
+  ){
+    registerUserUbication(input:{
+      country: \$country,
+      region: \$region,
+      province: \$province,
+      district: \$district,
+      address: \$address,
+      houseNumber: \$houseNumber,
+      postalCode: \$postalCode
+    }){
+      success
+      messages {
+        field
+        message
+        errorCode
+      }
+    }
+  }
+    ''';
+  }
 }

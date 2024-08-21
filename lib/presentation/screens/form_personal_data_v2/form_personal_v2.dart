@@ -44,9 +44,6 @@ class FormPersonalDataV2 extends HookConsumerWidget {
           gender: phoneController.text,
         );
         context.loaderOverlay.show();
-        print(data.documentType.name);
-        print(data.lastNameFather);
-        print(data.civilStatus.name);
         pushPersonalDataForm(
           context,
           data,

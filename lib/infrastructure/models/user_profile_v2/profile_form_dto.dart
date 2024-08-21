@@ -109,3 +109,23 @@ CivilStatusEnum? getCivilStatusEnum(String valor) {
       return CivilStatusEnum.SINGLE;
   }
 }
+
+class DtoLocationForm {
+  final String country;
+  final String region;
+  final String province;
+  final String district;
+  final String address;
+  final String houseNumber;
+  final String postalCode;
+
+  DtoLocationForm({
+    required this.country,
+    required this.region,
+    required this.province,
+    required this.district,
+    required this.address,
+    required this.houseNumber,
+    required this.postalCode,
+  });
+}
