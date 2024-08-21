@@ -129,3 +129,110 @@ class DtoLocationForm {
     required this.postalCode,
   });
 }
+
+class DtoOccupationForm {
+  final String occupation;
+  final String companyName;
+  final LaborSituationEnum laborSituation;
+  final ServiceTimeEnum serviceTime;
+
+  DtoOccupationForm({
+    required this.occupation,
+    required this.companyName,
+    required this.laborSituation,
+    required this.serviceTime,
+  });
+}
+
+enum LaborSituationEnum {
+  EMPLOYED,
+  UNEMPLOYED,
+  STUDENT,
+  RETIRED,
+  SELF_EMPLOYED,
+  OTHER,
+}
+
+extension LaborSituationEnumExtension on LaborSituationEnum {
+  String get name {
+    switch (this) {
+      case LaborSituationEnum.EMPLOYED:
+        return "EMPLOYED";
+      case LaborSituationEnum.UNEMPLOYED:
+        return "UNEMPLOYED";
+      case LaborSituationEnum.STUDENT:
+        return "STUDENT";
+      case LaborSituationEnum.RETIRED:
+        return "RETIRED";
+      case LaborSituationEnum.SELF_EMPLOYED:
+        return "SELF_EMPLOYED";
+      case LaborSituationEnum.OTHER:
+        return "OTHER";
+      default:
+        return "EMPLOYED";
+    }
+  }
+}
+
+LaborSituationEnum? getLaborsStatusEnum(String valor) {
+  switch (valor) {
+    case 'Empleado':
+      return LaborSituationEnum.EMPLOYED;
+    case 'Independiente':
+      return LaborSituationEnum.UNEMPLOYED;
+    case 'Estudiante':
+      return LaborSituationEnum.STUDENT;
+    case 'Retirado':
+      return LaborSituationEnum.RETIRED;
+    case 'Autoempleo':
+      return LaborSituationEnum.SELF_EMPLOYED;
+    case 'Otro':
+      return LaborSituationEnum.OTHER;
+    default:
+      return LaborSituationEnum.EMPLOYED;
+  }
+}
+
+enum ServiceTimeEnum {
+  LESS_THAN_ONE_YEAR,
+  ONE_TO_THREE_YEARS,
+  THREE_TO_FIVE_YEARS,
+  FIVE_TO_TEN_YEARS,
+  MORE_THAN_TEN_YEARS,
+}
+
+extension ServiceTimeEnumExtension on ServiceTimeEnum {
+  String get name {
+    switch (this) {
+      case ServiceTimeEnum.LESS_THAN_ONE_YEAR:
+        return "LESS_THAN_ONE_YEAR";
+      case ServiceTimeEnum.ONE_TO_THREE_YEARS:
+        return "ONE_TO_THREE_YEARS";
+      case ServiceTimeEnum.THREE_TO_FIVE_YEARS:
+        return "THREE_TO_FIVE_YEARS";
+      case ServiceTimeEnum.FIVE_TO_TEN_YEARS:
+        return "FIVE_TO_TEN_YEARS";
+      case ServiceTimeEnum.MORE_THAN_TEN_YEARS:
+        return "MORE_THAN_TEN_YEARS";
+      default:
+        return "LESS_THAN_ONE_YEAR";
+    }
+  }
+}
+
+ServiceTimeEnum? getServiceTimeEnum(String valor) {
+  switch (valor) {
+    case 'Menos de un año':
+      return ServiceTimeEnum.LESS_THAN_ONE_YEAR;
+    case 'Entre 1 y 3 años':
+      return ServiceTimeEnum.ONE_TO_THREE_YEARS;
+    case 'Entre 3 y 5 años':
+      return ServiceTimeEnum.THREE_TO_FIVE_YEARS;
+    case 'Entre 5 y 10 años':
+      return ServiceTimeEnum.FIVE_TO_TEN_YEARS;
+    case 'Mas de 10 años':
+      return ServiceTimeEnum.MORE_THAN_TEN_YEARS;
+    default:
+      return ServiceTimeEnum.LESS_THAN_ONE_YEAR;
+  }
+}

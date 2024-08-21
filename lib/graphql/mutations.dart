@@ -650,4 +650,29 @@ class MutationRepository {
   }
     ''';
   }
+
+  static String saveOccupationDataV2() {
+    return '''
+    mutation RegisterOcupation(
+        \$laborSituation: LaborSituationEnum!
+        \$occupation: String!
+        \$companyName: String!
+        \$serviceTime:  ServiceTimeEnum!
+    ){
+      registerUserOcupation(input:{
+        laborSituation: \$laborSituation,
+        occupation: \$occupation,
+        companyName: \$companyName,
+        serviceTime: \$serviceTime
+      }){
+        success
+        messages {
+          field
+          message
+          errorCode
+        }
+      }
+    }
+    ''';
+  }
 }

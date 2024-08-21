@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_jod_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
@@ -10,6 +12,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class FormJobDataV2 extends HookConsumerWidget {
   FormJobDataV2({super.key});
@@ -17,18 +20,24 @@ class FormJobDataV2 extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workSituationSelectController = useTextEditingController();
+    final laborSituationSelectController = useTextEditingController();
     final occupationTextController = useTextEditingController();
     final companyNameTextController = useTextEditingController();
     final serviceTimeSelectController = useTextEditingController();
 
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
-        print("add personal data");
-        print(workSituationSelectController.text);
-        print(occupationTextController.text);
-        print(companyNameTextController.text);
-        print(serviceTimeSelectController.text);
+        context.loaderOverlay.show();
+        DtoOccupationForm data = DtoOccupationForm(
+          companyName: companyNameTextController.text,
+          occupation: occupationTextController.text,
+          serviceTime: getServiceTimeEnum(serviceTimeSelectController.text) ??
+              ServiceTimeEnum.LESS_THAN_ONE_YEAR,
+          laborSituation:
+              getLaborsStatusEnum(laborSituationSelectController.text) ??
+                  LaborSituationEnum.EMPLOYED,
+        );
+        pushOccupationDataForm(context, data, ref);
       }
     }
 
@@ -60,7 +69,7 @@ class FormJobDataV2 extends HookConsumerWidget {
           ),
           LocationForm(
             formKey: formKey,
-            workSituationSelectController: workSituationSelectController,
+            laborSituationSelectController: laborSituationSelectController,
             occupationTextController: occupationTextController,
             companyNameTextController: companyNameTextController,
             serviceTimeSelectController: serviceTimeSelectController,
@@ -76,13 +85,13 @@ class LocationForm extends ConsumerWidget {
   const LocationForm({
     super.key,
     required this.formKey,
-    required this.workSituationSelectController,
+    required this.laborSituationSelectController,
     required this.occupationTextController,
     required this.companyNameTextController,
     required this.serviceTimeSelectController,
   });
   final GlobalKey<FormState> formKey;
-  final TextEditingController workSituationSelectController;
+  final TextEditingController laborSituationSelectController;
   final TextEditingController serviceTimeSelectController;
   final TextEditingController occupationTextController;
   final TextEditingController companyNameTextController;
@@ -95,9 +104,9 @@ class LocationForm extends ConsumerWidget {
       child: Column(
         children: [
           SelectableDropdownItem(
-            itemSelectedValue: workSituationSelectController.text,
+            itemSelectedValue: laborSituationSelectController.text,
             options: workSituation,
-            selectController: workSituationSelectController,
+            selectController: laborSituationSelectController,
             hintText: "Selecciona tu situación laboral",
             validator: (value) {
               if (value == null || value.isEmpty) {

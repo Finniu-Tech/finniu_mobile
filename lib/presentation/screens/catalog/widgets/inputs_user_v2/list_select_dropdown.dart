@@ -108,15 +108,15 @@ final List<String> documentType = [
 final List<String> workSituation = [
   'Empleado',
   'Independiente',
-  'Desempleado',
+  'Estudiante',
+  'Retirado',
+  'Autoempleo',
+  'Otro',
 ];
 final List<String> serviceTime = [
-  'Menos de 6 meses',
-  '6 meses a 1 año',
-  '1 año a 2 años',
-  '2 años a 3 años',
-  '3 años a 4 años',
-  '4 años a 5 años',
-  '5 años a 6 años',
-  'Mas de 6 años',
+  'Menos de un año',
+  'Entre 1 y 3 años',
+  'Entre 3 y 5 años',
+  'Entre 5 y 10 años',
+  'Mas de 10 años',
 ];
