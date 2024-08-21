@@ -99,6 +99,7 @@ final List<String> maritalStatus = [
   'Soltero',
   'Casado',
   'Divorciado',
+  'Viudo',
 ];
 final List<String> documentType = [
   'DNI',

@@ -586,4 +586,37 @@ class MutationRepository {
     }
     ''';
   }
+
+  static String savePersonalDataV2() {
+    return '''
+    mutation RegisterPersonalData (
+      \$firstName: String!
+      \$lastNameFather: String!
+      \$lastNameMother: String!
+      \$documentType: DocumentTypeEnum!
+      \$documentNumber: String!
+      \$civilStatus: CivilStatusEnum!
+      \$gender: String!
+    ){
+    registerPersonalData(input:{
+      firstName: \$firstName,
+      lastNameFather: \$lastNameFather,
+      lastNameMother: \$lastNameMother,
+      documentType: \$documentType,
+      documentNumber: \$documentNumber,
+      civilStatus: \$civilStatus,
+      gender: \$gender
+    }
+    )
+    {
+    success
+    messages {
+      field
+      message
+      errorCode
+    }
+    }
+}
+    ''';
+  }
 }
