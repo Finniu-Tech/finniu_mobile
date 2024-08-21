@@ -5,8 +5,9 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
-void pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
+pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     CustomSnackbar.show(
@@ -24,12 +25,15 @@ void pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
         value.messages[0].message,
         'success',
       );
+      context.loaderOverlay.hide();
+      Navigator.pushNamed(context, "/v2/send_code");
     } else {
       CustomSnackbar.show(
         context,
         value.messages[0].message,
         'error',
       );
+      context.loaderOverlay.hide();
     }
   });
 }
