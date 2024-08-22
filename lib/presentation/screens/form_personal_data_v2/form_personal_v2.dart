@@ -33,12 +33,12 @@ class FormPersonalDataV2 extends HookConsumerWidget {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
-          firstName: firstNameController.text,
-          lastNameFather: lastNameFatherController.text,
-          lastNameMother: lastNameMotherController.text,
+          firstName: firstNameController.text.trim(),
+          lastNameFather: lastNameFatherController.text.trim(),
+          lastNameMother: lastNameMotherController.text.trim(),
           documentType: getTypeDocumentEnum(documentTypeController.text) ??
               TypeDocumentEnum.DNI,
-          documentNumber: documentNumberController.text,
+          documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
           gender: genderTypeController.text,

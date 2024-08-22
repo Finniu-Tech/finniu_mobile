@@ -33,12 +33,12 @@ class FormRegister extends HookConsumerWidget {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
-          nickName: nickNameController.text,
-          countryPrefix: countryPrefixController.text,
-          phoneNumber: phoneNumberController.text,
-          email: emailController.text,
-          password: passwordController.text,
-          confirmPassword: passwordConfirmController.text,
+          nickName: nickNameController.text.trim(),
+          countryPrefix: countryPrefixController.text.trim(),
+          phoneNumber: phoneNumberController.text.trim(),
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+          confirmPassword: passwordConfirmController.text.trim(),
           acceptTermsConditions: acceptPrivacyAndTerms.value,
           acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
         );

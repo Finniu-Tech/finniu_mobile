@@ -29,8 +29,8 @@ class FormJobDataV2 extends HookConsumerWidget {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
         DtoOccupationForm data = DtoOccupationForm(
-          companyName: companyNameTextController.text,
-          occupation: occupationTextController.text,
+          companyName: companyNameTextController.text.trim(),
+          occupation: occupationTextController.text.trim(),
           serviceTime: getServiceTimeEnum(serviceTimeSelectController.text) ??
               ServiceTimeEnum.LESS_THAN_ONE_YEAR,
           laborSituation:

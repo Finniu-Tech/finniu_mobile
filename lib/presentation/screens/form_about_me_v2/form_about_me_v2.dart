@@ -38,10 +38,10 @@ class AboutMeDataV2 extends HookConsumerWidget {
         final DtoAboutMeForm data = DtoAboutMeForm(
           imageProfile: imageBase64 ?? "",
           backgroundPhoto: imageBase64 ?? "",
-          facebook: facebookTextController.text,
-          instagram: instagramTextController.text,
-          linkedin: linkedinTextController.text,
-          biography: biographyAreaController.text,
+          facebook: facebookTextController.text.trim(),
+          instagram: instagramTextController.text.trim(),
+          linkedin: linkedinTextController.text.trim(),
+          biography: biographyAreaController.text.trim(),
           other: "",
         );
         pushAboutMeDataForm(context, data, ref);

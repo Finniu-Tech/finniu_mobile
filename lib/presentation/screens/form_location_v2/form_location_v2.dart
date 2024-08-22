@@ -38,9 +38,9 @@ class FormLocationDataV2 extends HookConsumerWidget {
           region: regionsSelectController.text,
           province: provinceSelectController.text,
           district: districtSelectController.text,
-          address: addressTextController.text,
-          houseNumber: houseNumberController.text,
-          postalCode: postalCodeController.text,
+          address: addressTextController.text.trim(),
+          houseNumber: houseNumberController.text.trim(),
+          postalCode: postalCodeController.text.trim(),
         );
         context.loaderOverlay.show();
         pushLocationDataForm(context, data, ref);
