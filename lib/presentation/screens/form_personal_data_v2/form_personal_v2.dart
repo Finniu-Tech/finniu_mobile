@@ -198,13 +198,16 @@ class PersonalForm extends ConsumerWidget {
             itemSelectedValue: genderTypeController.text,
             options: genderType,
             selectController: genderTypeController,
-            hintText: "Seleccione su estado civil",
+            hintText: "Seleccione su genero",
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Por favor selecione tipo';
               }
               return null;
             },
+          ),
+          const SizedBox(
+            height: 15,
           ),
         ],
       ),

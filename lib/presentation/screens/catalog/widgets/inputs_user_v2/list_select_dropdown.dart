@@ -120,3 +120,7 @@ final List<String> serviceTime = [
   'Entre 5 y 10 años',
   'Mas de 10 años',
 ];
+final List<String> genderType = [
+  'Masculino',
+  'Femenino',
+];
