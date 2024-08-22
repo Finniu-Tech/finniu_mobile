@@ -27,7 +27,7 @@ class FormPersonalDataV2 extends HookConsumerWidget {
     final documentTypeController = useTextEditingController();
     final documentNumberController = useTextEditingController();
     final civilStatusController = useTextEditingController();
-    final phoneController = useTextEditingController();
+    final genderTypeController = useTextEditingController();
 
     void uploadPersonalData() {
       if (formKey.currentState!.validate()) {
@@ -41,7 +41,7 @@ class FormPersonalDataV2 extends HookConsumerWidget {
           documentNumber: documentNumberController.text,
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
-          gender: phoneController.text,
+          gender: genderTypeController.text,
         );
         context.loaderOverlay.show();
         pushPersonalDataForm(
@@ -86,7 +86,7 @@ class FormPersonalDataV2 extends HookConsumerWidget {
             documentTypeController: documentTypeController,
             documentNumberController: documentNumberController,
             civilStatusController: civilStatusController,
-            phoneController: phoneController,
+            genderTypeController: genderTypeController,
           ),
           const ContainerMessage(),
         ],
@@ -105,7 +105,7 @@ class PersonalForm extends ConsumerWidget {
     required this.documentTypeController,
     required this.documentNumberController,
     required this.civilStatusController,
-    required this.phoneController,
+    required this.genderTypeController,
   });
   final GlobalKey<FormState> formKey;
   final TextEditingController firstNameController;
@@ -114,7 +114,7 @@ class PersonalForm extends ConsumerWidget {
   final TextEditingController documentTypeController;
   final TextEditingController documentNumberController;
   final TextEditingController civilStatusController;
-  final TextEditingController phoneController;
+  final TextEditingController genderTypeController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -194,13 +194,14 @@ class PersonalForm extends ConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          InputTextFileUserProfile(
-            isNumeric: true,
-            controller: phoneController,
-            hintText: "Número telefónico",
+          SelectableDropdownItem(
+            itemSelectedValue: genderTypeController.text,
+            options: genderType,
+            selectController: genderTypeController,
+            hintText: "Seleccione su estado civil",
             validator: (value) {
-              if (value == null || value.isEmpty || value.length < 8) {
-                return 'Ingresa tu nómero de telefono';
+              if (value == null || value.isEmpty) {
+                return 'Por favor selecione tipo';
               }
               return null;
             },

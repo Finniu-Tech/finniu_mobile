@@ -28,7 +28,6 @@ class LocationFormV2Imp extends GraphQLBaseDataSource {
           fetchPolicy: FetchPolicy.noCache,
         ),
       );
-      print(response.data);
       if (response.data == null) {
         return RegisterUserV2Response(
           success: false,
@@ -47,7 +46,6 @@ class LocationFormV2Imp extends GraphQLBaseDataSource {
       );
       return registerUserV2Response;
     } catch (e) {
-      print(e);
       return RegisterUserV2Response(
         messages: [
           Message(

@@ -8,7 +8,7 @@ class AboutMeFormV2Imp extends GraphQLBaseDataSource {
   AboutMeFormV2Imp(super.client);
 
   Future<RegisterUserV2Response> saveAboutMeDataUserV2({
-    required DtoLegalTermsForm data,
+    required DtoAboutMeForm data,
   }) async {
     try {
       final response = await client.mutate(
@@ -17,14 +17,18 @@ class AboutMeFormV2Imp extends GraphQLBaseDataSource {
             MutationRepository.saveAboutMeDataV2(),
           ),
           variables: {
-            "isDirectorOrShareholder10Percent":
-                data.isDirectorOrShareholder10Percent,
-            "isPublicOfficialOrFamily": data.isPublicOfficialOrFamily,
+            "imageProfile": data.imageProfile,
+            "backgroundPhoto": data.backgroundPhoto,
+            "biography": data.biography,
+            "socialMedia": {
+              "facebook": data.facebook,
+              "instagram": data.instagram,
+              "linkedin": data.linkedin,
+            },
           },
           fetchPolicy: FetchPolicy.noCache,
         ),
       );
-      print(response.data);
       if (response.data == null) {
         return RegisterUserV2Response(
           success: false,
@@ -43,7 +47,6 @@ class AboutMeFormV2Imp extends GraphQLBaseDataSource {
       );
       return registerUserV2Response;
     } catch (e) {
-      print(e);
       return RegisterUserV2Response(
         messages: [
           Message(

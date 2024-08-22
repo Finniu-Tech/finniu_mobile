@@ -47,7 +47,6 @@ class RegisterFormV2Impl extends GraphQLBaseDataSource {
       );
       return registerUserV2Response;
     } catch (e) {
-      print(e);
       return RegisterUserV2Response(
         messages: [
           Message(

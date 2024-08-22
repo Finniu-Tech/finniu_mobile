@@ -251,10 +251,10 @@ class DtoAboutMeForm {
   final String imageProfile;
   final String backgroundPhoto;
   final String biography;
-  final String facebook;
-  final String instagram;
-  final String linkedin;
-  final String other;
+  final String? facebook;
+  final String? instagram;
+  final String? linkedin;
+  final String? other;
 
   DtoAboutMeForm({
     required this.imageProfile,
