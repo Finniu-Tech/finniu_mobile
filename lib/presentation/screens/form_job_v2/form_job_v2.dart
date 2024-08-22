@@ -42,9 +42,7 @@ class FormJobDataV2 extends HookConsumerWidget {
     }
 
     void continueLater() {
-      print("continue later");
-
-      Navigator.pop(context);
+      Navigator.pushNamed(context, "/home_v2");
     }
 
     return GestureDetector(
