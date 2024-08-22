@@ -7,10 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class ToValidateInvestment extends ConsumerWidget {
   final String dateEnds;
   final int amount;
+  final bool? isReinvestment;
   const ToValidateInvestment({
     super.key,
     required this.dateEnds,
     required this.amount,
+    this.isReinvestment,
   });
 
   @override
@@ -25,9 +27,7 @@ class ToValidateInvestment extends ConsumerWidget {
           height: 90,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -44,7 +44,9 @@ class ToValidateInvestment extends ConsumerWidget {
                   image: 'assets/images/money_bag.png',
                   toValidate: true,
                 ),
-                const ValidationText(),
+                ValidationText(
+                  isReinvestment: isReinvestment,
+                ),
               ],
             ),
           ),
@@ -58,8 +60,10 @@ class ToValidateInvestment extends ConsumerWidget {
 }
 
 class ValidationText extends ConsumerWidget {
+  final bool? isReinvestment;
   const ValidationText({
     super.key,
+    this.isReinvestment,
   });
 
   @override
@@ -67,12 +71,14 @@ class ValidationText extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
+    String text =
+        isReinvestment == true ? 'Tu reinversión esta a la espera de que finalice la inversión previa' : 'Validación';
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Validacion',
+          text,
           style: TextStyle(
             fontSize: 7,
             color: isDarkMode ? Colors.white : Colors.black,
@@ -163,9 +169,7 @@ class LabelState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode
-              ? const Color(labelDarkContainer)
-              : const Color(labelLightContainer),
+          color: isDarkMode ? const Color(labelDarkContainer) : const Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -177,8 +181,7 @@ class LabelState extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color:
-                    isDarkMode ? const Color(textDark) : const Color(textLight),
+                color: isDarkMode ? const Color(textDark) : const Color(textLight),
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
               ),

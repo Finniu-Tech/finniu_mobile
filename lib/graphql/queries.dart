@@ -1217,13 +1217,14 @@ class QueryRepository {
 
   static String get userInfoAllInvestment {
     return '''
-     query userInfoAllInvestment {
+      query userInfoAllInvestment {
       userInfoAllInvestment{
           invesmentInSoles {
             investmentPending{
               uuid
               amount
               finishDateInvestment
+              isReInvestment
             }
             invesmentInProcess{
               uuid
@@ -1236,6 +1237,8 @@ class QueryRepository {
               finishDateInvestment
               reinvestmentAvailable
               actionStatus
+              isReInvestment
+              
             }
             invesmentFinished{
               uuid
@@ -1248,6 +1251,8 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+              isReInvestment
+              
             }
             invesmentInProcess{
               uuid
@@ -1260,6 +1265,7 @@ class QueryRepository {
               finishDateInvestment
               reinvestmentAvailable
               actionStatus
+              isReInvestment
             }
             invesmentFinished{
               uuid
@@ -1269,6 +1275,8 @@ class QueryRepository {
           }
         }
       }
+  
+
     ''';
   }
 
@@ -1519,7 +1527,7 @@ class QueryRepository {
             currency
             rentability
             deadline
-            isReinvestment
+            isReInvestment
           }
         }
         

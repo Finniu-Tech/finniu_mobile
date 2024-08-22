@@ -4,6 +4,7 @@ import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/last_operation_entity.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
@@ -19,6 +20,7 @@ import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
@@ -131,7 +133,7 @@ class HomeBody extends HookConsumerWidget {
       builder: (context, constraints) {
         return SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
@@ -485,6 +487,14 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
           ),
         );
       case 'pending':
+        if (operation.enterprisePreInvestment?.isReInvestment == true &&
+                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment ||
+            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment.toLowerCase()) {
+          return ReinvestmentPendingSlider(
+            amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
+            fundName: widget.fund.name,
+          );
+        }
         return ToValidateSlider(
           amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
           fundName: widget.fund.name,
@@ -501,13 +511,12 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
           fundName: widget.fund.name,
           onPressed: () {},
         );
+
       default:
         return Text(
             'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
-
-  //add slider controller on init page
 
   @override
   Widget build(BuildContext context) {
@@ -521,6 +530,16 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: TextPoppins(
+            text: 'Mis inversiones recientes',
+            fontSize: 15,
+            isBold: true,
+            align: TextAlign.left,
+          ),
+        ),
+        const SizedBox(height: 5),
         CarouselSlider(
           items: filteredOperations
               .map((operation) => _buildSliderWidget(operation))
@@ -715,7 +734,7 @@ class SliderValidationText extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Validacion',
+          'Validación',
           style: TextStyle(
             fontSize: 7,
             color: isDarkMode ? Colors.white : Colors.black,
@@ -779,6 +798,92 @@ class LabelInCourseState extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ReinvestmentPendingSlider extends ConsumerWidget {
+  final int amount;
+  final String fundName;
+  const ReinvestmentPendingSlider({
+    super.key,
+    required this.amount,
+    required this.fundName,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const backgroundLight = 0xffD6F6FF;
+    const backgroundDark = 0xff08273F;
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () => () {},
+          child: Container(
+            width: 330,
+            height: 96,
+            margin: const EdgeInsets.only(left: 5, right: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  AmountInvestment(
+                    amount: amount,
+                    fundName: fundName,
+                  ),
+                  const SizedBox(height: 1),
+                  const SliderBar(
+                    image: 'assets/images/money_bag.png',
+                    toValidate: true,
+                  ),
+                  const ReinvestmentValidationText(),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const LabelInCourseState(label: "📉 Inversión en curso"),
+      ],
+    );
+  }
+}
+
+class ReinvestmentValidationText extends ConsumerWidget {
+  const ReinvestmentValidationText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.sim_card_alert_outlined,
+          color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+          size: 13,
+        ),
+        const SizedBox(width: 2),
+        Text(
+          'Tu reinversión esta a la espera de que finalice la inversión previa',
+          style: TextStyle(
+            fontSize: 7,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+      ],
     );
   }
 }
