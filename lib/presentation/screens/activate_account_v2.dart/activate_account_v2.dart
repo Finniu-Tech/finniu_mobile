@@ -24,6 +24,29 @@ class ActivateAccountV2 extends HookConsumerWidget {
     const int subTitleDark = 0xffFFFFFF;
     const int subTitleLight = 0xff0D3A5C;
 
+    void sendCode() {
+      ref.read(timerCounterDownProvider.notifier).resetTimer();
+
+      client.when(
+        data: (client) async {
+          print('email: ${user.email}');
+          final result = await (sendEmailOTPCode(user.email!, client));
+
+          if (result == true) {
+            ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
+          } else {
+            CustomSnackbar.show(
+              context,
+              'No se pudo reenviar el correo',
+              'error',
+            );
+          }
+        },
+        error: (error, stackTrace) => null,
+        loading: () => null,
+      );
+    }
+
     return ScaffoldUserProfile(
       children: [
         SizedBox(
@@ -81,30 +104,7 @@ class ActivateAccountV2 extends HookConsumerWidget {
               if (ref.watch(timerCounterDownProvider) == 0) ...[
                 ButtonInvestment(
                   text: "Reenviar correo",
-                  onPressed: () async {
-                    ref.read(timerCounterDownProvider.notifier).resetTimer();
-
-                    client.when(
-                      data: (client) async {
-                        final result =
-                            await (sendEmailOTPCode(user.email!, client));
-
-                        if (result == true) {
-                          ref
-                              .read(timerCounterDownProvider.notifier)
-                              .startTimer(first: true);
-                        } else {
-                          CustomSnackbar.show(
-                            context,
-                            'No se pudo reenviar el correo',
-                            'error',
-                          );
-                        }
-                      },
-                      error: (error, stackTrace) => null,
-                      loading: () => null,
-                    );
-                  },
+                  onPressed: () async => sendCode(),
                 ),
                 const SizedBox(
                   height: 15,

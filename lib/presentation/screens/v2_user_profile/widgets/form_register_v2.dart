@@ -31,6 +31,7 @@ class FormRegister extends HookConsumerWidget {
 
     void saveAndPush() async {
       if (formKey.currentState!.validate()) {
+        context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text,
           countryPrefix: countryPrefixController.text,
