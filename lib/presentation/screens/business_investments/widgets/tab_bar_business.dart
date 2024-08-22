@@ -198,14 +198,14 @@ class InProgressList extends StatelessWidget {
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
                             status: "En Curso",
-                            isReinvest: list[index].isReinvest ?? false,
+                            isReinvest: list[index].isReinvestAvailable ?? false,
                           ),
                         );
                       },
                       child: ProgressBarInProgress(
                         dateEnds: list[index].finishDateInvestment,
                         amount: list[index].amount,
-                        isReinvest: list[index].isReinvest ?? false,
+                        isReinvestmentAvailable: list[index].isReinvestAvailable ?? false,
                         actionStatus: list[index].actionStatus ?? "",
                         onPressed: () {
                           Navigator.pushNamed(
@@ -214,7 +214,7 @@ class InProgressList extends StatelessWidget {
                             arguments: ArgumentsNavigator(
                               uuid: list[index].uuid,
                               status: "En Curso",
-                              isReinvest: list[index].isReinvest ?? false,
+                              isReinvest: list[index].isReinvestAvailable ?? false,
                             ),
                           );
                         },
@@ -290,6 +290,7 @@ class PendingList extends StatelessWidget {
             : ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) {
+                  print('is reinvest 11111${list[index].isReinvestment}');
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: GestureDetector(
@@ -306,6 +307,7 @@ class PendingList extends StatelessWidget {
                       child: ToValidateInvestment(
                         dateEnds: list[index].finishDateInvestment,
                         amount: list[index].amount,
+                        isReinvestment: list[index].isReinvestment == true ? true : false,
                       ),
                     ),
                   );

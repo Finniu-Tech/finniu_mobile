@@ -155,12 +155,17 @@ class LastOperation {
     );
   }
 
-  static filterByReInvestmentOperations(List<LastOperation> lastOperations) {
-    // this method is used to filter last operations by draft, in process and in course
+  static List<LastOperation> filterByReInvestmentOperations(List<LastOperation> lastOperations) {
     if (lastOperations.isEmpty) {
       return [];
     }
-    return lastOperations.where((element) => element.enterprisePreInvestment?.isReInvestment == true).toList();
+
+    return lastOperations
+        .where((element) {
+          return element.enterprisePreInvestment?.isReInvestment == true;
+        })
+        .cast<LastOperation>()
+        .toList();
   }
 
   //to json method

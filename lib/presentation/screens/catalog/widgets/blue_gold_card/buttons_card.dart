@@ -129,8 +129,8 @@ class CloseButtonModal extends ConsumerWidget {
     const iconDark = 0xffFFFFFF;
     const iconLight = 0xff515151;
     return Positioned(
-      right: 10,
-      top: 10,
+      right: 7,
+      top: 7,
       child: IconButton(
         onPressed: () => Navigator.pop(context),
         icon: Transform.rotate(

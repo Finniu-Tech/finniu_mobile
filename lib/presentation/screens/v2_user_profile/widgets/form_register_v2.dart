@@ -1,11 +1,12 @@
-import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_phone_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/snackbar.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FormRegister extends HookConsumerWidget {
@@ -19,6 +20,7 @@ class FormRegister extends HookConsumerWidget {
     final namesController = useTextEditingController();
     final emailController = useTextEditingController();
     final phoneController = useTextEditingController();
+    final countryController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
     final checkboxValue = useState(false);
@@ -27,7 +29,7 @@ class FormRegister extends HookConsumerWidget {
       key: formKey,
       child: Column(
         children: [
-          RegisterTextFile(
+          InputTextFileUserProfile(
             hintText: "Como te llaman",
             controller: namesController,
             validator: (value) {
@@ -37,18 +39,24 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          RegisterTextFile(
-            isNumeric: true,
-            hintText: "Número telefónico",
+          InputPhoneUserProfile(
             controller: phoneController,
+            countryController: countryController,
             validator: (value) {
-              if (value == null || value.isEmpty || value.length < 8) {
-                return 'Ingresa tu nómero de telémefono';
+              if (value == null || value.isEmpty) {
+                return 'Ingresa tu nómero de telefono';
+              }
+              if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                return 'Solo puedes usar números';
+              }
+              if (value.length < 8) {
+                return 'El nómero debe tener 8 digitos';
               }
               return null;
             },
+            hintText: "Escribe tu número telefónico",
           ),
-          RegisterTextFile(
+          InputTextFileUserProfile(
             hintText: "Correo electronico",
             controller: emailController,
             validator: (value) {
@@ -61,7 +69,7 @@ class FormRegister extends HookConsumerWidget {
               }
             },
           ),
-          RegisterPasswordField(
+          InputPasswordFieldUserProfile(
             controller: passwordController,
             hintText: "Contraseña ",
             validator: (value) {
@@ -73,7 +81,7 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          RegisterPasswordField(
+          InputPasswordFieldUserProfile(
             controller: passwordConfirmController,
             hintText: "Confirmar contraseña",
             validator: (value) {
@@ -88,7 +96,7 @@ class FormRegister extends HookConsumerWidget {
               return null;
             },
           ),
-          CheckConditions(
+          CheckTermsAndConditions(
             checkboxValue: checkboxValue.value,
             onPressed: () {
               checkboxValue.value = !checkboxValue.value;
@@ -108,6 +116,7 @@ class FormRegister extends HookConsumerWidget {
                 print("confirmacion");
                 print(passwordConfirmController.text);
                 print(checkboxValue.value);
+                print(countryController.text);
                 if (checkboxValue.value == false) {
                   CustomSnackbar.show(context,
                       "Debe aceptar los terminos y condiciones", 'error');
@@ -149,246 +158,6 @@ class RedirectLogin extends ConsumerWidget {
         textDark: linkDark,
         textLight: linkLight,
       ),
-    );
-  }
-}
-
-class CheckConditions extends ConsumerWidget {
-  const CheckConditions({
-    super.key,
-    required this.checkboxValue,
-    required this.onPressed,
-  });
-  final bool checkboxValue;
-  final VoidCallback onPressed;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int spanDark = 0xffFFFFFF;
-    const int spanLight = 0xff000000;
-    const int linkDark = 0xffA2E6FA;
-    const int linkLight = 0xff0D3A5C;
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      height: 60,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Checkbox(
-            activeColor:
-                isDarkMode ? const Color(linkDark) : const Color(linkLight),
-            value: checkboxValue,
-            onChanged: (onChanged) {
-              onPressed();
-            },
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.6,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Estoy de acuerdo con los ',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDarkMode
-                              ? const Color(spanDark)
-                              : const Color(spanLight),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "Poppins",
-                        ),
-                      ),
-                      TextSpan(
-                        text:
-                            'Términos & condiciones y Políticas de privacidad',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: isDarkMode
-                              ? const Color(linkDark)
-                              : const Color(linkLight),
-                          fontWeight: FontWeight.w500,
-                          fontFamily: "Poppins",
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            print("tap");
-                            print(
-                              "al usuario que lea los terminos y condiciones hay que darle un premio",
-                            );
-                          },
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class RegisterTextFile extends ConsumerWidget {
-  const RegisterTextFile({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.validator,
-    this.isNumeric = false,
-  });
-
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-  final String hintText;
-  final bool isNumeric;
-
-  final int hintDark = 0xFF989898;
-  final int hintLight = 0xFF989898;
-  final int fillDark = 0xFF222222;
-  final int fillLight = 0xFFF7F7F7;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              fontSize: 12,
-              color: isDarkMode ? Color(hintDark) : Color(hintLight),
-              fontWeight: FontWeight.w400,
-              fontFamily: "Poppins",
-            ),
-            hintText: hintText,
-            fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
-            filled: true,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-          ),
-          validator: validator,
-          keyboardType: isNumeric ? TextInputType.number : TextInputType.text,
-        ),
-        const SizedBox(height: 15),
-      ],
-    );
-  }
-}
-
-class RegisterPasswordField extends HookConsumerWidget {
-  const RegisterPasswordField({
-    super.key,
-    required this.controller,
-    required this.hintText,
-    required this.validator,
-  });
-
-  final TextEditingController controller;
-  final String? Function(String?)? validator;
-  final String hintText;
-
-  final int hintDark = 0xFF989898;
-  final int hintLight = 0xFF989898;
-  final int fillDark = 0xFF222222;
-  final int fillLight = 0xFFF7F7F7;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isObscure = useState(true);
-    const int iconDark = 0xFFA2E6FA;
-    const int iconLight = 0xFF000000;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          controller: controller,
-          obscureText: isObscure.value,
-          decoration: InputDecoration(
-            hintStyle: TextStyle(
-              fontSize: 12,
-              color: isDarkMode ? Color(hintDark) : Color(hintLight),
-              fontWeight: FontWeight.w400,
-              fontFamily: "Poppins",
-            ),
-            hintText: hintText,
-            fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
-            filled: true,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: IconButton(
-              icon: isObscure.value
-                  ? SvgPicture.asset(
-                      "assets/svg_icons/eye_close.svg",
-                      width: 24,
-                      height: 24,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
-                    )
-                  : Icon(
-                      Icons.visibility,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
-                      size: 24,
-                    ),
-              onPressed: () {
-                isObscure.value = !isObscure.value;
-              },
-            ),
-          ),
-          validator: validator,
-          keyboardType: TextInputType.text,
-        ),
-        const SizedBox(height: 15),
-      ],
     );
   }
 }
