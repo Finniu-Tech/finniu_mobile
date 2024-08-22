@@ -1217,13 +1217,14 @@ class QueryRepository {
 
   static String get userInfoAllInvestment {
     return '''
-     query userInfoAllInvestment {
+      query userInfoAllInvestment {
       userInfoAllInvestment{
           invesmentInSoles {
             investmentPending{
               uuid
               amount
               finishDateInvestment
+              isReInvestment
             }
             invesmentInProcess{
               uuid
@@ -1236,6 +1237,8 @@ class QueryRepository {
               finishDateInvestment
               reinvestmentAvailable
               actionStatus
+              isReInvestment
+              
             }
             invesmentFinished{
               uuid
@@ -1248,6 +1251,8 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+              isReInvestment
+              
             }
             invesmentInProcess{
               uuid
@@ -1260,6 +1265,7 @@ class QueryRepository {
               finishDateInvestment
               reinvestmentAvailable
               actionStatus
+              isReInvestment
             }
             invesmentFinished{
               uuid
@@ -1269,6 +1275,8 @@ class QueryRepository {
           }
         }
       }
+  
+
     ''';
   }
 
@@ -1459,6 +1467,39 @@ class QueryRepository {
     ''';
   }
 
+  static String get regionsV2 {
+    return '''
+     query Region{
+      regions {
+        id
+        nomDpto
+      }
+    }
+    ''';
+  }
+
+  static String get getProvincesByIdV2 {
+    return '''
+      query getProvinciasByIdV2(\$idDpto: String!) {
+        provincias(idDpto: \$idDpto) {
+          id
+          nomProv
+        }
+      }
+      ''';
+  }
+
+  static String get getDistrictsByProvinceIdV2 {
+    return '''
+    query getDistritosByProvinceIdV2(\$idProv: String!) {
+      distritos(idProv: \$idProv) {
+        id
+        nomDist
+      }
+    }
+''';
+  }
+
   static String get getLastOperationStatus {
     return '''
       query getLastOperations(\$fundUUID: String!){
@@ -1486,11 +1527,12 @@ class QueryRepository {
             currency
             rentability
             deadline
-            isReinvestment
+            isReInvestment
           }
         }
         
       }
+
   ''';
   }
 }

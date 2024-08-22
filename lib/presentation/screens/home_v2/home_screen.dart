@@ -4,6 +4,7 @@ import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/last_operation_entity.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
@@ -19,6 +20,7 @@ import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
@@ -61,7 +63,9 @@ class HomeScreenV2 extends HookConsumerWidget {
           currentTheme: currentTheme,
           userProfile: userProfile,
         ),
-        backgroundColor: Color(currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary),
+        backgroundColor: Color(currentTheme.isDarkMode
+            ? scaffoldBlackBackground
+            : scaffoldLightGradientPrimary),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -116,7 +120,8 @@ class HomeBody extends HookConsumerWidget {
         final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
         if (hasCompletedOnboarding == false) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+            Navigator.of(context)
+                .pushReplacementNamed('/onboarding_questions_start');
           });
         }
         return null;
@@ -126,16 +131,18 @@ class HomeBody extends HookConsumerWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        print('HomeBody constraints: $constraints');
         return SingleChildScrollView(
           child: Container(
-            height: MediaQuery.of(context).size.height,
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: currentTheme.isDarkMode
-                    ? [const Color(scaffoldBlackBackground), const Color(backgroundColorNavbar)]
+                    ? [
+                        const Color(scaffoldBlackBackground),
+                        const Color(backgroundColorNavbar),
+                      ]
                     : [
                         const Color(scaffoldLightGradientPrimary),
                         const Color(scaffoldLightGradientSecondary),
@@ -145,7 +152,9 @@ class HomeBody extends HookConsumerWidget {
             ),
             child: Column(
               children: [
-                BodyHomeUpperSectionWidget(currentTheme: currentTheme, renderNonInvestment: renderNonInvestment),
+                BodyHomeUpperSectionWidget(
+                    currentTheme: currentTheme,
+                    renderNonInvestment: renderNonInvestment),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: OurInvestmentFunds(),
@@ -153,7 +162,8 @@ class HomeBody extends HookConsumerWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] == true) ...[
+                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] ==
+                    true) ...[
                   ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/home_home'),
                     child: const Text('Ir a home normal'),
@@ -162,7 +172,7 @@ class HomeBody extends HookConsumerWidget {
                     onPressed: () => Navigator.pushNamed(context, '/catalog'),
                     child: const Text('Ver Catalogo de Widgets'),
                   ),
-                ]
+                ],
               ],
             ),
           ),
@@ -183,10 +193,12 @@ class BodyHomeUpperSectionWidget extends StatefulHookConsumerWidget {
   final bool renderNonInvestment;
 
   @override
-  _BodyHomeUpperSectionWidgetState createState() => _BodyHomeUpperSectionWidgetState();
+  _BodyHomeUpperSectionWidgetState createState() =>
+      _BodyHomeUpperSectionWidgetState();
 }
 
-class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectionWidget> {
+class _BodyHomeUpperSectionWidgetState
+    extends ConsumerState<BodyHomeUpperSectionWidget> {
   final PageController pageController = PageController();
   int selectedPage = 0;
 
@@ -242,7 +254,9 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
                         height: 35,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
-                          children: pageWidgets.map((widget) => widget.title).toList(),
+                          children: pageWidgets
+                              .map((widget) => widget.title)
+                              .toList(),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -296,13 +310,21 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
 class FundTitleAndNavigate extends ConsumerWidget {
   final FundEntity fund;
   final bool isSelect;
-  const FundTitleAndNavigate({super.key, required this.fund, required this.isSelect});
+  const FundTitleAndNavigate({
+    super.key,
+    required this.fund,
+    required this.isSelect,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return fund.fundType == FundTypeEnum.corporate
-        ? RealStateTitleAndNavigate(isSelect: isSelect, isDarkMode: isDarkMode, funName: fund.name)
+        ? RealStateTitleAndNavigate(
+            isSelect: isSelect,
+            isDarkMode: isDarkMode,
+            funName: fund.name,
+          )
         : BlueGoldTitleAndNavigate(
             isDarkMode: isDarkMode,
             isSelect: isSelect,
@@ -321,7 +343,8 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //print('fund uuid: ${fund.uuid}');
-    final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(fund.uuid));
+    final lastOperationsAsyncValue =
+        ref.watch(lastOperationsFutureProvider(fund.uuid));
     List<LastOperation> reinvestmentOperations = [];
     final isSoles = ref.watch(isSolesStateProvider);
     final selectedCurrency = isSoles ? 'nuevo sol' : 'dolar';
@@ -329,9 +352,12 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
     return lastOperationsAsyncValue.when(
       data: (lastOperations) {
         if (fund.fundType == FundTypeEnum.corporate) {
-          reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
-          filteredOperations =
-              lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
+          reinvestmentOperations =
+              LastOperation.filterByReInvestmentOperations(lastOperations);
+          filteredOperations = lastOperations
+              .where((element) =>
+                  element.enterprisePreInvestment?.currency == selectedCurrency)
+              .toList();
           lastOperations = filteredOperations;
         }
 
@@ -352,14 +378,16 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
             ],
             GraphicContainer(fund: fund),
             const SizedBox(height: 10),
-            if (lastOperations.isNotEmpty && fund.fundType == FundTypeEnum.corporate) ...[
+            if (lastOperations.isNotEmpty &&
+                fund.fundType == FundTypeEnum.corporate) ...[
               LastOperationsSlider(
                 lastOperations: lastOperations,
                 fund: fund,
               ),
               const SizedBox(height: 10),
             ],
-            if (reinvestmentOperations.isNotEmpty && fund.fundType == FundTypeEnum.corporate) ...[
+            if (reinvestmentOperations.isNotEmpty &&
+                fund.fundType == FundTypeEnum.corporate) ...[
               ReInvestmentSlider(
                 operations: reinvestmentOperations,
               ),
@@ -439,12 +467,16 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
       case 'draft':
         return SliderDraft(
           amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-          isReInvestment: operation.enterprisePreInvestment?.isReInvestment ?? false,
+          isReInvestment:
+              operation.enterprisePreInvestment?.isReInvestment ?? false,
           onTap: () => showDraftModal(
             context,
-            amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-            isReinvest: operation.enterprisePreInvestment?.isReInvestment ?? false,
-            profitability: operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
+            amountNumber:
+                operation.enterprisePreInvestment?.amount.toInt() ?? 0,
+            isReinvest:
+                operation.enterprisePreInvestment?.isReInvestment ?? false,
+            profitability:
+                operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
             termMonth: operation.enterprisePreInvestment?.deadline ?? 0,
             uuid: operation.enterprisePreInvestment?.uuidPreInvestment ?? '',
             moneyIcon: true,
@@ -455,6 +487,14 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
           ),
         );
       case 'pending':
+        if (operation.enterprisePreInvestment?.isReInvestment == true &&
+                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment ||
+            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment.toLowerCase()) {
+          return ReinvestmentPendingSlider(
+            amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
+            fundName: widget.fund.name,
+          );
+        }
         return ToValidateSlider(
           amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
           fundName: widget.fund.name,
@@ -471,12 +511,12 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
           fundName: widget.fund.name,
           onPressed: () {},
         );
+
       default:
-        return Text('Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
+        return Text(
+            'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
-
-  //add slider controller on init page
 
   @override
   Widget build(BuildContext context) {
@@ -490,8 +530,20 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: TextPoppins(
+            text: 'Mis inversiones recientes',
+            fontSize: 15,
+            isBold: true,
+            align: TextAlign.left,
+          ),
+        ),
+        const SizedBox(height: 5),
         CarouselSlider(
-          items: filteredOperations.map((operation) => _buildSliderWidget(operation)).toList(),
+          items: filteredOperations
+              .map((operation) => _buildSliderWidget(operation))
+              .toList(),
           options: CarouselOptions(
             height: 94,
             viewportFraction: 0.9,
@@ -517,10 +569,13 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
               child: Container(
                 width: 8.0,
                 height: 8.0,
-                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin:
+                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
+                  color: (Theme.of(context).brightness == Brightness.dark
+                          ? Colors.white
+                          : Colors.black)
                       .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
                 ),
               ),
@@ -556,7 +611,9 @@ class SliderInCourse extends ConsumerWidget {
           margin: const EdgeInsets.only(left: 5, right: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+            color: isDarkMode
+                ? const Color(backgroundDark)
+                : const Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -603,7 +660,8 @@ class ToValidateSlider extends ConsumerWidget {
     var whatsappUrlAndroid = Uri.parse(
       "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
     );
-    var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+    var whatsappUrlIphone =
+        Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
     if (defaultTargetPlatform == TargetPlatform.android) {
       await launchUrl(whatsappUrlAndroid);
@@ -627,7 +685,9 @@ class ToValidateSlider extends ConsumerWidget {
             margin: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+              color: isDarkMode
+                  ? const Color(backgroundDark)
+                  : const Color(backgroundLight),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
@@ -674,7 +734,7 @@ class SliderValidationText extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          'Validacion',
+          'Validación',
           style: TextStyle(
             fontSize: 7,
             color: isDarkMode ? Colors.white : Colors.black,
@@ -715,7 +775,9 @@ class LabelInCourseState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode ? const Color(labelDarkContainer) : const Color(labelLightContainer),
+          color: isDarkMode
+              ? const Color(labelDarkContainer)
+              : const Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -727,7 +789,8 @@ class LabelInCourseState extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: isDarkMode ? const Color(textDark) : const Color(textLight),
+                color:
+                    isDarkMode ? const Color(textDark) : const Color(textLight),
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
               ),
@@ -735,6 +798,92 @@ class LabelInCourseState extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ReinvestmentPendingSlider extends ConsumerWidget {
+  final int amount;
+  final String fundName;
+  const ReinvestmentPendingSlider({
+    super.key,
+    required this.amount,
+    required this.fundName,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const backgroundLight = 0xffD6F6FF;
+    const backgroundDark = 0xff08273F;
+    return Stack(
+      children: [
+        GestureDetector(
+          onTap: () => () {},
+          child: Container(
+            width: 330,
+            height: 96,
+            margin: const EdgeInsets.only(left: 5, right: 5),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 2,
+                  ),
+                  AmountInvestment(
+                    amount: amount,
+                    fundName: fundName,
+                  ),
+                  const SizedBox(height: 1),
+                  const SliderBar(
+                    image: 'assets/images/money_bag.png',
+                    toValidate: true,
+                  ),
+                  const ReinvestmentValidationText(),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const LabelInCourseState(label: "📉 Inversión en curso"),
+      ],
+    );
+  }
+}
+
+class ReinvestmentValidationText extends ConsumerWidget {
+  const ReinvestmentValidationText({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Icon(
+          Icons.sim_card_alert_outlined,
+          color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+          size: 13,
+        ),
+        const SizedBox(width: 2),
+        Text(
+          'Tu reinversión esta a la espera de que finalice la inversión previa',
+          style: TextStyle(
+            fontSize: 7,
+            color: isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
+      ],
     );
   }
 }
