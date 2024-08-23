@@ -1,16 +1,18 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/page_select.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class PositionedColumn extends StatelessWidget {
+class PositionedColumn extends ConsumerWidget {
   const PositionedColumn({
     super.key,
     required this.index,
   });
   final int index;
   @override
-  Widget build(BuildContext context) {
-    const bool isDarkMode = false;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: Column(
@@ -18,28 +20,32 @@ class PositionedColumn extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PageSelect(
-            isDarkMode: false,
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
             index: index,
           ),
           const SizedBox(
             height: 20,
           ),
           OnboardingButton(
-            isDarkMode: isDarkMode,
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
             text: "Crear mi cuenta",
             onPressed: () => Navigator.pop(context),
           ),
           const SizedBox(
             height: 20,
           ),
-          const TextAsk(
-            isDarkMode: isDarkMode,
+          TextAsk(
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
           ),
           const SizedBox(
             height: 10,
           ),
           UnderlinedButtonText(
-            isDarkMode: isDarkMode,
+            isDarkMode: index == 0
+                ? false
+                : index == 1
+                    ? isDarkMode
+                    : true,
             text: "Ingresar",
             onPressed: () => Navigator.pop(context),
           ),
@@ -70,7 +76,12 @@ class UnderlinedButtonText extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           decoration: TextDecoration.underline,
-          color: isDarkMode ? Color(textColorDark) : Color(textColorLight),
+          decorationColor: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
+          color: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
           fontFamily: "Poppins",
           fontSize: 16,
           fontWeight: FontWeight.w700,
