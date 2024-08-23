@@ -216,24 +216,30 @@ class ImageAndGradientPage extends ConsumerWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               stops: [
-                0.5,
+                0.6,
                 1.0,
               ],
             ),
           ),
-          child: Center(
-            child: SizedBox(
-              width: 250,
-              child: TextPoppins(
-                text: text,
-                fontSize: 16,
-                isBold: true,
-                lines: 3,
-                align: TextAlign.center,
-                textDark: textDark,
-                textLight: textLight,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SizedBox(
+                width: 250,
+                child: TextPoppins(
+                  text: text,
+                  fontSize: 16,
+                  isBold: true,
+                  lines: 3,
+                  align: TextAlign.center,
+                  textDark: textDark,
+                  textLight: textLight,
+                ),
               ),
-            ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.33,
+              )
+            ],
           ),
         ),
       ],

@@ -5,7 +5,9 @@ class PageSelect extends ConsumerWidget {
   const PageSelect({
     super.key,
     required this.isDarkMode,
+    required this.index,
   });
+  final int index;
   final bool isDarkMode;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -15,11 +17,26 @@ class PageSelect extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ItemSelect(isSelected: true, isDarkMode: isDarkMode),
-          ItemSelect(isSelected: false, isDarkMode: isDarkMode),
-          ItemSelect(isSelected: false, isDarkMode: isDarkMode),
-          ItemSelect(isSelected: false, isDarkMode: isDarkMode),
-          ItemSelect(isSelected: false, isDarkMode: isDarkMode),
+          ItemSelect(
+            isSelected: index == 0,
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+          ),
+          ItemSelect(
+            isSelected: index == 1,
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+          ),
+          ItemSelect(
+            isSelected: index == 2,
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+          ),
+          ItemSelect(
+            isSelected: index == 3,
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+          ),
+          ItemSelect(
+            isSelected: index == 4,
+            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+          ),
         ],
       ),
     );

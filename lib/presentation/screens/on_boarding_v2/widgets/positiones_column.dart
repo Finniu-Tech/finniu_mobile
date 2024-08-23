@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 class PositionedColumn extends StatelessWidget {
   const PositionedColumn({
     super.key,
+    required this.index,
   });
-
+  final int index;
   @override
   Widget build(BuildContext context) {
     const bool isDarkMode = false;
@@ -16,7 +17,10 @@ class PositionedColumn extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const PageSelect(isDarkMode: false),
+          PageSelect(
+            isDarkMode: false,
+            index: index,
+          ),
           const SizedBox(
             height: 20,
           ),
