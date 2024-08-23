@@ -32,7 +32,7 @@ class PageOneContainer extends ConsumerWidget {
           colors: isDarkMode ? gradientDark : gradientLight,
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          stops: const [0.0, 0.5, 1.0],
+          stops: const [0.0, 0.35, 1.0],
         ),
       ),
       child: Column(
@@ -63,6 +63,73 @@ class PageOneContainer extends ConsumerWidget {
             Icons.arrow_forward,
             size: 24,
             color: isDarkMode ? const Color(textDark) : const Color(textLight),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageTwoContainer extends ConsumerWidget {
+  const PageTwoContainer({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff191919;
+    const int backgroundLight = 0xffFFFFFF;
+
+    const int lineColor = 0xff65DCFF;
+    const String text =
+        "Comienza a invertir desde S/1,000 y \$1,000  sin comisiones";
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      color: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Stack(
+            children: [
+              Image.asset(
+                "assets/onboarding/onboarding_image_1.png",
+                width: 250,
+                height: 305,
+              ),
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: SizedBox(
+                  width: 250,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        width: 170,
+                        height: 7,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: const Color(lineColor),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 250,
+            child: TextPoppins(
+              text: text,
+              fontSize: 16,
+              isBold: true,
+              lines: 2,
+              align: TextAlign.center,
+            ),
           ),
         ],
       ),

@@ -32,7 +32,12 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
       height: MediaQuery.of(context).size.height,
       child: Stack(
         children: [
-          const PageOneContainer(),
+          PageView(
+            children: const [
+              PageOneContainer(),
+              PageTwoContainer(),
+            ],
+          ),
           Positioned(
             bottom: MediaQuery.of(context).size.height * 0.1,
             child: const PositionedColumn(),
