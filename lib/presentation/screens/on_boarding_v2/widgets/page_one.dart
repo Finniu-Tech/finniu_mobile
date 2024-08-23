@@ -35,36 +35,44 @@ class PageOneContainer extends ConsumerWidget {
           stops: const [0.0, 0.35, 1.0],
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset(
-            "assets/onboarding/logo_onboarding_${isDarkMode ? "dark" : "light"}.png",
-            width: 200,
-            height: 180,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          const SizedBox(
-            width: 250,
-            child: TextPoppins(
-              text: text,
-              fontSize: 16,
-              isBold: true,
-              lines: 2,
-              align: TextAlign.center,
-              textDark: textDark,
-              textLight: textLight,
-            ),
-          ),
-          Icon(
-            Icons.arrow_forward,
-            size: 24,
-            color: isDarkMode ? const Color(textDark) : const Color(textLight),
-          ),
-        ],
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/onboarding/logo_onboarding_${isDarkMode ? "dark" : "light"}.png",
+                width: 200,
+                height: 180,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const SizedBox(
+                width: 250,
+                child: TextPoppins(
+                  text: text,
+                  fontSize: 16,
+                  isBold: true,
+                  lines: 2,
+                  align: TextAlign.center,
+                  textDark: textDark,
+                  textLight: textLight,
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward,
+                size: 24,
+                color:
+                    isDarkMode ? const Color(textDark) : const Color(textLight),
+              ),
+              SizedBox(
+                height: constraints.maxHeight / 3,
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -88,50 +96,66 @@ class PageTwoContainer extends ConsumerWidget {
       color: isDarkMode
           ? const Color(backgroundDark)
           : const Color(backgroundLight),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Stack(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                "assets/onboarding/onboarding_image_1.png",
-                width: 250,
-                height: 305,
-              ),
-              Positioned(
-                bottom: 0,
-                right: 0,
-                child: SizedBox(
-                  width: 250,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+              Stack(
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Container(
-                        width: 170,
-                        height: 7,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(lineColor),
-                        ),
+                      const SizedBox(
+                        height: 60,
+                      ),
+                      Image.asset(
+                        "assets/onboarding/onboarding_image_1.png",
+                        width: 250,
+                        height: constraints.maxHeight / 3 * 1.4,
                       ),
                     ],
                   ),
+                  Positioned(
+                    bottom: 0,
+                    right: 0,
+                    child: SizedBox(
+                      width: 250,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            width: 170,
+                            height: 7,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: const Color(lineColor),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                width: 250,
+                child: TextPoppins(
+                  text: text,
+                  fontSize: 16,
+                  isBold: true,
+                  lines: 2,
+                  align: TextAlign.center,
                 ),
               ),
+              SizedBox(
+                height: constraints.maxHeight / 3,
+              ),
             ],
-          ),
-          const SizedBox(
-            width: 250,
-            child: TextPoppins(
-              text: text,
-              fontSize: 16,
-              isBold: true,
-              lines: 2,
-              align: TextAlign.center,
-            ),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

@@ -32,7 +32,7 @@ class PositionedColumn extends ConsumerWidget {
             onPressed: () => Navigator.pop(context),
           ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           TextAsk(
             isDarkMode: index == 0 || index == 1 ? isDarkMode : true,

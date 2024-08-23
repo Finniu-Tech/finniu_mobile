@@ -1,8 +1,12 @@
 import 'dart:async';
-
+import 'package:finniu/constants/colors.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/page_one.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/positiones_column.dart';
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class OnBoardingScreen extends ConsumerWidget {
@@ -81,11 +85,51 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
               PageFiveContainer(),
             ],
           ),
+          _index == 0 ? const SwitchTheme() : const SizedBox(),
           Positioned(
-            bottom: MediaQuery.of(context).size.height * 0.1,
+            bottom: 25,
             child: PositionedColumn(
               index: _index,
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class SwitchTheme extends ConsumerWidget {
+  const SwitchTheme({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.read(settingsNotifierProvider.notifier);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    return Positioned(
+      top: MediaQuery.of(context).size.height * 0.1,
+      right: 20,
+      child: Row(
+        children: [
+          TextPoppins(
+            text: isDarkMode ? 'Dark mode' : 'Light mode',
+            fontSize: 10,
+            isBold: true,
+          ),
+          const SizedBox(width: 10),
+          FlutterSwitch(
+            width: 45,
+            height: 24,
+            value: isDarkMode ? true : false,
+            inactiveColor: const Color(primaryDark),
+            activeColor: const Color(primaryLight),
+            inactiveToggleColor: const Color(primaryLight),
+            activeToggleColor: const Color(primaryDark),
+            onToggle: (value) {
+              Preferences.isDarkMode = value;
+              value ? settings.setDarkMode() : settings.setLightMode();
+            },
           ),
         ],
       ),
