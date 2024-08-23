@@ -136,3 +136,107 @@ class PageTwoContainer extends ConsumerWidget {
     );
   }
 }
+
+class PageThreeContainer extends ConsumerWidget {
+  const PageThreeContainer({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const String text =
+        "Puedes invertir en plazos de 6, 12 y 24 meses con intereses mensuales";
+    const String imageUrl = "assets/onboarding/onboarding_image_2.png";
+
+    return const ImageAndGradientPage(
+      text: text,
+      imageUrl: imageUrl,
+    );
+  }
+}
+
+class PageFourContainer extends ConsumerWidget {
+  const PageFourContainer({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const String text = "Simula tu inversión y proyecta tus rendimientos";
+    const String imageUrl = "assets/onboarding/onboarding_image_3.png";
+
+    return const ImageAndGradientPage(
+      text: text,
+      imageUrl: imageUrl,
+    );
+  }
+}
+
+class PageFiveContainer extends ConsumerWidget {
+  const PageFiveContainer({
+    super.key,
+  });
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const String text =
+        "Recibe tu capital y tus intereses garantizado en la fecha establecida";
+    const String imageUrl = "assets/onboarding/onboarding_image_4.png";
+
+    return const ImageAndGradientPage(
+      text: text,
+      imageUrl: imageUrl,
+    );
+  }
+}
+
+class ImageAndGradientPage extends ConsumerWidget {
+  const ImageAndGradientPage({
+    super.key,
+    required this.text,
+    required this.imageUrl,
+  });
+  final String text;
+  final String imageUrl;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const List<Color> gradient = [
+      Colors.transparent,
+      Color(0xFF171717),
+    ];
+
+    const int textDark = 0xffFFFFFF;
+    const int textLight = 0xffFFFFFF;
+    return Stack(
+      children: [
+        Image.asset(imageUrl),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: gradient,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              stops: [
+                0.5,
+                1.0,
+              ],
+            ),
+          ),
+          child: Center(
+            child: SizedBox(
+              width: 250,
+              child: TextPoppins(
+                text: text,
+                fontSize: 16,
+                isBold: true,
+                lines: 3,
+                align: TextAlign.center,
+                textDark: textDark,
+                textLight: textLight,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}

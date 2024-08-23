@@ -36,6 +36,9 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
             children: const [
               PageOneContainer(),
               PageTwoContainer(),
+              PageThreeContainer(),
+              PageFourContainer(),
+              PageFiveContainer(),
             ],
           ),
           Positioned(
