@@ -103,9 +103,10 @@ class PageTwoContainer extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Stack(
+                alignment: Alignment.bottomCenter,
                 children: [
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(
@@ -114,28 +115,24 @@ class PageTwoContainer extends ConsumerWidget {
                       Image.asset(
                         "assets/onboarding/onboarding_image_1.png",
                         width: 250,
-                        height: constraints.maxHeight / 3 * 1.4,
                       ),
                     ],
                   ),
                   Positioned(
                     bottom: 0,
                     right: 0,
-                    child: SizedBox(
-                      width: 250,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 170,
-                            height: 7,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: const Color(lineColor),
-                            ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          width: 170,
+                          height: 7,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color(lineColor),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
