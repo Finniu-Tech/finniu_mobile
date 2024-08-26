@@ -32,6 +32,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/show_draft_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour_container.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
@@ -77,9 +78,18 @@ class HomeScreenV2 extends HookConsumerWidget {
 
             return userProfile.when(
               data: (profile) {
-                return HomeBody(
-                  currentTheme: currentTheme,
-                  userProfile: profile,
+                return Stack(
+                  children: [
+                    HomeBody(
+                      currentTheme: currentTheme,
+                      userProfile: profile,
+                    ),
+                    Positioned(
+                      left: 0,
+                      top: MediaQuery.of(context).size.height * 0.2,
+                      child: const ShowTourContainer(),
+                    ),
+                  ],
                 );
               },
               loading: () => const Center(child: CircularProgressIndicator()),
@@ -289,11 +299,6 @@ class _BodyHomeUpperSectionWidgetState
                           });
                         },
                       ),
-                      // const CarrouselSlider(),
-                      // const SizedBox(
-                      //   height: 10,
-                      // ),
-                      // const ContainerSliderDraft(),
                       const SizedBox(
                         height: 10,
                       ),
