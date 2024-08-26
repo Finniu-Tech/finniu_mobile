@@ -37,7 +37,7 @@ class PositionedColumn extends ConsumerWidget {
                     ? isDarkMode
                     : true,
             text: "Crear mi cuenta",
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushNamed(context, '/sign_up_email'),
           ),
           const SizedBox(
             height: 10,
@@ -59,7 +59,7 @@ class PositionedColumn extends ConsumerWidget {
                     ? isDarkMode
                     : true,
             text: "Ingresar",
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pushNamed(context, '/login_email'),
           ),
           const SizedBox(
             height: 10,

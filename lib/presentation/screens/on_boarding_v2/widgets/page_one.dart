@@ -49,9 +49,9 @@ class PageOneContainer extends ConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
-              const SizedBox(
-                width: 250,
-                child: TextPoppins(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.6,
+                child: const TextPoppins(
                   text: text,
                   fontSize: 16,
                   isBold: true,
