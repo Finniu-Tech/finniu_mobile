@@ -20,14 +20,22 @@ class PositionedColumn extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           PageSelect(
-            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+            isDarkMode: index == 0
+                ? false
+                : index == 1
+                    ? isDarkMode
+                    : true,
             index: index,
           ),
           const SizedBox(
             height: 20,
           ),
           OnboardingButton(
-            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+            isDarkMode: index == 0
+                ? false
+                : index == 1
+                    ? isDarkMode
+                    : true,
             text: "Crear mi cuenta",
             onPressed: () => Navigator.pop(context),
           ),
@@ -35,7 +43,11 @@ class PositionedColumn extends ConsumerWidget {
             height: 10,
           ),
           TextAsk(
-            isDarkMode: index == 0 || index == 1 ? isDarkMode : true,
+            isDarkMode: index == 0
+                ? false
+                : index == 1
+                    ? isDarkMode
+                    : true,
           ),
           const SizedBox(
             height: 10,
@@ -48,6 +60,9 @@ class PositionedColumn extends ConsumerWidget {
                     : true,
             text: "Ingresar",
             onPressed: () => Navigator.pop(context),
+          ),
+          const SizedBox(
+            height: 10,
           ),
         ],
       ),
@@ -101,11 +116,13 @@ class TextAsk extends StatelessWidget {
   Widget build(BuildContext context) {
     const int textColorDark = 0xffFFFFFF;
     const int textColorLight = 0xff000000;
+    const String text = "¿Ya tienes una cuenta?";
     return TextPoppins(
-      text: "¿Ya tienes una cuenta?",
+      text: text,
       fontSize: 16,
       isBold: false,
       textLight: isDarkMode ? textColorDark : textColorLight,
+      textDark: isDarkMode ? textColorDark : textColorLight,
     );
   }
 }

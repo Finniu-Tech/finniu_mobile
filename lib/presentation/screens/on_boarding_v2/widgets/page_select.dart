@@ -53,7 +53,7 @@ class ItemSelect extends StatelessWidget {
   final bool isDarkMode;
   final int itemDarkSelect = 0xffA2E6FA;
   final int itemLightSelect = 0xff0D3A5C;
-  final int itemDarkNotSelect = 0xff141414;
+  final int itemDarkNotSelect = 0xff434343;
   final int itemLightNotSelect = 0xffE6E6E6;
 
   @override

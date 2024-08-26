@@ -137,9 +137,9 @@ class PageTwoContainer extends ConsumerWidget {
                   ),
                 ],
               ),
-              const SizedBox(
-                width: 250,
-                child: TextPoppins(
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.8,
+                child: const TextPoppins(
                   text: text,
                   fontSize: 16,
                   isBold: true,
@@ -148,7 +148,7 @@ class PageTwoContainer extends ConsumerWidget {
                 ),
               ),
               SizedBox(
-                height: constraints.maxHeight / 3,
+                height: MediaQuery.of(context).size.height * 0.3,
               ),
             ],
           );
@@ -220,14 +220,18 @@ class ImageAndGradientPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     const List<Color> gradient = [
       Colors.transparent,
-      Color(0xFF171717),
+      Color(0xFF000000),
     ];
 
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xffFFFFFF;
     return Stack(
       children: [
-        Image.asset(imageUrl),
+        Image.asset(
+          imageUrl,
+          height: MediaQuery.of(context).size.height,
+          fit: BoxFit.fill,
+        ),
         Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
@@ -237,7 +241,7 @@ class ImageAndGradientPage extends ConsumerWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               stops: [
-                0.6,
+                0.5,
                 1.0,
               ],
             ),
@@ -259,7 +263,7 @@ class ImageAndGradientPage extends ConsumerWidget {
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.33,
-              )
+              ),
             ],
           ),
         ),
