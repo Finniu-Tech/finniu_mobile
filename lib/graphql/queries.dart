@@ -1199,8 +1199,8 @@ class QueryRepository {
 
   static String get rentabilityGraphic {
     return '''
-      query rentabilityGraph(\$timeLine: TimeLineEnum) {
-        rentabilityGraph(timeLine: \$timeLine) {
+      query rentabilityGraph(\$timeLine: TimeLineEnum, \$fundUUID: String) {
+        rentabilityGraph(timeLine: \$timeLine, investmentFundUuid: \$fundUUID) {
           rentabilityInPen {
             month
             amountPoint
@@ -1210,16 +1210,23 @@ class QueryRepository {
             amountPoint
           }
         }
-}
+      }
+
     ''';
   }
 
   static String get userInfoAllInvestment {
     return '''
-     query userInfoAllInvestment {
+      query userInfoAllInvestment {
       userInfoAllInvestment{
           invesmentInSoles {
             investmentPending{
+              uuid
+              amount
+              finishDateInvestment
+              isReInvestment
+            }
+            invesmentInProcess{
               uuid
               amount
               finishDateInvestment
@@ -1229,6 +1236,9 @@ class QueryRepository {
               amount
               finishDateInvestment
               reinvestmentAvailable
+              actionStatus
+              isReInvestment
+              
             }
             invesmentFinished{
               uuid
@@ -1241,12 +1251,21 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+              isReInvestment
+              
+            }
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
             }
             invesmentInCourse{
               uuid
               amount
               finishDateInvestment
               reinvestmentAvailable
+              actionStatus
+              isReInvestment
             }
             invesmentFinished{
               uuid
@@ -1256,6 +1275,8 @@ class QueryRepository {
           }
         }
       }
+  
+
     ''';
   }
 
@@ -1304,6 +1325,26 @@ class QueryRepository {
             isJointAccount
             isDefaultAccount
             createdAt
+          }
+          investmentFund{
+            uuid
+            name
+            icon
+            listBackgroundColorDark
+            listBackgroundColorLight
+            detailBackgroundColorDark
+            detailBackgroundColorLight
+            backgroundImageUrl
+            assetsUnderManagement
+            mainImageUrl
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorDarkSecondary
+            detailBackgroundColorSecondaryLight
           }
         }
       }
@@ -1424,5 +1465,74 @@ class QueryRepository {
         }
       }
     ''';
+  }
+
+  static String get regionsV2 {
+    return '''
+     query Region{
+      regions {
+        id
+        nomDpto
+      }
+    }
+    ''';
+  }
+
+  static String get getProvincesByIdV2 {
+    return '''
+      query getProvinciasByIdV2(\$idDpto: String!) {
+        provincias(idDpto: \$idDpto) {
+          id
+          nomProv
+        }
+      }
+      ''';
+  }
+
+  static String get getDistrictsByProvinceIdV2 {
+    return '''
+    query getDistritosByProvinceIdV2(\$idProv: String!) {
+      distritos(idProv: \$idProv) {
+        id
+        nomDist
+      }
+    }
+''';
+  }
+
+  static String get getLastOperationStatus {
+    return '''
+      query getLastOperations(\$fundUUID: String!){
+        getStatusLastOperation(investmentFundsUuid: \$fundUUID){
+          investmentFund{
+            name
+            uuid
+            fundType
+          }
+          typeInvestment
+          agroInvestment{
+            investmentFundName
+            uuid
+            parcelAmount
+            parcelNumber
+            numberOfInstallments
+            parcelMonthlyInstallment
+            
+          }
+          preInvestment{
+            uuidPreInvestment
+            amount
+            status
+            actionStatus
+            currency
+            rentability
+            deadline
+            isReInvestment
+          }
+        }
+        
+      }
+
+  ''';
   }
 }

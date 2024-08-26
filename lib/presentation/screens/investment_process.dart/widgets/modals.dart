@@ -33,7 +33,7 @@ class ThanksForInvestingModal extends ConsumerWidget {
     final String textTanks = "Gracias por tu comprensión!";
     final String anyResponse = "";
     final String textBody =
-        "Recuerda que las tranferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!";
+        "Recuerda que las transferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!";
 
     return ThanksModalBody(
       titleText: titleText,
@@ -296,7 +296,7 @@ class AccountNumbersWidget extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    'N de cuenta $textCurrency Interbank ',
+                    'N de cuenta corriente $textCurrency Interbank ',
                     style: TextStyle(
                       color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
                       fontSize: 12,

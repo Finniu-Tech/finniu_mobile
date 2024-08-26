@@ -73,7 +73,7 @@ dependencies:
   flutter_flavorizr: ^2.2.3
   sensors_plus: ^4.0.2
   permission_handler: ^11.3.1
-
+  auto_size_text: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -144,7 +144,6 @@ flutter:
     - assets/benefits_modal/
     - assets/svg_icons/
     - assets/tour/
-
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

@@ -52,3 +52,25 @@ class SaveCorporateInvestmentResponse {
     );
   }
 }
+
+class SaveCorporateReInvestmentInput {
+  final String preInvestmentUUID;
+  final String finalAmount;
+  final String currency;
+  final String deadlineUUID;
+  final String? coupon;
+  final OriginFunds originFounds;
+  final String typeReinvestment;
+  final String? bankAccountSender;
+
+  const SaveCorporateReInvestmentInput({
+    required this.preInvestmentUUID,
+    required this.finalAmount,
+    required this.currency,
+    required this.deadlineUUID,
+    this.coupon,
+    required this.originFounds,
+    required this.typeReinvestment,
+    this.bankAccountSender,
+  });
+}

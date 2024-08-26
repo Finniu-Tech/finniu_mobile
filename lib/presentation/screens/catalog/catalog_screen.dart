@@ -40,6 +40,51 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "go to '/v2/form_about_me'",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_about_me');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to '/v2/form_legal_terms'",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_legal_terms');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to /v2/form_job v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_job');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to /v2/form_location v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_location');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to /v2/form_personal_data v2",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_personal_data');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "go to v2/complete_details v2",
               onPressed: () {
                 Navigator.pushNamed(context, 'v2/complete_details');
@@ -236,7 +281,7 @@ class CatalogScreen extends HookConsumerWidget {
 
             // ),
             // const SizedBox(height: 70),
-            const GraphicContainer(),
+            GraphicContainer(),
 
             const SizedBox(height: 10),
 

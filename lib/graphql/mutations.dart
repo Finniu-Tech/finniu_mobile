@@ -452,11 +452,13 @@ class MutationRepository {
 
   static String updateReInvestment() {
     return '''
-      mutation updateReInvestment(\$preInvestmentUUID: String!, \$userReadContract:Boolean!, \$files: [String]){
+      mutation updateReInvestment(\$preInvestmentUUID: String!, \$userReadContract:Boolean!, \$files: [String], \$bankAccountReceiverUUID: String, \$bankAccountSenderUUID: String){
         updateReInvestment(input:{
           preInvestmentUuid: \$preInvestmentUUID,
           userReadContract: \$userReadContract,
           filesTransaction: \$files,
+          bankAccountReceiver: \$bankAccountReceiverUUID,
+          bankAccountSender: \$bankAccountSenderUUID
         }){
           success
           reInvestmentUuid
@@ -545,6 +547,43 @@ class MutationRepository {
           }
         }
       }
+    ''';
+  }
+
+  static String saveCreateUserV2() {
+    return '''
+     mutation CreateUserV2 (
+      \$nickName: String!
+      \$countryPrefix: String!
+      \$phoneNumber: String!
+      \$email: String!
+      \$password: String!
+      \$confirmPassword: String!
+      \$acceptTermsConditions: Boolean!
+      \$acceptPrivacyPolicy: Boolean!
+      ){
+      registerUserV2(input:{
+        nickName: \$nickName,
+        countryPrefix:\$countryPrefix,
+        phoneNumber: \$phoneNumber,
+        email:\$email,
+        password:\$password",
+        confirmPassword:\$confirmPassword,
+        acceptPrivacyPolicy:\$acceptTermsConditions,
+        acceptTermsConditions:\$acceptPrivacyPolicy
+      }){
+        success
+        messages{
+          field
+          message
+          errorCode
+        }
+        user {
+          id
+          email
+        }
+      }
+    }
     ''';
   }
 }

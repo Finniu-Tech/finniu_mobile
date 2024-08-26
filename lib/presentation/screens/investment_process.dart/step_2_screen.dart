@@ -6,6 +6,7 @@ import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
+import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
@@ -33,12 +34,14 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
   final FundEntity fund;
   final String preInvestmentUUID;
   final String amount;
+  final bool? isReInvestment;
 
   const InvestmentProcessStep2Screen({
     super.key,
     required this.fund,
     required this.preInvestmentUUID,
     required this.amount,
+    this.isReInvestment,
   });
 
   @override
@@ -49,11 +52,10 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
         isDarkMode: currentTheme.isDarkMode,
-        // backgroundColor:
-        //     currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(scaffoldSkyBlueBackground),
         backgroundColor:
             currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
-        body: Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID),
+        body:
+            Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID, isReInvestment: isReInvestment),
       ),
     );
   }
@@ -63,35 +65,68 @@ class Step2Body extends HookConsumerWidget {
   final FundEntity fund;
   final String amount;
   final String preInvestmentUUID;
+  final bool? isReInvestment;
   const Step2Body({
     super.key,
     required this.fund,
     required this.amount,
     required this.preInvestmentUUID,
+    this.isReInvestment,
   });
 
-  Future<void> getImageFromGallery(context, ref) async {
-    // Verify if the device has permission to access the gallery
+  Future<void> getImageFromGallery(BuildContext context, WidgetRef ref) async {
     PermissionStatus status = await Permission.photos.status;
+    print('Initial status: $status');
     bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-    if (status.isGranted) {
-      // The permission is already granted, proceed with the image selection
-      _openGallery(context, ref);
-    } else if (status.isDenied) {
-      // The user has not granted access to the gallery, request it
+    if (Platform.isIOS) {
+      if (status.isGranted || status.isLimited) {
+        await _openGallery(context, ref);
+      } else if (status.isDenied) {
+        status = await Permission.photos.request();
+        if (status.isGranted || status.isLimited) {
+          // ignore: use_build_context_synchronously
+          await _openGallery(context, ref);
+        } else {
+          _showPermissionDeniedDialog(context, isDarkMode);
+        }
+      } else if (status.isPermanentlyDenied) {
+        _showOpenSettingsDialog(context, isDarkMode);
+      }
+    } else {
+      // Para Android
       if (status.isGranted) {
-        _openGallery(context, ref);
+        await _openGallery(context, ref);
       } else {
-        // The user has denied access to the gallery
+        await _openGallery(context, ref);
+      }
+    }
+  }
+
+  Future<void> _openGallery(context, ref) async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final List<XFile> images = await picker.pickMultiImage();
+      if (images.isNotEmpty) {
+        List<String> voucherImageListBase64 = [];
+        List<String> voucherImageListPreview = [];
+        for (var image in images) {
+          final File imageFile = File(image.path);
+          final List<int> imageBytes = await imageFile.readAsBytes();
+          final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+          voucherImageListBase64.add(base64Image);
+          voucherImageListPreview.add(image.path);
+        }
+        ref.read(preInvestmentVoucherImagesProvider.notifier).state = voucherImageListBase64;
+        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = voucherImageListPreview;
+      }
+    } catch (e) {
+      bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+      if (e is PlatformException && e.code == 'photo_access_denied') {
+        _showOpenSettingsDialog(context, isDarkMode);
+      } else {
         _showPermissionDeniedDialog(context, isDarkMode);
       }
-    } else if (status.isLimited) {
-      // The user has limited access to the gallery
-      _openGallery(context, ref);
-    } else if (status.isPermanentlyDenied) {
-      // The user has permanently denied access to the gallery
-      _showOpenSettingsDialog(context, isDarkMode);
     }
   }
 
@@ -103,28 +138,6 @@ class Step2Body extends HookConsumerWidget {
   void _showOpenSettingsDialog(context, isDarkMode) {
     // Show a dialog indicating that the user has permanently denied access to the gallery
     showGrantPermissionModal(context, isDarkMode, true);
-  }
-
-  void _openGallery(context, ref) async {
-    final ImagePicker picker = ImagePicker();
-    final List<XFile> images = await picker.pickMultiImage();
-    if (images.isNotEmpty) {
-      List<String> voucherImageListBase64 = [];
-      List<String> voucherImageListPreview = [];
-      for (var image in images) {
-        final File imageFile = File(image.path);
-        final List<int> imageBytes = await imageFile.readAsBytes();
-        final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
-        voucherImageListBase64.add(base64Image);
-        voucherImageListPreview.add(image.path);
-      }
-      ref.read(preInvestmentVoucherImagesProvider.notifier).state = voucherImageListBase64;
-      ref
-          .read(
-            preInvestmentVoucherImagesPreviewProvider.notifier,
-          )
-          .state = voucherImageListPreview;
-    }
   }
 
   @override
@@ -214,7 +227,7 @@ class Step2Body extends HookConsumerWidget {
                   );
                 },
                 textButton: senderBankAccountState.value == null
-                    ? 'Desde que banco nos transfieres'
+                    ? 'Desde qué banco nos transfieres'
                     : senderBankAccountState.value!.bankAccount,
                 svgPath: 'assets/svg_icons/card-send.svg',
                 backgroundColor: isDarkMode
@@ -234,7 +247,7 @@ class Step2Body extends HookConsumerWidget {
                   );
                 },
                 textButton: receiverBankAccountState.value == null
-                    ? 'A que banco te depositamos'
+                    ? 'A qué banco te depositamos'
                     : receiverBankAccountState.value!.bankAccount,
                 svgPath: 'assets/svg_icons/card-receive.svg',
                 backgroundColor: isDarkMode
@@ -287,7 +300,7 @@ class Step2Body extends HookConsumerWidget {
                 width: 305,
                 // alignment: Alignment.centerLeft,
                 child: Text(
-                  'Adjunta tu constancia de transferencia: ',
+                  'Adjunta tu constancia(s) de transferencia: ',
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontSize: 14,
@@ -448,7 +461,7 @@ class Step2Body extends HookConsumerWidget {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Text(
-                            'Suba la foto nitida donde sea visible el código de operación',
+                            'Suba la foto(s) nítida donde sea visible el código de operación',
                             style: TextStyle(
                               color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
                               fontSize: 8,
@@ -517,6 +530,7 @@ class Step2Body extends HookConsumerWidget {
                   height: 50,
                   child: TextButton(
                     onPressed: () async {
+                      var response;
                       final base64Image = voucherImageBase64;
                       if (base64Image.isEmpty) {
                         CustomSnackbar.show(
@@ -543,15 +557,28 @@ class Step2Body extends HookConsumerWidget {
                         );
                         return;
                       }
-                      context.loaderOverlay.show();
-                      final response = await PreInvestmentDataSourceImp().update(
-                        client: ref.watch(gqlClientProvider).value!,
-                        uuid: preInvestmentUUID,
-                        readContract: ref.watch(userAcceptedTermsProvider),
-                        bankAccountReceiverUUID: receiverBankAccountState.value!.id,
-                        bankAccountSenderUUID: senderBankAccountState.value!.id,
-                        files: base64Image,
-                      );
+                      if (isReInvestment == true) {
+                        context.loaderOverlay.show();
+                        final UpdateReInvestmentParams updateReInvestmentParams = UpdateReInvestmentParams(
+                          preInvestmentUUID: preInvestmentUUID,
+                          userReadContract: ref.watch(userAcceptedTermsProvider),
+                          files: base64Image,
+                          bankAccountReceiver: receiverBankAccountState.value!.id,
+                          bankAccountSender: senderBankAccountState.value!.id,
+                        );
+                        response = await ref.read(updateReInvestmentProvider(updateReInvestmentParams).future);
+                      } else {
+                        context.loaderOverlay.show();
+                        response = await PreInvestmentDataSourceImp().update(
+                          client: ref.watch(gqlClientProvider).value!,
+                          uuid: preInvestmentUUID,
+                          readContract: ref.watch(userAcceptedTermsProvider),
+                          bankAccountReceiverUUID: receiverBankAccountState.value!.id,
+                          bankAccountSenderUUID: senderBankAccountState.value!.id,
+                          files: base64Image,
+                        );
+                      }
+
                       if (response.success == false) {
                         context.loaderOverlay.hide();
                         CustomSnackbar.show(
