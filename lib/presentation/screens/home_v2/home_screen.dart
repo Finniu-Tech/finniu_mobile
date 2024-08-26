@@ -65,9 +65,11 @@ class HomeScreenV2 extends HookConsumerWidget {
           currentTheme: currentTheme,
           userProfile: userProfile,
         ),
-        backgroundColor: Color(currentTheme.isDarkMode
-            ? scaffoldBlackBackground
-            : scaffoldLightGradientPrimary),
+        backgroundColor: Color(
+          currentTheme.isDarkMode
+              ? scaffoldBlackBackground
+              : scaffoldLightGradientPrimary,
+        ),
         bottomNavigationBar: const NavigationBarHome(),
         body: HookBuilder(
           builder: (context) {
@@ -164,8 +166,9 @@ class HomeBody extends HookConsumerWidget {
             child: Column(
               children: [
                 BodyHomeUpperSectionWidget(
-                    currentTheme: currentTheme,
-                    renderNonInvestment: renderNonInvestment),
+                  currentTheme: currentTheme,
+                  renderNonInvestment: renderNonInvestment,
+                ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: OurInvestmentFunds(),
@@ -285,24 +288,22 @@ class _BodyHomeUpperSectionWidgetState
                             selectedPage = index;
                           });
                         },
-
                       ),
-                      const CarrouselSlider(),
+                      // const CarrouselSlider(),
+                      // const SizedBox(
+                      //   height: 10,
+                      // ),
+                      // const ContainerSliderDraft(),
                       const SizedBox(
                         height: 10,
-                      ),
-                      const ContainerSliderDraft(),
-                      const SizedBox(
-                        height: 10,
-
                       ),
                       TextButton.icon(
                         icon: const Icon(
                           Icons.close,
                         ),
-                        label: Text("ver tour"),
+                        label: const Text("ver tour"),
                         onPressed: () => showTourV2(context),
-                      )
+                      ),
                     ],
                   ),
                   if (widget.renderNonInvestment)
@@ -383,8 +384,11 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
           reinvestmentOperations =
               LastOperation.filterByReInvestmentOperations(lastOperations);
           filteredOperations = lastOperations
-              .where((element) =>
-                  element.enterprisePreInvestment?.currency == selectedCurrency)
+              .where(
+                (element) =>
+                    element.enterprisePreInvestment?.currency ==
+                    selectedCurrency,
+              )
               .toList();
           lastOperations = filteredOperations;
         }
@@ -402,7 +406,7 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
               ),
               const SizedBox(
                 height: 10,
-              )
+              ),
             ],
             GraphicContainer(fund: fund),
             const SizedBox(height: 10),
@@ -516,8 +520,10 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         );
       case 'pending':
         if (operation.enterprisePreInvestment?.isReInvestment == true &&
-                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment ||
-            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment.toLowerCase()) {
+                operation.enterprisePreInvestment?.actionStatus ==
+                    ActionStatusEnum.defaultReInvestment ||
+            operation.enterprisePreInvestment?.actionStatus ==
+                ActionStatusEnum.defaultReInvestment.toLowerCase()) {
           return ReinvestmentPendingSlider(
             amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
             fundName: widget.fund.name,
@@ -542,7 +548,8 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
 
       default:
         return Text(
-            'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
+          'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado',
+        );
     }
   }
 
@@ -854,7 +861,9 @@ class ReinvestmentPendingSlider extends ConsumerWidget {
             margin: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+              color: isDarkMode
+                  ? const Color(backgroundDark)
+                  : const Color(backgroundLight),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
