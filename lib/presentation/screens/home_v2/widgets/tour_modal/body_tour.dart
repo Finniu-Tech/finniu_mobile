@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 class BodyTour extends StatelessWidget {
   const BodyTour({
     super.key,
+    required this.pageLength,
     required this.title,
     required this.textColor,
     required this.textBody,
@@ -24,6 +25,7 @@ class BodyTour extends StatelessWidget {
   final int indexTour;
   final bool eyeRender;
   final bool isFinal;
+  final int pageLength;
 
   @override
   Widget build(BuildContext context) {
@@ -62,15 +64,14 @@ class BodyTour extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   StateTour(
-                    items: 6,
+                    items: pageLength,
                     indexTour: indexTour,
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.9,
-                    child: TextPoppins(
+                    child: TextSans(
                       text: title,
                       fontSize: 20,
-                      isBold: true,
                       textDark: textColor,
                       textLight: textColor,
                       align: TextAlign.start,
@@ -82,10 +83,10 @@ class BodyTour extends StatelessWidget {
                   ),
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,
-                    child: TextPoppins(
+                    child: TextSans(
                       text: textBody,
                       fontSize: 16,
-                      isBold: false,
+                      fontWeight: FontWeight.w400,
                       textDark: textColor,
                       textLight: textColor,
                       lines: 3,
