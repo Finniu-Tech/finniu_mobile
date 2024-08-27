@@ -23,12 +23,10 @@ class SelectedBankDeposit extends ConsumerWidget {
     // const int iconLight = 0xff0D3A5C;
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 66,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,11 +47,15 @@ class SelectedBankDeposit extends ConsumerWidget {
                 fontSize: 14,
               ),
               TextPoppins(
-                text:
-                    "${bankAccountReceiver.bankName} **** **** **** ${maskString(bankAccountReceiver.bankAccount)}",
-                fontSize: 14,
-                isBold: true,
+                text: "${bankAccountReceiver.bankName}",
+                fontSize: 12,
+                isBold: false,
               ),
+              TextPoppins(
+                text: "Nro. Cuenta: ${bankAccountReceiver.bankAccount}",
+                fontSize: 12,
+                isBold: false,
+              )
             ],
           ),
           const Expanded(child: SizedBox()),

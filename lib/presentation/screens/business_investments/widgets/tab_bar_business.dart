@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -153,7 +154,7 @@ class CompletedList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "Finalizada",
+                            status: StatusInvestmentEnum.finished,
                           ),
                         );
                       },
@@ -197,8 +198,9 @@ class InProgressList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "En Curso",
-                            isReinvest: list[index].isReinvestAvailable ?? false,
+                            status: StatusInvestmentEnum.in_course,
+                            isReinvestAvailable: list[index].isReinvestAvailable ?? false,
+                            actionStatus: list[index].actionStatus ?? "",
                           ),
                         );
                       },
@@ -213,8 +215,9 @@ class InProgressList extends StatelessWidget {
                             '/v2/summary',
                             arguments: ArgumentsNavigator(
                               uuid: list[index].uuid,
-                              status: "En Curso",
-                              isReinvest: list[index].isReinvestAvailable ?? false,
+                              status: StatusInvestmentEnum.in_course,
+                              isReinvestAvailable: list[index].isReinvestAvailable ?? false,
+                              actionStatus: list[index].actionStatus ?? "",
                             ),
                           );
                         },
@@ -255,7 +258,7 @@ class ToValidateList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "Por validar",
+                            status: StatusInvestmentEnum.in_process,
                           ),
                         );
                       },
@@ -300,7 +303,7 @@ class PendingList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "Pendiente",
+                            status: StatusInvestmentEnum.pending,
                           ),
                         );
                       },

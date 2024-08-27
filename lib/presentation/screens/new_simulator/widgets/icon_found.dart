@@ -30,24 +30,20 @@ class IconFund extends ConsumerWidget {
               alignment: Alignment.centerRight,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: isDarkMode
-                    ? const Color(containerDark)
-                    : const Color(containerLight),
+                color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const SizedBox(
-                    width: 10,
+                    width: 25,
                   ),
                   Text(
                     'Fondo préstamo empresarial ',
                     textAlign: TextAlign.end,
                     style: TextStyle(
-                      color: isDarkMode
-                          ? const Color(textDark)
-                          : const Color(textLight),
+                      color: isDarkMode ? const Color(textDark) : const Color(textLight),
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -60,9 +56,7 @@ class IconFund extends ConsumerWidget {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(imageDark)
-                      : const Color(imageLight),
+                  color: isDarkMode ? const Color(imageDark) : const Color(imageLight),
                   borderRadius: BorderRadius.circular(100),
                 ),
                 child: Image.asset(
