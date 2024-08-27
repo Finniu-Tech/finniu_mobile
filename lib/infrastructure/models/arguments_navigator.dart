@@ -1,10 +1,12 @@
 class ArgumentsNavigator {
   final String uuid;
   final String status;
-  final bool isReinvest;
+  final bool isReinvestAvailable;
+  final String? actionStatus;
   ArgumentsNavigator({
     required this.uuid,
     required this.status,
-    this.isReinvest = false,
+    this.isReinvestAvailable = false,
+    this.actionStatus,
   });
 }

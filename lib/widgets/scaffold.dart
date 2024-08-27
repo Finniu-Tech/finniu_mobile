@@ -1,6 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:finniu/main.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';

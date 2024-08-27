@@ -18,7 +18,6 @@ class LastOperationDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    // print('response last operation: ${response.data}');
     if (response.hasException) {
       throw response.exception!;
     }

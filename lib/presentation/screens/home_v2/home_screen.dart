@@ -12,7 +12,7 @@ import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/last_operation_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
-import 'package:finniu/presentation/providers/onboarding_provider.dart';
+// import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -22,8 +22,9 @@ import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_b
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
+import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
+// import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/custom_app_bar.dart';
@@ -34,6 +35,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour_container.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
+import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -62,43 +64,45 @@ class HomeScreenV2 extends HookConsumerWidget {
     );
 
     return PopScope(
-      child: Scaffold(
-        appBar: CustomAppBar(
-          currentTheme: currentTheme,
-          userProfile: userProfile,
-        ),
-        backgroundColor: Color(
-          currentTheme.isDarkMode
+      child: AnalyticsAwareWidget(
+        screenName: 'Home Screen V2',
+        child: Scaffold(
+          appBar: CustomAppBar(
+            currentTheme: currentTheme,
+            userProfile: userProfile,
+          ),
+          backgroundColor: Color(currentTheme.isDarkMode
               ? scaffoldBlackBackground
-              : scaffoldLightGradientPrimary,
-        ),
-        bottomNavigationBar: const NavigationBarHome(),
-        body: HookBuilder(
-          builder: (context) {
-            final userProfile = ref.watch(userProfileFutureProvider);
+              : scaffoldLightGradientPrimary),
+          bottomNavigationBar: const NavigationBarHome(),
+          extendBody: true,
+          body: HookBuilder(
+            builder: (context) {
+              final userProfile = ref.watch(userProfileFutureProvider);
 
-            return userProfile.when(
-              data: (profile) {
-                return Stack(
-                  children: [
-                    HomeBody(
-                      currentTheme: currentTheme,
-                      userProfile: profile,
-                    ),
-                    if (seeLaterTour == true &&
-                        profile.hasCompletedTour == false)
-                      Positioned(
-                        left: 0,
-                        top: MediaQuery.of(context).size.height * 0.2,
-                        child: const ShowTourContainer(),
+              return userProfile.when(
+                data: (profile) {
+                  return Stack(
+                    children: [
+                      HomeBody(
+                        currentTheme: currentTheme,
+                        userProfile: profile,
                       ),
-                  ],
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Center(child: Text(error.toString())),
-            );
-          },
+                      if (seeLaterTour == true &&
+                          profile.hasCompletedTour == false)
+                        Positioned(
+                          left: 0,
+                          top: MediaQuery.of(context).size.height * 0.2,
+                          child: const ShowTourContainer(),
+                        ),
+                    ],
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, _) => Center(child: Text(error.toString())),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -134,19 +138,7 @@ class HomeBody extends HookConsumerWidget {
       loading: () => renderNonInvestment = true,
       error: (error, stackTrace) => renderNonInvestment = true,
     );
-    useEffect(
-      () {
-        final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
-        if (hasCompletedOnboarding == false) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.of(context)
-                .pushReplacementNamed('/onboarding_questions_start');
-          });
-        }
-        return null;
-      },
-      [],
-    );
+
     useEffect(
       () {
         print('has completed tour: ${userProfile.hasCompletedTour}');
@@ -162,6 +154,19 @@ class HomeBody extends HookConsumerWidget {
       },
       [],
     );
+
+    // useEffect(
+    //   () {
+    //     final hasCompletedOnboarding = ref.read(hasCompletedOnboardingProvider);
+    //     if (hasCompletedOnboarding == false) {
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         Navigator.of(context).pushReplacementNamed('/onboarding_questions_start');
+    //       });
+    //     }
+    //     return null;
+    //   },
+    //   [],
+    // );
 
     return LayoutBuilder(
       builder: (context, constraints) {
@@ -208,6 +213,9 @@ class HomeBody extends HookConsumerWidget {
                     child: const Text('Ver Catalogo de Widgets'),
                   ),
                 ],
+                const SizedBox(
+                  height: 120,
+                ),
               ],
             ),
           ),
@@ -383,22 +391,19 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
     //print('fund uuid: ${fund.uuid}');
     final lastOperationsAsyncValue =
         ref.watch(lastOperationsFutureProvider(fund.uuid));
-    List<LastOperation> reinvestmentOperations = [];
+    // List<LastOperation> reinvestmentOperations = [];
     final isSoles = ref.watch(isSolesStateProvider);
     final selectedCurrency = isSoles ? 'nuevo sol' : 'dolar';
     List<LastOperation> filteredOperations = [];
     return lastOperationsAsyncValue.when(
       data: (lastOperations) {
         if (fund.fundType == FundTypeEnum.corporate) {
-          reinvestmentOperations =
-              LastOperation.filterByReInvestmentOperations(lastOperations);
+          // reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
           filteredOperations = lastOperations
-              .where(
-                (element) =>
-                    element.enterprisePreInvestment?.currency ==
-                    selectedCurrency,
-              )
+              .where((element) =>
+                  element.enterprisePreInvestment?.currency == selectedCurrency)
               .toList();
+
           lastOperations = filteredOperations;
         }
 
@@ -427,13 +432,16 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
             ],
-            if (reinvestmentOperations.isNotEmpty &&
-                fund.fundType == FundTypeEnum.corporate) ...[
-              ReInvestmentSlider(
-                operations: reinvestmentOperations,
-              ),
-              const SizedBox(height: 10),
-            ],
+            const ReinvestmentSlider(
+              isV2: true,
+            ),
+
+            // if (reinvestmentOperations.isNotEmpty && fund.fundType == FundTypeEnum.corporate) ...[
+            //   ReInvestmentSlider(
+            //     operations: reinvestmentOperations,
+            //   ),
+            //   const SizedBox(height: 10),
+            // ],
             Center(
               child: AllInvestmentButton(
                 text: 'Ver todas mis inversiones',
@@ -557,8 +565,7 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
 
       default:
         return Text(
-          'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado',
-        );
+            'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
 
