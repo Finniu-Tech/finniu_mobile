@@ -39,6 +39,7 @@ class TourEight extends StatelessWidget {
         ),
         Container(
           padding: const EdgeInsets.all(10),
+          width: MediaQuery.of(context).size.width * 0.9,
           height: MediaQuery.of(context).size.height * 0.45,
           decoration: const BoxDecoration(
             color: Color(imageContainerColor),
@@ -48,7 +49,9 @@ class TourEight extends StatelessWidget {
           ),
           child: Image.asset(
             "assets/tour/imagen_tour8.png",
+            width: MediaQuery.of(context).size.width * 0.9,
             height: MediaQuery.of(context).size.height * 0.45,
+            fit: BoxFit.fill,
           ),
         ),
       ],
