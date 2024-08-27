@@ -18,7 +18,7 @@ class LastOperationDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('response last operation: ${response.data}');
+    // print('response last operation: ${response.data}');
     if (response.hasException) {
       throw response.exception!;
     }
@@ -29,6 +29,8 @@ class LastOperationDataSource extends GraphQLBaseDataSource {
       return <LastOperation>[];
     }
 
-    return data.map((item) => LastOperation.fromJson(item as Map<String, dynamic>)).toList();
+    return data
+        .map((item) => LastOperation.fromJson(item as Map<String, dynamic>))
+        .toList();
   }
 }

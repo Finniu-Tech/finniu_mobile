@@ -1,5 +1,7 @@
+import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/helpers_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/tours_pages.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void showTourV2(BuildContext context) {
   const int background = 0xff08273F;
@@ -10,14 +12,14 @@ void showTourV2(BuildContext context) {
   );
 }
 
-class TourContainer extends StatefulWidget {
+class TourContainer extends ConsumerStatefulWidget {
   const TourContainer({super.key});
 
   @override
-  State<TourContainer> createState() => _TourContainerState();
+  ConsumerState<TourContainer> createState() => _TourContainerState();
 }
 
-class _TourContainerState extends State<TourContainer> {
+class _TourContainerState extends ConsumerState<TourContainer> {
   List<Widget> childrenList = [];
   final PageController controller = PageController(
     initialPage: 0,
@@ -34,7 +36,7 @@ class _TourContainerState extends State<TourContainer> {
           duration: const Duration(milliseconds: 500),
           curve: Curves.easeInOutCubic,
         ),
-        closed: () => Navigator.pop(context),
+        closed: () => seeAnotherTime(context, ref),
       ),
       TourOne(
         pageLength: itemList,
