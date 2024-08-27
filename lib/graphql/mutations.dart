@@ -589,17 +589,11 @@ class MutationRepository {
 
   static String completeLastTour() {
     return '''
-      mutation completedLastTour(\$hasCompletedTour: Boolean){
-        completedLastTour(hasCompletedTour: \$hasCompletedTour){
-          success
-          parcelMonthlyInstallment
-          messages{
-            field
-            message
-            errorCode
-          }
-        }
+     mutation completeLastTour( \$hasCompletedTour: Boolean! ){
+      completeLastTour(hasCompletedTour : \$hasCompletedTour){
+        success   
       }
+    }
     ''';
   }
 }

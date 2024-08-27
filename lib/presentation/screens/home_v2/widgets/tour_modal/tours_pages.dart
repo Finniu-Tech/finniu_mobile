@@ -1,7 +1,9 @@
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/body_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/button_icon_tour.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TourEight extends StatelessWidget {
   const TourEight({
@@ -427,7 +429,7 @@ class TourOne extends StatelessWidget {
   }
 }
 
-class TourInit extends StatelessWidget {
+class TourInit extends ConsumerWidget {
   const TourInit({
     super.key,
     required this.onPressed,
@@ -437,7 +439,8 @@ class TourInit extends StatelessWidget {
   final VoidCallback? closed;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    bool? seeLaterTour = ref.watch(seeLaterProvider);
     const int textColor = 0xffFFFFFF;
     const int textLinkColor = 0xffA2E6FA;
 
@@ -485,23 +488,24 @@ class TourInit extends StatelessWidget {
                     const SizedBox(
                       height: 15,
                     ),
-                    Center(
-                      child: GestureDetector(
-                        onTap: closed,
-                        child: const Text(
-                          'Ver en otro momento',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Color(textLinkColor),
-                            decorationThickness: 1.0,
-                            height: 2,
-                            color: Color(textLinkColor),
+                    if (seeLaterTour != true)
+                      Center(
+                        child: GestureDetector(
+                          onTap: closed,
+                          child: const Text(
+                            'Ver en otro momento',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              decoration: TextDecoration.underline,
+                              decorationColor: Color(textLinkColor),
+                              decorationThickness: 1.0,
+                              height: 2,
+                              color: Color(textLinkColor),
+                            ),
                           ),
                         ),
                       ),
-                    ),
                   ],
                 ),
                 Positioned(

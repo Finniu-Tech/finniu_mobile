@@ -6,8 +6,8 @@ import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final seeLaterProvider = StateProvider<bool>((ref) {
-  return false;
+final seeLaterProvider = StateProvider<bool?>((ref) {
+  return null;
 });
 
 final userProfileFutureProvider =
@@ -84,6 +84,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           address: userProfile.address,
           occupation: userProfile.occupation,
           percentCompleteProfile: percentaje,
+          hasCompletedTour: userProfile.hasCompletedTour,
         );
   }
   return success;

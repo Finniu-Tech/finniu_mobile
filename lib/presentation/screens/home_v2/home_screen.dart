@@ -48,7 +48,7 @@ class HomeScreenV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
-    bool seeLaterTour = ref.watch(seeLaterProvider);
+    bool? seeLaterTour = ref.watch(seeLaterProvider);
 
     useEffect(
       () {
@@ -85,7 +85,8 @@ class HomeScreenV2 extends HookConsumerWidget {
                       currentTheme: currentTheme,
                       userProfile: profile,
                     ),
-                    if (seeLaterTour && profile.hasCompletedTour == false)
+                    if (seeLaterTour == true &&
+                        profile.hasCompletedTour == false)
                       Positioned(
                         left: 0,
                         top: MediaQuery.of(context).size.height * 0.2,
@@ -119,7 +120,7 @@ class HomeBody extends HookConsumerWidget {
     bool renderNonInvestment = false;
     final homeReport = ref.watch(homeReportProviderV2);
     final userProfile = ref.watch(userProfileNotifierProvider);
-    bool seeLaterTour = ref.watch(seeLaterProvider);
+    bool? seeLaterTour = ref.watch(seeLaterProvider);
     homeReport.when(
       data: (data) {
         var reportSoles = data.solesBalance;
@@ -152,14 +153,14 @@ class HomeBody extends HookConsumerWidget {
         print('has seeLaterTour: ${seeLaterTour}');
 
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (userProfile.hasCompletedTour == false && seeLaterTour == false) {
+          if (userProfile.hasCompletedTour == false && seeLaterTour == null) {
             showTourV2(context);
           }
         });
 
         return null;
       },
-      [userProfile],
+      [],
     );
 
     return LayoutBuilder(
