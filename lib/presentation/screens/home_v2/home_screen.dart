@@ -48,6 +48,7 @@ class HomeScreenV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
+    bool seeLaterTour = ref.watch(seeLaterProvider);
 
     useEffect(
       () {
@@ -84,11 +85,12 @@ class HomeScreenV2 extends HookConsumerWidget {
                       currentTheme: currentTheme,
                       userProfile: profile,
                     ),
-                    Positioned(
-                      left: 0,
-                      top: MediaQuery.of(context).size.height * 0.2,
-                      child: const ShowTourContainer(),
-                    ),
+                    if (seeLaterTour && profile.hasCompletedTour == false)
+                      Positioned(
+                        left: 0,
+                        top: MediaQuery.of(context).size.height * 0.2,
+                        child: const ShowTourContainer(),
+                      ),
                   ],
                 );
               },
