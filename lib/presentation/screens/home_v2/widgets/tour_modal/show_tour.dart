@@ -39,6 +39,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         closed: () => seeAnotherTime(context, ref),
       ),
       TourOne(
+        closedTour: () => seeAnotherTime(context, ref),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),
@@ -46,6 +47,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         ),
       ),
       TourTwo(
+        closedTour: () => seeAnotherTime(context, ref),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),
@@ -53,6 +55,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         ),
       ),
       TourThree(
+        closedTour: () => seeAnotherTime(context, ref),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),
@@ -60,6 +63,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         ),
       ),
       TourFour(
+        closedTour: () => seeAnotherTime(context, ref),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),
@@ -67,6 +71,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         ),
       ),
       TourFive(
+        closedTour: () => seeAnotherTime(context, ref),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),
@@ -74,6 +79,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         ),
       ),
       TourSix(
+        closedTour: () => seeAnotherTime(context, ref),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),
@@ -81,6 +87,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         ),
       ),
       TourSeven(
+        closedTour: () => seeAnotherTime(context, ref),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),
@@ -88,6 +95,7 @@ class _TourContainerState extends ConsumerState<TourContainer> {
         ),
       ),
       TourEight(
+        closedTour: () => seeAnotherTime(context, ref, idFinal: true),
         pageLength: itemList,
         onPressed: () => controller.nextPage(
           duration: const Duration(milliseconds: 500),

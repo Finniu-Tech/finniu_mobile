@@ -6,6 +6,10 @@ import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
+final seeLaterProvider = StateProvider<bool>((ref) {
+  return false;
+});
+
 final userProfileFutureProvider =
     FutureProvider.autoDispose<UserProfile>((ref) async {
   final result = await ref.watch(gqlClientProvider.future).then(
@@ -127,6 +131,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? occupation,
     double? percentCompleteProfile,
     bool? hasCompletedTour,
+    bool? hasSeeLaterTour,
   }) {
     state = state.copyWith(
       id: id,

@@ -3,7 +3,6 @@
 //     final scanModel = scanModelFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
 ScanUserModel scanModelFromJson(String str) =>
     ScanUserModel.fromJson(json.decode(str));
@@ -75,30 +74,31 @@ class User {
 }
 
 class UserProfile {
-  UserProfile(
-      {this.firstName,
-      this.lastName,
-      this.email,
-      this.id,
-      this.nickName,
-      this.imageProfileUrl,
-      this.imageProfile,
-      this.civilStatus,
-      this.distrito,
-      this.documentNumber,
-      this.gender,
-      this.hasCompletedOnboarding,
-      this.isActive,
-      this.occupation,
-      this.provincia,
-      this.region,
-      this.typeDocument,
-      this.phoneNumber,
-      this.uuid,
-      this.password,
-      this.address,
-      this.percentCompleteProfile,
-      this.hasCompletedTour});
+  UserProfile({
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.id,
+    this.nickName,
+    this.imageProfileUrl,
+    this.imageProfile,
+    this.civilStatus,
+    this.distrito,
+    this.documentNumber,
+    this.gender,
+    this.hasCompletedOnboarding,
+    this.isActive,
+    this.occupation,
+    this.provincia,
+    this.region,
+    this.typeDocument,
+    this.phoneNumber,
+    this.uuid,
+    this.password,
+    this.address,
+    this.percentCompleteProfile,
+    this.hasCompletedTour,
+  });
 
   String? firstName;
   String? lastName;

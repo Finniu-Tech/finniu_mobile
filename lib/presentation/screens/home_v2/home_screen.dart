@@ -117,6 +117,7 @@ class HomeBody extends HookConsumerWidget {
     bool renderNonInvestment = false;
     final homeReport = ref.watch(homeReportProviderV2);
     final userProfile = ref.watch(userProfileNotifierProvider);
+    bool seeLaterTour = ref.watch(seeLaterProvider);
     homeReport.when(
       data: (data) {
         var reportSoles = data.solesBalance;
@@ -146,8 +147,10 @@ class HomeBody extends HookConsumerWidget {
     useEffect(
       () {
         print('has completed tour: ${userProfile.hasCompletedTour}');
+        print('has seeLaterTour: ${seeLaterTour}');
+
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (userProfile.hasCompletedTour == false) {
+          if (userProfile.hasCompletedTour == false && seeLaterTour == false) {
             showTourV2(context);
           }
         });

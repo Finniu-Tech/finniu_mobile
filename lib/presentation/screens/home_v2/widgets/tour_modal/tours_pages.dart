@@ -8,7 +8,9 @@ class TourEight extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
+  final VoidCallback? closedTour;
   final VoidCallback? onPressed;
   final int pageLength;
   @override
@@ -18,10 +20,6 @@ class TourEight extends StatelessWidget {
     const String title = "Detalle de tu inversión en drafts ";
     const String textBody =
         "Puedes ver a detalle la inversión que no llegaste a finalizar el proceso de inversión";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -34,7 +32,7 @@ class TourEight extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
           pageLength: pageLength,
         ),
         Container(
@@ -61,7 +59,9 @@ class TourSeven extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
+  final VoidCallback? closedTour;
   final VoidCallback? onPressed;
   final int pageLength;
   @override
@@ -71,10 +71,6 @@ class TourSeven extends StatelessWidget {
     const String title = "Visualiza tus inversiones en drafts";
     const String textBody =
         "Puedes ver en el home cuales son tus inversiones que dejaste incompletas";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +83,7 @@ class TourSeven extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
           pageLength: pageLength,
         ),
         Container(
@@ -113,7 +109,9 @@ class TourSix extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
+  final VoidCallback? closedTour;
   final VoidCallback? onPressed;
   final int pageLength;
   @override
@@ -122,10 +120,6 @@ class TourSix extends StatelessWidget {
     const int imageContainerColor = 0xffFFFFFF;
     const String title = "¡Simula tus próximas inversiones!";
     const String textBody = "Simula tus inversiones en soles y dólares";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -138,7 +132,7 @@ class TourSix extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
           pageLength: pageLength,
         ),
         Container(
@@ -165,8 +159,9 @@ class TourFive extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
-
+  final VoidCallback? closedTour;
   final VoidCallback? onPressed;
   final int pageLength;
   @override
@@ -176,10 +171,6 @@ class TourFive extends StatelessWidget {
     const String title = "Información mas detallada de tus inversiones";
     const String textBody =
         "Visualiza todos los detalles de cada una de tus inversiones";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -192,7 +183,7 @@ class TourFive extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
           pageLength: pageLength,
         ),
         Container(
@@ -220,8 +211,9 @@ class TourFour extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
-
+  final VoidCallback? closedTour;
   final VoidCallback? onPressed;
   final int pageLength;
   @override
@@ -231,10 +223,6 @@ class TourFour extends StatelessWidget {
     const String title = "¡Entérate de tus próximos pagos!";
     const String textBody =
         "Visualiza el historial de tus pagos de tus inversiones.";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -248,7 +236,7 @@ class TourFour extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -274,7 +262,9 @@ class TourThree extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
+  final VoidCallback? closedTour;
   final VoidCallback? onPressed;
   final int pageLength;
   @override
@@ -284,10 +274,6 @@ class TourThree extends StatelessWidget {
     const String title =
         "¡En Mis inversiones puedes ver historial de sus inversiones !";
     const String textBody = "Conoce el estado de tus inversiones a tiempo real";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -301,7 +287,7 @@ class TourThree extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
         ),
         Container(
           padding: const EdgeInsets.all(10),
@@ -334,7 +320,9 @@ class TourTwo extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
+  final VoidCallback? closedTour;
   final VoidCallback? onPressed;
   final int pageLength;
   @override
@@ -344,10 +332,6 @@ class TourTwo extends StatelessWidget {
     const String title = "¡Visualiza todos los fondos de inversiones!";
     const String textBody =
         "Conoce los fondos de inversión que tenemos para tí";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -361,7 +345,7 @@ class TourTwo extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
         ),
         Container(
           margin: const EdgeInsets.only(left: 20),
@@ -389,8 +373,10 @@ class TourOne extends StatelessWidget {
     super.key,
     required this.onPressed,
     required this.pageLength,
+    required this.closedTour,
   });
   final VoidCallback? onPressed;
+  final VoidCallback? closedTour;
   final int pageLength;
   @override
   Widget build(BuildContext context) {
@@ -400,10 +386,6 @@ class TourOne extends StatelessWidget {
         "¡Ahora puedes cambiar de fondo de inversión en un click! ";
     const String textBody =
         "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
-
-    void closedTour1(BuildContext context) {
-      Navigator.pop(context);
-    }
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -438,7 +420,7 @@ class TourOne extends StatelessWidget {
           textColor: textColor,
           textBody: textBody,
           onPressed: onPressed,
-          onClosePressed: () => closedTour1(context),
+          onClosePressed: closedTour,
         ),
       ],
     );
