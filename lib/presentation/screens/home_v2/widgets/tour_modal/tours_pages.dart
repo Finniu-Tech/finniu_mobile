@@ -501,17 +501,20 @@ class TourInit extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     Center(
-                      child: TextButton(
-                        onPressed: closed,
+                      child: GestureDetector(
+                        onTap: closed,
                         child: const Text(
                           'Ver en otro momento',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             decoration: TextDecoration.underline,
+                            decorationColor: Color(textLinkColor),
+                            decorationThickness: 1.0,
+                            height: 2,
                             color: Color(textLinkColor),
                           ),
                         ),

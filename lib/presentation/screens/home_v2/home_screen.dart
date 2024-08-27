@@ -302,13 +302,6 @@ class _BodyHomeUpperSectionWidgetState
                       const SizedBox(
                         height: 10,
                       ),
-                      TextButton.icon(
-                        icon: const Icon(
-                          Icons.close,
-                        ),
-                        label: const Text("ver tour"),
-                        onPressed: () => showTourV2(context),
-                      ),
                     ],
                   ),
                   if (widget.renderNonInvestment)
