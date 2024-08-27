@@ -40,11 +40,13 @@ class V2SimulatorScreen extends HookConsumerWidget {
         bottomNavigationBar: const NavigationBarHome(
           colorBackground: Colors.transparent,
         ),
+        extendBody: true,
         body: const SingleChildScrollView(
           child: Column(
             children: [
               TitleSimulator(),
               SimulatorBody(),
+              SizedBox(height: 150),
             ],
           ),
         ),
