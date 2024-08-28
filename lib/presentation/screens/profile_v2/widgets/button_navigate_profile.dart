@@ -12,12 +12,14 @@ class ButtonNavigateProfile extends ConsumerWidget {
     required this.subtitle,
     required this.onTap,
     this.isComplete = false,
+    this.onlyTitle = false,
   });
   final String icon;
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
   final bool isComplete;
+  final bool onlyTitle;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -49,19 +51,30 @@ class ButtonNavigateProfile extends ConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Column(
-                    children: [
-                      const SizedBox(height: 15),
-                      SvgPicture.asset(
-                        icon,
-                        width: 25,
-                        height: 25,
-                        color: isDarkMode
-                            ? const Color(iconDark)
-                            : const Color(iconLight),
-                      ),
-                    ],
-                  ),
+                  onlyTitle
+                      ? Center(
+                          child: SvgPicture.asset(
+                            icon,
+                            width: 25,
+                            height: 25,
+                            color: isDarkMode
+                                ? const Color(iconDark)
+                                : const Color(iconLight),
+                          ),
+                        )
+                      : Column(
+                          children: [
+                            const SizedBox(height: 15),
+                            SvgPicture.asset(
+                              icon,
+                              width: 25,
+                              height: 25,
+                              color: isDarkMode
+                                  ? const Color(iconDark)
+                                  : const Color(iconLight),
+                            ),
+                          ],
+                        ),
                   const SizedBox(width: 15),
                   Expanded(
                     child: Column(
@@ -74,13 +87,15 @@ class ButtonNavigateProfile extends ConsumerWidget {
                           isBold: true,
                           align: TextAlign.start,
                         ),
-                        TextPoppins(
-                          text: subtitle,
-                          fontSize: 12,
-                          isBold: false,
-                          lines: 2,
-                          align: TextAlign.start,
-                        ),
+                        onlyTitle
+                            ? const SizedBox()
+                            : TextPoppins(
+                                text: subtitle,
+                                fontSize: 12,
+                                isBold: false,
+                                lines: 2,
+                                align: TextAlign.start,
+                              ),
                       ],
                     ),
                   ),
@@ -96,15 +111,17 @@ class ButtonNavigateProfile extends ConsumerWidget {
                             textLight: textCompleteLight,
                           ),
                         ),
-                  Center(
-                    child: Icon(
-                      Icons.arrow_forward_ios,
-                      size: 24,
-                      color: isDarkMode
-                          ? const Color(iconButtonDark)
-                          : const Color(iconButtonLight),
-                    ),
-                  ),
+                  onlyTitle
+                      ? const SizedBox()
+                      : Center(
+                          child: Icon(
+                            Icons.arrow_forward_ios,
+                            size: 24,
+                            color: isDarkMode
+                                ? const Color(iconButtonDark)
+                                : const Color(iconButtonLight),
+                          ),
+                        ),
                 ],
               ),
             ),
