@@ -10,11 +10,13 @@ class ImageProfileStack extends ConsumerWidget {
     required this.email,
     required this.profileImage,
     required this.backgroundImage,
+    this.isLoading = false,
   });
   final String fullName;
   final String email;
   final String profileImage;
   final String backgroundImage;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -50,14 +52,14 @@ class ImageProfileStack extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextPoppins(
-                text: fullName,
+                text: isLoading ? "Cargando..." : fullName,
                 fontSize: 16,
                 isBold: true,
                 textDark: titleDark,
                 textLight: titleLight,
               ),
               TextPoppins(
-                text: email,
+                text: isLoading ? "Cargando..." : email,
                 fontSize: 12,
                 isBold: true,
               ),
