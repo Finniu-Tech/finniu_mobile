@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/app_bar_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_my_data.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/image_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -66,6 +67,34 @@ class _BodyProfile extends ConsumerWidget {
               onTap: () => print("click"),
             ),
           ],
+        ),
+        const SizedBox(
+          height: 40,
+        ),
+        const ButtonNavigateProfile(
+          icon: "assets/svg_icons/settings.svg",
+          title: "Configuraciones",
+          subtitle:
+              "Notificaciones, Modo oscuro, privacidad, cambio de contraseña",
+          onTap: null,
+        ),
+        const ButtonNavigateProfile(
+          icon: "assets/svg_icons/legal_icon_v2.svg",
+          title: "Documentos legales",
+          subtitle: "Información legal para las inversiones",
+          onTap: null,
+        ),
+        const ButtonNavigateProfile(
+          icon: "assets/svg_icons/help_circle.svg",
+          title: "Soporte y ayuda",
+          subtitle: "Ticket de soporte y preguntas frecuentes",
+          onTap: null,
+        ),
+        const ButtonNavigateProfile(
+          icon: "assets/svg_icons/log_out.svg",
+          title: "Cerrar sesión",
+          subtitle: "",
+          onTap: null,
         ),
       ],
     );
