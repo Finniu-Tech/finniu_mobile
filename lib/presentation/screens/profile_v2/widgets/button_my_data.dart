@@ -12,12 +12,14 @@ class ButtonMyData extends ConsumerWidget {
     required this.subtitle,
     required this.load,
     this.onTap,
+    this.isComplete = false,
   });
   final String icon;
   final String title;
   final String subtitle;
   final double load;
   final VoidCallback? onTap;
+  final bool isComplete;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -58,41 +60,47 @@ class ButtonMyData extends ConsumerWidget {
               fontSize: 12,
               isBold: true,
             ),
-            TextPoppins(
-              text: subtitle,
-              fontSize: 10,
-              isBold: false,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return Stack(
-                  children: [
-                    Container(
-                      height: 3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: isDarkMode
-                            ? const Color(lineDark)
-                            : const Color(lineLight),
-                      ),
-                    ),
-                    Container(
-                      width: constraints.maxWidth * load,
-                      height: 3,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: isDarkMode
-                            ? const Color(lineLoadDark)
-                            : const Color(lineLoadLight),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+            isComplete
+                ? const SizedBox()
+                : TextPoppins(
+                    text: subtitle,
+                    fontSize: 10,
+                    isBold: false,
+                  ),
+            isComplete
+                ? const SizedBox()
+                : const SizedBox(
+                    height: 5,
+                  ),
+            isComplete
+                ? const SizedBox()
+                : LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Stack(
+                        children: [
+                          Container(
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: isDarkMode
+                                  ? const Color(lineDark)
+                                  : const Color(lineLight),
+                            ),
+                          ),
+                          Container(
+                            width: constraints.maxWidth * load,
+                            height: 3,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: isDarkMode
+                                  ? const Color(lineLoadDark)
+                                  : const Color(lineLoadLight),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
           ],
         ),
       ),

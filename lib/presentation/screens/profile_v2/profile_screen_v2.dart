@@ -65,6 +65,7 @@ class _BodyProfile extends ConsumerWidget {
               subtitle: "Falta agregar tus cuentas",
               load: 1,
               onTap: () => print("click"),
+              isComplete: true,
             ),
           ],
         ),
