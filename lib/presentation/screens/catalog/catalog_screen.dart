@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -19,6 +20,8 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,8 +30,22 @@ class CatalogScreen extends HookConsumerWidget {
   const CatalogScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    void setDarkMode() {
+      if (!isDarkMode) {
+        ref.read(settingsNotifierProvider.notifier).setDarkMode();
+      } else {
+        ref.read(settingsNotifierProvider.notifier).setLightMode();
+      }
+    }
+
+    const int backgroundDark = 0xff191919;
+    const int backgroundLight = 0xffFFFFFF;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         elevation: 0.0,
@@ -39,6 +56,42 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonSwitchProfile(
+              icon: null,
+              title: "Sobre mis inversiones",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              onTap: () => setDarkMode(),
+              value: !isDarkMode,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonSwitchProfile(
+              icon: "assets/svg_icons/dark_mode_icon.svg",
+              title: "Modo oscuro",
+              subtitle: "Elige tu modo favorito",
+              onTap: () => setDarkMode(),
+              value: !isDarkMode,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const ButtonNavigateProfile(
+              icon: "assets/svg_icons/help_circle.svg",
+              title: "Soporte y ayuda",
+              subtitle: "Ticket de soporte y preguntas \nfrecuentes",
+              onTap: null,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "go to '/v2/profile'",
               onPressed: () {
