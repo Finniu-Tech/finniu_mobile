@@ -89,13 +89,13 @@ class ButtonSwitchProfile extends ConsumerWidget {
                   ),
                 ),
                 Center(
-                  child: Switch(
+                  child: SwitchWidget(
                     value: value,
-                    activeColor: const Color(activeColor),
-                    inactiveThumbColor: const Color(inactiveThumbColor),
-                    activeTrackColor: const Color(activeTrackColor),
-                    inactiveTrackColor: const Color(inactiveTrackColor),
-                    onChanged: (_) => onTap(),
+                    activeColor: activeColor,
+                    inactiveThumbColor: inactiveThumbColor,
+                    activeTrackColor: activeTrackColor,
+                    inactiveTrackColor: inactiveTrackColor,
+                    onTap: onTap,
                   ),
                 ),
               ],
@@ -109,6 +109,53 @@ class ButtonSwitchProfile extends ConsumerWidget {
               isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
         ),
       ],
+    );
+  }
+}
+
+class SwitchWidget extends ConsumerStatefulWidget {
+  const SwitchWidget({
+    super.key,
+    required this.value,
+    required this.activeColor,
+    required this.inactiveThumbColor,
+    required this.activeTrackColor,
+    required this.inactiveTrackColor,
+    required this.onTap,
+  });
+
+  final bool value;
+  final int activeColor;
+  final int inactiveThumbColor;
+  final int activeTrackColor;
+  final int inactiveTrackColor;
+  final VoidCallback onTap;
+
+  @override
+  ConsumerState<SwitchWidget> createState() => _SwitchWidgetState();
+}
+
+class _SwitchWidgetState extends ConsumerState<SwitchWidget> {
+  bool value = false;
+  @override
+  void initState() {
+    super.initState();
+    value = widget.value;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const int activeColor = 0xff0D3A5C;
+    const int activeTrackColor = 0xffD4F5FF;
+    const int inactiveThumbColor = 0xff828282;
+    const int inactiveTrackColor = 0xffF3F3F3;
+    return Switch(
+      value: value,
+      activeColor: const Color(activeColor),
+      inactiveThumbColor: const Color(inactiveThumbColor),
+      activeTrackColor: const Color(activeTrackColor),
+      inactiveTrackColor: const Color(inactiveTrackColor),
+      onChanged: (_) => {widget.onTap(), setState(() => value = !value)},
     );
   }
 }

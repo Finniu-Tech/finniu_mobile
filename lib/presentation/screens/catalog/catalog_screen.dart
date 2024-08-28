@@ -40,6 +40,12 @@ class CatalogScreen extends HookConsumerWidget {
       }
     }
 
+    bool invest = false;
+
+    void setInvest() {
+      invest = !invest;
+    }
+
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
     return Scaffold(
@@ -64,8 +70,8 @@ class CatalogScreen extends HookConsumerWidget {
               title: "Sobre mis inversiones",
               subtitle:
                   "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
-              onTap: () => setDarkMode(),
-              value: !isDarkMode,
+              onTap: () => setInvest(),
+              value: invest,
             ),
             const SizedBox(
               height: 10,
