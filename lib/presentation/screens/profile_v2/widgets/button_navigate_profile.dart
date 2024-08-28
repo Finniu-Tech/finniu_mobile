@@ -103,10 +103,10 @@ class ButtonNavigateProfile extends ConsumerWidget {
                       ? const SizedBox()
                       : const Center(
                           child: TextPoppins(
-                            text: "Completar",
+                            text: "Completar  ",
                             fontSize: 12,
                             isBold: true,
-                            align: TextAlign.center,
+                            align: TextAlign.start,
                             textDark: textCompleteDark,
                             textLight: textCompleteLight,
                           ),
