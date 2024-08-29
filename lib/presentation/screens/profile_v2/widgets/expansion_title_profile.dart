@@ -205,3 +205,96 @@ class ChildrenCheckboxTitle extends HookConsumerWidget {
     );
   }
 }
+
+class ChildrenOnlyText extends ConsumerWidget {
+  const ChildrenOnlyText({
+    super.key,
+    required this.text,
+  });
+  final String text;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        height: 85,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextPoppins(
+              text: text,
+              fontSize: 12,
+              isBold: false,
+              lines: 3,
+              align: TextAlign.start,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ExpansionTitleLegal extends HookConsumerWidget {
+  const ExpansionTitleLegal({
+    super.key,
+    required this.title,
+    required this.children,
+  });
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> extended = useState(false);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int dividerDark = 0xff292828;
+    const int dividerLight = 0xffF6F6F6;
+
+    return Column(
+      children: [
+        ExpansionTile(
+          trailing: AnimatedRotation(
+            turns: extended.value ? 0.25 : 0,
+            duration: const Duration(milliseconds: 200),
+            child: const Icon(Icons.arrow_forward_ios),
+          ),
+          onExpansionChanged: (bool expanded) {
+            extended.value = expanded;
+          },
+          shape: const Border(),
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: 85,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  TextPoppins(
+                    text: title,
+                    fontSize: 16,
+                    isBold: true,
+                    align: TextAlign.start,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          children: children,
+        ),
+        Divider(
+          height: 1,
+          thickness: 1,
+          color:
+              isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+        ),
+      ],
+    );
+  }
+}

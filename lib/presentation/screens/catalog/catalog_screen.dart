@@ -63,6 +63,15 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const ExpansionTitleLegal(
+              title: "Verificación  legal",
+              children: [
+                ChildrenOnlyText(
+                  text:
+                      "Política de privacidad de la app Finniu, tenemos respaldo y seguridad de tus datos , no los compartimos ni exponemos tus datos personales  ",
+                )
+              ],
+            ),
             const SizedBox(
               height: 10,
             ),
@@ -80,7 +89,11 @@ class CatalogScreen extends HookConsumerWidget {
                   title: "Permiso de ubicación actual",
                   subtitle:
                       "Activar tu ubicación actual mientras la app esta en uso",
-                )
+                ),
+                ChildrenOnlyText(
+                  text:
+                      "Política de privacidad de la app Finniu, tenemos respaldo y seguridad de tus datos , no los compartimos ni exponemos tus datos personales  ",
+                ),
               ],
             ),
             const SizedBox(
