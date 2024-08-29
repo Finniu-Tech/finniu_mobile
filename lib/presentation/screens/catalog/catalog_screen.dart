@@ -22,6 +22,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -65,6 +66,16 @@ class CatalogScreen extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
+            const ExpansionTitleProfile(
+              icon: "assets/svg_icons/dark_mode_icon.svg",
+              title: "Contraseñas",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              children: [],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
             ButtonSwitchProfile(
               icon: null,
               title: "Sobre mis inversiones",
@@ -90,6 +101,16 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             const ButtonNavigateProfile(
+              icon: "assets/svg_icons/help_circle.svg",
+              title: "Soporte y ayuda",
+              subtitle: "Ticket de soporte y preguntas \nfrecuentes",
+              onTap: null,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const ButtonNavigateProfile(
+              isComplete: true,
               icon: "assets/svg_icons/help_circle.svg",
               title: "Soporte y ayuda",
               subtitle: "Ticket de soporte y preguntas \nfrecuentes",
