@@ -66,10 +66,23 @@ class CatalogScreen extends HookConsumerWidget {
             const ExpansionTitleLegal(
               title: "Verificación  legal",
               children: [
+                ChildrenCheckboxTitle(
+                  subtitle:
+                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const ExpansionTitleLegal(
+              title: "Declaración a la Sunat 5%",
+              children: [
                 ChildrenOnlyText(
+                  textBig: true,
                   text:
-                      "Política de privacidad de la app Finniu, tenemos respaldo y seguridad de tus datos , no los compartimos ni exponemos tus datos personales  ",
-                )
+                      "Este 5% es la tributación correspondiente por renta de 2da categoría (inversiones). Aplica sobre tus intereses ganados.",
+                ),
               ],
             ),
             const SizedBox(
@@ -85,7 +98,7 @@ class CatalogScreen extends HookConsumerWidget {
                   title: "Visualización de contraseña",
                   subtitle: "Mostrar caracteres brevemente mientras escribes",
                 ),
-                ChildrenCheckboxTitle(
+                ChildrenSwitchTitle(
                   title: "Permiso de ubicación actual",
                   subtitle:
                       "Activar tu ubicación actual mientras la app esta en uso",

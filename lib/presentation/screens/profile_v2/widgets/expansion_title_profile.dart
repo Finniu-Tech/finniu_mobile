@@ -150,8 +150,8 @@ class ChildrenTitle extends ConsumerWidget {
   }
 }
 
-class ChildrenCheckboxTitle extends HookConsumerWidget {
-  const ChildrenCheckboxTitle({
+class ChildrenSwitchTitle extends HookConsumerWidget {
+  const ChildrenSwitchTitle({
     super.key,
     required this.title,
     required this.subtitle,
@@ -210,8 +210,10 @@ class ChildrenOnlyText extends ConsumerWidget {
   const ChildrenOnlyText({
     super.key,
     required this.text,
+    this.textBig = false,
   });
   final String text;
+  final bool textBig;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -226,7 +228,7 @@ class ChildrenOnlyText extends ConsumerWidget {
           children: [
             TextPoppins(
               text: text,
-              fontSize: 12,
+              fontSize: textBig ? 14 : 12,
               isBold: false,
               lines: 3,
               align: TextAlign.start,
@@ -253,7 +255,7 @@ class ExpansionTitleLegal extends HookConsumerWidget {
     final ValueNotifier<bool> extended = useState(false);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int dividerDark = 0xff292828;
-    const int dividerLight = 0xffF6F6F6;
+    const int dividerLight = 0xffD9D9D9;
 
     return Column(
       children: [
@@ -271,7 +273,7 @@ class ExpansionTitleLegal extends HookConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.6,
-              height: 85,
+              height: 40,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -288,13 +290,103 @@ class ExpansionTitleLegal extends HookConsumerWidget {
           ),
           children: children,
         ),
-        Divider(
-          height: 1,
-          thickness: 1,
-          color:
-              isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Divider(
+            height: 2,
+            thickness: 1,
+            color: isDarkMode
+                ? const Color(dividerDark)
+                : const Color(dividerLight),
+          ),
         ),
       ],
+    );
+  }
+}
+
+class ChildrenCheckboxTitle extends HookConsumerWidget {
+  const ChildrenCheckboxTitle({
+    super.key,
+    required this.subtitle,
+  });
+
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> value = useState(false);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(width: 20),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.7,
+            height: 65,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                TextPoppins(
+                  text: subtitle,
+                  fontSize: 14,
+                  isBold: false,
+                  lines: 3,
+                  align: TextAlign.start,
+                ),
+              ],
+            ),
+          ),
+          const Expanded(child: SizedBox()),
+          CheckBoxWidget(value: value),
+        ],
+      ),
+    );
+  }
+}
+
+class CheckBoxWidget extends ConsumerWidget {
+  const CheckBoxWidget({
+    super.key,
+    required this.value,
+  });
+
+  final ValueNotifier<bool> value;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const backgroundLight = Color(0xff0D3A5C);
+    const backgroundDark = Color(0xffA2E6FA);
+
+    return Transform.scale(
+      scale: 1.3,
+      child: Checkbox(
+        value: value.value,
+        onChanged: (_) => value.value = !value.value,
+        fillColor: WidgetStateProperty.resolveWith<Color>(
+          (Set<WidgetState> states) {
+            if (states.contains(WidgetState.selected)) {
+              return isDarkMode ? backgroundDark : backgroundLight;
+            }
+            return Colors.transparent;
+          },
+        ),
+        checkColor: isDarkMode ? backgroundLight : backgroundDark,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: isDarkMode ? backgroundDark : backgroundLight,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+      ),
     );
   }
 }
