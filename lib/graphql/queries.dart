@@ -1204,10 +1204,12 @@ class QueryRepository {
           rentabilityInPen {
             month
             amountPoint
+            date
           }
           rentabilityInUsd {
             month
             amountPoint
+            date
           }
         }
       }

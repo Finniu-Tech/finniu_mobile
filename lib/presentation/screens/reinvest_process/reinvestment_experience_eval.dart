@@ -26,8 +26,7 @@ class EvaluateExperienceBody extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final commentController = useTextEditingController();
-    const String question =
-        '¿Cómo calificarías tu experiencia durante \n el proceso de inversión?';
+    const String question = '¿Cómo calificarías tu experiencia durante \n el proceso de inversión?';
     return Container(
       width: MediaQuery.of(context).size.width,
       height: double.infinity,
@@ -36,12 +35,8 @@ class EvaluateExperienceBody extends HookConsumerWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            currentTheme.isDarkMode
-                ? const Color(primaryDarkAlternative)
-                : const Color(secondary),
-            currentTheme.isDarkMode
-                ? const Color(primaryLight)
-                : const Color(primaryLight),
+            currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(secondary),
+            currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLight),
           ],
         ),
         borderRadius: BorderRadius.circular(40),
@@ -184,9 +179,7 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     hintText: 'Escribe aquí tu comentario o sugerencia',
-                    fillColor: currentTheme.isDarkMode
-                        ? const Color(primaryDark)
-                        : const Color(whiteText),
+                    fillColor: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
                     filled: true,
                   ),
                 ),
@@ -204,7 +197,8 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                   );
                   if (success) {
                     Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed('/finish_investment');
+                    // Navigator.of(context).pushNamed('/finish_investment');
+                    Navigator.pushReplacementNamed(context, '/v2/investment');
                   } else {
                     CustomSnackbar.show(
                       context,
@@ -226,7 +220,7 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                   ),
                 ),
                 child: const Text(
-                  'Finalizar proceso',
+                  'Enviar',
                   style: TextStyle(color: Colors.white),
                 ),
               ),
@@ -261,8 +255,7 @@ class EmojiWidget extends HookConsumerWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color:
-              score == selectedScore ? activeColor : const Color(primaryLight),
+          color: score == selectedScore ? activeColor : const Color(primaryLight),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -270,9 +263,7 @@ class EmojiWidget extends HookConsumerWidget {
             Text(
               score.toString(),
               style: TextStyle(
-                color: score == selectedScore
-                    ? activeLetterColor
-                    : const Color(primaryDark),
+                color: score == selectedScore ? activeLetterColor : const Color(primaryDark),
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
               ),
