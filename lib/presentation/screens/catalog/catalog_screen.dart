@@ -75,6 +75,11 @@ class CatalogScreen extends HookConsumerWidget {
                 ChildrenTitle(
                   title: "Visualización de contraseña",
                   subtitle: "Mostrar caracteres brevemente mientras escribes",
+                ),
+                ChildrenCheckboxTitle(
+                  title: "Permiso de ubicación actual",
+                  subtitle:
+                      "Activar tu ubicación actual mientras la app esta en uso",
                 )
               ],
             ),

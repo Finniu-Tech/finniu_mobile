@@ -26,10 +26,6 @@ class ButtonSwitchProfile extends ConsumerWidget {
     const int dividerLight = 0xffF6F6F6;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff000000;
-    const int activeColor = 0xff0D3A5C;
-    const int activeTrackColor = 0xffD4F5FF;
-    const int inactiveThumbColor = 0xff828282;
-    const int inactiveTrackColor = 0xffF3F3F3;
 
     return Column(
       children: [
@@ -91,10 +87,6 @@ class ButtonSwitchProfile extends ConsumerWidget {
                 Center(
                   child: SwitchWidget(
                     value: value,
-                    activeColor: activeColor,
-                    inactiveThumbColor: inactiveThumbColor,
-                    activeTrackColor: activeTrackColor,
-                    inactiveTrackColor: inactiveTrackColor,
                     onTap: onTap,
                   ),
                 ),
@@ -117,18 +109,9 @@ class SwitchWidget extends ConsumerStatefulWidget {
   const SwitchWidget({
     super.key,
     required this.value,
-    required this.activeColor,
-    required this.inactiveThumbColor,
-    required this.activeTrackColor,
-    required this.inactiveTrackColor,
     required this.onTap,
   });
-
   final bool value;
-  final int activeColor;
-  final int inactiveThumbColor;
-  final int activeTrackColor;
-  final int inactiveTrackColor;
   final VoidCallback onTap;
 
   @override

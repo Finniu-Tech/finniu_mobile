@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -113,35 +114,94 @@ class ChildrenTitle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(width: 53),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.6,
-          height: 85,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextPoppins(
-                text: title,
-                fontSize: 16,
-                isBold: true,
-                align: TextAlign.start,
-              ),
-              TextPoppins(
-                text: subtitle,
-                fontSize: 12,
-                isBold: false,
-                lines: 2,
-                align: TextAlign.start,
-              ),
-            ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(width: 40),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 85,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextPoppins(
+                  text: title,
+                  fontSize: 16,
+                  isBold: true,
+                  align: TextAlign.start,
+                ),
+                TextPoppins(
+                  text: subtitle,
+                  fontSize: 12,
+                  isBold: false,
+                  lines: 2,
+                  align: TextAlign.start,
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
+    );
+  }
+}
+
+class ChildrenCheckboxTitle extends HookConsumerWidget {
+  const ChildrenCheckboxTitle({
+    super.key,
+    required this.title,
+    required this.subtitle,
+  });
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> value = useState(false);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(width: 40),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 85,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 5,
+                ),
+                TextPoppins(
+                  text: title,
+                  fontSize: 16,
+                  isBold: true,
+                  align: TextAlign.start,
+                ),
+                TextPoppins(
+                  text: subtitle,
+                  fontSize: 12,
+                  isBold: false,
+                  lines: 2,
+                  align: TextAlign.start,
+                ),
+              ],
+            ),
+          ),
+          const Expanded(child: SizedBox()),
+          SwitchWidget(
+            value: value.value,
+            onTap: () => value.value = !value.value,
+          ),
+        ],
+      ),
     );
   }
 }
