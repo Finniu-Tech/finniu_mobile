@@ -65,7 +65,7 @@ class ExpansionTitleProfile extends HookConsumerWidget {
               ),
               const SizedBox(width: 15),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7,
+                width: MediaQuery.of(context).size.width * 0.6,
                 height: 85,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +119,7 @@ class ChildrenTitle extends ConsumerWidget {
       children: [
         const SizedBox(width: 53),
         SizedBox(
-          width: MediaQuery.of(context).size.width * 0.7,
+          width: MediaQuery.of(context).size.width * 0.6,
           height: 85,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
