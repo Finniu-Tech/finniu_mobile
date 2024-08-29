@@ -64,7 +64,7 @@ logOut(BuildContext context, WidgetRef ref) {
 
   // logout(ref);
   Navigator.of(context).pushNamedAndRemoveUntil(
-    '/login_start',
+    '/v2/on_boarding',
     (route) => true,
   );
 }
