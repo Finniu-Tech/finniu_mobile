@@ -131,9 +131,9 @@ class _BodyScaffold extends ConsumerWidget {
                     : const SizedBox(),
                 const SizedBox(height: 15),
                 //TODO do the integration for v
-                // SeeInterestPayment(
-                //   list: list,
-                // ),
+                SeeInterestPayment(
+                  list: [],
+                ),
                 const SizedBox(height: 15),
                 InvestmentEnds(
                   finalDate: data.finishDateInvestment,

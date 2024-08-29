@@ -114,7 +114,7 @@ class BodyTour extends StatelessWidget {
                               ButtonIconTour(
                                 widthPercent: 0.4,
                                 onPressed: onPressed,
-                                label: "Comenzar",
+                                label: "Entendido",
                               ),
                             ],
                           ),
@@ -137,7 +137,7 @@ class BodyTour extends StatelessWidget {
                                   ButtonIconTour(
                                     widthPercent: 0.4,
                                     onPressed: onPressed,
-                                    label: "Comenzar",
+                                    label: "Entendido",
                                   ),
                                 ],
                               ),
