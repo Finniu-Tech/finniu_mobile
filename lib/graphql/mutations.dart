@@ -726,7 +726,8 @@ class MutationRepository {
           }
     }
     ''';
-   
+  }
+
   static String completeLastTour() {
     return '''
      mutation completeLastTour( \$hasCompletedTour: Boolean! ){
