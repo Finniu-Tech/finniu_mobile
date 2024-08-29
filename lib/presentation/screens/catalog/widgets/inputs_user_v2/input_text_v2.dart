@@ -75,6 +75,11 @@ class InputTextFileUserProfile extends ConsumerWidget {
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
               borderSide: BorderSide.none,
             ),
+            suffixIcon: const Icon(
+              Icons.person_outline,
+              color: Colors.transparent,
+              size: 24,
+            ),
           ),
           validator: validator,
           keyboardType: isNumeric ? TextInputType.number : TextInputType.text,

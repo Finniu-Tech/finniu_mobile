@@ -19,6 +19,7 @@ import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.d
 import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/notifications/notifications_screen.dart';
+import 'package:finniu/presentation/screens/on_boarding_v2/on_boarding_screen_v2.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
 import 'package:finniu/presentation/screens/scan_document_v2/scan_document_screen_v2.dart';
@@ -200,5 +201,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/form_job': (BuildContext context) => FormJobDataV2(),
     '/v2/form_legal_terms': (BuildContext context) => FormLegalTermsDataV2(),
     '/v2/form_about_me': (BuildContext context) => AboutMeDataV2(),
+    '/v2/on_boarding': (BuildContext context) => const OnBoardingScreen(),
   };
 }
