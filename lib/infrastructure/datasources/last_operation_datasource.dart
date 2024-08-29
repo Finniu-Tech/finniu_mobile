@@ -28,6 +28,8 @@ class LastOperationDataSource extends GraphQLBaseDataSource {
       return <LastOperation>[];
     }
 
-    return data.map((item) => LastOperation.fromJson(item as Map<String, dynamic>)).toList();
+    return data
+        .map((item) => LastOperation.fromJson(item as Map<String, dynamic>))
+        .toList();
   }
 }

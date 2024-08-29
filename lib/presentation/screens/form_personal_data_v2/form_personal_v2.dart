@@ -1,4 +1,6 @@
 // ignore_for_file: avoid_print
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
@@ -11,6 +13,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class FormPersonalDataV2 extends HookConsumerWidget {
   FormPersonalDataV2({super.key});
@@ -18,31 +21,39 @@ class FormPersonalDataV2 extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final namesCompleteController = useTextEditingController();
-    final namesFaderController = useTextEditingController();
-    final namesMotherController = useTextEditingController();
+    final firstNameController = useTextEditingController();
+    final lastNameFatherController = useTextEditingController();
+    final lastNameMotherController = useTextEditingController();
     final documentTypeController = useTextEditingController();
     final documentNumberController = useTextEditingController();
-    final maritalStatusController = useTextEditingController();
-    final phoneController = useTextEditingController();
+    final civilStatusController = useTextEditingController();
+    final genderTypeController = useTextEditingController();
 
     void uploadPersonalData() {
       if (formKey.currentState!.validate()) {
-        print("add personal data");
-        print(namesCompleteController.text);
-        print(namesFaderController.text);
-        print(namesMotherController.text);
-        print(documentTypeController.text);
-        print(documentNumberController.text);
-        print(maritalStatusController.text);
-        print(phoneController.text);
+        context.loaderOverlay.show();
+        final DtoPersonalForm data = DtoPersonalForm(
+          firstName: firstNameController.text.trim(),
+          lastNameFather: lastNameFatherController.text.trim(),
+          lastNameMother: lastNameMotherController.text.trim(),
+          documentType: getTypeDocumentEnum(documentTypeController.text) ??
+              TypeDocumentEnum.DNI,
+          documentNumber: documentNumberController.text.trim(),
+          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
+              CivilStatusEnum.SINGLE,
+          gender: genderTypeController.text,
+        );
+        context.loaderOverlay.show();
+        pushPersonalDataForm(
+          context,
+          data,
+          ref,
+        );
       }
     }
 
     void continueLater() {
-      print("continue later");
-
-      Navigator.pop(context);
+      Navigator.pushNamed(context, "/home_v2");
     }
 
     return GestureDetector(
@@ -67,13 +78,13 @@ class FormPersonalDataV2 extends HookConsumerWidget {
           ),
           PersonalForm(
             formKey: formKey,
-            namesCompleteController: namesCompleteController,
-            namesFaderController: namesFaderController,
-            namesMotherController: namesMotherController,
+            firstNameController: firstNameController,
+            lastNameFatherController: lastNameFatherController,
+            lastNameMotherController: lastNameMotherController,
             documentTypeController: documentTypeController,
             documentNumberController: documentNumberController,
-            maritalStatusController: maritalStatusController,
-            phoneController: phoneController,
+            civilStatusController: civilStatusController,
+            genderTypeController: genderTypeController,
           ),
           const ContainerMessage(),
         ],
@@ -86,22 +97,22 @@ class PersonalForm extends ConsumerWidget {
   const PersonalForm({
     super.key,
     required this.formKey,
-    required this.namesCompleteController,
-    required this.namesFaderController,
-    required this.namesMotherController,
+    required this.firstNameController,
+    required this.lastNameFatherController,
+    required this.lastNameMotherController,
     required this.documentTypeController,
     required this.documentNumberController,
-    required this.maritalStatusController,
-    required this.phoneController,
+    required this.civilStatusController,
+    required this.genderTypeController,
   });
   final GlobalKey<FormState> formKey;
-  final TextEditingController namesCompleteController;
-  final TextEditingController namesFaderController;
-  final TextEditingController namesMotherController;
+  final TextEditingController firstNameController;
+  final TextEditingController lastNameFatherController;
+  final TextEditingController lastNameMotherController;
   final TextEditingController documentTypeController;
   final TextEditingController documentNumberController;
-  final TextEditingController maritalStatusController;
-  final TextEditingController phoneController;
+  final TextEditingController civilStatusController;
+  final TextEditingController genderTypeController;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -111,7 +122,7 @@ class PersonalForm extends ConsumerWidget {
       child: Column(
         children: [
           InputTextFileUserProfile(
-            controller: namesCompleteController,
+            controller: firstNameController,
             hintText: "Nombres completos",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -121,7 +132,7 @@ class PersonalForm extends ConsumerWidget {
             },
           ),
           InputTextFileUserProfile(
-            controller: namesFaderController,
+            controller: lastNameFatherController,
             hintText: "Apellido Paterno",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -131,7 +142,7 @@ class PersonalForm extends ConsumerWidget {
             },
           ),
           InputTextFileUserProfile(
-            controller: namesMotherController,
+            controller: lastNameMotherController,
             hintText: "Apellido Materno",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -167,9 +178,9 @@ class PersonalForm extends ConsumerWidget {
             },
           ),
           SelectableDropdownItem(
-            itemSelectedValue: maritalStatusController.text,
+            itemSelectedValue: civilStatusController.text,
             options: maritalStatus,
-            selectController: maritalStatusController,
+            selectController: civilStatusController,
             hintText: "Seleccione su estado civil",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -181,16 +192,20 @@ class PersonalForm extends ConsumerWidget {
           const SizedBox(
             height: 15,
           ),
-          InputTextFileUserProfile(
-            isNumeric: true,
-            controller: phoneController,
-            hintText: "Número telefónico",
+          SelectableDropdownItem(
+            itemSelectedValue: genderTypeController.text,
+            options: genderType,
+            selectController: genderTypeController,
+            hintText: "Seleccione su genero",
             validator: (value) {
-              if (value == null || value.isEmpty || value.length < 8) {
-                return 'Ingresa tu nómero de telefono';
+              if (value == null || value.isEmpty) {
+                return 'Por favor selecione tipo';
               }
               return null;
             },
+          ),
+          const SizedBox(
+            height: 15,
           ),
         ],
       ),

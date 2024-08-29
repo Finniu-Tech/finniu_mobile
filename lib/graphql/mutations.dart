@@ -564,13 +564,13 @@ class MutationRepository {
       ){
       registerUserV2(input:{
         nickName: \$nickName,
-        countryPrefix:\$countryPrefix,
+        countryPrefix: \$countryPrefix,
         phoneNumber: \$phoneNumber,
-        email:\$email,
-        password:\$password",
-        confirmPassword:\$confirmPassword,
-        acceptPrivacyPolicy:\$acceptTermsConditions,
-        acceptTermsConditions:\$acceptPrivacyPolicy
+        email: \$email,
+        password: \$password,
+        confirmPassword: \$confirmPassword,
+        acceptPrivacyPolicy: \$acceptTermsConditions,
+        acceptTermsConditions: \$acceptPrivacyPolicy
       }){
         success
         messages{
@@ -582,6 +582,157 @@ class MutationRepository {
           id
           email
         }
+      }
+    }
+    ''';
+  }
+
+  static String savePersonalDataV2() {
+    return '''
+    mutation RegisterPersonalData (
+      \$firstName: String!
+      \$lastNameFather: String!
+      \$lastNameMother: String!
+      \$documentType: DocumentTypeEnum!
+      \$documentNumber: String!
+      \$civilStatus: CivilStatusEnum!
+      \$gender: String!
+    ){
+    registerPersonalData(input:{
+      firstName: \$firstName,
+      lastNameFather: \$lastNameFather,
+      lastNameMother: \$lastNameMother,
+      documentType: \$documentType,
+      documentNumber: \$documentNumber,
+      civilStatus: \$civilStatus,
+      gender: \$gender
+    }
+    )
+    {
+    success
+    messages {
+      field
+      message
+      errorCode
+    }
+    }
+}
+    ''';
+  }
+
+  static String saveLocationDataV2() {
+    return '''
+  mutation RegisterUserUbication(
+      \$country: String!
+      \$region: String!
+      \$province: String!
+      \$district: String!
+      \$address: String!
+      \$houseNumber: String!
+      \$postalCode: String!
+  ){
+    registerUserUbication(input:{
+      country: \$country,
+      region: \$region,
+      province: \$province,
+      district: \$district,
+      address: \$address,
+      houseNumber: \$houseNumber,
+      postalCode: \$postalCode
+    }){
+      success
+      messages {
+        field
+        message
+        errorCode
+      }
+    }
+  }
+    ''';
+  }
+
+  static String saveOccupationDataV2() {
+    return '''
+    mutation RegisterOcupation(
+        \$laborSituation: LaborSituationEnum!
+        \$occupation: String!
+        \$companyName: String!
+        \$serviceTime:  ServiceTimeEnum!
+    ){
+      registerUserOcupation(input:{
+        laborSituation: \$laborSituation,
+        occupation: \$occupation,
+        companyName: \$companyName,
+        serviceTime: \$serviceTime
+      }){
+        success
+        messages {
+          field
+          message
+          errorCode
+        }
+      }
+    }
+    ''';
+  }
+
+  static String saveLegalTermsDataV2() {
+    return '''
+    mutation registerLegalTerms (
+      \$isPublicOfficialOrFamily : Boolean!
+      \$isDirectorOrShareholder10Percent : Boolean!
+      ){
+        registerUserLegalTerms(
+          input: {
+            isPublicOfficialOrFamily: \$isPublicOfficialOrFamily,
+            isDirectorOrShareholder10Percent: \$isDirectorOrShareholder10Percent
+          }
+        ) {
+          success
+          messages {
+            field
+            message
+            errorCode
+          }
+        
+        }
+    }
+    ''';
+  }
+
+  static String saveAboutMeDataV2() {
+    return '''
+   mutation registerUserAboutMe (
+    \$imageProfile: String!
+    \$backgroundPhoto: String!
+    \$biography: String!
+    \$socialMedia: SocialMediaInput
+
+   ){
+      registerUserAboutMe(
+        input: {
+          imageProfile: \$imageProfile,
+          backgroundPhoto: \$backgroundPhoto,
+          biography: \$biography,
+          socialMedia:  \$socialMedia
+        }
+      ) {
+        success
+        messages {
+          field
+          message
+          errorCode
+        }
+          }
+    }
+    ''';
+  }
+
+  static String completeLastTour() {
+    return '''
+     mutation completeLastTour( \$hasCompletedTour: Boolean! ){
+      completeLastTour(hasCompletedTour : \$hasCompletedTour){
+        success   
       }
     }
     ''';

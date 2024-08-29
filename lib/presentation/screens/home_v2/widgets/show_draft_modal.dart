@@ -2,7 +2,6 @@ import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft_modal.dart';
-import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -96,7 +95,8 @@ class _DraftBody extends ConsumerWidget {
       var whatsappUrlAndroid = Uri.parse(
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
       );
-      var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+      var whatsappUrlIphone =
+          Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
       if (defaultTargetPlatform == TargetPlatform.android) {
         await launchUrl(whatsappUrlAndroid);
@@ -106,13 +106,15 @@ class _DraftBody extends ConsumerWidget {
     }
 
     String title = isReinvest ? "¡Hola!👋🏼" : "¡Hola!👋🏼";
-    String subTitle =
-        isReinvest ? "Parece que dejaste tu reinversión a medias." : "Parece que dejaste tu inversión a medias.";
+    String subTitle = isReinvest
+        ? "Parece que dejaste tu reinversión a medias."
+        : "Parece que dejaste tu inversión a medias.";
     String bodyText = isReinvest
         ? "¡Completa el proceso de reinversión aquí y empieza a ver los resultados!"
         : "¡Completa el proceso de inversión aquí y empieza a ver los resultados!";
-    String bodyTwoText =
-        isReinvest ? "Si necesitas ayuda, estamos aquí para ti. 🚀" : "Si necesitas ayuda, estamos aquí para ti. 🚀";
+    String bodyTwoText = isReinvest
+        ? "Si necesitas ayuda, estamos aquí para ti. 🚀"
+        : "Si necesitas ayuda, estamos aquí para ti. 🚀";
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: 580,
@@ -191,7 +193,9 @@ class ContactAdvisor extends ConsumerWidget {
             Expanded(
               child: Divider(
                 thickness: 2,
-                color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+                color: isDarkMode
+                    ? const Color(dividerDark)
+                    : const Color(dividerLight),
               ),
             ),
             const SizedBox(
@@ -204,13 +208,17 @@ class ContactAdvisor extends ConsumerWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(50),
-                      color: isDarkMode ? const Color(iconBackgroundDark) : const Color(iconBackgroundLight),
+                      color: isDarkMode
+                          ? const Color(iconBackgroundDark)
+                          : const Color(iconBackgroundLight),
                     ),
                     child: SvgPicture.asset(
                       "assets/svg_icons/chat_icon_draft.svg",
                       width: 24,
                       height: 24,
-                      color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+                      color: isDarkMode
+                          ? const Color(dividerDark)
+                          : const Color(dividerLight),
                     ),
                   ),
                   const SizedBox(
@@ -229,7 +237,9 @@ class ContactAdvisor extends ConsumerWidget {
             Expanded(
               child: Divider(
                 thickness: 2,
-                color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+                color: isDarkMode
+                    ? const Color(dividerDark)
+                    : const Color(dividerLight),
               ),
             ),
           ],
@@ -267,7 +277,9 @@ class ButtonGoInvest extends ConsumerWidget {
         height: 50,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(50),
-          color: isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
+          color: isDarkMode
+              ? const Color(backgroundColorDark)
+              : const Color(backgroundColorLight),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -281,7 +293,8 @@ class ButtonGoInvest extends ConsumerWidget {
             ),
             Icon(
               Icons.arrow_forward_outlined,
-              color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+              color:
+                  isDarkMode ? const Color(iconDark) : const Color(iconLight),
             ),
           ],
         ),

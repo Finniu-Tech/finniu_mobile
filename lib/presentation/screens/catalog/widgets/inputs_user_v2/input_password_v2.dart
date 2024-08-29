@@ -36,13 +36,13 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          controller: controller,
           style: TextStyle(
             fontSize: 12,
             color: isDarkMode ? Color(textDark) : Color(textLight),
             fontWeight: FontWeight.w400,
             fontFamily: "Poppins",
           ),
-          controller: controller,
           obscureText: isObscure.value,
           decoration: InputDecoration(
             hintStyle: TextStyle(
