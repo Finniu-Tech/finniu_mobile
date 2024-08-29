@@ -2,14 +2,16 @@ class Investment {
   final String uuid;
   final int amount;
   final String finishDateInvestment;
-  final bool? isReinvest;
+  final bool? isReinvestAvailable; //this is for ReInvestmentAvailable
+  final bool? isReinvestment;
   final String? actionStatus;
 
   Investment({
     required this.uuid,
     required this.amount,
     required this.finishDateInvestment,
-    this.isReinvest = false,
+    this.isReinvestAvailable = false,
+    this.isReinvestment = false,
     this.actionStatus,
   });
 
@@ -18,7 +20,8 @@ class Investment {
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       finishDateInvestment: json['finishDateInvestment'],
-      isReinvest: json['reinvestmentAvailable'] ?? false,
+      isReinvestAvailable: json['reinvestmentAvailable'] ?? false,
+      isReinvestment: json['isReInvestment'] ?? false,
       actionStatus: json['actionStatus'] ?? '',
     );
   }
@@ -28,7 +31,8 @@ class Investment {
       'uuid': uuid,
       'amount': amount.toString(),
       'finishDateInvestment': finishDateInvestment,
-      'reinvestmentAvailable': isReinvest,
+      'reinvestmentAvailable': isReinvestAvailable,
+      'isReInvestment': isReinvestment,
       'actionStatus': actionStatus,
     };
   }

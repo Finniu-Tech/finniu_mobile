@@ -87,6 +87,7 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
               bottomNavigationBar: const NavigationBarHome(
                 colorBackground: Colors.transparent,
               ),
+              extendBody: true,
               body: SingleChildScrollView(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

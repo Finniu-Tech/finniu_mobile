@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -153,7 +154,7 @@ class CompletedList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "Finalizada",
+                            status: StatusInvestmentEnum.finished,
                           ),
                         );
                       },
@@ -197,15 +198,16 @@ class InProgressList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "En Curso",
-                            isReinvest: list[index].isReinvest ?? false,
+                            status: StatusInvestmentEnum.in_course,
+                            isReinvestAvailable: list[index].isReinvestAvailable ?? false,
+                            actionStatus: list[index].actionStatus ?? "",
                           ),
                         );
                       },
                       child: ProgressBarInProgress(
                         dateEnds: list[index].finishDateInvestment,
                         amount: list[index].amount,
-                        isReinvest: list[index].isReinvest ?? false,
+                        isReinvestmentAvailable: list[index].isReinvestAvailable ?? false,
                         actionStatus: list[index].actionStatus ?? "",
                         onPressed: () {
                           Navigator.pushNamed(
@@ -213,8 +215,9 @@ class InProgressList extends StatelessWidget {
                             '/v2/summary',
                             arguments: ArgumentsNavigator(
                               uuid: list[index].uuid,
-                              status: "En Curso",
-                              isReinvest: list[index].isReinvest ?? false,
+                              status: StatusInvestmentEnum.in_course,
+                              isReinvestAvailable: list[index].isReinvestAvailable ?? false,
+                              actionStatus: list[index].actionStatus ?? "",
                             ),
                           );
                         },
@@ -255,7 +258,7 @@ class ToValidateList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "Por validar",
+                            status: StatusInvestmentEnum.in_process,
                           ),
                         );
                       },
@@ -290,6 +293,7 @@ class PendingList extends StatelessWidget {
             : ListView.builder(
                 itemCount: list.length,
                 itemBuilder: (context, index) {
+                  print('is reinvest 11111${list[index].isReinvestment}');
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: GestureDetector(
@@ -299,13 +303,14 @@ class PendingList extends StatelessWidget {
                           '/v2/summary',
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
-                            status: "Pendiente",
+                            status: StatusInvestmentEnum.pending,
                           ),
                         );
                       },
                       child: ToValidateInvestment(
                         dateEnds: list[index].finishDateInvestment,
                         amount: list[index].amount,
+                        isReinvestment: list[index].isReinvestment == true ? true : false,
                       ),
                     ),
                   );

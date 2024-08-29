@@ -1,6 +1,5 @@
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/business_investments/helpers/mask_string.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter_svg/svg.dart';
@@ -24,12 +23,10 @@ class SelectedBankTransfer extends ConsumerWidget {
     // const int iconLight = 0xff0D3A5C;
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 66,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,11 +47,15 @@ class SelectedBankTransfer extends ConsumerWidget {
                 fontSize: 14,
               ),
               TextPoppins(
-                text:
-                    "${bankAccountSender.bankName} **** **** **** ${maskString(bankAccountSender.bankAccount)}",
-                fontSize: 14,
-                isBold: true,
+                text: "${bankAccountSender.bankName}",
+                fontSize: 12,
+                isBold: false,
               ),
+              TextPoppins(
+                text: "Nro. Cuenta: ${bankAccountSender.bankAccount}",
+                fontSize: 12,
+                isBold: false,
+              )
             ],
           ),
           const Expanded(child: SizedBox()),

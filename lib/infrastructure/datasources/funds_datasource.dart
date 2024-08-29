@@ -16,9 +16,10 @@ class FundDataSource extends GraphQLBaseDataSource {
         document: gql(
           QueryRepository.getFunds,
         ),
-        fetchPolicy: FetchPolicy.noCache, //TODO REMOVE CACHE
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
+
     final List<dynamic> listInvestmentResponse =
         response.data?['investmentFundsQueries']?['listInvestmentFundsAvailable'] ?? [];
 
@@ -47,7 +48,6 @@ class FundDataSource extends GraphQLBaseDataSource {
   }
 
   Future<List<int>> getAggroQuotes() async {
-    print('getAggroQuotes');
     final response = await client.query(
       QueryOptions(
         document: gql(
@@ -56,9 +56,7 @@ class FundDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('response: ${response.data}');
     final quoteList = response.data?['agroInvestmentQueries']['calculateQuotesAvailable'];
-    print('quoteList zero : ${quoteList}');
     //iterate over the quoteList and parse each vaalue to int
     return (quoteList as List<dynamic>).map((quote) => quote as int).toList();
   }

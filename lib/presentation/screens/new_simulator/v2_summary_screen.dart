@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
@@ -56,21 +57,6 @@ class _BodyScaffold extends ConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
     final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
-    final List<ProfitabilityItem> list = [
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 1, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 2, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 3, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 4, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 5, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 6, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 7, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 8, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 9, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 10, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 11, 15)),
-      ProfitabilityItem(amount: 100, paymentDate: DateTime(2024, 12, 15)),
-    ];
-
     return investmentDetailByUuid.when(
       error: (error, stack) {
         showErrorGetDetail(context);
@@ -110,7 +96,7 @@ class _BodyScaffold extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TitleModal(
-                  status: arguments.status,
+                  status: StatusInvestmentEnum.getLabelForStatus(arguments.status),
                 ),
                 const SizedBox(height: 10),
                 const IconFund(),
@@ -153,22 +139,42 @@ class _BodyScaffold extends ConsumerWidget {
                   finalDate: data.finishDateInvestment,
                 ),
                 const SizedBox(height: 15),
-                arguments.isReinvest
-                    ? ButtonInvestment(
-                        text: 'Reinvertir mi inversión',
-                        onPressed: () => reinvestmentQuestionModal(
-                          context,
-                          ref,
-                          arguments.uuid,
-                          data.amount.toDouble(),
-                          isSoles ? currencyEnum.PEN : currencyEnum.USD,
-                          true,
-                          data.fund,
-                          data.rentabilityPercent,
-                          data.month,
-                        ),
-                      )
-                    : const SizedBox(height: 15),
+
+                if (arguments.isReinvestAvailable == true &&
+                    StatusInvestmentEnum.compare(arguments.status, StatusInvestmentEnum.in_course) &&
+                    ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.defaultReInvestment)) ...[
+                  arguments.isReinvestAvailable
+                      ? ButtonInvestment(
+                          text: 'Reinvertir mi inversión',
+                          onPressed: () => reinvestmentQuestionModal(
+                            context,
+                            ref,
+                            arguments.uuid,
+                            data.amount.toDouble(),
+                            isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                            true,
+                            data.fund,
+                            data.rentabilityPercent,
+                            data.month,
+                          ),
+                        )
+                      : const SizedBox()
+                ],
+                if (ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.pendingReInvestment)) ...[
+                  const ButtonInvestmentDisabled(
+                    text: 'Re-inversión Solicitada',
+                    colorBackground: Color(0xff55B63D),
+                  )
+                ],
+
+                if (ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.disabledReInvestment)) ...[
+                  const ButtonInvestmentDisabled(
+                    text: 'Devolución de Capital Solicitada',
+                    colorBackground: Color(0xff7C73FE),
+                  )
+                ],
+
+                const SizedBox(height: 15),
               ],
             ),
           ),

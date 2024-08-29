@@ -723,7 +723,15 @@ class MutationRepository {
           message
           errorCode
         }
-    
+          }
+    }
+    ''';
+   
+  static String completeLastTour() {
+    return '''
+     mutation completeLastTour( \$hasCompletedTour: Boolean! ){
+      completeLastTour(hasCompletedTour : \$hasCompletedTour){
+        success   
       }
     }
     ''';

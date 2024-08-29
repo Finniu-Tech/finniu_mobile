@@ -1,7 +1,28 @@
 class StatusInvestmentEnum {
-  static const String in_course = 'in_course';
+  static const String in_course = 'active';
   static const String finished = 'finished';
   static const String pending = 'pending';
+  static const String in_process = 'in_process';
+
+  //add a compare method , that compares a given string with the enum , it proves in lowercase
+  static bool compare(String given, String targetStatus) {
+    return given.toLowerCase() == targetStatus.toLowerCase();
+  }
+
+  static String getLabelForStatus(String status) {
+    switch (status) {
+      case StatusInvestmentEnum.in_course:
+        return 'En curso';
+      case StatusInvestmentEnum.in_process:
+        return 'Por validar';
+      case StatusInvestmentEnum.pending:
+        return 'Pendiente';
+      case StatusInvestmentEnum.finished:
+        return 'Finalizada';
+      default:
+        return 'En curso';
+    }
+  }
 }
 
 class ActionStatusEnum {
@@ -9,6 +30,10 @@ class ActionStatusEnum {
   static const String disabledReInvestment = 'RE_INVERSION_DESACTIVADA';
   static const String pendingReInvestment = 'RE_INVERSION_PENDIENTE';
   static const String defaultReInvestment = 'RE_INVERSION_DEFAULT';
+
+  static bool compare(String given, String targetStatus) {
+    return given.toLowerCase() == targetStatus.toLowerCase();
+  }
 }
 
 class InvestmentRentabilityReport {
@@ -39,9 +64,9 @@ class InvestmentRentabilityResumeEntity {
   });
 
   int countTotalPlans() {
-    int countInCourse = this.investmentsInCourse?.length ?? 0;
-    int countInvesmentsFinished = this.investmentsFinished?.length ?? 0;
-    int countInvestmentsPending = this.investmentsPending?.length ?? 0;
+    int countInCourse = investmentsInCourse?.length ?? 0;
+    int countInvesmentsFinished = investmentsFinished?.length ?? 0;
+    int countInvestmentsPending = investmentsPending?.length ?? 0;
     return countInCourse + countInvesmentsFinished + countInvestmentsPending;
   }
 }

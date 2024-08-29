@@ -1,5 +1,8 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/domain/entities/feature_flag_entity.dart';
+import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/infrastructure/models/otp.dart';
+import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -41,8 +44,7 @@ class ActivateAccount extends HookConsumerWidget {
                     text: "Activa tu cuenta en segundos", //
                     fontWeight: FontWeight.w600,
                     fontSize: 24,
-                    colorText:
-                        themeProvider.isDarkMode ? primaryLight : primaryDark,
+                    colorText: themeProvider.isDarkMode ? primaryLight : primaryDark,
 
                     // Aquí añade el texto dentro de 'text'
                   ),
@@ -61,9 +63,7 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       height: 1.5,
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : const Color(primaryDark),
+                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                     ),
                     "Ingresa el código de verificación",
                   ),
@@ -79,9 +79,7 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : const Color(primaryDark),
+                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                     ),
                     "Te hemos enviado el código a tu correo para confirmar la operación",
                   ),
@@ -101,9 +99,7 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
                       height: 1.5,
-                      color: themeProvider.isDarkMode
-                          ? Colors.white
-                          : const Color(primaryDark),
+                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
                     ),
                     "Reenviar el código en ",
                   ),
@@ -118,13 +114,10 @@ class ActivateAccount extends HookConsumerWidget {
 
                       client.when(
                         data: (client) async {
-                          final result =
-                              await (sendEmailOTPCode(user.email!, client));
+                          final result = await (sendEmailOTPCode(user.email!, client));
 
                           if (result == true) {
-                            ref
-                                .read(timerCounterDownProvider.notifier)
-                                .startTimer(first: true);
+                            ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
                           } else {
                             CustomSnackbar.show(
                               context,
@@ -149,9 +142,7 @@ class ActivateAccount extends HookConsumerWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: themeProvider.isDarkMode
-                            ? const Color(primaryDark)
-                            : Colors.white,
+                        color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
                       ),
                     ),
                   ),
@@ -191,9 +182,7 @@ class VerificationCodeWidget extends HookConsumerWidget {
           textStyle: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
-            color: themeProvider.isDarkMode
-                ? Colors.white
-                : const Color(primaryDark),
+            color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
           ),
           keyboardType: TextInputType.number,
           underlineColor: const Color(
@@ -215,14 +204,32 @@ class VerificationCodeWidget extends HookConsumerWidget {
                 ),
               ).future,
             );
-            futureIsValidCode.then((status) {
+            futureIsValidCode.then((status) async {
               if (status == true) {
-                Preferences.username = userProfile.email!;
                 Navigator.pushNamedAndRemoveUntil(
                   context,
-                  '/on_boarding_start',
-                  (route) => false, // Remove all the previous routes
+                  '/home_v2',
+                  (Route<dynamic> route) => false,
                 );
+                // Preferences.username = userProfile.email!;
+                // final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+                // print('featureFlags xxxxx: $featureFlags');
+                // ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
+
+                // final String route = ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
+                //     ? FeatureRoutes.getRouteForFlag(FeatureFlags.homeV2, defaultHomeRoute)
+                //     : defaultHomeRoute;
+
+                // Navigator.pushNamedAndRemoveUntil(
+                //   context,
+                //   route,
+                //   (route) => false, // Remove all the previous routes
+                // );
+                // Navigator.pushNamedAndRemoveUntil(
+                //   context,
+                //   '/on_boarding_start',
+                //   (route) => false, // Remove all the previous routes
+                // );
               } else {
                 Navigator.of(context).pop();
                 CustomSnackbar.show(

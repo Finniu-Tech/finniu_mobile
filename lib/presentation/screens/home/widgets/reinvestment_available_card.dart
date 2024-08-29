@@ -10,7 +10,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:finniu/domain/entities/user_notification_entity.dart';
 
 class ReinvestmentSlider extends HookConsumerWidget {
-  const ReinvestmentSlider({Key? key}) : super(key: key);
+  final bool? isV2;
+  const ReinvestmentSlider({super.key, this.isV2});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -23,7 +24,7 @@ class ReinvestmentSlider extends HookConsumerWidget {
           return const SizedBox();
         }
         final items = notifications.map((notification) {
-          return ReinvestmentAvailableCard(notification: notification);
+          return ReinvestmentAvailableCard(notification: notification, isV2: isV2);
         }).toList();
 
         return SizedBox(
@@ -39,12 +40,13 @@ class ReinvestmentSlider extends HookConsumerWidget {
                   );
                 }).toList(),
                 options: CarouselOptions(
-                    height: 120,
-                    autoPlay: false,
-                    viewportFraction: 1,
-                    onPageChanged: (index, reason) {
-                      currentIndex.value = index;
-                    }),
+                  height: 120,
+                  autoPlay: false,
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) {
+                    currentIndex.value = index;
+                  },
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -80,8 +82,9 @@ class ReinvestmentSlider extends HookConsumerWidget {
 
 class ReinvestmentAvailableCard extends ConsumerWidget {
   final UserNotificationEntity notification;
+  final bool? isV2;
 
-  const ReinvestmentAvailableCard({Key? key, required this.notification}) : super(key: key);
+  const ReinvestmentAvailableCard({super.key, required this.notification, this.isV2});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -146,12 +149,22 @@ class ReinvestmentAvailableCard extends ConsumerWidget {
           ),
           if (notification.type == TypeUserNotificationEnum.REINVESTMENT) ...[
             CustomButtonRoundedDark(
-              onTap: () {
-                final preInvestmentUUID = notification.metaData?.preinvestmentUUID ?? '';
-                final amount = notification.metaData?.amount ?? 0;
-                final currency = notification.metaData?.currency ?? 'PEN'; //PEN or USD
-                reinvestmentQuestionModal(context, ref, preInvestmentUUID, amount, currency);
-              },
+              onTap: isV2 == true
+                  ? () {
+                      Navigator.pushNamed(
+                        context,
+                        '/v2/investment',
+                        arguments: {'reinvest': true},
+                      );
+                    }
+                  : () async {
+                      {
+                        final preInvestmentUUID = notification.metaData?.preinvestmentUUID ?? '';
+                        final amount = notification.metaData?.amount ?? 0;
+                        final currency = notification.metaData?.currency ?? 'PEN'; //PEN or USD
+                        reinvestmentQuestionModal(context, ref, preInvestmentUUID, amount, currency);
+                      }
+                    },
             ),
           ],
         ],

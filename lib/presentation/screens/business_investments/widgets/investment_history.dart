@@ -13,12 +13,10 @@ class InvestmentHistoryBusiness extends ConsumerStatefulWidget {
   const InvestmentHistoryBusiness({super.key});
 
   @override
-  ConsumerState<InvestmentHistoryBusiness> createState() =>
-      _InvestmentHistoryBusiness();
+  ConsumerState<InvestmentHistoryBusiness> createState() => _InvestmentHistoryBusiness();
 }
 
-class _InvestmentHistoryBusiness
-    extends ConsumerState<InvestmentHistoryBusiness> {
+class _InvestmentHistoryBusiness extends ConsumerState<InvestmentHistoryBusiness> {
   int _selectedIndex = 0;
   final PageController _pageController = PageController();
 
@@ -46,7 +44,7 @@ class _InvestmentHistoryBusiness
                 },
               ),
               ButtonHistory(
-                text: 'En curso',
+                text: 'En curso xd',
                 isSelected: _selectedIndex == 1,
                 onPressed: () {
                   setState(() {
@@ -204,16 +202,14 @@ class ButtonHistory extends ConsumerWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 15, vertical: 5).copyWith(),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5).copyWith(),
         decoration: BoxDecoration(
           color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
           borderRadius: const BorderRadius.all(
             Radius.circular(20),
           ),
           border: Border.all(
-            color:
-                isDarkMode ? const Color(borderDark) : const Color(borderLight),
+            color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
             width: 1.0,
           ),
         ),

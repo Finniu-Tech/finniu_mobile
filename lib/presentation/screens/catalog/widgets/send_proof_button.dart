@@ -75,6 +75,41 @@ class ButtonInvestment extends ConsumerWidget {
   }
 }
 
+class ButtonInvestmentDisabled extends ConsumerWidget {
+  final String text;
+  final Color colorBackground;
+  const ButtonInvestmentDisabled({
+    super.key,
+    required this.text,
+    required this.colorBackground,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: 50,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.all(colorBackground),
+        ),
+        onPressed: null,
+        child: Text(
+          text,
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            color: Color(colorTextButtonLightColor),
+            fontSize: 16,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ButtonDialog extends ConsumerWidget {
   final String text;
   final VoidCallback? onPressed;
