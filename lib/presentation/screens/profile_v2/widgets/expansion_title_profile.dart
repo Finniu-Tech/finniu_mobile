@@ -67,26 +67,24 @@ class ExpansionTitleProfile extends HookConsumerWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 height: 85,
-                child: Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      TextPoppins(
-                        text: title,
-                        fontSize: 16,
-                        isBold: true,
-                        align: TextAlign.start,
-                      ),
-                      TextPoppins(
-                        text: subtitle,
-                        fontSize: 12,
-                        isBold: false,
-                        lines: 2,
-                        align: TextAlign.start,
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextPoppins(
+                      text: title,
+                      fontSize: 16,
+                      isBold: true,
+                      align: TextAlign.start,
+                    ),
+                    TextPoppins(
+                      text: subtitle,
+                      fontSize: 12,
+                      isBold: false,
+                      lines: 2,
+                      align: TextAlign.start,
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -98,6 +96,50 @@ class ExpansionTitleProfile extends HookConsumerWidget {
           thickness: 1,
           color:
               isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+        ),
+      ],
+    );
+  }
+}
+
+class ChildrenTitle extends ConsumerWidget {
+  const ChildrenTitle({
+    super.key,
+    required this.title,
+    required this.subtitle,
+  });
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(width: 53),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.7,
+          height: 85,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextPoppins(
+                text: title,
+                fontSize: 16,
+                isBold: true,
+                align: TextAlign.start,
+              ),
+              TextPoppins(
+                text: subtitle,
+                fontSize: 12,
+                isBold: false,
+                lines: 2,
+                align: TextAlign.start,
+              ),
+            ],
+          ),
         ),
       ],
     );

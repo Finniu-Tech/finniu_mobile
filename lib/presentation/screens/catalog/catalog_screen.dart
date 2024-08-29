@@ -71,7 +71,12 @@ class CatalogScreen extends HookConsumerWidget {
               title: "Contraseñas",
               subtitle:
                   "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
-              children: [],
+              children: [
+                ChildrenTitle(
+                  title: "Visualización de contraseña",
+                  subtitle: "Mostrar caracteres brevemente mientras escribes",
+                )
+              ],
             ),
             const SizedBox(
               height: 20,
