@@ -1,7 +1,5 @@
 import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
-import 'package:finniu/presentation/screens/blue_gold_investments/blue_gold_investment_screen.dart';
-import 'package:finniu/presentation/screens/business_investments/business_investments_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
@@ -73,7 +71,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login_forgot': (BuildContext context) => const ForgotPassword(),
     '/login_invalid': (BuildContext context) => const InvalidEmail(),
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
-    '/onboarding_questions_start': (BuildContext context) => const StartInvestment(),
+    '/onboarding_questions_start': (BuildContext context) =>
+        const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeScreen(),
     '/home_v2': (BuildContext context) => const HomeScreenV2(),
@@ -100,7 +99,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/process_investment': (BuildContext context) => InvestmentStatusScreen(),
     '/investment_history': (BuildContext context) => const InvestmentHistory(),
     '/reinvestment_step_1': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return ReinvestmentStep1(
         preInvestmentUUID: args['preInvestmentUUID'],
         preInvestmentAmount: args['preInvestmentAmount'],
@@ -109,7 +109,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       );
     },
     '/reinvestment_step_2': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return ReInvestmentStep2(
         plan: args['plan'],
         resultCalculator: args['resultCalculator'],
@@ -121,13 +122,15 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/activate_account': (BuildContext context) => const ActivateAccount(),
     // '/fund_detail': (BuildContext context) => const FundDetailScreen(),
     '/fund_detail': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return FundDetailScreen(
         fund: args['fund'],
       );
     },
     '/v2/investment/step-1': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return InvestmentProcessStep1Screen(
         fund: args['fund'],
         amount: args['amount'],
@@ -140,7 +143,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       );
     },
     '/v2/investment/step-2': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return InvestmentProcessStep2Screen(
         fund: args['fund'],
         preInvestmentUUID: args['preInvestmentUUID'],
@@ -150,12 +154,14 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     },
     // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
     '/v2/aggro-investment': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return InvestmentAggroProcessScreen(
         fund: args['fund'],
       );
     },
-    '/v2/investment_blue_gold': (BuildContext context) => const InvestmentBlueGoldScreen(),
+    '/v2/investment_blue_gold': (BuildContext context) =>
+        const InvestmentBlueGoldScreen(),
     '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
     '/v2/binnacle': (BuildContext context) => const BinnacleScreen(),
 
@@ -180,8 +186,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/send_code': (BuildContext context) => const SendCodeV2(),
     'v2/activate_account': (BuildContext context) => const ActivateAccountV2(),
 
-    'v2/complete_details': (BuildContext context) => const CompleteDetailsScreenV2(),
-    'v2/validate_identity': (BuildContext context) => const ValidateIdentityScreenV2(),
+    'v2/complete_details': (BuildContext context) =>
+        const CompleteDetailsScreenV2(),
+    'v2/validate_identity': (BuildContext context) =>
+        const ValidateIdentityScreenV2(),
     '/v2/login': (BuildContext context) => const UserRegisterV2(),
     '/v2/verification_code': (BuildContext context) => const UserRegisterV2(),
     '/v2/activate_account': (BuildContext context) => const UserRegisterV2(),

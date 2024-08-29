@@ -3,9 +3,9 @@
 //     final scanModel = scanModelFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
-ScanUserModel scanModelFromJson(String str) => ScanUserModel.fromJson(json.decode(str));
+ScanUserModel scanModelFromJson(String str) =>
+    ScanUserModel.fromJson(json.decode(str));
 
 String scanModelToJson(ScanUserModel data) => json.encode(data.toJson());
 
@@ -17,7 +17,9 @@ class ScanUserModel {
   RegisterUser? registerUser;
 
   factory ScanUserModel.fromJson(Map<String, dynamic> json) => ScanUserModel(
-        registerUser: json["registerUser"] == null ? null : RegisterUser.fromJson(json["registerUser"]),
+        registerUser: json["registerUser"] == null
+            ? null
+            : RegisterUser.fromJson(json["registerUser"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -59,7 +61,9 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         email: json["email"],
-        userProfile: json["userProfile"] == null ? null : UserProfile.fromJson(json["userProfile"]),
+        userProfile: json["userProfile"] == null
+            ? null
+            : UserProfile.fromJson(json["userProfile"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -93,6 +97,7 @@ class UserProfile {
     this.password,
     this.address,
     this.percentCompleteProfile,
+    this.hasCompletedTour,
   });
 
   String? firstName;
@@ -105,6 +110,7 @@ class UserProfile {
   String? documentNumber;
   dynamic gender;
   bool? hasCompletedOnboarding;
+  bool? hasCompletedTour;
   bool? isActive;
   String? occupation;
   dynamic provincia;
@@ -126,9 +132,12 @@ class UserProfile {
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
         distrito: json["distrito"],
-        documentNumber: json["documentNumber"].toString() == 'null' ? '' : json["documentNumber"].toString(),
+        documentNumber: json["documentNumber"].toString() == 'null'
+            ? ''
+            : json["documentNumber"].toString(),
         gender: json["gender"],
         hasCompletedOnboarding: json["hasCompletedOnboarding"],
+        hasCompletedTour: json["hasCompletedTour"],
         isActive: json["isActive"],
         occupation: json["occupation"],
         provincia: json["provincia"],
@@ -139,8 +148,9 @@ class UserProfile {
         imageProfile: json["imageProfile"],
         imageProfileUrl: json["imageProfileUrl"],
         address: json["address"],
-        percentCompleteProfile:
-            json["percentCompleteProfile"] != null ? double.parse(json["percentCompleteProfile"].toString()) : 0.0,
+        percentCompleteProfile: json["percentCompleteProfile"] != null
+            ? double.parse(json["percentCompleteProfile"].toString())
+            : 0.0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -187,6 +197,7 @@ class UserProfile {
     String? address,
     String? occupation,
     double? percentCompleteProfile,
+    bool? hasCompletedTour,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -206,7 +217,9 @@ class UserProfile {
       documentNumber: documentNumber ?? this.documentNumber,
       address: address ?? this.address,
       occupation: occupation ?? this.occupation,
-      percentCompleteProfile: percentCompleteProfile ?? this.percentCompleteProfile,
+      percentCompleteProfile:
+          percentCompleteProfile ?? this.percentCompleteProfile,
+      hasCompletedTour: hasCompletedTour ?? this.hasCompletedTour,
     );
   }
 
