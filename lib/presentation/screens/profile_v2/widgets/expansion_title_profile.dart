@@ -150,6 +150,68 @@ class ChildrenTitle extends ConsumerWidget {
   }
 }
 
+class ChildrenEmail extends ConsumerWidget {
+  const ChildrenEmail({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.email,
+  });
+  final String title;
+  final String subtitle;
+  final String email;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const int emailDark = 0xffA2E6FA;
+    const int emailLight = 0xff0D3A5C;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(width: 40),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextPoppins(
+                  text: title,
+                  fontSize: 16,
+                  isBold: true,
+                  align: TextAlign.start,
+                ),
+                TextPoppins(
+                  text: subtitle,
+                  fontSize: 12,
+                  isBold: false,
+                  lines: 2,
+                  align: TextAlign.start,
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                TextPoppins(
+                  text: email,
+                  fontSize: 14,
+                  isBold: true,
+                  lines: 2,
+                  align: TextAlign.start,
+                  textDark: emailDark,
+                  textLight: emailLight,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class ChildrenSwitchTitle extends HookConsumerWidget {
   const ChildrenSwitchTitle({
     super.key,
@@ -171,7 +233,6 @@ class ChildrenSwitchTitle extends HookConsumerWidget {
           const SizedBox(width: 40),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.6,
-            height: 85,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -221,7 +282,6 @@ class ChildrenOnlyText extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.8,
-        height: 85,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

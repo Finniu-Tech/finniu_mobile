@@ -40,19 +40,19 @@ class _BodySettings extends ConsumerWidget {
           onTap: () => setDarkMode(),
           value: !isDarkMode,
         ),
-        const ButtonNavigateProfile(
+        ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/notification_icon.svg",
           title: "Notificaciones",
           subtitle: "Qué notificaciones quieres recibir \n",
-          onTap: null,
+          onTap: () => Navigator.pushNamed(context, '/v2/new_notifications'),
         ),
-        const ButtonNavigateProfile(
+        ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/lock_key_icon.svg",
           title: "Privacidad",
           subtitle: "Configura tu privacidad \n",
-          onTap: null,
+          onTap: () => Navigator.pushNamed(context, '/v2/privacy'),
         ),
       ],
     );
