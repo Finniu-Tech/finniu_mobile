@@ -44,7 +44,6 @@ class ButtonSwitchProfile extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(width: 15),
                 Column(
                   children: [
                     icon == null
