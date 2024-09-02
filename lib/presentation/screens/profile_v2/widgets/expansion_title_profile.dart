@@ -368,14 +368,16 @@ class ExpansionTitleLegal extends HookConsumerWidget {
 class ChildrenCheckboxTitle extends HookConsumerWidget {
   const ChildrenCheckboxTitle({
     super.key,
-    required this.subtitle,
+    required this.text,
+    required this.value,
+    this.onChanged,
   });
 
-  final String subtitle;
-
+  final String text;
+  final bool value;
+  final void Function(bool?)? onChanged;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<bool> value = useState(false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Row(
@@ -394,7 +396,7 @@ class ChildrenCheckboxTitle extends HookConsumerWidget {
                   height: 5,
                 ),
                 TextPoppins(
-                  text: subtitle,
+                  text: text,
                   fontSize: 14,
                   isBold: false,
                   lines: 3,
@@ -404,7 +406,10 @@ class ChildrenCheckboxTitle extends HookConsumerWidget {
             ),
           ),
           const Expanded(child: SizedBox()),
-          CheckBoxWidget(value: value),
+          CheckBoxWidget(
+            value: value,
+            onChanged: onChanged,
+          ),
         ],
       ),
     );
@@ -415,9 +420,11 @@ class CheckBoxWidget extends ConsumerWidget {
   const CheckBoxWidget({
     super.key,
     required this.value,
+    required this.onChanged,
   });
 
-  final ValueNotifier<bool> value;
+  final bool value;
+  final void Function(bool?)? onChanged;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -428,8 +435,8 @@ class CheckBoxWidget extends ConsumerWidget {
     return Transform.scale(
       scale: 1.3,
       child: Checkbox(
-        value: value.value,
-        onChanged: (_) => value.value = !value.value,
+        value: value,
+        onChanged: onChanged,
         fillColor: WidgetStateProperty.resolveWith<Color>(
           (Set<WidgetState> states) {
             if (states.contains(WidgetState.selected)) {

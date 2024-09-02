@@ -67,8 +67,9 @@ class CatalogScreen extends HookConsumerWidget {
               title: "Verificación  legal",
               children: [
                 ChildrenCheckboxTitle(
-                  subtitle:
+                  text:
                       "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
+                  value: true,
                 ),
               ],
             ),

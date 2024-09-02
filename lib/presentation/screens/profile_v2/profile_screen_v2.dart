@@ -78,11 +78,11 @@ class _BodyProfile extends ConsumerWidget {
               "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
           onTap: () => Navigator.pushNamed(context, '/v2/settings'),
         ),
-        const ButtonNavigateProfile(
+        ButtonNavigateProfile(
           icon: "assets/svg_icons/legal_icon_v2.svg",
           title: "Documentos legales",
           subtitle: "Información legal para las \ninversiones",
-          onTap: null,
+          onTap: () => Navigator.pushNamed(context, '/v2/legal_documents'),
         ),
         const ButtonNavigateProfile(
           icon: "assets/svg_icons/help_circle.svg",
