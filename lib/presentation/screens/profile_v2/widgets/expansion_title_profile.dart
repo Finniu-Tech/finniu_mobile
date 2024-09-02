@@ -365,19 +365,27 @@ class ExpansionTitleLegal extends HookConsumerWidget {
   }
 }
 
-class ChildrenCheckboxTitle extends HookConsumerWidget {
+class ChildrenCheckboxTitle extends ConsumerWidget {
   const ChildrenCheckboxTitle({
     super.key,
     required this.text,
     required this.value,
     this.onChanged,
+    this.isTextRich = false,
+    this.textRich = '',
   });
-
+  final bool isTextRich;
   final String text;
   final bool value;
   final void Function(bool?)? onChanged;
+  final String textRich;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int textDark = 0xffFFFFFF;
+    const int textLight = 0xff000000;
+    const int textRichDark = 0xffA2E6FA;
+    const int textRichLight = 0xff0D3A5C;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Row(
@@ -395,13 +403,40 @@ class ChildrenCheckboxTitle extends HookConsumerWidget {
                 const SizedBox(
                   height: 5,
                 ),
-                TextPoppins(
-                  text: text,
-                  fontSize: 14,
-                  isBold: false,
-                  lines: 3,
-                  align: TextAlign.start,
-                ),
+                isTextRich
+                    ? Text.rich(TextSpan(
+                        children: [
+                          TextSpan(
+                            text: text,
+                            style: TextStyle(
+                              color: isDarkMode
+                                  ? const Color(textDark)
+                                  : const Color(textLight),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                          TextSpan(
+                            text: textRich,
+                            style: TextStyle(
+                              color: isDarkMode
+                                  ? const Color(textRichDark)
+                                  : const Color(textRichLight),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              fontFamily: "Poppins",
+                            ),
+                          ),
+                        ],
+                      ))
+                    : TextPoppins(
+                        text: text,
+                        fontSize: 14,
+                        isBold: false,
+                        lines: 3,
+                        align: TextAlign.start,
+                      ),
               ],
             ),
           ),

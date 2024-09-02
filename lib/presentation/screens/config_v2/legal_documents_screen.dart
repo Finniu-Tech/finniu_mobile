@@ -54,10 +54,11 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               onChanged: setDirector,
             ),
             ChildrenCheckboxTitle(
-              text:
-                  "Estoy de acuerdo con los Términos & condiciones y Políticas de privacidad",
+              text: "Estoy de acuerdo con los ",
               value: termsConditions.value,
               onChanged: setTermsConditions,
+              isTextRich: true,
+              textRich: "Términos & condiciones y Políticas de privacidad ",
             ),
           ],
         ),
