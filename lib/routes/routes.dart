@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/my_data_screen.dart';
+import 'package:finniu/presentation/screens/config_v2/settings_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
 import 'package:finniu/presentation/screens/form_job_v2/form_job_v2.dart';
 import 'package:finniu/presentation/screens/form_legal_terms/form_legal_v2.dart';
@@ -206,7 +207,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/profile': (BuildContext context) => const UserProfileV2(),
     '/v2/on_boarding': (BuildContext context) => const OnBoardingScreen(),
     '/v2/my_data': (BuildContext context) => const MyDataScreen(),
-    '/v2/settings': (BuildContext context) => const MyDataScreen(),
+    '/v2/settings': (BuildContext context) => const SettingsScreen(),
     '/v2/new_notifications': (BuildContext context) => const MyDataScreen(),
     '/v2/privacy': (BuildContext context) => const MyDataScreen(),
     '/v2/legal_documents': (BuildContext context) => const MyDataScreen(),

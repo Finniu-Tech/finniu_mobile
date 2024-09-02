@@ -71,12 +71,12 @@ class _BodyProfile extends ConsumerWidget {
         const SizedBox(
           height: 40,
         ),
-        const ButtonNavigateProfile(
+        ButtonNavigateProfile(
           icon: "assets/svg_icons/settings.svg",
           title: "Configuraciones",
           subtitle:
               "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
-          onTap: null,
+          onTap: () => Navigator.pushNamed(context, '/v2/settings'),
         ),
         const ButtonNavigateProfile(
           icon: "assets/svg_icons/legal_icon_v2.svg",
