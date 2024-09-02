@@ -1,8 +1,9 @@
 import 'dart:io';
-
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/add_image.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_about_me_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class AboutMeDataV2 extends HookConsumerWidget {
   AboutMeDataV2({super.key});
@@ -28,23 +30,26 @@ class AboutMeDataV2 extends HookConsumerWidget {
         useTextEditingController(text: "https://instagram.com/");
     final linkedinTextController =
         useTextEditingController(text: "https://linkendIn.com/");
-    final profilAreaController = useTextEditingController();
-    final String? imagePath = ref.watch(imagePathProvider);
+    final biographyAreaController = useTextEditingController();
+    final String? imageBase64 = ref.watch(imageBase64Provider);
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
-        print("add personal data");
-        print(facebookTextController.text);
-        print(instagramTextController.text);
-        print(linkedinTextController.text);
-        print(profilAreaController.text);
-        print(imagePath);
+        context.loaderOverlay.show();
+        final DtoAboutMeForm data = DtoAboutMeForm(
+          imageProfile: imageBase64 ?? "",
+          backgroundPhoto: imageBase64 ?? "",
+          facebook: facebookTextController.text.trim(),
+          instagram: instagramTextController.text.trim(),
+          linkedin: linkedinTextController.text.trim(),
+          biography: biographyAreaController.text.trim(),
+          other: "",
+        );
+        pushAboutMeDataForm(context, data, ref);
       }
     }
 
     void continueLater() {
-      print("continue later");
-
-      Navigator.pop(context);
+      Navigator.pushNamed(context, "/home_v2");
     }
 
     return GestureDetector(
@@ -73,7 +78,7 @@ class AboutMeDataV2 extends HookConsumerWidget {
             facebookTextController: facebookTextController,
             instagramTextController: instagramTextController,
             linkedinTextController: linkedinTextController,
-            profilAreaController: profilAreaController,
+            profilAreaController: biographyAreaController,
           ),
         ],
       ),

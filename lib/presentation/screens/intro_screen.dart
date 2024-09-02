@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:finniu/domain/entities/app_version_entity.dart';
 import 'package:finniu/infrastructure/datasources/app_version_datasource_imp.dart';
-import 'package:finniu/main.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/on_boarding_v2/on_boarding_screen_v2.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/upgrade_modal.dart';
 import 'package:flutter/material.dart';
-import 'package:finniu/presentation/screens/login/start_screen.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -47,7 +46,8 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
     if (client != null && _modalShown == false) {
       // Get the client from the Provider
 
-      appVersion = await AppVersionDataSourceImp().getLastVersion(client: client);
+      appVersion =
+          await AppVersionDataSourceImp().getLastVersion(client: client);
       appVersion.currentVersion = appCurrentVersion;
       String statusVersion = appVersion.getStatusVersion();
 
@@ -60,7 +60,7 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
       } else {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-            builder: (BuildContext context) => StartLoginScreen(),
+            builder: (BuildContext context) => OnBoardingScreen(),
           ),
         );
       }

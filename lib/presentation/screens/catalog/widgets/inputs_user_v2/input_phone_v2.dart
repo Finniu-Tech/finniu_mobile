@@ -56,8 +56,8 @@ class InputPhoneUserProfile extends ConsumerWidget {
               fontFamily: "Poppins",
             ),
             hintText: hintText,
-            fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
             filled: true,
+            fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
             border: const OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(25.0)),
               borderSide: BorderSide.none,
@@ -88,6 +88,11 @@ class InputPhoneUserProfile extends ConsumerWidget {
               iconColorDark: iconColorDark,
               iconColorLight: iconColorLight,
               countryController: countryController,
+            ),
+            suffixIcon: const Icon(
+              Icons.person_outline,
+              color: Colors.transparent,
+              size: 24,
             ),
           ),
           validator: validator,

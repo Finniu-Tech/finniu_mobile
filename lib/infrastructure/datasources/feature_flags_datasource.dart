@@ -13,7 +13,7 @@ class FeatureFlagDataSource extends GraphQLBaseDataSource {
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
-    print('result feature flag: ${result.data}');
+    // print('result feature flag: ${result.data}');
     return FeatureFlagEntity.listFromJson(
       result.data?['userProfile']?['featuresFlagsAvailable'] ?? [],
     );

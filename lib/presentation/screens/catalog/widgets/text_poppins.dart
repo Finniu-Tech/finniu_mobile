@@ -41,3 +41,43 @@ class TextPoppins extends ConsumerWidget {
     );
   }
 }
+
+class TextSans extends ConsumerWidget {
+  final String text;
+  final double fontSize;
+  final int? textDark;
+  final int? textLight;
+  final FontWeight? fontWeight;
+  final int? lines;
+  final TextAlign? align;
+
+  const TextSans({
+    super.key,
+    required this.text,
+    required this.fontSize,
+    this.textDark,
+    this.textLight,
+    this.fontWeight,
+    this.lines,
+    this.align,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    return Text(
+      text,
+      textAlign: align ?? TextAlign.start,
+      maxLines: lines ?? 1,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(
+        fontFamily: "DM Sans",
+        fontSize: fontSize,
+        color: isDarkMode
+            ? Color(textDark ?? 0xffffffff)
+            : Color(textLight ?? 0xff000000),
+        fontWeight: fontWeight ?? FontWeight.w500,
+      ),
+    );
+  }
+}

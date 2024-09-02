@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/infrastructure/models/otp.dart';
-import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/activate_account_v2.dart/helpers/add_token.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/services/share_preferences_service.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class VerificationCodeV2 extends HookConsumerWidget {
   const VerificationCodeV2({super.key});
@@ -19,7 +16,12 @@ class VerificationCodeV2 extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeProvider = ref.watch(settingsNotifierProvider);
-    final userProfile = ref.watch(userProfileNotifierProvider);
+    // final userProfile = ref.watch(userProfileNotifierProvider);
+
+    void onComplete(String code) async {
+      context.loaderOverlay.show();
+      addToken(context, ref, code);
+    }
 
     return Center(
       child: Container(
@@ -48,34 +50,7 @@ class VerificationCodeV2 extends HookConsumerWidget {
           length: 4,
           itemSize: 50,
           cursorColor: Colors.blue,
-          onCompleted: (code) {
-            final futureIsValidCode = ref.watch(
-              otpValidatorFutureProvider(
-                OTPForm(
-                  email: userProfile.email!,
-                  otp: code,
-                  action: 'register',
-                ),
-              ).future,
-            );
-            futureIsValidCode.then((status) {
-              if (status == true) {
-                Preferences.username = userProfile.email!;
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/on_boarding_start',
-                  (route) => false, // Remove all the previous routes
-                );
-              } else {
-                Navigator.of(context).pop();
-                CustomSnackbar.show(
-                  context,
-                  'No se pudo validar el código de verificación',
-                  'error',
-                );
-              }
-            });
-          },
+          onCompleted: (code) => onComplete(code),
           onEditing: (bool value) {},
         ),
       ),

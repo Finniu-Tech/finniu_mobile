@@ -165,6 +165,15 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
+              text: "go to '/v2/on_boarding'",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/on_boarding');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "go to '/v2/form_about_me'",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/form_about_me');
