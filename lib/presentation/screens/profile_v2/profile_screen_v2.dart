@@ -85,6 +85,7 @@ class _BodyProfile extends ConsumerWidget {
           onTap: () => Navigator.pushNamed(context, '/v2/legal_documents'),
         ),
         ButtonNavigateProfile(
+          isComplete: true,
           icon: "assets/svg_icons/help_circle.svg",
           title: "Soporte y ayuda",
           subtitle: "Ticket de soporte y preguntas \nfrecuentes",

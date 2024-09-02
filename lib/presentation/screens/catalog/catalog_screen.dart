@@ -23,6 +23,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart'
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/row_dowload.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -63,6 +64,12 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: RowDownload(
+                title: "Declaración - Marzo",
+              ),
+            ),
             const ExpansionTitleLegal(
               title: "Verificación  legal",
               children: [

@@ -1,5 +1,7 @@
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/row_dowload.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -62,17 +64,73 @@ class _BodyLegalDocuments extends HookConsumerWidget {
             ),
           ],
         ),
-        const ExpansionTitleLegal(
+        ExpansionTitleLegal(
           title: "Declaración de la Sunat",
           children: [
-            ChildrenOnlyText(
+            const ChildrenOnlyText(
               textBig: true,
               text:
                   "Este 5% es la tributación correspondiente por renta de 2da categoría (inversiones). Aplica sobre tus intereses ganados.",
             ),
+            const TitleLegal(),
+            RowDownload(
+              title: "Declaración - Marzo",
+              onTap: () => print("pon tap download"),
+            ),
+            RowDownload(
+              title: "Declaración - Junio",
+              onTap: () => print("pon tap download"),
+            ),
+          ],
+        ),
+        ExpansionTitleLegal(
+          title: "Aceptaciones legales y/o tributarios",
+          children: [
+            RowDownload(
+              title: "Términos y Condiciones",
+              onTap: () => print("pon tap download"),
+            ),
+            RowDownload(
+              title: "Política de Privacidad",
+              onTap: () => print("pon tap download"),
+            ),
+            RowDownload(
+              title: "Reglamento de Participación",
+              onTap: () => print("pon tap download"),
+            ),
+            RowDownload(
+              title: "Contrato de Administración",
+              onTap: () => print("pon tap download"),
+            ),
           ],
         ),
       ],
+    );
+  }
+}
+
+class TitleLegal extends StatelessWidget {
+  const TitleLegal({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const int titleDark = 0xffA2E6FA;
+    const int titleLight = 0xff0D3A5C;
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        child: const TextPoppins(
+          text: "Declaraciones Trimestrales ",
+          fontSize: 16,
+          isBold: true,
+          align: TextAlign.start,
+          textDark: titleDark,
+          textLight: titleLight,
+        ),
+      ),
     );
   }
 }
