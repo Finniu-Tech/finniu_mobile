@@ -53,7 +53,7 @@ class _BodyProfile extends ConsumerWidget {
               title: "Mis datos",
               subtitle: "Clic para ver mis datos",
               load: 0.5,
-              onTap: () => print("click"),
+              onTap: () => Navigator.pushNamed(context, '/v2/my_data'),
             ),
             const SizedBox(
               width: 10,
