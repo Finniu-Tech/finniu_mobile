@@ -84,11 +84,11 @@ class _BodyProfile extends ConsumerWidget {
           subtitle: "Información legal para las \ninversiones",
           onTap: () => Navigator.pushNamed(context, '/v2/legal_documents'),
         ),
-        const ButtonNavigateProfile(
+        ButtonNavigateProfile(
           icon: "assets/svg_icons/help_circle.svg",
           title: "Soporte y ayuda",
           subtitle: "Ticket de soporte y preguntas \nfrecuentes",
-          onTap: null,
+          onTap: () => Navigator.pushNamed(context, '/v2/support'),
         ),
         const ButtonNavigateProfile(
           icon: "assets/svg_icons/log_out.svg",

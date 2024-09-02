@@ -10,7 +10,7 @@ class LegalDocumentsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return const ScaffoldConfig(
-      title: "Configuraciones",
+      title: "Documentos legales",
       children: _BodyLegalDocuments(),
     );
   }
