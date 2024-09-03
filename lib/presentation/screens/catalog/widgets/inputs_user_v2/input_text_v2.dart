@@ -8,6 +8,8 @@ class InputTextFileUserProfile extends ConsumerWidget {
     required this.controller,
     required this.hintText,
     required this.validator,
+    this.onError,
+    this.isError = false,
     this.isNumeric = false,
   });
 
@@ -15,6 +17,8 @@ class InputTextFileUserProfile extends ConsumerWidget {
   final String? Function(String?)? validator;
   final String hintText;
   final bool isNumeric;
+  final bool isError;
+  final VoidCallback? onError;
 
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
@@ -24,6 +28,7 @@ class InputTextFileUserProfile extends ConsumerWidget {
   final int textLight = 0xFF000000;
   final int borderColorDark = 0xFFA2E6FA;
   final int borderColorLight = 0xFF0D3A5C;
+  final int borderError = 0xFFED1C24;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -33,6 +38,11 @@ class InputTextFileUserProfile extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          onTap: () {
+            if (onError != null && isError) {
+              onError!();
+            }
+          },
           controller: controller,
           style: TextStyle(
             fontSize: 12,
@@ -50,36 +60,54 @@ class InputTextFileUserProfile extends ConsumerWidget {
             hintText: hintText,
             fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
             filled: true,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
+            border: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              borderSide: isError
+                  ? BorderSide(color: Color(borderError), width: 1)
+                  : BorderSide.none,
             ),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              borderSide: isError
+                  ? BorderSide(color: Color(borderError), width: 1)
+                  : BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              borderSide: isError
+                  ? BorderSide(color: Color(borderError), width: 1)
+                  : BorderSide(
+                      color: isDarkMode
+                          ? Color(borderColorDark)
+                          : Color(borderColorLight),
+                      width: 1,
+                    ),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
               borderSide: BorderSide(
-                color: isDarkMode
-                    ? Color(borderColorDark)
-                    : Color(borderColorLight),
+                color: Color(borderError),
                 width: 1,
               ),
             ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              borderSide: BorderSide(
+                color: Color(borderError),
+                width: 1,
+              ),
             ),
-            focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            suffixIcon: const Icon(
-              Icons.person_outline,
-              color: Colors.transparent,
-              size: 24,
-            ),
+            suffixIcon: isError
+                ? Icon(
+                    Icons.error_outline,
+                    color: Color(borderError),
+                    size: 24,
+                  )
+                : const Icon(
+                    Icons.person_outline,
+                    color: Colors.transparent,
+                    size: 24,
+                  ),
           ),
           validator: validator,
           keyboardType: isNumeric ? TextInputType.number : TextInputType.text,

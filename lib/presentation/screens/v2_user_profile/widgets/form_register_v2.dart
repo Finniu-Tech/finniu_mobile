@@ -1,5 +1,4 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
-
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_register_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
@@ -8,7 +7,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -29,14 +27,14 @@ class FormRegister extends HookConsumerWidget {
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
     final acceptPrivacyAndTerms = useState(false);
-
+    final ValueNotifier<bool> nickNameError = ValueNotifier<bool>(false);
     void saveAndPush(BuildContext context) async {
       if (!formKey.currentState!.validate()) {
         showSnackBarV2(
           context: context,
-          title: "",
-          message: "",
-          snackType: SnackType.info,
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
+          snackType: SnackType.warning,
         );
         // CustomSnackbarV2.show(context);
       }
@@ -53,10 +51,11 @@ class FormRegister extends HookConsumerWidget {
           acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
         );
         if (acceptPrivacyAndTerms.value == false) {
-          CustomSnackbar.show(
-            context,
-            "Debe aceptar los terminos y condiciones",
-            'error',
+          showSnackBarV2(
+            context: context,
+            title: "Olvidaste marcar los T&C",
+            message: "Revisa y marca los T&C y las políticas ",
+            snackType: SnackType.warning,
           );
         }
         context.loaderOverlay.show();
@@ -68,14 +67,39 @@ class FormRegister extends HookConsumerWidget {
       key: formKey,
       child: Column(
         children: [
-          InputTextFileUserProfile(
-            hintText: "Como te llaman",
-            controller: nickNameController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu nombre';
-              }
-              return null;
+          ValueListenableBuilder<bool>(
+            valueListenable: nickNameError,
+            builder: (context, isError, child) {
+              return InputTextFileUserProfile(
+                onError: () => nickNameError.value = false,
+                isError: isError,
+                hintText: "Como te llaman",
+                controller: nickNameController,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Nombre obligatorio",
+                      message: "Por favor, completa el nombre.",
+                      snackType: SnackType.warning,
+                    );
+                    nickNameError.value = true;
+                    return null;
+                  }
+                  if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Nombre inválido",
+                      message:
+                          "El nombre no debe contener números ni caracteres especiales.",
+                      snackType: SnackType.warning,
+                    );
+                    nickNameError.value = true;
+                    return null;
+                  }
+                  return null;
+                },
+              );
             },
           ),
           InputPhoneUserProfile(
@@ -96,6 +120,7 @@ class FormRegister extends HookConsumerWidget {
             hintText: "Escribe tu número telefónico",
           ),
           InputTextFileUserProfile(
+            isError: false,
             hintText: "Correo electronico",
             controller: emailController,
             validator: (value) {
