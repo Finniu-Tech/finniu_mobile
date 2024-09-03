@@ -79,15 +79,21 @@ class InvestmentDetailUuid {
 class ProfitabilityItem {
   final DateTime paymentDate;
   final int amount;
+  final String? voucher;
+  final int? numberPayment;
   ProfitabilityItem({
     required this.paymentDate,
     required this.amount,
+    required this.numberPayment,
+    this.voucher,
   });
 
   factory ProfitabilityItem.fromJson(Map<String, dynamic> json) {
     return ProfitabilityItem(
       paymentDate: DateTime.parse(json['paymentDate']),
       amount: _parseAmount(json['amount']),
+      numberPayment: json['numberPayment'],
+      voucher: json['paymentVoucherUrl'],
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
@@ -102,10 +103,10 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
                         children: pageWidgets.map((widget) => widget.title).toList(),
                       ),
                     ),
-                    SizedBox(
+                    Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height * 0.9,
-                      child: PageView.builder(
+                      alignment: Alignment.topCenter,
+                      child: ExpandablePageView.builder(
                         itemCount: pageWidgets.length,
                         itemBuilder: (context, index) {
                           return pageWidgets[index].itemBuilder;

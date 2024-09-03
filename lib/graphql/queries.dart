@@ -1311,11 +1311,11 @@ class QueryRepository {
           isDefaultAccount
           createdAt
         }
-         paymentRentability {
-          paymentDate
-          amount
-          numberPayment
-        }
+        paymentRentability{
+            paymentDate
+            amount
+          }
+  
         bankAccountSender {
             uuid
             bankName
@@ -1328,6 +1328,7 @@ class QueryRepository {
             isDefaultAccount
             createdAt
           }
+          
           investmentFund{
             uuid
             name
@@ -1347,6 +1348,21 @@ class QueryRepository {
             mainImageHorizontalUrl
             detailBackgroundColorDarkSecondary
             detailBackgroundColorSecondaryLight
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getInvestmentMonthlyReturns {
+    return '''
+      query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){
+        investmentDetail(preInvestmentUuid: \$preInvestmentUuid){
+          paymentRentability{
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
           }
         }
       }

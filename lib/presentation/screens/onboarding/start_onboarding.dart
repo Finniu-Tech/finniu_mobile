@@ -218,7 +218,7 @@ class _StartOnboardingState extends ConsumerState<StartOnboarding> {
               margin: const EdgeInsets.only(top: 20),
               child: TextButton(
                 style: ButtonStyle(
-                  fixedSize: MaterialStateProperty.all<Size>(
+                  fixedSize: WidgetStateProperty.all<Size>(
                     const Size(116, 45), // Establece el ancho y alto deseados
                   ),
                 ),
