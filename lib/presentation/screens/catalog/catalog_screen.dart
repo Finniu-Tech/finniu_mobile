@@ -14,6 +14,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.d
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -64,6 +65,66 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "snackbar error",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.error,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "snackbar warning",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.warning,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "snackbar success",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.success,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "snackbar info",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.info,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: RowDownload(

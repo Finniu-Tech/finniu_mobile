@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_phone_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,16 @@ class FormRegister extends HookConsumerWidget {
     final passwordConfirmController = useTextEditingController();
     final acceptPrivacyAndTerms = useState(false);
 
-    void saveAndPush() async {
+    void saveAndPush(BuildContext context) async {
+      if (!formKey.currentState!.validate()) {
+        showSnackBarV2(
+          context: context,
+          title: "",
+          message: "",
+          snackType: SnackType.info,
+        );
+        // CustomSnackbarV2.show(context);
+      }
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
@@ -136,7 +146,7 @@ class FormRegister extends HookConsumerWidget {
           ),
           ButtonInvestment(
             text: "Crear mi cuenta",
-            onPressed: () => saveAndPush(),
+            onPressed: () => saveAndPush(context),
           ),
           const SizedBox(
             height: 5,
