@@ -41,6 +41,7 @@ class InputTextFileUserProfile extends ConsumerWidget {
           onTap: () {
             if (onError != null && isError) {
               onError!();
+              ScaffoldMessenger.of(context).clearSnackBars();
             }
           },
           controller: controller,

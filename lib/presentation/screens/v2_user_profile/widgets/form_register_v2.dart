@@ -36,9 +36,18 @@ class FormRegister extends HookConsumerWidget {
           message: "Por favor, completa todos los campos.",
           snackType: SnackType.warning,
         );
-        // CustomSnackbarV2.show(context);
-      }
-      if (formKey.currentState!.validate()) {
+        return;
+      } else {
+        if (acceptPrivacyAndTerms.value == false) {
+          showSnackBarV2(
+            context: context,
+            title: "Olvidaste marcar los T&C",
+            message: "Revisa y marca los T&C y las políticas ",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+        if (nickNameError.value) return;
         context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text.trim(),
@@ -50,17 +59,35 @@ class FormRegister extends HookConsumerWidget {
           acceptTermsConditions: acceptPrivacyAndTerms.value,
           acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
         );
-        if (acceptPrivacyAndTerms.value == false) {
-          showSnackBarV2(
-            context: context,
-            title: "Olvidaste marcar los T&C",
-            message: "Revisa y marca los T&C y las políticas ",
-            snackType: SnackType.warning,
-          );
-        }
+
         context.loaderOverlay.show();
         pushDataForm(context, data, ref);
       }
+      // if (formKey.currentState!.validate()) {
+      //   if (acceptPrivacyAndTerms.value == false) {
+      //     showSnackBarV2(
+      //       context: context,
+      //       title: "Olvidaste marcar los T&C",
+      //       message: "Revisa y marca los T&C y las políticas ",
+      //       snackType: SnackType.warning,
+      //     );
+      //     return;
+      //   }
+      //   context.loaderOverlay.show();
+      //   final DtoRegisterForm data = DtoRegisterForm(
+      //     nickName: nickNameController.text.trim(),
+      //     countryPrefix: countryPrefixController.text.trim(),
+      //     phoneNumber: phoneNumberController.text.trim(),
+      //     email: emailController.text.trim(),
+      //     password: passwordController.text.trim(),
+      //     confirmPassword: passwordConfirmController.text.trim(),
+      //     acceptTermsConditions: acceptPrivacyAndTerms.value,
+      //     acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
+      //   );
+
+      //   context.loaderOverlay.show();
+      //   pushDataForm(context, data, ref);
+      // }
     }
 
     return Form(
