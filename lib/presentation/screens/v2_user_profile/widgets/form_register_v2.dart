@@ -28,6 +28,10 @@ class FormRegister extends HookConsumerWidget {
     final passwordConfirmController = useTextEditingController();
     final acceptPrivacyAndTerms = useState(false);
     final ValueNotifier<bool> nickNameError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> phoneNumberError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> passwordConfirmError = ValueNotifier<bool>(false);
     void saveAndPush(BuildContext context) async {
       if (!formKey.currentState!.validate()) {
         showSnackBarV2(
@@ -48,6 +52,7 @@ class FormRegister extends HookConsumerWidget {
           return;
         }
         if (nickNameError.value) return;
+        if (phoneNumberError.value) return;
         context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text.trim(),
@@ -63,31 +68,6 @@ class FormRegister extends HookConsumerWidget {
         context.loaderOverlay.show();
         pushDataForm(context, data, ref);
       }
-      // if (formKey.currentState!.validate()) {
-      //   if (acceptPrivacyAndTerms.value == false) {
-      //     showSnackBarV2(
-      //       context: context,
-      //       title: "Olvidaste marcar los T&C",
-      //       message: "Revisa y marca los T&C y las políticas ",
-      //       snackType: SnackType.warning,
-      //     );
-      //     return;
-      //   }
-      //   context.loaderOverlay.show();
-      //   final DtoRegisterForm data = DtoRegisterForm(
-      //     nickName: nickNameController.text.trim(),
-      //     countryPrefix: countryPrefixController.text.trim(),
-      //     phoneNumber: phoneNumberController.text.trim(),
-      //     email: emailController.text.trim(),
-      //     password: passwordController.text.trim(),
-      //     confirmPassword: passwordConfirmController.text.trim(),
-      //     acceptTermsConditions: acceptPrivacyAndTerms.value,
-      //     acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
-      //   );
-
-      //   context.loaderOverlay.show();
-      //   pushDataForm(context, data, ref);
-      // }
     }
 
     return Form(
@@ -103,88 +83,92 @@ class FormRegister extends HookConsumerWidget {
                 hintText: "Como te llaman",
                 controller: nickNameController,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    showSnackBarV2(
-                      context: context,
-                      title: "Nombre obligatorio",
-                      message: "Por favor, completa el nombre.",
-                      snackType: SnackType.warning,
-                    );
-                    nickNameError.value = true;
-                    return null;
-                  }
-                  if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
-                    showSnackBarV2(
-                      context: context,
-                      title: "Nombre inválido",
-                      message:
-                          "El nombre no debe contener números ni caracteres especiales.",
-                      snackType: SnackType.warning,
-                    );
-                    nickNameError.value = true;
-                    return null;
-                  }
+                  validateName(
+                    value: value,
+                    context: context,
+                    boolNotifier: nickNameError,
+                  );
                   return null;
                 },
               );
             },
           ),
-          InputPhoneUserProfile(
-            controller: phoneNumberController,
-            countryController: countryPrefixController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Ingresa tu nómero de telefono';
-              }
-              if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                return 'Solo puedes usar números';
-              }
-              if (value.length < 8) {
-                return 'El nómero debe tener 8 digitos';
-              }
-              return null;
-            },
-            hintText: "Escribe tu número telefónico",
-          ),
-          InputTextFileUserProfile(
-            isError: false,
-            hintText: "Correo electronico",
-            controller: emailController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu correo electrónico';
-              } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                return 'Ingresar un correo electrónico válido';
-              } else {
-                return null;
-              }
+          ValueListenableBuilder<bool>(
+            valueListenable: phoneNumberError,
+            builder: (context, isError, child) {
+              return InputPhoneUserProfile(
+                isError: isError,
+                onError: () => phoneNumberError.value = false,
+                controller: phoneNumberController,
+                countryController: countryPrefixController,
+                hintText: "Escribe tu número telefónico",
+                validator: (value) {
+                  validatePhone(
+                    value: value,
+                    context: context,
+                    boolNotifier: phoneNumberError,
+                  );
+                  return null;
+                },
+              );
             },
           ),
-          InputPasswordFieldUserProfile(
-            controller: passwordController,
-            hintText: "Contraseña ",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu contraseña';
-              } else if (value.length < 8) {
-                return 'Debe tener al menos 8 caracteres';
-              }
-              return null;
+          ValueListenableBuilder<bool>(
+            valueListenable: emailError,
+            builder: (context, isError, child) {
+              return InputTextFileUserProfile(
+                isError: isError,
+                onError: () => emailError.value = false,
+                hintText: "Correo electronico",
+                controller: emailController,
+                validator: (value) {
+                  validateEmail(
+                    value: value,
+                    context: context,
+                    boolNotifier: emailError,
+                  );
+                  return null;
+                },
+              );
             },
           ),
-          InputPasswordFieldUserProfile(
-            controller: passwordConfirmController,
-            hintText: "Confirmar contraseña",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu contraseña';
-              } else if (value.length < 8) {
-                return 'Debe tener al menos 8 caracteres';
-              }
-              if (value != passwordController.text) {
-                return 'Las contraseñas no coinciden';
-              }
-              return null;
+          ValueListenableBuilder<bool>(
+            valueListenable: passwordError,
+            builder: (context, isError, child) {
+              return InputPasswordFieldUserProfile(
+                isError: isError,
+                onError: () => passwordError.value = false,
+                controller: passwordController,
+                hintText: "Contraseña ",
+                validator: (value) {
+                  validatePassword(
+                    value: value,
+                    context: context,
+                    boolNotifier: passwordError,
+                  );
+                  return null;
+                },
+              );
+            },
+          ),
+          ValueListenableBuilder<bool>(
+            valueListenable: passwordConfirmError,
+            builder: (context, isError, child) {
+              return InputPasswordFieldUserProfile(
+                isError: isError,
+                onError: () => passwordConfirmError.value = false,
+                controller: passwordConfirmController,
+                hintText: "Confirmar contraseña",
+                validator: (value) {
+                  validateConfirmPassword(
+                    value: value,
+                    context: context,
+                    boolNotifier: passwordConfirmError,
+                    password: passwordController.text.trim(),
+                  );
+                  return null;
+                },
+              );
             },
           ),
           CheckTermsAndConditions(
@@ -236,4 +220,211 @@ class RedirectLogin extends ConsumerWidget {
       ),
     );
   }
+}
+
+String? validatePassword({
+  required String? value,
+  required BuildContext context,
+  required ValueNotifier<bool> boolNotifier,
+}) {
+  final RegExp hasUppercase = RegExp(r'[A-Z]');
+  final RegExp hasDigits = RegExp(r'[0-9]');
+  final RegExp hasSpecialCharacters = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+  if (value == null || value.isEmpty) {
+    showSnackBarV2(
+      context: context,
+      title: "Password incorrecto",
+      message: 'Por favor ingresa tu contraseña',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (value.length < 8) {
+    showSnackBarV2(
+      context: context,
+      title: "Password incorrecto",
+      message: 'Debe tener al menos 8 caracteres',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (!hasUppercase.hasMatch(value)) {
+    showSnackBarV2(
+      context: context,
+      title: "Password incorrecto",
+      message: 'Debe contener al menos una mayúscula',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (!hasDigits.hasMatch(value)) {
+    showSnackBarV2(
+      context: context,
+      title: "Password incorrecto",
+      message: 'Debe contener al menos un número',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (!hasSpecialCharacters.hasMatch(value)) {
+    showSnackBarV2(
+      context: context,
+      title: "Password incorrecto",
+      message: 'Debe contener al menos un carácter especial',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+
+  boolNotifier.value = false;
+  return null;
+}
+
+String? validateEmail({
+  required String? value,
+  required BuildContext context,
+  required ValueNotifier<bool> boolNotifier,
+}) {
+  if (value == null || value.isEmpty) {
+    showSnackBarV2(
+      context: context,
+      title: "Email incorrecto",
+      message: 'Por favor ingresa tu correo electrónico',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+    showSnackBarV2(
+      context: context,
+      title: "Email incorrecto",
+      message: 'El email escrito es inválido, falta el “@”',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  return null;
+}
+
+String? validatePhone({
+  required String? value,
+  required BuildContext context,
+  required ValueNotifier<bool> boolNotifier,
+}) {
+  if (value == null || value.isEmpty) {
+    showSnackBarV2(
+      context: context,
+      title: "Telefono incorrecto",
+      message: "Por favor, completa el nombre.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+    showSnackBarV2(
+      context: context,
+      title: "Telefono incorrecto",
+      message: 'Solo puedes usar números',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (value.length < 9) {
+    showSnackBarV2(
+      context: context,
+      title: "Telefono incorrecto",
+      message: 'El nómero debe tener 9 digitos',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (value.length > 13) {
+    showSnackBarV2(
+      context: context,
+      title: "Telefono incorrecto",
+      message: 'El nómero no debe superar los 13 digitos',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  return null;
+}
+
+String? validateName({
+  required String? value,
+  required BuildContext context,
+  required ValueNotifier<bool> boolNotifier,
+}) {
+  if (value == null || value.isEmpty) {
+    showSnackBarV2(
+      context: context,
+      title: "Nombre obligatorio",
+      message: "Por favor, completa el nombre.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (value.length < 2) {
+    showSnackBarV2(
+      context: context,
+      title: "Nombre obligatorio",
+      message: "El debe tener al menos 1 caracter.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
+    showSnackBarV2(
+      context: context,
+      title: "Nombre inválido",
+      message: "El nombre no debe contener números ni caracteres especiales.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  return null;
+}
+
+String? validateConfirmPassword({
+  required String? value,
+  required BuildContext context,
+  required ValueNotifier<bool> boolNotifier,
+  required String password,
+}) {
+  if (value == null || value.isEmpty) {
+    showSnackBarV2(
+      context: context,
+      title: "Confirmacion password incorrecto",
+      message: "Por favor, completa la confirmación del password.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (value != password) {
+    showSnackBarV2(
+      context: context,
+      title: "Confirmacion password incorrecto",
+      message: "Las contraseñas no coinciden.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  return null;
 }
