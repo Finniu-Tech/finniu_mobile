@@ -45,7 +45,7 @@ class PaymentCard extends ConsumerWidget {
                 ),
                 const SizedBox(height: 1),
                 Text(
-                  "Finalizado el $dateEnds",
+                  isPaid ? "Finalizado el $dateEnds" : "Finaliza el $dateEnds",
                   style: TextStyle(
                     fontSize: 10,
                     color: isDarkMode ? Colors.white : Colors.black,
@@ -56,11 +56,12 @@ class PaymentCard extends ConsumerWidget {
           ),
         ),
         LabelState(
-          label: isPaid ? "Depositado" : "Sin depositar",
+          label: isPaid ? "Depositado" : "Próximo",
         ),
-        DownloadButton(
-          voucherUrl: paymentVoucherUrl ?? "",
-        ),
+        if (isPaid)
+          DownloadButton(
+            voucherUrl: paymentVoucherUrl ?? "",
+          ),
       ],
     );
   }
