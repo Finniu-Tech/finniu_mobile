@@ -82,16 +82,13 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    print('fund: $fund');
-    print('amount: $amount');
-    print('deadLine: $deadLine');
-    print('currency: $currency');
-    print('isReInvestment: $isReInvestment');
-    print('typeReInvestmentType: $reInvestmentType');
-    print('preInvestmentUUID: $preInvestmentUUID');
-    print('originInvestmentRentability: $originInvestmentRentability');
-    final bool isSoles = currency == 'nuevo sol' ? true : false;
+    bool isSoles;
 
+    if (currency == null || currency == '') {
+      isSoles = ref.watch(isSolesStateProvider);
+    } else {
+      isSoles = currency == 'nuevo sol' ? true : false;
+    }
     return AnalyticsAwareWidget(
       screenName: 'Enterprise Step 1 Investment Screen',
       child: CustomLoaderOverlay(
@@ -357,6 +354,16 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         'error',
       );
 
+      return false;
+    }
+
+    //validate amount mayor than 1000
+    if (double.parse(widget.amountController.text) < 1000) {
+      CustomSnackbar.show(
+        context,
+        "El monto ingresado debe ser mayor a ${widget.isSoles! ? 'S/.' : '\$/'}1 000",
+        'error',
+      );
       return false;
     }
 

@@ -1,13 +1,12 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/infrastructure/models/blue_gold_investment/progress_blue_gold.dart';
 import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/carousel_blue_gold.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -34,14 +33,14 @@ class BlueGoldBody extends HookConsumerWidget {
       data: (data) {
         final List<AggroInvestment> displayData = data.isEmpty ? _getFakeData() : data;
 
-        return LayoutBuilder(
-          builder: (context, constraints) {
+        return ExpandablePageView.builder(
+          itemBuilder: (context, constraints) {
             return Stack(
               children: [
                 Container(
                   color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
                   width: MediaQuery.of(context).size.width,
-                  height: constraints.maxHeight, // Usa la altura máxima disponible
+                  // height: constraints.maxHeight, // Usa la altura máxima disponible
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
@@ -80,6 +79,7 @@ class BlueGoldBody extends HookConsumerWidget {
               ],
             );
           },
+          itemCount: displayData.length,
         );
       },
     );

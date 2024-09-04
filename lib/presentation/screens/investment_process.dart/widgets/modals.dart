@@ -29,7 +29,8 @@ class ThanksForInvestingModal extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final String titleText = "Gracias por";
     final String secondTitleText = "invertir en Finniu!";
-    final String textButton = "Ver mi progreso";
+    // final String textButton = "Ver mi progreso";
+    final String textButton = "Evaluar mi experiencia";
     final String textTanks = "Gracias por tu comprensión!";
     final String anyResponse = "";
     final String textBody =

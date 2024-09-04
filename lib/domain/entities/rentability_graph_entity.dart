@@ -1,11 +1,13 @@
 class RentabilityGraphicEntity {
   String month;
+  String? date;
   String amountPoint;
   dynamic typename;
 
   RentabilityGraphicEntity({
     required this.month,
     required this.amountPoint,
+    this.date,
     this.typename,
   });
 
@@ -13,11 +15,13 @@ class RentabilityGraphicEntity {
     String? month,
     String? amountPoint,
     dynamic typename,
+    String? date,
   }) {
     return RentabilityGraphicEntity(
       month: month ?? this.month,
       amountPoint: amountPoint ?? this.amountPoint,
       typename: typename ?? this.typename,
+      date: date,
     );
   }
 
@@ -26,6 +30,7 @@ class RentabilityGraphicEntity {
       month: json['month'],
       amountPoint: json['amountPoint'].toString(),
       typename: json['__typename'],
+      date: json['date'],
     );
   }
 }
@@ -47,8 +52,8 @@ class RentabilityGraphicResponseAPI {
 }
 
 enum TimePeriod {
-  allMonths,
-  threeYears,
+  // allMonths,
+  // threeYears,
   twoYears,
   year,
   midYear,
@@ -56,10 +61,10 @@ enum TimePeriod {
 
   String get value {
     switch (this) {
-      case TimePeriod.allMonths:
-        return 'all_months';
-      case TimePeriod.threeYears:
-        return 'three_years';
+      // case TimePeriod.allMonths:
+      //   return 'all_months';
+      // case TimePeriod.threeYears:
+      //   return 'three_years';
       case TimePeriod.twoYears:
         return 'two_years';
       case TimePeriod.year:
@@ -73,10 +78,10 @@ enum TimePeriod {
 
   String get spanishValue {
     switch (this) {
-      case TimePeriod.allMonths:
-        return 'todos';
-      case TimePeriod.threeYears:
-        return '36 meses';
+      // case TimePeriod.allMonths:
+      //   return 'todos';
+      // case TimePeriod.threeYears:
+      //   return '36 meses';
       case TimePeriod.twoYears:
         return '24 meses';
       case TimePeriod.year:

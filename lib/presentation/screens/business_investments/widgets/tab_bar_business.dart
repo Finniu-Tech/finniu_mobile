@@ -95,9 +95,11 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
               ],
             ),
             const SizedBox(height: 10),
-            SizedBox(
+            Container(
               width: 336,
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.4,
+              constraints: const BoxConstraints(minHeight: 500),
+              alignment: Alignment.topCenter,
               child: TabBarView(
                 controller: _tabController,
                 children: [
@@ -133,40 +135,38 @@ class CompletedList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 336,
-        child: list.isEmpty
-            ? const NoInvestmentCase(
-                title: "Aún no tienes inversiones finalizadas",
-                textBody:
-                    "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
-              )
-            : ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/v2/summary',
-                          arguments: ArgumentsNavigator(
-                            uuid: list[index].uuid,
-                            status: StatusInvestmentEnum.finished,
-                          ),
-                        );
-                      },
-                      child: CompleteInvestment(
-                        dateEnds: list[index].finishDateInvestment,
-                        amount: list[index].amount,
-                      ),
+    return SizedBox(
+      // width: 336,
+      child: list.isEmpty
+          ? const NoInvestmentCase(
+              title: "Aún no tienes inversiones finalizadas",
+              textBody:
+                  "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
+            )
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/v2/summary',
+                        arguments: ArgumentsNavigator(
+                          uuid: list[index].uuid,
+                          status: StatusInvestmentEnum.finished,
+                        ),
+                      );
+                    },
+                    child: CompleteInvestment(
+                      dateEnds: list[index].finishDateInvestment,
+                      amount: list[index].amount,
                     ),
-                  );
-                },
-              ),
-      ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
@@ -177,22 +177,38 @@ class InProgressList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 336,
-        child: list.isEmpty
-            ? const NoInvestmentCase(
-                title: "Aún no tienes inversiones en curso",
-                textBody:
-                    "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
-              )
-            : ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: GestureDetector(
-                      onTap: () {
+    return SizedBox(
+      // width: 336,
+      child: list.isEmpty
+          ? const NoInvestmentCase(
+              title: "Aún no tienes inversiones en curso",
+              textBody:
+                  "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
+            )
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/v2/summary',
+                        arguments: ArgumentsNavigator(
+                          uuid: list[index].uuid,
+                          status: StatusInvestmentEnum.in_course,
+                          isReinvestAvailable: list[index].isReinvestAvailable ?? false,
+                          actionStatus: list[index].actionStatus ?? "",
+                        ),
+                      );
+                    },
+                    child: ProgressBarInProgress(
+                      dateEnds: list[index].finishDateInvestment,
+                      amount: list[index].amount,
+                      isReinvestmentAvailable: list[index].isReinvestAvailable ?? false,
+                      actionStatus: list[index].actionStatus ?? "",
+                      onPressed: () {
                         Navigator.pushNamed(
                           context,
                           '/v2/summary',
@@ -204,29 +220,11 @@ class InProgressList extends StatelessWidget {
                           ),
                         );
                       },
-                      child: ProgressBarInProgress(
-                        dateEnds: list[index].finishDateInvestment,
-                        amount: list[index].amount,
-                        isReinvestmentAvailable: list[index].isReinvestAvailable ?? false,
-                        actionStatus: list[index].actionStatus ?? "",
-                        onPressed: () {
-                          Navigator.pushNamed(
-                            context,
-                            '/v2/summary',
-                            arguments: ArgumentsNavigator(
-                              uuid: list[index].uuid,
-                              status: StatusInvestmentEnum.in_course,
-                              isReinvestAvailable: list[index].isReinvestAvailable ?? false,
-                              actionStatus: list[index].actionStatus ?? "",
-                            ),
-                          );
-                        },
-                      ),
                     ),
-                  );
-                },
-              ),
-      ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
@@ -237,40 +235,38 @@ class ToValidateList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 336,
-        child: list.isEmpty
-            ? const NoInvestmentCase(
-                title: "Aún no tienes inversiones por validar",
-                textBody:
-                    "Recuerda que vas a poder visualizar tus inversiones por validar cuando hayas realizado una inversión reciente y no ha sido aprobada aún",
-              )
-            : ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/v2/summary',
-                          arguments: ArgumentsNavigator(
-                            uuid: list[index].uuid,
-                            status: StatusInvestmentEnum.in_process,
-                          ),
-                        );
-                      },
-                      child: ToValidateInvestment(
-                        dateEnds: list[index].finishDateInvestment,
-                        amount: list[index].amount,
-                      ),
+    return SizedBox(
+      // height: 336,
+      child: list.isEmpty
+          ? const NoInvestmentCase(
+              title: "Aún no tienes inversiones por validar",
+              textBody:
+                  "Recuerda que vas a poder visualizar tus inversiones por validar cuando hayas realizado una inversión reciente y no ha sido aprobada aún",
+            )
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/v2/summary',
+                        arguments: ArgumentsNavigator(
+                          uuid: list[index].uuid,
+                          status: StatusInvestmentEnum.in_process,
+                        ),
+                      );
+                    },
+                    child: ToValidateInvestment(
+                      dateEnds: list[index].finishDateInvestment,
+                      amount: list[index].amount,
                     ),
-                  );
-                },
-              ),
-      ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }
@@ -281,42 +277,40 @@ class PendingList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        height: 336,
-        child: list.isEmpty
-            ? const NoInvestmentCase(
-                title: "Aún no tienes inversiones pendientes",
-                textBody:
-                    "Recuerda que vas a poder visualizar tus inversiones por validar cuando hayas realizado una inversión reciente y no ha sido aprobada aún",
-              )
-            : ListView.builder(
-                itemCount: list.length,
-                itemBuilder: (context, index) {
-                  print('is reinvest 11111${list[index].isReinvestment}');
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          '/v2/summary',
-                          arguments: ArgumentsNavigator(
-                            uuid: list[index].uuid,
-                            status: StatusInvestmentEnum.pending,
-                          ),
-                        );
-                      },
-                      child: ToValidateInvestment(
-                        dateEnds: list[index].finishDateInvestment,
-                        amount: list[index].amount,
-                        isReinvestment: list[index].isReinvestment == true ? true : false,
-                      ),
+    return SizedBox(
+      // height: 336,
+      child: list.isEmpty
+          ? const NoInvestmentCase(
+              title: "Aún no tienes inversiones pendientes",
+              textBody:
+                  "Recuerda que vas a poder visualizar tus inversiones por validar cuando hayas realizado una inversión reciente y no ha sido aprobada aún",
+            )
+          : ListView.builder(
+              itemCount: list.length,
+              itemBuilder: (context, index) {
+                print('is reinvest 11111${list[index].isReinvestment}');
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/v2/summary',
+                        arguments: ArgumentsNavigator(
+                          uuid: list[index].uuid,
+                          status: StatusInvestmentEnum.pending,
+                        ),
+                      );
+                    },
+                    child: ToValidateInvestment(
+                      dateEnds: list[index].finishDateInvestment,
+                      amount: list[index].amount,
+                      isReinvestment: list[index].isReinvestment == true ? true : false,
                     ),
-                  );
-                },
-              ),
-      ),
+                  ),
+                );
+              },
+            ),
     );
   }
 }

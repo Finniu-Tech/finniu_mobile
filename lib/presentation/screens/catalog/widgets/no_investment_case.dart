@@ -16,7 +16,7 @@ class NoInvestmentCase extends ConsumerWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.7,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(

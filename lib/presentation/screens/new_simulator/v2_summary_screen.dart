@@ -1,7 +1,6 @@
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
-import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -88,7 +87,7 @@ class _BodyScaffold extends ConsumerWidget {
         return Container(
           color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
+          // height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -130,16 +129,16 @@ class _BodyScaffold extends ConsumerWidget {
                       )
                     : const SizedBox(),
                 const SizedBox(height: 15),
-                //TODO do the integration for v
-                // SeeInterestPayment(
-                //   list: list,
-                // ),
+                if (data.profitabilityListMonth.isNotEmpty) ...[
+                  SeeInterestPayment(
+                    preInvestmentUUID: arguments.uuid,
+                  ),
+                ],
                 const SizedBox(height: 15),
                 InvestmentEnds(
                   finalDate: data.finishDateInvestment,
                 ),
                 const SizedBox(height: 15),
-
                 if (arguments.isReinvestAvailable == true &&
                     StatusInvestmentEnum.compare(arguments.status, StatusInvestmentEnum.in_course) &&
                     ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.defaultReInvestment)) ...[
@@ -166,14 +165,12 @@ class _BodyScaffold extends ConsumerWidget {
                     colorBackground: Color(0xff55B63D),
                   )
                 ],
-
                 if (ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.disabledReInvestment)) ...[
                   const ButtonInvestmentDisabled(
                     text: 'Devolución de Capital Solicitada',
                     colorBackground: Color(0xff7C73FE),
                   )
                 ],
-
                 const SizedBox(height: 15),
               ],
             ),
@@ -185,17 +182,17 @@ class _BodyScaffold extends ConsumerWidget {
 }
 
 class SeeInterestPayment extends StatelessWidget {
+  final String preInvestmentUUID;
   const SeeInterestPayment({
     super.key,
-    required this.list,
+    required this.preInvestmentUUID,
   });
-  final List<ProfitabilityItem> list;
   @override
   Widget build(BuildContext context) {
     return ButtonsTable(
       text: 'Ver tabla de los pagos de intereses',
       icon: "square_half.svg",
-      onPressed: () => showTablePay(context, list: list),
+      onPressed: () => showTablePay(context, preInvestmentUUID: preInvestmentUUID),
     );
   }
 }
