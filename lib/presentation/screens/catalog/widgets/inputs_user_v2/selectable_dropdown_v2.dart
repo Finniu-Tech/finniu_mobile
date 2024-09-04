@@ -5,7 +5,7 @@ import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SelectableDropdownItem extends ConsumerStatefulWidget {
+class SelectableDropdownItem extends ConsumerWidget {
   const SelectableDropdownItem({
     super.key,
     required this.options,
@@ -13,19 +13,18 @@ class SelectableDropdownItem extends ConsumerStatefulWidget {
     required this.hintText,
     required this.validator,
     required this.itemSelectedValue,
+    this.onError,
+    this.isError = false,
   });
+
   final List<String> options;
   final TextEditingController selectController;
   final String hintText;
   final String? Function(String?)? validator;
   final String? itemSelectedValue;
+  final bool isError;
+  final VoidCallback? onError;
 
-  @override
-  SelectableDropdownItemState createState() => SelectableDropdownItemState();
-}
-
-class SelectableDropdownItemState
-    extends ConsumerState<SelectableDropdownItem> {
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
   final int fillDark = 0xFF222222;
@@ -40,14 +39,15 @@ class SelectableDropdownItemState
   final int dropdownColorLight = 0xFFF7F7F7;
   final int borderColorDark = 0xFFA2E6FA;
   final int borderColorLight = 0xFF0D3A5C;
+  final int borderError = 0xFFED1C24;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
-        return widget.options
+        return options
             .map(
               (item) => Text(
                 item,
@@ -64,17 +64,18 @@ class SelectableDropdownItemState
             )
             .toList();
       },
-      validator: widget.validator,
-      icon: Icon(
-        Icons.keyboard_arrow_down,
-        size: 24,
-        color: isDarkMode ? Color(iconDark) : Color(iconLight),
-      ),
-      value: widget.selectController.text.isNotEmpty
-          ? widget.selectController.text
-          : null,
+      onTap: () {
+        if (onError != null && isError) {
+          onError!();
+          ScaffoldMessenger.of(context).clearSnackBars();
+        }
+      },
+      validator: validator,
+      icon: const Icon(Icons.keyboard_arrow_down,
+          size: 24, color: Colors.transparent),
+      value: selectController.text.isNotEmpty ? selectController.text : null,
       hint: Text(
-        widget.hintText,
+        hintText,
         style: TextStyle(
           fontSize: 12,
           color: isDarkMode ? Color(hintDark) : Color(hintLight),
@@ -86,30 +87,57 @@ class SelectableDropdownItemState
       decoration: InputDecoration(
         fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
         filled: true,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: isError
+              ? BorderSide(color: Color(borderError), width: 1)
+              : BorderSide.none,
         ),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: isError
+              ? BorderSide(color: Color(borderError), width: 1)
+              : BorderSide.none,
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: isError
+              ? BorderSide(color: Color(borderError), width: 1)
+              : BorderSide(
+                  color: isDarkMode
+                      ? Color(borderColorDark)
+                      : Color(borderColorLight),
+                  width: 1,
+                ),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        errorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(
+            color: Color(borderError),
+            width: 1,
+          ),
         ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(
+            color: Color(borderError),
+            width: 1,
+          ),
+        ),
+        suffixIcon: Icon(
+          Icons.keyboard_arrow_down,
+          size: 24,
+          color: isError
+              ? Color(borderError)
+              : isDarkMode
+                  ? Color(iconDark)
+                  : Color(iconLight),
         ),
       ),
+      iconSize: 24,
       dropdownColor:
           isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
-      items: widget.options.map((String option) {
+      items: options.map((String option) {
         return DropdownMenuItem<String>(
           value: option,
           child: Column(
@@ -130,7 +158,7 @@ class SelectableDropdownItemState
                       fontFamily: "Poppins",
                     ),
                   ),
-                  if (option == widget.selectController.text)
+                  if (option == selectController.text)
                     Icon(
                       Icons.check_circle_outline,
                       size: 24,
@@ -148,9 +176,7 @@ class SelectableDropdownItemState
         );
       }).toList(),
       onChanged: (newValue) {
-        setState(() {
-          widget.selectController.text = newValue!;
-        });
+        selectController.text = newValue!;
       },
     );
   }

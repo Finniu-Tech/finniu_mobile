@@ -67,7 +67,7 @@ TypeDocumentEnum? getTypeDocumentEnum(String valor) {
     case 'Carné de extranjeria':
       return TypeDocumentEnum.CARNET_EXTRAJERIA;
     default:
-      return TypeDocumentEnum.DNI;
+      return null;
   }
 }
 

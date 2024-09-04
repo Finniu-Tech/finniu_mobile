@@ -53,6 +53,9 @@ class FormRegister extends HookConsumerWidget {
         }
         if (nickNameError.value) return;
         if (phoneNumberError.value) return;
+        if (emailError.value) return;
+        if (passwordError.value) return;
+        if (passwordConfirmError.value) return;
         context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text.trim(),
@@ -323,7 +326,7 @@ String? validatePhone({
     showSnackBarV2(
       context: context,
       title: "Telefono incorrecto",
-      message: "Por favor, completa el nombre.",
+      message: "Por favor, completa el telefono.",
       snackType: SnackType.warning,
     );
     boolNotifier.value = true;
@@ -381,7 +384,7 @@ String? validateName({
     showSnackBarV2(
       context: context,
       title: "Nombre obligatorio",
-      message: "El debe tener al menos 1 caracter.",
+      message: "El nombre debe tener al menos 1 caracter.",
       snackType: SnackType.warning,
     );
     boolNotifier.value = true;
