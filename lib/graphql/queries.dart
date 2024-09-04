@@ -1553,4 +1553,41 @@ class QueryRepository {
 
   ''';
   }
+
+  static String get getPaymentDaysData {
+    return '''
+      query getPaymentHistory{
+        corporatePaymentHistory{
+        nextPayments{
+            uuid
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            investmentFundName
+            currency
+          
+          }
+          passPayments{
+            uuid
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            investmentFundName
+            currency
+          }
+          recentPayments{
+            uuid
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            investmentFundName
+            currency
+          }
+        }
+      }
+    ''';
+  }
 }

@@ -57,14 +57,14 @@ class HelpScreen extends ConsumerWidget {
                           width: 46.48,
                           height: 34.87,
                           decoration: BoxDecoration(
-                            color: Color(primaryDark),
+                            color: const Color(primaryDark),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: IconContainer(
+                          child: const IconContainer(
                             image: 'assets/help/message.png',
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         Text('Preguntas Frecuentes',
@@ -104,7 +104,7 @@ class HelpScreen extends ConsumerWidget {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
 
@@ -158,7 +158,7 @@ class HelpScreen extends ConsumerWidget {
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
 
@@ -211,7 +211,7 @@ class HelpScreen extends ConsumerWidget {
                         ),
                       ])),
 
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
 
@@ -299,13 +299,13 @@ class HelpScreen extends ConsumerWidget {
                             width: 46.48,
                             height: 34.87,
                             decoration: BoxDecoration(
-                              color: Color(primaryDark),
+                              color: const Color(primaryDark),
                               borderRadius: BorderRadius.circular(8),
                             ),
-                            child: IconContainer(
+                            child: const IconContainer(
                               image: 'assets/help/messagesinstant.png',
                             )),
-                        SizedBox(
+                        const SizedBox(
                           width: 7,
                         ),
                         Text('Contactos de Finniu',
@@ -315,7 +315,7 @@ class HelpScreen extends ConsumerWidget {
                                 fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       height: 3,
@@ -350,10 +350,10 @@ class HelpScreen extends ConsumerWidget {
                                 color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 7,
                             ),
-                            Text('963993305',
+                            Text('+51 952484612',
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
@@ -363,7 +363,7 @@ class HelpScreen extends ConsumerWidget {
                       ),
                     ],
                   )),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -385,7 +385,7 @@ class HelpScreen extends ConsumerWidget {
                               color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 7,
                           ),
                           Text('hola@finniu.com',

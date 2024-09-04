@@ -278,7 +278,7 @@ class _StartOnboardingState extends ConsumerState<StartOnboarding> {
           ],
         );
       default:
-        return Row();
+        return const Row();
     }
   }
 

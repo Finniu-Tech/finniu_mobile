@@ -5,6 +5,7 @@ import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/important_days_provider.dart';
+import 'package:finniu/presentation/providers/investment_status_report_provider.dart';
 import 'package:finniu/presentation/providers/last_operation_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/onboarding_provider.dart';
@@ -61,6 +62,9 @@ logOut(BuildContext context, WidgetRef ref) {
   ref.invalidate(userInfoAllInvestmentFutureProvider);
   ref.invalidate(lastOperationsFutureProvider);
   ref.invalidate(lastOperationDataSourceProvider);
+
+  ref.invalidate(paymentListProvider);
+  ref.invalidate(investmentHistoryV2DataSourceProvider);
 
   // logout(ref);
   Navigator.of(context).pushNamedAndRemoveUntil(

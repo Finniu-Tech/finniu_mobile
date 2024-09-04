@@ -6,6 +6,7 @@ import 'package:finniu/domain/entities/rentability_graph_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/rentability_graphic_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -149,15 +150,15 @@ class _GraphicWidgetState extends ConsumerState<GraphicLinealWidget> {
                   child: const Center(child: Text('')),
                 ),
               ),
-            if (chartData!.isEmpty)
+            if (chartData.isEmpty)
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.grey.withOpacity(0.5),
                     borderRadius: const BorderRadius.all(Radius.circular(20)),
                   ),
-                  child: Center(
-                    child: Text('No hay inversiones en ${isSoles ? 'soles' : 'dólares'}'),
+                  child: const Center(
+                    child: NonInvestmentContainer(),
                   ),
                 ),
               ),
