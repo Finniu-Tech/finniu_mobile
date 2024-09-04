@@ -165,9 +165,9 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabPaymentsWidget> with S
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  PaymentListView(list: pastList, isPaymentFinished: true),
-                  PaymentListView(list: recentList, isPaymentFinished: true),
-                  PaymentListView(list: upcomingList, isPaymentFinished: false),
+                  PaymentListView(list: pastList, status: PaymentStatus.past),
+                  PaymentListView(list: recentList, status: PaymentStatus.recent),
+                  PaymentListView(list: upcomingList, status: PaymentStatus.upcoming),
                 ],
               ),
             ),
