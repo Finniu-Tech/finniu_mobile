@@ -3,6 +3,7 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
@@ -16,8 +17,47 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class FormPersonalDataV2 extends HookConsumerWidget {
+class FormPersonalDataV2 extends ConsumerWidget {
   const FormPersonalDataV2({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    void uploadPersonalData() {}
+    void continueLater() {
+      Navigator.pushNamed(context, "/home_v2");
+    }
+
+    return GestureDetector(
+      child: ScaffoldUserProfile(
+        bottomNavigationBar: FormDataNavigator(
+          addData: () => uploadPersonalData(),
+          continueLater: () => continueLater(),
+        ),
+        appBar: const AppBarLogo(),
+        children: const [
+          SizedBox(
+            height: 10,
+          ),
+          ProgressForm(
+            progress: 0.2,
+          ),
+          TitleForm(
+            title: "Datos personales",
+            subTitle: "¿Cuales son tus datos personales?",
+            icon: "assets/svg_icons/user_icon_v2.svg",
+          ),
+          PersonalForm(),
+          ContainerMessage(),
+        ],
+      ),
+    );
+  }
+}
+
+class PersonalForm extends HookConsumerWidget {
+  const PersonalForm({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +79,7 @@ class FormPersonalDataV2 extends HookConsumerWidget {
     final ValueNotifier<bool> genderTypeError = ValueNotifier<bool>(false);
 
     void uploadPersonalData() {
-      if (formKey.currentState!.validate()) {
+      if (!formKey.currentState!.validate()) {
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -55,7 +95,14 @@ class FormPersonalDataV2 extends HookConsumerWidget {
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
-
+        print("upload personal data");
+        print(firstNameController.text);
+        print(lastNameFatherController.text);
+        print(lastNameMotherController.text);
+        print(documentTypeController.text);
+        print(documentNumberController.text);
+        print(civilStatusController.text);
+        print(genderTypeController.text);
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
           firstName: firstNameController.text.trim(),
@@ -77,90 +124,6 @@ class FormPersonalDataV2 extends HookConsumerWidget {
       }
     }
 
-    void continueLater() {
-      Navigator.pushNamed(context, "/home_v2");
-    }
-
-    return GestureDetector(
-      child: ScaffoldUserProfile(
-        bottomNavigationBar: FormDataNavigator(
-          addData: () => uploadPersonalData(),
-          continueLater: () => continueLater(),
-        ),
-        appBar: const AppBarLogo(),
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          const ProgressForm(
-            progress: 0.2,
-          ),
-          const TitleForm(
-            title: "Datos personales",
-            subTitle: "¿Cuales son tus datos personales?",
-            icon: "assets/svg_icons/user_icon_v2.svg",
-          ),
-          PersonalForm(
-            formKey: formKey,
-            firstNameController: firstNameController,
-            lastNameFatherController: lastNameFatherController,
-            lastNameMotherController: lastNameMotherController,
-            documentTypeController: documentTypeController,
-            documentNumberController: documentNumberController,
-            civilStatusController: civilStatusController,
-            genderTypeController: genderTypeController,
-            firstNameError: firstNameError,
-            lastNameFatherError: lastNameFatherError,
-            lastNameMotherError: lastNameMotherError,
-            documentTypeError: documentTypeError,
-            documentNumberError: documentNumberError,
-            civilStatusError: civilStatusError,
-            genderTypeError: genderTypeError,
-          ),
-          const ContainerMessage(),
-        ],
-      ),
-    );
-  }
-}
-
-class PersonalForm extends HookConsumerWidget {
-  const PersonalForm({
-    super.key,
-    required this.formKey,
-    required this.firstNameController,
-    required this.lastNameFatherController,
-    required this.lastNameMotherController,
-    required this.documentTypeController,
-    required this.documentNumberController,
-    required this.civilStatusController,
-    required this.genderTypeController,
-    required this.firstNameError,
-    required this.lastNameFatherError,
-    required this.lastNameMotherError,
-    required this.documentTypeError,
-    required this.documentNumberError,
-    required this.civilStatusError,
-    required this.genderTypeError,
-  });
-  final GlobalKey<FormState> formKey;
-  final TextEditingController firstNameController;
-  final TextEditingController lastNameFatherController;
-  final TextEditingController lastNameMotherController;
-  final TextEditingController documentTypeController;
-  final TextEditingController documentNumberController;
-  final TextEditingController civilStatusController;
-  final TextEditingController genderTypeController;
-  final ValueNotifier<bool> firstNameError;
-  final ValueNotifier<bool> lastNameFatherError;
-  final ValueNotifier<bool> lastNameMotherError;
-  final ValueNotifier<bool> documentTypeError;
-  final ValueNotifier<bool> documentNumberError;
-  final ValueNotifier<bool> civilStatusError;
-  final ValueNotifier<bool> genderTypeError;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
@@ -237,14 +200,18 @@ class PersonalForm extends HookConsumerWidget {
                 selectController: documentTypeController,
                 hintText: "Selecciona tu documento de identidad",
                 validator: (value) {
-                  showSnackBarV2(
-                    context: context,
-                    title: "El tipo de documento es obligatorio",
-                    message:
-                        "Por favor, completa el seleciona el tipo de documento.",
-                    snackType: SnackType.warning,
-                  );
-                  documentTypeError.value = true;
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "El tipo de documento es obligatorio",
+                      message:
+                          "Por favor, completa el seleciona el tipo de documento.",
+                      snackType: SnackType.warning,
+                    );
+                    documentTypeError.value = true;
+                    return null;
+                  }
+
                   return null;
                 },
               );
@@ -286,13 +253,18 @@ class PersonalForm extends HookConsumerWidget {
                 selectController: civilStatusController,
                 hintText: "Selecciona tu documento de identidad",
                 validator: (value) {
-                  showSnackBarV2(
-                    context: context,
-                    title: "El estado civil es obligatorio",
-                    message: "Por favor, selecione el estado civil.",
-                    snackType: SnackType.warning,
-                  );
-                  civilStatusError.value = true;
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "El estado civil es obligatorio",
+                      message:
+                          "Por favor, completa el seleciona el estado civil",
+                      snackType: SnackType.warning,
+                    );
+                    civilStatusError.value = true;
+                    return null;
+                  }
+
                   return null;
                 },
               );
@@ -312,13 +284,17 @@ class PersonalForm extends HookConsumerWidget {
                 selectController: genderTypeController,
                 hintText: "Seleccione su genero",
                 validator: (value) {
-                  showSnackBarV2(
-                    context: context,
-                    title: "El genero es obligatorio",
-                    message: "Por favor, selecione el genero.",
-                    snackType: SnackType.warning,
-                  );
-                  genderTypeError.value = true;
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "El genero es obligatorio",
+                      message: "Por favor, completa el seleciona el genero",
+                      snackType: SnackType.warning,
+                    );
+                    genderTypeError.value = true;
+                    return null;
+                  }
+
                   return null;
                 },
               );
@@ -326,6 +302,10 @@ class PersonalForm extends HookConsumerWidget {
           ),
           const SizedBox(
             height: 15,
+          ),
+          ButtonInvestment(
+            text: "siguiente",
+            onPressed: () => uploadPersonalData(),
           ),
         ],
       ),
@@ -472,6 +452,5 @@ String? validateNumberDocument({
     return null;
   }
 
-  boolNotifier.value = true;
   return null;
 }
