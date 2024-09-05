@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/presentation/providers/event_tracker_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,13 @@ class OurInvestmentFunds extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void onTapNavigate(FundEntity fund) {
+    final trackerService = ref.watch(eventTrackerServiceProvider);
+
+    Future<void> onTapNavigate(FundEntity fund) async {
+      final String fundEventName =
+          fund.fundType == FundTypeEnum.corporate ? 'fund-corporate-detail-card' : 'fund-aggro-detail-card';
+      await trackerService.logButtonClick(fundEventName);
+
       Navigator.pushNamed(
         context,
         '/fund_detail',

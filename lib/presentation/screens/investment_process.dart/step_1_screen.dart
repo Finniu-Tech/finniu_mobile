@@ -16,6 +16,7 @@ import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/infrastructure/models/re_investment/responde_models.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
+import 'package:finniu/presentation/providers/event_tracker_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -32,6 +33,7 @@ import 'package:finniu/presentation/screens/investment_process.dart/widgets/head
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
+import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
@@ -80,25 +82,24 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    print('fund: $fund');
-    print('amount: $amount');
-    print('deadLine: $deadLine');
-    print('currency: $currency');
-    print('isReInvestment: $isReInvestment');
-    print('typeReInvestmentType: $reInvestmentType');
-    print('preInvestmentUUID: $preInvestmentUUID');
-    print('originInvestmentRentability: $originInvestmentRentability');
-    final bool isSoles = currency == 'nuevo sol' ? true : false;
+    bool isSoles;
 
-    return CustomLoaderOverlay(
-      child: ScaffoldInvestment(
-        isDarkMode: currentTheme.isDarkMode,
-        backgroundColor: currentTheme.isDarkMode
-            ? Color(
-                fund.getHexDetailColorDark(),
-              )
-            : Color(fund.getHexDetailColorLight()),
-        body: Step1Body(
+    if (currency == null || currency == '') {
+      isSoles = ref.watch(isSolesStateProvider);
+    } else {
+      isSoles = currency == 'nuevo sol' ? true : false;
+    }
+    return AnalyticsAwareWidget(
+      screenName: 'Enterprise Step 1 Investment Screen',
+      child: CustomLoaderOverlay(
+        child: ScaffoldInvestment(
+          isDarkMode: currentTheme.isDarkMode,
+          backgroundColor: currentTheme.isDarkMode
+              ? Color(
+                  fund.getHexDetailColorDark(),
+                )
+              : Color(fund.getHexDetailColorLight()),
+          body: Step1Body(
             fund: fund,
             isDarkMode: currentTheme.isDarkMode,
             amount: amount,
@@ -107,7 +108,9 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
             reInvestmentType: reInvestmentType,
             preInvestmentUUID: preInvestmentUUID,
             isSoles: isSoles,
-            originInvestmentRentability: originInvestmentRentability),
+            originInvestmentRentability: originInvestmentRentability,
+          ),
+        ),
       ),
     );
   }
@@ -354,6 +357,16 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       return false;
     }
 
+    //validate amount mayor than 1000
+    if (double.parse(widget.amountController.text) < 1000) {
+      CustomSnackbar.show(
+        context,
+        "El monto ingresado debe ser mayor a ${widget.isSoles! ? 'S/.' : '\$/'}1 000",
+        'error',
+      );
+      return false;
+    }
+
     if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
       CustomSnackbar.show(
         context,
@@ -413,6 +426,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     final debouncer = Debouncer(milliseconds: 3000);
     final finalReinvestmentAmount = useState(widget.reinvestmentOriginAmount ?? 0);
     final userReadContract = useState(false);
+    final trackerService = ref.watch(eventTrackerServiceProvider);
     bool userAcceptedTerms = ref.watch(userAcceptedTermsProvider);
     ValueNotifier<BankAccount?> receiverBankAccountState = useState(null);
     CreateReInvestmentParams? reinvestmentParams;
@@ -908,6 +922,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
             height: 50,
             child: TextButton(
               onPressed: () async {
+                await trackerService.logButtonClick('step-1-enterprise-continue-button');
                 String amount = '${widget.amountController.text}';
                 if (widget.isReInvestment == true &&
                     widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {

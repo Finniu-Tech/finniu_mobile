@@ -6,7 +6,12 @@ import 'package:finniu/presentation/providers/onboarding_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) async {
+final seeLaterProvider = StateProvider<bool?>((ref) {
+  return null;
+});
+
+final userProfileFutureProvider =
+    FutureProvider.autoDispose<UserProfile>((ref) async {
   final result = await ref.watch(gqlClientProvider.future).then(
     (client) async {
       final QueryResult result = await client.query(
@@ -44,21 +49,23 @@ final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) 
           address: userProfile.address,
           occupation: userProfile.occupation,
           percentCompleteProfile: userProfile.percentCompleteProfile,
+          hasCompletedTour: userProfile.hasCompletedTour,
         );
     return userProfile;
   }
   return UserProfile();
 });
 
-final updateUserProfileFutureProvider =
-    FutureProvider.autoDispose.family<bool, UserProfile>((ref, UserProfile userProfile) async {
+final updateUserProfileFutureProvider = FutureProvider.autoDispose
+    .family<bool, UserProfile>((ref, UserProfile userProfile) async {
   final resp = await UserProfileDataSourceImp().update(
     client: await ref.watch(gqlClientProvider.future),
     userProfile: userProfile,
   );
   final success = resp['success'];
-  final percentaje =
-      resp['percentCompleteProfile'] != null ? double.parse(resp['percentCompleteProfile'].toString()) : 0.0;
+  final percentaje = resp['percentCompleteProfile'] != null
+      ? double.parse(resp['percentCompleteProfile'].toString())
+      : 0.0;
   if (success == true) {
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           id: userProfile.uuid,
@@ -77,13 +84,14 @@ final updateUserProfileFutureProvider =
           address: userProfile.address,
           occupation: userProfile.occupation,
           percentCompleteProfile: percentaje,
+          hasCompletedTour: userProfile.hasCompletedTour,
         );
   }
   return success;
 });
 
-final updateUserAvatarFutureProvider =
-    FutureProvider.autoDispose.family<bool, String>((ref, String imageProfileUrl) async {
+final updateUserAvatarFutureProvider = FutureProvider.autoDispose
+    .family<bool, String>((ref, String imageProfileUrl) async {
   final response = await UserProfileDataSourceImp().updateAvatar(
     client: await ref.watch(gqlClientProvider.future),
     imageProfile: imageProfileUrl,
@@ -97,7 +105,8 @@ final updateUserAvatarFutureProvider =
   return false;
 });
 
-final userProfileNotifierProvider = StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
+final userProfileNotifierProvider =
+    StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
   (ref) => UserProfileStateNotifierProvider(UserProfile()),
 );
 
@@ -122,6 +131,8 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? address,
     String? occupation,
     double? percentCompleteProfile,
+    bool? hasCompletedTour,
+    bool? hasSeeLaterTour,
   }) {
     state = state.copyWith(
       id: id,
@@ -141,6 +152,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       address: address,
       occupation: occupation,
       percentCompleteProfile: percentCompleteProfile,
+      hasCompletedTour: hasCompletedTour,
     );
   }
 

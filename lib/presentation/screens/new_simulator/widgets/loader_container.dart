@@ -63,9 +63,6 @@ class LoaderContainer extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 15),
-            const SeeInterestPayment(
-              list: [],
-            ),
             const SizedBox(height: 15),
             const InvestmentEnds(
               finalDate: null,

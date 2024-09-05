@@ -28,8 +28,7 @@ class Section4 extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.78,
           constraints: const BoxConstraints(maxWidth: 400),
           child: TextPoppins(
-            text:
-                'Recibe tu capital y tus intereses garantizado en la fecha establecida',
+            text: 'Recibe tu capital y tus intereses garantizado en la fecha establecida',
             colorText: primaryDark,
             fontSize: 16,
             fontWeight: FontWeight.w400,

@@ -37,11 +37,12 @@ class ReInvestmentSliderState extends State<ReInvestmentSlider> {
   Widget build(BuildContext context) {
     List<SliderItem> sliderItems = widget.operations.map((operation) {
       const String title = "¡Ya puedes reinvertir!";
-      const String bodyText = "Tienes algunas inversiones disponibles para reinvertir";
+      const String bodyText =
+          "Tienes algunas inversiones disponibles para reinvertir";
       const String imageUrl = "assets/investment/tree_money.png";
       // print operation json
 
-      print('operation reinvest: ${operation.toJson()}');
+      // print('operation reinvest: ${operation.toJson()}');
 
       return SliderItem(
         title: title,

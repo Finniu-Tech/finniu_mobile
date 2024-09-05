@@ -30,7 +30,10 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
             end: Alignment.bottomRight,
             // tileMode: TileMode.mirror,
             // stops: [0.4, 0.9],
-            colors: [Theme.of(context).primaryColor, Theme.of(context).primaryColorLight],
+            colors: [
+              Theme.of(context).primaryColor,
+              Theme.of(context).primaryColorLight,
+            ],
           ),
         ),
         child: Center(
@@ -81,6 +84,14 @@ class _StartLoginScreenState extends ConsumerState<StartLoginScreen> {
                         colorBackground: primaryLight,
                         colorText: primaryDark,
                         pushName: '/sign_up_email'),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: const CustomButton(
+                        text: 'RegistrarmeV2',
+                        colorBackground: primaryLight,
+                        colorText: primaryDark,
+                        pushName: '/v2/register'),
                   ),
                 ],
               ),

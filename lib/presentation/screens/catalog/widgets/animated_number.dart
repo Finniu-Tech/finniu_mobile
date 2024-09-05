@@ -11,6 +11,7 @@ class AnimationNumber extends ConsumerWidget {
     required this.fontSize,
     required this.colorText,
     required this.beginNumber,
+    this.isSoles,
   });
 
   final num endNumber;
@@ -18,10 +19,11 @@ class AnimationNumber extends ConsumerWidget {
   final int duration;
   final double fontSize;
   final int colorText;
+  final bool? isSoles;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSoles = ref.watch(isSolesStateProvider);
+    final bool isSolesState = isSoles ?? ref.watch(isSolesStateProvider);
 
     return TweenAnimationBuilder(
       tween: Tween<double>(begin: beginNumber.toDouble(), end: endNumber.toDouble()),
@@ -31,7 +33,7 @@ class AnimationNumber extends ConsumerWidget {
 
         String formattedString;
         try {
-          formattedString = isSoles ? formatterSoles.format(formattedValue) : formatterUSD.format(formattedValue);
+          formattedString = isSolesState ? formatterSoles.format(formattedValue) : formatterUSD.format(formattedValue);
         } catch (e) {
           formattedString = formattedValue.toStringAsFixed(2);
         }

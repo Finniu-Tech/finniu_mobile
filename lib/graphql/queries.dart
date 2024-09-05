@@ -21,7 +21,7 @@ class QueryRepository {
         imageProfileUrl
         address
         percentCompleteProfile
-
+        hasCompletedTour
       }
     }
   ''';
@@ -1204,10 +1204,12 @@ class QueryRepository {
           rentabilityInPen {
             month
             amountPoint
+            date
           }
           rentabilityInUsd {
             month
             amountPoint
+            date
           }
         }
       }
@@ -1309,11 +1311,11 @@ class QueryRepository {
           isDefaultAccount
           createdAt
         }
-         paymentRentability {
-          paymentDate
-          amount
-          numberPayment
-        }
+        paymentRentability{
+            paymentDate
+            amount
+          }
+  
         bankAccountSender {
             uuid
             bankName
@@ -1326,6 +1328,7 @@ class QueryRepository {
             isDefaultAccount
             createdAt
           }
+          
           investmentFund{
             uuid
             name
@@ -1345,6 +1348,21 @@ class QueryRepository {
             mainImageHorizontalUrl
             detailBackgroundColorDarkSecondary
             detailBackgroundColorSecondaryLight
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getInvestmentMonthlyReturns {
+    return '''
+      query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){
+        investmentDetail(preInvestmentUuid: \$preInvestmentUuid){
+          paymentRentability{
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
           }
         }
       }
@@ -1534,5 +1552,42 @@ class QueryRepository {
       }
 
   ''';
+  }
+
+  static String get getPaymentDaysData {
+    return '''
+      query getPaymentHistory{
+        corporatePaymentHistory{
+        nextPayments{
+            uuid
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            investmentFundName
+            currency
+          
+          }
+          passPayments{
+            uuid
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            investmentFundName
+            currency
+          }
+          recentPayments{
+            uuid
+            paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            investmentFundName
+            currency
+          }
+        }
+      }
+    ''';
   }
 }
