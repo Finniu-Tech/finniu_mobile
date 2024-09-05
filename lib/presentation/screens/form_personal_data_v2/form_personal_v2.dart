@@ -3,10 +3,10 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
+import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
@@ -22,16 +22,12 @@ class FormPersonalDataV2 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    void uploadPersonalData() {}
-    void continueLater() {
-      Navigator.pushNamed(context, "/home_v2");
-    }
-
     return GestureDetector(
       child: ScaffoldUserProfile(
-        bottomNavigationBar: FormDataNavigator(
-          addData: () => uploadPersonalData(),
-          continueLater: () => continueLater(),
+        floatingActionButton: Container(
+          width: 0,
+          height: 90,
+          color: Colors.transparent,
         ),
         appBar: const AppBarLogo(),
         children: const [
@@ -47,7 +43,7 @@ class FormPersonalDataV2 extends ConsumerWidget {
             icon: "assets/svg_icons/user_icon_v2.svg",
           ),
           PersonalForm(),
-          ContainerMessage(),
+          // const ContainerMessage(),
         ],
       ),
     );
@@ -77,6 +73,11 @@ class PersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentNumberError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> civilStatusError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> genderTypeError = ValueNotifier<bool>(false);
+
+    void continueLater() {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      Navigator.pushNamed(context, "/home_v2");
+    }
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
@@ -127,330 +128,197 @@ class PersonalForm extends HookConsumerWidget {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
-      child: Column(
-        children: [
-          ValueListenableBuilder<bool>(
-            valueListenable: firstNameError,
-            builder: (context, isError, child) {
-              return InputTextFileUserProfile(
-                isError: isError,
-                onError: () => firstNameError.value = false,
-                controller: firstNameController,
-                hintText: "Nombres completos",
-                validator: (value) {
-                  validateString(
-                    value: value,
-                    field: "Nombre",
-                    context: context,
-                    boolNotifier: firstNameError,
-                  );
-                  return null;
-                },
-              );
-            },
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: lastNameFatherError,
-            builder: (context, isError, child) {
-              return InputTextFileUserProfile(
-                isError: isError,
-                onError: () => lastNameFatherError.value = false,
-                controller: lastNameFatherController,
-                hintText: "Apellido Paterno",
-                validator: (value) {
-                  validateString(
-                    value: value,
-                    field: "Apellido Paterno",
-                    context: context,
-                    boolNotifier: lastNameFatherError,
-                  );
-                  return null;
-                },
-              );
-            },
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: lastNameMotherError,
-            builder: (context, isError, child) {
-              return InputTextFileUserProfile(
-                isError: isError,
-                onError: () => lastNameMotherError.value = false,
-                controller: lastNameMotherController,
-                hintText: "Apellido Materno",
-                validator: (value) {
-                  validateString(
-                    value: value,
-                    field: "Apellido Materno",
-                    context: context,
-                    boolNotifier: lastNameMotherError,
-                  );
-                  return null;
-                },
-              );
-            },
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: documentTypeError,
-            builder: (context, isError, child) {
-              return SelectableDropdownItem(
-                isError: isError,
-                onError: () => documentTypeError.value = false,
-                itemSelectedValue: documentTypeController.text,
-                options: documentType,
-                selectController: documentTypeController,
-                hintText: "Selecciona tu documento de identidad",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    showSnackBarV2(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height < 700
+            ? 600
+            : MediaQuery.of(context).size.height * 0.77,
+        child: Column(
+          children: [
+            ValueListenableBuilder<bool>(
+              valueListenable: firstNameError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isError: isError,
+                  onError: () => firstNameError.value = false,
+                  controller: firstNameController,
+                  hintText: "Nombres completos",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Nombre",
                       context: context,
-                      title: "El tipo de documento es obligatorio",
-                      message:
-                          "Por favor, completa el seleciona el tipo de documento.",
-                      snackType: SnackType.warning,
+                      boolNotifier: firstNameError,
                     );
-                    documentTypeError.value = true;
                     return null;
-                  }
-
-                  return null;
-                },
-              );
-            },
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: documentNumberError,
-            builder: (context, isError, child) {
-              return InputTextFileUserProfile(
-                isError: isError,
-                onError: () => documentNumberError.value = false,
-                controller: documentNumberController,
-                hintText: "Ingrese su Nº de documento de identidad",
-                validator: (value) {
-                  validateNumberDocument(
-                    typeDocument:
-                        getTypeDocumentEnum(documentTypeController.text),
-                    value: value,
-                    field: "Numero de documento",
-                    context: context,
-                    boolNotifier: documentNumberError,
-                  );
-                  return null;
-                },
-              );
-            },
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: civilStatusError,
-            builder: (context, isError, child) {
-              return SelectableDropdownItem(
-                isError: isError,
-                onError: () => civilStatusError.value = false,
-                itemSelectedValue: civilStatusController.text,
-                options: maritalStatus,
-                selectController: civilStatusController,
-                hintText: "Selecciona tu documento de identidad",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    showSnackBarV2(
+                  },
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: lastNameFatherError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isError: isError,
+                  onError: () => lastNameFatherError.value = false,
+                  controller: lastNameFatherController,
+                  hintText: "Apellido Paterno",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Apellido Paterno",
                       context: context,
-                      title: "El estado civil es obligatorio",
-                      message:
-                          "Por favor, completa el seleciona el estado civil",
-                      snackType: SnackType.warning,
+                      boolNotifier: lastNameFatherError,
                     );
-                    civilStatusError.value = true;
                     return null;
-                  }
-
-                  return null;
-                },
-              );
-            },
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: genderTypeError,
-            builder: (context, isError, child) {
-              return SelectableDropdownItem(
-                isError: isError,
-                onError: () => genderTypeError.value = false,
-                itemSelectedValue: genderTypeController.text,
-                options: genderType,
-                selectController: genderTypeController,
-                hintText: "Seleccione su genero",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    showSnackBarV2(
+                  },
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: lastNameMotherError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isError: isError,
+                  onError: () => lastNameMotherError.value = false,
+                  controller: lastNameMotherController,
+                  hintText: "Apellido Materno",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Apellido Materno",
                       context: context,
-                      title: "El genero es obligatorio",
-                      message: "Por favor, completa el seleciona el genero",
-                      snackType: SnackType.warning,
+                      boolNotifier: lastNameMotherError,
                     );
-                    genderTypeError.value = true;
                     return null;
-                  }
+                  },
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: documentTypeError,
+              builder: (context, isError, child) {
+                return SelectableDropdownItem(
+                  isError: isError,
+                  onError: () => documentTypeError.value = false,
+                  itemSelectedValue: documentTypeController.text,
+                  options: documentType,
+                  selectController: documentTypeController,
+                  hintText: "Selecciona tu documento de identidad",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "El tipo de documento es obligatorio",
+                        message:
+                            "Por favor, completa el seleciona el tipo de documento.",
+                        snackType: SnackType.warning,
+                      );
+                      documentTypeError.value = true;
+                      return null;
+                    }
 
-                  return null;
-                },
-              );
-            },
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          ButtonInvestment(
-            text: "siguiente",
-            onPressed: () => uploadPersonalData(),
-          ),
-        ],
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: documentNumberError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isError: isError,
+                  onError: () => documentNumberError.value = false,
+                  controller: documentNumberController,
+                  hintText: "Ingrese su Nº de documento de identidad",
+                  validator: (value) {
+                    validateNumberDocument(
+                      typeDocument:
+                          getTypeDocumentEnum(documentTypeController.text),
+                      value: value,
+                      field: "Numero de documento",
+                      context: context,
+                      boolNotifier: documentNumberError,
+                    );
+                    return null;
+                  },
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: civilStatusError,
+              builder: (context, isError, child) {
+                return SelectableDropdownItem(
+                  isError: isError,
+                  onError: () => civilStatusError.value = false,
+                  itemSelectedValue: civilStatusController.text,
+                  options: maritalStatus,
+                  selectController: civilStatusController,
+                  hintText: "Selecciona tu documento de identidad",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "El estado civil es obligatorio",
+                        message:
+                            "Por favor, completa el seleciona el estado civil",
+                        snackType: SnackType.warning,
+                      );
+                      civilStatusError.value = true;
+                      return null;
+                    }
+
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: genderTypeError,
+              builder: (context, isError, child) {
+                return SelectableDropdownItem(
+                  isError: isError,
+                  onError: () => genderTypeError.value = false,
+                  itemSelectedValue: genderTypeController.text,
+                  options: genderType,
+                  selectController: genderTypeController,
+                  hintText: "Seleccione su genero",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "El genero es obligatorio",
+                        message: "Por favor, completa el seleciona el genero",
+                        snackType: SnackType.warning,
+                      );
+                      genderTypeError.value = true;
+                      return null;
+                    }
+
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const ContainerMessage(),
+            const Expanded(
+              child: SizedBox(),
+            ),
+            FormDataNavigator(
+              addData: () => uploadPersonalData(),
+              continueLater: () => continueLater(),
+            ),
+          ],
+        ),
       ),
     );
   }
-}
-
-String? validateString({
-  required String field,
-  required String? value,
-  required BuildContext context,
-  required ValueNotifier<bool> boolNotifier,
-}) {
-  if (value == null || value.isEmpty) {
-    showSnackBarV2(
-      context: context,
-      title: "$field obligatorio",
-      message: "Por favor, completa el ${field.toLowerCase()}.",
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (value.length < 2) {
-    showSnackBarV2(
-      context: context,
-      title: "${field.toLowerCase()} obligatorio",
-      message: "El ${field.toLowerCase()} debe tener al menos 1 caracter.",
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
-    showSnackBarV2(
-      context: context,
-      title: "${field.toLowerCase()} inválido",
-      message:
-          "El ${field.toLowerCase()} no debe contener números ni caracteres especiales.",
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  return null;
-}
-
-String? validateNumber({
-  required String field,
-  required String? value,
-  required BuildContext context,
-  required ValueNotifier<bool> boolNotifier,
-}) {
-  if (value == null || value.isEmpty) {
-    showSnackBarV2(
-      context: context,
-      title: "$field obligatorio",
-      message: "Por favor, completa el ${field.toLowerCase()}.",
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-    showSnackBarV2(
-      context: context,
-      title: "${field.toLowerCase()} incorrecto",
-      message: 'Solo puedes usar números',
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-
-  boolNotifier.value = true;
-  return null;
-}
-
-String? validateNumberDocument({
-  required TypeDocumentEnum? typeDocument,
-  required String field,
-  required String? value,
-  required BuildContext context,
-  required ValueNotifier<bool> boolNotifier,
-}) {
-  if (typeDocument == null) {
-    showSnackBarV2(
-      context: context,
-      title: "$field incorrecto",
-      message: 'Por favor seleccione tipo de documento',
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (value == null || value.isEmpty) {
-    showSnackBarV2(
-      context: context,
-      title: "$field obligatorio",
-      message: "Por favor, completa el ${field.toLowerCase()}.",
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-    showSnackBarV2(
-      context: context,
-      title: "$field incorrecto",
-      message: 'Solo puedes usar números',
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (typeDocument == TypeDocumentEnum.DNI && value.length != 8) {
-    showSnackBarV2(
-      context: context,
-      title: "$field incorrecto",
-      message: 'El DNI debe tener 8 caracteres',
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (typeDocument == TypeDocumentEnum.CARNET_EXTRAJERIA && value.length < 8) {
-    showSnackBarV2(
-      context: context,
-      title: "$field incorrecto",
-      message: 'El Carnet de Extrajería debe tener 8 caracteres',
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-  if (typeDocument == TypeDocumentEnum.CARNET_EXTRAJERIA && value.length > 20) {
-    showSnackBarV2(
-      context: context,
-      title: "$field incorrecto",
-      message: 'El Carnet de Extrajería 20 debe tener mas de 20 caracteres',
-      snackType: SnackType.warning,
-    );
-    boolNotifier.value = true;
-    return null;
-  }
-
-  return null;
 }
