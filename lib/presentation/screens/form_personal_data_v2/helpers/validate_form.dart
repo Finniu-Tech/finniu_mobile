@@ -21,7 +21,7 @@ String? validateString({
   if (value.length < 2) {
     showSnackBarV2(
       context: context,
-      title: "${field.toLowerCase()} obligatorio",
+      title: "$field obligatorio",
       message: "El ${field.toLowerCase()} debe tener al menos 1 caracter.",
       snackType: SnackType.warning,
     );
@@ -31,7 +31,7 @@ String? validateString({
   if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
     showSnackBarV2(
       context: context,
-      title: "${field.toLowerCase()} inválido",
+      title: "$field inválido",
       message:
           "El ${field.toLowerCase()} no debe contener números ni caracteres especiales.",
       snackType: SnackType.warning,
@@ -61,7 +61,7 @@ String? validateNumber({
   if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
     showSnackBarV2(
       context: context,
-      title: "${field.toLowerCase()} incorrecto",
+      title: "$field incorrecto",
       message: 'Solo puedes usar números',
       snackType: SnackType.warning,
     );

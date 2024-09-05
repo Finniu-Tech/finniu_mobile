@@ -23,6 +23,7 @@ class FormPersonalDataV2 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ScaffoldUserProfile(
         floatingActionButton: Container(
           width: 0,
@@ -43,7 +44,6 @@ class FormPersonalDataV2 extends ConsumerWidget {
             icon: "assets/svg_icons/user_icon_v2.svg",
           ),
           PersonalForm(),
-          // const ContainerMessage(),
         ],
       ),
     );
@@ -96,14 +96,7 @@ class PersonalForm extends HookConsumerWidget {
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
-        print("upload personal data");
-        print(firstNameController.text);
-        print(lastNameFatherController.text);
-        print(lastNameMotherController.text);
-        print(documentTypeController.text);
-        print(documentNumberController.text);
-        print(civilStatusController.text);
-        print(genderTypeController.text);
+
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
           firstName: firstNameController.text.trim(),
