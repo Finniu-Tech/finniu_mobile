@@ -1,4 +1,3 @@
-// ignore_for_file: avoid_print
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -222,6 +221,7 @@ class PersonalForm extends HookConsumerWidget {
               valueListenable: documentNumberError,
               builder: (context, isError, child) {
                 return InputTextFileUserProfile(
+                  isNumeric: true,
                   isError: isError,
                   onError: () => documentNumberError.value = false,
                   controller: documentNumberController,
