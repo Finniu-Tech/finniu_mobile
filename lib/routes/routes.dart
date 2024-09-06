@@ -207,7 +207,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/scan_document': (BuildContext context) => const ScanDocumentScreenV2(),
     '/v2/form_personal_data': (BuildContext context) =>
         const FormPersonalDataV2(),
-    '/v2/form_location': (BuildContext context) => FormLocationDataV2(),
+    '/v2/form_location': (BuildContext context) => const FormLocationDataV2(),
     '/v2/form_job': (BuildContext context) => const FormJobDataV2(),
     '/v2/form_legal_terms': (BuildContext context) => FormLegalTermsDataV2(),
     '/v2/form_about_me': (BuildContext context) => AboutMeDataV2(),

@@ -8,7 +8,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 pushOccupationDataForm(
-    BuildContext context, DtoOccupationForm data, WidgetRef ref) {
+  BuildContext context,
+  DtoOccupationForm data,
+  WidgetRef ref,
+) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     showSnackBarV2(

@@ -37,6 +37,7 @@ pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
         Navigator.pushNamed(context, "/v2/send_code");
+        ScaffoldMessenger.of(context).clearSnackBars();
       });
     } else {
       showSnackBarV2(
