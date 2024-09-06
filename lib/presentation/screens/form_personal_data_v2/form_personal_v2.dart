@@ -106,7 +106,7 @@ class PersonalForm extends HookConsumerWidget {
           documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
-          gender: genderTypeController.text,
+          gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
         context.loaderOverlay.show();
         pushPersonalDataForm(

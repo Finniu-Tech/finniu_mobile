@@ -29,7 +29,7 @@ class DtoPersonalForm {
   final TypeDocumentEnum documentType;
   final String documentNumber;
   final CivilStatusEnum civilStatus;
-  final String gender;
+  final GenderEnum gender;
 
   DtoPersonalForm({
     required this.firstName,
@@ -265,4 +265,48 @@ class DtoAboutMeForm {
     required this.linkedin,
     required this.other,
   });
+}
+
+enum GenderEnum {
+  MALE,
+  FEMALE,
+  NON_BINARY,
+  OTHER,
+  PREFER_NOT_TO_SAY,
+}
+
+extension GenderEnumExtension on GenderEnum {
+  String get name {
+    switch (this) {
+      case GenderEnum.MALE:
+        return "MALE";
+      case GenderEnum.FEMALE:
+        return "FEMALE";
+      case GenderEnum.NON_BINARY:
+        return "NON_BINARY";
+      case GenderEnum.OTHER:
+        return "OTHER";
+      case GenderEnum.PREFER_NOT_TO_SAY:
+        return "PREFER_NOT_TO_SAY";
+      default:
+        return "PREFER_NOT_TO_SAY";
+    }
+  }
+}
+
+GenderEnum? getGenderEnum(String valor) {
+  switch (valor) {
+    case 'Masculino':
+      return GenderEnum.MALE;
+    case 'Femenino':
+      return GenderEnum.FEMALE;
+    case 'No binario':
+      return GenderEnum.NON_BINARY;
+    case 'Otro':
+      return GenderEnum.OTHER;
+    case 'Prefiero no decirlo':
+      return GenderEnum.PREFER_NOT_TO_SAY;
+    default:
+      return GenderEnum.PREFER_NOT_TO_SAY;
+  }
 }

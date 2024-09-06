@@ -596,7 +596,8 @@ class MutationRepository {
       \$documentType: DocumentTypeEnum!
       \$documentNumber: String!
       \$civilStatus: CivilStatusEnum!
-      \$gender: String!
+      \$gender: GenderEnum!
+
     ){
     registerPersonalData(input:{
       firstName: \$firstName,
@@ -605,7 +606,6 @@ class MutationRepository {
       documentType: \$documentType,
       documentNumber: \$documentNumber,
       civilStatus: \$civilStatus,
-      gender: \$gender
     }
     )
     {

@@ -123,4 +123,7 @@ final List<String> serviceTime = [
 final List<String> genderType = [
   'Masculino',
   'Femenino',
+  "No binario",
+  "Otro",
+  "Prefiero no decirlo",
 ];
