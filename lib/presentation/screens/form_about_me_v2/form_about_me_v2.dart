@@ -69,9 +69,14 @@ class AboutMeForm extends HookConsumerWidget {
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
+        if (biographyAreaController.text == "" || imageBase64 == null) {
+          Navigator.pushNamed(context, '/home_v2');
+          context.loaderOverlay.hide();
+          return;
+        }
         final DtoAboutMeForm data = DtoAboutMeForm(
-          imageProfile: imageBase64 ?? "",
-          backgroundPhoto: imageBase64 ?? "",
+          imageProfile: imageBase64,
+          backgroundPhoto: imageBase64,
           facebook: facebookTextController.text.trim(),
           instagram: instagramTextController.text.trim(),
           linkedin: linkedinTextController.text.trim(),
