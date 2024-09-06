@@ -6,7 +6,6 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
