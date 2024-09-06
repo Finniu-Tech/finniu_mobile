@@ -97,7 +97,7 @@ class LocationForm extends HookConsumerWidget {
     }
 
     void continueLater() {
-      Navigator.pushNamed(context, "/home_v2");
+      Navigator.pushNamed(context, "/form_legal_terms");
     }
 
     return Form(

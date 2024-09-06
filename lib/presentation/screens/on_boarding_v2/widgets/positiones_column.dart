@@ -8,8 +8,13 @@ class PositionedColumn extends ConsumerWidget {
   const PositionedColumn({
     super.key,
     required this.index,
+    required this.pushRegister,
+    required this.pushLogin,
   });
   final int index;
+  final VoidCallback pushRegister;
+  final VoidCallback pushLogin;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -37,7 +42,7 @@ class PositionedColumn extends ConsumerWidget {
                     ? isDarkMode
                     : true,
             text: "Crear mi cuenta",
-            onPressed: () => Navigator.pushNamed(context, '/sign_up_email'),
+            onPressed: pushRegister,
           ),
           const SizedBox(
             height: 10,
@@ -59,7 +64,7 @@ class PositionedColumn extends ConsumerWidget {
                     ? isDarkMode
                     : true,
             text: "Ingresar",
-            onPressed: () => Navigator.pushNamed(context, '/login_email'),
+            onPressed: pushLogin,
           ),
           const SizedBox(
             height: 10,

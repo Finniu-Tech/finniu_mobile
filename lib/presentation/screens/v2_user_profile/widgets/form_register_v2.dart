@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -26,12 +27,14 @@ class FormRegister extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
-    final acceptPrivacyAndTerms = useState(false);
+    // final acceptPrivacyAndTerms = useState(false);
     final ValueNotifier<bool> nickNameError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> phoneNumberError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> passwordConfirmError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> acceptPrivacyAndTerms =
+        ValueNotifier<bool>(false);
     void saveAndPush(BuildContext context) async {
       if (!formKey.currentState!.validate()) {
         showSnackBarV2(
@@ -174,10 +177,15 @@ class FormRegister extends HookConsumerWidget {
               );
             },
           ),
-          CheckTermsAndConditions(
-            checkboxValue: acceptPrivacyAndTerms.value,
-            onPressed: () {
-              acceptPrivacyAndTerms.value = !acceptPrivacyAndTerms.value;
+          ValueListenableBuilder<bool>(
+            valueListenable: acceptPrivacyAndTerms,
+            builder: (context, isError, child) {
+              return CheckTermsAndConditions(
+                checkboxValue: acceptPrivacyAndTerms.value,
+                onPressed: () {
+                  acceptPrivacyAndTerms.value = !acceptPrivacyAndTerms.value;
+                },
+              );
             },
           ),
           const SizedBox(
@@ -212,7 +220,7 @@ class RedirectLogin extends ConsumerWidget {
     const int linkLight = 0xff0D3A5C;
     return GestureDetector(
       onTap: () {
-        print("login");
+        Navigator.pushNamed(context, '/login_email');
       },
       child: const TextPoppins(
         text: "Inicia sesión",

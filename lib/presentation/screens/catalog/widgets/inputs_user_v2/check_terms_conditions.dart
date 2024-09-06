@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -25,11 +26,9 @@ class CheckTermsAndConditions extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Checkbox(
-            activeColor:
-                isDarkMode ? const Color(linkDark) : const Color(linkLight),
+          CheckBoxWidget(
             value: checkboxValue,
-            onChanged: (onChanged) {
+            onChanged: (a) {
               onPressed();
             },
           ),
