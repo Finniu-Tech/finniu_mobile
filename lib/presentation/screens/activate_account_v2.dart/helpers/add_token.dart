@@ -5,6 +5,7 @@ import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -51,27 +52,30 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
               ref.read(authTokenProvider.notifier).state = value;
               Navigator.pushNamed(context, '/v2/form_personal_data');
             } else {
-              CustomSnackbar.show(
-                context,
-                "Error al procesar la solicitud token error",
-                'error',
+              showSnackBarV2(
+                context: context,
+                title: "Error al token",
+                message: "Error al procesar la solicitud token error",
+                snackType: SnackType.error,
               );
             }
           });
         } else {
-          CustomSnackbar.show(
-            context,
-            "Error al procesar la solicitud d loginResponse false",
-            'error',
+          showSnackBarV2(
+            context: context,
+            title: "Error al token",
+            message: "Error al procesar la solicitud token error",
+            snackType: SnackType.error,
           );
         }
       });
     } else {
       Navigator.of(context).pop();
-      CustomSnackbar.show(
-        context,
-        'No se pudo validar el código de verificación',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error al token",
+        message: "Error al procesar la solicitud token error",
+        snackType: SnackType.error,
       );
     }
     context.loaderOverlay.hide();
