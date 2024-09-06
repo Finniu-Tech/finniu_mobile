@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
+import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
@@ -70,13 +71,12 @@ class LocationFormState extends ConsumerState<LocationForm> {
   final houseNumberController = TextEditingController();
   final postalCodeController = TextEditingController();
 
-  final ValueNotifier<bool> addressError = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> postalCodeError = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> countryError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> regionsError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> provinceError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> districtError = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> addressError = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
+  final ValueNotifier<bool> postalCodeError = ValueNotifier<bool>(false);
 
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
@@ -87,6 +87,12 @@ class LocationFormState extends ConsumerState<LocationForm> {
         snackType: SnackType.warning,
       );
     } else {
+      if (regionsError.value) return;
+      if (provinceError.value) return;
+      if (districtError.value) return;
+      if (addressError.value) return;
+      if (houseNumberError.value) return;
+      if (postalCodeError.value) return;
       DtoLocationForm data = DtoLocationForm(
         country: countrySelectController.text,
         region: regionsSelectController.text,
@@ -117,16 +123,6 @@ class LocationFormState extends ConsumerState<LocationForm> {
   @override
   void initState() {
     super.initState();
-
-    //  countrySelectController.addListener(() {
-    //   setState(() {
-    //     showRegionProvinceDistrict =
-    //          countrySelectController.text == "Peru";
-    //   });
-    //    regionsSelectController.clear();
-    //    provinceSelectController.clear();
-    //    districtSelectController.clear();
-    // });
 
     regionsSelectController.addListener(() {
       ref.invalidate(
@@ -173,76 +169,156 @@ class LocationFormState extends ConsumerState<LocationForm> {
               height: 15,
             ),
             if (showRegionProvinceDistrict) ...[
-              ProviderSelectableDropdownItem(
-                regionsSelectProvider: regionsSelectProvider,
-                itemSelectedValue: regionsSelectController.text,
-                selectController: regionsSelectController,
-                hintText: "Selecciona el departamento",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor seleccione tipo';
-                  }
-                  return null;
+              ValueListenableBuilder<bool>(
+                valueListenable: regionsError,
+                builder: (context, isError, child) {
+                  return ProviderSelectableDropdownItem(
+                    onError: () => regionsError.value = false,
+                    isError: isError,
+                    regionsSelectProvider: regionsSelectProvider,
+                    itemSelectedValue: regionsSelectController.text,
+                    selectController: regionsSelectController,
+                    hintText: "Selecciona el departamento",
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "El departamento es obligatorio",
+                          message:
+                              "Por favor, completa el seleciona el departamento.",
+                          snackType: SnackType.warning,
+                        );
+                        regionsError.value = true;
+                        return null;
+                      }
+
+                      return null;
+                    },
+                  );
                 },
               ),
               const SizedBox(
                 height: 15,
               ),
               regionsSelectController.text.isEmpty
-                  ? SelectableGeoLocationDropdownItem(
-                      itemSelectedValue: provinceSelectController.text,
-                      options: const [],
-                      selectController: provinceSelectController,
-                      hintText: "Debe seleccionar un departamento",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor seleccione tipo';
-                        }
-                        return null;
+                  ? ValueListenableBuilder<bool>(
+                      valueListenable: regionsError,
+                      builder: (context, isError, child) {
+                        return SelectableGeoLocationDropdownItem(
+                          onError: () => regionsError.value = false,
+                          isError: isError,
+                          itemSelectedValue: provinceSelectController.text,
+                          options: const [],
+                          selectController: provinceSelectController,
+                          hintText: "Debe seleccionar un provincia",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              showSnackBarV2(
+                                context: context,
+                                title: "El provincia es obligatorio",
+                                message:
+                                    "Por favor, completa el seleciona el provincia.",
+                                snackType: SnackType.warning,
+                              );
+                              provinceError.value = true;
+                              return null;
+                            }
+
+                            return null;
+                          },
+                        );
                       },
                     )
-                  : ProviderSelectableDropdownItem(
-                      regionsSelectProvider: provincesSelectProvider(
-                        regionsSelectController.text,
-                      ),
-                      itemSelectedValue: provinceSelectController.text,
-                      selectController: provinceSelectController,
-                      hintText: "Selecciona la provincia",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor seleccione tipo';
-                        }
-                        return null;
+                  : ValueListenableBuilder<bool>(
+                      valueListenable: provinceError,
+                      builder: (context, isError, child) {
+                        return ProviderSelectableDropdownItem(
+                          onError: () => provinceError.value = false,
+                          isError: isError,
+                          regionsSelectProvider: provincesSelectProvider(
+                            regionsSelectController.text,
+                          ),
+                          itemSelectedValue: provinceSelectController.text,
+                          selectController: provinceSelectController,
+                          hintText: "Selecciona la provincia",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              showSnackBarV2(
+                                context: context,
+                                title: "El departamento es obligatorio",
+                                message:
+                                    "Por favor, completa el seleciona el departamento.",
+                                snackType: SnackType.warning,
+                              );
+                              provinceError.value = true;
+                              return null;
+                            }
+
+                            return null;
+                          },
+                        );
                       },
                     ),
               const SizedBox(
                 height: 15,
               ),
               provinceSelectController.text.isEmpty
-                  ? SelectableGeoLocationDropdownItem(
-                      itemSelectedValue: districtSelectController.text,
-                      options: const [],
-                      selectController: districtSelectController,
-                      hintText: "Debe seleccionar una provincia",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor seleccione tipo';
-                        }
-                        return null;
+                  ? ValueListenableBuilder<bool>(
+                      valueListenable: districtError,
+                      builder: (context, isError, child) {
+                        return SelectableGeoLocationDropdownItem(
+                          onError: () => districtError.value = false,
+                          isError: isError,
+                          itemSelectedValue: districtSelectController.text,
+                          options: const [],
+                          selectController: districtSelectController,
+                          hintText: "Debe seleccionar una provincia",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              showSnackBarV2(
+                                context: context,
+                                title: "El provincia es obligatorio",
+                                message:
+                                    "Por favor, completa el seleciona el provincia.",
+                                snackType: SnackType.warning,
+                              );
+                              districtError.value = true;
+                              return null;
+                            }
+
+                            return null;
+                          },
+                        );
                       },
                     )
-                  : ProviderSelectableDropdownItem(
-                      regionsSelectProvider: districtsSelectProvider(
-                        provinceSelectController.text,
-                      ),
-                      itemSelectedValue: districtSelectController.text,
-                      selectController: districtSelectController,
-                      hintText: "Selecciona el distrito",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Por favor seleccione tipo';
-                        }
-                        return null;
+                  : ValueListenableBuilder<bool>(
+                      valueListenable: districtError,
+                      builder: (context, isError, child) {
+                        return ProviderSelectableDropdownItem(
+                          onError: () => districtError.value = false,
+                          isError: isError,
+                          regionsSelectProvider: districtsSelectProvider(
+                            provinceSelectController.text,
+                          ),
+                          itemSelectedValue: districtSelectController.text,
+                          selectController: districtSelectController,
+                          hintText: "Selecciona el distrito",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              showSnackBarV2(
+                                context: context,
+                                title: "El departamento es obligatorio",
+                                message:
+                                    "Por favor, completa el seleciona el departamento.",
+                                snackType: SnackType.warning,
+                              );
+                              districtError.value = true;
+                              return null;
+                            }
+
+                            return null;
+                          },
+                        );
                       },
                     ),
               const SizedBox(
@@ -280,36 +356,73 @@ class LocationFormState extends ConsumerState<LocationForm> {
                 },
               ),
             ],
-            InputTextFileUserProfile(
-              controller: addressTextController,
-              hintText: "Escribe tu dirección de domicilio",
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Por favor ingresa tu domicilio';
-                }
-                return null;
+            ValueListenableBuilder<bool>(
+              valueListenable: addressError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isError: isError,
+                  onError: () => addressError.value = false,
+                  controller: addressTextController,
+                  hintText: "Escribe tu dirección de domicilio",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Dirección de domicilio",
+                      context: context,
+                      boolNotifier: addressError,
+                    );
+                    return null;
+                  },
+                );
               },
             ),
-            InputTextFileUserProfile(
-              isNumeric: true,
-              controller: houseNumberController,
-              hintText: "Número de tu domicilio",
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Ingresa tu número de domicilio';
-                }
-                if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                  return 'Solo puedes usar números';
-                }
-                return null;
+            ValueListenableBuilder<bool>(
+              valueListenable: houseNumberError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isNumeric: true,
+                  isError: isError,
+                  onError: () => houseNumberError.value = false,
+                  controller: houseNumberController,
+                  hintText: "Número de tu domicilio",
+                  validator: (value) {
+                    validateNumber(
+                      value: value,
+                      field: "Número de tu domicilio",
+                      context: context,
+                      boolNotifier: houseNumberError,
+                    );
+                    return null;
+                  },
+                );
               },
             ),
-            InputTextFileUserProfile(
-              isNumeric: true,
-              controller: postalCodeController,
-              hintText: "Código postal (opcional)",
-              validator: (value) {
-                return null;
+            ValueListenableBuilder<bool>(
+              valueListenable: postalCodeError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isNumeric: true,
+                  isError: isError,
+                  onError: () => postalCodeError.value = false,
+                  controller: postalCodeController,
+                  hintText: "Código postal (opcional)",
+                  validator: (value) {
+                    if (value != null && value.isNotEmpty) {
+                      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Código postal incorrecto",
+                          message: 'Solo puedes usar números',
+                          snackType: SnackType.warning,
+                        );
+                        postalCodeError.value = true;
+                        return null;
+                      }
+                    }
+                    postalCodeError.value = false;
+                    return null;
+                  },
+                );
               },
             ),
             const ContainerMessage(),

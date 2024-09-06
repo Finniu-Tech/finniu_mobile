@@ -69,7 +69,6 @@ String? validateNumber({
     return null;
   }
 
-  boolNotifier.value = true;
   return null;
 }
 
