@@ -14,7 +14,7 @@ void addImage({required BuildContext context, required WidgetRef ref}) async {
     final File imageFile = File(image.path);
     final int imageSize = await imageFile.length();
     final double imageSizeInMB = imageSize / (1024 * 1024);
-    const double maxSizeInMB = 5;
+    const double maxSizeInMB = 2;
 
     if (imageSizeInMB > maxSizeInMB) {
       showSnackBarV2(
