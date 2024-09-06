@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 enum SnackType {
@@ -17,60 +18,69 @@ void showSnackBarV2({
 }) {
   const int textColor = 0xff000000;
 
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      dismissDirection: DismissDirection.horizontal,
-      duration: const Duration(seconds: 3),
-      behavior: SnackBarBehavior.floating,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      closeIconColor: const Color(textColor),
-      showCloseIcon: true,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      backgroundColor: Color(getColorBySnackType(snackType)),
-      content: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SvgPicture.asset(
-            "assets/svg_icons/${getIconBySnackType(snackType)}.svg",
-            width: 24,
-            height: 24,
-          ),
-          const SizedBox(
-            width: 15,
-          ),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextPoppins(
-                  text: title,
-                  fontSize: 13,
-                  isBold: true,
-                  textDark: textColor,
-                  textLight: textColor,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.6,
-                  child: TextPoppins(
-                    text: message,
-                    fontSize: 12,
-                    isBold: false,
+  void showSnack() {
+    try {
+      final scaffoldMessenger = ScaffoldMessenger.of(context);
+      final snackBar = SnackBar(
+        dismissDirection: DismissDirection.horizontal,
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        closeIconColor: const Color(textColor),
+        showCloseIcon: true,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        backgroundColor: Color(getColorBySnackType(snackType)),
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              "assets/svg_icons/${getIconBySnackType(snackType)}.svg",
+              width: 24,
+              height: 24,
+            ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextPoppins(
+                    text: title,
+                    fontSize: 13,
+                    isBold: true,
                     textDark: textColor,
                     textLight: textColor,
-                    lines: 2,
                   ),
-                ),
-              ],
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    child: TextPoppins(
+                      text: message,
+                      fontSize: 12,
+                      isBold: false,
+                      textDark: textColor,
+                      textLight: textColor,
+                      lines: 2,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-    ),
-  );
+          ],
+        ),
+      );
+
+      scaffoldMessenger.showSnackBar(snackBar);
+    } catch (e) {
+      print('Error al mostrar SnackBar: $e');
+    }
+  }
+
+  SchedulerBinding.instance.addPostFrameCallback((_) {
+    showSnack();
+  });
 }
 
 int getColorBySnackType(SnackType snackType) {
