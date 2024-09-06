@@ -12,11 +12,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class FormLegalTermsDataV2 extends HookConsumerWidget {
-  FormLegalTermsDataV2({super.key});
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  const FormLegalTermsDataV2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final isPublicOfficialOrFamilyCheckbox = useState(false);
     final isDirectorOrShareholder10PercentCheckbox = useState(false);
     void uploadJobData() {
@@ -27,12 +27,9 @@ class FormLegalTermsDataV2 extends HookConsumerWidget {
           isDirectorOrShareholder10Percent:
               isDirectorOrShareholder10PercentCheckbox.value,
         );
+        context.loaderOverlay.show();
         pushLegalTermsDataForm(context, data, ref);
       }
-    }
-
-    void continueLater() {
-      Navigator.pushNamed(context, "/home_v2");
     }
 
     return GestureDetector(

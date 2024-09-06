@@ -209,7 +209,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const FormPersonalDataV2(),
     '/v2/form_location': (BuildContext context) => const FormLocationDataV2(),
     '/v2/form_job': (BuildContext context) => const FormJobDataV2(),
-    '/v2/form_legal_terms': (BuildContext context) => FormLegalTermsDataV2(),
+    '/v2/form_legal_terms': (BuildContext context) =>
+        const FormLegalTermsDataV2(),
     '/v2/form_about_me': (BuildContext context) => AboutMeDataV2(),
     '/v2/profile': (BuildContext context) => const UserProfileV2(),
     '/v2/on_boarding': (BuildContext context) => const OnBoardingScreen(),

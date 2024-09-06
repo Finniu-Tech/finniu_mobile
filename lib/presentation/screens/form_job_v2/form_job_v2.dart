@@ -97,7 +97,7 @@ class LocationForm extends HookConsumerWidget {
     }
 
     void continueLater() {
-      Navigator.pushNamed(context, "/form_legal_terms");
+      Navigator.pushNamed(context, "/v2/form_legal_terms");
     }
 
     return Form(
@@ -166,7 +166,7 @@ class LocationForm extends HookConsumerWidget {
                   isError: isError,
                   onError: () => companyNameError.value = false,
                   controller: companyNameTextController,
-                  hintText: "Escribe tu ocupación/profesión",
+                  hintText: "Escribe el nombre de la empresa",
                   validator: (value) {
                     validateString(
                       value: value,

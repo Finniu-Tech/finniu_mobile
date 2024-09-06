@@ -3,8 +3,9 @@ import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_p
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class CheckTermsAndConditions extends ConsumerWidget {
+class CheckTermsAndConditions extends HookConsumerWidget {
   const CheckTermsAndConditions({
     super.key,
     required this.checkboxValue,
@@ -65,10 +66,9 @@ class CheckTermsAndConditions extends ConsumerWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            print("tap");
-                            print(
-                              "al usuario que lea los terminos y condiciones hay que darle un premio",
-                            );
+                            Uri politicasURL =
+                                Uri.parse('https://finniu.com/terminos/');
+                            launchUrl(politicasURL);
                           },
                       ),
                     ],
