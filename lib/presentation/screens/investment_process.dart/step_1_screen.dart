@@ -477,7 +477,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 },
                 onChanged: (value) {},
                 decoration: const InputDecoration(
-                  hintText: 'Escriba su monto de inversion',
+                  hintText: 'Escriba su monto de inversión',
                   hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
                   label: Text("Monto"),
                 ),
@@ -735,13 +735,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                     },
                   ),
                 ),
-                hintText: 'Ingresa tu código',
+                hintText: 'Ingresa tu código(opcional)',
                 hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.zero,
                 ),
                 label: const Text(
-                  "Ingresa tu códigos promocional,si tienes uno",
+                  "Ingresa tu código promocional",
                 ),
               ),
             ),

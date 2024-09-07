@@ -58,7 +58,7 @@ class FundDetailBody extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         ButtonInvestment(
-          text: 'Quiero invertir',
+          text: fund.fundType == FundTypeEnum.corporate ? 'Quiero invertir' : 'Quiero simular',
           onPressed: () {
             if (fund.fundType == FundTypeEnum.corporate) {
               Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': fund});
