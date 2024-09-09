@@ -50,6 +50,9 @@ final userProfileFutureProvider =
           occupation: userProfile.occupation,
           percentCompleteProfile: userProfile.percentCompleteProfile,
           hasCompletedTour: userProfile.hasCompletedTour,
+          lastNameFather: userProfile.lastNameFather,
+          lastNameMother: userProfile.lastNameMother,
+          countryPrefix: userProfile.countryPrefix,
         );
     return userProfile;
   }
@@ -85,6 +88,9 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           occupation: userProfile.occupation,
           percentCompleteProfile: percentaje,
           hasCompletedTour: userProfile.hasCompletedTour,
+          lastNameFather: userProfile.lastNameFather,
+          lastNameMother: userProfile.lastNameMother,
+          countryPrefix: userProfile.countryPrefix,
         );
   }
   return success;
@@ -133,6 +139,9 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     double? percentCompleteProfile,
     bool? hasCompletedTour,
     bool? hasSeeLaterTour,
+    String? lastNameFather,
+    String? lastNameMother,
+    String? countryPrefix,
   }) {
     state = state.copyWith(
       id: id,
@@ -153,6 +162,9 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       occupation: occupation,
       percentCompleteProfile: percentCompleteProfile,
       hasCompletedTour: hasCompletedTour,
+      lastNameFather: lastNameFather,
+      lastNameMother: lastNameMother,
+      countryPrefix: countryPrefix,
     );
   }
 

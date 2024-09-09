@@ -19,8 +19,8 @@ class ImageEditStack extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
-    const int backgroundImageDark = 0xff191919;
-    const int backgroundImageLight = 0xffC1F1FF;
+
+    const int backgroundImage = 0xffC1F1FF;
 
     return SizedBox(
       height: 130,
@@ -30,9 +30,7 @@ class ImageEditStack extends ConsumerWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             height: 64,
-            color: isDarkMode
-                ? const Color(backgroundImageDark)
-                : const Color(backgroundImageLight),
+            color: const Color(backgroundImage),
           ),
           Positioned(
             top: 25,

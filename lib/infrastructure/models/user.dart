@@ -210,6 +210,9 @@ class UserProfile {
     String? occupation,
     double? percentCompleteProfile,
     bool? hasCompletedTour,
+    String? lastNameFather,
+    String? lastNameMother,
+    String? countryPrefix,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -232,6 +235,9 @@ class UserProfile {
       percentCompleteProfile:
           percentCompleteProfile ?? this.percentCompleteProfile,
       hasCompletedTour: hasCompletedTour ?? this.hasCompletedTour,
+      lastNameFather: lastNameFather ?? this.lastNameFather,
+      lastNameMother: lastNameMother ?? this.lastNameMother,
+      countryPrefix: countryPrefix ?? this.countryPrefix,
     );
   }
 
