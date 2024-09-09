@@ -17,33 +17,36 @@ class MyDataScreen extends ConsumerWidget {
 
 class _BodyMyData extends StatelessWidget {
   const _BodyMyData();
+  void navigate(BuildContext context, String navigate) {
+    Navigator.pushNamed(context, navigate);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/user_icon.svg",
           title: "Datos personales",
           subtitle: "Información personal legal. \n",
-          onTap: null,
+          onTap: () => navigate(context, '/v2/edit_personal_data'),
         ),
-        ButtonNavigateProfile(
+        const ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/map_icon_v2.svg",
           title: "Ubicación",
           subtitle: "Información sobre su ubicación actual \n",
           onTap: null,
         ),
-        ButtonNavigateProfile(
+        const ButtonNavigateProfile(
           isComplete: false,
           icon: "assets/svg_icons/bag_icon_v2.svg",
           title: "Ocupación laboral",
           subtitle: "Información sobre tu ocupación laboral \n",
           onTap: null,
         ),
-        ButtonNavigateProfile(
+        const ButtonNavigateProfile(
           isComplete: false,
           icon: "assets/svg_icons/user_icon_v2.svg",
           title: "Sobre mí",
