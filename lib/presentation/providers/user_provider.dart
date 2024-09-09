@@ -111,7 +111,7 @@ final userProfileNotifierProvider =
 );
 
 class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
-  UserProfileStateNotifierProvider(UserProfile user) : super(user);
+  UserProfileStateNotifierProvider(super.user);
 
   void updateFields({
     String? id,

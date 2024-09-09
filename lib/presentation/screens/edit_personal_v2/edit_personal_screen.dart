@@ -57,10 +57,14 @@ class EditPersonalForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userProfile = ref.watch(userProfileNotifierProvider);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final firstNameController = useTextEditingController();
-    final lastNameFatherController = useTextEditingController();
-    final lastNameMotherController = useTextEditingController();
+    final firstNameController =
+        useTextEditingController(text: userProfile.firstName);
+    final lastNameFatherController =
+        useTextEditingController(text: userProfile.lastNameFather);
+    final lastNameMotherController =
+        useTextEditingController(text: userProfile.lastNameMother);
     final documentTypeController = useTextEditingController();
     final documentNumberController = useTextEditingController();
     final civilStatusController = useTextEditingController();
@@ -246,7 +250,7 @@ class EditPersonalForm extends HookConsumerWidget {
                   itemSelectedValue: civilStatusController.text,
                   options: maritalStatus,
                   selectController: civilStatusController,
-                  hintText: "Selecciona tu documento de identidad",
+                  hintText: "Selecciona estado civil",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       showSnackBarV2(

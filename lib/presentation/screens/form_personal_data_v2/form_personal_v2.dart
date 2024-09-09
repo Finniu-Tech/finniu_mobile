@@ -249,7 +249,7 @@ class PersonalForm extends HookConsumerWidget {
                   itemSelectedValue: civilStatusController.text,
                   options: maritalStatus,
                   selectController: civilStatusController,
-                  hintText: "Selecciona tu documento de identidad",
+                  hintText: "Selecciona estado civil",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       showSnackBarV2(

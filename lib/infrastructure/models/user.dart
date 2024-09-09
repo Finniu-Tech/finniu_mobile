@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+
 ScanUserModel scanModelFromJson(String str) =>
     ScanUserModel.fromJson(json.decode(str));
 
@@ -98,8 +100,12 @@ class UserProfile {
     this.address,
     this.percentCompleteProfile,
     this.hasCompletedTour,
+    this.lastNameFather,
+    this.lastNameMother,
+    this.countryPrefix,
+    this.documentType,
   });
-
+  TypeDocumentEnum? documentType;
   String? firstName;
   String? lastName;
   String? email;
@@ -123,6 +129,9 @@ class UserProfile {
   String? imageProfile;
   String? address;
   double? percentCompleteProfile;
+  String? lastNameFather;
+  String? lastNameMother;
+  String? countryPrefix;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -151,6 +160,9 @@ class UserProfile {
         percentCompleteProfile: json["percentCompleteProfile"] != null
             ? double.parse(json["percentCompleteProfile"].toString())
             : 0.0,
+        lastNameFather: json["lastNameFather"],
+        lastNameMother: json["lastNameMother"],
+        countryPrefix: json["countryPrefix"],
       );
 
   Map<String, dynamic> toJson() => {
