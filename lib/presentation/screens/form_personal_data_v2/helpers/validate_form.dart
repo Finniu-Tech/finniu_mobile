@@ -119,7 +119,7 @@ String? validateNumberDocument({
     boolNotifier.value = true;
     return null;
   }
-  if (typeDocument == TypeDocumentEnum.CARNET_EXTRAJERIA && value.length < 8) {
+  if (typeDocument == TypeDocumentEnum.CARNET && value.length < 8) {
     showSnackBarV2(
       context: context,
       title: "$field incorrecto",
@@ -129,7 +129,7 @@ String? validateNumberDocument({
     boolNotifier.value = true;
     return null;
   }
-  if (typeDocument == TypeDocumentEnum.CARNET_EXTRAJERIA && value.length > 20) {
+  if (typeDocument == TypeDocumentEnum.CARNET && value.length > 20) {
     showSnackBarV2(
       context: context,
       title: "$field incorrecto",

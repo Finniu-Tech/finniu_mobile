@@ -104,6 +104,7 @@ final List<String> maritalStatus = [
 final List<String> documentType = [
   'DNI',
   'Carné de extranjeria',
+  'Otro',
 ];
 final List<String> workSituation = [
   'Empleado',

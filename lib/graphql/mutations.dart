@@ -593,7 +593,7 @@ class MutationRepository {
       \$firstName: String!
       \$lastNameFather: String!
       \$lastNameMother: String!
-      \$documentType: DocumentTypeEnum!
+      \$documentType: DocumentTypeEnumV2!
       \$documentNumber: String!
       \$civilStatus: CivilStatusEnum!
       \$gender: GenderEnum!

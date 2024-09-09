@@ -42,32 +42,33 @@ class DtoPersonalForm {
   });
 }
 
-enum TypeDocumentEnum {
-  DNI,
-  CARNET_EXTRAJERIA,
-}
+enum TypeDocumentEnum { DNI, CARNET, OTHERS }
 
 extension TypeDocumentEnumExtension on TypeDocumentEnum {
   String get name {
     switch (this) {
       case TypeDocumentEnum.DNI:
         return "DNI";
-      case TypeDocumentEnum.CARNET_EXTRAJERIA:
-        return "CARNET_EXTRAJERIA";
+      case TypeDocumentEnum.CARNET:
+        return "CARNET";
+      case TypeDocumentEnum.OTHERS:
+        return "OTHERS";
       default:
-        return "DNI";
+        return "OTHERS";
     }
   }
 }
 
-TypeDocumentEnum? getTypeDocumentEnum(String valor) {
+TypeDocumentEnum getTypeDocumentEnum(String valor) {
   switch (valor) {
     case 'DNI':
       return TypeDocumentEnum.DNI;
     case 'Carné de extranjeria':
-      return TypeDocumentEnum.CARNET_EXTRAJERIA;
+      return TypeDocumentEnum.CARNET;
+    case 'Otro':
+      return TypeDocumentEnum.OTHERS;
     default:
-      return null;
+      return TypeDocumentEnum.OTHERS;
   }
 }
 

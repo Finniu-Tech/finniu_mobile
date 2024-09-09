@@ -101,8 +101,7 @@ class PersonalForm extends HookConsumerWidget {
           firstName: firstNameController.text.trim(),
           lastNameFather: lastNameFatherController.text.trim(),
           lastNameMother: lastNameMotherController.text.trim(),
-          documentType: getTypeDocumentEnum(documentTypeController.text) ??
-              TypeDocumentEnum.DNI,
+          documentType: getTypeDocumentEnum(documentTypeController.text),
           documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
