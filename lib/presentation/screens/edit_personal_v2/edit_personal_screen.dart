@@ -2,7 +2,6 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -58,15 +57,6 @@ class EditPersonalForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
-    print(userProfile);
-    print(userProfile.firstName);
-    print(userProfile.lastNameFather);
-    print(userProfile.lastNameMother);
-    print(userProfile.documentType);
-    print(userProfile.lastNameMother);
-    print(userProfile.documentNumber);
-    print(userProfile.civilStatus);
-    print(userProfile.gender);
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController =
@@ -80,12 +70,12 @@ class EditPersonalForm extends HookConsumerWidget {
     );
     final documentNumberController =
         useTextEditingController(text: userProfile.documentNumber);
-    // final civilStatusController =
-    //     useTextEditingController(text: userProfile.civilStatus);
-    // final genderTypeController =
-    //     useTextEditingController(text: userProfile.gender);
-    final civilStatusController = useTextEditingController();
-    final genderTypeController = useTextEditingController();
+    final civilStatusController = useTextEditingController(
+      text: getCivilStatusByUser(userProfile.civilStatus),
+    );
+    final genderTypeController = useTextEditingController(
+      text: getGenderByUser(userProfile.gender ?? ''),
+    );
 
     final ValueNotifier<bool> firstNameError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> lastNameFatherError = ValueNotifier<bool>(false);
@@ -141,7 +131,7 @@ class EditPersonalForm extends HookConsumerWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
-            ? 600
+            ? 525
             : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [
@@ -326,6 +316,9 @@ class EditPersonalForm extends HookConsumerWidget {
             ButtonInvestment(
               text: "Guardar datos",
               onPressed: uploadPersonalData,
+            ),
+            const SizedBox(
+              height: 15,
             ),
           ],
         ),

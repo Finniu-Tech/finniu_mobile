@@ -31,6 +31,11 @@ class ScaffoldConfig extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBarProfile(title: title),
+        floatingActionButton: Container(
+          width: 0,
+          height: 90,
+          color: Colors.transparent,
+        ),
         backgroundColor: isDarkMode
             ? const Color(backgroundDark)
             : const Color(backgroundLight),

@@ -98,6 +98,28 @@ enum CivilStatusEnum {
   WIDOWED,
 }
 
+final List<String> maritalStatus = [
+  'Soltero',
+  'Casado',
+  'Divorciado',
+  'Viudo',
+];
+
+String getCivilStatusByUser(String type) {
+  switch (type) {
+    case 'SINGLE':
+      return "Soltero";
+    case "MARRIED":
+      return "Casado";
+    case "DIVORCED":
+      return "Divorciado";
+    case "WIDOWED":
+      return "Viudo";
+    default:
+      return "Soltero";
+  }
+}
+
 extension CivilStatusEnumExtension on CivilStatusEnum {
   String get name {
     switch (this) {
@@ -293,6 +315,31 @@ enum GenderEnum {
   NON_BINARY,
   OTHER,
   PREFER_NOT_TO_SAY,
+}
+
+final List<String> genderType = [
+  'Masculino',
+  'Femenino',
+  "No binario",
+  "Otro",
+  "Prefiero no decirlo",
+];
+
+String getGenderByUser(String type) {
+  switch (type) {
+    case 'MALE':
+      return "Masculino";
+    case "FEMALE":
+      return "Femenino";
+    case "NON_BINARY":
+      return "No binario";
+    case "OTHER":
+      return "Otro";
+    case "PREFER_NOT_TO_SAY":
+      return "Prefiero no decirlo";
+    default:
+      return "Otro";
+  }
 }
 
 extension GenderEnumExtension on GenderEnum {
