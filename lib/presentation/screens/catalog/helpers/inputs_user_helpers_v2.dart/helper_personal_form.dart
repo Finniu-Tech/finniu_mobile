@@ -13,12 +13,13 @@ pushPersonalDataForm(
   DtoPersonalForm data,
   WidgetRef ref, {
   String navigate = '/v2/form_location',
+  bool isEdit = false,
 }) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     showSnackBarV2(
       context: context,
-      title: "Error al registrar",
+      title: isEdit ? "Error al registrar" : "Error al editar",
       message: "No se pudo conectar con el servidor",
       snackType: SnackType.error,
     );
@@ -29,8 +30,8 @@ pushPersonalDataForm(
     if (value.success) {
       showSnackBarV2(
         context: context,
-        title: "Registro exitoso",
-        message: value.messages[0].message,
+        title: "¡Guardado exitoso!",
+        message: "Tus datos fueron guardados con éxito",
         snackType: SnackType.success,
       );
 
@@ -41,7 +42,7 @@ pushPersonalDataForm(
     } else {
       showSnackBarV2(
         context: context,
-        title: "Error al registrar",
+        title: isEdit ? "Error al registrar" : "Error al editar",
         message: value.messages[0].message,
         snackType: SnackType.error,
       );
