@@ -27,8 +27,7 @@ class QueryRepository {
         typeDocument
         documentNumber
         gender
-        countryPrefix
-        phoneNumber
+        
       }
     }
   ''';

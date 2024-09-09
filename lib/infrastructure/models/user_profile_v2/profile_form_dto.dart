@@ -44,6 +44,25 @@ class DtoPersonalForm {
 
 enum TypeDocumentEnum { DNI, CARNET, OTHERS }
 
+final List<String> documentType = [
+  'DNI',
+  'Carné de extranjeria',
+  'Otro',
+];
+
+String getTypeDocumentByUser(String type) {
+  switch (type) {
+    case 'DNI':
+      return "DNI";
+    case "CARNET":
+      return "Carné de extranjeria";
+    case "OTHERS":
+      return "Otro";
+    default:
+      return "Otro";
+  }
+}
+
 extension TypeDocumentEnumExtension on TypeDocumentEnum {
   String get name {
     switch (this) {

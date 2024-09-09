@@ -21,6 +21,7 @@ final userProfileFutureProvider =
           ),
         ),
       );
+
       return result;
     },
   );
@@ -53,6 +54,8 @@ final userProfileFutureProvider =
           lastNameFather: userProfile.lastNameFather,
           lastNameMother: userProfile.lastNameMother,
           countryPrefix: userProfile.countryPrefix,
+          documentType: userProfile.documentType,
+          gender: userProfile.gender,
         );
     return userProfile;
   }
@@ -91,6 +94,8 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           lastNameFather: userProfile.lastNameFather,
           lastNameMother: userProfile.lastNameMother,
           countryPrefix: userProfile.countryPrefix,
+          documentType: userProfile.documentType,
+          gender: userProfile.gender,
         );
   }
   return success;
@@ -142,6 +147,8 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? lastNameFather,
     String? lastNameMother,
     String? countryPrefix,
+    String? documentType,
+    String? gender,
   }) {
     state = state.copyWith(
       id: id,
@@ -165,6 +172,8 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       lastNameFather: lastNameFather,
       lastNameMother: lastNameMother,
       countryPrefix: countryPrefix,
+      documentType: documentType,
+      gender: gender,
     );
   }
 

@@ -3,9 +3,10 @@ import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SelectableDropdownItem extends ConsumerWidget {
+class SelectableDropdownItem extends HookConsumerWidget {
   const SelectableDropdownItem({
     super.key,
     required this.options,
@@ -44,6 +45,7 @@ class SelectableDropdownItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final ValueNotifier<bool> reload = useState(false);
 
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
@@ -180,6 +182,7 @@ class SelectableDropdownItem extends ConsumerWidget {
       }).toList(),
       onChanged: (newValue) {
         selectController.text = newValue!;
+        reload.value = !reload.value;
       },
     );
   }

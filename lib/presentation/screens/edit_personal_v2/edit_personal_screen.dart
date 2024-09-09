@@ -57,7 +57,17 @@ class EditPersonalForm extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userProfile = ref.watch(userProfileNotifierProvider);
+    final userProfile = ref.read(userProfileNotifierProvider);
+    print(userProfile);
+    print(userProfile.firstName);
+    print(userProfile.lastNameFather);
+    print(userProfile.lastNameMother);
+    print(userProfile.documentType);
+    print(userProfile.lastNameMother);
+    print(userProfile.documentNumber);
+    print(userProfile.civilStatus);
+    print(userProfile.gender);
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController =
         useTextEditingController(text: userProfile.firstName);
@@ -65,8 +75,15 @@ class EditPersonalForm extends HookConsumerWidget {
         useTextEditingController(text: userProfile.lastNameFather);
     final lastNameMotherController =
         useTextEditingController(text: userProfile.lastNameMother);
-    final documentTypeController = useTextEditingController();
-    final documentNumberController = useTextEditingController();
+    final documentTypeController = useTextEditingController(
+      text: getTypeDocumentByUser(userProfile.documentType),
+    );
+    final documentNumberController =
+        useTextEditingController(text: userProfile.documentNumber);
+    // final civilStatusController =
+    //     useTextEditingController(text: userProfile.civilStatus);
+    // final genderTypeController =
+    //     useTextEditingController(text: userProfile.gender);
     final civilStatusController = useTextEditingController();
     final genderTypeController = useTextEditingController();
 
@@ -113,6 +130,7 @@ class EditPersonalForm extends HookConsumerWidget {
           context,
           data,
           ref,
+          navigate: '/home_v2',
         );
       }
     }

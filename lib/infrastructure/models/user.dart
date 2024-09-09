@@ -4,8 +4,6 @@
 
 import 'dart:convert';
 
-import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
-
 ScanUserModel scanModelFromJson(String str) =>
     ScanUserModel.fromJson(json.decode(str));
 
@@ -105,7 +103,7 @@ class UserProfile {
     this.countryPrefix,
     this.documentType,
   });
-  TypeDocumentEnum? documentType;
+  dynamic documentType;
   String? firstName;
   String? lastName;
   String? email;
@@ -114,7 +112,7 @@ class UserProfile {
   dynamic civilStatus;
   dynamic distrito;
   String? documentNumber;
-  dynamic gender;
+  String? gender;
   bool? hasCompletedOnboarding;
   bool? hasCompletedTour;
   bool? isActive;
@@ -163,6 +161,7 @@ class UserProfile {
         lastNameFather: json["lastNameFather"],
         lastNameMother: json["lastNameMother"],
         countryPrefix: json["countryPrefix"],
+        documentType: json["typeDocument"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -213,6 +212,8 @@ class UserProfile {
     String? lastNameFather,
     String? lastNameMother,
     String? countryPrefix,
+    String? documentType,
+    String? gender,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -238,6 +239,8 @@ class UserProfile {
       lastNameFather: lastNameFather ?? this.lastNameFather,
       lastNameMother: lastNameMother ?? this.lastNameMother,
       countryPrefix: countryPrefix ?? this.countryPrefix,
+      documentType: documentType ?? this.documentType,
+      gender: gender ?? this.gender,
     );
   }
 
