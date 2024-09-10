@@ -2,7 +2,6 @@ import 'package:finniu/infrastructure/datasources/forms_v2/location_form_v2_imp.
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_response.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
