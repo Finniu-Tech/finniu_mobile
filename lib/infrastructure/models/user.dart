@@ -110,15 +110,15 @@ class UserProfile {
   String? id;
   String? nickName;
   dynamic civilStatus;
-  dynamic distrito;
+  String? distrito;
   String? documentNumber;
   String? gender;
   bool? hasCompletedOnboarding;
   bool? hasCompletedTour;
   bool? isActive;
   String? occupation;
-  dynamic provincia;
-  dynamic region;
+  String? provincia;
+  String? region;
   String? typeDocument;
   String? uuid;
   String? phoneNumber;
