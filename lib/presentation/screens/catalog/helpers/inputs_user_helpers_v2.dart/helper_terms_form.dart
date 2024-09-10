@@ -32,7 +32,7 @@ pushLegalTermsDataForm(
         message: value.messages[0].message,
         snackType: SnackType.success,
       );
-      ref.invalidate(userProfileNotifierProvider);
+
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
         Navigator.pushNamed(context, '/v2/form_about_me');
