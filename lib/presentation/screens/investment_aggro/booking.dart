@@ -12,6 +12,8 @@ class ManualConfirmationBookingWidget extends StatefulHookConsumerWidget {
 class _ManualConfirmationBookingWidgetState extends ConsumerState<ManualConfirmationBookingWidget> {
   late WebViewController _controller;
   bool _isLoading = true;
+  String meetURL = 'https://calendar.app.google/hHCjHK5XcDThCkHk7';
+  // String meetURL ='https://calendar.app.google/eYhJKznwEpeGPXg28';
 
   @override
   void initState() {
@@ -38,7 +40,7 @@ class _ManualConfirmationBookingWidgetState extends ConsumerState<ManualConfirma
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://calendar.app.google/eYhJKznwEpeGPXg28'));
+      ..loadRequest(Uri.parse(meetURL));
   }
 
   void _adjustWebViewScale() {
@@ -131,7 +133,7 @@ class _ManualConfirmationBookingWidgetState extends ConsumerState<ManualConfirma
             padding: const EdgeInsets.all(10.0),
             child: TextButton(
               child: const Text('He terminado de agendar mi reunión'),
-              onPressed: _showThanksModal,
+              onPressed: () => Navigator.pushNamed(context, '/home_v2'),
             ),
           ),
         ],

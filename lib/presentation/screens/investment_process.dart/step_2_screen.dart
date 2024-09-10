@@ -588,10 +588,13 @@ class Step2Body extends HookConsumerWidget {
                         );
                       } else {
                         context.loaderOverlay.hide();
-                        showThanksForInvestingModal(context, () {
-                          Navigator.pushReplacementNamed(context, '/evaluation');
-                          // Navigator.pushReplacementNamed(context, '/v2/investment');
-                        });
+                        showThanksForInvestingModal(
+                          context,
+                          () {
+                            Navigator.pushReplacementNamed(context, '/evaluation');
+                          },
+                          isReInvestment,
+                        );
                       }
                     },
                     style: ButtonStyle(

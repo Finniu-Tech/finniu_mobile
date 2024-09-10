@@ -448,7 +448,7 @@ class BottomSection extends HookConsumerWidget {
                   textTitle: 'Gracias por \nconfiar en Finniu!',
                   textButton: 'Agendar Cita',
                   onPressed: () => {
-                    Navigator.pushNamed(context, '/calendly_test'),
+                    Navigator.pushNamed(context, '/v2/aggro-investment/booking'),
                   },
                 );
 

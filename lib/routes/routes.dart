@@ -60,7 +60,7 @@ import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_1
 import 'package:finniu/presentation/screens/simulator_v2/simulator_v2_screen.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/v2_register_screen.dart';
 import 'package:finniu/presentation/screens/user_profil_v2/user_register_v2.dart';
-import 'package:finniu/widgets/calendly.dart';
+import 'package:finniu/presentation/screens/investment_aggro/booking.dart';
 import 'package:flutter/material.dart';
 
 Map<String, WidgetBuilder> getApplicationRoutes() {
@@ -148,6 +148,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         isReInvestment: args['isReInvestment'] ?? false,
       );
     },
+    '/v2/aggro-investment/booking': (BuildContext context) => ManualConfirmationBookingWidget(),
     // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
     '/v2/aggro-investment': (BuildContext context) {
       final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
@@ -158,7 +159,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/investment_blue_gold': (BuildContext context) => const InvestmentBlueGoldScreen(),
     '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
     '/v2/binnacle': (BuildContext context) => const BinnacleScreen(),
-    '/calendly_test': (BuildContext context) => ManualConfirmationBookingWidget(),
 
     // '/fund_detail': (BuildContext context) => const FundDetailScreen(),
     // '/v2/investment/step-1': (BuildContext context) =>
