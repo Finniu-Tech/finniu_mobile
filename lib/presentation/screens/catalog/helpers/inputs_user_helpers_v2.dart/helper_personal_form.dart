@@ -14,7 +14,7 @@ pushPersonalDataForm(
   WidgetRef ref, {
   String navigate = '/v2/form_location',
   bool isEdit = false,
-}) {
+}) async {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     showSnackBarV2(
@@ -34,11 +34,10 @@ pushPersonalDataForm(
         message: "Tus datos fueron guardados con éxito",
         snackType: SnackType.success,
       );
-
-      // ref.invalidate(userProfileFutureProvider);
+      // ref.invalidate(userProfileNotifierProvider);
 
       context.loaderOverlay.hide();
-      Navigator.pushNamed(context, navigate);
+      Navigator.pushNamedAndRemoveUntil(context, navigate, (route) => false);
     } else {
       showSnackBarV2(
         context: context,

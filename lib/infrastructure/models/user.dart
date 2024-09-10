@@ -102,6 +102,8 @@ class UserProfile {
     this.lastNameMother,
     this.countryPrefix,
     this.documentType,
+    this.houseNumber,
+    this.postalCode,
   });
   dynamic documentType;
   String? firstName;
@@ -130,6 +132,8 @@ class UserProfile {
   String? lastNameFather;
   String? lastNameMother;
   String? countryPrefix;
+  String? houseNumber;
+  String? postalCode;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -138,7 +142,7 @@ class UserProfile {
         id: json["id"],
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
-        distrito: json["distrito"],
+        distrito: json["distrito"]["id"],
         documentNumber: json["documentNumber"].toString() == 'null'
             ? ''
             : json["documentNumber"].toString(),
@@ -147,8 +151,8 @@ class UserProfile {
         hasCompletedTour: json["hasCompletedTour"],
         isActive: json["isActive"],
         occupation: json["occupation"],
-        provincia: json["provincia"],
-        region: json["region"],
+        provincia: json["provincia"]["id"],
+        region: json["region"]["id"],
         typeDocument: json["typeDocument"],
         uuid: json["uuid"],
         phoneNumber: json["phoneNumber"],
@@ -162,6 +166,8 @@ class UserProfile {
         lastNameMother: json["lastNameMother"],
         countryPrefix: json["countryPrefix"],
         documentType: json["typeDocument"],
+        houseNumber: json["houseNumber"],
+        postalCode: json["postalCode"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -214,6 +220,8 @@ class UserProfile {
     String? countryPrefix,
     String? documentType,
     String? gender,
+    String? houseNumber,
+    String? postalCode,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -241,6 +249,8 @@ class UserProfile {
       countryPrefix: countryPrefix ?? this.countryPrefix,
       documentType: documentType ?? this.documentType,
       gender: gender ?? this.gender,
+      houseNumber: houseNumber ?? this.houseNumber,
+      postalCode: postalCode ?? this.postalCode,
     );
   }
 

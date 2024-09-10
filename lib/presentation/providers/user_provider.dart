@@ -56,6 +56,8 @@ final userProfileFutureProvider =
           countryPrefix: userProfile.countryPrefix,
           documentType: userProfile.documentType,
           gender: userProfile.gender,
+          houseNumber: userProfile.houseNumber,
+          postalCode: userProfile.postalCode,
         );
     return userProfile;
   }
@@ -96,6 +98,8 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           countryPrefix: userProfile.countryPrefix,
           documentType: userProfile.documentType,
           gender: userProfile.gender,
+          houseNumber: userProfile.houseNumber,
+          postalCode: userProfile.postalCode,
         );
   }
   return success;
@@ -149,6 +153,8 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? countryPrefix,
     String? documentType,
     String? gender,
+    String? houseNumber,
+    String? postalCode,
   }) {
     state = state.copyWith(
       id: id,
@@ -174,6 +180,8 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       countryPrefix: countryPrefix,
       documentType: documentType,
       gender: gender,
+      houseNumber: houseNumber,
+      postalCode: postalCode,
     );
   }
 

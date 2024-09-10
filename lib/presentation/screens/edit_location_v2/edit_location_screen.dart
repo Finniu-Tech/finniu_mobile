@@ -1,6 +1,7 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
@@ -167,7 +168,13 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
   @override
   void initState() {
     super.initState();
-
+    final userProfile = ref.read(userProfileNotifierProvider);
+    regionsSelectController.text = userProfile.region ?? "";
+    provinceSelectController.text = userProfile.provincia ?? "";
+    districtSelectController.text = userProfile.distrito ?? "";
+    addressTextController.text = userProfile.address ?? "";
+    houseNumberController.text = userProfile.houseNumber ?? "";
+    postalCodeController.text = userProfile.postalCode ?? "";
     regionsSelectController.addListener(() {
       ref.invalidate(
         provincesSelectProvider(regionsSelectController.text),
@@ -184,6 +191,18 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
       districtSelectController.clear();
       setState(() {});
     });
+  }
+
+  @override
+  void dispose() {
+    countrySelectController.dispose();
+    regionsSelectController.dispose();
+    provinceSelectController.dispose();
+    districtSelectController.dispose();
+    addressTextController.dispose();
+    houseNumberController.dispose();
+    postalCodeController.dispose();
+    super.dispose();
   }
 
   @override

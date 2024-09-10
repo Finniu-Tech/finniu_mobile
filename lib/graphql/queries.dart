@@ -27,9 +27,15 @@ class QueryRepository {
         typeDocument
         documentNumber
         gender
-         region
-        provincia
-        distrito
+        region{
+          id
+        }
+        provincia{
+          id
+        }
+        distrito{
+          id
+        }
       	address
         houseNumber
         postalCode
