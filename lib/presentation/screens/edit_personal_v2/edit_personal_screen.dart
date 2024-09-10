@@ -15,11 +15,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class EditPersonalDataScreen extends ConsumerWidget {
+class EditPersonalDataScreen extends StatelessWidget {
   const EditPersonalDataScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return const ScaffoldConfig(
       title: "Datos personales",
       children: _BodyEditPersonal(),

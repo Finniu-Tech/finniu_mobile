@@ -9,7 +9,11 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 pushLocationDataForm(
-    BuildContext context, DtoLocationForm data, WidgetRef ref) {
+  BuildContext context,
+  DtoLocationForm data,
+  WidgetRef ref, {
+  String navigate = '/v2/form_job',
+}) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     showSnackBarV2(
