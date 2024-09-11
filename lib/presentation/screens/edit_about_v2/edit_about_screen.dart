@@ -1,10 +1,12 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_about_me_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
+import 'package:finniu/presentation/screens/edit_about_v2/widgets/image_profil.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
 import 'package:flutter/material.dart';
@@ -36,47 +38,72 @@ class _BodyEditAbout extends ConsumerWidget {
         ValueListenableBuilder<bool>(
           valueListenable: isEdit,
           builder: (context, isEditValue, child) {
-            return Stack(
-              children: [
-                Column(
-                  children: [
-                    isEditValue
-                        ? const SizedBox()
-                        : EditWidget(
-                            onTap: () => isEdit.value = true,
-                          ),
-                    const SizedBox(
-                      height: 15,
+            return isEditValue
+                ? Center(
+                    child: EditAboutForm(
+                      isEdit: isEdit,
                     ),
-                  ],
-                ),
-              ],
-            );
-          },
-        ),
-        ValueListenableBuilder<bool>(
-          valueListenable: isEdit,
-          builder: (context, isEditValue, child) {
-            return Stack(
-              children: [
-                EditAboutForm(
-                  isEdit: isEdit,
-                ),
-                isEditValue
-                    ? const SizedBox()
-                    : Positioned.fill(
-                        child: IgnorePointer(
-                          ignoring: false,
-                          child: Container(
-                            color: Colors.transparent,
-                          ),
-                        ),
-                      ),
-              ],
-            );
+                  )
+                : Center(
+                    child: _AboutMe(
+                      isEdit: isEdit,
+                    ),
+                  );
           },
         ),
       ],
+    );
+  }
+}
+
+class _AboutMe extends ConsumerWidget {
+  const _AboutMe({
+    required this.isEdit,
+  });
+  final ValueNotifier<bool> isEdit;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    const int fullNameDark = 0xffA2E6FA;
+    const int fullNameLight = 0xff0D3A5C;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: MediaQuery.of(context).size.height < 700
+          ? 650
+          : MediaQuery.of(context).size.height * 0.9,
+      child: Column(
+        children: [
+          ImageProfil(
+            imageProfileUrl: userProfile.imageProfileUrl,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextPoppins(
+            text: "${userProfile.nickName} ${userProfile.lastName}",
+            fontSize: 16,
+            isBold: true,
+            textDark: fullNameDark,
+            textLight: fullNameLight,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          TextPoppins(
+            text: "${userProfile.email}",
+            fontSize: 12,
+            isBold: true,
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          EditWidget(
+            onTap: () => isEdit.value = true,
+          ),
+        ],
+      ),
     );
   }
 }
@@ -119,20 +146,18 @@ class EditAboutForm extends HookConsumerWidget {
       }
     }
 
-    void continueLater() {
-      Navigator.pushNamed(context, "/home_v2");
-    }
-
     final String? imagePath = ref.watch(imagePathProvider);
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
             ? 650
-            : MediaQuery.of(context).size.height * 0.77,
+            : MediaQuery.of(context).size.height * 0.9,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(
               height: 10,

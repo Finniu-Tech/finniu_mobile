@@ -7,7 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-pushAboutMeDataForm(BuildContext context, DtoAboutMeForm data, WidgetRef ref) {
+pushAboutMeDataForm(
+  BuildContext context,
+  DtoAboutMeForm data,
+  WidgetRef ref,
+) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     showSnackBarV2(

@@ -8,6 +8,7 @@ class AppBarProfile extends ConsumerWidget implements PreferredSizeWidget {
     required this.title,
   });
   final String title;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -17,6 +18,8 @@ class AppBarProfile extends ConsumerWidget implements PreferredSizeWidget {
     const int titleColorLight = 0xff000000;
     const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
+    const int borderColorDark = 0xff535050;
+    const int borderColorLight = 0xffE6E6E6;
 
     return AppBar(
       centerTitle: true,
@@ -42,6 +45,15 @@ class AppBarProfile extends ConsumerWidget implements PreferredSizeWidget {
           color: isDarkMode
               ? const Color(iconColorDark)
               : const Color(iconColorLight),
+        ),
+      ),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1.0),
+        child: Container(
+          color: isDarkMode
+              ? const Color(borderColorDark)
+              : const Color(borderColorLight),
+          height: 0.5,
         ),
       ),
     );
