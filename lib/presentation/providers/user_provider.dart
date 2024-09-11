@@ -61,6 +61,10 @@ final userProfileFutureProvider =
           laborSituation: userProfile.laborSituation,
           companyName: userProfile.companyName,
           serviceTime: userProfile.serviceTime,
+          biography: userProfile.biography,
+          facebook: userProfile.facebook,
+          instagram: userProfile.instagram,
+          linkedin: userProfile.linkedin,
         );
     return userProfile;
   }
@@ -106,6 +110,10 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           laborSituation: userProfile.laborSituation,
           companyName: userProfile.companyName,
           serviceTime: userProfile.serviceTime,
+          biography: userProfile.biography,
+          facebook: userProfile.facebook,
+          instagram: userProfile.instagram,
+          linkedin: userProfile.linkedin,
         );
   }
   return success;
@@ -164,6 +172,10 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? laborSituation,
     String? companyName,
     String? serviceTime,
+    String? biography,
+    String? facebook,
+    String? instagram,
+    String? linkedin,
   }) {
     state = state.copyWith(
       id: id,
@@ -194,6 +206,10 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       laborSituation: laborSituation,
       companyName: companyName,
       serviceTime: serviceTime,
+      biography: biography,
+      facebook: facebook,
+      instagram: instagram,
+      linkedin: linkedin,
     );
   }
 

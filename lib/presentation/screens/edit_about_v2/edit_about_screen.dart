@@ -6,7 +6,9 @@ import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
+import 'package:finniu/presentation/screens/edit_about_v2/widgets/biography_container.dart';
 import 'package:finniu/presentation/screens/edit_about_v2/widgets/image_profil.dart';
+import 'package:finniu/presentation/screens/edit_about_v2/widgets/row_social_link.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +36,8 @@ class _BodyEditAbout extends ConsumerWidget {
     final ValueNotifier<bool> isEdit = ValueNotifier<bool>(false);
 
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ValueListenableBuilder<bool>(
           valueListenable: isEdit,
@@ -97,11 +101,19 @@ class _AboutMe extends ConsumerWidget {
             isBold: true,
           ),
           const SizedBox(
-            height: 10,
+            height: 15,
           ),
           EditWidget(
             onTap: () => isEdit.value = true,
           ),
+          const SizedBox(
+            height: 15,
+          ),
+          const RowSocialLink(),
+          const SizedBox(
+            height: 15,
+          ),
+          BiographyContainer(biography: userProfile.biography),
         ],
       ),
     );

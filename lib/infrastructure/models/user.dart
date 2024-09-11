@@ -107,6 +107,10 @@ class UserProfile {
     this.laborSituation,
     this.companyName,
     this.serviceTime,
+    this.biography,
+    this.facebook,
+    this.instagram,
+    this.linkedin,
   });
   dynamic documentType;
   String? firstName;
@@ -140,6 +144,10 @@ class UserProfile {
   String? laborSituation;
   String? companyName;
   String? serviceTime;
+  String? biography;
+  String? facebook;
+  String? instagram;
+  String? linkedin;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -177,6 +185,10 @@ class UserProfile {
         laborSituation: json["laborSituation"],
         companyName: json["companyName"],
         serviceTime: json["serviceTime"],
+        biography: json["biography"],
+        facebook: json["facebook"],
+        instagram: json["instagram"],
+        linkedin: json["linkedin"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -234,6 +246,10 @@ class UserProfile {
     String? laborSituation,
     String? companyName,
     String? serviceTime,
+    String? biography,
+    String? facebook,
+    String? instagram,
+    String? linkedin,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -266,6 +282,10 @@ class UserProfile {
       laborSituation: laborSituation ?? this.laborSituation,
       companyName: companyName ?? this.companyName,
       serviceTime: serviceTime ?? this.serviceTime,
+      biography: biography ?? this.biography,
+      facebook: facebook ?? this.facebook,
+      instagram: instagram ?? this.instagram,
+      linkedin: linkedin ?? this.linkedin,
     );
   }
 

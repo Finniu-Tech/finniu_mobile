@@ -43,6 +43,11 @@ class QueryRepository {
         laborSituation
         companyName
         serviceTime
+
+        biography
+        facebook
+        instagram
+        linkedin
       }
     }
   ''';
