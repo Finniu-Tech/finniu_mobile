@@ -365,6 +365,48 @@ class ExpansionTitleLegal extends HookConsumerWidget {
   }
 }
 
+class ExpansionTitleAbout extends HookConsumerWidget {
+  const ExpansionTitleAbout({
+    super.key,
+    required this.title,
+    required this.children,
+  });
+
+  final String title;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> extended = useState(false);
+
+    return ExpansionTile(
+      tilePadding: EdgeInsets.zero,
+      trailing: AnimatedRotation(
+        turns: extended.value ? 0.25 : 0,
+        duration: const Duration(milliseconds: 200),
+        child: const Icon(Icons.arrow_forward_ios),
+      ),
+      onExpansionChanged: (bool expanded) {
+        extended.value = expanded;
+      },
+      shape: const Border(),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TextPoppins(
+            text: title,
+            fontSize: 16,
+            isBold: true,
+            align: TextAlign.start,
+          ),
+        ],
+      ),
+      children: children,
+    );
+  }
+}
+
 class ChildrenCheckboxTitle extends ConsumerWidget {
   const ChildrenCheckboxTitle({
     super.key,

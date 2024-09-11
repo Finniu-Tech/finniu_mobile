@@ -11,6 +11,7 @@ import 'package:finniu/presentation/screens/edit_about_v2/widgets/image_profil.d
 import 'package:finniu/presentation/screens/edit_about_v2/widgets/row_social_link.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -60,7 +61,7 @@ class _BodyEditAbout extends ConsumerWidget {
   }
 }
 
-class _AboutMe extends ConsumerWidget {
+class _AboutMe extends HookConsumerWidget {
   const _AboutMe({
     required this.isEdit,
   });
@@ -71,6 +72,15 @@ class _AboutMe extends ConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
     const int fullNameDark = 0xffA2E6FA;
     const int fullNameLight = 0xff0D3A5C;
+    final facebookTextController = useTextEditingController(
+      text: userProfile.facebook ?? "https://facebook.com/",
+    );
+    final instagramTextController = useTextEditingController(
+      text: userProfile.instagram ?? "https://instagram.com/",
+    );
+    final linkedinTextController = useTextEditingController(
+      text: userProfile.linkedin ?? "https://linkendIn.com/",
+    );
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
@@ -114,6 +124,38 @@ class _AboutMe extends ConsumerWidget {
             height: 15,
           ),
           BiographyContainer(biography: userProfile.biography),
+          const SizedBox(
+            height: 15,
+          ),
+          ExpansionTitleAbout(
+            title: "Mis redes sociales",
+            children: [
+              InputTextNetworkUserProfile(
+                isEnable: false,
+                urlIcon: "assets/svg_icons/facebook_icon_v2.svg",
+                textTitle: "Facebook",
+                controller: facebookTextController,
+                hintText: "Facebook",
+                validator: null,
+              ),
+              InputTextNetworkUserProfile(
+                isEnable: false,
+                urlIcon: "assets/svg_icons/instagram_icon_v2.svg",
+                textTitle: "Instagram",
+                controller: instagramTextController,
+                hintText: "Instagram",
+                validator: null,
+              ),
+              InputTextNetworkUserProfile(
+                isEnable: false,
+                urlIcon: "assets/svg_icons/linkedin_icon_v2.svg",
+                textTitle: "Linkedin",
+                controller: linkedinTextController,
+                hintText: "Linkedin",
+                validator: null,
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -128,33 +170,44 @@ class EditAboutForm extends HookConsumerWidget {
   final ValueNotifier<bool> isEdit;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userProfile = ref.watch(userProfileNotifierProvider);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final facebookTextController =
-        useTextEditingController(text: "https://facebook.com/");
-    final instagramTextController =
-        useTextEditingController(text: "https://instagram.com/");
-    final linkedinTextController =
-        useTextEditingController(text: "https://linkendIn.com/");
-    final biographyAreaController = useTextEditingController();
+    final facebookTextController = useTextEditingController(
+      text: userProfile.facebook ?? "https://facebook.com/",
+    );
+    final instagramTextController = useTextEditingController(
+      text: userProfile.instagram ?? "https://instagram.com/",
+    );
+    final linkedinTextController = useTextEditingController(
+      text: userProfile.linkedin ?? "https://linkendIn.com/",
+    );
+    final biographyAreaController = useTextEditingController(
+      text: userProfile.biography ?? "",
+    );
     final String? imageBase64 = ref.watch(imageBase64Provider);
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
-        if (biographyAreaController.text == "" || imageBase64 == null) {
+        if (biographyAreaController.text == userProfile.biography &&
+            imageBase64 == null &&
+            facebookTextController.text == userProfile.facebook &&
+            instagramTextController.text == userProfile.instagram &&
+            linkedinTextController.text == userProfile.linkedin) {
           Navigator.pushNamed(context, '/home_v2');
           context.loaderOverlay.hide();
           return;
+        } else {
+          final DtoAboutMeForm data = DtoAboutMeForm(
+            imageProfile: imageBase64 ?? "",
+            backgroundPhoto: imageBase64 ?? "",
+            facebook: facebookTextController.text.trim(),
+            instagram: instagramTextController.text.trim(),
+            linkedin: linkedinTextController.text.trim(),
+            biography: biographyAreaController.text.trim(),
+            other: "",
+          );
+          pushAboutMeDataForm(context, data, ref);
         }
-        final DtoAboutMeForm data = DtoAboutMeForm(
-          imageProfile: imageBase64,
-          backgroundPhoto: imageBase64,
-          facebook: facebookTextController.text.trim(),
-          instagram: instagramTextController.text.trim(),
-          linkedin: linkedinTextController.text.trim(),
-          biography: biographyAreaController.text.trim(),
-          other: "",
-        );
-        pushAboutMeDataForm(context, data, ref);
       }
     }
 
