@@ -104,9 +104,6 @@ class EditPersonalForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
-    print(userProfile.laborSituation);
-    print(userProfile.companyName);
-    print(userProfile.serviceTime);
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final laborSituationSelectController = useTextEditingController(
