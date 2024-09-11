@@ -1,6 +1,7 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/add_image.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_about_me_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -85,7 +86,7 @@ class _AboutMe extends HookConsumerWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       height: MediaQuery.of(context).size.height < 700
-          ? 650
+          ? 700
           : MediaQuery.of(context).size.height * 0.9,
       child: Column(
         children: [
@@ -211,7 +212,7 @@ class EditAboutForm extends HookConsumerWidget {
       }
     }
 
-    final String? imagePath = ref.watch(imagePathProvider);
+    final ValueNotifier<bool> addNewImage = useState(false);
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
@@ -227,9 +228,26 @@ class EditAboutForm extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            imagePath == null
-                ? const AddImageProfile()
-                : const ImageProfileRender(),
+            ValueListenableBuilder<bool>(
+              valueListenable: addNewImage,
+              builder: (context, value, child) {
+                if (value) {
+                  return const ImageProfileRender();
+                } else {
+                  return GestureDetector(
+                    onTap: () => {
+                      addImage(context: context, ref: ref),
+                      addNewImage.value = true,
+                    },
+                    child: userProfile.imageProfileUrl == null
+                        ? const AddImageProfile()
+                        : ImageProfil(
+                            imageProfileUrl: userProfile.imageProfileUrl,
+                          ),
+                  );
+                }
+              },
+            ),
             const SizedBox(
               height: 10,
             ),
