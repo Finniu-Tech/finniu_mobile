@@ -83,8 +83,7 @@ class DropDownWidget extends ConsumerStatefulWidget {
   _DropDownWidgetState createState() => _DropDownWidgetState();
 }
 
-class _DropDownWidgetState extends ConsumerState<DropDownWidget>
-    with SingleTickerProviderStateMixin {
+class _DropDownWidgetState extends ConsumerState<DropDownWidget> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _heightAnimation;
 
@@ -178,8 +177,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget>
                             Icon(
                               Icons.keyboard_arrow_up,
                               size: 24,
-                              color: Color(
-                                  isDarkMode ? iconTimeDark : iconTimeLight),
+                              color: Color(isDarkMode ? iconTimeDark : iconTimeLight),
                             ),
                           ],
                         ),
@@ -225,7 +223,7 @@ class TitleCard extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const TextPoppins(
-            text: "Se completó el progreso de tu inversion",
+            text: "Se completó el progreso de tu inversión",
             fontSize: 10,
             textDark: textTimeDark,
             textLight: textTimeLight,

@@ -24,12 +24,9 @@ class AboutMeDataV2 extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final facebookTextController =
-        useTextEditingController(text: "https://facebook.com/");
-    final instagramTextController =
-        useTextEditingController(text: "https://instagram.com/");
-    final linkedinTextController =
-        useTextEditingController(text: "https://linkendIn.com/");
+    final facebookTextController = useTextEditingController(text: "https://facebook.com/");
+    final instagramTextController = useTextEditingController(text: "https://instagram.com/");
+    final linkedinTextController = useTextEditingController(text: "https://linkendIn.com/");
     final biographyAreaController = useTextEditingController();
     final String? imageBase64 = ref.watch(imageBase64Provider);
     void uploadJobData() {
@@ -70,7 +67,7 @@ class AboutMeDataV2 extends HookConsumerWidget {
           ),
           const TitleForm(
             title: "Sobre mi",
-            subTitle: "Cuéntanos un poco sobre tí (Es opcional)",
+            subTitle: "Cuéntanos un poco sobre ti (Es opcional)",
             icon: "assets/svg_icons/user_icon_v2.svg",
           ),
           AboutMeForm(
@@ -113,15 +110,13 @@ class AboutMeForm extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          imagePath == null
-              ? const AddImageProfile()
-              : const ImageProfileRender(),
+          imagePath == null ? const AddImageProfile() : const ImageProfileRender(),
           const SizedBox(
             height: 10,
           ),
           InputTextAreaUserProfile(
             controller: profilAreaController,
-            hintText: "Escribe una breve biografía sobre tí.",
+            hintText: "Escribe una breve biografía sobre ti.",
             validator: null,
           ),
           const SizedBox(
@@ -184,9 +179,7 @@ class AddImageProfile extends ConsumerWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(backgroundDark)
-                    : const Color(backgroundLight),
+                color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Center(
@@ -194,9 +187,7 @@ class AddImageProfile extends ConsumerWidget {
                   "assets/svg_icons/gallery_add_icon_v2.svg",
                   width: 20,
                   height: 20,
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
+                  color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                 ),
               ),
             ),

@@ -60,8 +60,7 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                           endNumber: amountInvested ?? 0,
                           duration: 2,
                           fontSize: 16,
-                          colorText:
-                              isDarkMode ? amountColorDark : amountColorLight,
+                          colorText: isDarkMode ? amountColorDark : amountColorLight,
                         ),
                 ],
               ),
@@ -102,8 +101,7 @@ class InvestmentAmountCardsRow extends ConsumerWidget {
                           beginNumber: 0,
                           duration: 2,
                           fontSize: 16,
-                          colorText:
-                              isDarkMode ? rentColorDark : rentColorLight,
+                          colorText: isDarkMode ? rentColorDark : rentColorLight,
                         ),
                 ],
               ),

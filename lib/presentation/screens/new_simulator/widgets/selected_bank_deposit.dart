@@ -1,9 +1,7 @@
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/business_investments/helpers/mask_string.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SelectedBankDeposit extends ConsumerWidget {
@@ -32,11 +30,19 @@ class SelectedBankDeposit extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset(
-            "assets/images/bankSelectImage.png",
-            width: 45,
-            height: 45,
-          ),
+          if (bankAccountReceiver.bankLogoUrl != null)
+            Image.network(
+              bankAccountReceiver.bankLogoUrl ?? "",
+              width: 45,
+              height: 45,
+            ),
+          if (bankAccountReceiver.bankLogoUrl == null)
+            Image.asset(
+              "assets/images/bank_placeholder.png",
+              width: 45,
+              height: 45,
+            ),
+
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

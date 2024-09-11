@@ -96,6 +96,7 @@ class _BodyScaffold extends ConsumerWidget {
               children: [
                 TitleModal(
                   status: StatusInvestmentEnum.getLabelForStatus(arguments.status),
+                  isReInvestment: data.isReInvestment,
                 ),
                 const SizedBox(height: 10),
                 const IconFund(),
