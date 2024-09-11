@@ -221,9 +221,9 @@ class TransferenceItem extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Transferencia de ${planName}',
-                style: const TextStyle(
+              const Text(
+                'Transferencia',
+                style: TextStyle(
                   fontSize: 12,
                   color: Colors.black,
                 ),

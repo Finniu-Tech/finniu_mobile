@@ -468,7 +468,7 @@ class BottomSection extends HookConsumerWidget {
                 // );
               },
               child: const Text(
-                'Continuar',
+                'Contactar asesor',
               ),
             ),
           ),
