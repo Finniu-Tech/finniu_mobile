@@ -12,6 +12,7 @@ import 'package:finniu/presentation/screens/config_v2/privacy_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/settings_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/support_help_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/support_ticket_screen.dart';
+import 'package:finniu/presentation/screens/edit_job_v2/edit_job_screen.dart';
 import 'package:finniu/presentation/screens/edit_location_v2/edit_location_screen.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
@@ -227,5 +228,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const EditPersonalDataScreen(),
     '/v2/edit_location_data': (BuildContext context) =>
         const EditLocationDataScreen(),
+    '/v2/edit_job_data': (BuildContext context) => const EditJobDataScreen(),
   };
 }

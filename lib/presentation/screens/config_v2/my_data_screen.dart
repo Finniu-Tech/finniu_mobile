@@ -39,12 +39,12 @@ class _BodyMyData extends StatelessWidget {
           subtitle: "Información sobre su ubicación actual \n",
           onTap: () => navigate(context, '/v2/edit_location_data'),
         ),
-        const ButtonNavigateProfile(
+        ButtonNavigateProfile(
           isComplete: false,
           icon: "assets/svg_icons/bag_icon_v2.svg",
           title: "Ocupación laboral",
           subtitle: "Información sobre tu ocupación laboral \n",
-          onTap: null,
+          onTap: () => navigate(context, '/v2/edit_job_data'),
         ),
         const ButtonNavigateProfile(
           isComplete: false,

@@ -34,10 +34,12 @@ class _BodyEditLocation extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final ValueNotifier<bool> isEdit = ValueNotifier<bool>(false);
+    const int backgroundImage = 0xffC1F1FF;
     return Column(
       children: [
         const IconEditStack(
           svgUrl: "assets/svg_icons/map_icon_v2.svg",
+          backgroundImage: backgroundImage,
         ),
         const TextPoppins(
           text: "Información de mi ubicación",

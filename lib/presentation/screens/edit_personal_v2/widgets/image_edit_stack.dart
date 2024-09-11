@@ -83,13 +83,13 @@ class IconEditStack extends ConsumerWidget {
   const IconEditStack({
     super.key,
     required this.svgUrl,
+    required this.backgroundImage,
     this.isLoading = false,
   });
 
   final String svgUrl;
-
   final bool isLoading;
-
+  final int backgroundImage;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -97,8 +97,6 @@ class IconEditStack extends ConsumerWidget {
     const int backgroundLight = 0xffFFFFFF;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
-
-    const int backgroundImage = 0xffC1F1FF;
 
     return SizedBox(
       height: 130,
@@ -108,7 +106,7 @@ class IconEditStack extends ConsumerWidget {
           Container(
             width: MediaQuery.of(context).size.width,
             height: 64,
-            color: const Color(backgroundImage),
+            color: Color(backgroundImage),
           ),
           Positioned(
             top: 25,

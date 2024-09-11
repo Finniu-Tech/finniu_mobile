@@ -10,8 +10,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 pushOccupationDataForm(
   BuildContext context,
   DtoOccupationForm data,
-  WidgetRef ref,
-) {
+  WidgetRef ref, {
+  String navigate = '/v2/form_legal_terms',
+}) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     showSnackBarV2(
@@ -34,7 +35,7 @@ pushOccupationDataForm(
 
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
-        Navigator.pushNamed(context, '/v2/form_legal_terms');
+        Navigator.pushNamed(context, navigate);
         ScaffoldMessenger.of(context).clearSnackBars();
       });
     } else {
