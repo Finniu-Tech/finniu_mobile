@@ -104,6 +104,9 @@ class UserProfile {
     this.documentType,
     this.houseNumber,
     this.postalCode,
+    this.laborSituation,
+    this.companyName,
+    this.serviceTime,
   });
   dynamic documentType;
   String? firstName;
@@ -134,6 +137,9 @@ class UserProfile {
   String? countryPrefix;
   String? houseNumber;
   String? postalCode;
+  String? laborSituation;
+  String? companyName;
+  String? serviceTime;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -168,6 +174,9 @@ class UserProfile {
         documentType: json["typeDocument"],
         houseNumber: json["houseNumber"],
         postalCode: json["postalCode"],
+        laborSituation: json["laborSituation"],
+        companyName: json["companyName"],
+        serviceTime: json["serviceTime"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -222,6 +231,9 @@ class UserProfile {
     String? gender,
     String? houseNumber,
     String? postalCode,
+    String? laborSituation,
+    String? companyName,
+    String? serviceTime,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -251,6 +263,9 @@ class UserProfile {
       gender: gender ?? this.gender,
       houseNumber: houseNumber ?? this.houseNumber,
       postalCode: postalCode ?? this.postalCode,
+      laborSituation: laborSituation ?? this.laborSituation,
+      companyName: companyName ?? this.companyName,
+      serviceTime: serviceTime ?? this.serviceTime,
     );
   }
 

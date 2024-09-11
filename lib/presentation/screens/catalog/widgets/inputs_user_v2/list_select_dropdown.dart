@@ -98,7 +98,7 @@ final List<String> distritosLima = [
 
 final List<String> workSituation = [
   'Empleado',
-  'Independiente',
+  'Desempleado',
   'Estudiante',
   'Retirado',
   'Autoempleo',

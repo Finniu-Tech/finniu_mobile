@@ -104,13 +104,23 @@ class EditPersonalForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
+    print(userProfile.laborSituation);
+    print(userProfile.companyName);
+    print(userProfile.serviceTime);
+
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final laborSituationSelectController = useTextEditingController();
+    final laborSituationSelectController = useTextEditingController(
+      text: getLaborsStatusEnumByUser(userProfile.laborSituation),
+    );
     final occupationTextController = useTextEditingController(
       text: userProfile.occupation,
     );
-    final companyNameTextController = useTextEditingController();
-    final serviceTimeSelectController = useTextEditingController();
+    final companyNameTextController = useTextEditingController(
+      text: userProfile.companyName,
+    );
+    final serviceTimeSelectController = useTextEditingController(
+      text: getServiceTimeEnumByUser(userProfile.serviceTime),
+    );
 
     final ValueNotifier<bool> laborSituationError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> occupationError = ValueNotifier<bool>(false);
@@ -152,8 +162,8 @@ class EditPersonalForm extends HookConsumerWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
-            ? 430
-            : MediaQuery.of(context).size.height * 0.77,
+            ? 350
+            : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [
             ValueListenableBuilder<bool>(

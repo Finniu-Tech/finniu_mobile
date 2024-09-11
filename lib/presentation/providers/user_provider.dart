@@ -58,6 +58,9 @@ final userProfileFutureProvider =
           gender: userProfile.gender,
           houseNumber: userProfile.houseNumber,
           postalCode: userProfile.postalCode,
+          laborSituation: userProfile.laborSituation,
+          companyName: userProfile.companyName,
+          serviceTime: userProfile.serviceTime,
         );
     return userProfile;
   }
@@ -100,6 +103,9 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           gender: userProfile.gender,
           houseNumber: userProfile.houseNumber,
           postalCode: userProfile.postalCode,
+          laborSituation: userProfile.laborSituation,
+          companyName: userProfile.companyName,
+          serviceTime: userProfile.serviceTime,
         );
   }
   return success;
@@ -155,6 +161,9 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? gender,
     String? houseNumber,
     String? postalCode,
+    String? laborSituation,
+    String? companyName,
+    String? serviceTime,
   }) {
     state = state.copyWith(
       id: id,
@@ -182,6 +191,9 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       gender: gender,
       houseNumber: houseNumber,
       postalCode: postalCode,
+      laborSituation: laborSituation,
+      companyName: companyName,
+      serviceTime: serviceTime,
     );
   }
 

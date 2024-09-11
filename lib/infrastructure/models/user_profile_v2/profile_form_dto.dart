@@ -195,6 +195,25 @@ enum LaborSituationEnum {
   OTHER,
 }
 
+String getLaborsStatusEnumByUser(String? valor) {
+  switch (valor) {
+    case 'Employed':
+      return 'Empleado';
+    case 'Unemployed':
+      return 'Desempleado';
+    case 'Student':
+      return 'Estudiante';
+    case 'Retired':
+      return 'Retirado';
+    case 'Self-employed':
+      return 'Autoempleo';
+    case 'Other':
+      return 'Otro';
+    default:
+      return 'Otro';
+  }
+}
+
 extension LaborSituationEnumExtension on LaborSituationEnum {
   String get name {
     switch (this) {
@@ -220,7 +239,7 @@ LaborSituationEnum? getLaborsStatusEnum(String valor) {
   switch (valor) {
     case 'Empleado':
       return LaborSituationEnum.EMPLOYED;
-    case 'Independiente':
+    case 'Desempleado':
       return LaborSituationEnum.UNEMPLOYED;
     case 'Estudiante':
       return LaborSituationEnum.STUDENT;
@@ -241,6 +260,23 @@ enum ServiceTimeEnum {
   THREE_TO_FIVE_YEARS,
   FIVE_TO_TEN_YEARS,
   MORE_THAN_TEN_YEARS,
+}
+
+String getServiceTimeEnumByUser(String? valor) {
+  switch (valor) {
+    case "Less than 1 year":
+      return 'Menos de un año';
+    case 'One to three years':
+      return 'Entre 1 y 3 años';
+    case 'Three to five years':
+      return 'Entre 3 y 5 años';
+    case 'Five to ten years':
+      return 'Entre 5 y 10 años';
+    case 'More than 10 years':
+      return 'Mas de 10 años';
+    default:
+      return '';
+  }
 }
 
 extension ServiceTimeEnumExtension on ServiceTimeEnum {

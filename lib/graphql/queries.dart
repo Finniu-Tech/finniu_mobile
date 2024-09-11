@@ -40,7 +40,9 @@ class QueryRepository {
         houseNumber
         postalCode
         
-        
+        laborSituation
+        companyName
+        serviceTime
       }
     }
   ''';
