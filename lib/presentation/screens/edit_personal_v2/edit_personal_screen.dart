@@ -105,21 +105,27 @@ class EditPersonalForm extends HookConsumerWidget {
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController =
-        useTextEditingController(text: userProfile.firstName);
+        useTextEditingController(text: userProfile.firstName ?? '');
     final lastNameFatherController =
-        useTextEditingController(text: userProfile.lastNameFather);
+        useTextEditingController(text: userProfile.lastNameFather ?? '');
     final lastNameMotherController =
-        useTextEditingController(text: userProfile.lastNameMother);
+        useTextEditingController(text: userProfile.lastNameMother ?? '');
     final documentTypeController = useTextEditingController(
-      text: getTypeDocumentByUser(userProfile.documentType),
+      text: userProfile.documentType == null
+          ? ""
+          : getTypeDocumentByUser(userProfile.documentType),
     );
     final documentNumberController =
         useTextEditingController(text: userProfile.documentNumber);
     final civilStatusController = useTextEditingController(
-      text: getCivilStatusByUser(userProfile.civilStatus),
+      text: userProfile.civilStatus == null
+          ? ""
+          : getCivilStatusByUser(userProfile.civilStatus),
     );
     final genderTypeController = useTextEditingController(
-      text: getGenderByUser(userProfile.gender ?? ''),
+      text: userProfile.gender == null
+          ? ""
+          : getGenderByUser(userProfile.gender!),
     );
 
     final ValueNotifier<bool> firstNameError = ValueNotifier<bool>(false);

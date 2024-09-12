@@ -107,16 +107,18 @@ class EditPersonalForm extends HookConsumerWidget {
 
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final laborSituationSelectController = useTextEditingController(
-      text: getLaborsStatusEnumByUser(userProfile.laborSituation),
+      text: getLaborsStatusEnumByUser(userProfile.laborSituation ?? ""),
     );
     final occupationTextController = useTextEditingController(
-      text: userProfile.occupation,
+      text: userProfile.occupation ?? "",
     );
     final companyNameTextController = useTextEditingController(
-      text: userProfile.companyName,
+      text: userProfile.companyName ?? "",
     );
     final serviceTimeSelectController = useTextEditingController(
-      text: getServiceTimeEnumByUser(userProfile.serviceTime),
+      text: userProfile.serviceTime == null
+          ? ""
+          : getServiceTimeEnumByUser(userProfile.serviceTime),
     );
 
     final ValueNotifier<bool> laborSituationError = ValueNotifier<bool>(false);
