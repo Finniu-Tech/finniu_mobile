@@ -29,6 +29,7 @@ import 'package:finniu/presentation/screens/investment_process.dart/step_2_scree
 import 'package:finniu/presentation/screens/investment_process_blue_gold/investment_blue_gold_screen.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
 import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
+import 'package:finniu/presentation/screens/my_accounts_v2/accounts_screen_v2.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/notifications/notifications_screen.dart';
 import 'package:finniu/presentation/screens/profile_v2/profile_screen_v2.dart';
@@ -231,5 +232,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const EditLocationDataScreen(),
     '/v2/edit_job_data': (BuildContext context) => const EditJobDataScreen(),
     '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
+    '/v2/my_accounts': (BuildContext context) => const AccountsV2Screen(),
   };
 }
