@@ -1,3 +1,5 @@
+import 'package:finniu/presentation/providers/bank_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/account_card.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/add_accounts.dart';
@@ -21,30 +23,51 @@ class _BodyMyAccounts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Center(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        child: const Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SizedBox(height: 30),
-            AccointCard(
-              title: "Cuenta 1",
-              subtitle: "Cuenta de prueba",
-              isJoint: false,
+    final banks = ref.watch(bankFutureProvider);
+    const String logoNull =
+        "https://w7.pngwing.com/pngs/929/674/png-transparent-bank-computer-icons-building-bank-building-text-logo.png";
+
+    return banks.when(
+      data: (data) {
+        return Center(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.9,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 30),
+                ...data.map(
+                  (bank) => AccointCard(
+                    title: bank.name,
+                    subtitle: "Cuenta de prueba",
+                    isJoint: false,
+                    logoUrl: bank.logoUrl == null || bank.logoUrl == ""
+                        ? logoNull
+                        : bank.logoUrl!,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                const AddAccounts(),
+                const SizedBox(height: 15),
+              ],
             ),
-            SizedBox(height: 15),
-            AccointCard(
-              title: "Cuenta 2",
-              subtitle: "Cuenta de prueba",
-              isJoint: true,
-            ),
-            SizedBox(height: 15),
-            AddAccounts(),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
+      error: (error, stackTrace) {
+        return const Center(
+          child: Text("Error al cargar las cuentas"),
+        );
+      },
+      loading: () {
+        return const Center(
+          child: CircularLoader(
+            width: 50,
+            height: 50,
+          ),
+        );
+      },
     );
   }
 }

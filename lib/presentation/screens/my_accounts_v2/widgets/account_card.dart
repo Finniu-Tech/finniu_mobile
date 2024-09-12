@@ -10,9 +10,11 @@ class AccointCard extends ConsumerWidget {
     required this.title,
     required this.subtitle,
     required this.isJoint,
+    required this.logoUrl,
   });
   final String title;
   final String subtitle;
+  final String logoUrl;
   final bool isJoint;
 
   @override
@@ -24,6 +26,7 @@ class AccointCard extends ConsumerWidget {
     const int iconDark = 0xff000000;
     const int iconLight = 0xff000000;
     return Container(
+      margin: const EdgeInsets.only(bottom: 10),
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -34,9 +37,27 @@ class AccointCard extends ConsumerWidget {
       height: 101,
       child: Row(
         children: [
-          const SizedBox(
+          SizedBox(
             width: 70,
-            child: Center(child: Icon(Icons.credit_card, size: 50)),
+            child: Center(
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: isDarkMode
+                      ? const Color(backgroundDark)
+                      : const Color(backgroundLight),
+                ),
+                child: Center(
+                  child: Image.network(
+                    logoUrl,
+                    width: 50,
+                    height: 50,
+                  ),
+                ),
+              ),
+            ),
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

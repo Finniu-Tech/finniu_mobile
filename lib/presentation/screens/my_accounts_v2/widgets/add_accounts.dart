@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AddAccounts extends ConsumerWidget {
@@ -14,6 +15,8 @@ class AddAccounts extends ConsumerWidget {
 
     const int backgroundDark = 0xffA2E6FA;
     const int backgroundLight = 0xffE2F8FF;
+    const int iconColor = 0xff0D3A5C;
+
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       height: 60,
@@ -23,13 +26,20 @@ class AddAccounts extends ConsumerWidget {
             ? const Color(backgroundDark)
             : const Color(backgroundLight),
       ),
-      child: const Row(
+      child: Row(
         children: [
           SizedBox(
             width: 70,
-            child: Center(child: Icon(Icons.credit_card, size: 24)),
+            child: Center(
+              child: SvgPicture.asset(
+                "assets/svg_icons/card_add_icon.svg",
+                width: 30,
+                height: 30,
+                color: const Color(iconColor),
+              ),
+            ),
           ),
-          TextPoppins(
+          const TextPoppins(
             text: "Agregar cuenta bancaria",
             fontSize: 15,
             isBold: true,
