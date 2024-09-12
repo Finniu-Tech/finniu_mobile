@@ -134,6 +134,64 @@ final updateUserAvatarFutureProvider = FutureProvider.autoDispose
   return false;
 });
 
+final reloadUserProfileFutureProvider = FutureProvider.autoDispose((ref) async {
+  try {
+    final client = await ref.watch(gqlClientProvider.future);
+    final QueryResult result = await client.query(
+      QueryOptions(
+        document: gql(QueryRepository.getUserProfile),
+        fetchPolicy: FetchPolicy.noCache,
+      ),
+    );
+
+    if (result.hasException || result.data == null) {
+      print('GraphQL Error: ${result.exception.toString()}');
+    }
+
+    final userProfile = UserProfile.fromJson(result.data?['userProfile']);
+
+    if (userProfile.hasCompletedOnboarding == true) {
+      ref.read(hasCompletedOnboardingProvider.notifier).state = true;
+    }
+
+    ref.read(userProfileNotifierProvider.notifier).updateFields(
+          id: userProfile.uuid,
+          nickName: userProfile.nickName,
+          email: userProfile.email,
+          firstName: userProfile.firstName,
+          lastName: userProfile.lastName,
+          phoneNumber: userProfile.phoneNumber,
+          documentNumber: userProfile.documentNumber,
+          imageProfileUrl: userProfile.imageProfileUrl,
+          hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
+          distrito: userProfile.distrito,
+          provincia: userProfile.provincia,
+          region: userProfile.region,
+          civilStatus: userProfile.civilStatus,
+          address: userProfile.address,
+          occupation: userProfile.occupation,
+          percentCompleteProfile: userProfile.percentCompleteProfile,
+          hasCompletedTour: userProfile.hasCompletedTour,
+          lastNameFather: userProfile.lastNameFather,
+          lastNameMother: userProfile.lastNameMother,
+          countryPrefix: userProfile.countryPrefix,
+          documentType: userProfile.documentType,
+          gender: userProfile.gender,
+          houseNumber: userProfile.houseNumber,
+          postalCode: userProfile.postalCode,
+          laborSituation: userProfile.laborSituation,
+          companyName: userProfile.companyName,
+          serviceTime: userProfile.serviceTime,
+          biography: userProfile.biography,
+          facebook: userProfile.facebook,
+          instagram: userProfile.instagram,
+          linkedin: userProfile.linkedin,
+        );
+  } catch (e) {
+    print('Error al obtener el perfil de usuario: $e');
+  }
+});
+
 final userProfileNotifierProvider =
     StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
   (ref) => UserProfileStateNotifierProvider(UserProfile()),
