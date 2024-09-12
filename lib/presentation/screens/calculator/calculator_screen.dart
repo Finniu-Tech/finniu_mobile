@@ -138,7 +138,7 @@ class _CalculatorState extends ConsumerState<Calculator> {
                       return null;
                     },
                     decoration: InputDecoration(
-                      hintText: 'Ingrese su monto de inversion',
+                      hintText: 'Ingrese su monto de inversión',
                       hintStyle: TextStyle(
                         fontSize: 10,
                         color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText1),

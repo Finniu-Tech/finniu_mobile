@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/bank_entity.dart';
@@ -39,7 +38,6 @@ import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -326,20 +324,24 @@ class _FormStep1State extends ConsumerState<FormStep1> {
 
     context.loaderOverlay.hide();
     if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+      print('origin amount ${int.parse(input.finalAmount) - widget.reinvestmentOriginAmount!}');
       Navigator.pushNamed(
         context,
         '/v2/investment/step-2',
         arguments: {
           'fund': widget.fund,
           'preInvestmentUUID': response.reInvestmentUuid,
-          'amount': input.finalAmount,
+          'amount': (int.parse(input.finalAmount) - widget.reinvestmentOriginAmount!).toString(),
           'isReInvestment': true,
         },
       );
     } else {
       showThanksForInvestingModal(context, () {
-        Navigator.pushReplacementNamed(context, '/v2/investment');
-      });
+        Navigator.pushReplacementNamed(
+          context,
+          '/v2/investment',
+        );
+      }, true);
     }
   }
 
@@ -477,7 +479,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                 },
                 onChanged: (value) {},
                 decoration: const InputDecoration(
-                  hintText: 'Escriba su monto de inversion',
+                  hintText: 'Escriba su monto de inversión',
                   hintStyle: TextStyle(color: Color(grayText), fontSize: 11),
                   label: Text("Monto"),
                 ),
@@ -735,13 +737,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                     },
                   ),
                 ),
-                hintText: 'Ingresa tu código',
+                hintText: 'Ingresa tu código(opcional)',
                 hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.zero,
                 ),
                 label: const Text(
-                  "Ingresa tu códigos promocional,si tienes uno",
+                  "Ingresa tu código promocional",
                 ),
               ),
             ),
@@ -972,6 +974,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   context,
                   startingAmount: int.parse(amount),
                   finalAmount: int.parse(widget.amountController.text),
+                  // startingAmount: int.parse(widget.amountController.text),
+                  // finalAmount: int.parse(amount),
                   mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
                   coupon: widget.couponController.text,
                   toInvestPressed: () async {

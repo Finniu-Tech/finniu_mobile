@@ -17,7 +17,7 @@ void showErrorGetDetail(BuildContext context) {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 const TextPoppins(
-                  text: "Error al solicitar inversion",
+                  text: "Error al solicitar inversión",
                   fontSize: 24,
                 ),
                 ButtonInvestment(

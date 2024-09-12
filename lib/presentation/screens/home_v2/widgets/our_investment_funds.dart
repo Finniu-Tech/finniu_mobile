@@ -4,6 +4,7 @@ import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/presentation/providers/event_tracker_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/utils/color_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -52,7 +53,7 @@ class OurInvestmentFunds extends ConsumerWidget {
                       (fund) => CardInvestment(
                         background: isDarkMode ? Color(fund.getHexListColorDark()) : Color(fund.getHexListColorLight()),
                         backgroundImage:
-                            isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
+                            isDarkMode ? Color(fund.getHexListColorDark()) : Color(fund.getHexListColorLight()),
                         textBody: fund.name,
                         onTap: () => onTapNavigate(fund),
                         imageUrl: fund.iconUrl != null
@@ -127,7 +128,7 @@ class CardInvestment extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: backgroundImage,
+                    color: adjustColor(backgroundImage, saturationFactor: 0.69),
                   ),
                   height: 40,
                   width: 40,

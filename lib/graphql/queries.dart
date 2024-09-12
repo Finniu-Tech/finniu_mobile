@@ -1325,11 +1325,13 @@ class QueryRepository {
         rentabilityPercent
         finishDateInvestment
         contract
+        isReInvestment
         bankAccountReceiver {
           uuid
           bankName
           bankAccount
           bankCciAccount
+          bankLogoUrl
           currency
           alias
           typeAccount
@@ -1347,6 +1349,7 @@ class QueryRepository {
             bankName
             bankAccount
             bankCciAccount
+            bankLogoUrl
             currency
             alias
             typeAccount

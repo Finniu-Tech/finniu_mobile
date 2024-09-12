@@ -323,7 +323,7 @@ class _Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
                 // focusNode: amountFocusNode,
                 onTapOutside: (event) => FocusScope.of(context).unfocus(),
                 decoration: InputDecoration(
-                  hintText: 'Escriba su monto de inversion',
+                  hintText: 'Escriba su monto de inversión',
                   hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
                   labelStyle: TextStyle(
                     color: widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL

@@ -33,6 +33,7 @@ class BankAccount {
   final String typeAccount;
   final bool isJointAccount;
   final bool isDefaultAccount;
+  final String? bankLogoUrl;
 
   BankAccount({
     required this.id,
@@ -44,6 +45,7 @@ class BankAccount {
     required this.typeAccount,
     required this.isJointAccount,
     required this.isDefaultAccount,
+    this.bankLogoUrl,
   });
 
   factory BankAccount.fromJson(Map<String, dynamic> json) {
@@ -57,6 +59,7 @@ class BankAccount {
       isJointAccount: json['isJointAccount'],
       isDefaultAccount: json['isDefaultAccount'],
       cci: json['bankCciAccount'],
+      bankLogoUrl: json['bankLogoUrl'],
     );
   }
   static getSafeBankAccountNumber(String bankAccount) {

@@ -685,7 +685,7 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     borderRadius: BorderRadius.zero,
                   ),
                   label: const Text(
-                    "Ingresa tu códigos promocional,si tienes uno",
+                    "Ingresa tu código promocional,si tienes uno",
                   ),
                 ),
               ),

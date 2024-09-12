@@ -415,6 +415,7 @@ class BottomSection extends HookConsumerWidget {
             height: 50,
             child: TextButton(
               onPressed: () async {
+                // Navigator.pushNamed(context, '/calendly_test');
                 final isValid = isValidForm(context);
                 if (!isValid) {
                   return;
@@ -439,21 +440,35 @@ class BottomSection extends HookConsumerWidget {
                   return;
                 }
 
-                showThanksInvestmentDialog(context,
-                    textTitle: 'Gracias por \nconfiar en Finniu!',
-                    textTanks: 'Gracias por tu comprensión!',
-                    textBody:
-                        'Recuerda que tu solicitud de Inversión Agro Inmobiliaria sera derivada a un asesor del Proyecto, quien se contactará contigo en las proxima 24h.',
-                    textButton: 'Ver mi progreso',
-                    onPressed: () => {
-                          Navigator.pushNamed(context, '/v2/investment'),
-                        },
-                    onClosePressed: () => {
-                          Navigator.pushNamed(context, '/v2/investment'),
-                        });
+                showThanksInvestmentDialog(
+                  context,
+                  textTanks: 'Gracias por tu comprensión!',
+                  textBody:
+                      'Recuerda que tu solicitud de Inversión Agro Inmobiliaria sera derivada a un asesor del Proyecto, quien se contactará contigo en las proxima 24h.',
+                  textTitle: 'Gracias por \nconfiar en Finniu!',
+                  textButton: 'Agendar Cita',
+                  onPressed: () => {
+                    Navigator.pushNamed(context, '/v2/aggro-investment/booking'),
+                  },
+                );
+
+                // showThanksInvestmentDialog(
+                //   context,
+                //   textTitle: 'Gracias por \nconfiar en Finniu!',
+                //   textTanks: 'Gracias por tu comprensión!',
+                //   textBody:
+                //       'Recuerda que tu solicitud de Inversión Agro Inmobiliaria sera derivada a un asesor del Proyecto, quien se contactará contigo en las proxima 24h.',
+                //   textButton: 'Ver mi progreso',
+                //   onPressed: () => {
+                //     Navigator.pushNamed(context, '/v2/investment'),
+                //   },
+                //   onClosePressed: () => {
+                //     Navigator.pushNamed(context, '/v2/investment'),
+                //   },
+                // );
               },
               child: const Text(
-                'Continuar',
+                'Contactar asesor',
               ),
             ),
           ),
