@@ -23,12 +23,12 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
             "documentType": data.documentType.name,
             "documentNumber": data.documentNumber,
             "civilStatus": data.civilStatus.name,
-            "gender": data.gender == 'Femenino' ? 'Female' : 'Male',
+            "gender": data.gender.name,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),
       );
-
+      print(response.toString());
       if (response.data == null) {
         return RegisterUserV2Response(
           success: false,

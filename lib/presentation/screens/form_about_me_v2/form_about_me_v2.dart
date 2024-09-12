@@ -17,9 +17,43 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class AboutMeDataV2 extends HookConsumerWidget {
-  AboutMeDataV2({super.key});
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+class AboutMeDataV2 extends ConsumerWidget {
+  const AboutMeDataV2({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: ScaffoldUserProfile(
+        floatingActionButton: Container(
+          width: 0,
+          height: 90,
+          color: Colors.transparent,
+        ),
+        appBar: const AppBarLogo(),
+        children: const [
+          SizedBox(
+            height: 10,
+          ),
+          ProgressForm(
+            progress: 0.8,
+          ),
+          TitleForm(
+            title: "Sobre mi",
+            subTitle: "Cuéntanos un poco sobre tí (Es opcional)",
+            icon: "assets/svg_icons/user_icon_v2.svg",
+          ),
+          AboutMeForm(),
+        ],
+      ),
+    );
+  }
+}
+
+class AboutMeForm extends HookConsumerWidget {
+  const AboutMeForm({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,9 +66,14 @@ class AboutMeDataV2 extends HookConsumerWidget {
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
+        if (biographyAreaController.text == "" || imageBase64 == null) {
+          Navigator.pushNamed(context, '/home_v2');
+          context.loaderOverlay.hide();
+          return;
+        }
         final DtoAboutMeForm data = DtoAboutMeForm(
-          imageProfile: imageBase64 ?? "",
-          backgroundPhoto: imageBase64 ?? "",
+          imageProfile: imageBase64,
+          backgroundPhoto: imageBase64,
           facebook: facebookTextController.text.trim(),
           instagram: instagramTextController.text.trim(),
           linkedin: linkedinTextController.text.trim(),
@@ -49,105 +88,65 @@ class AboutMeDataV2 extends HookConsumerWidget {
       Navigator.pushNamed(context, "/home_v2");
     }
 
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        bottomNavigationBar: FormDataNavigator(
-          finishBool: true,
-          addData: () => uploadJobData(),
-          continueLater: () => continueLater(),
-        ),
-        appBar: const AppBarLogo(),
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          const ProgressForm(
-            progress: 0.8,
-          ),
-          const TitleForm(
-            title: "Sobre mi",
-            subTitle: "Cuéntanos un poco sobre ti (Es opcional)",
-            icon: "assets/svg_icons/user_icon_v2.svg",
-          ),
-          AboutMeForm(
-            formKey: formKey,
-            facebookTextController: facebookTextController,
-            instagramTextController: instagramTextController,
-            linkedinTextController: linkedinTextController,
-            profilAreaController: biographyAreaController,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class AboutMeForm extends ConsumerWidget {
-  const AboutMeForm({
-    super.key,
-    required this.formKey,
-    required this.facebookTextController,
-    required this.instagramTextController,
-    required this.linkedinTextController,
-    required this.profilAreaController,
-  });
-  final GlobalKey<FormState> formKey;
-  final TextEditingController facebookTextController;
-  final TextEditingController instagramTextController;
-  final TextEditingController linkedinTextController;
-  final TextEditingController profilAreaController;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
     final String? imagePath = ref.watch(imagePathProvider);
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          imagePath == null ? const AddImageProfile() : const ImageProfileRender(),
-          const SizedBox(
-            height: 10,
-          ),
-          InputTextAreaUserProfile(
-            controller: profilAreaController,
-            hintText: "Escribe una breve biografía sobre ti.",
-            validator: null,
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const TextPoppins(text: "Redes Sociales", fontSize: 14),
-          const SizedBox(
-            height: 5,
-          ),
-          InputTextNetworkUserProfile(
-            urlIcon: "assets/svg_icons/facebook_icon_v2.svg",
-            textTitle: "Facebook",
-            controller: facebookTextController,
-            hintText: "Facebook",
-            validator: null,
-          ),
-          InputTextNetworkUserProfile(
-            urlIcon: "assets/svg_icons/instagram_icon_v2.svg",
-            textTitle: "Instagram",
-            controller: instagramTextController,
-            hintText: "Instagram",
-            validator: null,
-          ),
-          InputTextNetworkUserProfile(
-            urlIcon: "assets/svg_icons/linkedin_icon_v2.svg",
-            textTitle: "Linkedin",
-            controller: linkedinTextController,
-            hintText: "Linkedin",
-            validator: null,
-          ),
-        ],
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height * 0.77,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            imagePath == null ? const AddImageProfile() : const ImageProfileRender(),
+            const SizedBox(
+              height: 10,
+            ),
+            InputTextAreaUserProfile(
+              controller: biographyAreaController,
+              hintText: "Escribe una breve biografía sobre tí.",
+              validator: null,
+            ),
+            const SizedBox(
+              height: 5,
+            ),
+            const TextPoppins(text: "Redes Sociales", fontSize: 14),
+            const SizedBox(
+              height: 5,
+            ),
+            InputTextNetworkUserProfile(
+              urlIcon: "assets/svg_icons/facebook_icon_v2.svg",
+              textTitle: "Facebook",
+              controller: facebookTextController,
+              hintText: "Facebook",
+              validator: null,
+            ),
+            InputTextNetworkUserProfile(
+              urlIcon: "assets/svg_icons/instagram_icon_v2.svg",
+              textTitle: "Instagram",
+              controller: instagramTextController,
+              hintText: "Instagram",
+              validator: null,
+            ),
+            InputTextNetworkUserProfile(
+              urlIcon: "assets/svg_icons/linkedin_icon_v2.svg",
+              textTitle: "Linkedin",
+              controller: linkedinTextController,
+              hintText: "Linkedin",
+              validator: null,
+            ),
+            const Expanded(
+              child: SizedBox(),
+            ),
+            FormDataNavigator(
+              finishBool: true,
+              addData: () => uploadJobData(),
+              continueLater: () => continueLater(),
+            ),
+          ],
+        ),
       ),
     );
   }

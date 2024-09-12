@@ -9,19 +9,45 @@ class QueryRepository {
         nickName
         civilStatus
 
-        documentNumber
-        gender
+       
         hasCompletedOnboarding
         id
         isActive
         occupation
 
-        typeDocument
+     
         uuid
         imageProfileUrl
         address
         percentCompleteProfile
         hasCompletedTour
+        
+        lastNameFather
+        lastNameMother
+        typeDocument
+        documentNumber
+        gender
+        region{
+          id
+        }
+        provincia{
+          id
+        }
+        distrito{
+          id
+        }
+      	address
+        houseNumber
+        postalCode
+        
+        laborSituation
+        companyName
+        serviceTime
+
+        biography
+        facebook
+        instagram
+        linkedin
       }
     }
   ''';

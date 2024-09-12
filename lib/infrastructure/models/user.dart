@@ -98,23 +98,36 @@ class UserProfile {
     this.address,
     this.percentCompleteProfile,
     this.hasCompletedTour,
+    this.lastNameFather,
+    this.lastNameMother,
+    this.countryPrefix,
+    this.documentType,
+    this.houseNumber,
+    this.postalCode,
+    this.laborSituation,
+    this.companyName,
+    this.serviceTime,
+    this.biography,
+    this.facebook,
+    this.instagram,
+    this.linkedin,
   });
-
+  dynamic documentType;
   String? firstName;
   String? lastName;
   String? email;
   String? id;
   String? nickName;
   dynamic civilStatus;
-  dynamic distrito;
+  String? distrito;
   String? documentNumber;
-  dynamic gender;
+  String? gender;
   bool? hasCompletedOnboarding;
   bool? hasCompletedTour;
   bool? isActive;
   String? occupation;
-  dynamic provincia;
-  dynamic region;
+  String? provincia;
+  String? region;
   String? typeDocument;
   String? uuid;
   String? phoneNumber;
@@ -123,6 +136,18 @@ class UserProfile {
   String? imageProfile;
   String? address;
   double? percentCompleteProfile;
+  String? lastNameFather;
+  String? lastNameMother;
+  String? countryPrefix;
+  String? houseNumber;
+  String? postalCode;
+  String? laborSituation;
+  String? companyName;
+  String? serviceTime;
+  String? biography;
+  String? facebook;
+  String? instagram;
+  String? linkedin;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -131,7 +156,7 @@ class UserProfile {
         id: json["id"],
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
-        distrito: json["distrito"],
+        distrito: json["distrito"]["id"],
         documentNumber: json["documentNumber"].toString() == 'null'
             ? ''
             : json["documentNumber"].toString(),
@@ -140,8 +165,8 @@ class UserProfile {
         hasCompletedTour: json["hasCompletedTour"],
         isActive: json["isActive"],
         occupation: json["occupation"],
-        provincia: json["provincia"],
-        region: json["region"],
+        provincia: json["provincia"]["id"],
+        region: json["region"]["id"],
         typeDocument: json["typeDocument"],
         uuid: json["uuid"],
         phoneNumber: json["phoneNumber"],
@@ -151,6 +176,19 @@ class UserProfile {
         percentCompleteProfile: json["percentCompleteProfile"] != null
             ? double.parse(json["percentCompleteProfile"].toString())
             : 0.0,
+        lastNameFather: json["lastNameFather"],
+        lastNameMother: json["lastNameMother"],
+        countryPrefix: json["countryPrefix"],
+        documentType: json["typeDocument"],
+        houseNumber: json["houseNumber"],
+        postalCode: json["postalCode"],
+        laborSituation: json["laborSituation"],
+        companyName: json["companyName"],
+        serviceTime: json["serviceTime"],
+        biography: json["biography"],
+        facebook: json["facebook"],
+        instagram: json["instagram"],
+        linkedin: json["linkedin"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -198,6 +236,20 @@ class UserProfile {
     String? occupation,
     double? percentCompleteProfile,
     bool? hasCompletedTour,
+    String? lastNameFather,
+    String? lastNameMother,
+    String? countryPrefix,
+    String? documentType,
+    String? gender,
+    String? houseNumber,
+    String? postalCode,
+    String? laborSituation,
+    String? companyName,
+    String? serviceTime,
+    String? biography,
+    String? facebook,
+    String? instagram,
+    String? linkedin,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -220,6 +272,20 @@ class UserProfile {
       percentCompleteProfile:
           percentCompleteProfile ?? this.percentCompleteProfile,
       hasCompletedTour: hasCompletedTour ?? this.hasCompletedTour,
+      lastNameFather: lastNameFather ?? this.lastNameFather,
+      lastNameMother: lastNameMother ?? this.lastNameMother,
+      countryPrefix: countryPrefix ?? this.countryPrefix,
+      documentType: documentType ?? this.documentType,
+      gender: gender ?? this.gender,
+      houseNumber: houseNumber ?? this.houseNumber,
+      postalCode: postalCode ?? this.postalCode,
+      laborSituation: laborSituation ?? this.laborSituation,
+      companyName: companyName ?? this.companyName,
+      serviceTime: serviceTime ?? this.serviceTime,
+      biography: biography ?? this.biography,
+      facebook: facebook ?? this.facebook,
+      instagram: instagram ?? this.instagram,
+      linkedin: linkedin ?? this.linkedin,
     );
   }
 

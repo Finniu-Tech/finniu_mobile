@@ -3,12 +3,15 @@ import 'package:finniu/domain/entities/app_version_entity.dart';
 import 'package:finniu/infrastructure/datasources/app_version_datasource_imp.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/on_boarding_screen_v2.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/upgrade_modal.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class IntroScreen extends ConsumerStatefulWidget {
@@ -44,26 +47,32 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   Future<void> _initializeAppVersion(BuildContext context) async {
     final client = ref.read(gqlClientProvider).value;
     if (client != null && _modalShown == false) {
-      // Get the client from the Provider
+      bool isConnected = await InternetConnectionChecker().hasConnection;
 
-      appVersion =
-          await AppVersionDataSourceImp().getLastVersion(client: client);
-      appVersion.currentVersion = appCurrentVersion;
-      String statusVersion = appVersion.getStatusVersion();
+      SchedulerBinding.instance.addPostFrameCallback((_) async {
+        if (!isConnected) {
+          showNetworkWarning(context: context);
+          return;
+        }
 
-      if (statusVersion == StatusVersion.upgrade) {
-        _modalShown = true;
-        _showUpdateModal(context, false);
-      } else if (statusVersion == StatusVersion.forceUpgrade) {
-        _modalShown = true;
-        _showUpdateModal(context, true);
-      } else {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (BuildContext context) => OnBoardingScreen(),
-          ),
-        );
-      }
+        appVersion = await AppVersionDataSourceImp().getLastVersion(client: client);
+        appVersion.currentVersion = appCurrentVersion;
+        String statusVersion = appVersion.getStatusVersion();
+
+        if (statusVersion == StatusVersion.upgrade) {
+          _modalShown = true;
+          _showUpdateModal(context, false);
+        } else if (statusVersion == StatusVersion.forceUpgrade) {
+          _modalShown = true;
+          _showUpdateModal(context, true);
+        } else {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) => OnBoardingScreen(),
+            ),
+          );
+        }
+      });
     }
   }
 
@@ -78,47 +87,57 @@ class _IntroScreenState extends ConsumerState<IntroScreen> {
   Widget build(BuildContext context) {
     final themeProvider = ref.watch(settingsNotifierProvider);
 
-    Timer(const Duration(seconds: 3), () {
-      _initializeAppVersion(context); // Pass the context here
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      _initializeAppVersion(context);
     });
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: Theme.of(context),
-      home: Scaffold(
-        backgroundColor: Theme.of(context).primaryColor,
-        body: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 300,
-                  height: 300,
-                  child: Image(
-                    image: AssetImage(
-                      themeProvider.isDarkMode
-                          ? "assets/images/logo_finniu_dark.png"
-                          : "assets/images/logo_finniu_light.png",
-                    ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
+      body: Builder(
+        builder: (BuildContext context) {
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            _initializeAppVersion(context);
+          });
+
+          return Center(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: 300,
+                        height: 300,
+                        child: Image(
+                          image: AssetImage(
+                            themeProvider.isDarkMode
+                                ? "assets/images/logo_finniu_dark.png"
+                                : "assets/images/logo_finniu_light.png",
+                          ),
+                        ),
+                      ),
+                      TextPoppins(
+                        text: 'Vive el #ModoFinniu',
+                        colorText: Theme.of(context).colorScheme.secondary.value,
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      const SizedBox(height: 40.0),
+                      const SpinKitCircle(
+                        color: Colors.grey,
+                        size: 50.0,
+                      ),
+                    ],
                   ),
-                ),
-                TextPoppins(
-                  text: 'Vive el #ModoFinniu',
-                  colorText: Theme.of(context).colorScheme.secondary.value,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                ),
-                const SizedBox(height: 40.0),
-                const SpinKitCircle(
-                  color: Colors.grey,
-                  size: 50.0,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }

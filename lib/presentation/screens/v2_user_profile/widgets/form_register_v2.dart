@@ -1,13 +1,13 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
-
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_register_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_phone_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,10 +27,38 @@ class FormRegister extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
-    final acceptPrivacyAndTerms = useState(false);
-
-    void saveAndPush() async {
-      if (formKey.currentState!.validate()) {
+    // final acceptPrivacyAndTerms = useState(false);
+    final ValueNotifier<bool> nickNameError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> phoneNumberError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> passwordConfirmError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> acceptPrivacyAndTerms =
+        ValueNotifier<bool>(false);
+    void saveAndPush(BuildContext context) async {
+      if (!formKey.currentState!.validate()) {
+        showSnackBarV2(
+          context: context,
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
+          snackType: SnackType.warning,
+        );
+        return;
+      } else {
+        if (acceptPrivacyAndTerms.value == false) {
+          showSnackBarV2(
+            context: context,
+            title: "Olvidaste marcar los T&C",
+            message: "Revisa y marca los T&C y las políticas ",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+        if (nickNameError.value) return;
+        if (phoneNumberError.value) return;
+        if (emailError.value) return;
+        if (passwordError.value) return;
+        if (passwordConfirmError.value) return;
         context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text.trim(),
@@ -42,13 +70,7 @@ class FormRegister extends HookConsumerWidget {
           acceptTermsConditions: acceptPrivacyAndTerms.value,
           acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
         );
-        if (acceptPrivacyAndTerms.value == false) {
-          CustomSnackbar.show(
-            context,
-            "Debe aceptar los terminos y condiciones",
-            'error',
-          );
-        }
+
         context.loaderOverlay.show();
         pushDataForm(context, data, ref);
       }
@@ -58,77 +80,112 @@ class FormRegister extends HookConsumerWidget {
       key: formKey,
       child: Column(
         children: [
-          InputTextFileUserProfile(
-            hintText: "Como te llaman",
-            controller: nickNameController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu nombre';
-              }
-              return null;
+          ValueListenableBuilder<bool>(
+            valueListenable: nickNameError,
+            builder: (context, isError, child) {
+              return InputTextFileUserProfile(
+                onError: () => nickNameError.value = false,
+                isError: isError,
+                hintText: "Como te llaman",
+                controller: nickNameController,
+                validator: (value) {
+                  validateName(
+                    value: value,
+                    context: context,
+                    boolNotifier: nickNameError,
+                  );
+                  return null;
+                },
+              );
             },
           ),
-          InputPhoneUserProfile(
-            controller: phoneNumberController,
-            countryController: countryPrefixController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Ingresa tu nómero de telefono';
-              }
-              if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                return 'Solo puedes usar números';
-              }
-              if (value.length < 8) {
-                return 'El nómero debe tener 8 digitos';
-              }
-              return null;
-            },
-            hintText: "Escribe tu número telefónico",
-          ),
-          InputTextFileUserProfile(
-            hintText: "Correo electronico",
-            controller: emailController,
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu correo electrónico';
-              } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                return 'Ingresar un correo electrónico válido';
-              } else {
-                return null;
-              }
+          ValueListenableBuilder<bool>(
+            valueListenable: phoneNumberError,
+            builder: (context, isError, child) {
+              return InputPhoneUserProfile(
+                isError: isError,
+                onError: () => phoneNumberError.value = false,
+                controller: phoneNumberController,
+                countryController: countryPrefixController,
+                hintText: "Escribe tu número telefónico",
+                validator: (value) {
+                  validatePhone(
+                    value: value,
+                    context: context,
+                    boolNotifier: phoneNumberError,
+                  );
+                  return null;
+                },
+              );
             },
           ),
-          InputPasswordFieldUserProfile(
-            controller: passwordController,
-            hintText: "Contraseña ",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu contraseña';
-              } else if (value.length < 8) {
-                return 'Debe tener al menos 8 caracteres';
-              }
-              return null;
+          ValueListenableBuilder<bool>(
+            valueListenable: emailError,
+            builder: (context, isError, child) {
+              return InputTextFileUserProfile(
+                isError: isError,
+                onError: () => emailError.value = false,
+                hintText: "Correo electronico",
+                controller: emailController,
+                validator: (value) {
+                  validateEmail(
+                    value: value,
+                    context: context,
+                    boolNotifier: emailError,
+                  );
+                  return null;
+                },
+              );
             },
           ),
-          InputPasswordFieldUserProfile(
-            controller: passwordConfirmController,
-            hintText: "Confirmar contraseña",
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Por favor ingresa tu contraseña';
-              } else if (value.length < 8) {
-                return 'Debe tener al menos 8 caracteres';
-              }
-              if (value != passwordController.text) {
-                return 'Las contraseñas no coinciden';
-              }
-              return null;
+          ValueListenableBuilder<bool>(
+            valueListenable: passwordError,
+            builder: (context, isError, child) {
+              return InputPasswordFieldUserProfile(
+                isError: isError,
+                onError: () => passwordError.value = false,
+                controller: passwordController,
+                hintText: "Contraseña ",
+                validator: (value) {
+                  validatePassword(
+                    value: value,
+                    context: context,
+                    boolNotifier: passwordError,
+                  );
+                  return null;
+                },
+              );
             },
           ),
-          CheckTermsAndConditions(
-            checkboxValue: acceptPrivacyAndTerms.value,
-            onPressed: () {
-              acceptPrivacyAndTerms.value = !acceptPrivacyAndTerms.value;
+          ValueListenableBuilder<bool>(
+            valueListenable: passwordConfirmError,
+            builder: (context, isError, child) {
+              return InputPasswordFieldUserProfile(
+                isError: isError,
+                onError: () => passwordConfirmError.value = false,
+                controller: passwordConfirmController,
+                hintText: "Confirmar contraseña",
+                validator: (value) {
+                  validateConfirmPassword(
+                    value: value,
+                    context: context,
+                    boolNotifier: passwordConfirmError,
+                    password: passwordController.text.trim(),
+                  );
+                  return null;
+                },
+              );
+            },
+          ),
+          ValueListenableBuilder<bool>(
+            valueListenable: acceptPrivacyAndTerms,
+            builder: (context, isError, child) {
+              return CheckTermsAndConditions(
+                checkboxValue: acceptPrivacyAndTerms.value,
+                onPressed: () {
+                  acceptPrivacyAndTerms.value = !acceptPrivacyAndTerms.value;
+                },
+              );
             },
           ),
           const SizedBox(
@@ -136,7 +193,7 @@ class FormRegister extends HookConsumerWidget {
           ),
           ButtonInvestment(
             text: "Crear mi cuenta",
-            onPressed: () => saveAndPush(),
+            onPressed: () => saveAndPush(context),
           ),
           const SizedBox(
             height: 5,
@@ -163,7 +220,7 @@ class RedirectLogin extends ConsumerWidget {
     const int linkLight = 0xff0D3A5C;
     return GestureDetector(
       onTap: () {
-        print("login");
+        Navigator.pushNamed(context, '/login_email');
       },
       child: const TextPoppins(
         text: "Inicia sesión",
