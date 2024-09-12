@@ -3,10 +3,12 @@ import 'package:email_validator/email_validator.dart';
 import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:finniu/constants/colors.dart';
@@ -166,79 +168,93 @@ class EmailLoginScreen extends HookConsumerWidget {
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               context.loaderOverlay.show();
-                              final loginResponse = AuthRepository().login(
-                                client: await graphqlProvider,
-                                username: _emailController.value.text.toLowerCase(),
-                                password: passwordController.value.text,
-                              );
-                              loginResponse.then((value) {
-                                if (value.success == true) {
-                                  final token = ref.watch(
-                                    authTokenMutationProvider(
-                                      LoginModel(
-                                        email: _emailController.value.text.toLowerCase(),
-                                        password: passwordController.value.text,
-                                      ),
-                                    ).future,
-                                  );
-                                  token.then(
-                                    (value) async {
-                                      if (value != null) {
-                                        ref.read(authTokenProvider.notifier).state = value;
-                                        Preferences.username = _emailController.value.text.toLowerCase();
-                                        context.loaderOverlay.hide();
-                                        if (rememberPassword.value) {
-                                          // print(password.value);
-                                          await secureStorage.write(
-                                            key: 'password',
-                                            value: passwordController.value.text,
-                                          );
-                                        }
-
-                                        final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
-                                        print('featureFlags: $featureFlags');
-                                        ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
-
-                                        final String route =
-                                            ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
-                                                ? FeatureRoutes.getRouteForFlag(FeatureFlags.homeV2, defaultHomeRoute)
-                                                : defaultHomeRoute;
-
-                                        Navigator.pushNamed(
-                                          context,
-                                          route,
-                                        );
-                                      } else {
-                                        showError.value = true;
-                                      }
-                                    },
-                                    onError: (err) {
-                                      context.loaderOverlay.hide();
-                                      showError.value = true;
-                                    },
-                                  );
-                                } else {
+                              try {
+                                bool isConnected = await InternetConnectionChecker().hasConnection;
+                                if (!isConnected) {
                                   context.loaderOverlay.hide();
-                                  if (value.error == 'Su usuario no a sido activado') {
-                                    CustomSnackbar.show(
-                                      context,
-                                      value.error ?? 'Su usuario no a sido activado',
-                                      'error',
-                                    );
-                                    ref.read(userProfileNotifierProvider.notifier).updateFields(
-                                        email: _emailController.value.text, password: passwordController.value.text);
-                                    Future.delayed(const Duration(seconds: 3), () {
-                                      Navigator.pushNamed(context, '/send_code');
-                                    });
-                                  } else {
-                                    CustomSnackbar.show(
-                                      context,
-                                      value.error ?? 'No se pudo validar sus credenciales',
-                                      'error',
-                                    );
-                                  }
+                                  showNetworkWarning(context: context);
+                                  return;
                                 }
-                              });
+
+                                final loginResponse = AuthRepository().login(
+                                  client: await graphqlProvider,
+                                  username: _emailController.value.text.toLowerCase(),
+                                  password: passwordController.value.text,
+                                );
+                                loginResponse.then((value) {
+                                  if (value.success == true) {
+                                    final token = ref.watch(
+                                      authTokenMutationProvider(
+                                        LoginModel(
+                                          email: _emailController.value.text.toLowerCase(),
+                                          password: passwordController.value.text,
+                                        ),
+                                      ).future,
+                                    );
+                                    token.then(
+                                      (value) async {
+                                        if (value != null) {
+                                          ref.read(authTokenProvider.notifier).state = value;
+                                          Preferences.username = _emailController.value.text.toLowerCase();
+                                          context.loaderOverlay.hide();
+                                          if (rememberPassword.value) {
+                                            await secureStorage.write(
+                                              key: 'password',
+                                              value: passwordController.value.text,
+                                            );
+                                          }
+
+                                          final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+                                          ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
+
+                                          final String route =
+                                              ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
+                                                  ? FeatureRoutes.getRouteForFlag(FeatureFlags.homeV2, defaultHomeRoute)
+                                                  : defaultHomeRoute;
+
+                                          Navigator.pushNamed(
+                                            context,
+                                            route,
+                                          );
+                                        } else {
+                                          showError.value = true;
+                                        }
+                                      },
+                                      onError: (err) {
+                                        context.loaderOverlay.hide();
+                                        showError.value = true;
+                                      },
+                                    );
+                                  } else {
+                                    context.loaderOverlay.hide();
+                                    if (value.error == 'Su usuario no a sido activado') {
+                                      CustomSnackbar.show(
+                                        context,
+                                        value.error ?? 'Su usuario no a sido activado',
+                                        'error',
+                                      );
+                                      ref.read(userProfileNotifierProvider.notifier).updateFields(
+                                          email: _emailController.value.text, password: passwordController.value.text);
+                                      Future.delayed(const Duration(seconds: 3), () {
+                                        Navigator.pushNamed(context, '/send_code');
+                                      });
+                                    } else {
+                                      CustomSnackbar.show(
+                                        context,
+                                        value.error ?? 'No se pudo validar sus credenciales',
+                                        'error',
+                                      );
+                                    }
+                                  }
+                                });
+                              } catch (e) {
+                                context.loaderOverlay.hide();
+                                CustomSnackbar.show(
+                                  context,
+                                  'Ocurrió un problema, vuelva a intentarlo en unos minutos',
+                                  'error',
+                                );
+                              }
                             }
                           },
                         ),
