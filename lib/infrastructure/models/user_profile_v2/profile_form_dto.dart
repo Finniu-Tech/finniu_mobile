@@ -266,11 +266,11 @@ String getServiceTimeEnumByUser(String? valor) {
   switch (valor) {
     case "Less than 1 year":
       return 'Menos de un año';
-    case 'One to three years':
+    case '1 to 3 years':
       return 'Entre 1 y 3 años';
-    case 'Three to five years':
+    case '3 to 5 years':
       return 'Entre 3 y 5 años';
-    case 'Five to ten years':
+    case '5 to 10 years':
       return 'Entre 5 y 10 años';
     case 'More than 10 years':
       return 'Mas de 10 años';
