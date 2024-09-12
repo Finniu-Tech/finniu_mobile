@@ -50,6 +50,7 @@ class HomeScreenV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
+
     bool? seeLaterTour = ref.watch(seeLaterProvider);
 
     useEffect(

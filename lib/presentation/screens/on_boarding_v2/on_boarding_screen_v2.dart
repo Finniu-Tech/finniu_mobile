@@ -68,6 +68,9 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     super.dispose();
   }
 
+  void pushLogin() => Navigator.pushNamed(context, '/login_email');
+  void pushRegister() => Navigator.pushNamed(context, '/v2/register');
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -90,6 +93,8 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
             bottom: 25,
             child: PositionedColumn(
               index: _index,
+              pushLogin: pushLogin,
+              pushRegister: pushRegister,
             ),
           ),
         ],

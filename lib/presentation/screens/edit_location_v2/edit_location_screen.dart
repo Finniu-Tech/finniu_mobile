@@ -1,64 +1,111 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
-import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
-import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_form.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
+import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
+import 'package:finniu/presentation/screens/edit_personal_v2/widgets/image_edit_stack.dart';
+import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class FormLocationDataV2 extends HookConsumerWidget {
-  const FormLocationDataV2({super.key});
+class EditLocationDataScreen extends StatelessWidget {
+  const EditLocationDataScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        floatingActionButton: Container(
-          width: 0,
-          height: 90,
-          color: Colors.transparent,
-        ),
-        appBar: const AppBarLogo(),
-        children: const [
-          SizedBox(
-            height: 10,
-          ),
-          ProgressForm(
-            progress: 0.4,
-          ),
-          TitleForm(
-            title: "Ubicación",
-            subTitle: "¿Donde te encuentras?",
-            icon: "assets/svg_icons/map_icon_v2.svg",
-          ),
-          LocationForm(),
-        ],
-      ),
+  Widget build(BuildContext context) {
+    return const ScaffoldConfig(
+      title: "Datos personales",
+      children: _BodyEditLocation(),
     );
   }
 }
 
-class LocationForm extends ConsumerStatefulWidget {
-  const LocationForm({
-    super.key,
-  });
+class _BodyEditLocation extends ConsumerWidget {
+  const _BodyEditLocation();
 
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final ValueNotifier<bool> isEdit = ValueNotifier<bool>(false);
+    const int backgroundImage = 0xffC1F1FF;
+    return Column(
+      children: [
+        const IconEditStack(
+          svgUrl: "assets/svg_icons/map_icon_v2.svg",
+          backgroundImage: backgroundImage,
+        ),
+        const TextPoppins(
+          text: "Información de mi ubicación",
+          fontSize: 17,
+          isBold: true,
+        ),
+        const SizedBox(height: 10),
+        ValueListenableBuilder<bool>(
+          valueListenable: isEdit,
+          builder: (context, isEditValue, child) {
+            return Stack(
+              children: [
+                Column(
+                  children: [
+                    isEditValue
+                        ? const SizedBox()
+                        : EditWidget(
+                            onTap: () => isEdit.value = true,
+                          ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                ),
+              ],
+            );
+          },
+        ),
+        ValueListenableBuilder<bool>(
+          valueListenable: isEdit,
+          builder: (context, isEditValue, child) {
+            return Stack(
+              children: [
+                EditLocationForm(
+                  isEdit: isEdit,
+                ),
+                isEditValue
+                    ? const SizedBox()
+                    : Positioned.fill(
+                        child: IgnorePointer(
+                          ignoring: false,
+                          child: Container(
+                            color: Colors.transparent,
+                          ),
+                        ),
+                      ),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class EditLocationForm extends ConsumerStatefulWidget {
+  const EditLocationForm({
+    super.key,
+    required this.isEdit,
+  });
+  final ValueNotifier<bool> isEdit;
   @override
   LocationFormState createState() => LocationFormState();
 }
 
-class LocationFormState extends ConsumerState<LocationForm> {
+class LocationFormState extends ConsumerState<EditLocationForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final countrySelectController = TextEditingController(
@@ -103,7 +150,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
         postalCode: postalCodeController.text.trim(),
       );
       context.loaderOverlay.show();
-      pushLocationDataForm(context, data, ref);
+      pushLocationDataForm(context, data, ref, navigate: '/home_v2');
     }
   }
 
@@ -123,7 +170,13 @@ class LocationFormState extends ConsumerState<LocationForm> {
   @override
   void initState() {
     super.initState();
-
+    final userProfile = ref.read(userProfileNotifierProvider);
+    regionsSelectController.text = userProfile.region ?? "";
+    provinceSelectController.text = userProfile.provincia ?? "";
+    districtSelectController.text = userProfile.distrito ?? "";
+    addressTextController.text = userProfile.address ?? "";
+    houseNumberController.text = userProfile.houseNumber ?? "";
+    postalCodeController.text = userProfile.postalCode ?? "";
     regionsSelectController.addListener(() {
       ref.invalidate(
         provincesSelectProvider(regionsSelectController.text),
@@ -143,14 +196,27 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   @override
+  void dispose() {
+    countrySelectController.dispose();
+    regionsSelectController.dispose();
+    provinceSelectController.dispose();
+    districtSelectController.dispose();
+    addressTextController.dispose();
+    houseNumberController.dispose();
+    postalCodeController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
-            ? 600
-            : MediaQuery.of(context).size.height * 0.77,
+            ? 530
+            : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [
             SelectableDropdownItem(
@@ -425,13 +491,29 @@ class LocationFormState extends ConsumerState<LocationForm> {
                 );
               },
             ),
-            const ContainerMessage(),
             const Expanded(
               child: SizedBox(),
             ),
-            FormDataNavigator(
-              addData: () => uploadLocationData(),
-              continueLater: () => continueLater(),
+            ValueListenableBuilder<bool>(
+              valueListenable: widget.isEdit,
+              builder: (context, isEditValue, child) {
+                return Column(
+                  children: [
+                    isEditValue
+                        ? ButtonInvestment(
+                            text: "Guardar datos",
+                            onPressed: uploadLocationData,
+                          )
+                        : const SizedBox(),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
             ),
           ],
         ),

@@ -95,19 +95,10 @@ final List<String> distritosLima = [
   'Villa El Salvador',
   'Villa María del Triunfo',
 ];
-final List<String> maritalStatus = [
-  'Soltero',
-  'Casado',
-  'Divorciado',
-  'Viudo',
-];
-final List<String> documentType = [
-  'DNI',
-  'Carné de extranjeria',
-];
+
 final List<String> workSituation = [
   'Empleado',
-  'Independiente',
+  'Desempleado',
   'Estudiante',
   'Retirado',
   'Autoempleo',
@@ -119,8 +110,4 @@ final List<String> serviceTime = [
   'Entre 3 y 5 años',
   'Entre 5 y 10 años',
   'Mas de 10 años',
-];
-final List<String> genderType = [
-  'Masculino',
-  'Femenino',
 ];

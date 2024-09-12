@@ -3,9 +3,10 @@ import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SelectableDropdownItem extends ConsumerWidget {
+class SelectableDropdownItem extends HookConsumerWidget {
   const SelectableDropdownItem({
     super.key,
     required this.options,
@@ -44,6 +45,7 @@ class SelectableDropdownItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final ValueNotifier<bool> reload = useState(false);
 
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
@@ -71,8 +73,11 @@ class SelectableDropdownItem extends ConsumerWidget {
         }
       },
       validator: validator,
-      icon: const Icon(Icons.keyboard_arrow_down,
-          size: 24, color: Colors.transparent),
+      icon: const Icon(
+        Icons.keyboard_arrow_down,
+        size: 24,
+        color: Colors.transparent,
+      ),
       value: selectController.text.isNotEmpty ? selectController.text : null,
       hint: Text(
         hintText,
@@ -177,6 +182,7 @@ class SelectableDropdownItem extends ConsumerWidget {
       }).toList(),
       onChanged: (newValue) {
         selectController.text = newValue!;
+        reload.value = !reload.value;
       },
     );
   }
@@ -190,8 +196,12 @@ class ProviderSelectableDropdownItem extends ConsumerWidget {
     required this.validator,
     required this.itemSelectedValue,
     required this.regionsSelectProvider,
+    this.onError,
+    this.isError = false,
   });
 
+  final bool isError;
+  final VoidCallback? onError;
   final TextEditingController selectController;
   final String hintText;
   final String? Function(String?)? validator;
@@ -206,6 +216,8 @@ class ProviderSelectableDropdownItem extends ConsumerWidget {
     return geoLocationResponse.when(
       data: (data) {
         return SelectableGeoLocationDropdownItem(
+          onError: onError,
+          isError: isError,
           itemSelectedValue: selectController.text,
           options: data.regions,
           selectController: selectController,
@@ -250,6 +262,8 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
     required this.validator,
     required this.itemSelectedValue,
     this.isLoading = false,
+    this.onError,
+    this.isError = false,
   });
 
   final List<GeoLocationItemV2> options;
@@ -258,6 +272,8 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
   final String? Function(String?)? validator;
   final String? itemSelectedValue;
   final bool isLoading;
+  final bool isError;
+  final VoidCallback? onError;
 
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
@@ -273,7 +289,7 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
   final int dropdownColorLight = 0xFFF7F7F7;
   final int borderColorDark = 0xFFA2E6FA;
   final int borderColorLight = 0xFF0D3A5C;
-
+  final int borderError = 0xFFED1C24;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -298,16 +314,17 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
             .toList();
       },
       validator: validator,
-      icon: isLoading
-          ? const CircularLoader(
-              width: 10,
-              height: 10,
-            )
-          : Icon(
-              Icons.keyboard_arrow_down,
-              size: 24,
-              color: isDarkMode ? Color(iconDark) : Color(iconLight),
-            ),
+      onTap: () {
+        if (onError != null && isError) {
+          onError!();
+          ScaffoldMessenger.of(context).clearSnackBars();
+        }
+      },
+      icon: const Icon(
+        Icons.keyboard_arrow_down,
+        size: 24,
+        color: Colors.transparent,
+      ),
       value: selectController.text.isNotEmpty ? selectController.text : null,
       hint: Text(
         hintText,
@@ -322,26 +339,61 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
       decoration: InputDecoration(
         fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
         filled: true,
-        border: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: isError
+              ? BorderSide(color: Color(borderError), width: 1)
+              : BorderSide.none,
         ),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: isError
+              ? BorderSide(color: Color(borderError), width: 1)
+              : BorderSide.none,
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        focusedBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: isError
+              ? BorderSide(color: Color(borderError), width: 1)
+              : BorderSide(
+                  color: isDarkMode
+                      ? Color(borderColorDark)
+                      : Color(borderColorLight),
+                  width: 1,
+                ),
         ),
-        errorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        errorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(
+            color: Color(borderError),
+            width: 1,
+          ),
         ),
-        focusedErrorBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(25.0)),
-          borderSide: BorderSide.none,
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(
+            color: Color(borderError),
+            width: 1,
+          ),
         ),
+        suffixIcon: isLoading
+            ? SizedBox(
+                width: 10,
+                height: 10,
+                child: const CircularLoader(
+                  width: 5,
+                  height: 5,
+                ),
+              )
+            : Icon(
+                Icons.keyboard_arrow_down,
+                size: 24,
+                color: isError
+                    ? Color(borderError)
+                    : isDarkMode
+                        ? Color(iconDark)
+                        : Color(iconLight),
+              ),
       ),
       dropdownColor:
           isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),

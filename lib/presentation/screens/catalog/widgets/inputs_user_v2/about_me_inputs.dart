@@ -13,8 +13,9 @@ class InputTextNetworkUserProfile extends ConsumerWidget {
     required this.urlIcon,
     required this.textTitle,
     this.isNumeric = false,
+    this.isEnable = true,
   });
-
+  final bool isEnable;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hintText;
@@ -54,6 +55,7 @@ class InputTextNetworkUserProfile extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         TextFormField(
+          enabled: isEnable,
           controller: controller,
           style: TextStyle(
             fontSize: 12,

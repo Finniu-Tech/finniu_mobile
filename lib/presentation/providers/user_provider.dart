@@ -21,6 +21,7 @@ final userProfileFutureProvider =
           ),
         ),
       );
+
       return result;
     },
   );
@@ -50,6 +51,20 @@ final userProfileFutureProvider =
           occupation: userProfile.occupation,
           percentCompleteProfile: userProfile.percentCompleteProfile,
           hasCompletedTour: userProfile.hasCompletedTour,
+          lastNameFather: userProfile.lastNameFather,
+          lastNameMother: userProfile.lastNameMother,
+          countryPrefix: userProfile.countryPrefix,
+          documentType: userProfile.documentType,
+          gender: userProfile.gender,
+          houseNumber: userProfile.houseNumber,
+          postalCode: userProfile.postalCode,
+          laborSituation: userProfile.laborSituation,
+          companyName: userProfile.companyName,
+          serviceTime: userProfile.serviceTime,
+          biography: userProfile.biography,
+          facebook: userProfile.facebook,
+          instagram: userProfile.instagram,
+          linkedin: userProfile.linkedin,
         );
     return userProfile;
   }
@@ -85,6 +100,20 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           occupation: userProfile.occupation,
           percentCompleteProfile: percentaje,
           hasCompletedTour: userProfile.hasCompletedTour,
+          lastNameFather: userProfile.lastNameFather,
+          lastNameMother: userProfile.lastNameMother,
+          countryPrefix: userProfile.countryPrefix,
+          documentType: userProfile.documentType,
+          gender: userProfile.gender,
+          houseNumber: userProfile.houseNumber,
+          postalCode: userProfile.postalCode,
+          laborSituation: userProfile.laborSituation,
+          companyName: userProfile.companyName,
+          serviceTime: userProfile.serviceTime,
+          biography: userProfile.biography,
+          facebook: userProfile.facebook,
+          instagram: userProfile.instagram,
+          linkedin: userProfile.linkedin,
         );
   }
   return success;
@@ -105,13 +134,77 @@ final updateUserAvatarFutureProvider = FutureProvider.autoDispose
   return false;
 });
 
+final reloadUserProfileFutureProvider =
+    FutureProvider.autoDispose<bool>((ref) async {
+  try {
+    final client = await ref.watch(gqlClientProvider.future);
+    final QueryResult result = await client.query(
+      QueryOptions(
+        document: gql(QueryRepository.getUserProfile),
+        fetchPolicy: FetchPolicy.noCache,
+      ),
+    );
+
+    if (result.hasException || result.data == null) {
+      print('GraphQL Error: ${result.exception.toString()}');
+      return false; // Retorna false si ocurre un error
+    }
+
+    final userProfile = UserProfile.fromJson(result.data?['userProfile']);
+
+    if (userProfile.hasCompletedOnboarding == true) {
+      ref.read(hasCompletedOnboardingProvider.notifier).state = true;
+    }
+
+    // Actualiza los campos del perfil de usuario
+    ref.read(userProfileNotifierProvider.notifier).updateFields(
+          id: userProfile.uuid,
+          nickName: userProfile.nickName,
+          email: userProfile.email,
+          firstName: userProfile.firstName,
+          lastName: userProfile.lastName,
+          phoneNumber: userProfile.phoneNumber,
+          documentNumber: userProfile.documentNumber,
+          imageProfileUrl: userProfile.imageProfileUrl,
+          hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
+          distrito: userProfile.distrito,
+          provincia: userProfile.provincia,
+          region: userProfile.region,
+          civilStatus: userProfile.civilStatus,
+          address: userProfile.address,
+          occupation: userProfile.occupation,
+          percentCompleteProfile: userProfile.percentCompleteProfile,
+          hasCompletedTour: userProfile.hasCompletedTour,
+          lastNameFather: userProfile.lastNameFather,
+          lastNameMother: userProfile.lastNameMother,
+          countryPrefix: userProfile.countryPrefix,
+          documentType: userProfile.documentType,
+          gender: userProfile.gender,
+          houseNumber: userProfile.houseNumber,
+          postalCode: userProfile.postalCode,
+          laborSituation: userProfile.laborSituation,
+          companyName: userProfile.companyName,
+          serviceTime: userProfile.serviceTime,
+          biography: userProfile.biography,
+          facebook: userProfile.facebook,
+          instagram: userProfile.instagram,
+          linkedin: userProfile.linkedin,
+        );
+
+    return true; // Retorna true si todo fue correcto
+  } catch (e) {
+    print('Error al obtener el perfil de usuario: $e');
+    return false; // Retorna false en caso de error
+  }
+});
+
 final userProfileNotifierProvider =
     StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
   (ref) => UserProfileStateNotifierProvider(UserProfile()),
 );
 
 class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
-  UserProfileStateNotifierProvider(UserProfile user) : super(user);
+  UserProfileStateNotifierProvider(super.user);
 
   void updateFields({
     String? id,
@@ -133,6 +226,20 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     double? percentCompleteProfile,
     bool? hasCompletedTour,
     bool? hasSeeLaterTour,
+    String? lastNameFather,
+    String? lastNameMother,
+    String? countryPrefix,
+    String? documentType,
+    String? gender,
+    String? houseNumber,
+    String? postalCode,
+    String? laborSituation,
+    String? companyName,
+    String? serviceTime,
+    String? biography,
+    String? facebook,
+    String? instagram,
+    String? linkedin,
   }) {
     state = state.copyWith(
       id: id,
@@ -153,6 +260,20 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       occupation: occupation,
       percentCompleteProfile: percentCompleteProfile,
       hasCompletedTour: hasCompletedTour,
+      lastNameFather: lastNameFather,
+      lastNameMother: lastNameMother,
+      countryPrefix: countryPrefix,
+      documentType: documentType,
+      gender: gender,
+      houseNumber: houseNumber,
+      postalCode: postalCode,
+      laborSituation: laborSituation,
+      companyName: companyName,
+      serviceTime: serviceTime,
+      biography: biography,
+      facebook: facebook,
+      instagram: instagram,
+      linkedin: linkedin,
     );
   }
 
