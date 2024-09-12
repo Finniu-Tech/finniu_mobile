@@ -134,7 +134,8 @@ final updateUserAvatarFutureProvider = FutureProvider.autoDispose
   return false;
 });
 
-final reloadUserProfileFutureProvider = FutureProvider.autoDispose((ref) async {
+final reloadUserProfileFutureProvider =
+    FutureProvider.autoDispose<bool>((ref) async {
   try {
     final client = await ref.watch(gqlClientProvider.future);
     final QueryResult result = await client.query(
@@ -146,6 +147,7 @@ final reloadUserProfileFutureProvider = FutureProvider.autoDispose((ref) async {
 
     if (result.hasException || result.data == null) {
       print('GraphQL Error: ${result.exception.toString()}');
+      return false; // Retorna false si ocurre un error
     }
 
     final userProfile = UserProfile.fromJson(result.data?['userProfile']);
@@ -154,6 +156,7 @@ final reloadUserProfileFutureProvider = FutureProvider.autoDispose((ref) async {
       ref.read(hasCompletedOnboardingProvider.notifier).state = true;
     }
 
+    // Actualiza los campos del perfil de usuario
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           id: userProfile.uuid,
           nickName: userProfile.nickName,
@@ -187,8 +190,11 @@ final reloadUserProfileFutureProvider = FutureProvider.autoDispose((ref) async {
           instagram: userProfile.instagram,
           linkedin: userProfile.linkedin,
         );
+
+    return true; // Retorna true si todo fue correcto
   } catch (e) {
     print('Error al obtener el perfil de usuario: $e');
+    return false; // Retorna false en caso de error
   }
 });
 

@@ -704,9 +704,9 @@ class MutationRepository {
   static String saveAboutMeDataV2() {
     return '''
    mutation registerUserAboutMe (
-    \$imageProfile: String!
-    \$backgroundPhoto: String!
-    \$biography: String!
+    \$imageProfile: String
+    \$backgroundPhoto: String
+    \$biography: String
     \$socialMedia: SocialMediaInput
 
    ){

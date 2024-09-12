@@ -52,10 +52,6 @@ class HomeScreenV2 extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    print("distrito ${userProfile.distrito}");
-    print("provincia ${userProfile.provincia}");
-    print("region ${userProfile.region}");
-
     bool? seeLaterTour = ref.watch(seeLaterProvider);
 
     useEffect(

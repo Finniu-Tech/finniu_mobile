@@ -199,8 +199,8 @@ class EditAboutForm extends HookConsumerWidget {
           return;
         } else {
           final DtoAboutMeForm data = DtoAboutMeForm(
-            imageProfile: imageBase64 ?? "",
-            backgroundPhoto: imageBase64 ?? "",
+            imageProfile: imageBase64 ?? userProfile.imageProfileUrl ?? "",
+            backgroundPhoto: imageBase64 ?? userProfile.imageProfileUrl ?? "",
             facebook: facebookTextController.text.trim(),
             instagram: instagramTextController.text.trim(),
             linkedin: linkedinTextController.text.trim(),

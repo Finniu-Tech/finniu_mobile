@@ -25,7 +25,7 @@ pushOccupationDataForm(
   }
   Future<RegisterUserV2Response> response =
       OccupationFormV2Imp(gqlClient!).saveOccupationDataUserV2(data: data);
-  ref.read(reloadUserProfileFutureProvider);
+
   response.then((value) {
     if (value.success) {
       showSnackBarV2(
@@ -34,7 +34,7 @@ pushOccupationDataForm(
         message: value.messages[0].message,
         snackType: SnackType.success,
       );
-
+      ref.read(reloadUserProfileFutureProvider);
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
         Navigator.pushNamed(context, navigate);

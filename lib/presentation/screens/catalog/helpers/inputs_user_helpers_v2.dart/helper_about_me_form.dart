@@ -25,7 +25,7 @@ pushAboutMeDataForm(
 
   Future<RegisterUserV2Response> response =
       AboutMeFormV2Imp(gqlClient!).saveAboutMeDataUserV2(data: data);
-  ref.read(reloadUserProfileFutureProvider);
+
   response.then((value) {
     if (value.success) {
       showSnackBarV2(
@@ -34,7 +34,7 @@ pushAboutMeDataForm(
         message: value.messages[0].message,
         snackType: SnackType.success,
       );
-
+      ref.read(reloadUserProfileFutureProvider);
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
         Navigator.pushNamed(context, '/home_v2');
