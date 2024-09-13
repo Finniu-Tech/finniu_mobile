@@ -133,6 +133,12 @@ class FormLogin extends HookConsumerWidget {
               token.then(
                 (value) async {
                   if (value != null) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Inicio de sesión exitoso",
+                      message: "Bienvenido ${emailController.value.text}",
+                      snackType: SnackType.success,
+                    );
                     ref.read(authTokenProvider.notifier).state = value;
                     Preferences.username =
                         emailController.value.text.toLowerCase();
@@ -187,7 +193,7 @@ class FormLogin extends HookConsumerWidget {
                       password: passwordController.value.text,
                     );
                 Future.delayed(const Duration(seconds: 3), () {
-                  Navigator.pushNamed(context, '/send_code');
+                  Navigator.pushNamed(context, '/v2/send_code');
                 });
               } else {
                 showSnackBarV2(
