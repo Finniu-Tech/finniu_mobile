@@ -76,11 +76,12 @@ class AccointCard extends ConsumerWidget {
                                 ? const Color(iconDark)
                                 : const Color(iconLight),
                           ),
-                          loadingBuilder: (context, child, loadingProgress) =>
-                              const CircularLoader(
-                            width: 50,
-                            height: 50,
-                          ),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) {
+                              return child;
+                            }
+                            return const CircularLoader(width: 50, height: 50);
+                          },
                         ),
                 ),
               ),
