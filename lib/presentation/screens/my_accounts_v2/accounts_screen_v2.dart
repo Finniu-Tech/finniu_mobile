@@ -2,10 +2,10 @@ import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/account_card.dart';
-// import 'package:finniu/domain/entities/re_investment_entity.dart';
-// import 'package:finniu/presentation/providers/money_provider.dart';
-// import 'package:finniu/presentation/screens/my_accounts_v2/widgets/add_accounts.dart';
-// import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/screens/my_accounts_v2/widgets/add_accounts.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -26,8 +26,8 @@ class _BodyMyAccounts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final isSoles = ref.watch(isSolesStateProvider);
-    // final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
+    final isSoles = ref.watch(isSolesStateProvider);
+    final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final banks = ref.watch(bankFutureProvider);
     const String logoNull =
         "https://w7.pngwing.com/pngs/929/674/png-transparent-bank-computer-icons-building-bank-building-text-logo.png";
@@ -53,14 +53,14 @@ class _BodyMyAccounts extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 15),
-                // GestureDetector(
-                //   onTap: () => showAccountTransferModal(
-                //     context,
-                //     currency,
-                //     true,
-                //   ),
-                //   child: const AddAccounts(),
-                // ),
+                GestureDetector(
+                  onTap: () => showAccountTransferModal(
+                    context,
+                    currency,
+                    true,
+                  ),
+                  child: const AddAccounts(),
+                ),
                 const SizedBox(height: 15),
               ],
             ),
