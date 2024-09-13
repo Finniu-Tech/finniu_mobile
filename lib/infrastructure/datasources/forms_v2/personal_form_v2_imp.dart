@@ -28,7 +28,7 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
           fetchPolicy: FetchPolicy.noCache,
         ),
       );
-      print(response.toString());
+
       if (response.data == null) {
         return RegisterUserV2Response(
           success: false,

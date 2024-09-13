@@ -31,7 +31,6 @@ class ActivateAccountV2 extends HookConsumerWidget {
 
       client.when(
         data: (client) async {
-          print('email: ${user.email}');
           final result = await (sendEmailOTPCode(user.email!, client));
 
           if (result == true) {

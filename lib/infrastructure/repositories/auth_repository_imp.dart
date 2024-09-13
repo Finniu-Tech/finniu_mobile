@@ -16,7 +16,7 @@ class AuthRepository {
         variables: {'username': username, 'password': password},
       ),
     );
-    print(response.data);
+
     return LoginResponseAPI(
       success: response.data?['loginUser']['success'],
       error: response.data?['loginUser']?['messages']?[0]['message'] ??
