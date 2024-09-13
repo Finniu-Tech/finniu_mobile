@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/bank_provider.dart';
+import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/account_card.dart';
@@ -28,11 +29,39 @@ class _BodyMyAccounts extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
     final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
-    final banks = ref.watch(bankFutureProvider);
+    final bankAccounts = ref.watch(bankAccountFutureProvider);
+
     const String logoNull =
         "https://w7.pngwing.com/pngs/929/674/png-transparent-bank-computer-icons-building-bank-building-text-logo.png";
 
-    return banks.when(
+    void addBank() {
+      showAccountTransferModal(
+        context,
+        currency,
+        true,
+      );
+
+      ref.read(bankFutureProvider.future);
+    }
+
+    String getCurrency(String currency) {
+      if (currency == "nuevo sol") {
+        return "Cuenta soles";
+      } else {
+        return "Cuenta dolares";
+      }
+    }
+
+    String hideNumbers(String numero) {
+      if (numero.length <= 4) {
+        return numero;
+      }
+      String ultimosCuatro = numero.substring(numero.length - 4);
+      String asteriscos = '*' * (10);
+      return asteriscos + ultimosCuatro;
+    }
+
+    return bankAccounts.when(
       data: (data) {
         return Center(
           child: SizedBox(
@@ -44,12 +73,13 @@ class _BodyMyAccounts extends ConsumerWidget {
                 const SizedBox(height: 30),
                 ...data.map(
                   (bank) => AccointCard(
-                    title: bank.name,
-                    subtitle: "Cuenta de prueba",
-                    isJoint: false,
-                    logoUrl: bank.logoUrl == null || bank.logoUrl == ""
+                    title: bank.bankName,
+                    subtitle:
+                        "${getCurrency(bank.currency)} | ${hideNumbers(bank.bankAccount)}  ",
+                    isJoint: bank.isJointAccount,
+                    logoUrl: bank.bankLogoUrl == null || bank.bankLogoUrl == ""
                         ? logoNull
-                        : bank.logoUrl!,
+                        : bank.bankLogoUrl!,
                   ),
                 ),
                 const SizedBox(height: 15),
