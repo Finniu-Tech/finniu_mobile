@@ -68,7 +68,7 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     super.dispose();
   }
 
-  void pushLogin() => Navigator.pushNamed(context, '/login_email');
+  void pushLogin() => Navigator.pushNamed(context, '/v2/login_email');
   void pushRegister() => Navigator.pushNamed(context, '/v2/register');
 
   @override

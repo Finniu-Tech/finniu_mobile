@@ -105,7 +105,17 @@ class FormLogin extends HookConsumerWidget {
     );
 
     void loginEmail() async {
-      if (formKey.currentState!.validate()) {
+      if (!formKey.currentState!.validate()) {
+        showSnackBarV2(
+          context: context,
+          title: "Error de inicio de sesión",
+          message: "Por favor, revise sus datos.",
+          snackType: SnackType.warning,
+        );
+        return;
+      } else {
+        if (emailError.value) return;
+        if (passwordError.value) return;
         context.loaderOverlay.show();
         try {
           bool isConnected = await InternetConnectionChecker().hasConnection;
