@@ -1,4 +1,3 @@
-import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
@@ -31,19 +30,6 @@ class _BodyMyAccounts extends ConsumerWidget {
     final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final bankAccounts = ref.watch(bankAccountFutureProvider);
 
-    const String logoNull =
-        "https://w7.pngwing.com/pngs/929/674/png-transparent-bank-computer-icons-building-bank-building-text-logo.png";
-
-    void addBank() {
-      showAccountTransferModal(
-        context,
-        currency,
-        true,
-      );
-
-      ref.read(bankFutureProvider.future);
-    }
-
     String getCurrency(String currency) {
       if (currency == "nuevo sol") {
         return "Cuenta soles";
@@ -73,13 +59,14 @@ class _BodyMyAccounts extends ConsumerWidget {
                 const SizedBox(height: 30),
                 ...data.map(
                   (bank) => AccointCard(
+                    notImage: bank.bankLogoUrl == null || bank.bankLogoUrl == ""
+                        ? true
+                        : false,
                     title: bank.bankName,
                     subtitle:
                         "${getCurrency(bank.currency)} | ${hideNumbers(bank.bankAccount)}  ",
                     isJoint: bank.isJointAccount,
-                    logoUrl: bank.bankLogoUrl == null || bank.bankLogoUrl == ""
-                        ? logoNull
-                        : bank.bankLogoUrl!,
+                    logoUrl: bank.bankLogoUrl ?? "",
                   ),
                 ),
                 const SizedBox(height: 15),
