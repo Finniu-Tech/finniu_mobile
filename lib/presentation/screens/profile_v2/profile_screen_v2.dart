@@ -39,7 +39,7 @@ class _BodyProfile extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ImageProfileStack(
-          fullName: "${userProfile.firstName} ${userProfile.lastName}",
+          fullName: "${userProfile.firstName} ${userProfile.lastName ?? ''}",
           email: "${userProfile.email}",
           profileImage: "${userProfile.imageProfileUrl}",
           backgroundImage: "",
