@@ -296,48 +296,36 @@ class UserProfile {
   }
 
   bool completePersonalData() {
-    if (nickName != null &&
+    return nickName != null &&
         lastNameFather != null &&
         lastNameMother != null &&
         documentType != null &&
         documentNumber != null &&
         civilStatus != null &&
-        gender != null) {
-      return true;
-    }
-    return false;
+        gender != null;
   }
 
   bool completeLocationData() {
-    if (region != null &&
+    return region != null &&
         distrito != null &&
         provincia != null &&
         address != null &&
-        houseNumber != null) {
-      return true;
-    }
-    return false;
+        houseNumber != null;
   }
 
   bool completeJobData() {
-    if (laborSituation != null &&
+    return laborSituation != null &&
         occupation != null &&
         companyName != null &&
-        serviceTime != null) {
-      return true;
-    }
-    return false;
+        serviceTime != null;
   }
 
   bool completeAboutData() {
-    if (imageProfileUrl != null &&
+    return imageProfileUrl != null &&
         biography != null &&
         facebook != null &&
         instagram != null &&
-        linkedin != null) {
-      return true;
-    }
-    return false;
+        linkedin != null;
   }
 
   double completeData() {

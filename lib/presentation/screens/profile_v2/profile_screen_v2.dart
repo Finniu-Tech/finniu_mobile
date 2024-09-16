@@ -49,12 +49,13 @@ class _BodyProfile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
+    String name = userProfile.nickName ?? "Completar tu perfil";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ImageProfileStack(
-          fullName: "${userProfile.firstName} ",
+          fullName: name,
           email: "${userProfile.email}",
           profileImage: userProfile.imageProfileUrl ??
               "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
