@@ -34,6 +34,7 @@ class _BodyProfile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -49,10 +50,11 @@ class _BodyProfile extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ButtonMyData(
+              isComplete: userProfile.completeData() == 1.0,
               icon: "assets/svg_icons/file_text_icon.svg",
               title: "Mis datos",
               subtitle: "Clic para ver mis datos",
-              load: 0.5,
+              load: userProfile.completeData(),
               onTap: () => Navigator.pushNamed(context, '/v2/my_data'),
             ),
             const SizedBox(
@@ -72,6 +74,7 @@ class _BodyProfile extends ConsumerWidget {
           height: 40,
         ),
         ButtonNavigateProfile(
+          isComplete: true,
           icon: "assets/svg_icons/settings.svg",
           title: "Configuraciones",
           subtitle:
@@ -79,6 +82,7 @@ class _BodyProfile extends ConsumerWidget {
           onTap: () => Navigator.pushNamed(context, '/v2/settings'),
         ),
         ButtonNavigateProfile(
+          isComplete: true,
           icon: "assets/svg_icons/legal_icon_v2.svg",
           title: "Documentos legales",
           subtitle: "Información legal para las \ninversiones",
