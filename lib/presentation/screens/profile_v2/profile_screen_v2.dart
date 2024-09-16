@@ -54,9 +54,10 @@ class _BodyProfile extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ImageProfileStack(
-          fullName: "${userProfile.firstName} ${userProfile.lastName ?? ''}",
+          fullName: "${userProfile.firstName} ",
           email: "${userProfile.email}",
-          profileImage: "${userProfile.imageProfileUrl}",
+          profileImage: userProfile.imageProfileUrl ??
+              "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
           backgroundImage: "",
         ),
         Row(

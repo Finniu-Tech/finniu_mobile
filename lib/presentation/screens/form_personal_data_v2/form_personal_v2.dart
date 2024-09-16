@@ -74,7 +74,7 @@ class PersonalForm extends HookConsumerWidget {
 
     void continueLater() {
       ScaffoldMessenger.of(context).clearSnackBars();
-      Navigator.pushNamed(context, "/home_v2");
+      Navigator.pushNamed(context, '/v2/form_legal_terms');
     }
 
     void uploadPersonalData() {
