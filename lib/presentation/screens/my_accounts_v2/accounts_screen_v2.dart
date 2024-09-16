@@ -1,8 +1,11 @@
-import 'package:finniu/presentation/providers/bank_provider.dart';
+import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/account_card.dart';
+import 'package:finniu/domain/entities/re_investment_entity.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/add_accounts.dart';
+import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -23,11 +26,28 @@ class _BodyMyAccounts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final banks = ref.watch(bankFutureProvider);
-    const String logoNull =
-        "https://w7.pngwing.com/pngs/929/674/png-transparent-bank-computer-icons-building-bank-building-text-logo.png";
+    final isSoles = ref.watch(isSolesStateProvider);
+    final currency = isSoles ? currencyEnum.PEN : currencyEnum.USD;
+    final bankAccounts = ref.watch(bankAccountFutureProvider);
 
-    return banks.when(
+    String getCurrency(String currency) {
+      if (currency == "nuevo sol") {
+        return "Cuenta soles";
+      } else {
+        return "Cuenta dolares";
+      }
+    }
+
+    String hideNumbers(String numero) {
+      if (numero.length <= 4) {
+        return numero;
+      }
+      String ultimosCuatro = numero.substring(numero.length - 4);
+      String asteriscos = '*' * (10);
+      return asteriscos + ultimosCuatro;
+    }
+
+    return bankAccounts.when(
       data: (data) {
         return Center(
           child: SizedBox(
@@ -39,16 +59,25 @@ class _BodyMyAccounts extends ConsumerWidget {
                 const SizedBox(height: 30),
                 ...data.map(
                   (bank) => AccointCard(
-                    title: bank.name,
-                    subtitle: "Cuenta de prueba",
-                    isJoint: false,
-                    logoUrl: bank.logoUrl == null || bank.logoUrl == ""
-                        ? logoNull
-                        : bank.logoUrl!,
+                    notImage: bank.bankLogoUrl == null || bank.bankLogoUrl == ""
+                        ? true
+                        : false,
+                    title: bank.bankName,
+                    subtitle:
+                        "${getCurrency(bank.currency)} | ${hideNumbers(bank.bankAccount)}  ",
+                    isJoint: bank.isJointAccount,
+                    logoUrl: bank.bankLogoUrl ?? "",
                   ),
                 ),
                 const SizedBox(height: 15),
-                const AddAccounts(),
+                GestureDetector(
+                  onTap: () => showAccountTransferModal(
+                    context,
+                    currency,
+                    true,
+                  ),
+                  child: const AddAccounts(),
+                ),
                 const SizedBox(height: 15),
               ],
             ),

@@ -294,4 +294,58 @@ class UserProfile {
     if (lastName == null || lastName!.isEmpty) return false;
     return true;
   }
+
+  bool completePersonalData() {
+    if (nickName != null &&
+        lastNameFather != null &&
+        lastNameMother != null &&
+        documentType != null &&
+        documentNumber != null &&
+        civilStatus != null &&
+        gender != null) {
+      return true;
+    }
+    return false;
+  }
+
+  bool completeLocationData() {
+    if (region != null &&
+        distrito != null &&
+        provincia != null &&
+        address != null &&
+        houseNumber != null) {
+      return true;
+    }
+    return false;
+  }
+
+  bool completeJobData() {
+    if (laborSituation != null &&
+        occupation != null &&
+        companyName != null &&
+        serviceTime != null) {
+      return true;
+    }
+    return false;
+  }
+
+  bool completeAboutData() {
+    if (imageProfileUrl != null &&
+        biography != null &&
+        facebook != null &&
+        instagram != null &&
+        linkedin != null) {
+      return true;
+    }
+    return false;
+  }
+
+  double completeData() {
+    double result = 0.0;
+    if (completePersonalData()) result += 0.25;
+    if (completeLocationData()) result += 0.25;
+    if (completeJobData()) result += 0.25;
+    if (completeAboutData()) result += 0.25;
+    return result;
+  }
 }

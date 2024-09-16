@@ -16,7 +16,7 @@ class AddAccounts extends ConsumerWidget {
     const int backgroundDark = 0xffA2E6FA;
     const int backgroundLight = 0xffE2F8FF;
     const int iconColor = 0xff0D3A5C;
-
+    const int textColor = 0xff000000;
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
       height: 60,
@@ -43,6 +43,8 @@ class AddAccounts extends ConsumerWidget {
             text: "Agregar cuenta bancaria",
             fontSize: 15,
             isBold: true,
+            textDark: textColor,
+            textLight: textColor,
           ),
         ],
       ),

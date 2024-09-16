@@ -1,11 +1,14 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/app_bar_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_my_data.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/image_profile.dart';
+import 'package:finniu/utils/log_out.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class UserProfileV2 extends ConsumerWidget {
   const UserProfileV2({super.key});
@@ -16,13 +19,24 @@ class UserProfileV2 extends ConsumerWidget {
 
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
-    return Scaffold(
-      appBar: const AppBarProfile(title: "Mi perfil"),
-      backgroundColor: isDarkMode
-          ? const Color(backgroundDark)
-          : const Color(backgroundLight),
-      body: const SingleChildScrollView(
-        child: _BodyProfile(),
+    return LoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidgetBuilder: (progress) {
+        return const Center(
+          child: CircularLoader(
+            width: 50,
+            height: 50,
+          ),
+        );
+      },
+      child: Scaffold(
+        appBar: const AppBarProfile(title: "Mi perfil"),
+        backgroundColor: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
+        body: const SingleChildScrollView(
+          child: _BodyProfile(),
+        ),
       ),
     );
   }
@@ -34,12 +48,13 @@ class _BodyProfile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         ImageProfileStack(
-          fullName: "${userProfile.firstName} ${userProfile.lastName}",
+          fullName: "${userProfile.firstName} ${userProfile.lastName ?? ''}",
           email: "${userProfile.email}",
           profileImage: "${userProfile.imageProfileUrl}",
           backgroundImage: "",
@@ -49,10 +64,11 @@ class _BodyProfile extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ButtonMyData(
+              isComplete: userProfile.completeData() == 1.0,
               icon: "assets/svg_icons/file_text_icon.svg",
               title: "Mis datos",
               subtitle: "Clic para ver mis datos",
-              load: 0.5,
+              load: userProfile.completeData(),
               onTap: () => Navigator.pushNamed(context, '/v2/my_data'),
             ),
             const SizedBox(
@@ -72,6 +88,7 @@ class _BodyProfile extends ConsumerWidget {
           height: 40,
         ),
         ButtonNavigateProfile(
+          isComplete: true,
           icon: "assets/svg_icons/settings.svg",
           title: "Configuraciones",
           subtitle:
@@ -79,6 +96,7 @@ class _BodyProfile extends ConsumerWidget {
           onTap: () => Navigator.pushNamed(context, '/v2/settings'),
         ),
         ButtonNavigateProfile(
+          isComplete: true,
           icon: "assets/svg_icons/legal_icon_v2.svg",
           title: "Documentos legales",
           subtitle: "Información legal para las \ninversiones",
@@ -91,13 +109,16 @@ class _BodyProfile extends ConsumerWidget {
           subtitle: "Ticket de soporte y preguntas \nfrecuentes",
           onTap: () => Navigator.pushNamed(context, '/v2/support'),
         ),
-        const ButtonNavigateProfile(
+        ButtonNavigateProfile(
           icon: "assets/svg_icons/log_out.svg",
           title: "Cerrar sesión",
           isComplete: true,
           onlyTitle: true,
           subtitle: "",
-          onTap: null,
+          onTap: () => {
+            context.loaderOverlay.show(),
+            logOut(context, ref),
+          },
         ),
       ],
     );
