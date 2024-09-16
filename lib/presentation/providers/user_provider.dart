@@ -12,63 +12,68 @@ final seeLaterProvider = StateProvider<bool?>((ref) {
 
 final userProfileFutureProvider =
     FutureProvider.autoDispose<UserProfile>((ref) async {
-  final result = await ref.watch(gqlClientProvider.future).then(
-    (client) async {
-      final QueryResult result = await client.query(
-        QueryOptions(
-          document: gql(
-            QueryRepository.getUserProfile,
+  try {
+    final result = await ref.watch(gqlClientProvider.future).then(
+      (client) async {
+        final QueryResult result = await client.query(
+          QueryOptions(
+            document: gql(
+              QueryRepository.getUserProfile,
+            ),
+            fetchPolicy: FetchPolicy.noCache,
           ),
-        ),
-      );
-
-      return result;
-    },
-  );
-
-  if (result.data?['userProfile'] != null) {
-    final userProfile = UserProfile.fromJson(result.data?['userProfile']);
-    if (userProfile.hasCompletedOnboarding == true) {
-      ref.read(hasCompletedOnboardingProvider.notifier).state = true;
-    }
-    // ref.read(hasCompletedOnboardingProvider.notifier).state =
-    //     userProfile.hasCompletedOnboarding ?? false;
-    ref.read(userProfileNotifierProvider.notifier).updateFields(
-          id: userProfile.uuid,
-          nickName: userProfile.nickName,
-          email: userProfile.email,
-          firstName: userProfile.firstName,
-          lastName: userProfile.lastName,
-          phoneNumber: userProfile.phoneNumber,
-          documentNumber: userProfile.documentNumber,
-          imageProfileUrl: userProfile.imageProfileUrl,
-          hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
-          distrito: userProfile.distrito,
-          provincia: userProfile.provincia,
-          region: userProfile.region,
-          civilStatus: userProfile.civilStatus,
-          address: userProfile.address,
-          occupation: userProfile.occupation,
-          percentCompleteProfile: userProfile.percentCompleteProfile,
-          hasCompletedTour: userProfile.hasCompletedTour,
-          lastNameFather: userProfile.lastNameFather,
-          lastNameMother: userProfile.lastNameMother,
-          countryPrefix: userProfile.countryPrefix,
-          documentType: userProfile.documentType,
-          gender: userProfile.gender,
-          houseNumber: userProfile.houseNumber,
-          postalCode: userProfile.postalCode,
-          laborSituation: userProfile.laborSituation,
-          companyName: userProfile.companyName,
-          serviceTime: userProfile.serviceTime,
-          biography: userProfile.biography,
-          facebook: userProfile.facebook,
-          instagram: userProfile.instagram,
-          linkedin: userProfile.linkedin,
         );
-    return userProfile;
+
+        return result;
+      },
+    );
+
+    if (result.data?['userProfile'] != null) {
+      final userProfile = UserProfile.fromJson(result.data?['userProfile']);
+      if (userProfile.hasCompletedOnboarding == true) {
+        ref.read(hasCompletedOnboardingProvider.notifier).state = true;
+      }
+      // ref.read(hasCompletedOnboardingProvider.notifier).state =
+      //     userProfile.hasCompletedOnboarding ?? false;
+      ref.read(userProfileNotifierProvider.notifier).updateFields(
+            id: userProfile.uuid,
+            nickName: userProfile.nickName,
+            email: userProfile.email,
+            firstName: userProfile.firstName,
+            lastName: userProfile.lastName,
+            phoneNumber: userProfile.phoneNumber,
+            documentNumber: userProfile.documentNumber,
+            imageProfileUrl: userProfile.imageProfileUrl,
+            hasCompletedOnboarding: userProfile.hasCompletedOnboarding ?? false,
+            distrito: userProfile.distrito,
+            provincia: userProfile.provincia,
+            region: userProfile.region,
+            civilStatus: userProfile.civilStatus,
+            address: userProfile.address,
+            occupation: userProfile.occupation,
+            percentCompleteProfile: userProfile.percentCompleteProfile,
+            hasCompletedTour: userProfile.hasCompletedTour,
+            lastNameFather: userProfile.lastNameFather,
+            lastNameMother: userProfile.lastNameMother,
+            countryPrefix: userProfile.countryPrefix,
+            documentType: userProfile.documentType,
+            gender: userProfile.gender,
+            houseNumber: userProfile.houseNumber,
+            postalCode: userProfile.postalCode,
+            laborSituation: userProfile.laborSituation,
+            companyName: userProfile.companyName,
+            serviceTime: userProfile.serviceTime,
+            biography: userProfile.biography,
+            facebook: userProfile.facebook,
+            instagram: userProfile.instagram,
+            linkedin: userProfile.linkedin,
+          );
+      return userProfile;
+    }
+    return UserProfile();
+  } catch (e) {
+    return UserProfile();
   }
-  return UserProfile();
 });
 
 final updateUserProfileFutureProvider = FutureProvider.autoDispose
@@ -146,8 +151,7 @@ final reloadUserProfileFutureProvider =
     );
 
     if (result.hasException || result.data == null) {
-      print('GraphQL Error: ${result.exception.toString()}');
-      return false; // Retorna false si ocurre un error
+      return false;
     }
 
     final userProfile = UserProfile.fromJson(result.data?['userProfile']);
@@ -155,8 +159,6 @@ final reloadUserProfileFutureProvider =
     if (userProfile.hasCompletedOnboarding == true) {
       ref.read(hasCompletedOnboardingProvider.notifier).state = true;
     }
-
-    // Actualiza los campos del perfil de usuario
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           id: userProfile.uuid,
           nickName: userProfile.nickName,
@@ -191,10 +193,9 @@ final reloadUserProfileFutureProvider =
           linkedin: userProfile.linkedin,
         );
 
-    return true; // Retorna true si todo fue correcto
+    return true;
   } catch (e) {
-    print('Error al obtener el perfil de usuario: $e');
-    return false; // Retorna false en caso de error
+    return false;
   }
 });
 

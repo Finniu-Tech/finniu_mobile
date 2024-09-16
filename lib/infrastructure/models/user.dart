@@ -156,7 +156,6 @@ class UserProfile {
         id: json["id"],
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
-        distrito: json["distrito"]["id"],
         documentNumber: json["documentNumber"].toString() == 'null'
             ? ''
             : json["documentNumber"].toString(),
@@ -165,8 +164,9 @@ class UserProfile {
         hasCompletedTour: json["hasCompletedTour"],
         isActive: json["isActive"],
         occupation: json["occupation"],
-        provincia: json["provincia"]["id"],
-        region: json["region"]["id"],
+        distrito: json["distrito"]?["id"],
+        provincia: json["provincia"]?["id"],
+        region: json["region"]?["id"],
         typeDocument: json["typeDocument"],
         uuid: json["uuid"],
         phoneNumber: json["phoneNumber"],
