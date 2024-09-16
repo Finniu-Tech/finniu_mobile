@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
@@ -114,6 +115,15 @@ class CatalogScreen extends HookConsumerWidget {
                   message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.info,
                 );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "biometric test",
+              onPressed: () {
+                Navigator.pushNamed(context, '/biometric_test');
               },
             ),
             const SizedBox(

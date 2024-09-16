@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
+import 'package:finniu/presentation/screens/biometric_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
@@ -222,5 +223,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/edit_job_data': (BuildContext context) => const EditJobDataScreen(),
     '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
     '/v2/my_accounts': (BuildContext context) => const AccountsV2Screen(),
+    '/biometric_test': (BuildContext context) => BiometricTestPage()
   };
 }
