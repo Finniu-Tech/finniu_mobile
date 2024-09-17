@@ -14,14 +14,17 @@ class ButtonToProfile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/v2/profile');
       },
       child: ClipOval(
         child: Image.network(
-          userProfile.imageProfileUrl ??
-              "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
+          userProfile.imageProfileUrl == null ||
+                  userProfile.imageProfileUrl == ""
+              ? "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png"
+              : userProfile.imageProfileUrl!,
           width: size,
           height: size,
           errorBuilder: (context, error, stackTrace) => Image.asset(

@@ -108,7 +108,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
-    Navigator.pushNamed(context, "/form_legal_terms");
+    Navigator.pushNamed(context, '/v2/form_legal_terms');
   }
 
   List<GeoLocationItemV2> districts = [

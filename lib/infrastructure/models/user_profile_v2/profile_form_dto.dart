@@ -58,8 +58,10 @@ String getTypeDocumentByUser(String type) {
       return "Carné de extranjeria";
     case "OTHERS":
       return "Otro";
+    case "":
+      return "";
     default:
-      return "Otro";
+      return "";
   }
 }
 
@@ -209,8 +211,10 @@ String getLaborsStatusEnumByUser(String? valor) {
       return 'Autoempleo';
     case 'Other':
       return 'Otro';
+    case "":
+      return '';
     default:
-      return 'Otro';
+      return '';
   }
 }
 

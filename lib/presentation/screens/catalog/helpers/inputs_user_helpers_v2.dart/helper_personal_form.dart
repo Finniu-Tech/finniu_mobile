@@ -3,7 +3,6 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_response.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-// import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -17,6 +16,7 @@ pushPersonalDataForm(
   bool isEdit = false,
 }) async {
   final gqlClient = ref.watch(gqlClientProvider).value;
+
   if (gqlClient == null) {
     showSnackBarV2(
       context: context,
@@ -27,6 +27,7 @@ pushPersonalDataForm(
   }
   Future<RegisterUserV2Response> response =
       PersonalFormV2Imp(gqlClient!).savePersonalDataUserV2(data: data);
+
   response.then((value) {
     if (value.success) {
       showSnackBarV2(
