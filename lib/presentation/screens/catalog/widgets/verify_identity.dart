@@ -48,8 +48,8 @@ class _BodyVerify extends ConsumerWidget {
               ItemRowValidate(
                 onTap: () {
                   userProfile.completePersonalData()
-                      ? Navigator.pushNamed(context, '/v2/form_personal_data')
-                      : Navigator.pushNamed(context, '/v2/edit_personal_data');
+                      ? Navigator.pushNamed(context, '/v2/edit_personal_data')
+                      : Navigator.pushNamed(context, '/v2/form_personal_data');
                 },
                 iconUrl: "assets/svg_icons/user_icon.svg",
                 isSelect: userProfile.completePersonalData(),
@@ -60,8 +60,8 @@ class _BodyVerify extends ConsumerWidget {
               ItemRowValidate(
                 onTap: () {
                   userProfile.completeLocationData()
-                      ? Navigator.pushNamed(context, '/v2/form_location')
-                      : Navigator.pushNamed(context, '/v2/edit_location_data');
+                      ? Navigator.pushNamed(context, '/v2/edit_location_data')
+                      : Navigator.pushNamed(context, '/v2/form_location');
                 },
                 iconUrl: "assets/svg_icons/map_icon_v2.svg",
                 isSelect: userProfile.completeLocationData(),
@@ -72,8 +72,8 @@ class _BodyVerify extends ConsumerWidget {
               ItemRowValidate(
                 onTap: () {
                   userProfile.completeJobData()
-                      ? Navigator.pushNamed(context, '/v2/form_job')
-                      : Navigator.pushNamed(context, '/v2/edit_job_data');
+                      ? Navigator.pushNamed(context, '/v2/edit_job_data')
+                      : Navigator.pushNamed(context, '/v2/form_job');
                 },
                 iconUrl: "assets/svg_icons/bag_icon_v2.svg",
                 isSelect: userProfile.completeJobData(),
@@ -84,8 +84,8 @@ class _BodyVerify extends ConsumerWidget {
               ItemRowValidate(
                 onTap: () {
                   userProfile.completeAboutData()
-                      ? Navigator.pushNamed(context, '/v2/form_about_me')
-                      : Navigator.pushNamed(context, '/v2/edit_about_me');
+                      ? Navigator.pushNamed(context, '/v2/edit_about_me')
+                      : Navigator.pushNamed(context, '/v2/form_about_me');
                 },
                 iconUrl: "assets/svg_icons/user_icon_v2.svg",
                 isSelect: userProfile.completeAboutData(),

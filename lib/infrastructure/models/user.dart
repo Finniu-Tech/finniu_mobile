@@ -112,13 +112,13 @@ class UserProfile {
     this.instagram,
     this.linkedin,
   });
-  dynamic documentType;
+  String? documentType;
   String? firstName;
   String? lastName;
   String? email;
   String? id;
   String? nickName;
-  dynamic civilStatus;
+  String? civilStatus;
   String? distrito;
   String? documentNumber;
   String? gender;

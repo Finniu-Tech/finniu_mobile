@@ -113,14 +113,14 @@ class EditPersonalForm extends HookConsumerWidget {
     final documentTypeController = useTextEditingController(
       text: userProfile.documentType == null
           ? ""
-          : getTypeDocumentByUser(userProfile.documentType),
+          : getTypeDocumentByUser(userProfile.documentType!),
     );
     final documentNumberController =
         useTextEditingController(text: userProfile.documentNumber);
     final civilStatusController = useTextEditingController(
       text: userProfile.civilStatus == null
           ? ""
-          : getCivilStatusByUser(userProfile.civilStatus),
+          : getCivilStatusByUser(userProfile.civilStatus!),
     );
     final genderTypeController = useTextEditingController(
       text: userProfile.gender == null

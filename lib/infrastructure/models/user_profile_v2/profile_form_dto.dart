@@ -117,8 +117,10 @@ String getCivilStatusByUser(String type) {
       return "Divorciado";
     case "WIDOWED":
       return "Viudo";
+    case "":
+      return "";
     default:
-      return "Soltero";
+      return "";
   }
 }
 
@@ -377,8 +379,10 @@ String getGenderByUser(String type) {
       return "Otro";
     case "PREFER_NOT_TO_SAY":
       return "Prefiero no decirlo";
+    case "":
+      return "";
     default:
-      return "Otro";
+      return "";
   }
 }
 
