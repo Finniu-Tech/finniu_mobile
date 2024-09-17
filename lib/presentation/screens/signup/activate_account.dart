@@ -1,18 +1,14 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/domain/entities/feature_flag_entity.dart';
-import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/infrastructure/models/otp.dart';
-import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/signup/widgets/counter.dart';
-import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -44,7 +40,8 @@ class ActivateAccount extends HookConsumerWidget {
                     text: "Activa tu cuenta en segundos", //
                     fontWeight: FontWeight.w600,
                     fontSize: 24,
-                    colorText: themeProvider.isDarkMode ? primaryLight : primaryDark,
+                    colorText:
+                        themeProvider.isDarkMode ? primaryLight : primaryDark,
 
                     // Aquí añade el texto dentro de 'text'
                   ),
@@ -63,7 +60,9 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
                     ),
                     "Ingresa el código de verificación",
                   ),
@@ -79,7 +78,9 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w500,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
                     ),
                     "Te hemos enviado el código a tu correo para confirmar la operación",
                   ),
@@ -99,7 +100,9 @@ class ActivateAccount extends HookConsumerWidget {
                       fontSize: 11,
                       fontWeight: FontWeight.w400,
                       height: 1.5,
-                      color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                      color: themeProvider.isDarkMode
+                          ? Colors.white
+                          : const Color(primaryDark),
                     ),
                     "Reenviar el código en ",
                   ),
@@ -114,15 +117,19 @@ class ActivateAccount extends HookConsumerWidget {
 
                       client.when(
                         data: (client) async {
-                          final result = await (sendEmailOTPCode(user.email!, client));
+                          final result =
+                              await (sendEmailOTPCode(user.email!, client));
 
                           if (result == true) {
-                            ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
+                            ref
+                                .read(timerCounterDownProvider.notifier)
+                                .startTimer(first: true);
                           } else {
-                            CustomSnackbar.show(
-                              context,
-                              'No se pudo reenviar el correo',
-                              'error',
+                            showSnackBarV2(
+                              context: context,
+                              title: "Error al reenviar el correo",
+                              message: 'No se pudo reenviar el correo',
+                              snackType: SnackType.error,
                             );
                           }
                         },
@@ -142,7 +149,9 @@ class ActivateAccount extends HookConsumerWidget {
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
                         height: 1.5,
-                        color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                        color: themeProvider.isDarkMode
+                            ? const Color(primaryDark)
+                            : Colors.white,
                       ),
                     ),
                   ),
@@ -182,7 +191,9 @@ class VerificationCodeWidget extends HookConsumerWidget {
           textStyle: TextStyle(
             fontSize: 20.0,
             fontWeight: FontWeight.bold,
-            color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+            color: themeProvider.isDarkMode
+                ? Colors.white
+                : const Color(primaryDark),
           ),
           keyboardType: TextInputType.number,
           underlineColor: const Color(
@@ -232,10 +243,11 @@ class VerificationCodeWidget extends HookConsumerWidget {
                 // );
               } else {
                 Navigator.of(context).pop();
-                CustomSnackbar.show(
-                  context,
-                  'No se pudo validar el código de verificación',
-                  'error',
+                showSnackBarV2(
+                  context: context,
+                  title: "Error al validar el código de verificación",
+                  message: 'No se pudo validar el código de verificación',
+                  snackType: SnackType.error,
                 );
               }
             });
