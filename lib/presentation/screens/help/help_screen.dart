@@ -353,7 +353,7 @@ class HelpScreen extends ConsumerWidget {
                             SizedBox(
                               width: 7,
                             ),
-                            Text('963993305',
+                            Text('+51 952484612',
                                 style: TextStyle(
                                   fontSize: 11,
                                   color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),

@@ -646,7 +646,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -657,7 +657,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -780,7 +780,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				"MARKETING_VERSION[sdk=*]" = 3.0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniu.app.staging;
@@ -852,7 +852,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniu.app.staging;
 				SDKROOT = iphoneos;
@@ -983,7 +983,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -994,7 +994,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniuApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1015,7 +1015,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
@@ -1026,7 +1026,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.finniu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1044,9 +1044,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 39680C111833209F0EB2C5A5 /* Pods-Runner.debug-staging.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Debug-staging";
@@ -1055,9 +1055,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 682CD3D669731F825190199E /* Pods-Runner.profile-staging.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Profile-staging";
@@ -1066,9 +1066,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C66AE851322368D13C27B21F /* Pods-Runner.release-staging.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Release-staging";
@@ -1077,9 +1077,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8209817E8B4D0D9C1FD98C89 /* Pods-Runner.debug-production.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Debug-production";
@@ -1088,9 +1088,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 567BDFB796E0DBC66211F26F /* Pods-Runner.profile-production.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Profile-production";
@@ -1099,9 +1099,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = B90A3F2F80D9409F715AD226 /* Pods-Runner.release-production.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 88;
+				CURRENT_PROJECT_VERSION = 90;
 				DEVELOPMENT_TEAM = 4MP5C36FXN;
-				MARKETING_VERSION = 3.1.6;
+				MARKETING_VERSION = 3.1.8;
 				PRODUCT_NAME = Runner;
 			};
 			name = "Release-production";
