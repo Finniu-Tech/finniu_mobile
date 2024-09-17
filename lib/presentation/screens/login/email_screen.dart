@@ -96,7 +96,6 @@ class EmailLoginScreen extends HookConsumerWidget {
                           onChanged: (value) {
                             // Actualiza _email y el textvalue.toLowerCase();
                             _emailController.text = value.trim().toLowerCase();
-                            ;
                             // Mueve el cursor al final del texto
                             _emailController.selection =
                                 TextSelection.fromPosition(

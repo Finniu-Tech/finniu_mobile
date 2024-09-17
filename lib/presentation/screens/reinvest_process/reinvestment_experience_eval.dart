@@ -3,7 +3,7 @@ import 'package:finniu/infrastructure/datasources/nps_imp.dart';
 import 'package:finniu/presentation/providers/evaluate_experience_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -26,7 +26,8 @@ class EvaluateExperienceBody extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final commentController = useTextEditingController();
-    const String question = '¿Cómo calificarías tu experiencia durante \n el proceso de inversión?';
+    const String question =
+        '¿Cómo calificarías tu experiencia durante \n el proceso de inversión?';
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Container(
@@ -37,8 +38,12 @@ class EvaluateExperienceBody extends HookConsumerWidget {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              currentTheme.isDarkMode ? const Color(primaryDarkAlternative) : const Color(secondary),
-              currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLight),
+              currentTheme.isDarkMode
+                  ? const Color(primaryDarkAlternative)
+                  : const Color(secondary),
+              currentTheme.isDarkMode
+                  ? const Color(primaryLight)
+                  : const Color(primaryLight),
             ],
           ),
           borderRadius: BorderRadius.circular(40),
@@ -87,7 +92,8 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                     Container(
                       height: 5,
                       width: MediaQuery.of(context).size.width * 0.80,
-                      decoration: const BoxDecoration(color: Color(primaryDark)),
+                      decoration:
+                          const BoxDecoration(color: Color(primaryDark)),
                     ),
                     const SizedBox(
                       height: 50,
@@ -185,7 +191,9 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                             borderRadius: BorderRadius.circular(20),
                           ),
                           hintText: 'Escribe aquí tu comentario o sugerencia',
-                          fillColor: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
+                          fillColor: currentTheme.isDarkMode
+                              ? const Color(primaryDark)
+                              : const Color(whiteText),
                           filled: true,
                         ),
                       ),
@@ -204,12 +212,16 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                         if (success) {
                           Navigator.of(context).pop();
                           // Navigator.of(context).pushNamed('/finish_investment');
-                          Navigator.pushReplacementNamed(context, '/v2/investment');
-                        } else {
-                          CustomSnackbar.show(
+                          Navigator.pushReplacementNamed(
                             context,
-                            'Ocurrió un problema',
-                            'error',
+                            '/v2/investment',
+                          );
+                        } else {
+                          showSnackBarV2(
+                            context: context,
+                            title: "Error ",
+                            message: 'Ocurrió un problema',
+                            snackType: SnackType.error,
                           );
                         }
                       },
@@ -264,7 +276,8 @@ class EmojiWidget extends HookConsumerWidget {
         height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: score == selectedScore ? activeColor : const Color(primaryLight),
+          color:
+              score == selectedScore ? activeColor : const Color(primaryLight),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -272,7 +285,9 @@ class EmojiWidget extends HookConsumerWidget {
             Text(
               score.toString(),
               style: TextStyle(
-                color: score == selectedScore ? activeLetterColor : const Color(primaryDark),
+                color: score == selectedScore
+                    ? activeLetterColor
+                    : const Color(primaryDark),
                 fontSize: 11,
                 fontWeight: FontWeight.bold,
               ),
