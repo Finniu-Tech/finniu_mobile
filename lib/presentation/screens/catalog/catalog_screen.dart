@@ -19,6 +19,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investme
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
@@ -65,6 +66,15 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "show verifica tu identidad",
+              onPressed: () {
+                showVerifyIdentity(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "go login",
               onPressed: () {

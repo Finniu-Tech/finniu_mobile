@@ -4,6 +4,7 @@ import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -21,7 +22,6 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 
 class EmailLoginScreen extends HookConsumerWidget {
@@ -96,11 +96,13 @@ class EmailLoginScreen extends HookConsumerWidget {
                           onChanged: (value) {
                             // Actualiza _email y el textvalue.toLowerCase();
                             _emailController.text = value.trim().toLowerCase();
-                            ;
                             // Mueve el cursor al final del texto
                             _emailController.selection =
-                                TextSelection.fromPosition(TextPosition(
-                                    offset: _emailController.text.length));
+                                TextSelection.fromPosition(
+                              TextPosition(
+                                offset: _emailController.text.length,
+                              ),
+                            );
                           },
                           decoration: const InputDecoration(
                             hintText: 'Escriba su correo electrónico',
@@ -221,21 +223,27 @@ class EmailLoginScreen extends HookConsumerWidget {
                                           }
 
                                           final featureFlags = await ref.read(
-                                              userFeatureFlagListFutureProvider
-                                                  .future);
+                                            userFeatureFlagListFutureProvider
+                                                .future,
+                                          );
                                           ref
                                               .read(
-                                                  featureFlagsProvider.notifier)
+                                                featureFlagsProvider.notifier,
+                                              )
                                               .setFeatureFlags(featureFlags);
 
                                           final String route = ref
-                                                  .watch(featureFlagsProvider
-                                                      .notifier)
+                                                  .watch(
+                                                    featureFlagsProvider
+                                                        .notifier,
+                                                  )
                                                   .isEnabled(
-                                                      FeatureFlags.homeV2)
+                                                    FeatureFlags.homeV2,
+                                                  )
                                               ? FeatureRoutes.getRouteForFlag(
                                                   FeatureFlags.homeV2,
-                                                  defaultHomeRoute)
+                                                  defaultHomeRoute,
+                                                )
                                               : defaultHomeRoute;
 
                                           Navigator.pushNamed(
@@ -255,41 +263,50 @@ class EmailLoginScreen extends HookConsumerWidget {
                                     context.loaderOverlay.hide();
                                     if (value.error ==
                                         'Su usuario no a sido activado') {
-                                      CustomSnackbar.show(
-                                        context,
-                                        value.error ??
+                                      showSnackBarV2(
+                                        context: context,
+                                        title: "Error al iniciar sesión",
+                                        message: value.error ??
                                             'Su usuario no a sido activado',
-                                        'error',
+                                        snackType: SnackType.error,
                                       );
+
                                       ref
-                                          .read(userProfileNotifierProvider
-                                              .notifier)
+                                          .read(
+                                            userProfileNotifierProvider
+                                                .notifier,
+                                          )
                                           .updateFields(
-                                              email:
-                                                  _emailController.value.text,
-                                              password: passwordController
-                                                  .value.text);
+                                            email: _emailController.value.text,
+                                            password:
+                                                passwordController.value.text,
+                                          );
                                       Future.delayed(const Duration(seconds: 3),
                                           () {
                                         Navigator.pushNamed(
-                                            context, '/send_code');
+                                          context,
+                                          '/send_code',
+                                        );
                                       });
                                     } else {
-                                      CustomSnackbar.show(
-                                        context,
-                                        value.error ??
+                                      showSnackBarV2(
+                                        context: context,
+                                        title: "Error al iniciar sesión",
+                                        message: value.error ??
                                             'No se pudo validar sus credenciales',
-                                        'error',
+                                        snackType: SnackType.error,
                                       );
                                     }
                                   }
                                 });
                               } catch (e) {
                                 context.loaderOverlay.hide();
-                                CustomSnackbar.show(
-                                  context,
-                                  'Ocurrió un problema, vuelva a intentarlo en unos minutos',
-                                  'error',
+                                showSnackBarV2(
+                                  context: context,
+                                  title: "Error al iniciar sesión",
+                                  message:
+                                      'Ocurrió un problema, vuelva a intentarlo en unos minutos',
+                                  snackType: SnackType.error,
                                 );
                               }
                             }
@@ -321,11 +338,11 @@ class EmailLoginScreen extends HookConsumerWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -346,10 +363,10 @@ class PasswordField extends StatefulWidget {
   // })
 
   PasswordField({
-    Key? key,
+    super.key,
     required this.passwordController,
     required this.secureStorage,
-  }) : super(key: key);
+  });
 
   @override
   _PasswordFieldState createState() => _PasswordFieldState();

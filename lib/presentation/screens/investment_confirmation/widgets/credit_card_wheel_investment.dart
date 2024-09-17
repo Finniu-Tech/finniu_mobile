@@ -7,8 +7,8 @@ import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -158,7 +158,12 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
         '/investment_step3',
       );
     } else {
-      CustomSnackbar.show(context, 'Hubo un problema al guardar', 'error');
+      showSnackBarV2(
+        context: context,
+        title: "Error al guardar",
+        message: 'Hubo un problema al guardar',
+        snackType: SnackType.error,
+      );
     }
   }
 
@@ -186,7 +191,8 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
       builder: (context, ref, child) {
         final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
         final banksAsyncValue = ref.watch(bankFutureProvider);
-        final bool createdNewBankAccount = ref.watch(boolCreatedNewBankAccountProvider);
+        final bool createdNewBankAccount =
+            ref.watch(boolCreatedNewBankAccountProvider);
         final selectedBankAccount = ref.read(
           selectedBankAccountSenderProvider.notifier,
         );
@@ -206,7 +212,9 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOut,
                       );
-                      ref.read(boolCreatedNewBankAccountProvider.notifier).state = false;
+                      ref
+                          .read(boolCreatedNewBankAccountProvider.notifier)
+                          .state = false;
                     }
                   });
                   return showDetail
@@ -217,7 +225,8 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                             Column(
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.9,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -332,7 +341,8 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                                 physics: const FixedExtentScrollPhysics(),
                                 childDelegate: ListWheelChildBuilderDelegate(
                                   builder: (context, index) {
-                                    final bankAccount = bankAccounts[index % bankAccounts.length];
+                                    final bankAccount = bankAccounts[
+                                        index % bankAccounts.length];
                                     final bank = banks.isNotEmpty
                                         ? BankEntity.getBankByName(
                                             bankAccount.bankName,
@@ -347,15 +357,17 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                                       onTap: () async {
                                         if (!showDetail) {
                                           if (banks.isNotEmpty) {
-                                            final selectedBank = BankEntity.getBankByName(
+                                            final selectedBank =
+                                                BankEntity.getBankByName(
                                               bankAccount.bankName,
                                               banks,
                                             );
                                             setState(() {
                                               showDetail = true;
                                               bankAccountSelected = bankAccount;
-                                              selectedImage =
-                                                  selectedBank.cardImageUrl ?? 'assets/credit_cards/golden_card.png';
+                                              selectedImage = selectedBank
+                                                      .cardImageUrl ??
+                                                  'assets/credit_cards/golden_card.png';
                                             });
                                           } else {
                                             // Manejar el caso cuando banks aún no está cargado
@@ -411,11 +423,13 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheelInvestment> {
                         );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stackTrace) => const Center(child: Text('Failed to load banks')),
+                error: (error, stackTrace) =>
+                    const Center(child: Text('Failed to load banks')),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => const Center(child: Text('Failed to load bank accounts')),
+            error: (error, stackTrace) =>
+                const Center(child: Text('Failed to load bank accounts')),
           ),
         );
       },
@@ -508,10 +522,13 @@ class FinalAmountWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(settingsNotifierProvider);
-    const activeTextColor = Color(primaryDark); // Use the theme's primaryDark color
+    const activeTextColor =
+        Color(primaryDark); // Use the theme's primaryDark color
     const inactiveTextColor = Color(grayText); // Use the theme's grayText color
-    const activeBackgroundColor = Color(0xFFEBFBFF); // Use the theme's primaryLight color
-    const inactiveBackgroundColor = Color(0xFFF9FAFA); // Background color for inactive state
+    const activeBackgroundColor =
+        Color(0xFFEBFBFF); // Use the theme's primaryLight color
+    const inactiveBackgroundColor =
+        Color(0xFFF9FAFA); // Background color for inactive state
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -548,7 +565,9 @@ class FinalAmountWidget extends HookConsumerWidget {
                       ),
                     ),
                     Text(
-                      isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
+                      isSoles
+                          ? formatterSoles.format(amount)
+                          : formatterUSD.format(amount),
                       style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w800,
@@ -563,7 +582,9 @@ class FinalAmountWidget extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 8.0,
                     fontWeight: FontWeight.w600,
-                    color: isActive ? activeTextColor.withOpacity(0.6) : inactiveTextColor.withOpacity(0.6),
+                    color: isActive
+                        ? activeTextColor.withOpacity(0.6)
+                        : inactiveTextColor.withOpacity(0.6),
                   ),
                 ),
               ],
