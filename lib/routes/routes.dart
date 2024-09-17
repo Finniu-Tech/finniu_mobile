@@ -231,7 +231,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/legal_documents': (BuildContext context) =>
         const LegalDocumentsScreen(),
     '/v2/support': (BuildContext context) => const SupportHelpScreen(),
-    '/v2/support_ticket': (BuildContext context) => SupportTicketScreen(),
+    '/v2/support_ticket': (BuildContext context) => const SupportTicketScreen(),
     '/v2/frequently_questions': (BuildContext context) =>
         const FrequentlyQuestionsScreen(),
     '/v2/edit_personal_data': (BuildContext context) =>

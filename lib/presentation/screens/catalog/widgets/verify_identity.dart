@@ -22,6 +22,10 @@ class _BodyVerify extends ConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
     const int backgroundDark = 0xff1A1A1A;
     const int backgroundLight = 0xffFFFFFF;
+    void navigate() {
+      Navigator.pushNamed(context, '/v2/my_data');
+    }
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 300,
@@ -42,6 +46,11 @@ class _BodyVerify extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ItemRowValidate(
+                onTap: () {
+                  userProfile.completePersonalData()
+                      ? Navigator.pushNamed(context, '/v2/form_personal_data')
+                      : Navigator.pushNamed(context, '/v2/edit_personal_data');
+                },
                 iconUrl: "assets/svg_icons/user_icon.svg",
                 isSelect: userProfile.completePersonalData(),
               ),
@@ -49,6 +58,11 @@ class _BodyVerify extends ConsumerWidget {
                 width: 20,
               ),
               ItemRowValidate(
+                onTap: () {
+                  userProfile.completeLocationData()
+                      ? Navigator.pushNamed(context, '/v2/form_location')
+                      : Navigator.pushNamed(context, '/v2/edit_location_data');
+                },
                 iconUrl: "assets/svg_icons/map_icon_v2.svg",
                 isSelect: userProfile.completeLocationData(),
               ),
@@ -56,6 +70,11 @@ class _BodyVerify extends ConsumerWidget {
                 width: 20,
               ),
               ItemRowValidate(
+                onTap: () {
+                  userProfile.completeJobData()
+                      ? Navigator.pushNamed(context, '/v2/form_job')
+                      : Navigator.pushNamed(context, '/v2/edit_job_data');
+                },
                 iconUrl: "assets/svg_icons/bag_icon_v2.svg",
                 isSelect: userProfile.completeJobData(),
               ),
@@ -63,6 +82,11 @@ class _BodyVerify extends ConsumerWidget {
                 width: 20,
               ),
               ItemRowValidate(
+                onTap: () {
+                  userProfile.completeAboutData()
+                      ? Navigator.pushNamed(context, '/v2/form_about_me')
+                      : Navigator.pushNamed(context, '/v2/edit_about_me');
+                },
                 iconUrl: "assets/svg_icons/user_icon_v2.svg",
                 isSelect: userProfile.completeAboutData(),
               ),
@@ -90,7 +114,10 @@ class _BodyVerify extends ConsumerWidget {
               ],
             ),
           ),
-          ButtonInvestment(text: "Completar", onPressed: () {}),
+          ButtonInvestment(
+            text: "Completar",
+            onPressed: () => navigate(),
+          ),
         ],
       ),
     );
@@ -102,9 +129,11 @@ class ItemRowValidate extends ConsumerWidget {
     super.key,
     required this.iconUrl,
     required this.isSelect,
+    required this.onTap,
   });
   final String iconUrl;
   final bool isSelect;
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -114,51 +143,54 @@ class ItemRowValidate extends ConsumerWidget {
     const int iconNotSelectLight = 0xffB3B3B3;
     const int backgroundDark = 0xff2B2B2B;
     const int backgroundLight = 0xffF5F4F4;
-    return Column(
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          padding: const EdgeInsets.all(5.0),
-          decoration: BoxDecoration(
-            color: isSelect
-                ? const Color(backgroundSelect)
-                : isDarkMode
-                    ? const Color(backgroundDark)
-                    : const Color(backgroundLight),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(5),
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            padding: const EdgeInsets.all(5.0),
+            decoration: BoxDecoration(
+              color: isSelect
+                  ? const Color(backgroundSelect)
+                  : isDarkMode
+                      ? const Color(backgroundDark)
+                      : const Color(backgroundLight),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(5),
+              ),
+            ),
+            child: SvgPicture.asset(
+              iconUrl,
+              width: 20,
+              height: 20,
+              color: isSelect
+                  ? const Color(iconSelect)
+                  : isDarkMode
+                      ? const Color(iconNotSelectDark)
+                      : const Color(iconNotSelectLight),
             ),
           ),
-          child: SvgPicture.asset(
-            iconUrl,
-            width: 20,
-            height: 20,
-            color: isSelect
-                ? const Color(iconSelect)
-                : isDarkMode
-                    ? const Color(iconNotSelectDark)
-                    : const Color(iconNotSelectLight),
+          const SizedBox(
+            height: 15,
           ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        Container(
-          width: 40,
-          height: 5,
-          decoration: BoxDecoration(
-            color: isSelect
-                ? const Color(backgroundSelect)
-                : isDarkMode
-                    ? const Color(backgroundDark)
-                    : const Color(backgroundLight),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(20),
+          Container(
+            width: 40,
+            height: 5,
+            decoration: BoxDecoration(
+              color: isSelect
+                  ? const Color(backgroundSelect)
+                  : isDarkMode
+                      ? const Color(backgroundDark)
+                      : const Color(backgroundLight),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
