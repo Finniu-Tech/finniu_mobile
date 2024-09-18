@@ -10,9 +10,11 @@ class ScaffoldConfig extends ConsumerWidget {
     super.key,
     required this.children,
     required this.title,
+    this.floatingNull = false,
   });
   final Widget children;
   final String title;
+  final bool floatingNull;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -31,11 +33,13 @@ class ScaffoldConfig extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBarProfile(title: title),
-        floatingActionButton: Container(
-          width: 0,
-          height: 90,
-          color: Colors.transparent,
-        ),
+        floatingActionButton: floatingNull
+            ? null
+            : Container(
+                width: 0,
+                height: 90,
+                color: Colors.transparent,
+              ),
         backgroundColor: isDarkMode
             ? const Color(backgroundDark)
             : const Color(backgroundLight),

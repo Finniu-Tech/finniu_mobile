@@ -111,6 +111,10 @@ class UserProfile {
     this.facebook,
     this.instagram,
     this.linkedin,
+    this.isDirectorOrShareholder10Percent,
+    this.isPublicOfficialOrFamily,
+    this.acceptPrivacyPolicy,
+    this.acceptTermsConditions,
   });
   String? documentType;
   String? firstName;
@@ -148,6 +152,10 @@ class UserProfile {
   String? facebook;
   String? instagram;
   String? linkedin;
+  bool? isDirectorOrShareholder10Percent;
+  bool? isPublicOfficialOrFamily;
+  bool? acceptPrivacyPolicy;
+  bool? acceptTermsConditions;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -189,6 +197,11 @@ class UserProfile {
         facebook: json["facebook"],
         instagram: json["instagram"],
         linkedin: json["linkedin"],
+        isDirectorOrShareholder10Percent:
+            json["isDirectorOrShareholder10Percent"],
+        isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
+        acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
+        acceptTermsConditions: json["acceptTermsConditions"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -250,6 +263,10 @@ class UserProfile {
     String? facebook,
     String? instagram,
     String? linkedin,
+    bool? isDirectorOrShareholder10Percent,
+    bool? isPublicOfficialOrFamily,
+    bool? acceptPrivacyPolicy,
+    bool? acceptTermsConditions,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -286,6 +303,13 @@ class UserProfile {
       facebook: facebook ?? this.facebook,
       instagram: instagram ?? this.instagram,
       linkedin: linkedin ?? this.linkedin,
+      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent ??
+          this.isDirectorOrShareholder10Percent,
+      isPublicOfficialOrFamily:
+          isPublicOfficialOrFamily ?? this.isPublicOfficialOrFamily,
+      acceptPrivacyPolicy: acceptPrivacyPolicy ?? this.acceptPrivacyPolicy,
+      acceptTermsConditions:
+          acceptTermsConditions ?? this.acceptTermsConditions,
     );
   }
 

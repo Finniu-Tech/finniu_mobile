@@ -48,6 +48,11 @@ class QueryRepository {
         facebook
         instagram
         linkedin
+
+        isDirectorOrShareholder10Percent
+        isPublicOfficialOrFamily
+        acceptPrivacyPolicy
+        acceptTermsConditions
       }
     }
   ''';
