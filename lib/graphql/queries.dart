@@ -1625,4 +1625,21 @@ class QueryRepository {
       }
     ''';
   }
+
+  static String get getLegalDocuments {
+    return '''
+     query{
+      userGetLegalDocuments{
+        legalAcceptance{
+          termsAndConditions
+          privacyPolicy
+        }
+        sunatDeclarations{ 
+          nameFile
+          declarationUrl
+        }
+      }
+    }
+    ''';
+  }
 }
