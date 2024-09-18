@@ -297,27 +297,43 @@ class UserProfile {
 
   bool completePersonalData() {
     return nickName != null &&
+        nickName!.isNotEmpty &&
         lastNameFather != null &&
+        lastNameFather!.isNotEmpty &&
         lastNameMother != null &&
+        lastNameMother!.isNotEmpty &&
         documentType != null &&
+        documentType!.isNotEmpty &&
         documentNumber != null &&
+        documentNumber!.isNotEmpty &&
         civilStatus != null &&
-        gender != null;
+        civilStatus!.isNotEmpty &&
+        gender != null &&
+        gender!.isNotEmpty;
   }
 
   bool completeLocationData() {
     return region != null &&
+        region!.isNotEmpty &&
         distrito != null &&
+        distrito!.isNotEmpty &&
         provincia != null &&
+        provincia!.isNotEmpty &&
         address != null &&
-        houseNumber != null;
+        address!.isNotEmpty &&
+        houseNumber != null &&
+        houseNumber!.isNotEmpty;
   }
 
   bool completeJobData() {
     return laborSituation != null &&
+        laborSituation!.isNotEmpty &&
         occupation != null &&
+        occupation!.isNotEmpty &&
         companyName != null &&
-        serviceTime != null;
+        companyName!.isNotEmpty &&
+        serviceTime != null &&
+        serviceTime!.isNotEmpty;
   }
 
   bool completeAboutData() {
@@ -334,6 +350,15 @@ class UserProfile {
     if (completeLocationData()) result += 0.25;
     if (completeJobData()) result += 0.25;
     if (completeAboutData()) result += 0.25;
+    return result;
+  }
+
+  double completeToInvestData() {
+    double result = 0.25;
+    if (completePersonalData()) result += 0.25;
+    if (completeLocationData()) result += 0.25;
+    if (completeJobData()) result += 0.25;
+
     return result;
   }
 }

@@ -30,6 +30,7 @@ final userProfileFutureProvider =
 
     if (result.data?['userProfile'] != null) {
       final userProfile = UserProfile.fromJson(result.data?['userProfile']);
+
       if (userProfile.hasCompletedOnboarding == true) {
         ref.read(hasCompletedOnboardingProvider.notifier).state = true;
       }

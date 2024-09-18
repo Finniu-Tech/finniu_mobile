@@ -74,7 +74,6 @@ import 'package:finniu/presentation/screens/investment_confirmation/step_3.dart'
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_1.dart';
 import 'package:finniu/presentation/screens/simulator_v2/simulator_v2_screen.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/v2_register_screen.dart';
-import 'package:finniu/presentation/screens/user_profil_v2/user_register_v2.dart';
 import 'package:finniu/presentation/screens/investment_aggro/booking.dart';
 import 'package:flutter/material.dart';
 
@@ -209,10 +208,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const CompleteDetailsScreenV2(),
     'v2/validate_identity': (BuildContext context) =>
         const ValidateIdentityScreenV2(),
-    '/v2/login': (BuildContext context) => const UserRegisterV2(),
-    '/v2/verification_code': (BuildContext context) => const UserRegisterV2(),
-    '/v2/activate_account': (BuildContext context) => const UserRegisterV2(),
-    '/v2/upload_document': (BuildContext context) => const UserRegisterV2(),
+
     '/v2/scan_document': (BuildContext context) => const ScanDocumentScreenV2(),
     '/v2/form_personal_data': (BuildContext context) =>
         const FormPersonalDataV2(),

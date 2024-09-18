@@ -53,7 +53,7 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
             } else {
               showSnackBarV2(
                 context: context,
-                title: "Error al token",
+                title: "Error al verificar token",
                 message: "Error al procesar la solicitud token error",
                 snackType: SnackType.error,
               );
@@ -62,17 +62,16 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
         } else {
           showSnackBarV2(
             context: context,
-            title: "Error al token",
+            title: "Error al verificar token",
             message: "Error al procesar la solicitud token error",
             snackType: SnackType.error,
           );
         }
       });
     } else {
-      Navigator.of(context).pop();
       showSnackBarV2(
         context: context,
-        title: "Error al token",
+        title: "Error al verificar token",
         message: "Error al procesar la solicitud token error",
         snackType: SnackType.error,
       );
