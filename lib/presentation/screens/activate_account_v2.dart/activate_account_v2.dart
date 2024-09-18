@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class ActivateAccountV2 extends HookConsumerWidget {
+class ActivateAccountV2 extends ConsumerWidget {
   const ActivateAccountV2({
     super.key,
   });

@@ -50,6 +50,7 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
             if (value != null) {
               ref.read(authTokenProvider.notifier).state = value;
               Navigator.pushNamed(context, '/v2/form_personal_data');
+              context.loaderOverlay.hide();
             } else {
               showSnackBarV2(
                 context: context,
@@ -57,6 +58,7 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
                 message: "Error al procesar la solicitud token error",
                 snackType: SnackType.error,
               );
+              context.loaderOverlay.hide();
             }
           });
         } else {
@@ -66,6 +68,7 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
             message: "Error al procesar la solicitud token error",
             snackType: SnackType.error,
           );
+          context.loaderOverlay.hide();
         }
       });
     } else {
@@ -75,7 +78,7 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
         message: "Error al procesar la solicitud token error",
         snackType: SnackType.error,
       );
+      context.loaderOverlay.hide();
     }
-    context.loaderOverlay.hide();
   });
 }
