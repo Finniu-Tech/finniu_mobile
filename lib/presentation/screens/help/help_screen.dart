@@ -270,8 +270,9 @@ class HelpScreen extends ConsumerWidget {
                 height: 32,
                 child: TextButton(
                   onPressed: () {
-                    Uri preguntasURL = Uri.parse(
-                        'https://finniuapp.notion.site/Preguntas-Frecuentes-f7f77872d34a4de3a9e12d5fc58421ff');
+                    Uri preguntasURL =
+                        Uri.parse('https://finniu.notion.site/Preguntas-Frecuentes-3e9f2732211d4193ad0b77d061c8cc78');
+
                     launchUrl(preguntasURL);
                     // launchUrl('https://finniuapp.notion.site/Preguntas-Frecuentes-f7f77872d34a4de3a9e12d5fc58421ff');
                   },
