@@ -738,4 +738,18 @@ class MutationRepository {
     }
     ''';
   }
+
+  static String emailReset() {
+    return '''
+    mutation emailReset (
+     \$inputEmail: EmailChangePasswordInput!
+       ){
+    emailResetPassword(
+        input: \$inputEmail
+    ) {
+      success
+    }
+  }
+    ''';
+  }
 }

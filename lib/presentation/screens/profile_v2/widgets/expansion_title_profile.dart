@@ -217,13 +217,14 @@ class ChildrenSwitchTitle extends HookConsumerWidget {
     super.key,
     required this.title,
     required this.subtitle,
+    required this.value,
   });
   final String title;
   final String subtitle;
+  final ValueNotifier<bool> value;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<bool> value = useState(false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Row(
@@ -329,23 +330,19 @@ class ExpansionTitleLegal extends HookConsumerWidget {
             extended.value = expanded;
           },
           shape: const Border(),
-          title: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.6,
-              height: 40,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  TextPoppins(
-                    text: title,
-                    fontSize: 16,
-                    isBold: true,
-                    align: TextAlign.start,
-                  ),
-                ],
-              ),
+          title: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                TextPoppins(
+                  text: title,
+                  fontSize: 16,
+                  isBold: true,
+                ),
+              ],
             ),
           ),
           children: children,

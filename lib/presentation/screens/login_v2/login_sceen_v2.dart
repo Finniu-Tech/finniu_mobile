@@ -263,7 +263,7 @@ class FormLogin extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/login_forgot'),
+                onTap: () => Navigator.pushNamed(context, '/v2/login_forgot'),
                 child: const TextPoppins(
                   text: "¿Olvidaste tu contraseña?",
                   fontSize: 11,

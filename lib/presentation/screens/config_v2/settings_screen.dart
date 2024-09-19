@@ -31,6 +31,10 @@ class _BodySettings extends ConsumerWidget {
       }
     }
 
+    void navigatePrivacy() {
+      Navigator.pushNamed(context, '/v2/privacy');
+    }
+
     return Column(
       children: [
         ButtonSwitchProfile(
@@ -40,19 +44,19 @@ class _BodySettings extends ConsumerWidget {
           onTap: () => setDarkMode(),
           value: !isDarkMode,
         ),
-        ButtonNavigateProfile(
-          isComplete: true,
-          icon: "assets/svg_icons/notification_icon.svg",
-          title: "Notificaciones",
-          subtitle: "Qué notificaciones quieres recibir \n",
-          onTap: () => Navigator.pushNamed(context, '/v2/new_notifications'),
-        ),
+        // ButtonNavigateProfile(
+        //   isComplete: true,
+        //   icon: "assets/svg_icons/notification_icon.svg",
+        //   title: "Notificaciones",
+        //   subtitle: "Qué notificaciones quieres recibir \n",
+        //   onTap: () => Navigator.pushNamed(context, '/v2/new_notifications'),
+        // ),
         ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/lock_key_icon.svg",
           title: "Privacidad",
           subtitle: "Configura tu privacidad \n",
-          onTap: () => Navigator.pushNamed(context, '/v2/privacy'),
+          onTap: () => navigatePrivacy(),
         ),
       ],
     );

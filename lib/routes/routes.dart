@@ -28,6 +28,7 @@ import 'package:finniu/presentation/screens/investment_process.dart/step_1_scree
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_screen.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/investment_blue_gold_screen.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
+import 'package:finniu/presentation/screens/login_v2/forgot_password_v2.dart';
 import 'package:finniu/presentation/screens/login_v2/login_sceen_v2.dart';
 import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/accounts_screen_v2.dart';
@@ -74,7 +75,6 @@ import 'package:finniu/presentation/screens/investment_confirmation/step_3.dart'
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_1.dart';
 import 'package:finniu/presentation/screens/simulator_v2/simulator_v2_screen.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/v2_register_screen.dart';
-import 'package:finniu/presentation/screens/user_profil_v2/user_register_v2.dart';
 import 'package:finniu/presentation/screens/investment_aggro/booking.dart';
 import 'package:flutter/material.dart';
 
@@ -209,10 +209,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const CompleteDetailsScreenV2(),
     'v2/validate_identity': (BuildContext context) =>
         const ValidateIdentityScreenV2(),
-    '/v2/login': (BuildContext context) => const UserRegisterV2(),
-    '/v2/verification_code': (BuildContext context) => const UserRegisterV2(),
-    '/v2/activate_account': (BuildContext context) => const UserRegisterV2(),
-    '/v2/upload_document': (BuildContext context) => const UserRegisterV2(),
+
     '/v2/scan_document': (BuildContext context) => const ScanDocumentScreenV2(),
     '/v2/form_personal_data': (BuildContext context) =>
         const FormPersonalDataV2(),
@@ -242,5 +239,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
     '/v2/my_accounts': (BuildContext context) => const AccountsV2Screen(),
     '/v2/login_email': (BuildContext context) => const LoginScreenV2(),
+    '/v2/login_forgot': (BuildContext context) => const ForgotPasswordV2(),
+    '/v2/set_new_password': (BuildContext context) => const NewPasswordV2(),
   };
 }

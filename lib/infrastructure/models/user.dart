@@ -111,6 +111,10 @@ class UserProfile {
     this.facebook,
     this.instagram,
     this.linkedin,
+    this.isDirectorOrShareholder10Percent,
+    this.isPublicOfficialOrFamily,
+    this.acceptPrivacyPolicy,
+    this.acceptTermsConditions,
   });
   String? documentType;
   String? firstName;
@@ -148,6 +152,10 @@ class UserProfile {
   String? facebook;
   String? instagram;
   String? linkedin;
+  bool? isDirectorOrShareholder10Percent;
+  bool? isPublicOfficialOrFamily;
+  bool? acceptPrivacyPolicy;
+  bool? acceptTermsConditions;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -189,6 +197,11 @@ class UserProfile {
         facebook: json["facebook"],
         instagram: json["instagram"],
         linkedin: json["linkedin"],
+        isDirectorOrShareholder10Percent:
+            json["isDirectorOrShareholder10Percent"],
+        isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
+        acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
+        acceptTermsConditions: json["acceptTermsConditions"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -250,6 +263,10 @@ class UserProfile {
     String? facebook,
     String? instagram,
     String? linkedin,
+    bool? isDirectorOrShareholder10Percent,
+    bool? isPublicOfficialOrFamily,
+    bool? acceptPrivacyPolicy,
+    bool? acceptTermsConditions,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -286,6 +303,13 @@ class UserProfile {
       facebook: facebook ?? this.facebook,
       instagram: instagram ?? this.instagram,
       linkedin: linkedin ?? this.linkedin,
+      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent ??
+          this.isDirectorOrShareholder10Percent,
+      isPublicOfficialOrFamily:
+          isPublicOfficialOrFamily ?? this.isPublicOfficialOrFamily,
+      acceptPrivacyPolicy: acceptPrivacyPolicy ?? this.acceptPrivacyPolicy,
+      acceptTermsConditions:
+          acceptTermsConditions ?? this.acceptTermsConditions,
     );
   }
 
@@ -297,27 +321,43 @@ class UserProfile {
 
   bool completePersonalData() {
     return nickName != null &&
+        nickName!.isNotEmpty &&
         lastNameFather != null &&
+        lastNameFather!.isNotEmpty &&
         lastNameMother != null &&
+        lastNameMother!.isNotEmpty &&
         documentType != null &&
+        documentType!.isNotEmpty &&
         documentNumber != null &&
+        documentNumber!.isNotEmpty &&
         civilStatus != null &&
-        gender != null;
+        civilStatus!.isNotEmpty &&
+        gender != null &&
+        gender!.isNotEmpty;
   }
 
   bool completeLocationData() {
     return region != null &&
+        region!.isNotEmpty &&
         distrito != null &&
+        distrito!.isNotEmpty &&
         provincia != null &&
+        provincia!.isNotEmpty &&
         address != null &&
-        houseNumber != null;
+        address!.isNotEmpty &&
+        houseNumber != null &&
+        houseNumber!.isNotEmpty;
   }
 
   bool completeJobData() {
     return laborSituation != null &&
+        laborSituation!.isNotEmpty &&
         occupation != null &&
+        occupation!.isNotEmpty &&
         companyName != null &&
-        serviceTime != null;
+        companyName!.isNotEmpty &&
+        serviceTime != null &&
+        serviceTime!.isNotEmpty;
   }
 
   bool completeAboutData() {
@@ -334,6 +374,15 @@ class UserProfile {
     if (completeLocationData()) result += 0.25;
     if (completeJobData()) result += 0.25;
     if (completeAboutData()) result += 0.25;
+    return result;
+  }
+
+  double completeToInvestData() {
+    double result = 0.25;
+    if (completePersonalData()) result += 0.25;
+    if (completeLocationData()) result += 0.25;
+    if (completeJobData()) result += 0.25;
+
     return result;
   }
 }

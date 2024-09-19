@@ -48,6 +48,11 @@ class QueryRepository {
         facebook
         instagram
         linkedin
+
+        isDirectorOrShareholder10Percent
+        isPublicOfficialOrFamily
+        acceptPrivacyPolicy
+        acceptTermsConditions
       }
     }
   ''';
@@ -1618,6 +1623,23 @@ class QueryRepository {
           }
         }
       }
+    ''';
+  }
+
+  static String get getLegalDocuments {
+    return '''
+     query{
+      userGetLegalDocuments{
+        legalAcceptance{
+          termsAndConditions
+          privacyPolicy
+        }
+        sunatDeclarations{ 
+          nameFile
+          declarationUrl
+        }
+      }
+    }
     ''';
   }
 }

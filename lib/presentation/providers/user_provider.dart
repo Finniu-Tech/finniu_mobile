@@ -30,6 +30,7 @@ final userProfileFutureProvider =
 
     if (result.data?['userProfile'] != null) {
       final userProfile = UserProfile.fromJson(result.data?['userProfile']);
+
       if (userProfile.hasCompletedOnboarding == true) {
         ref.read(hasCompletedOnboardingProvider.notifier).state = true;
       }
@@ -67,6 +68,11 @@ final userProfileFutureProvider =
             facebook: userProfile.facebook,
             instagram: userProfile.instagram,
             linkedin: userProfile.linkedin,
+            isDirectorOrShareholder10Percent:
+                userProfile.isDirectorOrShareholder10Percent,
+            isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
+            acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
+            acceptTermsConditions: userProfile.acceptTermsConditions,
           );
       return userProfile;
     }
@@ -119,6 +125,11 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           facebook: userProfile.facebook,
           instagram: userProfile.instagram,
           linkedin: userProfile.linkedin,
+          isDirectorOrShareholder10Percent:
+              userProfile.isDirectorOrShareholder10Percent,
+          isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
+          acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
+          acceptTermsConditions: userProfile.acceptTermsConditions,
         );
   }
   return success;
@@ -191,6 +202,11 @@ final reloadUserProfileFutureProvider =
           facebook: userProfile.facebook,
           instagram: userProfile.instagram,
           linkedin: userProfile.linkedin,
+          isDirectorOrShareholder10Percent:
+              userProfile.isDirectorOrShareholder10Percent,
+          isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
+          acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
+          acceptTermsConditions: userProfile.acceptTermsConditions,
         );
 
     return true;
@@ -241,6 +257,10 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     String? facebook,
     String? instagram,
     String? linkedin,
+    bool? isDirectorOrShareholder10Percent,
+    bool? isPublicOfficialOrFamily,
+    bool? acceptPrivacyPolicy,
+    bool? acceptTermsConditions,
   }) {
     state = state.copyWith(
       id: id,
@@ -275,6 +295,10 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       facebook: facebook,
       instagram: instagram,
       linkedin: linkedin,
+      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent,
+      isPublicOfficialOrFamily: isPublicOfficialOrFamily,
+      acceptPrivacyPolicy: acceptPrivacyPolicy,
+      acceptTermsConditions: acceptTermsConditions,
     );
   }
 
