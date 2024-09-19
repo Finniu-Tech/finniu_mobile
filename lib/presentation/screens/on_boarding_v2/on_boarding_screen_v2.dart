@@ -88,7 +88,6 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
               PageFiveContainer(),
             ],
           ),
-          _index == 0 ? const SwitchTheme() : const SizedBox(),
           Positioned(
             bottom: 25,
             child: PositionedColumn(
@@ -96,45 +95,6 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
               pushLogin: pushLogin,
               pushRegister: pushRegister,
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class SwitchTheme extends ConsumerWidget {
-  const SwitchTheme({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.read(settingsNotifierProvider.notifier);
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Positioned(
-      top: MediaQuery.of(context).size.height * 0.1,
-      right: 20,
-      child: Row(
-        children: [
-          TextPoppins(
-            text: isDarkMode ? 'Dark mode' : 'Light mode',
-            fontSize: 10,
-            isBold: true,
-          ),
-          const SizedBox(width: 10),
-          FlutterSwitch(
-            width: 45,
-            height: 24,
-            value: isDarkMode ? true : false,
-            inactiveColor: const Color(primaryDark),
-            activeColor: const Color(primaryLight),
-            inactiveToggleColor: const Color(primaryLight),
-            activeToggleColor: const Color(primaryDark),
-            onToggle: (value) {
-              Preferences.isDarkMode = value;
-              value ? settings.setDarkMode() : settings.setLightMode();
-            },
           ),
         ],
       ),
