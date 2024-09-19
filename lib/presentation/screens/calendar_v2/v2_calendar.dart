@@ -1,7 +1,8 @@
 import 'package:finniu/presentation/providers/important_days_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
-import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
+import 'package:finniu/presentation/screens/calendar_v2/widgets/tab_payments_widget.dart';
+// import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,7 @@ import 'package:intl/intl.dart';
 bool hasImportantDates(List<dynamic> importantDays, DateTime selectedDate) {
   for (final item in importantDays) {
     final itemDate = item['date'];
-    if (itemDate.month == selectedDate.month &&
-        itemDate.year == selectedDate.year) {
+    if (itemDate.month == selectedDate.month && itemDate.year == selectedDate.year) {
       return true;
     }
   }
@@ -80,7 +80,7 @@ class CalendarState extends ConsumerState<CalendarV2> {
                         isBold: true,
                       ),
                       const SizedBox(height: 10),
-                      const TabBarBusiness(),
+                      const TabPaymentsWidget(),
                     ],
                   ),
                 );
@@ -181,22 +181,16 @@ class CalendarBodyState extends State<CalendarBody> {
         height: MediaQuery.of(context).size.height * 0.40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: widget.isDarkMode
-              ? const Color(calendarDark)
-              : const Color(calendarLight),
+          color: widget.isDarkMode ? const Color(calendarDark) : const Color(calendarLight),
         ),
         child: CalendarCarousel(
           leftButtonIcon: Icon(
             Icons.arrow_back_ios_new_outlined,
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
           ),
           rightButtonIcon: Icon(
             Icons.arrow_forward_ios_outlined,
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
           ),
           onCalendarChanged: _handlePageChange,
           width: 289,
@@ -211,37 +205,27 @@ class CalendarBodyState extends State<CalendarBody> {
           //------------------------------------------------
           // text style month,( today , day , weekend , prev , next )
           todayTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
             fontSize: 11.0,
             fontWeight: FontWeight.bold,
           ),
           daysTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
           weekendTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
           prevDaysTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textNotMonthDark)
-                : const Color(textNotMonthLight),
+            color: isDarkMode ? const Color(textNotMonthDark) : const Color(textNotMonthLight),
             fontSize: 11,
             fontWeight: FontWeight.bold,
           ),
           nextDaysTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textNotMonthDark)
-                : const Color(textNotMonthLight),
+            color: isDarkMode ? const Color(textNotMonthDark) : const Color(textNotMonthLight),
             fontSize: 11.0,
             fontWeight: FontWeight.bold,
           ),
@@ -251,25 +235,19 @@ class CalendarBodyState extends State<CalendarBody> {
           //---------------------------------------------------
           //days of week style
           weekdayTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
             fontSize: 11.0,
             fontWeight: FontWeight.bold,
           ),
 
           //---------------------------------------------------
           // icons style navigation
-          iconColor: isDarkMode
-              ? const Color(textColorDark)
-              : const Color(textColorLight),
+          iconColor: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
 
           //---------------------------------------------------
           // header text
           headerTextStyle: TextStyle(
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
             fontSize: 16.0,
             fontWeight: FontWeight.bold,
           ),
@@ -300,11 +278,7 @@ class CalendarBodyState extends State<CalendarBody> {
                 : Color(
                     isDarkMode ? borderColorDark : borderColorLight,
                   );
-            if (isThisMonthDay &&
-                !isSelectable &&
-                !isSelectedDay &&
-                !isPrevMonthDay &&
-                !isNextMonthDay) {
+            if (isThisMonthDay && !isSelectable && !isSelectedDay && !isPrevMonthDay && !isNextMonthDay) {
               borderColor = Color(
                 isDarkMode ? borderColorDark : borderColorLight,
               );
@@ -324,22 +298,16 @@ class CalendarBodyState extends State<CalendarBody> {
               backgroundColor = Color(
                 (isDarkMode ? (calendarDark) : (calendarLight)),
               );
-              backgroundColor = isDarkMode
-                  ? const Color(textColorDark)
-                  : const Color(textColorLight);
+              backgroundColor = isDarkMode ? const Color(textColorDark) : const Color(textColorLight);
               textStyle = TextStyle(
-                color: isDarkMode
-                    ? const Color(textMarkerColorDark)
-                    : const Color(textMarkerColorLight),
+                color: isDarkMode ? const Color(textMarkerColorDark) : const Color(textMarkerColorLight),
                 fontSize: 11.0,
                 fontWeight: FontWeight.bold,
               );
             }
             if (!isThisMonthDay) {
               textStyle = TextStyle(
-                color: isDarkMode
-                    ? const Color(textNotMonthDark)
-                    : const Color(textNotMonthLight),
+                color: isDarkMode ? const Color(textNotMonthDark) : const Color(textNotMonthLight),
                 fontSize: 11.0,
                 fontWeight: FontWeight.bold,
               );

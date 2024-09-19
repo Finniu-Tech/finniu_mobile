@@ -1,9 +1,7 @@
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/business_investments/helpers/mask_string.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class SelectedBankDeposit extends ConsumerWidget {
@@ -23,22 +21,28 @@ class SelectedBankDeposit extends ConsumerWidget {
     // const int iconLight = 0xff0D3A5C;
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 66,
+      height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Image.asset(
-            "assets/images/bankSelectImage.png",
-            width: 45,
-            height: 45,
-          ),
+          if (bankAccountReceiver.bankLogoUrl != null)
+            Image.network(
+              bankAccountReceiver.bankLogoUrl ?? "",
+              width: 45,
+              height: 45,
+            ),
+          if (bankAccountReceiver.bankLogoUrl == null)
+            Image.asset(
+              "assets/images/bank_placeholder.png",
+              width: 45,
+              height: 45,
+            ),
+
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -49,11 +53,15 @@ class SelectedBankDeposit extends ConsumerWidget {
                 fontSize: 14,
               ),
               TextPoppins(
-                text:
-                    "${bankAccountReceiver.bankName} **** **** **** ${maskString(bankAccountReceiver.bankAccount)}",
-                fontSize: 14,
-                isBold: true,
+                text: "${bankAccountReceiver.bankName}",
+                fontSize: 12,
+                isBold: false,
               ),
+              TextPoppins(
+                text: "Nro. Cuenta: ${bankAccountReceiver.bankAccount}",
+                fontSize: 12,
+                isBold: false,
+              )
             ],
           ),
           const Expanded(child: SizedBox()),

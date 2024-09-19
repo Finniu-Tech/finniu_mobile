@@ -1,5 +1,7 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
@@ -11,6 +13,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class FormLocationDataV2 extends HookConsumerWidget {
   FormLocationDataV2({super.key});
@@ -19,8 +22,8 @@ class FormLocationDataV2 extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final addressTextController = useTextEditingController();
-    final addressNumberController = useTextEditingController();
-    final zipCodeController = useTextEditingController();
+    final houseNumberController = useTextEditingController();
+    final postalCodeController = useTextEditingController();
     final countrySelectController = useTextEditingController(
       text: "Peru",
     );
@@ -30,21 +33,22 @@ class FormLocationDataV2 extends HookConsumerWidget {
 
     void uploadLocationData() {
       if (formKey.currentState!.validate()) {
-        print("add personal data");
-        print(countrySelectController.text);
-        print(regionsSelectController.text);
-        print(provinceSelectController.text);
-        print(districtSelectController.text);
-        print(addressTextController.text);
-        print(addressNumberController.text);
-        print(zipCodeController.text);
+        DtoLocationForm data = DtoLocationForm(
+          country: countrySelectController.text,
+          region: regionsSelectController.text,
+          province: provinceSelectController.text,
+          district: districtSelectController.text,
+          address: addressTextController.text.trim(),
+          houseNumber: houseNumberController.text.trim(),
+          postalCode: postalCodeController.text.trim(),
+        );
+        context.loaderOverlay.show();
+        pushLocationDataForm(context, data, ref);
       }
     }
 
     void continueLater() {
-      print("continue later");
-
-      Navigator.pop(context);
+      Navigator.pushNamed(context, "/home_v2");
     }
 
     return GestureDetector(
@@ -70,8 +74,8 @@ class FormLocationDataV2 extends HookConsumerWidget {
           LocationForm(
             formKey: formKey,
             addressTextCompleteController: addressTextController,
-            addressNumberController: addressNumberController,
-            zipCodeController: zipCodeController,
+            houseNumberController: houseNumberController,
+            postalCodeController: postalCodeController,
             countrySelectController: countrySelectController,
             regionsSelectController: regionsSelectController,
             provinceSelectController: provinceSelectController,
@@ -89,8 +93,8 @@ class LocationForm extends ConsumerStatefulWidget {
     super.key,
     required this.formKey,
     required this.addressTextCompleteController,
-    required this.addressNumberController,
-    required this.zipCodeController,
+    required this.houseNumberController,
+    required this.postalCodeController,
     required this.countrySelectController,
     required this.regionsSelectController,
     required this.provinceSelectController,
@@ -99,8 +103,8 @@ class LocationForm extends ConsumerStatefulWidget {
 
   final GlobalKey<FormState> formKey;
   final TextEditingController addressTextCompleteController;
-  final TextEditingController addressNumberController;
-  final TextEditingController zipCodeController;
+  final TextEditingController houseNumberController;
+  final TextEditingController postalCodeController;
   final TextEditingController countrySelectController;
   final TextEditingController regionsSelectController;
   final TextEditingController provinceSelectController;
@@ -124,16 +128,15 @@ class LocationFormState extends ConsumerState<LocationForm> {
   void initState() {
     super.initState();
 
-    widget.countrySelectController.addListener(() {
-      setState(() {
-        // Mostrar u ocultar widgets según el país seleccionado
-        showRegionProvinceDistrict =
-            widget.countrySelectController.text == "Peru";
-      });
-      widget.regionsSelectController.clear();
-      widget.provinceSelectController.clear();
-      widget.districtSelectController.clear();
-    });
+    // widget.countrySelectController.addListener(() {
+    //   setState(() {
+    //     showRegionProvinceDistrict =
+    //         widget.countrySelectController.text == "Peru";
+    //   });
+    //   widget.regionsSelectController.clear();
+    //   widget.provinceSelectController.clear();
+    //   widget.districtSelectController.clear();
+    // });
 
     widget.regionsSelectController.addListener(() {
       ref.invalidate(
@@ -160,7 +163,8 @@ class LocationFormState extends ConsumerState<LocationForm> {
       key: widget.formKey,
       child: Column(
         children: [
-          GetFunctionSelectableDropdownItem(
+          SelectableDropdownItem(
+            options: const ["Peru"],
             itemSelectedValue: widget.countrySelectController.text,
             selectController: widget.countrySelectController,
             hintText: "Selecciona el país de residencia",
@@ -294,7 +298,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
           ),
           InputTextFileUserProfile(
             isNumeric: true,
-            controller: widget.addressNumberController,
+            controller: widget.houseNumberController,
             hintText: "Número de tu domicilio",
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -308,7 +312,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
           ),
           InputTextFileUserProfile(
             isNumeric: true,
-            controller: widget.zipCodeController,
+            controller: widget.postalCodeController,
             hintText: "Código postal (opcional)",
             validator: (value) {
               return null;

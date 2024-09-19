@@ -7,8 +7,10 @@ class TitleModal extends ConsumerWidget {
   const TitleModal({
     super.key,
     required this.status,
+    this.isReInvestment,
   });
   final String status;
+  final bool? isReInvestment;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -20,8 +22,8 @@ class TitleModal extends ConsumerWidget {
       children: [
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.6,
-          child: const TextPoppins(
-            text: "Resumen de mi inversión",
+          child: TextPoppins(
+            text: isReInvestment == true ? "Resumen de mi reinversión" : "Resumen de mi inversión",
             fontSize: 20,
             isBold: true,
             lines: 2,

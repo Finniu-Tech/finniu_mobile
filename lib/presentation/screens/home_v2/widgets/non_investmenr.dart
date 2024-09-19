@@ -11,14 +11,12 @@ class NonInvestmentContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const String textTitle =
-        "¿Estás listo para explorar\nnuestras opciones de\ninversión?";
-    const String textBody =
-        "Descubre nuestros fondos y comienza\na invertir de manera inteligente";
+    const String textTitle = "¿Estás listo para explorar\nnuestras opciones de\ninversión?";
+    const String textBody = "Descubre nuestros fondos y comienza\na invertir de manera inteligente";
 
     return GestureDetector(
       onTap: () {
-        print("precione para navegar a la pantalla de inversion");
+        print("precione para navegar a la pantalla de inversión");
       },
       child: Container(
         decoration: BoxDecoration(
@@ -60,9 +58,7 @@ class NonInvestmentContainer extends ConsumerWidget {
                         maxLines: 3,
                         style: TextStyle(
                           fontSize: 16,
-                          color: isDarkMode
-                              ? const Color(labelTextDarkColor)
-                              : const Color(labelTextLightColor),
+                          color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -96,9 +92,7 @@ class NonInvestmentContainer extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode
-                            ? const Color(labelTextDarkColor)
-                            : const Color(labelTextLightColor),
+                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                       ),
                     ),
                     TextSpan(

@@ -25,3 +25,50 @@ final userInvestmentByUuidFutureProvider =
     return null;
   }
 });
+
+final getMonthlyPaymentProvider = FutureProvider.family.autoDispose<List<ProfitabilityItem>, String>(
+  (ref, preInvestmentUUID) async {
+    try {
+      final client = ref.watch(gqlClientProvider).value;
+      if (client == null) {
+        throw Exception('GraphQL client is null');
+      }
+
+      final result = await client.query(
+        QueryOptions(
+          document: gql(QueryRepository.getInvestmentMonthlyReturns),
+          variables: {'preInvestmentUuid': preInvestmentUUID},
+        ),
+      );
+
+      if (result.hasException) {
+        throw result.exception!;
+      }
+
+      final data = result.data;
+      if (data == null) {
+        return [];
+      }
+
+      final paymentRentabilityList = data['investmentDetail']['paymentRentability'] as List<dynamic>?;
+      if (paymentRentabilityList == null) {
+        return [];
+      }
+
+      final profitabilityItems = paymentRentabilityList
+          .map((item) {
+            if (item is! Map<String, dynamic>) {
+              print('Invalid item in paymentRentability: $item');
+              return null;
+            }
+            return ProfitabilityItem.fromJson(item);
+          })
+          .whereType<ProfitabilityItem>()
+          .toList();
+
+      return profitabilityItems;
+    } catch (e, _) {
+      rethrow; // Re-throw the error to be caught by the FutureProvider
+    }
+  },
+);

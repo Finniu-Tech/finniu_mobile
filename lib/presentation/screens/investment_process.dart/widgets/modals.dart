@@ -7,11 +7,12 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:math' as math;
 import 'package:permission_handler/permission_handler.dart';
 
-Future<dynamic> showThanksForInvestingModal(BuildContext context, VoidCallback onPressed) {
+Future<dynamic> showThanksForInvestingModal(BuildContext context, VoidCallback onPressed, bool? isReInvestment) {
   return showDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) => ThanksForInvestingModal(
+      isReInvestment: isReInvestment,
       onPressed: onPressed,
     ),
   );
@@ -19,17 +20,20 @@ Future<dynamic> showThanksForInvestingModal(BuildContext context, VoidCallback o
 
 class ThanksForInvestingModal extends ConsumerWidget {
   final VoidCallback onPressed;
+  final bool? isReInvestment;
   const ThanksForInvestingModal({
     super.key,
     required this.onPressed,
+    this.isReInvestment,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final String titleText = "Gracias por";
-    final String secondTitleText = "invertir en Finniu!";
-    final String textButton = "Ver mi progreso";
+    final String secondTitleText = isReInvestment! ? "reinvertir en Finniu!" : "invertir en Finniu!";
+    // final String textButton = "Ver mi progreso";
+    final String textButton = "Evaluar mi experiencia";
     final String textTanks = "Gracias por tu comprensión!";
     final String anyResponse = "";
     final String textBody =

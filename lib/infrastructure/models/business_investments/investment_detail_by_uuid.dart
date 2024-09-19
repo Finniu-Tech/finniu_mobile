@@ -14,6 +14,7 @@ class InvestmentDetailUuid {
   final BankAccount? bankAccountSender;
   final List<ProfitabilityItem> profitabilityListMonth;
   final FundEntity? fund;
+  final bool? isReInvestment;
 
   InvestmentDetailUuid({
     required this.uuid,
@@ -28,6 +29,7 @@ class InvestmentDetailUuid {
     this.bankAccountReceiver,
     this.bankAccountSender,
     this.fund,
+    this.isReInvestment,
   })  : assert(uuid.isNotEmpty, 'UUID cannot be null or empty'),
         assert(
           finishDateInvestment.isNotEmpty,
@@ -50,6 +52,7 @@ class InvestmentDetailUuid {
       profitabilityListMonth:
           (json['paymentRentability'] as List<dynamic>).map((item) => ProfitabilityItem.fromJson(item)).toList(),
       fund: json['investmentFund'] != null ? FundEntity.fromJson(json['investmentFund']) : null,
+      isReInvestment: json['isReInvestment'] ?? false,
     );
   }
 
@@ -79,15 +82,21 @@ class InvestmentDetailUuid {
 class ProfitabilityItem {
   final DateTime paymentDate;
   final int amount;
+  final String? voucher;
+  final int? numberPayment;
   ProfitabilityItem({
     required this.paymentDate,
     required this.amount,
+    required this.numberPayment,
+    this.voucher,
   });
 
   factory ProfitabilityItem.fromJson(Map<String, dynamic> json) {
     return ProfitabilityItem(
       paymentDate: DateTime.parse(json['paymentDate']),
       amount: _parseAmount(json['amount']),
+      numberPayment: json['numberPayment'],
+      voucher: json['paymentVoucherUrl'],
     );
   }
 

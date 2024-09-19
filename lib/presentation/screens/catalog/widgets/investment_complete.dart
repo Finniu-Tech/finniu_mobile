@@ -2,6 +2,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CompleteInvestment extends ConsumerWidget {
   final String dateEnds;
@@ -52,15 +53,19 @@ class CompleteInvestment extends ConsumerWidget {
         LabelState(
           label: "Depositado",
         ),
-        const DownloadButton(),
+        const DownloadButton(
+          voucherUrl: "", //TODO: call the voucher url
+        ),
       ],
     );
   }
 }
 
 class DownloadButton extends ConsumerWidget {
+  final String voucherUrl;
   const DownloadButton({
     super.key,
+    required this.voucherUrl,
   });
 
   @override
@@ -73,44 +78,49 @@ class DownloadButton extends ConsumerWidget {
     return Positioned(
       right: 7,
       bottom: 7,
-      child: Container(
-        width: 144,
-        height: 26,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: isDarkMode ? const Color(buttonColorDark) : const Color(buttonColorLight),
-          boxShadow: [
-            BoxShadow(
-              color: isDarkMode ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            isDarkMode
-                ? Image.asset(
-                    "assets/icons/download_icon_dark.png",
-                    width: 16,
-                    height: 16,
-                  )
-                : Image.asset(
-                    "assets/icons/download_icon_light.png",
-                    width: 16,
-                    height: 16,
-                  ),
-            const SizedBox(width: 3),
-            Text(
-              "Descargar voucher",
-              style: TextStyle(
-                fontSize: 10,
-                color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+      child: GestureDetector(
+        onTap: () async {
+          await launchUrl(Uri.parse(voucherUrl));
+        },
+        child: Container(
+          width: 144,
+          height: 26,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: isDarkMode ? const Color(buttonColorDark) : const Color(buttonColorLight),
+            boxShadow: [
+              BoxShadow(
+                color: isDarkMode ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
               ),
-            ),
-          ],
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              isDarkMode
+                  ? Image.asset(
+                      "assets/icons/download_icon_dark.png",
+                      width: 16,
+                      height: 16,
+                    )
+                  : Image.asset(
+                      "assets/icons/download_icon_light.png",
+                      width: 16,
+                      height: 16,
+                    ),
+              const SizedBox(width: 3),
+              Text(
+                "Descargar voucher",
+                style: TextStyle(
+                  fontSize: 10,
+                  color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -119,10 +129,12 @@ class DownloadButton extends ConsumerWidget {
 
 class AmountInvestment extends ConsumerWidget {
   final int amount;
+  final bool? isSoles;
 
   const AmountInvestment({
     super.key,
     required this.amount,
+    this.isSoles,
   });
 
   @override
@@ -177,6 +189,7 @@ class AmountInvestment extends ConsumerWidget {
                 duration: 1,
                 fontSize: 14,
                 colorText: isDarkMode ? amountColorDark : amountColorLight,
+                isSoles: isSoles,
               ),
             ],
           ),

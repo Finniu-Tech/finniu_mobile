@@ -253,7 +253,7 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                   // constraints: const BoxConstraints(minWidth: 263, maxWidth: 400),
                   child: CustomSelectButton(
                     textEditingController: accountTypeController,
-                    items: const ['Ahorros', 'Corriente', 'Mancomunada'],
+                    items: const ['Ahorros', 'Corriente'],
                     callbackOnChange: (value) {
                       accountTypeController.text = value;
                     },

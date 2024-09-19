@@ -42,6 +42,7 @@ final rentabilityGraphicFutureProvider =
           (e) => RentabilityGraphicEntity(
             amountPoint: e['amountPoint'].toString(),
             month: e['month'].toString(),
+            date: e['date'].toString(),
           ),
         )
         .toList();
@@ -51,6 +52,7 @@ final rentabilityGraphicFutureProvider =
           (e) => RentabilityGraphicEntity(
             amountPoint: e['amountPoint'].toString(),
             month: e['month'].toString(),
+            date: e['date'].toString(),
           ),
         )
         .toList();

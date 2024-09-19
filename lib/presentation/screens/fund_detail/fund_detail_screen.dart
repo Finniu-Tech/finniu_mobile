@@ -9,6 +9,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.da
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart';
 import 'package:finniu/utils/strings.dart';
+import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -22,11 +23,14 @@ class FundDetailScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final backgroundColor = isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight();
-    return Scaffold(
-      backgroundColor: Color(backgroundColor),
-      body: FundDetailBody(
-        fund: fund,
-        isDarkMode: isDarkMode,
+    return AnalyticsAwareWidget(
+      screenName: 'Fund Detail Screen',
+      child: Scaffold(
+        backgroundColor: Color(backgroundColor),
+        body: FundDetailBody(
+          fund: fund,
+          isDarkMode: isDarkMode,
+        ),
       ),
     );
   }
@@ -54,7 +58,7 @@ class FundDetailBody extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         ButtonInvestment(
-          text: 'Quiero invertir',
+          text: fund.fundType == FundTypeEnum.corporate ? 'Quiero invertir' : 'Quiero simular',
           onPressed: () {
             if (fund.fundType == FundTypeEnum.corporate) {
               Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': fund});
