@@ -1,12 +1,12 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
-
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/config_v2/helpers/email_reset.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
-import 'package:finniu/presentation/screens/config_v2/widgets/show_change_password.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class PrivacyScreenV2 extends ConsumerWidget {
   const PrivacyScreenV2({super.key});
@@ -27,8 +27,9 @@ class _BodyPrivacy extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final rememberPassword = useState(true);
     void setRememberPassword() {
-      showChangePassword(context);
-      print("aaaaaaaaaaaaaa");
+      context.loaderOverlay.show();
+      print("en setRememberPassword");
+      emailReset(context, ref);
     }
 
     return Column(
