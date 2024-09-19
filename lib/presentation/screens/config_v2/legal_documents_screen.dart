@@ -91,7 +91,17 @@ class _BodyLegalDocuments extends HookConsumerWidget {
         );
         return;
       } else {
-        launch(url);
+        try {
+          launch(url);
+        } catch (e) {
+          showSnackBarV2(
+            context: context,
+            title: "Redireccion no disponible",
+            message:
+                "No hay redireccion disponible, por favor intenta de nuevo",
+            snackType: SnackType.warning,
+          );
+        }
       }
     }
 
@@ -128,10 +138,6 @@ class _BodyLegalDocuments extends HookConsumerWidget {
       },
       loading: () => const CircularLoader(width: 10, height: 10),
       data: (documents) {
-        documents.sunatDeclarations.forEach((element) {
-          print(element.declarationUrl);
-          print(element.declarationUrl.runtimeType);
-        });
         return Column(
           children: [
             ExpansionTitleLegal(
@@ -168,9 +174,11 @@ class _BodyLegalDocuments extends HookConsumerWidget {
                 ),
                 const TitleLegal(),
                 ...documents.sunatDeclarations.map(
-                  (e) => RowDownload(
-                    title: e.nameFile,
-                    onTap: () => openUrl(e.declarationUrl),
+                  (e) => GestureDetector(
+                    onTap: () => openUrl(null),
+                    child: RowDownload(
+                      title: e.nameFile,
+                    ),
                   ),
                 ),
               ],
@@ -178,13 +186,17 @@ class _BodyLegalDocuments extends HookConsumerWidget {
             ExpansionTitleLegal(
               title: "Aceptaciones legales y/o tributarios",
               children: [
-                RowDownload(
-                  title: "Términos y Condiciones",
+                GestureDetector(
                   onTap: () => openUrl(documents.legalAcceptance.privacyPolicy),
+                  child: const RowDownload(
+                    title: "Términos y Condiciones",
+                  ),
                 ),
-                RowDownload(
-                  title: "Política de Privacidad",
+                GestureDetector(
                   onTap: () => openUrl(documents.legalAcceptance.privacyPolicy),
+                  child: const RowDownload(
+                    title: "Política de Privacidad",
+                  ),
                 ),
               ],
             ),
