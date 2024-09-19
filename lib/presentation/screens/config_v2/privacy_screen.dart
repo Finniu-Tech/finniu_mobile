@@ -4,7 +4,6 @@ import 'package:finniu/presentation/screens/config_v2/helpers/email_reset.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -20,15 +19,13 @@ class PrivacyScreenV2 extends ConsumerWidget {
   }
 }
 
-class _BodyPrivacy extends HookConsumerWidget {
+class _BodyPrivacy extends ConsumerWidget {
   const _BodyPrivacy();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final rememberPassword = useState(true);
     void setRememberPassword() {
       context.loaderOverlay.show();
-      print("en setRememberPassword");
       emailReset(context, ref);
     }
 
@@ -40,11 +37,11 @@ class _BodyPrivacy extends HookConsumerWidget {
           subtitle:
               "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
           children: [
-            ChildrenSwitchTitle(
-              title: "Visualización de contraseña",
-              subtitle: "Mostrar caracteres brevemente mientras escribes",
-              value: rememberPassword,
-            ),
+            // ChildrenSwitchTitle(
+            //   title: "Visualización de contraseña",
+            //   subtitle: "Mostrar caracteres brevemente mientras escribes",
+            //   value: rememberPassword,
+            // ),
             const ChildrenEmail(
               title: "Cambio de contraseña",
               subtitle:
