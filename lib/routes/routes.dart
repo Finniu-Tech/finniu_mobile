@@ -28,6 +28,7 @@ import 'package:finniu/presentation/screens/investment_process.dart/step_1_scree
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_screen.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/investment_blue_gold_screen.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
+import 'package:finniu/presentation/screens/login_v2/forgot_password_v2.dart';
 import 'package:finniu/presentation/screens/login_v2/login_sceen_v2.dart';
 import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/accounts_screen_v2.dart';
@@ -238,5 +239,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
     '/v2/my_accounts': (BuildContext context) => const AccountsV2Screen(),
     '/v2/login_email': (BuildContext context) => const LoginScreenV2(),
+    '/v2/login_forgot': (BuildContext context) => const ForgotPasswordV2(),
+    '/v2/set_new_password': (BuildContext context) => const NewPasswordV2(),
   };
 }
