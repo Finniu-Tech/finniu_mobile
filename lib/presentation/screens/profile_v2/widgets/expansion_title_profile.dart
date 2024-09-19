@@ -217,13 +217,14 @@ class ChildrenSwitchTitle extends HookConsumerWidget {
     super.key,
     required this.title,
     required this.subtitle,
+    required this.value,
   });
   final String title;
   final String subtitle;
+  final ValueNotifier<bool> value;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<bool> value = useState(false);
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       child: Row(

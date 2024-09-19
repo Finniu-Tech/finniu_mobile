@@ -1,6 +1,11 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
+
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
+import 'package:finniu/presentation/screens/config_v2/widgets/show_change_password.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PrivacyScreenV2 extends ConsumerWidget {
@@ -15,12 +20,18 @@ class PrivacyScreenV2 extends ConsumerWidget {
   }
 }
 
-class _BodyPrivacy extends StatelessWidget {
+class _BodyPrivacy extends HookConsumerWidget {
   const _BodyPrivacy();
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final rememberPassword = useState(true);
+    void setRememberPassword() {
+      showChangePassword(context);
+      print("aaaaaaaaaaaaaa");
+    }
+
+    return Column(
       children: [
         ExpansionTitleProfile(
           icon: "assets/svg_icons/key_icon.svg",
@@ -31,33 +42,37 @@ class _BodyPrivacy extends StatelessWidget {
             ChildrenSwitchTitle(
               title: "Visualización de contraseña",
               subtitle: "Mostrar caracteres brevemente mientras escribes",
+              value: rememberPassword,
             ),
-            ChildrenEmail(
+            const ChildrenEmail(
               title: "Cambio de contraseña",
               subtitle:
                   "Te enviaremos un correo para reestablecer tu contraseña ",
               email: "H8kzK@example.com",
             ),
-          ],
-        ),
-        ExpansionTitleProfile(
-          icon: "assets/svg_icons/lock_key_icon.svg",
-          title: "Administrador de permisos",
-          subtitle: "Avisos sobre las nuevas novedades ",
-          children: [
-            ChildrenSwitchTitle(
-              title: "Permiso de ubicación actual",
-              subtitle:
-                  "Activar tu ubicación actual mientras la app esta en uso",
-            ),
-            ChildrenSwitchTitle(
-              title: "Permiso de acceso a tu galeria",
-              subtitle:
-                  "Visualizar directamente tus fotos de tu galeria mientras la app esta en uso",
+            ButtonChangePassword(
+              onTap: () => setRememberPassword(),
             ),
           ],
         ),
-        ExpansionTitleProfile(
+        // ExpansionTitleProfile(
+        //   icon: "assets/svg_icons/lock_key_icon.svg",
+        //   title: "Administrador de permisos",
+        //   subtitle: "Avisos sobre las nuevas novedades ",
+        //   children: [
+        //     ChildrenSwitchTitle(
+        //       title: "Permiso de ubicación actual",
+        //       subtitle:
+        //           "Activar tu ubicación actual mientras la app esta en uso",
+        //     ),
+        //     ChildrenSwitchTitle(
+        //       title: "Permiso de acceso a tu galeria",
+        //       subtitle:
+        //           "Visualizar directamente tus fotos de tu galeria mientras la app esta en uso",
+        //     ),
+        //   ],
+        // ),
+        const ExpansionTitleProfile(
           icon: "assets/svg_icons/shield_check_icon.svg",
           title: "Política de privacidad",
           subtitle: "Avisos sobre las nuevas novedades ",
@@ -70,6 +85,59 @@ class _BodyPrivacy extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class ButtonChangePassword extends ConsumerWidget {
+  const ButtonChangePassword({
+    super.key,
+    required this.onTap,
+  });
+  final VoidCallback onTap;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    const int backgroundDark = 0xffA2E6FA;
+    const int backgroundLight = 0xff0D3A5C;
+    const int textDark = 0xff000000;
+    const int textLight = 0xffFFFFFF;
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Container(
+            width: 220,
+            height: 35,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(50),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  spreadRadius: 0,
+                  blurRadius: 4,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+              color: isDarkMode
+                  ? const Color(backgroundDark)
+                  : const Color(backgroundLight),
+            ),
+            child: const Center(
+              child: TextPoppins(
+                text: "Solicitar cambio de contraseña",
+                fontSize: 12,
+                isBold: true,
+                textDark: textDark,
+                textLight: textLight,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -186,11 +186,6 @@ class CatalogScreen extends HookConsumerWidget {
                   title: "Visualización de contraseña",
                   subtitle: "Mostrar caracteres brevemente mientras escribes",
                 ),
-                ChildrenSwitchTitle(
-                  title: "Permiso de ubicación actual",
-                  subtitle:
-                      "Activar tu ubicación actual mientras la app esta en uso",
-                ),
                 ChildrenOnlyText(
                   text:
                       "Política de privacidad de la app Finniu, tenemos respaldo y seguridad de tus datos , no los compartimos ni exponemos tus datos personales  ",
