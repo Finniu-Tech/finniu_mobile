@@ -12,8 +12,10 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
     required this.validator,
     required this.isError,
     required this.onError,
+    required this.onTap,
   });
 
+  final VoidCallback onTap;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hintText;
@@ -46,6 +48,7 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
               onError!();
               ScaffoldMessenger.of(context).clearSnackBars();
             }
+            onTap();
           },
           controller: controller,
           style: TextStyle(
