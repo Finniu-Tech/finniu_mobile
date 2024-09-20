@@ -26,7 +26,6 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
   final VoidCallback? onError;
   final Function(bool) onFocusChanged;
 
-  // Colores
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
   final int fillDark = 0xFF222222;
@@ -59,7 +58,7 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
-          focusNode: localFocusNode, // Asignar FocusNode
+          focusNode: localFocusNode,
           onTap: () {
             if (onError != null && isError) {
               onError!();

@@ -165,7 +165,7 @@ class FormRegister extends HookConsumerWidget {
                     },
                     onFocusChanged: (hasFocus) {
                       isPasswordExpanded.value = hasFocus;
-                    }, // Cambiar isPasswordExpanded según el foco
+                    },
                   );
                 },
               ),
