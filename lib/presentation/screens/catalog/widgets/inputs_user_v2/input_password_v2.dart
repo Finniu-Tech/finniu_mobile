@@ -13,15 +13,20 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
     required this.isError,
     required this.onError,
     required this.onTap,
+    this.focusNode,
+    required this.onFocusChanged,
   });
 
+  final FocusNode? focusNode;
   final VoidCallback onTap;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hintText;
   final bool isError;
   final VoidCallback? onError;
+  final Function(bool) onFocusChanged;
 
+  // Colores
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
   final int fillDark = 0xFF222222;
@@ -39,10 +44,22 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
     const int iconDark = 0xFFA2E6FA;
     const int iconLight = 0xFF000000;
 
+    final localFocusNode = focusNode ?? FocusNode();
+    useEffect(
+      () {
+        localFocusNode.addListener(() {
+          onFocusChanged(localFocusNode.hasFocus);
+        });
+        return localFocusNode.dispose;
+      },
+      [localFocusNode],
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          focusNode: localFocusNode, // Asignar FocusNode
           onTap: () {
             if (onError != null && isError) {
               onError!();
@@ -90,20 +107,6 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
                           : Color(borderColorLight),
                       width: 1,
                     ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide(
-                color: Color(borderError),
-                width: 1,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide(
-                color: Color(borderError),
-                width: 1,
-              ),
             ),
             suffixIcon: IconButton(
               icon: isError

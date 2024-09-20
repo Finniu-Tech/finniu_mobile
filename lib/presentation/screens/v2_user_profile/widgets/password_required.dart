@@ -31,6 +31,21 @@ class PasswordRequired extends HookConsumerWidget {
 
     useEffect(
       () {
+        controller.text.length >= 8
+            ? eightCharacters.value = true
+            : eightCharacters.value = false;
+        hasDigits.hasMatch(controller.text)
+            ? oneNumber.value = true
+            : oneNumber.value = false;
+        hasLowercase.hasMatch(controller.text)
+            ? oneLowercase.value = true
+            : oneLowercase.value = false;
+        hasUppercase.hasMatch(controller.text)
+            ? oneCapital.value = true
+            : oneCapital.value = false;
+        hasSpecialCharacters.hasMatch(controller.text)
+            ? oneSpecialSymbol.value = true
+            : oneSpecialSymbol.value = false;
         controller.addListener(() {
           controller.text.length >= 8
               ? eightCharacters.value = true
@@ -55,8 +70,7 @@ class PasswordRequired extends HookConsumerWidget {
 
     return Positioned(
       top: 250,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 500),
+      child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: isDarkMode
@@ -64,7 +78,7 @@ class PasswordRequired extends HookConsumerWidget {
               : const Color(containerLight),
         ),
         width: MediaQuery.of(context).size.width * 0.9,
-        height: isExpanded ? 200 : 0,
+        height: 200,
         padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

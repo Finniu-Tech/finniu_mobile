@@ -257,6 +257,7 @@ class FormLogin extends HookConsumerWidget {
             valueListenable: passwordError,
             builder: (context, isError, child) {
               return InputPasswordFieldUserProfile(
+                onFocusChanged: (p0) {},
                 onTap: () {},
                 isError: isError,
                 onError: () => passwordError.value = false,

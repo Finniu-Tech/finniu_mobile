@@ -78,6 +78,7 @@ class FormRegister extends HookConsumerWidget {
       }
     }
 
+    final FocusNode focusNode = FocusNode();
     return Form(
       key: formKey,
       child: Stack(
@@ -146,6 +147,7 @@ class FormRegister extends HookConsumerWidget {
                 valueListenable: passwordError,
                 builder: (context, isError, child) {
                   return InputPasswordFieldUserProfile(
+                    focusNode: focusNode,
                     onTap: () {
                       isPasswordExpanded.value = true;
                     },
@@ -161,6 +163,9 @@ class FormRegister extends HookConsumerWidget {
                       );
                       return null;
                     },
+                    onFocusChanged: (hasFocus) {
+                      isPasswordExpanded.value = hasFocus;
+                    }, // Cambiar isPasswordExpanded según el foco
                   );
                 },
               ),
@@ -168,6 +173,7 @@ class FormRegister extends HookConsumerWidget {
                 valueListenable: passwordConfirmError,
                 builder: (context, isError, child) {
                   return InputPasswordFieldUserProfile(
+                    onFocusChanged: (p0) {},
                     onTap: () {},
                     isError: isError,
                     onError: () => passwordConfirmError.value = false,
@@ -217,10 +223,12 @@ class FormRegister extends HookConsumerWidget {
           ValueListenableBuilder<bool>(
             valueListenable: isPasswordExpanded,
             builder: (context, isError, child) {
-              return PasswordRequired(
-                controller: passwordController,
-                isExpanded: isPasswordExpanded.value,
-              );
+              return isPasswordExpanded.value
+                  ? PasswordRequired(
+                      controller: passwordController,
+                      isExpanded: isPasswordExpanded.value,
+                    )
+                  : const SizedBox();
             },
           ),
         ],
@@ -240,7 +248,7 @@ class RedirectLogin extends ConsumerWidget {
     const int linkLight = 0xff0D3A5C;
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/login_email');
+        Navigator.pushNamed(context, '/v2/login_email');
       },
       child: const TextPoppins(
         text: "Inicia sesión",
