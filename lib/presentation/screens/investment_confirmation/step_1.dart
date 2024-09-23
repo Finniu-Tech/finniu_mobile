@@ -19,7 +19,8 @@ import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
+// import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
@@ -237,8 +238,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     useEffect(
       () {
         selectedPlan = widget.plan;
-        if (userProfile.hasRequiredData() == false) {
-          completeProfileDialog(context, ref);
+        if (userProfile.completeToInvestData() < 1.0) {
+          showVerifyIdentity(context);
         }
 
         _updateBankAccount();
@@ -815,8 +816,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               height: 50,
               child: TextButton(
                 onPressed: () async {
-                  if (userProfile.hasRequiredData() == false) {
-                    completeProfileDialog(context, ref);
+                  if (userProfile.completeToInvestData() < 1.0) {
+                    showVerifyIdentity(context);
                     return;
                   }
                   if (validate() == false) {
