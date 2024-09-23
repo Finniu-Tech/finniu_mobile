@@ -58,7 +58,7 @@ class _BodyMyAccounts extends ConsumerWidget {
               children: [
                 const SizedBox(height: 15),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height - 190,
+                  height: MediaQuery.of(context).size.height - 200,
                   child: ListView.builder(
                     itemCount: data.length,
                     itemBuilder: (context, index) {
@@ -85,7 +85,7 @@ class _BodyMyAccounts extends ConsumerWidget {
                   ),
                   child: const AddAccounts(),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 35),
               ],
             ),
           ),
