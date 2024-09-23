@@ -13,6 +13,7 @@ pushLocationDataForm(
   DtoLocationForm data,
   WidgetRef ref, {
   String navigate = '/v2/form_job',
+  bool isNavigate = false,
 }) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
@@ -36,7 +37,7 @@ pushLocationDataForm(
       ref.read(reloadUserProfileFutureProvider);
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
-        Navigator.pushNamed(context, navigate);
+        isNavigate ? null : Navigator.pushNamed(context, navigate);
         ScaffoldMessenger.of(context).clearSnackBars();
       });
     } else {
