@@ -62,80 +62,82 @@ class SMSBody extends ConsumerWidget {
       });
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: 530,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 15),
-          SizedBox(
-            width: 101,
-            height: 5,
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(lineColor),
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          // alto deseado
-          SizedBox(
-            width: 100,
-            height: 100,
-            child: Image.asset('assets/images/padlock.png'),
-          ),
-          const SizedBox(height: 15),
-          const TextPoppins(
-            text: "Ingresa el código de verificación",
-            fontSize: 16,
-            textDark: titleDark,
-            textLight: titleLight,
-            isBold: true,
-          ),
-          const SizedBox(height: 15),
-          const SizedBox(
-            width: 270,
-            child: TextPoppins(
-              text:
-                  "Te hemos enviado el código a tu correo para confirmar la operación",
-              fontSize: 12,
-              textDark: titleDark,
-              textLight: titleLight,
-              lines: 2,
-              align: TextAlign.center,
-            ),
-          ),
-
-          const SizedBox(height: 15),
-          const VeridicationCodeV2(),
-
-          const SizedBox(height: 15),
-          if (ref.watch(timerCounterDownProvider) == 0) ...[
-            ButtonInvestment(
-              text: 'Reenviar código',
-              onPressed: () => reSendEmail(),
-            ),
-          ] else ...[
+    return SingleChildScrollView(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 15),
             SizedBox(
-              width: 280,
-              child: Text(
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 11,
-                  fontWeight: FontWeight.w500,
-                  height: 1.5,
-                  color: isDarkMode ? Colors.white : const Color(primaryDark),
+              width: 101,
+              height: 5,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(lineColor),
+                  borderRadius: BorderRadius.circular(20),
                 ),
-                "Reenviar el codigo en",
               ),
+            ),
+            const SizedBox(height: 15),
+            // alto deseado
+            SizedBox(
+              width: 90,
+              height: 90,
+              child: Image.asset('assets/images/padlock.png'),
             ),
             const SizedBox(height: 10),
-            const CircularCountdownV2(),
+            const TextPoppins(
+              text: "Ingresa el código de verificación",
+              fontSize: 16,
+              textDark: titleDark,
+              textLight: titleLight,
+              isBold: true,
+            ),
+            const SizedBox(height: 10),
+            const SizedBox(
+              width: 270,
+              child: TextPoppins(
+                text:
+                    "Te hemos enviado el código a tu correo para confirmar la operación",
+                fontSize: 12,
+                textDark: titleDark,
+                textLight: titleLight,
+                lines: 2,
+                align: TextAlign.center,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+            const VeridicationCodeV2(),
+
+            const SizedBox(height: 10),
+            if (ref.watch(timerCounterDownProvider) == 0) ...[
+              ButtonInvestment(
+                text: 'Reenviar código',
+                onPressed: () => reSendEmail(),
+              ),
+            ] else ...[
+              SizedBox(
+                width: 280,
+                child: Text(
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                    height: 1.5,
+                    color: isDarkMode ? Colors.white : const Color(primaryDark),
+                  ),
+                  "Reenviar el codigo en",
+                ),
+              ),
+              const SizedBox(height: 10),
+              const CircularCountdownV2(),
+              const SizedBox(height: 10),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
@@ -186,8 +188,8 @@ class VeridicationCodeV2 extends HookConsumerWidget {
         });
       },
       underlineWidth: 1.5,
-      margin: const EdgeInsets.all(5),
-      padding: const EdgeInsets.all(5),
+      margin: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(3),
       digitsOnly: true,
       keyboardType: TextInputType.number,
       length: 4,
