@@ -1,5 +1,9 @@
+import 'package:finniu/presentation/providers/recovery_password_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
@@ -7,6 +11,7 @@ import 'package:finniu/presentation/screens/v2_user_profile/widgets/password_req
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class NewPasswordV2 extends ConsumerWidget {
   const NewPasswordV2({super.key});
@@ -69,10 +74,55 @@ class FormNewPasword extends HookConsumerWidget {
     final ValueNotifier<bool> isPasswordExpanded = ValueNotifier<bool>(false);
     final FocusNode focusNode = FocusNode();
 
+    void savePassword() async {
+      if (!formKey.currentState!.validate()) {
+        showSnackBarV2(
+          context: context,
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
+          snackType: SnackType.warning,
+        );
+        return;
+      } else {
+        if (passwordError.value) return;
+        if (passwordConfirmError.value) return;
+        context.loaderOverlay.show();
+        final status = await ref.read(
+          setNewPasswordFutureProvider(passwordController.text).future,
+        );
+        if (status == true) {
+          ref
+              .read(userProfileNotifierProvider.notifier)
+              .setPassword(passwordController.text);
+          const SnackBar(
+            content: Text('Contraseña cambiada con éxito'),
+          );
+          showSnackBarV2(
+            context: context,
+            title: "Contraseña cambiada con ≠!",
+            message: 'Contraseña cambiada con éxito!',
+            snackType: SnackType.success,
+          );
+
+          await Future.delayed(const Duration(seconds: 1));
+          Navigator.pushNamed(context, '/v2/login_email');
+          context.loaderOverlay.hide();
+        } else {
+          context.loaderOverlay.hide();
+          showSnackBarV2(
+            context: context,
+            title: "Error al cambiar la contraseña",
+            message: 'No se pudo cambiar la contraseña',
+            snackType: SnackType.error,
+          );
+        }
+      }
+    }
+
     return Form(
       key: formKey,
       child: SizedBox(
-        height: 250,
+        height: 350,
         child: Stack(
           children: [
             Column(
@@ -98,7 +148,6 @@ class FormNewPasword extends HookConsumerWidget {
                         return null;
                       },
                       onFocusChanged: (hasFocus) {
-                        print("hasFocus $hasFocus");
                         isPasswordExpanded.value = hasFocus;
                       },
                     );
@@ -125,6 +174,13 @@ class FormNewPasword extends HookConsumerWidget {
                       },
                     );
                   },
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ButtonInvestment(
+                  text: "Aceptar",
+                  onPressed: () => savePassword(),
                 ),
               ],
             ),
@@ -211,7 +267,7 @@ class PasswordNewRequired extends HookConsumerWidget {
     );
 
     return Positioned(
-      top: 50,
+      top: 120,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
