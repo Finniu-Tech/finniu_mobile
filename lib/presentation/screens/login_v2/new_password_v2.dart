@@ -1,9 +1,11 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/widgets/password_required.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class NewPasswordV2 extends ConsumerWidget {
@@ -14,6 +16,7 @@ class NewPasswordV2 extends ConsumerWidget {
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const String text = "Ingresa tu nueva contraseña";
+
     return ScaffoldUserProfile(
       children: [
         Center(
@@ -51,13 +54,13 @@ class NewPasswordV2 extends ConsumerWidget {
   }
 }
 
-class FormNewPasword extends StatelessWidget {
+class FormNewPasword extends HookConsumerWidget {
   const FormNewPasword({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final passwordController = TextEditingController();
     final passwordConfirmController = TextEditingController();
@@ -65,74 +68,210 @@ class FormNewPasword extends StatelessWidget {
     final ValueNotifier<bool> passwordConfirmError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> isPasswordExpanded = ValueNotifier<bool>(false);
     final FocusNode focusNode = FocusNode();
+
     return Form(
       key: formKey,
-      child: Stack(
-        children: [
-          Column(
-            children: [
-              ValueListenableBuilder<bool>(
-                valueListenable: passwordError,
-                builder: (context, isError, child) {
-                  return InputPasswordFieldUserProfile(
-                    focusNode: focusNode,
-                    onTap: () {
-                      isPasswordExpanded.value = true;
-                    },
-                    isError: isError,
-                    onError: () => passwordError.value = false,
-                    controller: passwordController,
-                    hintText: "Contraseña ",
-                    validator: (value) {
-                      validatePassword(
-                        value: value,
-                        context: context,
-                        boolNotifier: passwordError,
-                      );
-                      return null;
-                    },
-                    onFocusChanged: (hasFocus) {
-                      isPasswordExpanded.value = hasFocus;
-                    },
-                  );
-                },
-              ),
-              ValueListenableBuilder<bool>(
-                valueListenable: passwordConfirmError,
-                builder: (context, isError, child) {
-                  return InputPasswordFieldUserProfile(
-                    onFocusChanged: (p0) {},
-                    onTap: () {},
-                    isError: isError,
-                    onError: () => passwordConfirmError.value = false,
-                    controller: passwordConfirmController,
-                    hintText: "Confirmar contraseña",
-                    validator: (value) {
-                      validateConfirmPassword(
-                        value: value,
-                        context: context,
-                        boolNotifier: passwordConfirmError,
-                        password: passwordController.text.trim(),
-                      );
-                      return null;
-                    },
-                  );
-                },
-              ),
-            ],
-          ),
-          ValueListenableBuilder<bool>(
-            valueListenable: isPasswordExpanded,
-            builder: (context, isError, child) {
-              return isPasswordExpanded.value
-                  ? PasswordRequired(
+      child: SizedBox(
+        height: 250,
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: passwordError,
+                  builder: (context, isError, child) {
+                    return InputPasswordFieldUserProfile(
+                      focusNode: focusNode,
+                      onTap: () {
+                        isPasswordExpanded.value = true;
+                      },
+                      isError: isError,
+                      onError: () => passwordError.value = false,
                       controller: passwordController,
-                      isExpanded: isPasswordExpanded.value,
-                    )
-                  : const SizedBox();
-            },
-          ),
-        ],
+                      hintText: "Contraseña ",
+                      validator: (value) {
+                        validatePassword(
+                          value: value,
+                          context: context,
+                          boolNotifier: passwordError,
+                        );
+                        return null;
+                      },
+                      onFocusChanged: (hasFocus) {
+                        print("hasFocus $hasFocus");
+                        isPasswordExpanded.value = hasFocus;
+                      },
+                    );
+                  },
+                ),
+                ValueListenableBuilder<bool>(
+                  valueListenable: passwordConfirmError,
+                  builder: (context, isError, child) {
+                    return InputPasswordFieldUserProfile(
+                      onFocusChanged: (p0) {},
+                      onTap: () {},
+                      isError: isError,
+                      onError: () => passwordConfirmError.value = false,
+                      controller: passwordConfirmController,
+                      hintText: "Confirmar contraseña",
+                      validator: (value) {
+                        validateConfirmPassword(
+                          value: value,
+                          context: context,
+                          boolNotifier: passwordConfirmError,
+                          password: passwordController.text.trim(),
+                        );
+                        return null;
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: isPasswordExpanded,
+              builder: (context, isError, child) {
+                return isPasswordExpanded.value
+                    ? PasswordNewRequired(
+                        controller: passwordController,
+                        isExpanded: isPasswordExpanded.value,
+                      )
+                    : const SizedBox();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PasswordNewRequired extends HookConsumerWidget {
+  const PasswordNewRequired({
+    super.key,
+    required this.controller,
+    required this.isExpanded,
+  });
+  final bool isExpanded;
+  final TextEditingController controller;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int containerDark = 0xff222222;
+    const int containerLight = 0xffF7F7F7;
+
+    final ValueNotifier<bool> eightCharacters = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> oneNumber = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> oneLowercase = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> oneCapital = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> oneSpecialSymbol = ValueNotifier<bool>(false);
+
+    final RegExp hasDigits = RegExp(r'[0-9]');
+    final RegExp hasLowercase = RegExp(r'[a-z]');
+    final RegExp hasUppercase = RegExp(r'[A-Z]');
+    final RegExp hasSpecialCharacters = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+    useEffect(
+      () {
+        controller.text.length >= 8
+            ? eightCharacters.value = true
+            : eightCharacters.value = false;
+        hasDigits.hasMatch(controller.text)
+            ? oneNumber.value = true
+            : oneNumber.value = false;
+        hasLowercase.hasMatch(controller.text)
+            ? oneLowercase.value = true
+            : oneLowercase.value = false;
+        hasUppercase.hasMatch(controller.text)
+            ? oneCapital.value = true
+            : oneCapital.value = false;
+        hasSpecialCharacters.hasMatch(controller.text)
+            ? oneSpecialSymbol.value = true
+            : oneSpecialSymbol.value = false;
+        controller.addListener(() {
+          controller.text.length >= 8
+              ? eightCharacters.value = true
+              : eightCharacters.value = false;
+          hasDigits.hasMatch(controller.text)
+              ? oneNumber.value = true
+              : oneNumber.value = false;
+          hasLowercase.hasMatch(controller.text)
+              ? oneLowercase.value = true
+              : oneLowercase.value = false;
+          hasUppercase.hasMatch(controller.text)
+              ? oneCapital.value = true
+              : oneCapital.value = false;
+          hasSpecialCharacters.hasMatch(controller.text)
+              ? oneSpecialSymbol.value = true
+              : oneSpecialSymbol.value = false;
+        });
+        return null;
+      },
+      [controller],
+    );
+
+    return Positioned(
+      top: 50,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: isDarkMode
+              ? const Color(containerDark)
+              : const Color(containerLight),
+        ),
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 200,
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ValueListenableBuilder<bool>(
+              valueListenable: eightCharacters,
+              builder: (context, value, child) {
+                return ItemValidate(
+                  text: "Al menos 8 caracteres",
+                  isValidate: eightCharacters.value,
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: oneNumber,
+              builder: (context, value, child) {
+                return ItemValidate(
+                  text: "Al menos 1 número (0....9)",
+                  isValidate: oneNumber.value,
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: oneLowercase,
+              builder: (context, value, child) {
+                return ItemValidate(
+                  text: "Al menos 1 letra minúscula (a...z)",
+                  isValidate: oneLowercase.value,
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: oneCapital,
+              builder: (context, value, child) {
+                return ItemValidate(
+                  text: "Al menos 1 letra mayúscula (A...Z)",
+                  isValidate: oneCapital.value,
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: oneSpecialSymbol,
+              builder: (context, value, child) {
+                return ItemValidate(
+                  text: "Al menos 1 símbolo especial (!...\$)",
+                  isValidate: oneSpecialSymbol.value,
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
