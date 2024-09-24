@@ -5,14 +5,14 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/activate_account_v2.dart/widgets/verification_code_v2.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class ActivateAccountV2 extends HookConsumerWidget {
+class ActivateAccountV2 extends ConsumerWidget {
   const ActivateAccountV2({
     super.key,
   });
@@ -31,16 +31,16 @@ class ActivateAccountV2 extends HookConsumerWidget {
 
       client.when(
         data: (client) async {
-          print('email: ${user.email}');
           final result = await (sendEmailOTPCode(user.email!, client));
 
           if (result == true) {
             ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
           } else {
-            CustomSnackbar.show(
-              context,
-              'No se pudo reenviar el correo',
-              'error',
+            showSnackBarV2(
+              context: context,
+              title: "Error al enviar el correo",
+              message: 'No se pudo enviar el correo',
+              snackType: SnackType.error,
             );
           }
         },

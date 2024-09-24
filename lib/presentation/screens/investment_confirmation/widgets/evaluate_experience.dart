@@ -3,8 +3,7 @@ import 'package:finniu/infrastructure/datasources/nps_imp.dart';
 import 'package:finniu/presentation/providers/evaluate_experience_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/widgets/buttons.dart';
-import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -30,7 +29,9 @@ void showExperienceEvaluation(
 }
 
 class EvaluateExperienceWidget extends HookConsumerWidget {
-  const EvaluateExperienceWidget({key});
+  const EvaluateExperienceWidget({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -59,11 +60,11 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(18.0),
+          const Padding(
+            padding: EdgeInsets.all(18.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 SizedBox(
                   width: 260,
                   child: Text(
@@ -84,11 +85,11 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
+          const Padding(
+            padding: EdgeInsets.only(left: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 EmojiWidget(score: 1, emoji: 'assets/images/angry.png'),
                 SizedBox(
                   width: 10,
@@ -119,7 +120,10 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
               const Text(
                 'Mala experiencia',
                 style: TextStyle(
-                    height: 1.5, fontSize: 8, color: Color(blackText)),
+                  height: 1.5,
+                  fontSize: 8,
+                  color: Color(blackText),
+                ),
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.3,
@@ -194,10 +198,11 @@ class EvaluateExperienceWidget extends HookConsumerWidget {
                 Navigator.of(context).pop();
                 Navigator.of(context).pushNamed('/finish_investment');
               } else {
-                CustomSnackbar.show(
-                  context,
-                  'Ocurrió un problema',
-                  'error',
+                showSnackBarV2(
+                  context: context,
+                  title: "Error interno",
+                  message: 'Ocurrió un problema',
+                  snackType: SnackType.error,
                 );
               }
             },

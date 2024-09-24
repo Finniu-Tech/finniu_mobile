@@ -5,7 +5,7 @@ import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -50,30 +50,35 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
             if (value != null) {
               ref.read(authTokenProvider.notifier).state = value;
               Navigator.pushNamed(context, '/v2/form_personal_data');
+              context.loaderOverlay.hide();
             } else {
-              CustomSnackbar.show(
-                context,
-                "Error al procesar la solicitud token error",
-                'error',
+              showSnackBarV2(
+                context: context,
+                title: "Error al verificar token",
+                message: "Error al procesar la solicitud token error",
+                snackType: SnackType.error,
               );
+              context.loaderOverlay.hide();
             }
           });
         } else {
-          CustomSnackbar.show(
-            context,
-            "Error al procesar la solicitud d loginResponse false",
-            'error',
+          showSnackBarV2(
+            context: context,
+            title: "Error al verificar token",
+            message: "Error al procesar la solicitud token error",
+            snackType: SnackType.error,
           );
+          context.loaderOverlay.hide();
         }
       });
     } else {
-      Navigator.of(context).pop();
-      CustomSnackbar.show(
-        context,
-        'No se pudo validar el código de verificación',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error al verificar token",
+        message: "Error al procesar la solicitud token error",
+        snackType: SnackType.error,
       );
+      context.loaderOverlay.hide();
     }
-    context.loaderOverlay.hide();
   });
 }

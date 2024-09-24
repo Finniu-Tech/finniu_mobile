@@ -2,9 +2,9 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -66,16 +66,19 @@ class SendCodeV2 extends ConsumerWidget {
                   graphQLClient.when(
                     data: (client) async {
                       final result = await sendEmailOTPCode(
-                          userProfileProvider.email!, client);
+                        userProfileProvider.email!,
+                        client,
+                      );
 
                       if (result == true) {
                         context.loaderOverlay.hide();
                         Navigator.of(context).pushNamed('v2/activate_account');
                       } else {
-                        CustomSnackbar.show(
-                          context,
-                          'No se pudo enviar el correo',
-                          "error",
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error al enviar el correo",
+                          message: 'No se pudo enviar el correo',
+                          snackType: SnackType.error,
                         );
                       }
                     },

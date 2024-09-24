@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
@@ -13,12 +14,18 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.d
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/row_dowload.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -27,8 +34,28 @@ class CatalogScreen extends HookConsumerWidget {
   const CatalogScreen({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    void setDarkMode() {
+      if (!isDarkMode) {
+        ref.read(settingsNotifierProvider.notifier).setDarkMode();
+      } else {
+        ref.read(settingsNotifierProvider.notifier).setLightMode();
+      }
+    }
+
+    bool invest = false;
+
+    void setInvest() {
+      invest = !invest;
+    }
+
+    const int backgroundDark = 0xff191919;
+    const int backgroundLight = 0xffFFFFFF;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         elevation: 0.0,
@@ -39,6 +66,187 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "show verifica tu identidad",
+              onPressed: () {
+                showVerifyIdentity(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go login",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/login_email');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "snackbar error",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.error,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "snackbar warning",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.warning,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "snackbar success",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.success,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "snackbar info",
+              onPressed: () {
+                showSnackBarV2(
+                  context: context,
+                  title: "probando",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  snackType: SnackType.info,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: RowDownload(
+                title: "Declaración - Marzo",
+              ),
+            ),
+            const ExpansionTitleLegal(
+              title: "Verificación  legal",
+              children: [
+                ChildrenCheckboxTitle(
+                  text:
+                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
+                  value: true,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const ExpansionTitleLegal(
+              title: "Declaración a la Sunat 5%",
+              children: [
+                ChildrenOnlyText(
+                  textBig: true,
+                  text:
+                      "Este 5% es la tributación correspondiente por renta de 2da categoría (inversiones). Aplica sobre tus intereses ganados.",
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const ExpansionTitleProfile(
+              icon: "assets/svg_icons/dark_mode_icon.svg",
+              title: "Contraseñas",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              children: [
+                ChildrenTitle(
+                  title: "Visualización de contraseña",
+                  subtitle: "Mostrar caracteres brevemente mientras escribes",
+                ),
+                ChildrenOnlyText(
+                  text:
+                      "Política de privacidad de la app Finniu, tenemos respaldo y seguridad de tus datos , no los compartimos ni exponemos tus datos personales  ",
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            ButtonSwitchProfile(
+              icon: null,
+              title: "Sobre mis inversiones",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              onTap: () => setInvest(),
+              value: invest,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonSwitchProfile(
+              icon: "assets/svg_icons/dark_mode_icon.svg",
+              title: "Modo oscuro",
+              subtitle: "Elige tu modo favorito",
+              onTap: () => setDarkMode(),
+              value: !isDarkMode,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const ButtonNavigateProfile(
+              icon: "assets/svg_icons/help_circle.svg",
+              title: "Soporte y ayuda",
+              subtitle: "Ticket de soporte y preguntas \nfrecuentes",
+              onTap: null,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const ButtonNavigateProfile(
+              isComplete: true,
+              icon: "assets/svg_icons/help_circle.svg",
+              title: "Soporte y ayuda",
+              subtitle: "Ticket de soporte y preguntas \nfrecuentes",
+              onTap: null,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go to '/v2/profile'",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/profile');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "go to '/v2/on_boarding'",
               onPressed: () {

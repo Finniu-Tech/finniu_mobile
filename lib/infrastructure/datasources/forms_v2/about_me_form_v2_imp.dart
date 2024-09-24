@@ -41,6 +41,7 @@ class AboutMeFormV2Imp extends GraphQLBaseDataSource {
           ],
         );
       }
+
       final RegisterUserV2Response registerUserV2Response =
           RegisterUserV2Response.fromJson(
         response.data?["registerUserAboutMe"] ?? {},

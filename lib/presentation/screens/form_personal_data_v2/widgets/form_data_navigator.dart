@@ -19,8 +19,7 @@ class FormDataNavigator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       height: 100,
       child: Column(

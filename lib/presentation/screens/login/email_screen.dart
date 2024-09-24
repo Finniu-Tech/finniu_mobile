@@ -3,10 +3,13 @@ import 'package:email_validator/email_validator.dart';
 import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 import 'package:finniu/constants/colors.dart';
@@ -19,7 +22,6 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 
 class EmailLoginScreen extends HookConsumerWidget {
@@ -27,14 +29,15 @@ class EmailLoginScreen extends HookConsumerWidget {
 
   final secureStorage = const FlutterSecureStorage();
   final passwordController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController(text: Preferences.username ?? "");
+  final TextEditingController _emailController =
+      TextEditingController(text: Preferences.username ?? "");
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final showError = useState(false);
+    final graphqlProvider = ref.watch(gqlClientProvider.future);
     final themeProvider = ref.watch(settingsNotifierProvider);
     final formKey = GlobalKey<FormState>();
-    final graphqlProvider = ref.watch(gqlClientProvider.future);
     final rememberPassword = useState(Preferences.rememberMe);
 
     return CustomLoaderOverlay(
@@ -61,7 +64,8 @@ class EmailLoginScreen extends HookConsumerWidget {
                 alignment: Alignment.center,
                 child: TextPoppins(
                   text: '¡Bienvenido a Finniu!',
-                  colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                  colorText:
+                      themeProvider.isDarkMode ? skyBlueText : primaryDark,
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
@@ -77,7 +81,8 @@ class EmailLoginScreen extends HookConsumerWidget {
                         alignment: Alignment.topLeft,
                         child: TextPoppins(
                           text: 'Ingresa a tu cuenta',
-                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
+                          colorText:
+                              themeProvider.isDarkMode ? whiteText : blackText,
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
@@ -91,10 +96,13 @@ class EmailLoginScreen extends HookConsumerWidget {
                           onChanged: (value) {
                             // Actualiza _email y el textvalue.toLowerCase();
                             _emailController.text = value.trim().toLowerCase();
-                            ;
                             // Mueve el cursor al final del texto
                             _emailController.selection =
-                                TextSelection.fromPosition(TextPosition(offset: _emailController.text.length));
+                                TextSelection.fromPosition(
+                              TextPosition(
+                                offset: _emailController.text.length,
+                              ),
+                            );
                           },
                           decoration: const InputDecoration(
                             hintText: 'Escriba su correo electrónico',
@@ -135,7 +143,9 @@ class EmailLoginScreen extends HookConsumerWidget {
                               alignment: Alignment.topRight,
                               child: TextPoppins(
                                 text: 'Olvidé mi contraseña',
-                                colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                                colorText: themeProvider.isDarkMode
+                                    ? skyBlueText
+                                    : primaryDark,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -166,79 +176,139 @@ class EmailLoginScreen extends HookConsumerWidget {
                           onPressed: () async {
                             if (formKey.currentState!.validate()) {
                               context.loaderOverlay.show();
-                              final loginResponse = AuthRepository().login(
-                                client: await graphqlProvider,
-                                username: _emailController.value.text.toLowerCase(),
-                                password: passwordController.value.text,
-                              );
-                              loginResponse.then((value) {
-                                if (value.success == true) {
-                                  final token = ref.watch(
-                                    authTokenMutationProvider(
-                                      LoginModel(
-                                        email: _emailController.value.text.toLowerCase(),
-                                        password: passwordController.value.text,
-                                      ),
-                                    ).future,
-                                  );
-                                  token.then(
-                                    (value) async {
-                                      if (value != null) {
-                                        ref.read(authTokenProvider.notifier).state = value;
-                                        Preferences.username = _emailController.value.text.toLowerCase();
-                                        context.loaderOverlay.hide();
-                                        if (rememberPassword.value) {
-                                          // print(password.value);
-                                          await secureStorage.write(
-                                            key: 'password',
-                                            value: passwordController.value.text,
+                              try {
+                                bool isConnected =
+                                    await InternetConnectionChecker()
+                                        .hasConnection;
+                                if (!isConnected) {
+                                  context.loaderOverlay.hide();
+                                  showNetworkWarning(context: context);
+                                  return;
+                                }
+
+                                final loginResponse = AuthRepository().login(
+                                  client: await graphqlProvider,
+                                  username:
+                                      _emailController.value.text.toLowerCase(),
+                                  password: passwordController.value.text,
+                                );
+                                loginResponse.then((value) {
+                                  if (value.success == true) {
+                                    final token = ref.watch(
+                                      authTokenMutationProvider(
+                                        LoginModel(
+                                          email: _emailController.value.text
+                                              .toLowerCase(),
+                                          password:
+                                              passwordController.value.text,
+                                        ),
+                                      ).future,
+                                    );
+                                    token.then(
+                                      (value) async {
+                                        if (value != null) {
+                                          ref
+                                              .read(authTokenProvider.notifier)
+                                              .state = value;
+                                          Preferences.username =
+                                              _emailController.value.text
+                                                  .toLowerCase();
+                                          context.loaderOverlay.hide();
+                                          if (rememberPassword.value) {
+                                            await secureStorage.write(
+                                              key: 'password',
+                                              value:
+                                                  passwordController.value.text,
+                                            );
+                                          }
+
+                                          final featureFlags = await ref.read(
+                                            userFeatureFlagListFutureProvider
+                                                .future,
                                           );
+                                          ref
+                                              .read(
+                                                featureFlagsProvider.notifier,
+                                              )
+                                              .setFeatureFlags(featureFlags);
+
+                                          final String route = ref
+                                                  .watch(
+                                                    featureFlagsProvider
+                                                        .notifier,
+                                                  )
+                                                  .isEnabled(
+                                                    FeatureFlags.homeV2,
+                                                  )
+                                              ? FeatureRoutes.getRouteForFlag(
+                                                  FeatureFlags.homeV2,
+                                                  defaultHomeRoute,
+                                                )
+                                              : defaultHomeRoute;
+
+                                          Navigator.pushNamed(
+                                            context,
+                                            route,
+                                          );
+                                        } else {
+                                          showError.value = true;
                                         }
+                                      },
+                                      onError: (err) {
+                                        context.loaderOverlay.hide();
+                                        showError.value = true;
+                                      },
+                                    );
+                                  } else {
+                                    context.loaderOverlay.hide();
+                                    if (value.error ==
+                                        'Su usuario no a sido activado') {
+                                      showSnackBarV2(
+                                        context: context,
+                                        title: "Error al iniciar sesión",
+                                        message: value.error ??
+                                            'Su usuario no a sido activado',
+                                        snackType: SnackType.error,
+                                      );
 
-                                        final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
-                                        print('featureFlags: $featureFlags');
-                                        ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
-
-                                        final String route =
-                                            ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
-                                                ? FeatureRoutes.getRouteForFlag(FeatureFlags.homeV2, defaultHomeRoute)
-                                                : defaultHomeRoute;
-
+                                      ref
+                                          .read(
+                                            userProfileNotifierProvider
+                                                .notifier,
+                                          )
+                                          .updateFields(
+                                            email: _emailController.value.text,
+                                            password:
+                                                passwordController.value.text,
+                                          );
+                                      Future.delayed(const Duration(seconds: 3),
+                                          () {
                                         Navigator.pushNamed(
                                           context,
-                                          route,
+                                          '/send_code',
                                         );
-                                      } else {
-                                        showError.value = true;
-                                      }
-                                    },
-                                    onError: (err) {
-                                      context.loaderOverlay.hide();
-                                      showError.value = true;
-                                    },
-                                  );
-                                } else {
-                                  context.loaderOverlay.hide();
-                                  if (value.error == 'Su usuario no a sido activado') {
-                                    CustomSnackbar.show(
-                                      context,
-                                      value.error ?? 'Su usuario no a sido activado',
-                                      'error',
-                                    );
-                                    ref.read(userProfileNotifierProvider.notifier).updateFields(
-                                        email: _emailController.value.text, password: passwordController.value.text);
-                                    Future.delayed(const Duration(seconds: 3), () {
-                                      Navigator.pushNamed(context, '/send_code');
-                                    });
-                                  } else {
-                                    CustomSnackbar.show(
-                                      context,
-                                      value.error ?? 'No se pudo validar sus credenciales',
-                                      'error',
-                                    );
+                                      });
+                                    } else {
+                                      showSnackBarV2(
+                                        context: context,
+                                        title: "Error al iniciar sesión",
+                                        message: value.error ??
+                                            'No se pudo validar sus credenciales',
+                                        snackType: SnackType.error,
+                                      );
+                                    }
                                   }
-                                }
-                              });
+                                });
+                              } catch (e) {
+                                context.loaderOverlay.hide();
+                                showSnackBarV2(
+                                  context: context,
+                                  title: "Error al iniciar sesión",
+                                  message:
+                                      'Ocurrió un problema, vuelva a intentarlo en unos minutos',
+                                  snackType: SnackType.error,
+                                );
+                              }
                             }
                           },
                         ),
@@ -247,7 +317,8 @@ class EmailLoginScreen extends HookConsumerWidget {
                       Center(
                         child: TextPoppins(
                           text: '¿Aún no tienes una cuenta creada?',
-                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
+                          colorText:
+                              themeProvider.isDarkMode ? whiteText : blackText,
                           fontSize: 11,
                           fontWeight: FontWeight.w400,
                         ),
@@ -260,16 +331,18 @@ class EmailLoginScreen extends HookConsumerWidget {
                         child: Center(
                           child: TextPoppins(
                             text: 'Registrarme',
-                            colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                            colorText: themeProvider.isDarkMode
+                                ? skyBlueText
+                                : primaryDark,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -290,10 +363,10 @@ class PasswordField extends StatefulWidget {
   // })
 
   PasswordField({
-    Key? key,
+    super.key,
     required this.passwordController,
     required this.secureStorage,
-  }) : super(key: key);
+  });
 
   @override
   _PasswordFieldState createState() => _PasswordFieldState();

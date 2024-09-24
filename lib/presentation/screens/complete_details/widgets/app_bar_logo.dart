@@ -15,10 +15,23 @@ class AppBarLogo extends ConsumerWidget implements PreferredSizeWidget {
     const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
     return AppBar(
+      automaticallyImplyLeading: false,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          color: isDarkMode
+              ? const Color(iconColorDark)
+              : const Color(iconColorLight),
+        ),
+        onPressed: () {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          Navigator.of(context).pop();
+        },
+      ),
       backgroundColor: isDarkMode
           ? const Color(backgroundDark)
           : const Color(backgroundLight),
-      automaticallyImplyLeading: true,
+      // automaticallyImplyLeading: true,
       iconTheme: isDarkMode
           ? const IconThemeData(color: Color(iconColorDark))
           : const IconThemeData(color: Color(iconColorLight)),

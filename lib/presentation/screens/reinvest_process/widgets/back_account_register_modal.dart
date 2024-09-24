@@ -8,8 +8,8 @@ import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -40,12 +40,12 @@ class AccountTransferModal extends StatefulHookConsumerWidget {
   });
 
   @override
-  _AccountTransferModalState createState() => _AccountTransferModalState();
+  AccountTransferModalState createState() => AccountTransferModalState();
   final String currency;
   final bool isSender;
 }
 
-class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
+class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   bool isJointAccount = false;
   bool personalAccountDeclaration = false;
   bool useForFutureOperations = false;
@@ -53,11 +53,16 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   final TextEditingController accountTypeController = TextEditingController();
   final TextEditingController accountNumberController = TextEditingController();
   final TextEditingController accountNameController = TextEditingController();
-  final TextEditingController jointHolderNameController = TextEditingController();
-  final TextEditingController jointHolderLastNameController = TextEditingController();
-  final TextEditingController jointHolderMothersLastNameController = TextEditingController();
-  final TextEditingController jointHolderDocTypeController = TextEditingController();
-  final TextEditingController jointHolderDocNumberController = TextEditingController();
+  final TextEditingController jointHolderNameController =
+      TextEditingController();
+  final TextEditingController jointHolderLastNameController =
+      TextEditingController();
+  final TextEditingController jointHolderMothersLastNameController =
+      TextEditingController();
+  final TextEditingController jointHolderDocTypeController =
+      TextEditingController();
+  final TextEditingController jointHolderDocNumberController =
+      TextEditingController();
   final TextEditingController cciNumberController = TextEditingController();
 
   @override
@@ -78,104 +83,140 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   bool validate(BuildContext context) {
     bool result = true;
     if (bankController.text.isEmpty) {
-      CustomSnackbar.show(context, "Debe seleccionar un banco", 'error');
+      showSnackBarV2(
+        context: context,
+        title: "Debe seleccionar un banco",
+        message: "Debe seleccionar un banco",
+        snackType: SnackType.warning,
+      );
+
       return false;
     }
     if (accountTypeController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        "Debe seleccionar un tipo de cuenta",
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Debe seleccionar un tipo de cuenta",
+        message: "Debe seleccionar un tipo de cuenta",
+        snackType: SnackType.warning,
       );
+
       return false;
     }
     if (accountNumberController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        "Debe ingresar un número de cuenta",
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Debe ingresar un número de cuenta",
+        message: "Debe ingresar un número de cuenta",
+        snackType: SnackType.warning,
       );
+
       return false;
     }
     if (cciNumberController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        "Debe ingresar un número de cuenta interbancaria",
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Debe ingresar un número de cuenta interbancaria",
+        message: "Debe ingresar un número de cuenta interbancaria",
+        snackType: SnackType.warning,
       );
       return false;
     }
-    // if (accountNumberController.text.length > 20) {
-    //   CustomSnackbar.show(context, "El número de cuenta es inválido", 'error');
-    //   return false;
-    // }
-    if (accountTypeController.text == 'Mancomunada' && isJointAccount == false) {
-      CustomSnackbar.show(
-        context,
-        "Debe completar los datos de la cuenta mancomunada",
-        'error',
+
+    if (accountTypeController.text == 'Mancomunada' &&
+        isJointAccount == false) {
+      showSnackBarV2(
+        context: context,
+        title: "Debe completar los datos de la cuenta mancomunada",
+        message: "Debe completar los datos de la cuenta mancomunada",
+        snackType: SnackType.warning,
       );
+
       return false;
     }
     if (isJointAccount) {
       if (jointHolderNameController.text.isEmpty) {
-        CustomSnackbar.show(
-          context,
-          "Debe ingresar el nombre del titular",
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Debe ingresar el nombre del titular",
+          message: "Debe ingresar el nombre del titular",
+          snackType: SnackType.warning,
         );
+
         return false;
       }
       if (jointHolderLastNameController.text.isEmpty) {
-        CustomSnackbar.show(
-          context,
-          "Debe ingresar el apellido paterno del titular",
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Debe ingresar el apellido paterno del titular",
+          message: "Debe ingresar el apellido paterno del titular",
+          snackType: SnackType.warning,
         );
+
         return false;
       }
       if (jointHolderMothersLastNameController.text.isEmpty) {
-        CustomSnackbar.show(
-          context,
-          "Debe ingresar el apellido materno del titular",
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Debe ingresar el apellido materno del titular",
+          message: "Debe ingresar el apellido materno del titular",
+          snackType: SnackType.warning,
         );
+
         return false;
       }
       if (jointHolderDocTypeController.text.isEmpty) {
-        CustomSnackbar.show(
-          context,
-          "Debe seleccionar un tipo de documento",
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Debe seleccionar un tipo de documento",
+          message: "Debe seleccionar un tipo de documento",
+          snackType: SnackType.warning,
         );
+
         return false;
       }
       if (jointHolderDocNumberController.text.isEmpty) {
-        CustomSnackbar.show(
-          context,
-          "Debe ingresar el número de documento",
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Debe ingresar el número de documento",
+          message: "Debe ingresar el número de documento",
+          snackType: SnackType.warning,
         );
+
         return false;
       }
-      if (jointHolderDocTypeController.text == 'DNI' && jointHolderDocNumberController.text.length != 8) {
-        CustomSnackbar.show(context, "El DNI debe tener 8 dígitos", 'error');
+      if (jointHolderDocTypeController.text == 'DNI' &&
+          jointHolderDocNumberController.text.length != 8) {
+        showSnackBarV2(
+          context: context,
+          title: "El DNI debe tener 8 dígitos",
+          message: "El DNI debe tener 8 dígitos",
+          snackType: SnackType.warning,
+        );
+
         return false;
       } else {
         if (jointHolderDocTypeController.text == 'Carnet de Extranjería' &&
             jointHolderDocNumberController.text.length != 20) {
-          CustomSnackbar.show(context, "El Carnet de Extranjería debe tener 20 dígitos", 'error');
+          showSnackBarV2(
+            context: context,
+            title: "El Carnet de Extranjería debe tener 20 dígitos",
+            message: "El Carnet de Extranjería debe tener 20 dígitos",
+            snackType: SnackType.warning,
+          );
+
           return false;
         }
       }
     }
     if (!isJointAccount) {
       if (!personalAccountDeclaration) {
-        CustomSnackbar.show(
-          context,
-          "Debe declarar que es su cuenta personal",
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Debe declarar que es su cuenta personal",
+          message: "Debe declarar que es su cuenta personal",
+          snackType: SnackType.warning,
         );
+
         return false;
       }
     }
@@ -224,7 +265,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                      color: theme.isDarkMode
+                          ? const Color(secondaryGrayText)
+                          : const Color(primaryDark),
                     ),
                   ),
                 ),
@@ -304,7 +347,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                       ),
                     ),
                     const Spacer(),
@@ -313,7 +358,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                       ),
                     ),
                     Switch(
@@ -354,7 +401,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Apellido Paterno",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -366,7 +414,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Apellido Materno",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -378,7 +427,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     children: [
                       Container(
                         width: MediaQuery.of(context).size.width * 0.4,
-                        constraints: const BoxConstraints(minWidth: 154, maxWidth: 154),
+                        constraints:
+                            const BoxConstraints(minWidth: 154, maxWidth: 154),
                         child: CustomSelectButton(
                           width: 154,
                           textEditingController: jointHolderDocTypeController,
@@ -397,7 +447,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           decoration: const InputDecoration(
                             labelText: "Número de documento",
                             border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(25)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(25)),
                             ),
                           ),
                         ),
@@ -421,7 +472,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -441,7 +494,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -479,7 +534,9 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           await bankFuture,
                         ),
                         typeAccount: mapTypeAccount(accountTypeController.text),
-                        currency: widget.currency == currencyEnum.PEN ? 'SOLES' : 'DOLARES',
+                        currency: widget.currency == currencyEnum.PEN
+                            ? 'SOLES'
+                            : 'DOLARES',
                         bankAccount: accountNumberController.text,
                         cci: cciNumberController.text,
                         aliasBankAccount: accountNameController.text,
@@ -490,7 +547,8 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                                 name: jointHolderNameController.text,
                                 lastName: jointHolderLastNameController.text,
                                 documentType: jointHolderDocTypeController.text,
-                                documentNumber: jointHolderDocNumberController.text,
+                                documentNumber:
+                                    jointHolderDocNumberController.text,
                               )
                             : null,
                       );
@@ -499,22 +557,31 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                           if (response.success) {
                             context.loaderOverlay.hide();
                             ref.invalidate(bankAccountFutureProvider);
-                            CustomSnackbar.show(
-                              context,
-                              "Cuenta guardada correctamente",
-                              'success',
+                            showSnackBarV2(
+                              context: context,
+                              title: "Cuenta guardada correctamente",
+                              message: "Cuenta guardada correctamente",
+                              snackType: SnackType.success,
                             );
+
                             //wait 3 seconds
-                            ref.read(boolCreatedNewBankAccountProvider.notifier).state = true;
+                            ref
+                                .read(
+                                  boolCreatedNewBankAccountProvider.notifier,
+                                )
+                                .state = true;
                             Future.delayed(const Duration(seconds: 1), () {
                               Navigator.of(context).pop();
                             });
                           } else {
                             context.loaderOverlay.hide();
-                            CustomSnackbar.show(
-                              context,
-                              "Hubo un error al guardar la cuenta, verifique los datos e intente nuevamente",
-                              'error',
+                            ref.invalidate(bankAccountFutureProvider);
+                            showSnackBarV2(
+                              context: context,
+                              title: "Error al guardar la cuenta",
+                              message:
+                                  "Verifique los datos e intente nuevamente",
+                              snackType: SnackType.error,
                             );
                           }
                         },
@@ -535,14 +602,17 @@ class _AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     },
                     style: ButtonStyle(
                       overlayColor: WidgetStateProperty.all(Colors.transparent),
-                      backgroundColor: WidgetStateProperty.all(Colors.transparent),
+                      backgroundColor:
+                          WidgetStateProperty.all(Colors.transparent),
                     ),
                     child: Text(
                       "Regresar",
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: theme.isDarkMode ? const Color(secondaryGrayText) : const Color(primaryDark),
+                        color: theme.isDarkMode
+                            ? const Color(secondaryGrayText)
+                            : const Color(primaryDark),
                         decoration: TextDecoration.underline,
                       ),
                     ),
