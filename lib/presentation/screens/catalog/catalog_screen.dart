@@ -67,6 +67,15 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "navigate change pasgord",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/set_new_password');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "show verifica tu identidad",
               onPressed: () {
                 showVerifyIdentity(context);
