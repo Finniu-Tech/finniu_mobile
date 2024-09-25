@@ -86,6 +86,7 @@ class RealEstateBody extends ConsumerWidget {
           TabBarBusiness(
             isReinvest: isReinvest,
           ),
+          const SizedBox(height: 40),
         ],
       ),
     );

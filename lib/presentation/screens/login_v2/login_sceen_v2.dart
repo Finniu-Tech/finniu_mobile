@@ -82,10 +82,8 @@ class FormLogin extends HookConsumerWidget {
     final graphqlProvider = ref.watch(gqlClientProvider.future);
     final passwordState = useState("");
     final formKey = GlobalKey<FormState>();
-    final emailController =
-        useTextEditingController(text: Preferences.username ?? "");
-    final passwordController =
-        useTextEditingController(text: passwordState.value);
+    final emailController = useTextEditingController(text: Preferences.username ?? "");
+    final passwordController = useTextEditingController(text: passwordState.value);
     final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
     final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
 
@@ -138,11 +136,12 @@ class FormLogin extends HookConsumerWidget {
               final token = ref.watch(
                 authTokenMutationProvider(
                   LoginModel(
-                    email: emailController.value.text.toLowerCase(),
+                    email: emailController.value.text.trim().toLowerCase(),
                     password: passwordController.value.text,
                   ),
                 ).future,
               );
+
               token.then(
                 (value) async {
                   if (value != null) {
@@ -153,8 +152,7 @@ class FormLogin extends HookConsumerWidget {
                       snackType: SnackType.success,
                     );
                     ref.read(authTokenProvider.notifier).state = value;
-                    Preferences.username =
-                        emailController.value.text.toLowerCase();
+                    Preferences.username = emailController.value.text.trim().toLowerCase();
                     context.loaderOverlay.hide();
                     if (rememberPassword.value) {
                       await secureStorage.write(
@@ -163,15 +161,10 @@ class FormLogin extends HookConsumerWidget {
                       );
                     }
 
-                    final featureFlags = await ref
-                        .read(userFeatureFlagListFutureProvider.future);
-                    ref
-                        .read(featureFlagsProvider.notifier)
-                        .setFeatureFlags(featureFlags);
+                    final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+                    ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
 
-                    final String route = ref
-                            .watch(featureFlagsProvider.notifier)
-                            .isEnabled(FeatureFlags.homeV2)
+                    final String route = ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
                         ? FeatureRoutes.getRouteForFlag(
                             FeatureFlags.homeV2,
                             defaultHomeRoute,
@@ -295,7 +288,7 @@ class FormLogin extends HookConsumerWidget {
                   }
                 },
               ),
-              const Text('Recordarme para mis futuros ingresos'),
+              const Text('Recordarme para mis futuros ingresos', style: TextStyle(fontSize: 12)),
             ],
           ),
           const SizedBox(height: 10),

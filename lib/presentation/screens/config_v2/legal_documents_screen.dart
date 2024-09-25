@@ -35,12 +35,9 @@ class _BodyLegalDocuments extends HookConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final legalDocuments = ref.watch(userGetLegalProvider);
 
-    final ValueNotifier<bool> politicallyExposed =
-        useState(userProfile.isPublicOfficialOrFamily ?? false);
-    final ValueNotifier<bool> amDirector =
-        useState(userProfile.isDirectorOrShareholder10Percent ?? false);
-    final ValueNotifier<bool> termsConditions =
-        useState(userProfile.acceptTermsConditions ?? false);
+    final ValueNotifier<bool> politicallyExposed = useState(userProfile.isPublicOfficialOrFamily ?? false);
+    final ValueNotifier<bool> amDirector = useState(userProfile.isDirectorOrShareholder10Percent ?? false);
+    final ValueNotifier<bool> termsConditions = useState(userProfile.acceptTermsConditions ?? false);
 
     void setPoliticallyExposed(bool? value) {
       if (value != null) politicallyExposed.value = value;
@@ -71,37 +68,32 @@ class _BodyLegalDocuments extends HookConsumerWidget {
       );
     }
 
-    void openUrl(String? url) async {
-      if (url == null) {
+    Future<void> openUrl(String? url, BuildContext context) async {
+      if (url == null || url.isEmpty) {
         showSnackBarV2(
           context: context,
-          title: "Redireccion no disponible",
-          message: "No hay redireccion disponible, por favor intenta de nuevo",
+          title: "Redirección no disponible",
+          message: "No hay redirección disponible, por favor intenta de nuevo",
           snackType: SnackType.warning,
         );
         return;
       }
 
-      if (url.isEmpty) {
+      try {
+        final urlParsed = Uri.parse(url);
+        final canLaunch = await canLaunchUrl(urlParsed);
+        if (canLaunch) {
+          await launchUrl(urlParsed);
+        } else {
+          throw 'No se puede abrir la URL: $url';
+        }
+      } catch (e) {
         showSnackBarV2(
           context: context,
-          title: "Redireccion no disponible",
-          message: "No hay redireccion disponible, por favor intenta de nuevo",
-          snackType: SnackType.warning,
+          title: "Error de redirección",
+          message: "No se pudo abrir el enlace, por favor intenta de nuevo",
+          snackType: SnackType.error,
         );
-        return;
-      } else {
-        try {
-          launch(url);
-        } catch (e) {
-          showSnackBarV2(
-            context: context,
-            title: "Redireccion no disponible",
-            message:
-                "No hay redireccion disponible, por favor intenta de nuevo",
-            snackType: SnackType.warning,
-          );
-        }
       }
     }
 
@@ -113,14 +105,12 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               title: "Verificación legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text:
-                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
+                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
                   value: politicallyExposed.value,
                   onChanged: setPoliticallyExposed,
                 ),
                 ChildrenCheckboxTitle(
-                  text:
-                      "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
+                  text: "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
                   value: amDirector.value,
                   onChanged: setDirector,
                 ),
@@ -144,14 +134,12 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               title: "Verificación legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text:
-                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
+                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
                   value: politicallyExposed.value,
                   onChanged: setPoliticallyExposed,
                 ),
                 ChildrenCheckboxTitle(
-                  text:
-                      "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
+                  text: "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
                   value: amDirector.value,
                   onChanged: setDirector,
                 ),
@@ -175,7 +163,7 @@ class _BodyLegalDocuments extends HookConsumerWidget {
                 const TitleLegal(),
                 ...documents.sunatDeclarations.map(
                   (e) => GestureDetector(
-                    onTap: () => openUrl(null),
+                    onTap: () => openUrl(e.declarationUrl, context),
                     child: RowDownload(
                       title: e.nameFile,
                     ),
@@ -187,13 +175,13 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               title: "Aceptaciones legales y/o tributarios",
               children: [
                 GestureDetector(
-                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy),
+                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy, context),
                   child: const RowDownload(
                     title: "Términos y Condiciones",
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy),
+                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy, context),
                   child: const RowDownload(
                     title: "Política de Privacidad",
                   ),
