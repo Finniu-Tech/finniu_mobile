@@ -5,10 +5,10 @@ import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/signup_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/use_cases/user/signup.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,8 +18,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-//TODO move mutation here from register
 class SignUpEmailScreen extends HookConsumerWidget {
+  const SignUpEmailScreen({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isHidden = useState(true);
@@ -249,9 +250,9 @@ class SignUpEmailScreen extends HookConsumerWidget {
                               : const Color(primaryDark), // Border color
                           width: 1.5, // Border width
                         ),
-                        fillColor: MaterialStateProperty.resolveWith<Color?>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.selected)) {
+                        fillColor: WidgetStateProperty.resolveWith<Color?>(
+                          (Set<WidgetState> states) {
+                            if (states.contains(WidgetState.selected)) {
                               return themeProvider.isDarkMode
                                   ? const Color(primaryLight)
                                   : const Color(
@@ -309,18 +310,21 @@ class SignUpEmailScreen extends HookConsumerWidget {
                           phoneController.text.isEmpty ||
                           emailController.text.isEmpty ||
                           passwordController.text.isEmpty) {
-                        return CustomSnackbar.show(
-                          context,
-                          'Necesitas completar todos los campos',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Debes completar todos los campos",
+                          message: 'Necesitas completar todos los campos',
+                          snackType: SnackType.warning,
                         );
                       }
 
                       if (!userAcceptedTerms.value) {
-                        return CustomSnackbar.show(
-                          context,
-                          'Necesita aceptar las políticas de privacidad',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Debes aceptar las.políticas de privacidad",
+                          message:
+                              'Necesita aceptar las políticas de privacidad',
+                          snackType: SnackType.warning,
                         );
                       }
 
@@ -343,10 +347,11 @@ class SignUpEmailScreen extends HookConsumerWidget {
                             Navigator.of(context).pushNamed('/send_code');
                           } else {
                             context.loaderOverlay.hide();
-                            CustomSnackbar.show(
-                              context,
-                              'No se pudo completar el registro',
-                              'error',
+                            showSnackBarV2(
+                              context: context,
+                              title: "No se pudo completar el registro",
+                              message: 'No se pudo completar el registro',
+                              snackType: SnackType.error,
                             );
                           }
                         });

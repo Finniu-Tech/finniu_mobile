@@ -48,6 +48,7 @@ class _BodyEditAbout extends ConsumerWidget {
                 ? Center(
                     child: EditAboutForm(
                       isEdit: isEdit,
+                      onEdit: () => isEdit.value = !isEdit.value,
                     ),
                   )
                 : Center(
@@ -167,8 +168,10 @@ class EditAboutForm extends HookConsumerWidget {
   const EditAboutForm({
     super.key,
     required this.isEdit,
+    required this.onEdit,
   });
   final ValueNotifier<bool> isEdit;
+  final VoidCallback onEdit;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
@@ -207,7 +210,7 @@ class EditAboutForm extends HookConsumerWidget {
             biography: biographyAreaController.text.trim(),
             other: "",
           );
-          pushAboutMeDataForm(context, data, ref);
+          pushAboutMeDataForm(context, data, ref, isNavigate: true);
         }
       }
     }

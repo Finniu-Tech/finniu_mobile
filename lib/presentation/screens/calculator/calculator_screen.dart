@@ -5,9 +5,9 @@ import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/presentation/providers/dead_line_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 // import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -38,7 +38,10 @@ class _CalculatorState extends ConsumerState<Calculator> {
     final isSoles = ref.watch(isSolesStateProvider);
     final deadLineFuture = ref.watch(deadLineFutureProvider.future);
 
-    List<Color> dayColors = [const Color(gradient_primary), const Color(gradient_secondary)];
+    List<Color> dayColors = [
+      const Color(gradient_primary),
+      const Color(gradient_secondary),
+    ];
     List<Color> nightColors = [
       const Color(primaryDark),
       const Color(primaryDark),
@@ -70,7 +73,9 @@ class _CalculatorState extends ConsumerState<Calculator> {
                       'assets/images/logo_small.png',
                       width: 70,
                       height: 70,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                 ),
@@ -85,7 +90,9 @@ class _CalculatorState extends ConsumerState<Calculator> {
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
-                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
                         ),
                       ),
                     ),
@@ -141,7 +148,9 @@ class _CalculatorState extends ConsumerState<Calculator> {
                       hintText: 'Ingrese su monto de inversión',
                       hintStyle: TextStyle(
                         fontSize: 10,
-                        color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText1),
+                        color: currentTheme.isDarkMode
+                            ? const Color(whiteText)
+                            : const Color(grayText1),
                       ),
                       suffixIconConstraints: const BoxConstraints(
                         maxHeight: 38,
@@ -163,7 +172,9 @@ class _CalculatorState extends ConsumerState<Calculator> {
                     style: TextStyle(
                       fontSize: 12,
                       height: 1.5,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                 ),
@@ -189,7 +200,9 @@ class _CalculatorState extends ConsumerState<Calculator> {
                     style: TextStyle(
                       fontSize: 12,
                       height: 1.5,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                 ),
@@ -218,17 +231,22 @@ class _CalculatorState extends ConsumerState<Calculator> {
                   margin: const EdgeInsets.only(top: 10),
                   child: TextButton(
                     onPressed: () async {
-                      if (amountController.text.isEmpty || deadLineController.text.isEmpty) {
-                        CustomSnackbar.show(
-                          context,
-                          'Recuerda que todos los campos son requeridos',
-                          'error',
+                      if (amountController.text.isEmpty ||
+                          deadLineController.text.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Completar datos",
+                          message:
+                              'Recuerda que todos los campos son requeridos',
+                          snackType: SnackType.warning,
                         );
-                      } else if (int.parse(amountController.text) < 500) {
-                        CustomSnackbar.show(
-                          context,
-                          'Recuerda que el monto mínimo de inversión es de S/500 y el máximo es de S/100000',
-                          'error',
+                      } else if (int.parse(amountController.text) <= 1000) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error en el monto",
+                          message:
+                              'Recuerda que el monto mínimo de inversión es de S/1000 y el máximo es de S/100000',
+                          snackType: SnackType.warning,
                         );
                       } else {
                         Navigator.pushNamed(
@@ -236,15 +254,20 @@ class _CalculatorState extends ConsumerState<Calculator> {
                           '/calculator_result',
                           arguments: CalculatorInput(
                             amount: int.parse(amountController.text),
-                            months: int.parse(deadLineController.text.split(' ')[0]),
-                            currency: isSoles ? currencyNuevoSol : currencyDollar,
+                            months: int.parse(
+                              deadLineController.text.split(' ')[0],
+                            ),
+                            currency:
+                                isSoles ? currencyNuevoSol : currencyDollar,
                           ),
                         );
                       }
                       setState(() {});
                     },
                     style: ButtonStyle(
-                      elevation: WidgetStateProperty.all<double>(4), // Altura de la sombra
+                      elevation: WidgetStateProperty.all<double>(
+                        4,
+                      ), // Altura de la sombra
 
                       shadowColor: WidgetStateProperty.all<Color>(Colors.grey),
 
@@ -301,7 +324,6 @@ class CustomSelectButtonCalculator extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const disabledColor = 0xffF4F4F4;
     // required this.currentStep,
     if (items == null && asyncItems == null) {
       throw ArgumentError("At least one of item and async must be provided.");
@@ -329,8 +351,12 @@ class CustomSelectButtonCalculator extends HookConsumerWidget {
             decoration: BoxDecoration(
               color: Color(
                 isSelected
-                    ? (themeProvider.isDarkMode ? primaryLight : primaryDarkAlternative)
-                    : (themeProvider.isDarkMode ? primaryDarkAlternative : primaryLight),
+                    ? (themeProvider.isDarkMode
+                        ? primaryLight
+                        : primaryDarkAlternative)
+                    : (themeProvider.isDarkMode
+                        ? primaryDarkAlternative
+                        : primaryLight),
               ),
               borderRadius: const BorderRadius.all(
                 Radius.circular(20),
@@ -357,8 +383,12 @@ class CustomSelectButtonCalculator extends HookConsumerWidget {
               style: TextStyle(
                 color: Color(
                   isSelected
-                      ? (themeProvider.isDarkMode ? primaryDark : Colors.white.value)
-                      : (themeProvider.isDarkMode ? Colors.white.value : primaryDark),
+                      ? (themeProvider.isDarkMode
+                          ? primaryDark
+                          : Colors.white.value)
+                      : (themeProvider.isDarkMode
+                          ? Colors.white.value
+                          : primaryDark),
                 ),
                 fontWeight: FontWeight.w500,
               ),
@@ -385,8 +415,8 @@ class CustomSelectButtonCalculator extends HookConsumerWidget {
             decoration: InputDecoration(
               filled: true,
               fillColor: Theme.of(context).colorScheme.surface,
-              suffixIcon: Icon(Icons.search),
-              label: Text('Buscar'),
+              suffixIcon: const Icon(Icons.search),
+              label: const Text('Buscar'),
             ),
           ),
         ),

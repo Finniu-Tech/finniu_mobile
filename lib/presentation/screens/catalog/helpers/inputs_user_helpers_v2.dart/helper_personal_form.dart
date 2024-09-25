@@ -3,7 +3,6 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_response.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-// import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -15,8 +14,10 @@ pushPersonalDataForm(
   WidgetRef ref, {
   String navigate = '/v2/form_location',
   bool isEdit = false,
+  bool isNavigate = false,
 }) async {
   final gqlClient = ref.watch(gqlClientProvider).value;
+
   if (gqlClient == null) {
     showSnackBarV2(
       context: context,
@@ -25,8 +26,9 @@ pushPersonalDataForm(
       snackType: SnackType.error,
     );
   }
-  Future<RegisterUserV2Response> response =
+  final Future<RegisterUserV2Response> response =
       PersonalFormV2Imp(gqlClient!).savePersonalDataUserV2(data: data);
+
   response.then((value) {
     if (value.success) {
       showSnackBarV2(
@@ -39,7 +41,14 @@ pushPersonalDataForm(
       ref.read(reloadUserProfileFutureProvider);
 
       context.loaderOverlay.hide();
-      Navigator.pushNamedAndRemoveUntil(context, navigate, (route) => false);
+
+      isNavigate
+          ? null
+          : Navigator.pushNamedAndRemoveUntil(
+              context,
+              navigate,
+              (route) => false,
+            );
     } else {
       showSnackBarV2(
         context: context,

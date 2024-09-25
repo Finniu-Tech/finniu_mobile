@@ -58,8 +58,10 @@ String getTypeDocumentByUser(String type) {
       return "Carné de extranjeria";
     case "OTHERS":
       return "Otro";
+    case "":
+      return "";
     default:
-      return "Otro";
+      return "";
   }
 }
 
@@ -115,8 +117,10 @@ String getCivilStatusByUser(String type) {
       return "Divorciado";
     case "WIDOWED":
       return "Viudo";
+    case "":
+      return "";
     default:
-      return "Soltero";
+      return "";
   }
 }
 
@@ -209,8 +213,10 @@ String getLaborsStatusEnumByUser(String? valor) {
       return 'Autoempleo';
     case 'Other':
       return 'Otro';
+    case "":
+      return '';
     default:
-      return 'Otro';
+      return '';
   }
 }
 
@@ -373,8 +379,10 @@ String getGenderByUser(String type) {
       return "Otro";
     case "PREFER_NOT_TO_SAY":
       return "Prefiero no decirlo";
+    case "":
+      return "";
     default:
-      return "Otro";
+      return "";
   }
 }
 

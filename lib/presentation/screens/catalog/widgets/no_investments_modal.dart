@@ -55,7 +55,7 @@ class NoInvestmentBody extends ConsumerWidget {
               ),
             ),
             Positioned(
-              top: constraints.maxHeight * 0.3,
+              top: MediaQuery.of(context).size.height * 0.2,
               left: 0,
               right: 0,
               child: Center(

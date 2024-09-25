@@ -111,14 +111,18 @@ class UserProfile {
     this.facebook,
     this.instagram,
     this.linkedin,
+    this.isDirectorOrShareholder10Percent,
+    this.isPublicOfficialOrFamily,
+    this.acceptPrivacyPolicy,
+    this.acceptTermsConditions,
   });
-  dynamic documentType;
+  String? documentType;
   String? firstName;
   String? lastName;
   String? email;
   String? id;
   String? nickName;
-  dynamic civilStatus;
+  String? civilStatus;
   String? distrito;
   String? documentNumber;
   String? gender;
@@ -148,6 +152,10 @@ class UserProfile {
   String? facebook;
   String? instagram;
   String? linkedin;
+  bool? isDirectorOrShareholder10Percent;
+  bool? isPublicOfficialOrFamily;
+  bool? acceptPrivacyPolicy;
+  bool? acceptTermsConditions;
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
         firstName: json["firstName"],
@@ -156,7 +164,6 @@ class UserProfile {
         id: json["id"],
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
-        distrito: json["distrito"]["id"],
         documentNumber: json["documentNumber"].toString() == 'null'
             ? ''
             : json["documentNumber"].toString(),
@@ -165,8 +172,9 @@ class UserProfile {
         hasCompletedTour: json["hasCompletedTour"],
         isActive: json["isActive"],
         occupation: json["occupation"],
-        provincia: json["provincia"]["id"],
-        region: json["region"]["id"],
+        distrito: json["distrito"]?["id"],
+        provincia: json["provincia"]?["id"],
+        region: json["region"]?["id"],
         typeDocument: json["typeDocument"],
         uuid: json["uuid"],
         phoneNumber: json["phoneNumber"],
@@ -189,6 +197,11 @@ class UserProfile {
         facebook: json["facebook"],
         instagram: json["instagram"],
         linkedin: json["linkedin"],
+        isDirectorOrShareholder10Percent:
+            json["isDirectorOrShareholder10Percent"],
+        isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
+        acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
+        acceptTermsConditions: json["acceptTermsConditions"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -250,6 +263,10 @@ class UserProfile {
     String? facebook,
     String? instagram,
     String? linkedin,
+    bool? isDirectorOrShareholder10Percent,
+    bool? isPublicOfficialOrFamily,
+    bool? acceptPrivacyPolicy,
+    bool? acceptTermsConditions,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -286,6 +303,13 @@ class UserProfile {
       facebook: facebook ?? this.facebook,
       instagram: instagram ?? this.instagram,
       linkedin: linkedin ?? this.linkedin,
+      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent ??
+          this.isDirectorOrShareholder10Percent,
+      isPublicOfficialOrFamily:
+          isPublicOfficialOrFamily ?? this.isPublicOfficialOrFamily,
+      acceptPrivacyPolicy: acceptPrivacyPolicy ?? this.acceptPrivacyPolicy,
+      acceptTermsConditions:
+          acceptTermsConditions ?? this.acceptTermsConditions,
     );
   }
 
@@ -293,5 +317,72 @@ class UserProfile {
     if (firstName == null || firstName!.isEmpty) return false;
     if (lastName == null || lastName!.isEmpty) return false;
     return true;
+  }
+
+  bool completePersonalData() {
+    return nickName != null &&
+        nickName!.isNotEmpty &&
+        lastNameFather != null &&
+        lastNameFather!.isNotEmpty &&
+        lastNameMother != null &&
+        lastNameMother!.isNotEmpty &&
+        documentType != null &&
+        documentType!.isNotEmpty &&
+        documentNumber != null &&
+        documentNumber!.isNotEmpty &&
+        civilStatus != null &&
+        civilStatus!.isNotEmpty &&
+        gender != null &&
+        gender!.isNotEmpty;
+  }
+
+  bool completeLocationData() {
+    return region != null &&
+        region!.isNotEmpty &&
+        distrito != null &&
+        distrito!.isNotEmpty &&
+        provincia != null &&
+        provincia!.isNotEmpty &&
+        address != null &&
+        address!.isNotEmpty &&
+        houseNumber != null &&
+        houseNumber!.isNotEmpty;
+  }
+
+  bool completeJobData() {
+    return laborSituation != null &&
+        laborSituation!.isNotEmpty &&
+        occupation != null &&
+        occupation!.isNotEmpty &&
+        companyName != null &&
+        companyName!.isNotEmpty &&
+        serviceTime != null &&
+        serviceTime!.isNotEmpty;
+  }
+
+  bool completeAboutData() {
+    return imageProfileUrl != null &&
+        biography != null &&
+        facebook != null &&
+        instagram != null &&
+        linkedin != null;
+  }
+
+  double completeData() {
+    double result = 0.0;
+    if (completePersonalData()) result += 0.25;
+    if (completeLocationData()) result += 0.25;
+    if (completeJobData()) result += 0.25;
+    if (completeAboutData()) result += 0.25;
+    return result;
+  }
+
+  double completeToInvestData() {
+    double result = 0.25;
+    if (completePersonalData()) result += 0.25;
+    if (completeLocationData()) result += 0.25;
+    if (completeJobData()) result += 0.25;
+
+    return result;
   }
 }

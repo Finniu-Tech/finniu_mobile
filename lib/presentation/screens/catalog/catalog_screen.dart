@@ -20,8 +20,10 @@ import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investme
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/login_v2/widgets/modal_new_password.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
@@ -53,7 +55,9 @@ class CatalogScreen extends HookConsumerWidget {
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         elevation: 0.0,
@@ -65,12 +69,49 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "modal new password",
+              onPressed: () {
+                modalNewPassword(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "navigate change pasgord",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/set_new_password');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "show verifica tu identidad",
+              onPressed: () {
+                showVerifyIdentity(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "go login",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/login_email');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "snackbar error",
               onPressed: () {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.error,
                 );
               },
@@ -84,7 +125,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.warning,
                 );
               },
@@ -98,7 +140,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.success,
                 );
               },
@@ -112,7 +155,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.info,
                 );
               },
@@ -139,7 +183,8 @@ class CatalogScreen extends HookConsumerWidget {
               title: "Verificación  legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
+                  text:
+                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
                   value: true,
                 ),
               ],
@@ -163,15 +208,12 @@ class CatalogScreen extends HookConsumerWidget {
             const ExpansionTitleProfile(
               icon: "assets/svg_icons/dark_mode_icon.svg",
               title: "Contraseñas",
-              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               children: [
                 ChildrenTitle(
                   title: "Visualización de contraseña",
                   subtitle: "Mostrar caracteres brevemente mientras escribes",
-                ),
-                ChildrenSwitchTitle(
-                  title: "Permiso de ubicación actual",
-                  subtitle: "Activar tu ubicación actual mientras la app esta en uso",
                 ),
                 ChildrenOnlyText(
                   text:
@@ -185,7 +227,8 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonSwitchProfile(
               icon: null,
               title: "Sobre mis inversiones",
-              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               onTap: () => setInvest(),
               value: invest,
             ),

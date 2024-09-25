@@ -98,7 +98,7 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
             Container(
               width: 336,
               height: MediaQuery.of(context).size.height * 0.4,
-              constraints: const BoxConstraints(minHeight: 500),
+              constraints: const BoxConstraints(minHeight: 300),
               alignment: Alignment.topCenter,
               child: TabBarView(
                 controller: _tabController,

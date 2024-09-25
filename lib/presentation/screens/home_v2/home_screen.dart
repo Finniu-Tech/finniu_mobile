@@ -29,7 +29,6 @@ import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/custom_app_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/show_draft_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
@@ -313,26 +312,26 @@ class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectio
                       ),
                     ],
                   ),
-                  if (widget.renderNonInvestment)
-                    Positioned.fill(
-                      child: IgnorePointer(
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.transparent.withOpacity(0.1),
-                              borderRadius: const BorderRadius.only(
-                                bottomRight: Radius.circular(50),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (widget.renderNonInvestment)
-                    const Center(
-                      child: NonInvestmentContainer(),
-                    ),
+                  // if (widget.renderNonInvestment)
+                  //   Positioned.fill(
+                  //     child: IgnorePointer(
+                  //       child: BackdropFilter(
+                  //         filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
+                  //         child: Container(
+                  //           decoration: BoxDecoration(
+                  //             color: Colors.transparent.withOpacity(0.1),
+                  //             borderRadius: const BorderRadius.only(
+                  //               bottomRight: Radius.circular(50),
+                  //             ),
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // if (widget.renderNonInvestment)
+                  //   const Center(
+                  //     child: NonInvestmentContainer(),
+                  //   ),
                 ],
               ),
             );

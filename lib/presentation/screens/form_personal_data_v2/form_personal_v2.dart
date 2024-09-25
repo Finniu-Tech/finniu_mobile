@@ -1,7 +1,6 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
@@ -75,7 +74,7 @@ class PersonalForm extends HookConsumerWidget {
 
     void continueLater() {
       ScaffoldMessenger.of(context).clearSnackBars();
-      Navigator.pushNamed(context, "/home_v2");
+      Navigator.pushNamed(context, '/v2/form_legal_terms');
     }
 
     void uploadPersonalData() {

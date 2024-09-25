@@ -1,3 +1,9 @@
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/user_get_legal_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_terms_form.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
@@ -5,6 +11,8 @@ import 'package:finniu/presentation/screens/profile_v2/widgets/row_dowload.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class LegalDocumentsScreen extends ConsumerWidget {
   const LegalDocumentsScreen({super.key});
@@ -13,6 +21,7 @@ class LegalDocumentsScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return const ScaffoldConfig(
       title: "Documentos legales",
+      floatingNull: true,
       children: _BodyLegalDocuments(),
     );
   }
@@ -23,88 +32,165 @@ class _BodyLegalDocuments extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ValueNotifier<bool> politicallyExposed = useState(false);
-    final ValueNotifier<bool> amDirector = useState(false);
-    final ValueNotifier<bool> termsConditions = useState(false);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final legalDocuments = ref.watch(userGetLegalProvider);
+
+    final ValueNotifier<bool> politicallyExposed = useState(userProfile.isPublicOfficialOrFamily ?? false);
+    final ValueNotifier<bool> amDirector = useState(userProfile.isDirectorOrShareholder10Percent ?? false);
+    final ValueNotifier<bool> termsConditions = useState(userProfile.acceptTermsConditions ?? false);
+
     void setPoliticallyExposed(bool? value) {
       if (value != null) politicallyExposed.value = value;
+      context.loaderOverlay.show();
+      final data = DtoLegalTermsForm(
+        isPublicOfficialOrFamily: politicallyExposed.value,
+        isDirectorOrShareholder10Percent: amDirector.value,
+      );
+      changeLegalTermsData(context, data, ref);
     }
 
     void setDirector(bool? value) {
       if (value != null) amDirector.value = value;
+      context.loaderOverlay.show();
+      final data = DtoLegalTermsForm(
+        isPublicOfficialOrFamily: politicallyExposed.value,
+        isDirectorOrShareholder10Percent: amDirector.value,
+      );
+      changeLegalTermsData(context, data, ref);
     }
 
     void setTermsConditions(bool? value) {
-      if (value != null) termsConditions.value = value;
+      showSnackBarV2(
+        context: context,
+        title: "Términos y condiciones",
+        message: "Es obligatorio aceptar los términos y condiciones",
+        snackType: SnackType.warning,
+      );
     }
 
-    return Column(
-      children: [
-        ExpansionTitleLegal(
-          title: "Verificación  legal",
+    Future<void> openUrl(String? url, BuildContext context) async {
+      if (url == null || url.isEmpty) {
+        showSnackBarV2(
+          context: context,
+          title: "Redirección no disponible",
+          message: "No hay redirección disponible, por favor intenta de nuevo",
+          snackType: SnackType.warning,
+        );
+        return;
+      }
+
+      try {
+        final urlParsed = Uri.parse(url);
+        final canLaunch = await canLaunchUrl(urlParsed);
+        if (canLaunch) {
+          await launchUrl(urlParsed);
+        } else {
+          throw 'No se puede abrir la URL: $url';
+        }
+      } catch (e) {
+        showSnackBarV2(
+          context: context,
+          title: "Error de redirección",
+          message: "No se pudo abrir el enlace, por favor intenta de nuevo",
+          snackType: SnackType.error,
+        );
+      }
+    }
+
+    return legalDocuments.when(
+      error: (e, s) {
+        return Column(
           children: [
-            ChildrenCheckboxTitle(
-              text:
-                  "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
-              value: politicallyExposed.value,
-              onChanged: setPoliticallyExposed,
-            ),
-            ChildrenCheckboxTitle(
-              text:
-                  "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
-              value: amDirector.value,
-              onChanged: setDirector,
-            ),
-            ChildrenCheckboxTitle(
-              text: "Estoy de acuerdo con los ",
-              value: termsConditions.value,
-              onChanged: setTermsConditions,
-              isTextRich: true,
-              textRich: "Términos & condiciones y Políticas de privacidad ",
+            ExpansionTitleLegal(
+              title: "Verificación legal",
+              children: [
+                ChildrenCheckboxTitle(
+                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
+                  value: politicallyExposed.value,
+                  onChanged: setPoliticallyExposed,
+                ),
+                ChildrenCheckboxTitle(
+                  text: "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
+                  value: amDirector.value,
+                  onChanged: setDirector,
+                ),
+                ChildrenCheckboxTitle(
+                  text: "Estoy de acuerdo con los ",
+                  value: termsConditions.value,
+                  onChanged: setTermsConditions,
+                  isTextRich: true,
+                  textRich: "Términos & condiciones y Políticas de privacidad ",
+                ),
+              ],
             ),
           ],
-        ),
-        ExpansionTitleLegal(
-          title: "Declaración de la Sunat",
+        );
+      },
+      loading: () => const CircularLoader(width: 10, height: 10),
+      data: (documents) {
+        return Column(
           children: [
-            const ChildrenOnlyText(
-              textBig: true,
-              text:
-                  "Este 5% es la tributación correspondiente por renta de 2da categoría (inversiones). Aplica sobre tus intereses ganados.",
+            ExpansionTitleLegal(
+              title: "Verificación legal",
+              children: [
+                ChildrenCheckboxTitle(
+                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
+                  value: politicallyExposed.value,
+                  onChanged: setPoliticallyExposed,
+                ),
+                ChildrenCheckboxTitle(
+                  text: "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
+                  value: amDirector.value,
+                  onChanged: setDirector,
+                ),
+                ChildrenCheckboxTitle(
+                  text: "Estoy de acuerdo con los ",
+                  value: termsConditions.value,
+                  onChanged: setTermsConditions,
+                  isTextRich: true,
+                  textRich: "Términos & condiciones y Políticas de privacidad ",
+                ),
+              ],
             ),
-            const TitleLegal(),
-            RowDownload(
-              title: "Declaración - Marzo",
-              onTap: () => print("pon tap download"),
+            ExpansionTitleLegal(
+              title: "Declaración de la Sunat",
+              children: [
+                const ChildrenOnlyText(
+                  textBig: true,
+                  text:
+                      "Este 5% es la tributación correspondiente por renta de 2da categoría (inversiones). Aplica sobre tus intereses ganados.",
+                ),
+                const TitleLegal(),
+                ...documents.sunatDeclarations.map(
+                  (e) => GestureDetector(
+                    onTap: () => openUrl(e.declarationUrl, context),
+                    child: RowDownload(
+                      title: e.nameFile,
+                    ),
+                  ),
+                ),
+              ],
             ),
-            RowDownload(
-              title: "Declaración - Junio",
-              onTap: () => print("pon tap download"),
+            ExpansionTitleLegal(
+              title: "Aceptaciones legales y/o tributarios",
+              children: [
+                GestureDetector(
+                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  child: const RowDownload(
+                    title: "Términos y Condiciones",
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  child: const RowDownload(
+                    title: "Política de Privacidad",
+                  ),
+                ),
+              ],
             ),
           ],
-        ),
-        ExpansionTitleLegal(
-          title: "Aceptaciones legales y/o tributarios",
-          children: [
-            RowDownload(
-              title: "Términos y Condiciones",
-              onTap: () => print("pon tap download"),
-            ),
-            RowDownload(
-              title: "Política de Privacidad",
-              onTap: () => print("pon tap download"),
-            ),
-            RowDownload(
-              title: "Reglamento de Participación",
-              onTap: () => print("pon tap download"),
-            ),
-            RowDownload(
-              title: "Contrato de Administración",
-              onTap: () => print("pon tap download"),
-            ),
-          ],
-        ),
-      ],
+        );
+      },
     );
   }
 }
