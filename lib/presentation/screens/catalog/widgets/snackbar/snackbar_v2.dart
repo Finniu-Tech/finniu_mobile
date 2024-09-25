@@ -98,7 +98,7 @@ class SnackBarContainerV2 extends StatelessWidget {
     const int textColor = 0xff000000;
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 61,
+      height: 75,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: Color(getColorBySnackType(snackType)),
@@ -121,12 +121,15 @@ class SnackBarContainerV2 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextPoppins(
-                  text: title,
-                  fontSize: 13,
-                  isBold: true,
-                  textDark: textColor,
-                  textLight: textColor,
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: TextPoppins(
+                    text: title,
+                    fontSize: 13,
+                    isBold: true,
+                    textDark: textColor,
+                    textLight: textColor,
+                  ),
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.6,

@@ -17,10 +17,9 @@ class FormRegister extends HookConsumerWidget {
   const FormRegister({
     super.key,
   });
-
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final nickNameController = TextEditingController();
     final countryPrefixController = TextEditingController();
     final phoneNumberController = TextEditingController();
