@@ -1,279 +1,126 @@
-import 'package:finniu/constants/colors.dart';
-import 'package:finniu/presentation/providers/recovery_password_provider.dart';
-import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
-import 'package:finniu/presentation/screens/login_v2/widgets/modal_send_code_v2.dart';
-import 'package:finniu/widgets/fonts.dart';
-import 'package:finniu/widgets/scaffold.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
+import 'package:finniu/presentation/screens/login_v2/helpers/send_email_helper.dart';
+import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ForgotPasswordV2 extends HookConsumerWidget {
+class ForgotPasswordV2 extends ConsumerWidget {
   const ForgotPasswordV2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final emailController = useTextEditingController();
-    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
-
-    return CustomScaffoldReturn(
-      body: SingleChildScrollView(
-        child: Center(
+    const int titleDark = 0xffA2E6FA;
+    const int titleLight = 0xff0D3A5C;
+    const String text =
+        "Ingresa el correo electrónico que utilizaste al crear tu cuenta. Te enviaremos un código de validación para que puedas restablecer tu contraseña.";
+    return ScaffoldUserProfile(
+      children: [
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.8,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              const SizedBox(height: 80),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: 320,
-                height: 130,
-                child: Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.center,
-                      child: Card(
-                        shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Container(
-                          padding: const EdgeInsets.only(
-                            left: 50,
-                            right: 30,
-                            top: 15,
-                            bottom: 15,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(gradient_secondary),
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          height: 130,
-                          width: 267,
-                          child: const Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.black,
-                                height: 1.5,
-                              ),
-                              "Por favor ingresa tu correo electrónico que ingresaste al crear tu cuenta en la App , en unos minutos recibiras un correo para recuperar tu contraseña.",
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Positioned(
-                      top: 20,
-                      right: 250,
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          height: 90,
-                          width: 80,
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage(
-                                "assets/forgotpassword/padlock.png",
-                              ),
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/forgot_password.png",
+                width: 64,
+                height: 64,
               ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: 224,
-                height: 38,
-                child: TextFormField(
-                  controller: emailController,
-                  style: const TextStyle(fontSize: 12),
-                  onChanged: (value) {},
-                  decoration: const InputDecoration(
-                    hintText: 'Escribe tu correo electrónico',
-                    labelText: "Correo electrónico",
-                  ),
-                  // textHint: 'Escribe tu correo electrónico',
-                  // textLabel: "Correo electrónico",
-                ),
+              const SizedBox(
+                height: 20,
               ),
-              const SizedBox(height: 25),
-              Container(
-                height: 50,
-                width: 224,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: const Color(primaryDark),
-                ),
-                child: Center(
-                  child: TextButton(
-                    onPressed: () async {
-                      final status = await ref.watch(
-                        recoveryPasswordFutureProvider(emailController.text)
-                            .future,
-                      );
-                      if (status == true) {
-                        ref
-                            .read(userProfileNotifierProvider.notifier)
-                            .setEmail(emailController.text);
-                        sendEmailRecoveryPasswordModalV2(context, ref);
-                      } else {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Error al enviar correo",
-                          message: 'El correo ingresado no existe',
-                          snackType: SnackType.error,
-                        );
-                      }
-                    },
-                    child: const Text('Enviar correo'),
-                  ),
-                ),
+              const TextPoppins(
+                text: "¿Olvidaste tu contraseña?",
+                fontSize: 25,
+                isBold: true,
+                textDark: titleDark,
+                textLight: titleLight,
               ),
+              const SizedBox(
+                height: 20,
+              ),
+              const TextPoppins(
+                text: text,
+                fontSize: 12,
+                lines: 3,
+                align: TextAlign.center,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const FormForgot(),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
 
-class NewPasswordV2 extends HookConsumerWidget {
-  const NewPasswordV2({super.key});
+class FormForgot extends HookConsumerWidget {
+  const FormForgot({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final themeProvider = ref.watch(settingsNotifierProvider);
-    final passwordController = useTextEditingController();
-    // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
-    final isHidden = useState(true);
-    return CustomScaffoldReturn(
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-              Container(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  child: Image.asset(
-                    'assets/forgotpassword/padlock.png',
-                    width: 67,
-                    height: 75,
-                  ),
-                ),
-              ),
-              TextPoppins(
-                text: 'Cambiar tu contraseña',
-                colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-              const SizedBox(height: 20),
-              TextPoppins(
-                text: 'Ingresa tu nueva contraseña',
-                colorText: themeProvider.isDarkMode ? (whiteText) : (blackText),
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-                width: 224,
-                height: 38,
-                child: TextFormField(
-                  // onChanged: (value) {
-                  //   _password = value;
-                  // },
+    final formKey = GlobalKey<FormState>();
+    final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
+    final emailController = TextEditingController();
+
+    void seedEmail() async {
+      if (!formKey.currentState!.validate()) {
+        showSnackBarV2(
+          context: context,
+          title: "Error de inicio de sesión",
+          message: "Por favor, revise sus datos.",
+          snackType: SnackType.warning,
+        );
+        return;
+      } else {
+        if (emailError.value) return;
+        sendEmailRecovery(
+          context: context,
+          email: emailController.text.trim(),
+          ref: ref,
+        );
+      }
+    }
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Form(
+        key: formKey,
+        child: Column(
+          children: [
+            ValueListenableBuilder<bool>(
+              valueListenable: emailError,
+              builder: (context, isError, child) {
+                return InputTextFileUserProfile(
+                  isError: isError,
+                  onError: () => emailError.value = false,
+                  hintText: "Correo electrónico",
+                  controller: emailController,
                   validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Por favor ingrese algún valor';
-                    }
+                    validateEmail(
+                      value: value,
+                      context: context,
+                      boolNotifier: emailError,
+                    );
                     return null;
                   },
-                  obscureText: isHidden.value, // esto oculta la contrasenia
-                  obscuringCharacter:
-                      '*', //el caracter el cual reemplaza la contrasenia
-                  decoration: InputDecoration(
-                    suffixIconConstraints: const BoxConstraints(
-                      maxHeight: 38,
-                      minWidth: 38,
-                    ),
-                    suffixIcon: IconButton(
-                      splashRadius: 20,
-                      padding: EdgeInsets.zero,
-                      icon: Icon(
-                        isHidden.value
-                            ? Icons.visibility
-                            : Icons.visibility_off,
-                        size: 23.20,
-                      ),
-                      alignment: Alignment.center,
-                      onPressed: () {
-                        isHidden.value = !isHidden.value;
-                      },
-                    ),
-                    label: const Text(
-                      "Contraseña",
-                    ),
-                  ),
-                  controller: passwordController,
-                ),
-              ),
-              const SizedBox(height: 25),
-              Container(
-                height: 50,
-                width: 224,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50),
-                  color: const Color(primaryDark),
-                ),
-                child: Center(
-                  child: TextButton(
-                    onPressed: () async {
-                      final status = await ref.read(
-                        setNewPasswordFutureProvider(passwordController.text)
-                            .future,
-                      );
-                      if (status == true) {
-                        ref
-                            .read(userProfileNotifierProvider.notifier)
-                            .setPassword(passwordController.text);
-                        const SnackBar(
-                          content: Text('Contraseña cambiada con éxito'),
-                        );
-                        showSnackBarV2(
-                          context: context,
-                          title: "Contraseña cambiada con ≠!",
-                          message: 'Contraseña cambiada con éxito!',
-                          snackType: SnackType.success,
-                        );
-
-                        await Future.delayed(const Duration(seconds: 1));
-                        Navigator.pushNamed(context, '/v2/login_email');
-                      } else {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Error al cambiar la contraseña",
-                          message: 'No se pudo cambiar la contraseña',
-                          snackType: SnackType.error,
-                        );
-                      }
-                    },
-                    child: const Text('Cambiar contraseña'),
-                  ),
-                ),
-              ),
-            ],
-          ),
+                );
+              },
+            ),
+            ButtonInvestment(
+              text: "Enviar",
+              onPressed: () => seedEmail(),
+            ),
+          ],
         ),
       ),
     );

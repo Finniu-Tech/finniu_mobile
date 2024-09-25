@@ -30,6 +30,7 @@ import 'package:finniu/presentation/screens/investment_process_blue_gold/investm
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
 import 'package:finniu/presentation/screens/login_v2/forgot_password_v2.dart';
 import 'package:finniu/presentation/screens/login_v2/login_sceen_v2.dart';
+import 'package:finniu/presentation/screens/login_v2/new_password_v2.dart';
 import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/accounts_screen_v2.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';

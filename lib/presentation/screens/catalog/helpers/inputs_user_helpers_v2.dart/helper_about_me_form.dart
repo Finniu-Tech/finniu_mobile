@@ -11,8 +11,9 @@ import 'package:loader_overlay/loader_overlay.dart';
 pushAboutMeDataForm(
   BuildContext context,
   DtoAboutMeForm data,
-  WidgetRef ref,
-) {
+  WidgetRef ref, {
+  bool isNavigate = false,
+}) {
   final gqlClient = ref.watch(gqlClientProvider).value;
   if (gqlClient == null) {
     showSnackBarV2(
@@ -37,7 +38,7 @@ pushAboutMeDataForm(
       ref.read(reloadUserProfileFutureProvider);
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
-        Navigator.pushNamed(context, '/home_v2');
+        isNavigate ? null : Navigator.pushNamed(context, '/home_v2');
         ScaffoldMessenger.of(context).clearSnackBars();
       });
     } else {

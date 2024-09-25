@@ -56,17 +56,24 @@ class _BodyMyAccounts extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 30),
-                ...data.map(
-                  (bank) => AccointCard(
-                    notImage: bank.bankLogoUrl == null || bank.bankLogoUrl == ""
-                        ? true
-                        : false,
-                    title: bank.bankName,
-                    subtitle:
-                        "${getCurrency(bank.currency)} | ${hideNumbers(bank.bankAccount)}  ",
-                    isJoint: bank.isJointAccount,
-                    logoUrl: bank.bankLogoUrl ?? "",
+                const SizedBox(height: 15),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height - 200,
+                  child: ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      return AccointCard(
+                        notImage: data[index].bankLogoUrl == null ||
+                                data[index].bankLogoUrl == ""
+                            ? true
+                            : false,
+                        title: data[index].bankName,
+                        subtitle:
+                            "${getCurrency(data[index].currency)} | ${hideNumbers(data[index].bankAccount)}  ",
+                        isJoint: data[index].isJointAccount,
+                        logoUrl: data[index].bankLogoUrl ?? "",
+                      );
+                    },
                   ),
                 ),
                 const SizedBox(height: 15),
@@ -78,7 +85,7 @@ class _BodyMyAccounts extends ConsumerWidget {
                   ),
                   child: const AddAccounts(),
                 ),
-                const SizedBox(height: 15),
+                const SizedBox(height: 35),
               ],
             ),
           ),
