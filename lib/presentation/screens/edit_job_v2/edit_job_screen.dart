@@ -75,6 +75,7 @@ class _BodyEditJob extends ConsumerWidget {
               children: [
                 EditPersonalForm(
                   isEdit: isEdit,
+                  onEdit: () => isEdit.value = !isEdit.value,
                 ),
                 isEditValue
                     ? const SizedBox()
@@ -99,8 +100,10 @@ class EditPersonalForm extends HookConsumerWidget {
   const EditPersonalForm({
     super.key,
     required this.isEdit,
+    required this.onEdit,
   });
   final ValueNotifier<bool> isEdit;
+  final VoidCallback onEdit;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
@@ -151,7 +154,14 @@ class EditPersonalForm extends HookConsumerWidget {
               getLaborsStatusEnum(laborSituationSelectController.text) ??
                   LaborSituationEnum.EMPLOYED,
         );
-        pushOccupationDataForm(context, data, ref, navigate: '/home_v2');
+        pushOccupationDataForm(
+          context,
+          data,
+          ref,
+          navigate: '/home_v2',
+          isNavigate: true,
+        );
+        onEdit();
       }
     }
 

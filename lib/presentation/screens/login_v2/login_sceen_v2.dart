@@ -16,7 +16,6 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:finniu/services/share_preferences_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -288,7 +287,11 @@ class FormLogin extends HookConsumerWidget {
                   }
                 },
               ),
-              const Text('Recordarme para mis futuros ingresos', style: TextStyle(fontSize: 12)),
+              const TextPoppins(
+                text: 'Recordarme para mis futuros ingresos',
+                fontSize: 12,
+                lines: 2,
+              ),
             ],
           ),
           const SizedBox(height: 10),

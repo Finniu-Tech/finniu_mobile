@@ -75,6 +75,7 @@ class _BodyEditLocation extends ConsumerWidget {
               children: [
                 EditLocationForm(
                   isEdit: isEdit,
+                  onEdit: () => isEdit.value = !isEdit.value,
                 ),
                 isEditValue
                     ? const SizedBox()
@@ -99,8 +100,10 @@ class EditLocationForm extends ConsumerStatefulWidget {
   const EditLocationForm({
     super.key,
     required this.isEdit,
+    required this.onEdit,
   });
   final ValueNotifier<bool> isEdit;
+  final VoidCallback onEdit;
   @override
   LocationFormState createState() => LocationFormState();
 }
@@ -150,7 +153,14 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
         postalCode: postalCodeController.text.trim(),
       );
       context.loaderOverlay.show();
-      pushLocationDataForm(context, data, ref, navigate: '/home_v2');
+      pushLocationDataForm(
+        context,
+        data,
+        ref,
+        navigate: '/home_v2',
+        isNavigate: true,
+      );
+      widget.onEdit();
     }
   }
 

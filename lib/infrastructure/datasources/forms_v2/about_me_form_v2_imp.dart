@@ -11,6 +11,7 @@ class AboutMeFormV2Imp extends GraphQLBaseDataSource {
     required DtoAboutMeForm data,
   }) async {
     try {
+      // print(data.imageProfile);
       final response = await client.mutate(
         MutationOptions(
           document: gql(
