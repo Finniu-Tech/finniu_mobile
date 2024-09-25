@@ -131,13 +131,13 @@ class EditPersonalForm extends HookConsumerWidget {
           : getGenderByUser(userProfile.gender!),
     );
 
-    final ValueNotifier<bool> firstNameError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> lastNameFatherError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> lastNameMotherError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> documentTypeError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> documentNumberError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> civilStatusError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> genderTypeError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> firstNameError = useState(false);
+    final ValueNotifier<bool> lastNameFatherError = useState(false);
+    final ValueNotifier<bool> lastNameMotherError = useState(false);
+    final ValueNotifier<bool> documentTypeError = useState(false);
+    final ValueNotifier<bool> documentNumberError = useState(false);
+    final ValueNotifier<bool> civilStatusError = useState(false);
+    final ValueNotifier<bool> genderTypeError = useState(false);
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {

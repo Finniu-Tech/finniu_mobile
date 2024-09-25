@@ -104,6 +104,7 @@ class EditLocationForm extends ConsumerStatefulWidget {
   });
   final ValueNotifier<bool> isEdit;
   final VoidCallback onEdit;
+
   @override
   LocationFormState createState() => LocationFormState();
 }

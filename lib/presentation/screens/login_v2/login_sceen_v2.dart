@@ -75,8 +75,8 @@ class FormLogin extends HookConsumerWidget {
         useTextEditingController(text: Preferences.username ?? "");
     final passwordController =
         useTextEditingController(text: passwordState.value);
-    final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> emailError = useState(false);
+    final ValueNotifier<bool> passwordError = useState(false);
 
     useEffect(
       () {
