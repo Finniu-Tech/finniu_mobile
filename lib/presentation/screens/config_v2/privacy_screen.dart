@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/helpers/email_reset.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
@@ -24,6 +25,7 @@ class _BodyPrivacy extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final String? email = ref.watch(userProfileNotifierProvider).email;
     void setRememberPassword() {
       context.loaderOverlay.show();
       emailReset(context, ref);
@@ -34,19 +36,17 @@ class _BodyPrivacy extends ConsumerWidget {
         ExpansionTitleProfile(
           icon: "assets/svg_icons/key_icon.svg",
           title: "Contraseñas",
-          subtitle:
-              "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+          subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
           children: [
             // ChildrenSwitchTitle(
             //   title: "Visualización de contraseña",
             //   subtitle: "Mostrar caracteres brevemente mientras escribes",
             //   value: rememberPassword,
             // ),
-            const ChildrenEmail(
+            ChildrenEmail(
               title: "Cambio de contraseña",
-              subtitle:
-                  "Te enviaremos un correo para reestablecer tu contraseña ",
-              email: "H8kzK@example.com",
+              subtitle: "Te enviaremos un correo para reestablecer tu contraseña ",
+              email: email ?? '',
             ),
             ButtonChangePassword(
               onTap: () => setRememberPassword(),
@@ -76,7 +76,7 @@ class _BodyPrivacy extends ConsumerWidget {
           subtitle: "Avisos sobre las nuevas novedades ",
           children: [
             ChildrenOnlyText(
-              textBig: true,
+              textBig: false,
               text:
                   "Política de privacidad de la app Finniu, tenemos respaldo y seguridad de tus datos , no los compartimos ni exponemos tus datos personales",
             ),
@@ -120,9 +120,7 @@ class ButtonChangePassword extends ConsumerWidget {
                   offset: const Offset(0, 4),
                 ),
               ],
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             ),
             child: const Center(
               child: TextPoppins(
