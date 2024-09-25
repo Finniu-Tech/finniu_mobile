@@ -71,12 +71,14 @@ class FormLogin extends HookConsumerWidget {
     final rememberPassword = useState(Preferences.rememberMe);
     final passwordState = useState("");
     final formKey = GlobalKey<FormState>();
+
     final emailController =
         useTextEditingController(text: Preferences.username ?? "");
     final passwordController =
         useTextEditingController(text: passwordState.value);
     final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> passwordError = useState(false);
+
 
     useEffect(
       () {
@@ -109,6 +111,7 @@ class FormLogin extends HookConsumerWidget {
         if (emailError.value) return;
         if (passwordError.value) return;
         context.loaderOverlay.show();
+
         loginEmailHelper(
           context: context,
           ref: ref,
@@ -117,6 +120,7 @@ class FormLogin extends HookConsumerWidget {
           rememberPassword: rememberPassword.value,
           secureStorage: secureStorage,
         );
+
       }
     }
 
@@ -187,7 +191,7 @@ class FormLogin extends HookConsumerWidget {
               ),
               const TextPoppins(
                 text: 'Recordarme para mis futuros ingresos',
-                fontSize: 11,
+                fontSize: 12,
                 lines: 2,
               ),
             ],
