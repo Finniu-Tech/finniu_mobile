@@ -25,7 +25,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/buttons.dart';
@@ -482,8 +482,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
 
     useEffect(
       () {
-        if (userProfile.hasRequiredData() == false) {
-          completeProfileDialog(context, ref);
+        if (userProfile.completeToInvestData() < 1.0) {
+          showVerifyIdentity(context);
         }
 
         return null;
@@ -1010,8 +1010,8 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   amount = widget.reinvestmentOriginAmount.toString();
                 }
 
-                if (userProfile.hasRequiredData() == false) {
-                  completeProfileDialog(context, ref);
+                if (userProfile.completeToInvestData() < 1.0) {
+                  showVerifyIdentity(context);
                   return;
                 }
                 if (validateForm() == false) {

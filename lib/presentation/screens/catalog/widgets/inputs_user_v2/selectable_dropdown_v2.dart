@@ -46,10 +46,11 @@ class SelectableDropdownItem extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final ValueNotifier<bool> reload = useState(false);
+    final list = options.toSet();
 
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
-        return options
+        return list
             .map(
               (item) => Text(
                 item,
@@ -142,7 +143,7 @@ class SelectableDropdownItem extends HookConsumerWidget {
       iconSize: 24,
       dropdownColor:
           isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
-      items: options.map((String option) {
+      items: list.map((String option) {
         return DropdownMenuItem<String>(
           value: option,
           child: Column(
@@ -188,7 +189,7 @@ class SelectableDropdownItem extends HookConsumerWidget {
   }
 }
 
-class ProviderSelectableDropdownItem extends ConsumerWidget {
+class ProviderSelectableDropdownItem extends HookConsumerWidget {
   const ProviderSelectableDropdownItem({
     super.key,
     required this.selectController,
@@ -253,7 +254,7 @@ class ProviderSelectableDropdownItem extends ConsumerWidget {
   }
 }
 
-class SelectableGeoLocationDropdownItem extends ConsumerWidget {
+class SelectableGeoLocationDropdownItem extends HookConsumerWidget {
   const SelectableGeoLocationDropdownItem({
     super.key,
     required this.options,
@@ -290,13 +291,15 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
   final int borderColorDark = 0xFFA2E6FA;
   final int borderColorLight = 0xFF0D3A5C;
   final int borderError = 0xFFED1C24;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-
+    final ValueNotifier<bool> reload = useState(false);
+    final list = options.toSet();
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
-        return options
+        return list
             .map(
               (item) => Text(
                 item.name,
@@ -377,10 +380,10 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
           ),
         ),
         suffixIcon: isLoading
-            ? SizedBox(
+            ? const SizedBox(
                 width: 10,
                 height: 10,
-                child: const CircularLoader(
+                child: CircularLoader(
                   width: 5,
                   height: 5,
                 ),
@@ -397,7 +400,7 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
       ),
       dropdownColor:
           isDarkMode ? Color(dropdownColorDark) : Color(dropdownColorLight),
-      items: options.map((option) {
+      items: list.map((option) {
         return DropdownMenuItem<String>(
           value: option.id,
           child: Column(
@@ -437,6 +440,7 @@ class SelectableGeoLocationDropdownItem extends ConsumerWidget {
       }).toList(),
       onChanged: (newValue) {
         selectController.text = newValue!;
+        reload.value = !reload.value;
       },
     );
   }

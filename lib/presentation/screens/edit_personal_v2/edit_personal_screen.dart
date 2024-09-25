@@ -73,6 +73,7 @@ class _BodyEditPersonal extends ConsumerWidget {
               children: [
                 EditPersonalForm(
                   isEdit: isEdit,
+                  onEdit: () => isEdit.value = false,
                 ),
                 isEditValue
                     ? const SizedBox()
@@ -97,7 +98,9 @@ class EditPersonalForm extends HookConsumerWidget {
   const EditPersonalForm({
     super.key,
     required this.isEdit,
+    required this.onEdit,
   });
+  final VoidCallback onEdit;
   final ValueNotifier<bool> isEdit;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -172,7 +175,11 @@ class EditPersonalForm extends HookConsumerWidget {
           data,
           ref,
           navigate: '/home_v2',
+          isEdit: true,
+          isNavigate: true,
         );
+
+        onEdit();
       }
     }
 

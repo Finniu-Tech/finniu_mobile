@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
@@ -22,6 +23,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dar
 import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
+import 'package:finniu/presentation/screens/login_v2/widgets/modal_new_password.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
@@ -66,6 +68,24 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "modal new password",
+              onPressed: () {
+                modalNewPassword(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "navigate change pasgord",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/set_new_password');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "show verifica tu identidad",
               onPressed: () {
@@ -139,6 +159,15 @@ class CatalogScreen extends HookConsumerWidget {
                       "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.info,
                 );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "biometric test",
+              onPressed: () {
+                Navigator.pushNamed(context, '/biometric_test');
               },
             ),
             const SizedBox(

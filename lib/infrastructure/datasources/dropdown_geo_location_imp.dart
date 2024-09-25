@@ -15,7 +15,7 @@ class DropdownGeoLocationImp extends GraphQLBaseDataSource {
         ),
       );
       final data = result.data;
-      if (data == null) {
+      if (data == null || data.isEmpty) {
         return GeoLocationResponseV2(
           regions: [
             GeoLocationItemV2(
@@ -25,6 +25,7 @@ class DropdownGeoLocationImp extends GraphQLBaseDataSource {
           ],
         );
       }
+
       GeoLocationResponseV2 regions =
           GeoLocationResponseV2.fromJson(data, TypeList.regions.name);
       return regions;
@@ -63,7 +64,7 @@ class DropdownGeoLocationImp extends GraphQLBaseDataSource {
         ),
       );
       final data = result.data;
-      if (data == null) {
+      if (data == null || data.isEmpty) {
         return GeoLocationResponseV2(
           regions: [
             GeoLocationItemV2(
@@ -75,6 +76,7 @@ class DropdownGeoLocationImp extends GraphQLBaseDataSource {
       }
       GeoLocationResponseV2 regions =
           GeoLocationResponseV2.fromJson(data, TypeList.provinces.name);
+
       return regions;
     } catch (e) {
       return GeoLocationResponseV2(
