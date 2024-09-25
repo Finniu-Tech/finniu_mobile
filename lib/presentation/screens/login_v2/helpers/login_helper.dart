@@ -15,13 +15,14 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-void loginEmailHelper(
-    {required BuildContext context,
-    required WidgetRef ref,
-    required String email,
-    required String password,
-    required bool rememberPassword,
-    required FlutterSecureStorage secureStorage}) async {
+void loginEmailHelper({
+  required BuildContext context,
+  required WidgetRef ref,
+  required String email,
+  required String password,
+  required bool rememberPassword,
+  required FlutterSecureStorage secureStorage,
+}) async {
   try {
     final graphqlProvider = ref.watch(gqlClientProvider.future);
     bool isConnected = await InternetConnectionChecker().hasConnection;
