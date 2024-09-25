@@ -1,26 +1,18 @@
-import 'package:finniu/domain/entities/feature_flag_entity.dart';
-import 'package:finniu/domain/entities/routes_entity.dart';
-import 'package:finniu/infrastructure/models/auth.dart';
-import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
-import 'package:finniu/presentation/providers/auth_provider.dart';
-import 'package:finniu/presentation/providers/feature_flags_provider.dart';
-import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
+import 'package:finniu/presentation/screens/login_v2/helpers/login_helper.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class LoginScreenV2 extends ConsumerWidget {
@@ -77,14 +69,16 @@ class FormLogin extends HookConsumerWidget {
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     final rememberPassword = useState(Preferences.rememberMe);
-    final showError = useState(false);
-    final graphqlProvider = ref.watch(gqlClientProvider.future);
     final passwordState = useState("");
     final formKey = GlobalKey<FormState>();
-    final emailController = useTextEditingController(text: Preferences.username ?? "");
-    final passwordController = useTextEditingController(text: passwordState.value);
-    final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
+
+    final emailController =
+        useTextEditingController(text: Preferences.username ?? "");
+    final passwordController =
+        useTextEditingController(text: passwordState.value);
+    final ValueNotifier<bool> emailError = useState(false);
+    final ValueNotifier<bool> passwordError = useState(false);
+
 
     useEffect(
       () {
@@ -117,108 +111,16 @@ class FormLogin extends HookConsumerWidget {
         if (emailError.value) return;
         if (passwordError.value) return;
         context.loaderOverlay.show();
-        try {
-          bool isConnected = await InternetConnectionChecker().hasConnection;
-          if (!isConnected) {
-            context.loaderOverlay.hide();
-            showNetworkWarning(context: context);
-            return;
-          }
 
-          final loginResponse = AuthRepository().login(
-            client: await graphqlProvider,
-            username: emailController.value.text.toLowerCase(),
-            password: passwordController.value.text,
-          );
-          loginResponse.then((value) {
-            if (value.success == true) {
-              final token = ref.watch(
-                authTokenMutationProvider(
-                  LoginModel(
-                    email: emailController.value.text.trim().toLowerCase(),
-                    password: passwordController.value.text,
-                  ),
-                ).future,
-              );
+        loginEmailHelper(
+          context: context,
+          ref: ref,
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+          rememberPassword: rememberPassword.value,
+          secureStorage: secureStorage,
+        );
 
-              token.then(
-                (value) async {
-                  if (value != null) {
-                    showSnackBarV2(
-                      context: context,
-                      title: "Inicio de sesión exitoso",
-                      message: "Bienvenido ${emailController.value.text}",
-                      snackType: SnackType.success,
-                    );
-                    ref.read(authTokenProvider.notifier).state = value;
-                    Preferences.username = emailController.value.text.trim().toLowerCase();
-                    context.loaderOverlay.hide();
-                    if (rememberPassword.value) {
-                      await secureStorage.write(
-                        key: 'password',
-                        value: passwordController.value.text,
-                      );
-                    }
-
-                    final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
-                    ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
-
-                    final String route = ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
-                        ? FeatureRoutes.getRouteForFlag(
-                            FeatureFlags.homeV2,
-                            defaultHomeRoute,
-                          )
-                        : defaultHomeRoute;
-
-                    Navigator.pushNamed(
-                      context,
-                      route,
-                    );
-                  } else {
-                    showError.value = true;
-                  }
-                },
-                onError: (err) {
-                  context.loaderOverlay.hide();
-                  showError.value = true;
-                },
-              );
-            } else {
-              context.loaderOverlay.hide();
-              if (value.error == 'Su usuario no a sido activado') {
-                showSnackBarV2(
-                  context: context,
-                  title: value.error ?? 'Su usuario no a sido activado',
-                  message: "Por favor, revisa tu correo para activar tu cuenta",
-                  snackType: SnackType.error,
-                );
-
-                ref.read(userProfileNotifierProvider.notifier).updateFields(
-                      email: emailController.value.text,
-                      password: passwordController.value.text,
-                    );
-                Future.delayed(const Duration(seconds: 3), () {
-                  Navigator.pushNamed(context, '/v2/send_code');
-                });
-              } else {
-                showSnackBarV2(
-                  context: context,
-                  title: value.error ?? 'No se pudo validar sus credenciales',
-                  message: "Por favor, revisa tus credenciales",
-                  snackType: SnackType.error,
-                );
-              }
-            }
-          });
-        } catch (e) {
-          context.loaderOverlay.hide();
-          showSnackBarV2(
-            context: context,
-            title: 'Error',
-            message: 'Ocurrió un problema, vuelva a intentarlo en unos minutos',
-            snackType: SnackType.error,
-          );
-        }
       }
     }
 
@@ -277,9 +179,9 @@ class FormLogin extends HookConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Checkbox(
+              CheckBoxWidget(
                 value: rememberPassword.value,
-                onChanged: (bool? value) {
+                onChanged: (value) {
                   rememberPassword.value = value ?? false;
                   Preferences.rememberMe = value ?? false;
                   if (!rememberPassword.value) {

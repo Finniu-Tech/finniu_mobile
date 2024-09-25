@@ -18,11 +18,11 @@ class PasswordNewRequired extends HookConsumerWidget {
     const int containerDark = 0xff222222;
     const int containerLight = 0xffF7F7F7;
 
-    final ValueNotifier<bool> eightCharacters = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> oneNumber = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> oneLowercase = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> oneCapital = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> oneSpecialSymbol = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> eightCharacters = useState(false);
+    final ValueNotifier<bool> oneNumber = useState(false);
+    final ValueNotifier<bool> oneLowercase = useState(false);
+    final ValueNotifier<bool> oneCapital = useState(false);
+    final ValueNotifier<bool> oneSpecialSymbol = useState(false);
 
     final RegExp hasDigits = RegExp(r'[0-9]');
     final RegExp hasLowercase = RegExp(r'[a-z]');

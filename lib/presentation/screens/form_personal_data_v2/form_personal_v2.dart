@@ -52,10 +52,9 @@ class PersonalForm extends HookConsumerWidget {
   const PersonalForm({
     super.key,
   });
-
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController = useTextEditingController();
     final lastNameFatherController = useTextEditingController();
     final lastNameMotherController = useTextEditingController();
@@ -64,13 +63,13 @@ class PersonalForm extends HookConsumerWidget {
     final civilStatusController = useTextEditingController();
     final genderTypeController = useTextEditingController();
 
-    final ValueNotifier<bool> firstNameError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> lastNameFatherError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> lastNameMotherError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> documentTypeError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> documentNumberError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> civilStatusError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> genderTypeError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> firstNameError = useState(false);
+    final ValueNotifier<bool> lastNameFatherError = useState(false);
+    final ValueNotifier<bool> lastNameMotherError = useState(false);
+    final ValueNotifier<bool> documentTypeError = useState(false);
+    final ValueNotifier<bool> documentNumberError = useState(false);
+    final ValueNotifier<bool> civilStatusError = useState(false);
+    final ValueNotifier<bool> genderTypeError = useState(false);
 
     void continueLater() {
       ScaffoldMessenger.of(context).clearSnackBars();

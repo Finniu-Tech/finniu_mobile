@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/login_v2/helpers/new_password_helper
 import 'package:finniu/presentation/screens/login_v2/widgets/password_new_requiered.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -60,15 +61,14 @@ class FormNewPasword extends HookConsumerWidget {
   const FormNewPasword({
     super.key,
   });
-
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final passwordController = TextEditingController();
-    final passwordConfirmController = TextEditingController();
-    final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> passwordConfirmError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> isPasswordExpanded = ValueNotifier<bool>(false);
+    final passwordController = useTextEditingController();
+    final passwordConfirmController = useTextEditingController();
+    final ValueNotifier<bool> passwordError = useState(false);
+    final ValueNotifier<bool> passwordConfirmError = useState(false);
+    final ValueNotifier<bool> isPasswordExpanded = useState(false);
     final FocusNode focusNode = FocusNode();
 
     void savePassword() async {

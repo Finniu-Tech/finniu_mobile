@@ -104,11 +104,11 @@ class EditPersonalForm extends HookConsumerWidget {
   });
   final ValueNotifier<bool> isEdit;
   final VoidCallback onEdit;
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
 
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final laborSituationSelectController = useTextEditingController(
       text: getLaborsStatusEnumByUser(userProfile.laborSituation ?? ""),
     );
@@ -124,10 +124,10 @@ class EditPersonalForm extends HookConsumerWidget {
           : getServiceTimeEnumByUser(userProfile.serviceTime),
     );
 
-    final ValueNotifier<bool> laborSituationError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> occupationError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> companyNameError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> serviceTimeError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> laborSituationError = useState(false);
+    final ValueNotifier<bool> occupationError = useState(false);
+    final ValueNotifier<bool> companyNameError = useState(false);
+    final ValueNotifier<bool> serviceTimeError = useState(false);
 
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {
