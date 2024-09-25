@@ -35,6 +35,24 @@ class FormRegister extends HookConsumerWidget {
     final ValueNotifier<bool> passwordError = useState(false);
     final ValueNotifier<bool> passwordConfirmError = useState(false);
     final ValueNotifier<bool> acceptPrivacyAndTerms = useState(false);
+
+    FocusNode passwordFocusNode = useFocusNode();
+    useEffect(
+      () {
+        void focusListener() {
+          if (!passwordFocusNode.hasFocus) {
+            isPasswordExpanded.value = false;
+          }
+        }
+
+        passwordFocusNode.addListener(focusListener);
+        return () {
+          passwordFocusNode.removeListener(focusListener);
+          passwordFocusNode.dispose();
+        };
+      },
+      [passwordFocusNode],
+    );
     void saveAndPush(BuildContext context) async {
       if (!formKey.currentState!.validate()) {
         showSnackBarV2(
@@ -76,7 +94,6 @@ class FormRegister extends HookConsumerWidget {
       }
     }
 
-    final FocusNode focusNode = FocusNode();
     return Form(
       key: formKey,
       child: Stack(
@@ -145,7 +162,7 @@ class FormRegister extends HookConsumerWidget {
                 valueListenable: passwordError,
                 builder: (context, isError, child) {
                   return InputPasswordFieldUserProfile(
-                    focusNode: focusNode,
+                    focusNode: passwordFocusNode,
                     onTap: () {
                       isPasswordExpanded.value = true;
                     },
@@ -161,9 +178,10 @@ class FormRegister extends HookConsumerWidget {
                       );
                       return null;
                     },
-                    onFocusChanged: (hasFocus) {
-                      isPasswordExpanded.value = hasFocus;
-                    },
+
+                    // onFocusChanged: (hasFocus) {
+                    //   isPasswordExpanded.value = hasFocus;
+                    // },
                   );
                 },
               ),
