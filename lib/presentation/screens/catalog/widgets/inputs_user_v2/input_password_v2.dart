@@ -14,7 +14,7 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
     required this.onError,
     required this.onTap,
     this.focusNode,
-    required this.onFocusChanged,
+    this.onFocusChanged,
   });
 
   final FocusNode? focusNode;
@@ -24,7 +24,7 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
   final String hintText;
   final bool isError;
   final VoidCallback? onError;
-  final Function(bool) onFocusChanged;
+  final Function(bool)? onFocusChanged;
 
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
@@ -42,23 +42,31 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
     final isObscure = useState(true);
     const int iconDark = 0xFFA2E6FA;
     const int iconLight = 0xFF000000;
-
-    final localFocusNode = focusNode ?? FocusNode();
-    useEffect(
-      () {
-        localFocusNode.addListener(() {
-          onFocusChanged(localFocusNode.hasFocus);
-        });
-        return localFocusNode.dispose;
-      },
-      [localFocusNode],
-    );
+    // final localFocusNode = FocusNode();
+    // final localFocusNode = focusNode ?? FocusNode();
+    // useEffect(
+    //   () {
+    //     localFocusNode.addListener(() {
+    //       if (!localFocusNode.hasFocus) {
+    //         print("------------------");
+    //         print("onFocusChanged ${localFocusNode.hasFocus}");
+    //         print("------------------");
+    //         onFocusChanged(false);
+    //       }
+    //       {
+    //         print("onFocusChanged ${localFocusNode.hasFocus}");
+    //       }
+    //     });
+    //     return localFocusNode.dispose;
+    //   },
+    //   [localFocusNode],
+    // );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
-          focusNode: localFocusNode,
+          focusNode: focusNode,
           onTap: () {
             if (onError != null && isError) {
               onError!();
