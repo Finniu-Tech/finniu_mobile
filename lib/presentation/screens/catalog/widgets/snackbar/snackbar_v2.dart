@@ -83,6 +83,71 @@ void showSnackBarV2({
   });
 }
 
+class SnackBarContainerV2 extends StatelessWidget {
+  const SnackBarContainerV2({
+    super.key,
+    required this.snackType,
+    required this.title,
+    required this.message,
+  });
+  final SnackType snackType;
+  final String title;
+  final String message;
+  @override
+  Widget build(BuildContext context) {
+    const int textColor = 0xff000000;
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: 61,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: Color(getColorBySnackType(snackType)),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(
+            "assets/svg_icons/${getIconBySnackType(snackType)}.svg",
+            width: 24,
+            height: 24,
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextPoppins(
+                  text: title,
+                  fontSize: 13,
+                  isBold: true,
+                  textDark: textColor,
+                  textLight: textColor,
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.6,
+                  child: TextPoppins(
+                    text: message,
+                    fontSize: 12,
+                    isBold: false,
+                    textDark: textColor,
+                    textLight: textColor,
+                    lines: 2,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 int getColorBySnackType(SnackType snackType) {
   switch (snackType) {
     case SnackType.success:

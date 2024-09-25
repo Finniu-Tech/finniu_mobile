@@ -5,12 +5,14 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/activate_account_v2.dart/widgets/verification_code_v2.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 void sendEmailRecoveryPasswordModalV2(BuildContext ctx, WidgetRef ref) {
   final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -18,6 +20,8 @@ void sendEmailRecoveryPasswordModalV2(BuildContext ctx, WidgetRef ref) {
   const int backgroudDark = 0xff1A1A1A;
   const int backgroudLight = 0xffFFFFFF;
   showModalBottomSheet(
+    isDismissible: false,
+    isScrollControlled: true,
     clipBehavior: Clip.antiAlias,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
@@ -46,6 +50,7 @@ class SMSBody extends ConsumerWidget {
     const int lineColor = 0xffD9D9D9;
 
     void reSendEmail() {
+      context.loaderOverlay.show();
       ref.read(timerCounterDownProvider.notifier).resetTimer();
 
       ref.read(resendOTPCodeFutureProvider.future).then((status) {
@@ -60,83 +65,108 @@ class SMSBody extends ConsumerWidget {
           );
         }
       });
+
+      context.loaderOverlay.hide();
     }
 
-    return SingleChildScrollView(
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const SizedBox(height: 15),
-            SizedBox(
-              width: 101,
-              height: 5,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: const Color(lineColor),
-                  borderRadius: BorderRadius.circular(20),
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height * 0.8,
+      child: LoaderOverlay(
+        useDefaultLoading: false,
+        overlayWidgetBuilder: (progress) {
+          return const Center(
+            child: CircularLoader(
+              width: 50,
+              height: 50,
+            ),
+          );
+        },
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.8,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(height: 15),
+              SizedBox(
+                width: 101,
+                height: 5,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: const Color(lineColor),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: 15),
-            // alto deseado
-            SizedBox(
-              width: 90,
-              height: 90,
-              child: Image.asset('assets/images/padlock.png'),
-            ),
-            const SizedBox(height: 10),
-            const TextPoppins(
-              text: "Ingresa el código de verificación",
-              fontSize: 16,
-              textDark: titleDark,
-              textLight: titleLight,
-              isBold: true,
-            ),
-            const SizedBox(height: 10),
-            const SizedBox(
-              width: 270,
-              child: TextPoppins(
-                text:
-                    "Te hemos enviado el código a tu correo para confirmar la operación",
-                fontSize: 12,
+              const SizedBox(height: 15),
+              // alto deseado
+              SizedBox(
+                width: 90,
+                height: 90,
+                child: Image.asset('assets/images/padlock.png'),
+              ),
+              const SizedBox(height: 10),
+              const TextPoppins(
+                text: "Ingresa el código de verificación",
+                fontSize: 16,
                 textDark: titleDark,
                 textLight: titleLight,
-                lines: 2,
-                align: TextAlign.center,
+                isBold: true,
               ),
-            ),
-
-            const SizedBox(height: 10),
-            const VeridicationCodeV2(),
-
-            const SizedBox(height: 10),
-            if (ref.watch(timerCounterDownProvider) == 0) ...[
-              ButtonInvestment(
-                text: 'Reenviar código',
-                onPressed: () => reSendEmail(),
-              ),
-            ] else ...[
-              SizedBox(
-                width: 280,
-                child: Text(
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w500,
-                    height: 1.5,
-                    color: isDarkMode ? Colors.white : const Color(primaryDark),
-                  ),
-                  "Reenviar el codigo en",
+              const SizedBox(height: 10),
+              const SizedBox(
+                width: 270,
+                child: TextPoppins(
+                  text:
+                      "Te hemos enviado el código a tu correo para confirmar la operación",
+                  fontSize: 12,
+                  textDark: titleDark,
+                  textLight: titleLight,
+                  lines: 2,
+                  align: TextAlign.center,
                 ),
               ),
+
               const SizedBox(height: 10),
-              const CircularCountdownV2(),
+              const VeridicationCodePasswordV2(),
+
               const SizedBox(height: 10),
+              if (ref.watch(timerCounterDownProvider) == 0) ...[
+                ButtonInvestment(
+                  text: 'Reenviar código',
+                  onPressed: () => reSendEmail(),
+                ),
+              ] else ...[
+                SizedBox(
+                  width: 280,
+                  child: Text(
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      height: 1.5,
+                      color:
+                          isDarkMode ? Colors.white : const Color(primaryDark),
+                    ),
+                    "Reenviar el codigo en",
+                  ),
+                ),
+                const SizedBox(height: 10),
+                const CircularCountdownV2(),
+                const SizedBox(height: 10),
+              ],
+              const SizedBox(
+                height: 20,
+              ),
+              const SnackBarContainerV2(
+                title: 'Reenviando correo',
+                snackType: SnackType.info,
+                message: 'Espere un momento',
+              ),
             ],
-          ],
+          ),
         ),
       ),
     );
@@ -159,6 +189,7 @@ class VeridicationCodeV2 extends HookConsumerWidget {
     return VerificationCode(
       onEditing: (value) {},
       onCompleted: (code) {
+        context.loaderOverlay.show();
         final futureIsValidCode = ref.watch(
           otpValidatorFutureProvider(
             OTPForm(
@@ -185,6 +216,74 @@ class VeridicationCodeV2 extends HookConsumerWidget {
               snackType: SnackType.error,
             );
           }
+
+          context.loaderOverlay.hide();
+        });
+      },
+      underlineWidth: 1.5,
+      margin: const EdgeInsets.all(3),
+      padding: const EdgeInsets.all(3),
+      digitsOnly: true,
+      keyboardType: TextInputType.number,
+      length: 4,
+      itemSize: 50,
+      fullBorder: true,
+      cursorColor:
+          isDarkMode ? const Color(borderDark) : const Color(borderLight),
+      underlineUnfocusedColor:
+          isDarkMode ? const Color(borderDark) : const Color(borderLight),
+      underlineColor: isDarkMode
+          ? const Color(borderSelectDark)
+          : const Color(borderSelectLight),
+    );
+  }
+}
+
+class VeridicationCodePasswordV2 extends HookConsumerWidget {
+  const VeridicationCodePasswordV2({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int borderDark = 0xff9381FF;
+    const int borderLight = 0xff0D3A5C;
+    const int borderSelectDark = 0xffA2E6FA;
+    const int borderSelectLight = 0xff9381FF;
+    return VerificationCode(
+      onEditing: (value) {},
+      onCompleted: (code) {
+        context.loaderOverlay.show();
+        final futureIsValidCode = ref.watch(
+          otpValidatorFutureProvider(
+            OTPForm(
+              email: userProfile.email!,
+              otp: code,
+              action: 'recovery_password',
+            ),
+          ).future,
+        );
+        futureIsValidCode.then((status) {
+          if (status == true) {
+            showSnackBarV2(
+              context: context,
+              title: "¡Validación exitosa! ",
+              message: 'Tu cuenta ha sido validada con éxito.',
+              snackType: SnackType.success,
+            );
+            Navigator.of(context).pushNamed('/v2/set_new_password');
+          } else {
+            showSnackBarV2(
+              context: context,
+              title: "Error al validar el código de verificación",
+              message: 'No se pudo validar el código de verificación',
+              snackType: SnackType.error,
+            );
+          }
+
+          context.loaderOverlay.hide();
         });
       },
       underlineWidth: 1.5,
