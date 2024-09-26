@@ -24,6 +24,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/all_investment_button.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/complete_profile.dart';
 // import 'package:finniu/presentation/screens/home_v2/widgets/carrousel_slider.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
@@ -185,6 +186,7 @@ class HomeBody extends HookConsumerWidget {
             ),
             child: Column(
               children: [
+                const ProfileCompletenessSection(),
                 BodyHomeUpperSectionWidget(
                   currentTheme: currentTheme,
                   renderNonInvestment: renderNonInvestment,
