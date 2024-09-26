@@ -22,12 +22,7 @@ void createBankAccount({
           snackType: SnackType.success,
         );
 
-        //wait 3 seconds
-        ref
-            .read(
-              boolCreatedNewBankAccountProvider.notifier,
-            )
-            .state = true;
+        ref.read(boolCreatedNewBankAccountProvider.notifier).state = true;
         Future.delayed(const Duration(seconds: 1), () {
           Navigator.of(context).pop();
         });
