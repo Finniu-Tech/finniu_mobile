@@ -1,8 +1,8 @@
-import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
+import 'package:finniu/widgets/scaffold.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 
 class FrequentlyQuestionsScreen extends StatefulHookConsumerWidget {
   const FrequentlyQuestionsScreen({Key? key}) : super(key: key);
@@ -45,7 +45,6 @@ class _FrequentlyQuestionsScreenState extends ConsumerState<FrequentlyQuestionsS
 
   void _adjustWebViewScale() {
     _controller.runJavaScript('''
-      document.body.style.zoom = "100%";
       document.body.style.width = "100%";
       document.body.style.height = "100%";
       document.body.style.margin = "0";
@@ -64,9 +63,9 @@ class _FrequentlyQuestionsScreenState extends ConsumerState<FrequentlyQuestionsS
 
   @override
   Widget build(BuildContext context) {
-    return ScaffoldConfig(
-      title: '"Preguntas frecuentes',
-      children: _buildBody(),
+    return WebViewScaffoldConfig(
+      title: 'Preguntas frecuentes',
+      child: _buildBody(),
     );
   }
 
@@ -74,24 +73,17 @@ class _FrequentlyQuestionsScreenState extends ConsumerState<FrequentlyQuestionsS
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     Color backgroundColor = isDarkMode ? const Color(0xff191919) : const Color(0xffFFFFFF);
 
-    return SafeArea(
-      child: SizedBox(
-        height: 1100,
-        child: Stack(
-          children: [
-            WebViewWidget(controller: _controller),
-            if (_isLoading)
-              Container(
-                color: backgroundColor,
-                padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                child: const Align(
-                  alignment: Alignment.topCenter,
-                  child: CircularProgressIndicator(),
-                ),
-              ),
-          ],
-        ),
-      ),
+    return Stack(
+      children: [
+        WebViewWidget(controller: _controller),
+        if (_isLoading)
+          Container(
+            color: backgroundColor,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          ),
+      ],
     );
   }
 }
