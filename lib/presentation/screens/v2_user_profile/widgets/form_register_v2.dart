@@ -47,8 +47,8 @@ class FormRegister extends HookConsumerWidget {
 
         passwordFocusNode.addListener(focusListener);
         return () {
-          passwordFocusNode.removeListener(focusListener);
-          passwordFocusNode.dispose();
+          // passwordFocusNode.removeListener(focusListener);
+          // passwordFocusNode.dispose();
         };
       },
       [passwordFocusNode],

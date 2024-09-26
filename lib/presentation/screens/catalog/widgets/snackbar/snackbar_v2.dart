@@ -98,7 +98,7 @@ class SnackBarContainerV2 extends StatelessWidget {
     const int textColor = 0xff000000;
     return Container(
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 75,
+      height: 70,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         color: Color(getColorBySnackType(snackType)),

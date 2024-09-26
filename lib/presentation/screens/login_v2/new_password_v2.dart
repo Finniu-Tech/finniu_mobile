@@ -82,10 +82,7 @@ class FormNewPasword extends HookConsumerWidget {
         }
 
         passwordFocusNode.addListener(focusListener);
-        return () {
-          passwordFocusNode.removeListener(focusListener);
-          passwordFocusNode.dispose();
-        };
+        return () {};
       },
       [passwordFocusNode],
     );
