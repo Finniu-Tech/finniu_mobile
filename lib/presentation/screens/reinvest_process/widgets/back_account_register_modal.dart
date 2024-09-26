@@ -67,6 +67,18 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
   final TextEditingController cciNumberController = TextEditingController();
   List<SnackBarContainerV2> errors = [];
 
+  final CarouselController errorsCarouselController = CarouselController();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
   @override
   void dispose() {
     bankController.dispose();
@@ -402,6 +414,7 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                     const SizedBox(height: 15),
                     errors.isNotEmpty
                         ? CarouselSlider(
+                            carouselController: errorsCarouselController,
                             items: errors,
                             options: CarouselOptions(
                               autoPlayAnimationDuration:
@@ -410,6 +423,18 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
                               autoPlay: true,
                               viewportFraction: 1,
                               enlargeCenterPage: true,
+                              onPageChanged: (index, reason) {
+                                if (index == errors.length - 1) {
+                                  errorsCarouselController.stopAutoPlay();
+
+                                  Future.delayed(const Duration(seconds: 2),
+                                      () {
+                                    setState(() {
+                                      errors.clear();
+                                    });
+                                  });
+                                }
+                              },
                             ),
                           )
                         : const SizedBox(),
