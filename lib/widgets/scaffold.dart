@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:finniu/main.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/app_bar_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -8,6 +10,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/buttons.dart';
 import 'package:finniu/widgets/fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class CustomScaffoldStart extends ConsumerStatefulWidget {
@@ -241,6 +244,53 @@ class CustomScaffoldReturnDirect extends ConsumerWidget {
             : null,
       ),
       body: body,
+    );
+  }
+}
+
+class WebViewScaffoldConfig extends ConsumerWidget {
+  const WebViewScaffoldConfig({
+    Key? key,
+    required this.child,
+    required this.title,
+    this.floatingNull = false,
+  }) : super(key: key);
+
+  final Widget child;
+  final String title;
+  final bool floatingNull;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    const int backgroundDark = 0xff191919;
+    const int backgroundLight = 0xffFFFFFF;
+
+    return LoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidgetBuilder: (progress) {
+        return const Center(
+          child: CircularLoader(
+            width: 50,
+            height: 50,
+          ),
+        );
+      },
+      child: Scaffold(
+        appBar: AppBarProfile(title: title),
+        floatingActionButton: floatingNull
+            ? null
+            : Container(
+                width: 0,
+                height: 90,
+                color: Colors.transparent,
+              ),
+        backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        body: SafeArea(
+          child: child,
+        ),
+      ),
     );
   }
 }

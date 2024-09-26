@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/infrastructure/datasources/user_profile_datasource_imp.dart';
 import 'package:finniu/infrastructure/models/user.dart';
@@ -10,8 +11,7 @@ final seeLaterProvider = StateProvider<bool?>((ref) {
   return null;
 });
 
-final userProfileFutureProvider =
-    FutureProvider.autoDispose<UserProfile>((ref) async {
+final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) async {
   try {
     final result = await ref.watch(gqlClientProvider.future).then(
       (client) async {
@@ -68,8 +68,7 @@ final userProfileFutureProvider =
             facebook: userProfile.facebook,
             instagram: userProfile.instagram,
             linkedin: userProfile.linkedin,
-            isDirectorOrShareholder10Percent:
-                userProfile.isDirectorOrShareholder10Percent,
+            isDirectorOrShareholder10Percent: userProfile.isDirectorOrShareholder10Percent,
             isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
             acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
             acceptTermsConditions: userProfile.acceptTermsConditions,
@@ -82,16 +81,15 @@ final userProfileFutureProvider =
   }
 });
 
-final updateUserProfileFutureProvider = FutureProvider.autoDispose
-    .family<bool, UserProfile>((ref, UserProfile userProfile) async {
+final updateUserProfileFutureProvider =
+    FutureProvider.autoDispose.family<bool, UserProfile>((ref, UserProfile userProfile) async {
   final resp = await UserProfileDataSourceImp().update(
     client: await ref.watch(gqlClientProvider.future),
     userProfile: userProfile,
   );
   final success = resp['success'];
-  final percentaje = resp['percentCompleteProfile'] != null
-      ? double.parse(resp['percentCompleteProfile'].toString())
-      : 0.0;
+  final percentaje =
+      resp['percentCompleteProfile'] != null ? double.parse(resp['percentCompleteProfile'].toString()) : 0.0;
   if (success == true) {
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           id: userProfile.uuid,
@@ -125,8 +123,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           facebook: userProfile.facebook,
           instagram: userProfile.instagram,
           linkedin: userProfile.linkedin,
-          isDirectorOrShareholder10Percent:
-              userProfile.isDirectorOrShareholder10Percent,
+          isDirectorOrShareholder10Percent: userProfile.isDirectorOrShareholder10Percent,
           isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
           acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
           acceptTermsConditions: userProfile.acceptTermsConditions,
@@ -135,8 +132,8 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
   return success;
 });
 
-final updateUserAvatarFutureProvider = FutureProvider.autoDispose
-    .family<bool, String>((ref, String imageProfileUrl) async {
+final updateUserAvatarFutureProvider =
+    FutureProvider.autoDispose.family<bool, String>((ref, String imageProfileUrl) async {
   final response = await UserProfileDataSourceImp().updateAvatar(
     client: await ref.watch(gqlClientProvider.future),
     imageProfile: imageProfileUrl,
@@ -150,8 +147,7 @@ final updateUserAvatarFutureProvider = FutureProvider.autoDispose
   return false;
 });
 
-final reloadUserProfileFutureProvider =
-    FutureProvider.autoDispose<bool>((ref) async {
+final reloadUserProfileFutureProvider = FutureProvider.autoDispose<bool>((ref) async {
   try {
     final client = await ref.watch(gqlClientProvider.future);
     final QueryResult result = await client.query(
@@ -202,8 +198,7 @@ final reloadUserProfileFutureProvider =
           facebook: userProfile.facebook,
           instagram: userProfile.instagram,
           linkedin: userProfile.linkedin,
-          isDirectorOrShareholder10Percent:
-              userProfile.isDirectorOrShareholder10Percent,
+          isDirectorOrShareholder10Percent: userProfile.isDirectorOrShareholder10Percent,
           isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
           acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
           acceptTermsConditions: userProfile.acceptTermsConditions,
@@ -215,8 +210,7 @@ final reloadUserProfileFutureProvider =
   }
 });
 
-final userProfileNotifierProvider =
-    StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
+final userProfileNotifierProvider = StateNotifierProvider<UserProfileStateNotifierProvider, UserProfile>(
   (ref) => UserProfileStateNotifierProvider(UserProfile()),
 );
 
@@ -336,3 +330,15 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     state = state.copyWith(occupation: occupation);
   }
 }
+
+final userProfileCompletenessProvider = FutureProvider.autoDispose<UserProfileCompleteness>((ref) async {
+  final client = await ref.watch(gqlClientProvider.future);
+  final dataSource = UserProfileDataSourceImp();
+
+  try {
+    final resp = await dataSource.getUserProfileCompleteness(client: client);
+    return resp;
+  } catch (e) {
+    throw e;
+  }
+});

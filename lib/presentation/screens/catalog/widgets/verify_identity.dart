@@ -1,38 +1,41 @@
+import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/on_boarding_v2/widgets/positiones_column.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showVerifyIdentity(BuildContext context) {
+void showVerifyIdentity(BuildContext context, UserProfileCompleteness userCompletenessProfile, {Function()? redirect}) {
   showModalBottomSheet(
     context: context,
-    builder: (context) => const _BodyVerify(),
+    builder: (context) => _BodyVerify(userCompletenessProfile: userCompletenessProfile, redirect: redirect),
   );
 }
 
 class _BodyVerify extends ConsumerWidget {
-  const _BodyVerify();
+  final UserProfileCompleteness userCompletenessProfile;
+  final Function()? redirect;
+
+  const _BodyVerify({required this.userCompletenessProfile, this.redirect});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final userProfile = ref.watch(userProfileNotifierProvider);
+    // final userProfile = ref.watch(userProfileNotifierProvider);
     const int backgroundDark = 0xff1A1A1A;
     const int backgroundLight = 0xffFFFFFF;
-    void navigate() {
-      Navigator.pushNamed(context, '/v2/my_data');
+    void navigate(UserProfileCompleteness userProfileCompleteness) {
+      Navigator.popAndPushNamed(context, userProfileCompleteness.getNextStep() ?? '/v2/my_data');
+      // Navigator.pushNamed(context, '/v2/my_data');
     }
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 300,
+      height: 350,
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
@@ -41,54 +44,73 @@ class _BodyVerify extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          SizedBox(
+            height: 10,
+          ),
           const LineTop(),
+
+          SizedBox(
+            height: 10,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ItemRowValidate(
                 onTap: () {
-                  userProfile.completePersonalData()
-                      ? Navigator.pushNamed(context, '/v2/edit_personal_data')
-                      : Navigator.pushNamed(context, '/v2/form_personal_data');
+                  // userCompletenessProfile.hasCompletePersonalData()
+                  //     ? Navigator.pushNamed(context, '/v2/edit_personal_data')
+                  //     : Navigator.pushNamed(context, '/v2/form_personal_data');
                 },
                 iconUrl: "assets/svg_icons/user_icon.svg",
-                isSelect: userProfile.completePersonalData(),
+                isSelect: userCompletenessProfile.hasCompletePersonalData(),
               ),
               const SizedBox(
                 width: 20,
               ),
               ItemRowValidate(
                 onTap: () {
-                  userProfile.completeLocationData()
-                      ? Navigator.pushNamed(context, '/v2/edit_location_data')
-                      : Navigator.pushNamed(context, '/v2/form_location');
+                  // userCompletenessProfile.hasCompleteLegalTerms()
+                  //     ? Navigator.pushNamed(context, '/v2/form_legal_terms')
+                  //     : Navigator.pushNamed(context, '/v2/form_legal_terms');
+                },
+                iconUrl: "assets/svg_icons/scale_icon.svg",
+                isSelect: userCompletenessProfile.hasCompleteLegalTerms(),
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              ItemRowValidate(
+                onTap: () {
+                  // userCompletenessProfile.hasCompleteLocation()
+                  //     ? Navigator.pushNamed(context, '/v2/edit_location_data')
+                  //     : Navigator.pushNamed(context, '/v2/form_location');
                 },
                 iconUrl: "assets/svg_icons/map_icon_v2.svg",
-                isSelect: userProfile.completeLocationData(),
+                isSelect: userCompletenessProfile.hasCompleteLocation(),
               ),
               const SizedBox(
                 width: 20,
               ),
               ItemRowValidate(
                 onTap: () {
-                  userProfile.completeJobData()
-                      ? Navigator.pushNamed(context, '/v2/edit_job_data')
-                      : Navigator.pushNamed(context, '/v2/form_job');
+                  // userCompletenessProfile.hasCompleteOccupation()
+                  //     ? Navigator.pushNamed(context, '/v2/edit_job_data')
+                  //     : Navigator.pushNamed(context, '/v2/form_job');
                 },
                 iconUrl: "assets/svg_icons/bag_icon_v2.svg",
-                isSelect: userProfile.completeJobData(),
+                isSelect: userCompletenessProfile.hasCompleteOccupation(),
               ),
               const SizedBox(
                 width: 20,
               ),
               ItemRowValidate(
                 onTap: () {
-                  userProfile.completeAboutData()
-                      ? Navigator.pushNamed(context, '/v2/edit_about_me')
-                      : Navigator.pushNamed(context, '/v2/form_about_me');
+                  // userCompletenessProfile.hasCompleteProfile()
+                  //     ? Navigator.pushNamed(context, '/v2/edit_about_me')
+                  //     : Navigator.pushNamed(context, '/v2/form_about_me');
                 },
                 iconUrl: "assets/svg_icons/user_icon_v2.svg",
-                isSelect: userProfile.completeAboutData(),
+                isSelect: userCompletenessProfile.hasCompleteProfile(),
               ),
             ],
           ),
@@ -97,6 +119,9 @@ class _BodyVerify extends ConsumerWidget {
             child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(
+                  height: 10,
+                ),
                 TextPoppins(
                   text: "Verifica tu identidad ",
                   fontSize: 20,
@@ -106,18 +131,41 @@ class _BodyVerify extends ConsumerWidget {
                   height: 15,
                 ),
                 TextPoppins(
-                  text:
-                      "Es importante completar tus datos para comenzar a invertir en Finniu sin problemas ",
+                  text: "Es importante completar tus datos para comenzar a invertir en Finniu sin problemas ",
                   fontSize: 14,
                   lines: 2,
                 ),
               ],
             ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
           ButtonInvestment(
             text: "Completar",
-            onPressed: () => navigate(),
+            onPressed: () => navigate(userCompletenessProfile),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          if (userCompletenessProfile.hasRequiredData())
+            UnderlinedButtonText(
+              isDarkMode: isDarkMode,
+              text: "En otro momento",
+              onPressed: () {
+                if (redirect != null) {
+                  Navigator.pop(context);
+                  redirect!();
+                } else {
+                  Navigator.pop(context);
+                }
+              },
+              underline: false,
+            ),
+          const SizedBox(
+            height: 30,
+          ),
+          // TextButton(onPressed: () {}, child: Text('En otro momento'))
         ],
       ),
     );
@@ -138,6 +186,7 @@ class ItemRowValidate extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundSelect = 0xffA2E6FA;
+    const int lineBackgroundSelect = 0xff0D3A5C;
     const int iconSelect = 0xff0D3A5C;
     const int iconNotSelectDark = 0xff686868;
     const int iconNotSelectLight = 0xffB3B3B3;
@@ -150,7 +199,7 @@ class ItemRowValidate extends ConsumerWidget {
           Container(
             width: 40,
             height: 40,
-            padding: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
               color: isSelect
                   ? const Color(backgroundSelect)
@@ -180,7 +229,7 @@ class ItemRowValidate extends ConsumerWidget {
             height: 5,
             decoration: BoxDecoration(
               color: isSelect
-                  ? const Color(backgroundSelect)
+                  ? const Color(lineBackgroundSelect)
                   : isDarkMode
                       ? const Color(backgroundDark)
                       : const Color(backgroundLight),
