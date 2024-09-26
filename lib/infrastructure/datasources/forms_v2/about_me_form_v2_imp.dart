@@ -10,9 +10,7 @@ class AboutMeFormV2Imp extends GraphQLBaseDataSource {
   Future<RegisterUserV2Response> saveAboutMeDataUserV2({
     required DtoAboutMeForm data,
   }) async {
-    print(data.imageProfile);
     try {
-      // print(data.imageProfile);
       final response = await client.mutate(
         MutationOptions(
           document: gql(
