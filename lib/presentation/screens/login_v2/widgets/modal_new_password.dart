@@ -47,7 +47,7 @@ class _BodyDialog extends ConsumerWidget {
               const TextPoppins(
                 text: title,
                 fontSize: 20,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 align: TextAlign.center,
               ),
               const TextPoppins(

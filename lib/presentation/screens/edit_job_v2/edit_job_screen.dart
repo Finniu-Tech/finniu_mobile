@@ -44,7 +44,7 @@ class _BodyEditJob extends ConsumerWidget {
         const TextPoppins(
           text: "Información de mi ocupación laboral",
           fontSize: 17,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 10),
         ValueListenableBuilder<bool>(

@@ -269,7 +269,7 @@ class RedirectLogin extends ConsumerWidget {
       child: const TextPoppins(
         text: "Inicia sesión",
         fontSize: 14,
-        isBold: true,
+        fontWeight: FontWeight.w500,
         textDark: linkDark,
         textLight: linkLight,
       ),

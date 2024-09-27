@@ -122,7 +122,7 @@ class UploadDocument extends StatelessWidget {
           const TextPoppins(
             text: "Sube una Foto de tu DNI",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             align: TextAlign.center,
           ),
           const SizedBox(height: 20),
@@ -130,7 +130,6 @@ class UploadDocument extends StatelessWidget {
             text:
                 "Necesitamos una foto clara de ambas caras tu DNI. Asegúrate de que toda la información sea legible.",
             fontSize: 14,
-            isBold: false,
             lines: 3,
             align: TextAlign.center,
           ),
@@ -175,7 +174,7 @@ class DataSecurity extends ConsumerWidget {
           const TextPoppins(
             text: "Protección de tus Datos",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             align: TextAlign.center,
           ),
           const SizedBox(height: 10),

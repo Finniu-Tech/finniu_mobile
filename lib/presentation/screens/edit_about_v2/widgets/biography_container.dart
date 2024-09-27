@@ -21,7 +21,7 @@ class BiographyContainer extends StatelessWidget {
           const TextPoppins(
             text: "Biografía",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           TextPoppins(
             text: biography ?? "",

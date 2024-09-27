@@ -30,7 +30,10 @@ class UserProfileV2 extends ConsumerWidget {
         );
       },
       child: Scaffold(
-        appBar: const AppBarProfile(title: "Mi perfil"),
+        appBar: AppBarProfile(
+          title: "Mi perfil",
+          onLeadingPressed: () => Navigator.pushNamed(context, '/home_v2'),
+        ),
         backgroundColor: isDarkMode
             ? const Color(backgroundDark)
             : const Color(backgroundLight),
@@ -49,7 +52,7 @@ class _BodyProfile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    String name = userProfile.nickName ?? "Completar tu perfil";
+    String name = "${userProfile.nickName} ${userProfile.lastNameFather}";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,

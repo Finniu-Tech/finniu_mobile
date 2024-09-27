@@ -65,10 +65,11 @@ logOut(BuildContext context, WidgetRef ref) {
 
   ref.invalidate(paymentListProvider);
   ref.invalidate(investmentHistoryV2DataSourceProvider);
+  ref.invalidate(seeLaterProvider);
 
   // logout(ref);
   Navigator.of(context).pushNamedAndRemoveUntil(
     '/v2/on_boarding',
-    (route) => true,
+    (route) => false,
   );
 }

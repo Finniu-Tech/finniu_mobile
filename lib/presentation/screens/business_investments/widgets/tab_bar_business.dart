@@ -20,7 +20,8 @@ class TabBarBusiness extends ConsumerStatefulWidget {
   ConsumerState<TabBarBusiness> createState() => _InvestmentHistoryBusiness();
 }
 
-class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with SingleTickerProviderStateMixin {
+class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -54,14 +55,18 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness> with Sing
     return userInvestment.when(
       data: (data) {
         if (isSoles) {
-          userToValidateList = data?.investmentInSoles.investmentInProcess ?? [];
+          userToValidateList =
+              data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
           userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
           userInPendingList = data?.investmentInSoles.investmentPending ?? [];
         } else {
-          userToValidateList = data?.investmentInDolares.investmentInProcess ?? [];
-          userInProgressList = data?.investmentInDolares.investmentInCourse ?? [];
-          userCompletedList = data?.investmentInDolares.investmentFinished ?? [];
+          userToValidateList =
+              data?.investmentInDolares.investmentInProcess ?? [];
+          userInProgressList =
+              data?.investmentInDolares.investmentInCourse ?? [];
+          userCompletedList =
+              data?.investmentInDolares.investmentFinished ?? [];
           userInPendingList = data?.investmentInDolares.investmentPending ?? [];
         }
 
@@ -198,7 +203,8 @@ class InProgressList extends StatelessWidget {
                         arguments: ArgumentsNavigator(
                           uuid: list[index].uuid,
                           status: StatusInvestmentEnum.in_course,
-                          isReinvestAvailable: list[index].isReinvestAvailable ?? false,
+                          isReinvestAvailable:
+                              list[index].isReinvestAvailable ?? false,
                           actionStatus: list[index].actionStatus ?? "",
                         ),
                       );
@@ -206,7 +212,8 @@ class InProgressList extends StatelessWidget {
                     child: ProgressBarInProgress(
                       dateEnds: list[index].finishDateInvestment,
                       amount: list[index].amount,
-                      isReinvestmentAvailable: list[index].isReinvestAvailable ?? false,
+                      isReinvestmentAvailable:
+                          list[index].isReinvestAvailable ?? false,
                       actionStatus: list[index].actionStatus ?? "",
                       onPressed: () {
                         Navigator.pushNamed(
@@ -215,7 +222,8 @@ class InProgressList extends StatelessWidget {
                           arguments: ArgumentsNavigator(
                             uuid: list[index].uuid,
                             status: StatusInvestmentEnum.in_course,
-                            isReinvestAvailable: list[index].isReinvestAvailable ?? false,
+                            isReinvestAvailable:
+                                list[index].isReinvestAvailable ?? false,
                             actionStatus: list[index].actionStatus ?? "",
                           ),
                         );
@@ -305,7 +313,8 @@ class PendingList extends StatelessWidget {
                     child: ToValidateInvestment(
                       dateEnds: list[index].finishDateInvestment,
                       amount: list[index].amount,
-                      isReinvestment: list[index].isReinvestment == true ? true : false,
+                      isReinvestment:
+                          list[index].isReinvestment == true ? true : false,
                     ),
                   ),
                 );
@@ -335,14 +344,16 @@ class ButtonHistory extends ConsumerWidget {
     const int borderLight = 0xff0D3A5C;
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5).copyWith(),
+      padding:
+          const EdgeInsets.symmetric(horizontal: 10, vertical: 5).copyWith(),
       decoration: BoxDecoration(
         color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
         border: Border.all(
-          color: isDarkMode ? const Color(borderDark) : const Color(borderLight),
+          color:
+              isDarkMode ? const Color(borderDark) : const Color(borderLight),
           width: 1.0,
         ),
       ),
@@ -350,7 +361,7 @@ class ButtonHistory extends ConsumerWidget {
         child: TextPoppins(
           text: text,
           fontSize: 12,
-          isBold: true,
+          fontWeight: FontWeight.w500,
           textDark: textDark,
           textLight: textLight,
         ),

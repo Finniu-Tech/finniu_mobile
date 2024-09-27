@@ -17,7 +17,7 @@ class ButtonToProfile extends ConsumerWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/v2/profile');
+        Navigator.pushNamedAndRemoveUntil(context, '/v2/profile', (_) => false);
       },
       child: ClipOval(
         child: Image.network(

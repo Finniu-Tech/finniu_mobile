@@ -94,12 +94,12 @@ class AccointCard extends ConsumerWidget {
               TextPoppins(
                 text: title,
                 fontSize: 15,
-                isBold: true,
+                fontWeight: FontWeight.w500,
               ),
               TextPoppins(
                 text: subtitle,
                 fontSize: 12,
-                isBold: true,
+                fontWeight: FontWeight.w500,
               ),
               Row(
                 children: [
@@ -115,7 +115,7 @@ class AccointCard extends ConsumerWidget {
                   TextPoppins(
                     text: isJoint ? "Cuenta mancomunada" : "Cuenta personal",
                     fontSize: 11,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
               ),

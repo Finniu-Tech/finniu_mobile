@@ -149,7 +149,7 @@ class SMSBody extends HookConsumerWidget {
                 fontSize: 16,
                 textDark: titleDark,
                 textLight: titleLight,
-                isBold: true,
+                fontWeight: FontWeight.w500,
               ),
               const SizedBox(height: 10),
               const SizedBox(

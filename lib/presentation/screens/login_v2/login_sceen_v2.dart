@@ -33,7 +33,7 @@ class LoginScreenV2 extends ConsumerWidget {
           child: TextPoppins(
             text: "¡Bienvenido a Finniu!",
             fontSize: 24,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             textDark: titleDark,
             textLight: titleLight,
           ),
@@ -45,7 +45,7 @@ class LoginScreenV2 extends ConsumerWidget {
           child: TextPoppins(
             text: "Ingresa a tu cuenta",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(
@@ -78,7 +78,6 @@ class FormLogin extends HookConsumerWidget {
         useTextEditingController(text: passwordState.value);
     final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> passwordError = useState(false);
-
 
     useEffect(
       () {
@@ -120,7 +119,6 @@ class FormLogin extends HookConsumerWidget {
           rememberPassword: rememberPassword.value,
           secureStorage: secureStorage,
         );
-
       }
     }
 
@@ -202,14 +200,14 @@ class FormLogin extends HookConsumerWidget {
           const TextPoppins(
             text: "¿Aún no tienes una cuenta creada?,",
             fontSize: 13,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           GestureDetector(
             onTap: () => Navigator.pushNamed(context, '/v2/register'),
             child: const TextPoppins(
               text: "Registrarme",
               fontSize: 13,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: titleDark,
               textLight: titleLight,
             ),

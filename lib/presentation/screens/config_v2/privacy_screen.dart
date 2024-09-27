@@ -36,7 +36,8 @@ class _BodyPrivacy extends ConsumerWidget {
         ExpansionTitleProfile(
           icon: "assets/svg_icons/key_icon.svg",
           title: "Contraseñas",
-          subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+          subtitle:
+              "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
           children: [
             // ChildrenSwitchTitle(
             //   title: "Visualización de contraseña",
@@ -45,7 +46,8 @@ class _BodyPrivacy extends ConsumerWidget {
             // ),
             ChildrenEmail(
               title: "Cambio de contraseña",
-              subtitle: "Te enviaremos un correo para reestablecer tu contraseña ",
+              subtitle:
+                  "Te enviaremos un correo para reestablecer tu contraseña ",
               email: email ?? '',
             ),
             ButtonChangePassword(
@@ -120,13 +122,15 @@ class ButtonChangePassword extends ConsumerWidget {
                   offset: const Offset(0, 4),
                 ),
               ],
-              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+              color: isDarkMode
+                  ? const Color(backgroundDark)
+                  : const Color(backgroundLight),
             ),
             child: const Center(
               child: TextPoppins(
                 text: "Solicitar cambio de contraseña",
                 fontSize: 12,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: textDark,
                 textLight: textLight,
               ),

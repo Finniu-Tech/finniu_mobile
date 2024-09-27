@@ -17,7 +17,7 @@ class TypeInvestment extends ConsumerWidget {
         TextPoppins(
           text: "Quiero invertir en ",
           fontSize: 17,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         SwitchIsSoles(),
       ],
@@ -95,7 +95,7 @@ class SwitchIsSoles extends ConsumerWidget {
                 child: TextPoppins(
                   text: isSoles ? "Soles" : "Dólares",
                   fontSize: 14,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   textDark: textPositionDark,
                   textLight: textPositionLight,
                 ),

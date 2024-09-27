@@ -75,12 +75,10 @@ class SelectedBankDeposit extends ConsumerWidget {
               TextPoppins(
                 text: "${bankAccountReceiver.bankName}",
                 fontSize: 12,
-                isBold: false,
               ),
               TextPoppins(
                 text: "Nro. Cuenta: ${bankAccountReceiver.bankAccount}",
                 fontSize: 12,
-                isBold: false,
               )
             ],
           ),

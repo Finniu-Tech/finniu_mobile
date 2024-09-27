@@ -26,7 +26,7 @@ class RegisterScreenV2 extends StatelessWidget {
           TextPoppins(
             text: title,
             fontSize: 24,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             textDark: textDark,
             textLight: textLight,
           ),
@@ -38,7 +38,7 @@ class RegisterScreenV2 extends StatelessWidget {
             child: TextPoppins(
               text: subTitle,
               fontSize: 18,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               lines: 2,
               textDark: textDark,
               textLight: textLight,

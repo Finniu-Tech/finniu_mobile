@@ -50,7 +50,7 @@ class BodyUnfinished extends ConsumerWidget {
                   const TextPoppins(
                     text: title,
                     fontSize: 16,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     lines: 2,
                     textDark: titleColorDark,
                     textLight: titleColorLight,
@@ -111,7 +111,7 @@ class DaysLeftContainer extends ConsumerWidget {
             child: TextPoppins(
               text: "Faltan ${daysLeft} días",
               fontSize: 14,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textDark,
               textLight: textLight,
             ),

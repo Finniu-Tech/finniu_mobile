@@ -7,10 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-void showVerifyIdentity(BuildContext context, UserProfileCompleteness userCompletenessProfile, {Function()? redirect}) {
+void showVerifyIdentity(
+    BuildContext context, UserProfileCompleteness userCompletenessProfile,
+    {Function()? redirect}) {
   showModalBottomSheet(
     context: context,
-    builder: (context) => _BodyVerify(userCompletenessProfile: userCompletenessProfile, redirect: redirect),
+    builder: (context) => _BodyVerify(
+        userCompletenessProfile: userCompletenessProfile, redirect: redirect),
   );
 }
 
@@ -27,7 +30,8 @@ class _BodyVerify extends ConsumerWidget {
     const int backgroundDark = 0xff1A1A1A;
     const int backgroundLight = 0xffFFFFFF;
     void navigate(UserProfileCompleteness userProfileCompleteness) {
-      Navigator.popAndPushNamed(context, userProfileCompleteness.getNextStep() ?? '/v2/my_data');
+      Navigator.popAndPushNamed(
+          context, userProfileCompleteness.getNextStep() ?? '/v2/my_data');
       // Navigator.pushNamed(context, '/v2/my_data');
     }
 
@@ -35,7 +39,9 @@ class _BodyVerify extends ConsumerWidget {
       width: MediaQuery.of(context).size.width,
       height: 350,
       decoration: BoxDecoration(
-        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        color: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
         borderRadius: const BorderRadius.all(
           Radius.circular(20),
         ),
@@ -44,12 +50,12 @@ class _BodyVerify extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           const LineTop(),
 
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(
@@ -125,13 +131,14 @@ class _BodyVerify extends ConsumerWidget {
                 TextPoppins(
                   text: "Verifica tu identidad ",
                   fontSize: 20,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
                   height: 15,
                 ),
                 TextPoppins(
-                  text: "Es importante completar tus datos para comenzar a invertir en Finniu sin problemas ",
+                  text:
+                      "Es importante completar tus datos para comenzar a invertir en Finniu sin problemas ",
                   fontSize: 14,
                   lines: 2,
                 ),

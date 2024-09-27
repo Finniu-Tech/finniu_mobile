@@ -54,12 +54,11 @@ class _EmailContainer extends ConsumerWidget {
           TextPoppins(
             text: title,
             fontSize: 20,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           TextPoppins(
             text: subTitle,
             fontSize: 14,
-            isBold: false,
             lines: 2,
             align: TextAlign.center,
           ),

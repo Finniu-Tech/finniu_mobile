@@ -12,7 +12,7 @@ pushLocationDataForm(
   BuildContext context,
   DtoLocationForm data,
   WidgetRef ref, {
-  String navigate = '/v2/form_job',
+  String navigate = '/v2/form_about_me',
   bool isNavigate = false,
 }) {
   final gqlClient = ref.watch(gqlClientProvider).value;

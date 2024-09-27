@@ -51,7 +51,7 @@ class ReportButton extends ConsumerWidget {
             const TextPoppins(
               text: "Informe anual",
               fontSize: 14,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: downloadTextDark,
               textLight: downloadTextLight,
             ),
@@ -107,7 +107,7 @@ class VoucherButton extends ConsumerWidget {
             const TextPoppins(
               text: "Voucher",
               fontSize: 16,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: voucherTextDark,
               textLight: voucherTextLight,
             ),

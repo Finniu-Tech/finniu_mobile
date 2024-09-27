@@ -90,7 +90,7 @@ class ActivateAccountV2 extends ConsumerWidget {
                   fontSize: 16,
                   textDark: subTitleDark,
                   textLight: subTitleLight,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   align: TextAlign.center,
                 ),
                 const SizedBox(
@@ -102,7 +102,6 @@ class ActivateAccountV2 extends ConsumerWidget {
                   fontSize: 12,
                   textDark: subTitleDark,
                   textLight: subTitleLight,
-                  isBold: false,
                   align: TextAlign.center,
                   lines: 2,
                 ),
@@ -127,7 +126,6 @@ class ActivateAccountV2 extends ConsumerWidget {
                     fontSize: 11,
                     textDark: subTitleDark,
                     textLight: subTitleLight,
-                    isBold: false,
                     align: TextAlign.center,
                   ),
                   const SizedBox(

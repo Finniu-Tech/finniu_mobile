@@ -50,7 +50,7 @@ class RowDownload extends ConsumerWidget {
                   TextPoppins(
                     text: "Descargar",
                     fontSize: 12,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: textButtonColor,
                     textLight: textButtonColor,
                   ),
