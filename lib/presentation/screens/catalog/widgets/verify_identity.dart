@@ -50,12 +50,12 @@ class _BodyVerify extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           const LineTop(),
 
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Row(

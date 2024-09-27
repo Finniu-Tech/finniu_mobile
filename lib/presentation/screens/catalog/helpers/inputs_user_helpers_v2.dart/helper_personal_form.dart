@@ -12,7 +12,7 @@ pushPersonalDataForm(
   BuildContext context,
   DtoPersonalForm data,
   WidgetRef ref, {
-  String navigate = '/v2/form_location',
+  String navigate = '/v2/form_legal_terms',
   bool isEdit = false,
   bool isNavigate = false,
 }) async {

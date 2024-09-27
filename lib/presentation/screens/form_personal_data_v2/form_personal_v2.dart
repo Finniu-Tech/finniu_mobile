@@ -71,10 +71,10 @@ class PersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> civilStatusError = useState(false);
     final ValueNotifier<bool> genderTypeError = useState(false);
 
-    void continueLater() {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      Navigator.pushNamed(context, '/v2/form_legal_terms');
-    }
+    // void continueLater() {
+    //   ScaffoldMessenger.of(context).clearSnackBars();
+    //   Navigator.pushNamed(context, '/v2/form_legal_terms');
+    // }
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
@@ -305,7 +305,8 @@ class PersonalForm extends HookConsumerWidget {
             ),
             FormDataNavigator(
               addData: () => uploadPersonalData(),
-              continueLater: () => continueLater(),
+              continueLaterBool: false,
+              continueLater: null,
             ),
           ],
         ),

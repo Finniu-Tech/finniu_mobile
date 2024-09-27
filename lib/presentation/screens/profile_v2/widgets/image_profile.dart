@@ -56,12 +56,9 @@ class ImageProfileStack extends ConsumerWidget {
               ),
               SizedBox(
                 width: 250,
-                child: const TextPoppins(
-                  // text: isLoading ? "Cargando..." : fullName,
-                  text:
-                      "francofrancofrancofrancofrancofrancofrancofrancofrancofrancofrancofranco",
+                child: TextPoppins(
+                  text: isLoading ? "Cargando..." : fullName,
                   fontSize: 16,
-
                   fontWeight: FontWeight.w500,
                   textDark: titleDark,
                   textLight: titleLight,
