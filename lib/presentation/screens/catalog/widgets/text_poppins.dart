@@ -125,7 +125,7 @@ class TextSans extends ConsumerWidget {
     return AutoSizeText(
       text,
       textAlign: align ?? TextAlign.start,
-      // maxLines: lines ?? 1,
+      maxLines: lines ?? 1,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontFamily: "DM Sans",

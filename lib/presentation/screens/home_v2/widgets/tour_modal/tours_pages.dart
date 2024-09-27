@@ -23,38 +23,38 @@ class TourEight extends StatelessWidget {
     const String textBody =
         "Puedes ver a detalle la inversión que no llegaste a finalizar el proceso de inversión";
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        BodyTour(
-          isFinal: true,
-          indexTour: 7,
-          title: title,
-          textColor: textColor,
-          textBody: textBody,
-          onPressed: onPressed,
-          onClosePressed: closedTour,
-          pageLength: pageLength,
-        ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.45,
-          decoration: const BoxDecoration(
-            color: Color(imageContainerColor),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          BodyTour(
+            isFinal: true,
+            indexTour: 7,
+            title: title,
+            textColor: textColor,
+            textBody: textBody,
+            onPressed: onPressed,
+            onClosePressed: closedTour,
+            pageLength: pageLength,
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: const BoxDecoration(
+              color: Color(imageContainerColor),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            child: Image.asset(
+              "assets/tour/imagen_tour8.png",
+              width: MediaQuery.of(context).size.width * 0.9,
+              fit: BoxFit.fill,
             ),
           ),
-          child: Image.asset(
-            "assets/tour/imagen_tour8.png",
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.45,
-            fit: BoxFit.fill,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
