@@ -211,7 +211,7 @@ class _PrefixIconCountriesState extends State<PrefixIconCountries> {
                 TextPoppins(
                   text: _selectedCountry.flag,
                   fontSize: 14,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                 ),
                 const SizedBox(width: 3),
                 Icon(
@@ -224,7 +224,7 @@ class _PrefixIconCountriesState extends State<PrefixIconCountries> {
                 TextPoppins(
                   text: _selectedCountry.dialCode,
                   fontSize: 12,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                 ),
               ],
             ),

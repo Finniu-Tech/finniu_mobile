@@ -75,13 +75,12 @@ class ExpansionTitleProfile extends HookConsumerWidget {
                     TextPoppins(
                       text: title,
                       fontSize: 16,
-                      isBold: true,
+                      fontWeight: FontWeight.w500,
                       align: TextAlign.start,
                     ),
                     TextPoppins(
                       text: subtitle,
                       fontSize: 12,
-                      isBold: false,
                       lines: 2,
                       align: TextAlign.start,
                     ),
@@ -131,13 +130,12 @@ class ChildrenTitle extends ConsumerWidget {
                 TextPoppins(
                   text: title,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   align: TextAlign.start,
                 ),
                 TextPoppins(
                   text: subtitle,
                   fontSize: 12,
-                  isBold: false,
                   lines: 2,
                   align: TextAlign.start,
                 ),
@@ -181,13 +179,12 @@ class ChildrenEmail extends ConsumerWidget {
                 TextPoppins(
                   text: title,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   align: TextAlign.start,
                 ),
                 TextPoppins(
                   text: subtitle,
                   fontSize: 12,
-                  isBold: false,
                   lines: 2,
                   align: TextAlign.start,
                 ),
@@ -197,7 +194,7 @@ class ChildrenEmail extends ConsumerWidget {
                 TextPoppins(
                   text: email,
                   fontSize: 14,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   lines: 2,
                   align: TextAlign.start,
                   textDark: emailDark,
@@ -244,13 +241,12 @@ class ChildrenSwitchTitle extends HookConsumerWidget {
                 TextPoppins(
                   text: title,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   align: TextAlign.start,
                 ),
                 TextPoppins(
                   text: subtitle,
                   fontSize: 12,
-                  isBold: false,
                   lines: 2,
                   align: TextAlign.start,
                 ),
@@ -290,7 +286,6 @@ class ChildrenOnlyText extends ConsumerWidget {
             TextPoppins(
               text: text,
               fontSize: textBig ? 14 : 12,
-              isBold: false,
               lines: 3,
               align: TextAlign.start,
             ),
@@ -340,7 +335,7 @@ class ExpansionTitleLegal extends HookConsumerWidget {
                 TextPoppins(
                   text: title,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                 ),
               ],
             ),
@@ -394,7 +389,7 @@ class ExpansionTitleAbout extends HookConsumerWidget {
           TextPoppins(
             text: title,
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             align: TextAlign.start,
           ),
         ],
@@ -472,7 +467,6 @@ class ChildrenCheckboxTitle extends ConsumerWidget {
                     : TextPoppins(
                         text: text,
                         fontSize: 14,
-                        isBold: false,
                         lines: 3,
                         align: TextAlign.start,
                       ),

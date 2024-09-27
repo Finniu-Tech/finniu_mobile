@@ -31,7 +31,7 @@ class SelectedItems extends ConsumerWidget {
             fontSize: 12,
             textDark: textDark,
             textLight: textLight,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           SelectedInstallments(
             installment: installment,
@@ -94,7 +94,7 @@ class SelectedInstallments extends HookConsumerWidget {
             TextPoppins(
               text: "${installment ?? "-"} cuotas",
               fontSize: 16,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textDark,
               textLight: textLight,
             ),
@@ -208,7 +208,7 @@ class SelectedPlots extends HookConsumerWidget {
             TextPoppins(
               text: "${plots ?? "-"} parcelas",
               fontSize: 16,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textDark,
               textLight: textLight,
             ),
@@ -243,7 +243,9 @@ class AmountRow extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode ? const Color(containerDark) : const Color(containerLight),
+              color: isDarkMode
+                  ? const Color(containerDark)
+                  : const Color(containerLight),
             ),
             width: 200,
             height: 70,
@@ -256,7 +258,7 @@ class AmountRow extends ConsumerWidget {
                   fontSize: 12,
                   textDark: textAmountDark,
                   textLight: textAmountLight,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                 ),
                 if (totalInvestedAmount != null) ...[
                   AnimationNumber(
@@ -272,7 +274,7 @@ class AmountRow extends ConsumerWidget {
                     fontSize: 20,
                     textDark: textAmountDark,
                     textLight: textAmountLight,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                   ),
                 ]
               ],

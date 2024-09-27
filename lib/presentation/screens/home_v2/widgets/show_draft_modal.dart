@@ -127,12 +127,12 @@ class _DraftBody extends ConsumerWidget {
             TextPoppins(
               text: title,
               fontSize: 20,
-              isBold: true,
+              fontWeight: FontWeight.w500,
             ),
             TextPoppins(
               text: subTitle,
               fontSize: 20,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               lines: 2,
             ),
             TextPoppins(
@@ -287,7 +287,7 @@ class ButtonGoInvest extends ConsumerWidget {
             TextPoppins(
               text: isReinvest ? textReinvest : textInvest,
               fontSize: 14,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textDark,
               textLight: textLight,
             ),

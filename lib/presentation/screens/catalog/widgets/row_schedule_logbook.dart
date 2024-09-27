@@ -106,7 +106,7 @@ class RowIconItem extends ConsumerWidget {
                   TextPoppins(
                     text: text,
                     fontSize: 14,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
               ),
@@ -184,7 +184,7 @@ class RowImageItem extends ConsumerWidget {
                   TextPoppins(
                     text: text,
                     fontSize: 14,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
               ),

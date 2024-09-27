@@ -42,7 +42,7 @@ class NewPasswordV2 extends ConsumerWidget {
                   const TextPoppins(
                     text: text,
                     fontSize: 20,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: titleDark,
                     textLight: titleLight,
                   ),

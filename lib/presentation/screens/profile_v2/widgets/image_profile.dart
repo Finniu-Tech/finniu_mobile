@@ -51,17 +51,27 @@ class ImageProfileStack extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextPoppins(
-                text: isLoading ? "Cargando..." : fullName,
-                fontSize: 16,
-                isBold: true,
-                textDark: titleDark,
-                textLight: titleLight,
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                width: 250,
+                child: const TextPoppins(
+                  // text: isLoading ? "Cargando..." : fullName,
+                  text:
+                      "francofrancofrancofrancofrancofrancofrancofrancofrancofrancofrancofranco",
+                  fontSize: 16,
+
+                  fontWeight: FontWeight.w500,
+                  textDark: titleDark,
+                  textLight: titleLight,
+                  align: TextAlign.center,
+                ),
               ),
               TextPoppins(
                 text: isLoading ? "Cargando..." : email,
                 fontSize: 12,
-                isBold: true,
+                fontWeight: FontWeight.w500,
               ),
               const SizedBox(
                 height: 20,

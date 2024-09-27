@@ -526,7 +526,7 @@ class CardNotBank extends ConsumerWidget {
                 child: TextPoppins(
                   text: "Precione para agregar cuenta",
                   fontSize: 20,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                 ),
               ),
             ],

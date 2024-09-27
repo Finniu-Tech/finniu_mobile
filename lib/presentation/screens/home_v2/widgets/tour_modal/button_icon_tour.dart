@@ -33,7 +33,6 @@ class ButtonIconTour extends StatelessWidget {
         label: TextPoppins(
           text: label,
           fontSize: 16,
-          isBold: false,
           textDark: textButtonColor,
           textLight: textButtonColor,
         ),
@@ -69,7 +68,6 @@ class ButtonCloseTour extends StatelessWidget {
         child: TextPoppins(
           text: label,
           fontSize: 16,
-          isBold: false,
           textDark: textButtonColor,
           textLight: textButtonColor,
         ),

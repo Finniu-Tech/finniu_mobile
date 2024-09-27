@@ -9,6 +9,7 @@ import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/row_dowload.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -35,9 +36,12 @@ class _BodyLegalDocuments extends HookConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final legalDocuments = ref.watch(userGetLegalProvider);
 
-    final ValueNotifier<bool> politicallyExposed = useState(userProfile.isPublicOfficialOrFamily ?? false);
-    final ValueNotifier<bool> amDirector = useState(userProfile.isDirectorOrShareholder10Percent ?? false);
-    final ValueNotifier<bool> termsConditions = useState(userProfile.acceptTermsConditions ?? false);
+    final ValueNotifier<bool> politicallyExposed =
+        useState(userProfile.isPublicOfficialOrFamily ?? false);
+    final ValueNotifier<bool> amDirector =
+        useState(userProfile.isDirectorOrShareholder10Percent ?? false);
+    final ValueNotifier<bool> termsConditions =
+        useState(userProfile.acceptTermsConditions ?? false);
 
     void setPoliticallyExposed(bool? value) {
       if (value != null) politicallyExposed.value = value;
@@ -105,12 +109,14 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               title: "Verificación legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
+                  text:
+                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
                   value: politicallyExposed.value,
                   onChanged: setPoliticallyExposed,
                 ),
                 ChildrenCheckboxTitle(
-                  text: "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
+                  text:
+                      "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
                   value: amDirector.value,
                   onChanged: setDirector,
                 ),
@@ -126,7 +132,13 @@ class _BodyLegalDocuments extends HookConsumerWidget {
           ],
         );
       },
-      loading: () => const CircularLoader(width: 10, height: 10),
+      loading: () => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 0.8,
+        child: const Center(
+          child: CircularLoader(width: 50, height: 50),
+        ),
+      ),
       data: (documents) {
         return Column(
           children: [
@@ -134,12 +146,14 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               title: "Verificación legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
+                  text:
+                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
                   value: politicallyExposed.value,
                   onChanged: setPoliticallyExposed,
                 ),
                 ChildrenCheckboxTitle(
-                  text: "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
+                  text:
+                      "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.",
                   value: amDirector.value,
                   onChanged: setDirector,
                 ),
@@ -175,13 +189,15 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               title: "Aceptaciones legales y/o tributarios",
               children: [
                 GestureDetector(
-                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  onTap: () =>
+                      openUrl(documents.legalAcceptance.privacyPolicy, context),
                   child: const RowDownload(
                     title: "Términos y Condiciones",
                   ),
                 ),
                 GestureDetector(
-                  onTap: () => openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  onTap: () =>
+                      openUrl(documents.legalAcceptance.privacyPolicy, context),
                   child: const RowDownload(
                     title: "Política de Privacidad",
                   ),
@@ -211,7 +227,7 @@ class TitleLegal extends StatelessWidget {
         child: const TextPoppins(
           text: "Declaraciones Trimestrales ",
           fontSize: 16,
-          isBold: true,
+          fontWeight: FontWeight.w500,
           align: TextAlign.start,
           textDark: titleDark,
           textLight: titleLight,

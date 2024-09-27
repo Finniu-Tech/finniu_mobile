@@ -37,7 +37,7 @@ class ForgotPasswordV2 extends ConsumerWidget {
               const TextPoppins(
                 text: "¿Olvidaste tu contraseña?",
                 fontSize: 25,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: titleDark,
                 textLight: titleLight,
               ),

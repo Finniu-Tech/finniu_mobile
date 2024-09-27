@@ -51,7 +51,9 @@ class NoInvestmentBody extends ConsumerWidget {
             BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
               child: Container(
-                color: isDarkMode ? Colors.black.withOpacity(0.4) : Colors.white.withOpacity(0.4),
+                color: isDarkMode
+                    ? Colors.black.withOpacity(0.4)
+                    : Colors.white.withOpacity(0.4),
               ),
             ),
             Positioned(
@@ -83,7 +85,8 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const String titleText = "Aún no has realizado tu primera inversión";
     // const String titleText = "Aún no has realizado tu primera inversión 🥹";
-    const String bodyText = "Descubre los fondos que tenemos para ti y realiza tu primera inversión.";
+    const String bodyText =
+        "Descubre los fondos que tenemos para ti y realiza tu primera inversión.";
     // "Descubre nuestros fondos y realiza tu primera inversión en uno de nuestros fondos que tenemos para ti.";
     const int buttonTextColorDark = 0xff0D3A5C;
     const int buttonTextColorLight = 0xffFFFFFF;
@@ -94,7 +97,9 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: isDarkMode ? Color(dialogBackgroundColorDark) : Color(dialogBackgroundColorLight),
+        color: isDarkMode
+            ? Color(dialogBackgroundColorDark)
+            : Color(dialogBackgroundColorLight),
         borderRadius: BorderRadius.circular(10),
       ),
       width: 287,
@@ -105,7 +110,7 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
           TextPoppins(
             text: titleText,
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             lines: 2,
           ),
           TextPoppins(
@@ -117,7 +122,9 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
             style: ButtonStyle(
               backgroundColor: WidgetStateProperty.all(
                 Color(
-                  isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+                  isDarkMode
+                      ? buttonBackgroundColorDark
+                      : buttonBackgroundColorLight,
                 ),
               ),
             ),
@@ -128,7 +135,7 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
                 TextPoppins(
                   text: 'Ver los fondos de inversión',
                   fontSize: 12,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   textLight: buttonTextColorLight,
                   textDark: buttonTextColorDark,
                 ),
@@ -138,7 +145,9 @@ class ContainerEmptyMessageWidget extends ConsumerWidget {
                   child: Icon(
                     Icons.arrow_forward,
                     size: 25,
-                    color: isDarkMode ? Color(buttonTextColorDark) : Color(buttonTextColorLight),
+                    color: isDarkMode
+                        ? Color(buttonTextColorDark)
+                        : Color(buttonTextColorLight),
                   ),
                 ),
               ],

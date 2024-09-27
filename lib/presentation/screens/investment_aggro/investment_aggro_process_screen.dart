@@ -128,7 +128,7 @@ class UpperSectionWidget extends StatelessWidget {
             child: TextPoppins(
               text: title,
               fontSize: 20,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               lines: 2,
               textDark: titleColorDark,
               textLight: titleColorLight,

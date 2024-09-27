@@ -22,9 +22,13 @@ class BlueGoldFundTitle extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: currentTheme.isDarkMode ? const Color(borderDark) : const Color(borderLight),
+          color: currentTheme.isDarkMode
+              ? const Color(borderDark)
+              : const Color(borderLight),
         ),
-        color: currentTheme.isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
+        color: currentTheme.isDarkMode
+            ? const Color(backgroundColorDark)
+            : const Color(backgroundColorLight),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -50,7 +54,7 @@ class BlueGoldFundTitle extends ConsumerWidget {
             const TextPoppins(
               text: "Inversiones agroinmobiliaria",
               fontSize: 14,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textDark,
               textLight: textLight,
             ),
@@ -74,7 +78,8 @@ class BlueGoldTitleAndNavigate extends StatefulWidget {
   });
 
   @override
-  BlueGoldTitleAndNavigateState createState() => BlueGoldTitleAndNavigateState();
+  BlueGoldTitleAndNavigateState createState() =>
+      BlueGoldTitleAndNavigateState();
 }
 
 class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
@@ -101,9 +106,13 @@ class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
           border: Border.all(
-            color: widget.isDarkMode ? const Color(borderDark) : const Color(borderLight),
+            color: widget.isDarkMode
+                ? const Color(borderDark)
+                : const Color(borderLight),
           ),
-          color: widget.isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+          color: widget.isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -115,7 +124,8 @@ class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
         ),
         child: widget.isSelect
             ? Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -133,7 +143,7 @@ class BlueGoldTitleAndNavigateState extends State<BlueGoldTitleAndNavigate> {
                             child: TextPoppins(
                               text: fundName,
                               fontSize: 14,
-                              isBold: true,
+                              fontWeight: FontWeight.w500,
                               textDark: textDark,
                               textLight: textLight,
                             ),

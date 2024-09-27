@@ -208,14 +208,13 @@ class SliderReinvest extends StatelessWidget {
                 TextPoppins(
                   text: title,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   textDark: textTitle,
                   textLight: textTitle,
                 ),
                 TextPoppins(
                   text: bodyText,
                   fontSize: 11,
-                  isBold: false,
                   lines: 2,
                   textDark: bodyTitle,
                   textLight: bodyTitle,

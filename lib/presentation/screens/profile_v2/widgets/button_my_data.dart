@@ -58,14 +58,13 @@ class ButtonMyData extends ConsumerWidget {
             TextPoppins(
               text: title,
               fontSize: 12,
-              isBold: true,
+              fontWeight: FontWeight.w500,
             ),
             isComplete
                 ? const SizedBox()
                 : TextPoppins(
                     text: subtitle,
                     fontSize: 10,
-                    isBold: false,
                   ),
             isComplete
                 ? const SizedBox()

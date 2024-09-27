@@ -49,7 +49,7 @@ class _BodyProfile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    String name = userProfile.nickName ?? "Completar tu perfil";
+    String name = "${userProfile.nickName} ${userProfile.lastNameFather}";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,

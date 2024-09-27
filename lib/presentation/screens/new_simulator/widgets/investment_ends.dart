@@ -61,7 +61,7 @@ class InvestmentEnds extends ConsumerWidget {
           TextPoppins(
             text: finalDate == null ? "--/--/----" : dateFormat,
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             textDark: borderDark,
             textLight: borderLight,
           ),

@@ -84,7 +84,7 @@ class ButtonNavigateProfile extends ConsumerWidget {
                         TextPoppins(
                           text: title,
                           fontSize: 16,
-                          isBold: true,
+                          fontWeight: FontWeight.w500,
                           align: TextAlign.start,
                         ),
                         onlyTitle
@@ -92,7 +92,6 @@ class ButtonNavigateProfile extends ConsumerWidget {
                             : TextPoppins(
                                 text: subtitle,
                                 fontSize: 12,
-                                isBold: false,
                                 lines: 2,
                                 align: TextAlign.start,
                               ),
@@ -105,7 +104,7 @@ class ButtonNavigateProfile extends ConsumerWidget {
                           child: TextPoppins(
                             text: "Completar  ",
                             fontSize: 12,
-                            isBold: true,
+                            fontWeight: FontWeight.w500,
                             align: TextAlign.start,
                             textDark: textCompleteDark,
                             textLight: textCompleteLight,

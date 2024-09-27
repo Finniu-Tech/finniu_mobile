@@ -44,7 +44,7 @@ class _BodyEditLocation extends ConsumerWidget {
         const TextPoppins(
           text: "Información de mi ubicación",
           fontSize: 17,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 10),
         ValueListenableBuilder<bool>(
