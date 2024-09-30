@@ -68,6 +68,15 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "modal error send data",
+              onPressed: () {
+                modalErrorSendData(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "modal app mantenimiento",
               onPressed: () {
                 modalMaintenance(context);
