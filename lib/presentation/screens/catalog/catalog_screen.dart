@@ -68,6 +68,15 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "modal cambio cuenta predeterminada",
+              onPressed: () {
+                modalAccountChange(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "modal error send data",
               onPressed: () {
                 modalErrorSendData(context);
