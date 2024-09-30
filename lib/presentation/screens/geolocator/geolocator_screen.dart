@@ -40,7 +40,6 @@ class _BodyGeolocator extends ConsumerWidget {
     void openAppSettings() async {
       bool opened = await Geolocator.openAppSettings();
       if (!opened) {
-        // Mostrar un mensaje si no fue posible abrir la configuración
         print('No se pudo abrir la configuración.');
       }
       // final permissionStatus = await Geolocator.requestPermission();
