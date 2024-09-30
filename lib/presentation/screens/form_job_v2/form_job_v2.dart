@@ -53,19 +53,18 @@ class LocationForm extends HookConsumerWidget {
   const LocationForm({
     super.key,
   });
-
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final laborSituationSelectController = useTextEditingController();
     final occupationTextController = useTextEditingController();
     final companyNameTextController = useTextEditingController();
     final serviceTimeSelectController = useTextEditingController();
 
-    final ValueNotifier<bool> laborSituationError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> occupationError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> companyNameError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> serviceTimeError = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> laborSituationError = useState(false);
+    final ValueNotifier<bool> occupationError = useState(false);
+    final ValueNotifier<bool> companyNameError = useState(false);
+    final ValueNotifier<bool> serviceTimeError = useState(false);
 
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {

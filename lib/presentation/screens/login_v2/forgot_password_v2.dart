@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafo
 import 'package:finniu/presentation/screens/login_v2/helpers/send_email_helper.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ForgotPasswordV2 extends ConsumerWidget {
@@ -62,15 +63,14 @@ class ForgotPasswordV2 extends ConsumerWidget {
 }
 
 class FormForgot extends HookConsumerWidget {
-  const FormForgot({
-    super.key,
-  });
+  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  const FormForgot({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final formKey = GlobalKey<FormState>();
-    final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
-    final emailController = TextEditingController();
+    final emailError = useState<bool>(false);
+    final emailController = useTextEditingController();
 
     void seedEmail() async {
       if (!formKey.currentState!.validate()) {
@@ -97,28 +97,23 @@ class FormForgot extends HookConsumerWidget {
         key: formKey,
         child: Column(
           children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: emailError,
-              builder: (context, isError, child) {
-                return InputTextFileUserProfile(
-                  isError: isError,
-                  onError: () => emailError.value = false,
-                  hintText: "Correo electrónico",
-                  controller: emailController,
-                  validator: (value) {
-                    validateEmail(
-                      value: value,
-                      context: context,
-                      boolNotifier: emailError,
-                    );
-                    return null;
-                  },
+            InputTextFileUserProfile(
+              isError: emailError.value,
+              onError: () => emailError.value = false,
+              hintText: "Correo electrónico",
+              controller: emailController,
+              validator: (value) {
+                validateEmail(
+                  value: value,
+                  context: context,
+                  boolNotifier: emailError,
                 );
+                return null;
               },
             ),
             ButtonInvestment(
               text: "Enviar",
-              onPressed: () => seedEmail(),
+              onPressed: seedEmail,
             ),
           ],
         ),

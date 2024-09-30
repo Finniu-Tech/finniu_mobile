@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/login_v2/helpers/new_password_helper
 import 'package:finniu/presentation/screens/login_v2/widgets/password_new_requiered.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -19,39 +20,42 @@ class NewPasswordV2 extends ConsumerWidget {
     const int titleLight = 0xff0D3A5C;
     const String text = "Ingresa tu nueva contraseña";
 
-    return ScaffoldUserProfile(
-      children: [
-        Center(
-          child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.8,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/forgot_password.png",
-                  width: 64,
-                  height: 64,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const TextPoppins(
-                  text: text,
-                  fontSize: 20,
-                  isBold: true,
-                  textDark: titleDark,
-                  textLight: titleLight,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const FormNewPasword(),
-              ],
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: ScaffoldUserProfile(
+        children: [
+          Center(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/forgot_password.png",
+                    width: 64,
+                    height: 64,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const TextPoppins(
+                    text: text,
+                    fontSize: 20,
+                    isBold: true,
+                    textDark: titleDark,
+                    textLight: titleLight,
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const FormNewPasword(),
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -60,16 +64,28 @@ class FormNewPasword extends HookConsumerWidget {
   const FormNewPasword({
     super.key,
   });
-
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final passwordController = TextEditingController();
-    final passwordConfirmController = TextEditingController();
-    final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> passwordConfirmError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> isPasswordExpanded = ValueNotifier<bool>(false);
-    final FocusNode focusNode = FocusNode();
+    final passwordController = useTextEditingController();
+    final passwordConfirmController = useTextEditingController();
+    final ValueNotifier<bool> passwordError = useState(false);
+    final ValueNotifier<bool> passwordConfirmError = useState(false);
+    final ValueNotifier<bool> isPasswordExpanded = useState(false);
+    FocusNode passwordFocusNode = useFocusNode();
+    useEffect(
+      () {
+        void focusListener() {
+          if (!passwordFocusNode.hasFocus) {
+            isPasswordExpanded.value = false;
+          }
+        }
+
+        passwordFocusNode.addListener(focusListener);
+        return () {};
+      },
+      [passwordFocusNode],
+    );
 
     void savePassword() async {
       if (!formKey.currentState!.validate()) {
@@ -104,10 +120,10 @@ class FormNewPasword extends HookConsumerWidget {
                   valueListenable: passwordError,
                   builder: (context, isError, child) {
                     return InputPasswordFieldUserProfile(
-                      focusNode: focusNode,
                       onTap: () {
                         isPasswordExpanded.value = true;
                       },
+                      focusNode: passwordFocusNode,
                       isError: isError,
                       onError: () => passwordError.value = false,
                       controller: passwordController,

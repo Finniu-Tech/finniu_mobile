@@ -1642,4 +1642,19 @@ class QueryRepository {
     }
     ''';
   }
+
+  static String get getProfileCompleteness {
+    return '''
+     query getUserProfileCompleteness{
+      userCompletenessProfile{
+        completionPercentage
+        personalDataComplete
+        locationComplete
+        occupationComplete
+        legalTermsCompleteness
+        profileComplete
+      }
+    }
+    ''';
+  }
 }

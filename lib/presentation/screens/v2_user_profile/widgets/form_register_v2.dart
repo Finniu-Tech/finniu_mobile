@@ -10,6 +10,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/widgets/password_required.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -17,25 +18,41 @@ class FormRegister extends HookConsumerWidget {
   const FormRegister({
     super.key,
   });
-
+  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final nickNameController = TextEditingController();
-    final countryPrefixController = TextEditingController();
-    final phoneNumberController = TextEditingController();
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-    final passwordConfirmController = TextEditingController();
+    final nickNameController = useTextEditingController();
+    final countryPrefixController = useTextEditingController();
+    final phoneNumberController = useTextEditingController();
+    final emailController = useTextEditingController();
+    final passwordController = useTextEditingController();
+    final passwordConfirmController = useTextEditingController();
     // final acceptPrivacyAndTerms = useState(false);
-    final ValueNotifier<bool> isPasswordExpanded = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> nickNameError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> phoneNumberError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> emailError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> passwordError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> passwordConfirmError = ValueNotifier<bool>(false);
-    final ValueNotifier<bool> acceptPrivacyAndTerms =
-        ValueNotifier<bool>(false);
+    final ValueNotifier<bool> isPasswordExpanded = useState(false);
+    final ValueNotifier<bool> nickNameError = useState(false);
+    final ValueNotifier<bool> phoneNumberError = useState(false);
+    final ValueNotifier<bool> emailError = useState(false);
+    final ValueNotifier<bool> passwordError = useState(false);
+    final ValueNotifier<bool> passwordConfirmError = useState(false);
+    final ValueNotifier<bool> acceptPrivacyAndTerms = useState(false);
+
+    FocusNode passwordFocusNode = useFocusNode();
+    useEffect(
+      () {
+        void focusListener() {
+          if (!passwordFocusNode.hasFocus) {
+            isPasswordExpanded.value = false;
+          }
+        }
+
+        passwordFocusNode.addListener(focusListener);
+        return () {
+          // passwordFocusNode.removeListener(focusListener);
+          // passwordFocusNode.dispose();
+        };
+      },
+      [passwordFocusNode],
+    );
     void saveAndPush(BuildContext context) async {
       if (!formKey.currentState!.validate()) {
         showSnackBarV2(
@@ -77,7 +94,6 @@ class FormRegister extends HookConsumerWidget {
       }
     }
 
-    final FocusNode focusNode = FocusNode();
     return Form(
       key: formKey,
       child: Stack(
@@ -146,7 +162,7 @@ class FormRegister extends HookConsumerWidget {
                 valueListenable: passwordError,
                 builder: (context, isError, child) {
                   return InputPasswordFieldUserProfile(
-                    focusNode: focusNode,
+                    focusNode: passwordFocusNode,
                     onTap: () {
                       isPasswordExpanded.value = true;
                     },
@@ -162,9 +178,10 @@ class FormRegister extends HookConsumerWidget {
                       );
                       return null;
                     },
-                    onFocusChanged: (hasFocus) {
-                      isPasswordExpanded.value = hasFocus;
-                    },
+
+                    // onFocusChanged: (hasFocus) {
+                    //   isPasswordExpanded.value = hasFocus;
+                    // },
                   );
                 },
               ),

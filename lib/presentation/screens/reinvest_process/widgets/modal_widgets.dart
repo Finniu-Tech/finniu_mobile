@@ -30,7 +30,7 @@ void showBankAccountModal(
                 child: Text(
                   textAlign: TextAlign.center,
                   isSender
-                      ? '¿Desde qué cuenta nos transfieres el dinero? 💸'
+                      ? '¿Desde qué cuenta nos tranasfieres el dinero? 💸'
                       : '¿A qué cuenta transferimos tu rentabilidad? 💸',
                   style: const TextStyle(
                     fontSize: 20,
@@ -76,7 +76,8 @@ class ThankYouModal extends StatelessWidget {
       child: Container(
         width: 358,
         height: 356,
-        padding: const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
+        padding:
+            const EdgeInsets.only(top: 20, bottom: 20, left: 30, right: 30),
         decoration: BoxDecoration(
           color: const Color(primaryDark),
           borderRadius: BorderRadius.circular(20),
@@ -110,7 +111,8 @@ class ThankYouModal extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
               ),
               child: const Row(
                 mainAxisSize: MainAxisSize.min,
@@ -228,7 +230,9 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
       backgroundColor: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(24.0),
-        child: _currentStep == 0 ? _buildFirstStep(context) : _buildSecondStep(context),
+        child: _currentStep == 0
+            ? _buildFirstStep(context)
+            : _buildSecondStep(context),
       ),
     );
   }
@@ -308,7 +312,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
         TextButton(
           onPressed: _nextStep,
           style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24.0),
             ),
@@ -367,7 +372,8 @@ class _ReinvestmentModalState extends ConsumerState<ThanksReinvestmentModal> {
             Navigator.of(context).pushNamed('/process_investment');
           },
           style: TextButton.styleFrom(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 32.0, vertical: 12.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24.0),
             ),
