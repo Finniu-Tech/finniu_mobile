@@ -2,7 +2,8 @@ import 'package:finniu/presentation/screens/geolocator/helpers/geolocator_helper
 import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final geolocatorProvider = FutureProvider<GeolocatorProvider?>((ref) async {
+final geolocatorProvider =
+    FutureProvider.autoDispose<GeolocatorProvider?>((ref) async {
   try {
     final permissionStatus = await getPermissionState();
     final position = await determinePosition();

@@ -1,8 +1,11 @@
 import 'package:finniu/presentation/providers/geolocator_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class GeolocatorScreen extends StatelessWidget {
@@ -22,6 +25,35 @@ class _BodyGeolocator extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void setPermission() async {
+      final permissionStatus = await Geolocator.requestPermission();
+
+      showSnackBarV2(
+        context: context,
+        title: "Permiso selecionado",
+        message: permissionStatus.toString(),
+        snackType: SnackType.info,
+      );
+      ref.invalidate(geolocatorProvider);
+    }
+
+    void openAppSettings() async {
+      bool opened = await Geolocator.openAppSettings();
+      if (!opened) {
+        // Mostrar un mensaje si no fue posible abrir la configuración
+        print('No se pudo abrir la configuración.');
+      }
+      // final permissionStatus = await Geolocator.requestPermission();
+
+      // showSnackBarV2(
+      //   context: context,
+      //   title: "Permiso selecionado",
+      //   message: permissionStatus.toString(),
+      //   snackType: SnackType.info,
+      // );
+      ref.invalidate(geolocatorProvider);
+    }
+
     final position = ref.watch(geolocatorProvider);
     return position.when(
       data: (data) => Center(
@@ -58,6 +90,24 @@ class _BodyGeolocator extends ConsumerWidget {
                 fontSize: 16,
                 align: TextAlign.center,
               ),
+            ),
+            const SizedBox(height: 20),
+            const TextPoppins(
+              text: "boton para permisos",
+              fontSize: 20,
+            ),
+            ButtonInvestment(
+              text: "Permisos",
+              onPressed: () => setPermission(),
+            ),
+            const SizedBox(height: 20),
+            const TextPoppins(
+              text: "boton open app setting",
+              fontSize: 20,
+            ),
+            ButtonInvestment(
+              text: "App settings",
+              onPressed: () => openAppSettings(),
             ),
           ],
         ),
