@@ -67,6 +67,15 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "navigate geolocator",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/geolocator');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "modal new password",
               onPressed: () {
                 modalNewPassword(context);
