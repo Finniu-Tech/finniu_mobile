@@ -68,14 +68,9 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
-
               text: "navigate geolocator",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/geolocator');
-
-              text: "modal cambio cuenta predeterminada",
-              onPressed: () {
-                modalAccountChange(context);
               },
             ),
             const SizedBox(
@@ -94,7 +89,6 @@ class CatalogScreen extends HookConsumerWidget {
               text: "modal app mantenimiento",
               onPressed: () {
                 modalMaintenance(context);
-
               },
             ),
             const SizedBox(
