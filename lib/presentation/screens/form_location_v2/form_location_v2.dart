@@ -1,6 +1,7 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -35,7 +36,7 @@ class FormLocationDataV2 extends HookConsumerWidget {
             height: 10,
           ),
           ProgressForm(
-            progress: 0.4,
+            progress: 0.5,
           ),
           TitleForm(
             title: "Ubicación",
@@ -60,16 +61,13 @@ class LocationForm extends ConsumerStatefulWidget {
 
 class LocationFormState extends ConsumerState<LocationForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  final countrySelectController = TextEditingController(
-    text: "Peru",
-  );
-  final regionsSelectController = TextEditingController();
-  final provinceSelectController = TextEditingController();
-  final districtSelectController = TextEditingController();
-  final addressTextController = TextEditingController();
-  final houseNumberController = TextEditingController();
-  final postalCodeController = TextEditingController();
+  late final TextEditingController countrySelectController;
+  late final TextEditingController regionsSelectController;
+  late final TextEditingController provinceSelectController;
+  late final TextEditingController districtSelectController;
+  late final TextEditingController addressTextController;
+  late final TextEditingController houseNumberController;
+  late final TextEditingController postalCodeController;
 
   final ValueNotifier<bool> regionsError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> provinceError = ValueNotifier<bool>(false);
@@ -108,7 +106,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
-    Navigator.pushNamed(context, '/home_v2');
+    Navigator.pushNamed(context, '/v2/form_job');
   }
 
   List<GeoLocationItemV2> districts = [
@@ -123,6 +121,15 @@ class LocationFormState extends ConsumerState<LocationForm> {
   @override
   void initState() {
     super.initState();
+    final userProfile = ref.read(userProfileNotifierProvider);
+
+    countrySelectController = TextEditingController(text: "Peru");
+    regionsSelectController = TextEditingController(text: userProfile.region ?? "");
+    provinceSelectController = TextEditingController(text: userProfile.provincia ?? "");
+    districtSelectController = TextEditingController(text: userProfile.distrito ?? "");
+    addressTextController = TextEditingController(text: userProfile.address ?? "");
+    houseNumberController = TextEditingController(text: userProfile.houseNumber ?? "");
+    postalCodeController = TextEditingController(text: userProfile.postalCode ?? "");
 
     regionsSelectController.addListener(() {
       ref.invalidate(
@@ -143,14 +150,24 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   @override
+  void dispose() {
+    countrySelectController.dispose();
+    regionsSelectController.dispose();
+    provinceSelectController.dispose();
+    districtSelectController.dispose();
+    addressTextController.dispose();
+    houseNumberController.dispose();
+    postalCodeController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700
-            ? 600
-            : MediaQuery.of(context).size.height * 0.77,
+        height: MediaQuery.of(context).size.height < 700 ? 600 : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
             SelectableDropdownItem(
@@ -184,8 +201,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                         showSnackBarV2(
                           context: context,
                           title: "El departamento es obligatorio",
-                          message:
-                              "Por favor, completa el seleciona el departamento.",
+                          message: "Por favor, completa el seleciona el departamento.",
                           snackType: SnackType.warning,
                         );
                         regionsError.value = true;
@@ -216,8 +232,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El provincia es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el provincia.",
+                                message: "Por favor, completa el seleciona el provincia.",
                                 snackType: SnackType.warning,
                               );
                               provinceError.value = true;
@@ -246,8 +261,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El departamento es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el departamento.",
+                                message: "Por favor, completa el seleciona el departamento.",
                                 snackType: SnackType.warning,
                               );
                               provinceError.value = true;
@@ -278,8 +292,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El provincia es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el provincia.",
+                                message: "Por favor, completa el seleciona el provincia.",
                                 snackType: SnackType.warning,
                               );
                               districtError.value = true;
@@ -308,8 +321,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                               showSnackBarV2(
                                 context: context,
                                 title: "El departamento es obligatorio",
-                                message:
-                                    "Por favor, completa el seleciona el departamento.",
+                                message: "Por favor, completa el seleciona el departamento.",
                                 snackType: SnackType.warning,
                               );
                               districtError.value = true;

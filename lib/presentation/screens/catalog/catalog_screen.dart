@@ -10,6 +10,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_g
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/less_year_progress_card.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/modal_app_maintenance.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
@@ -67,9 +68,33 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+
               text: "navigate geolocator",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/geolocator');
+
+              text: "modal cambio cuenta predeterminada",
+              onPressed: () {
+                modalAccountChange(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "modal error send data",
+              onPressed: () {
+                modalErrorSendData(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "modal app mantenimiento",
+              onPressed: () {
+                modalMaintenance(context);
+
               },
             ),
             const SizedBox(
