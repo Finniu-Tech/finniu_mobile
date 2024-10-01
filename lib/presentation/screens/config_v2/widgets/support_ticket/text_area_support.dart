@@ -69,13 +69,23 @@ class InputTextAreaSupport extends ConsumerWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: isError
                   ? BorderSide(color: Color(borderError), width: 1)
-                  : BorderSide.none,
+                  : BorderSide(
+                      color: isDarkMode
+                          ? Color(borderColorDark)
+                          : Color(borderColorLight),
+                      width: 1,
+                    ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: isError
                   ? BorderSide(color: Color(borderError), width: 1)
-                  : BorderSide.none,
+                  : BorderSide(
+                      color: isDarkMode
+                          ? Color(borderColorDark)
+                          : Color(borderColorLight),
+                      width: 1,
+                    ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),

@@ -20,14 +20,13 @@ class SupportTicketFormv2Imp extends GraphQLBaseDataSource {
       //     fetchPolicy: FetchPolicy.noCache,
       //   ),
       // );
-      Future.delayed(const Duration(seconds: 2), () {
-        print(data.category);
-        print(data.email);
-        print(data.firstName);
-        print(data.lastName);
-        print(data.message);
-        print(data.imageBase64);
-      });
+      print(data.category);
+      print(data.email);
+      print(data.firstName);
+      print(data.lastName);
+      print(data.message);
+      print(data.imageBase64);
+      Future.delayed(const Duration(seconds: 2), () {});
       return true;
     } catch (e) {
       return false;

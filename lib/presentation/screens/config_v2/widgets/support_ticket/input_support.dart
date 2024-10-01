@@ -28,7 +28,7 @@ class InputTextSupport extends ConsumerWidget {
   final int fillLight = 0xFFFFFFFF;
   final int iconDark = 0xFFA2E6FA;
   final int iconLight = 0xFF0D3A5C;
-  final int borderColorDark = 0xFFD9D9D9;
+  final int borderColorDark = 0xFF292828;
   final int borderColorLight = 0xFFD9D9D9;
   final int borderError = 0xFFED1C24;
 
@@ -67,13 +67,23 @@ class InputTextSupport extends ConsumerWidget {
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: isError
                   ? BorderSide(color: Color(borderError), width: 1)
-                  : BorderSide.none,
+                  : BorderSide(
+                      color: isDarkMode
+                          ? Color(borderColorDark)
+                          : Color(borderColorLight),
+                      width: 1,
+                    ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: isError
                   ? BorderSide(color: Color(borderError), width: 1)
-                  : BorderSide.none,
+                  : BorderSide(
+                      color: isDarkMode
+                          ? Color(borderColorDark)
+                          : Color(borderColorLight),
+                      width: 1,
+                    ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
