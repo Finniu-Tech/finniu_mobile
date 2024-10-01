@@ -1,4 +1,5 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -29,14 +30,14 @@ class FormPersonalDataV2 extends ConsumerWidget {
           color: Colors.transparent,
         ),
         appBar: const AppBarLogo(),
-        children: const [
-          SizedBox(
+        children: [
+          const SizedBox(
             height: 10,
           ),
-          ProgressForm(
+          const ProgressForm(
             progress: 0.2,
           ),
-          TitleForm(
+          const TitleForm(
             title: "Datos personales",
             subTitle: "¿Cuales son tus datos personales?",
             icon: "assets/svg_icons/user_icon_v2.svg",
@@ -49,19 +50,28 @@ class FormPersonalDataV2 extends ConsumerWidget {
 }
 
 class PersonalForm extends HookConsumerWidget {
-  const PersonalForm({
+  PersonalForm({
     super.key,
   });
-  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final firstNameController = useTextEditingController();
-    final lastNameFatherController = useTextEditingController();
-    final lastNameMotherController = useTextEditingController();
-    final documentTypeController = useTextEditingController();
-    final documentNumberController = useTextEditingController();
-    final civilStatusController = useTextEditingController();
-    final genderTypeController = useTextEditingController();
+    final userProfile = ref.watch(userProfileNotifierProvider);
+
+    final firstNameController = useTextEditingController(text: userProfile.firstName ?? '');
+    final lastNameFatherController = useTextEditingController(text: userProfile.lastNameFather ?? '');
+    final lastNameMotherController = useTextEditingController(text: userProfile.lastNameMother ?? '');
+    final documentTypeController = useTextEditingController(
+      text: userProfile.documentType == null ? "" : getTypeDocumentByUser(userProfile.documentType!),
+    );
+    final documentNumberController = useTextEditingController(text: userProfile.documentNumber);
+    final civilStatusController = useTextEditingController(
+      text: userProfile.civilStatus == null ? "" : getCivilStatusByUser(userProfile.civilStatus!),
+    );
+    final genderTypeController = useTextEditingController(
+      text: userProfile.gender == null ? "" : getGenderByUser(userProfile.gender!),
+    );
 
     final ValueNotifier<bool> firstNameError = useState(false);
     final ValueNotifier<bool> lastNameFatherError = useState(false);
@@ -70,11 +80,6 @@ class PersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentNumberError = useState(false);
     final ValueNotifier<bool> civilStatusError = useState(false);
     final ValueNotifier<bool> genderTypeError = useState(false);
-
-    // void continueLater() {
-    //   ScaffoldMessenger.of(context).clearSnackBars();
-    //   Navigator.pushNamed(context, '/v2/form_legal_terms');
-    // }
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
@@ -101,8 +106,7 @@ class PersonalForm extends HookConsumerWidget {
           lastNameMother: lastNameMotherController.text.trim(),
           documentType: getTypeDocumentEnum(documentTypeController.text),
           documentNumber: documentNumberController.text.trim(),
-          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-              CivilStatusEnum.SINGLE,
+          civilStatus: getCivilStatusEnum(civilStatusController.text) ?? CivilStatusEnum.SINGLE,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
 
@@ -111,6 +115,7 @@ class PersonalForm extends HookConsumerWidget {
           context,
           data,
           ref,
+          isNavigate: false,
         );
       }
     }
@@ -119,9 +124,7 @@ class PersonalForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700
-            ? 600
-            : MediaQuery.of(context).size.height * 0.77,
+        height: MediaQuery.of(context).size.height < 700 ? 600 : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
             ValueListenableBuilder<bool>(
@@ -199,8 +202,7 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el tipo de documento.",
+                        message: "Por favor, completa el seleciona el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -226,8 +228,7 @@ class PersonalForm extends HookConsumerWidget {
                   hintText: "Ingrese su Nº de documento de identidad",
                   validator: (value) {
                     validateNumberDocument(
-                      typeDocument:
-                          getTypeDocumentEnum(documentTypeController.text),
+                      typeDocument: getTypeDocumentEnum(documentTypeController.text),
                       value: value,
                       field: "Numero de documento",
                       context: context,
@@ -253,8 +254,7 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el estado civil",
+                        message: "Por favor, completa el seleciona el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
@@ -305,8 +305,8 @@ class PersonalForm extends HookConsumerWidget {
             ),
             FormDataNavigator(
               addData: () => uploadPersonalData(),
-              continueLaterBool: false,
               continueLater: null,
+              continueLaterBool: false,
             ),
           ],
         ),
