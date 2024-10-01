@@ -23,8 +23,8 @@ class SelectableSupportDropdownItem extends HookConsumerWidget {
   final bool isError;
   final VoidCallback? onError;
 
-  final int hintDark = 0xFF212121;
-  final int hintLight = 0xFFFFFFFF;
+  final int hintDark = 0xFFB3B3B3;
+  final int hintLight = 0xffB3B3B3;
   final int fillDark = 0xFF212121;
   final int fillLight = 0xFFFFFFFF;
   final int iconDark = 0xFFA2E6FA;
@@ -94,13 +94,23 @@ class SelectableSupportDropdownItem extends HookConsumerWidget {
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           borderSide: isError
               ? BorderSide(color: Color(borderError), width: 1)
-              : BorderSide.none,
+              : BorderSide(
+                  color: isDarkMode
+                      ? Color(borderColorDark)
+                      : Color(borderColorLight),
+                  width: 1,
+                ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),
           borderSide: isError
               ? BorderSide(color: Color(borderError), width: 1)
-              : BorderSide.none,
+              : BorderSide(
+                  color: isDarkMode
+                      ? Color(borderColorDark)
+                      : Color(borderColorLight),
+                  width: 1,
+                ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10.0)),

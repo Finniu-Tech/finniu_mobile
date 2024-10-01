@@ -2,7 +2,9 @@ import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/dropdown_support.dart';
+import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/input_support.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/tittle_support.dart';
+import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -43,14 +45,14 @@ class _FormSupport extends HookConsumerWidget {
     //categorias: login, inversiones, pagos
     final categoryController = useTextEditingController();
     // final emailController = useTextEditingController();
-    // final firstNameController = useTextEditingController();
+    final firstNameController = useTextEditingController();
     // final lastNameController = useTextEditingController();
     // final textExtendedController = useTextEditingController();
     // final imageController = useTextEditingController();
 
     final ValueNotifier<bool> categoryError = useState(false);
     // final ValueNotifier<bool> emailError = useState(false);
-    // final ValueNotifier<bool> firstNameError = useState(false);
+    final ValueNotifier<bool> firstNameError = useState(false);
     // final ValueNotifier<bool> lastNameError = useState(false);
     // final ValueNotifier<bool> textExtendedError = useState(false);
     // final ValueNotifier<bool> imageError = useState(false);
@@ -67,7 +69,7 @@ class _FormSupport extends HookConsumerWidget {
               fontSize: 14,
               lines: 2,
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 15),
             ValueListenableBuilder<bool>(
               valueListenable: categoryError,
               builder: (context, isError, child) {
@@ -95,6 +97,27 @@ class _FormSupport extends HookConsumerWidget {
                       return null;
                     }
 
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 15),
+            ValueListenableBuilder<bool>(
+              valueListenable: firstNameError,
+              builder: (context, isError, child) {
+                return InputTextSupport(
+                  isError: isError,
+                  onError: () => firstNameError.value = false,
+                  controller: firstNameController,
+                  hintText: "Nombres completos",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Nombre",
+                      context: context,
+                      boolNotifier: firstNameError,
+                    );
                     return null;
                   },
                 );
