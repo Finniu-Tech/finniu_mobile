@@ -1,8 +1,10 @@
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/dropdown_support.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/input_support.dart';
+import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/text_area_support.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/tittle_support.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:flutter/widgets.dart';
@@ -44,17 +46,17 @@ class _FormSupport extends HookConsumerWidget {
         "Completa los siguiente datos para poder ayudarte lo más pronto posible";
     //categorias: login, inversiones, pagos
     final categoryController = useTextEditingController();
-    // final emailController = useTextEditingController();
+    final emailController = useTextEditingController();
     final firstNameController = useTextEditingController();
-    // final lastNameController = useTextEditingController();
-    // final textExtendedController = useTextEditingController();
+    final lastNameController = useTextEditingController();
+    final textExtendedController = useTextEditingController();
     // final imageController = useTextEditingController();
 
     final ValueNotifier<bool> categoryError = useState(false);
-    // final ValueNotifier<bool> emailError = useState(false);
+    final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> firstNameError = useState(false);
-    // final ValueNotifier<bool> lastNameError = useState(false);
-    // final ValueNotifier<bool> textExtendedError = useState(false);
+    final ValueNotifier<bool> lastNameError = useState(false);
+    final ValueNotifier<bool> textExtendedError = useState(false);
     // final ValueNotifier<bool> imageError = useState(false);
 
     return SizedBox(
@@ -104,13 +106,33 @@ class _FormSupport extends HookConsumerWidget {
             ),
             const SizedBox(height: 15),
             ValueListenableBuilder<bool>(
+              valueListenable: emailError,
+              builder: (context, isError, child) {
+                return InputTextSupport(
+                  isError: isError,
+                  onError: () => emailError.value = false,
+                  controller: emailController,
+                  hintText: "Ingresa tu correo electrónico",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Nombre",
+                      context: context,
+                      boolNotifier: emailError,
+                    );
+                    return null;
+                  },
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
               valueListenable: firstNameError,
               builder: (context, isError, child) {
                 return InputTextSupport(
                   isError: isError,
                   onError: () => firstNameError.value = false,
                   controller: firstNameController,
-                  hintText: "Nombres completos",
+                  hintText: "Ingresa tus nombre",
                   validator: (value) {
                     validateString(
                       value: value,
@@ -123,6 +145,48 @@ class _FormSupport extends HookConsumerWidget {
                 );
               },
             ),
+            ValueListenableBuilder<bool>(
+              valueListenable: lastNameError,
+              builder: (context, isError, child) {
+                return InputTextSupport(
+                  isError: isError,
+                  onError: () => lastNameError.value = false,
+                  controller: lastNameController,
+                  hintText: "Ingresa tus apellidos",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Apellido",
+                      context: context,
+                      boolNotifier: lastNameError,
+                    );
+                    return null;
+                  },
+                );
+              },
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: textExtendedError,
+              builder: (context, isError, child) {
+                return InputTextAreaSupport(
+                  // isError: isError,
+                  // onError: () => lastNameError.value = false,
+                  controller: textExtendedController,
+                  hintText:
+                      "Cuéntanos el problema que estas presentando en la app",
+                  validator: (value) {
+                    validateString(
+                      value: value,
+                      field: "Problema",
+                      context: context,
+                      boolNotifier: textExtendedError,
+                    );
+                    return null;
+                  },
+                );
+              },
+            ),
+            ButtonInvestment(text: "Enviar mi reporte", onPressed: () {}),
           ],
         ),
       ),
