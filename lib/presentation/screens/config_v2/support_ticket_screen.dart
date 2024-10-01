@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/config_v2/helpers/send_ticket.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/dropdown_support.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/input_support.dart';
@@ -10,6 +11,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/valida
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class SupportTicketScreen extends StatelessWidget {
   const SupportTicketScreen({super.key});
@@ -58,6 +60,34 @@ class _FormSupport extends HookConsumerWidget {
     final ValueNotifier<bool> lastNameError = useState(false);
     final ValueNotifier<bool> textExtendedError = useState(false);
     // final ValueNotifier<bool> imageError = useState(false);
+    void sendTicket() {
+      if (!formKey.currentState!.validate()) {
+        showSnackBarV2(
+          context: context,
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
+          snackType: SnackType.warning,
+        );
+        return;
+      } else {
+        if (categoryError.value) return;
+        if (emailError.value) return;
+        if (firstNameError.value) return;
+        if (lastNameError.value) return;
+        if (textExtendedError.value) return;
+        // if (imageError.value) return;
+        context.loaderOverlay.show();
+        final DtoSupportForm data = DtoSupportForm(
+          category: categoryController.text,
+          email: emailController.text,
+          firstName: firstNameController.text,
+          lastName: lastNameController.text,
+          message: textExtendedController.text,
+          imageBase64: "",
+        );
+        sendTicketSupport(context, data, ref);
+      }
+    }
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -169,8 +199,8 @@ class _FormSupport extends HookConsumerWidget {
               valueListenable: textExtendedError,
               builder: (context, isError, child) {
                 return InputTextAreaSupport(
-                  // isError: isError,
-                  // onError: () => lastNameError.value = false,
+                  isError: isError,
+                  onError: () => textExtendedError.value = false,
                   controller: textExtendedController,
                   hintText:
                       "Cuéntanos el problema que estas presentando en la app",
@@ -186,7 +216,10 @@ class _FormSupport extends HookConsumerWidget {
                 );
               },
             ),
-            ButtonInvestment(text: "Enviar mi reporte", onPressed: () {}),
+            ButtonInvestment(
+              text: "Enviar mi reporte",
+              onPressed: () => sendTicket(),
+            ),
           ],
         ),
       ),
