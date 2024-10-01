@@ -68,9 +68,9 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
-              text: "modal cambio cuenta predeterminada",
+              text: "navigate geolocator",
               onPressed: () {
-                modalAccountChange(context);
+                Navigator.pushNamed(context, '/v2/geolocator');
               },
             ),
             const SizedBox(
