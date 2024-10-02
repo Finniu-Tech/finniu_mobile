@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -56,7 +57,6 @@ class _FormSupport extends HookConsumerWidget {
     ];
     const String title =
         "Completa los siguiente datos para poder ayudarte lo más pronto posible";
-    //categorias: login, inversiones, pagos
     final categoryController = useTextEditingController();
     final emailController = useTextEditingController(
       text: userProfile.email ?? "",
@@ -86,11 +86,13 @@ class _FormSupport extends HookConsumerWidget {
         );
         return;
       } else {
+        final imageBase64 = ref.read(imageBase64Provider);
         if (categoryError.value) return;
         if (emailError.value) return;
         if (firstNameError.value) return;
         if (lastNameError.value) return;
         if (textExtendedError.value) return;
+        if (imageBase64 == null || imageBase64.isEmpty) return;
         // if (imageError.value) return;
         context.loaderOverlay.show();
         final DtoSupportForm data = DtoSupportForm(
@@ -99,7 +101,7 @@ class _FormSupport extends HookConsumerWidget {
           firstName: firstNameController.text,
           lastName: lastNameController.text,
           message: textExtendedController.text,
-          imageBase64: "",
+          imageBase64: imageBase64,
         );
         sendTicketSupport(context, data, ref);
       }
@@ -238,6 +240,7 @@ class _FormSupport extends HookConsumerWidget {
               text: "Enviar mi reporte",
               onPressed: () => sendTicket(),
             ),
+            const SizedBox(height: 15),
           ],
         ),
       ),

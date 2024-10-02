@@ -44,14 +44,17 @@ class InputGetImage extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: TextPoppins(
-                    text: imageBase64 == "" || imageBase64 == null
-                        ? "Sube una imagen (Png,Jpd,SVG)"
-                        : imageBase64,
-                    fontSize: 12,
-                    textDark: textColor,
-                    textLight: textColor,
-                  ),
+                  child: imageBase64 == "" || imageBase64 == null
+                      ? const TextPoppins(
+                          text: "Sube una imagen (Png,Jpd,SVG)",
+                          fontSize: 12,
+                          textDark: textColor,
+                          textLight: textColor,
+                        )
+                      : TextPoppins(
+                          text: imageBase64,
+                          fontSize: 12,
+                        ),
                 ),
                 SvgPicture.asset(
                   "assets/svg_icons/add_image_icon.svg",

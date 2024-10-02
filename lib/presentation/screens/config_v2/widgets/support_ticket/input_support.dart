@@ -20,20 +20,20 @@ class InputTextSupport extends ConsumerWidget {
   final bool isError;
   final VoidCallback? onError;
 
-  final int textDark = 0xFFFFFFFF;
-  final int textLight = 0xFF000000;
-  final int hintDark = 0xFFB3B3B3;
-  final int hintLight = 0xffB3B3B3;
-  final int fillDark = 0xFF212121;
-  final int fillLight = 0xFFFFFFFF;
-  final int iconDark = 0xFFA2E6FA;
-  final int iconLight = 0xFF0D3A5C;
-  final int borderColorDark = 0xFF292828;
-  final int borderColorLight = 0xFFD9D9D9;
-  final int borderError = 0xFFED1C24;
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    const int textDark = 0xFFFFFFFF;
+    const int textLight = 0xFF000000;
+    const int hintDark = 0xFFB3B3B3;
+    const int hintLight = 0xffB3B3B3;
+    const int fillDark = 0xFF212121;
+    const int fillLight = 0xFFFFFFFF;
+    const int borderColorDark = 0xFF292828;
+    const int borderColorLight = 0xFFD9D9D9;
+    const int borderError = 0xFFED1C24;
+    const int borderFocusDark = 0xFFA2E6FA;
+    const int borderFocusLight = 0xFF0D3A5C;
+
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return Column(
@@ -49,69 +49,71 @@ class InputTextSupport extends ConsumerWidget {
           controller: controller,
           style: TextStyle(
             fontSize: 12,
-            color: isDarkMode ? Color(textDark) : Color(textLight),
+            color: isDarkMode ? const Color(textDark) : const Color(textLight),
             fontWeight: FontWeight.w400,
             fontFamily: "Poppins",
           ),
           decoration: InputDecoration(
             hintStyle: TextStyle(
               fontSize: 12,
-              color: isDarkMode ? Color(hintDark) : Color(hintLight),
+              color:
+                  isDarkMode ? const Color(hintDark) : const Color(hintLight),
               fontWeight: FontWeight.w400,
               fontFamily: "Poppins",
             ),
             hintText: hintText,
-            fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
+            fillColor:
+                isDarkMode ? const Color(fillDark) : const Color(fillLight),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: isError
-                  ? BorderSide(color: Color(borderError), width: 1)
+                  ? const BorderSide(color: Color(borderError), width: 1)
                   : BorderSide(
                       color: isDarkMode
-                          ? Color(borderColorDark)
-                          : Color(borderColorLight),
+                          ? const Color(borderColorDark)
+                          : const Color(borderColorLight),
                       width: 1,
                     ),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: isError
-                  ? BorderSide(color: Color(borderError), width: 1)
+                  ? const BorderSide(color: Color(borderError), width: 1)
                   : BorderSide(
                       color: isDarkMode
-                          ? Color(borderColorDark)
-                          : Color(borderColorLight),
+                          ? const Color(borderColorDark)
+                          : const Color(borderColorLight),
                       width: 1,
                     ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(10.0)),
               borderSide: isError
-                  ? BorderSide(color: Color(borderError), width: 1)
+                  ? const BorderSide(color: Color(borderError), width: 1)
                   : BorderSide(
                       color: isDarkMode
-                          ? Color(borderColorDark)
-                          : Color(borderColorLight),
+                          ? const Color(borderFocusDark)
+                          : const Color(borderFocusLight),
                       width: 1,
                     ),
             ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            errorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(
                 color: Color(borderError),
                 width: 1,
               ),
             ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+            focusedErrorBorder: const OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
               borderSide: BorderSide(
                 color: Color(borderError),
                 width: 1,
               ),
             ),
             suffixIcon: isError
-                ? Icon(
+                ? const Icon(
                     Icons.error_outline,
                     color: Color(borderError),
                     size: 24,
