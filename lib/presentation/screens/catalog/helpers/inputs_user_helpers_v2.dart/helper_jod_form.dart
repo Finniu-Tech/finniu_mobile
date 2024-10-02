@@ -12,7 +12,8 @@ pushOccupationDataForm(
   BuildContext context,
   DtoOccupationForm data,
   WidgetRef ref, {
-  String navigate = '/v2/form_legal_terms',
+  // String navigate = '/v2/form_legal_terms',
+  String navigate = '/v2/form_about_me',
   bool isNavigate = false,
 }) {
   final gqlClient = ref.watch(gqlClientProvider).value;
@@ -24,8 +25,7 @@ pushOccupationDataForm(
       snackType: SnackType.error,
     );
   }
-  Future<RegisterUserV2Response> response =
-      OccupationFormV2Imp(gqlClient!).saveOccupationDataUserV2(data: data);
+  Future<RegisterUserV2Response> response = OccupationFormV2Imp(gqlClient!).saveOccupationDataUserV2(data: data);
 
   response.then((value) {
     if (value.success) {

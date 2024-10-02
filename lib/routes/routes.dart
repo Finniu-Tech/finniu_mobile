@@ -23,6 +23,7 @@ import 'package:finniu/presentation/screens/form_legal_terms/form_legal_v2.dart'
 import 'package:finniu/presentation/screens/form_location_v2/form_location_v2.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/form_personal_v2.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
+import 'package:finniu/presentation/screens/geolocator/geolocator_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
@@ -244,5 +245,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/login_forgot': (BuildContext context) => const ForgotPasswordV2(),
     '/v2/set_new_password': (BuildContext context) => const NewPasswordV2(),
     '/biometric_test': (BuildContext context) => BiometricTestPage(),
+    '/v2/geolocator': (BuildContext context) => const GeolocatorScreen(),
   };
 }

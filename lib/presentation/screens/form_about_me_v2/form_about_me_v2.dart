@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/add_image.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_about_me_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
@@ -31,14 +32,14 @@ class AboutMeDataV2 extends ConsumerWidget {
           color: Colors.transparent,
         ),
         appBar: const AppBarLogo(),
-        children: const [
-          SizedBox(
+        children: [
+          const SizedBox(
             height: 10,
           ),
-          ProgressForm(
-            progress: 0.8,
+          const ProgressForm(
+            progress: 1,
           ),
-          TitleForm(
+          const TitleForm(
             title: "Sobre mi",
             subTitle: "Cuéntanos un poco sobre tí (Es opcional)",
             icon: "assets/svg_icons/user_icon_v2.svg",
@@ -51,25 +52,32 @@ class AboutMeDataV2 extends ConsumerWidget {
 }
 
 class AboutMeForm extends HookConsumerWidget {
-  const AboutMeForm({
+  AboutMeForm({
     super.key,
   });
-  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final facebookTextController =
-        useTextEditingController(text: "https://facebook.com/");
-    final instagramTextController =
-        useTextEditingController(text: "https://instagram.com/");
-    final linkedinTextController =
-        useTextEditingController(text: "https://linkendIn.com/");
-    final biographyAreaController = useTextEditingController();
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final facebookTextController = useTextEditingController(
+      text: userProfile.facebook ?? "https://facebook.com/",
+    );
+
+    final instagramTextController = useTextEditingController(
+      text: userProfile.instagram ?? "https://instagram.com/",
+    );
+    final linkedinTextController = useTextEditingController(
+      text: userProfile.linkedin ?? "https://linkendIn.com/",
+    );
+    final biographyAreaController = useTextEditingController(
+      text: userProfile.biography ?? "",
+    );
     final String? imageBase64 = ref.watch(imageBase64Provider);
     void uploadJobData() {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
         if (biographyAreaController.text == "" || imageBase64 == null) {
-          Navigator.pushNamed(context, '/home_v2');
+          Navigator.pushNamedAndRemoveUntil(context, '/home_v2', (route) => false);
           context.loaderOverlay.hide();
           return;
         }
@@ -87,7 +95,8 @@ class AboutMeForm extends HookConsumerWidget {
     }
 
     void continueLater() {
-      Navigator.pushNamed(context, "/home_v2");
+      // Navigator.pushNamed(context, "/home_v2");
+      Navigator.pushNamedAndRemoveUntil(context, '/home_v2', (route) => false);
     }
 
     final String? imagePath = ref.watch(imagePathProvider);
@@ -95,18 +104,14 @@ class AboutMeForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700
-            ? 650
-            : MediaQuery.of(context).size.height * 0.77,
+        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 10,
             ),
-            imagePath == null
-                ? const AddImageProfile()
-                : const ImageProfileRender(),
+            imagePath == null ? const AddImageProfile() : const ImageProfileRender(),
             const SizedBox(
               height: 10,
             ),
@@ -184,9 +189,7 @@ class AddImageProfile extends ConsumerWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(backgroundDark)
-                    : const Color(backgroundLight),
+                color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Center(
@@ -194,9 +197,7 @@ class AddImageProfile extends ConsumerWidget {
                   "assets/svg_icons/gallery_add_icon_v2.svg",
                   width: 20,
                   height: 20,
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
+                  color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                 ),
               ),
             ),

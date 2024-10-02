@@ -12,7 +12,8 @@ pushLocationDataForm(
   BuildContext context,
   DtoLocationForm data,
   WidgetRef ref, {
-  String navigate = '/v2/form_about_me',
+  // String navigate = '/v2/form_about_me',
+  String navigate = '/v2/form_job',
   bool isNavigate = false,
 }) {
   final gqlClient = ref.watch(gqlClientProvider).value;
@@ -24,8 +25,7 @@ pushLocationDataForm(
       snackType: SnackType.error,
     );
   }
-  Future<RegisterUserV2Response> response =
-      LocationFormV2Imp(gqlClient!).saveLocationDataUserV2(data: data);
+  Future<RegisterUserV2Response> response = LocationFormV2Imp(gqlClient!).saveLocationDataUserV2(data: data);
   response.then((value) {
     if (value.success) {
       showSnackBarV2(

@@ -14,7 +14,7 @@ pushPersonalDataForm(
   WidgetRef ref, {
   String navigate = '/v2/form_legal_terms',
   bool isEdit = false,
-  bool isNavigate = false,
+  bool isNavigate = true,
 }) async {
   final gqlClient = ref.watch(gqlClientProvider).value;
 
@@ -26,8 +26,7 @@ pushPersonalDataForm(
       snackType: SnackType.error,
     );
   }
-  final Future<RegisterUserV2Response> response =
-      PersonalFormV2Imp(gqlClient!).savePersonalDataUserV2(data: data);
+  final Future<RegisterUserV2Response> response = PersonalFormV2Imp(gqlClient!).savePersonalDataUserV2(data: data);
 
   response.then((value) {
     if (value.success) {
@@ -42,13 +41,12 @@ pushPersonalDataForm(
 
       context.loaderOverlay.hide();
 
-      isNavigate
-          ? null
-          : Navigator.pushNamedAndRemoveUntil(
-              context,
-              navigate,
-              (route) => false,
-            );
+      isNavigate ? null : Navigator.pushNamed(context, navigate);
+      // : Navigator.pushNamedAndRemoveUntil(
+      //     context,
+      //     navigate,
+      //     (route) => false,
+      //   );
     } else {
       showSnackBarV2(
         context: context,
