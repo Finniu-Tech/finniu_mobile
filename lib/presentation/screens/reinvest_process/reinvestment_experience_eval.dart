@@ -13,8 +13,11 @@ class EvalExperienceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: EvaluateExperienceBody(),
+    return const PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: EvaluateExperienceBody(),
+      ),
     );
   }
 }
@@ -204,7 +207,7 @@ class EvaluateExperienceBody extends HookConsumerWidget {
                         if (success) {
                           Navigator.of(context).pop();
                           // Navigator.of(context).pushNamed('/finish_investment');
-                          Navigator.pushReplacementNamed(context, '/v2/investment');
+                          Navigator.pushNamedAndRemoveUntil(context, '/v2/investment', (Route<dynamic> route) => false);
                         } else {
                           CustomSnackbar.show(
                             context,
