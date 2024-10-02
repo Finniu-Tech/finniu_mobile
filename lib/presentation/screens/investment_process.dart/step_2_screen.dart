@@ -591,7 +591,7 @@ class Step2Body extends HookConsumerWidget {
                         showThanksForInvestingModal(
                           context,
                           () {
-                            Navigator.pushReplacementNamed(context, '/evaluation');
+                            Navigator.pushNamedAndRemoveUntil(context, '/evaluation', (route) => false);
                           },
                           isReInvestment,
                         );
