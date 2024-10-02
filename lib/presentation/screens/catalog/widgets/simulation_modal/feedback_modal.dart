@@ -139,21 +139,27 @@ class _FormFeedback extends HookConsumerWidget {
   }
 }
 
-class SelectFeedback extends StatelessWidget {
+class SelectFeedback extends HookConsumerWidget {
   const SelectFeedback({
     super.key,
     required this.controller,
   });
   final TextEditingController controller;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final selectedNumber = useState(
+      controller.text,
+    );
+
     List<String> options = ["1", "2", "3", "4", "5"];
     List<int> colors = [
       0xffFF4A40,
       0xffFFAE34,
       0xffFFE849,
       0xff23E986,
-      0xff23E986,
+      0xff00C462,
     ];
 
     const int textColor = 0xff000000;
@@ -168,13 +174,28 @@ class SelectFeedback extends StatelessWidget {
               children: [
                 ...options.map(
                   (number) => GestureDetector(
-                    onTap: () => controller.text = number,
+                    onTap: () {
+                      controller.text = number;
+                      selectedNumber.value = number;
+                    },
                     child: Container(
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
                         color: Color(colors[options.indexOf(number)]),
                         shape: BoxShape.circle,
+                        boxShadow: selectedNumber.value == number
+                            ? [
+                                BoxShadow(
+                                  color: isDarkMode
+                                      ? Colors.white.withOpacity(0.5)
+                                      : Colors.black.withOpacity(0.3),
+                                  spreadRadius: 0,
+                                  blurRadius: 4,
+                                  offset: const Offset(2, 5),
+                                ),
+                              ]
+                            : null,
                       ),
                       child: Center(
                         child: TextPoppins(
