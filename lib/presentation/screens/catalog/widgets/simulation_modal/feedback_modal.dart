@@ -1,10 +1,13 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_feedback.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 void showFeedbackModal(BuildContext context) {
   showDialog(
@@ -24,43 +27,54 @@ class _BodyFeedback extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int colorDark = 0xff191919;
     const int colorLight = 0xffFFFFFF;
-    return Dialog(
-      backgroundColor:
-          isDarkMode ? const Color(colorDark) : const Color(colorLight),
-      insetPadding: EdgeInsets.zero,
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.9,
-        height: 540,
-        child: const Padding(
-          padding: EdgeInsets.all(25.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              TextPoppins(
-                text: "Feedback",
-                fontSize: 24,
-                fontWeight: FontWeight.w600,
-              ),
-              TextPoppins(
-                text: "Cuéntanos como te fue tu proceso de inversión",
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-              ),
-              TextPoppins(
-                text: "En una escala del 1 al 5",
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-              ),
-              TextPoppins(
-                text:
-                    "¿Qué tan satisfecho estás con el proceso de inversión? 😊",
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                lines: 2,
-              ),
-              _FormFeedback(),
-            ],
+    return LoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidgetBuilder: (progress) {
+        return const Center(
+          child: CircularLoader(
+            width: 50,
+            height: 50,
+          ),
+        );
+      },
+      child: Dialog(
+        backgroundColor:
+            isDarkMode ? const Color(colorDark) : const Color(colorLight),
+        insetPadding: EdgeInsets.zero,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 540,
+          child: const Padding(
+            padding: EdgeInsets.all(25.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                TextPoppins(
+                  text: "Feedback",
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+                TextPoppins(
+                  text: "Cuéntanos como te fue tu proceso de inversión",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+                TextPoppins(
+                  text: "En una escala del 1 al 5",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                ),
+                TextPoppins(
+                  text:
+                      "¿Qué tan satisfecho estás con el proceso de inversión? 😊",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                  lines: 2,
+                ),
+                _FormFeedback(),
+              ],
+            ),
           ),
         ),
       ),
@@ -81,6 +95,12 @@ class _FormFeedback extends HookConsumerWidget {
         print("push feedback");
         print(feedbackTextController.text);
         print(feedbackNumerController.text);
+        final data = DtoFedbackForm(
+          message: feedbackTextController.text,
+          rating: feedbackNumerController.text,
+        );
+        context.loaderOverlay.show();
+        pushFeedbackData(context, data, ref);
         Navigator.pop(context);
       }
     }
