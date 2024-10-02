@@ -7,7 +7,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'dart:math' as math;
 import 'package:permission_handler/permission_handler.dart';
 
-Future<dynamic> showThanksForInvestingModal(BuildContext context, VoidCallback onPressed, bool? isReInvestment) {
+Future<dynamic> showThanksForInvestingModal(
+    BuildContext context, VoidCallback onPressed, bool? isReInvestment) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -30,13 +31,14 @@ class ThanksForInvestingModal extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final String titleText = "Gracias por";
-    final String secondTitleText = isReInvestment! ? "reinvertir en Finniu!" : "invertir en Finniu!";
+    const String titleText = "Gracias por";
+    final String secondTitleText =
+        isReInvestment! ? "reinvertir en Finniu!" : "invertir en Finniu!";
     // final String textButton = "Ver mi progreso";
-    final String textButton = "Evaluar mi experiencia";
-    final String textTanks = "Gracias por tu comprensión!";
-    final String anyResponse = "";
-    final String textBody =
+    const String textButton = "Evaluar mi experiencia";
+    const String textTanks = "Gracias por tu comprensión!";
+    const String anyResponse = "";
+    const String textBody =
         "Recuerda que las transferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!";
 
     return ThanksModalBody(
@@ -113,7 +115,9 @@ class ThanksModalBody extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                          color: isDarkMode
+                              ? const Color(labelTextDarkColor)
+                              : const Color(labelTextLightColor),
                         ),
                       ),
                       Row(
@@ -124,7 +128,9 @@ class ThanksModalBody extends StatelessWidget {
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
-                              color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                              color: isDarkMode
+                                  ? const Color(labelTextDarkColor)
+                                  : const Color(labelTextLightColor),
                             ),
                           ),
                           const SizedBox(
@@ -157,7 +163,9 @@ class ThanksModalBody extends StatelessWidget {
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
                           fontFamily: "Poppins",
-                          color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                          color: isDarkMode
+                              ? const Color(labelTextDarkColor)
+                              : const Color(labelTextLightColor),
                         ),
                         maxLines: 1,
                         textAlign: TextAlign.start,
@@ -253,7 +261,9 @@ class AccountNumbersWidget extends StatelessWidget {
               )
             : const Color(gradient_secondary),
         border: Border.all(
-          color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(gradient_secondary),
+          color: currentTheme.isDarkMode
+              ? const Color(primaryDark)
+              : const Color(gradient_secondary),
           width: 1,
         ),
       ),
@@ -268,7 +278,9 @@ class AccountNumbersWidget extends StatelessWidget {
               Text(
                 'Finniu S.A.C',
                 style: TextStyle(
-                  color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                  color: currentTheme.isDarkMode
+                      ? const Color(primaryLight)
+                      : const Color(primaryDark),
                   fontWeight: FontWeight.bold,
                   fontSize: 14,
                 ),
@@ -280,7 +292,9 @@ class AccountNumbersWidget extends StatelessWidget {
                   Text(
                     'RUC ',
                     style: TextStyle(
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(grayText),
                       fontSize: 12,
                     ),
                   ),
@@ -288,7 +302,9 @@ class AccountNumbersWidget extends StatelessWidget {
                     '20609327210',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(grayText),
                       fontSize: 12,
                     ),
                   ),
@@ -302,7 +318,9 @@ class AccountNumbersWidget extends StatelessWidget {
                   Text(
                     'N de cuenta corriente $textCurrency Interbank ',
                     style: TextStyle(
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(grayText),
                       fontSize: 12,
                     ),
                   ),
@@ -314,7 +332,9 @@ class AccountNumbersWidget extends StatelessWidget {
                     isSoles ? '2003004077570' : '2003004754309',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(grayText),
                       fontSize: 12,
                     ),
                   ),
@@ -340,7 +360,9 @@ class AccountNumbersWidget extends StatelessWidget {
                       });
                     },
                     child: ImageIcon(
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(grayText),
                       size: 18,
                       const AssetImage(
                         'assets/icons/double_square.png',
@@ -357,15 +379,21 @@ class AccountNumbersWidget extends StatelessWidget {
                   Text(
                     'CCI ',
                     style: TextStyle(
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(grayText),
                       fontSize: 12,
                     ),
                   ),
                   Text(
-                    isSoles ? '003 200 00300407757039' : '003 20000300475430932',
+                    isSoles
+                        ? '003 200 00300407757039'
+                        : '003 20000300475430932',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(grayText),
                       fontSize: 12,
                     ),
                   ),
@@ -376,7 +404,9 @@ class AccountNumbersWidget extends StatelessWidget {
                     onTap: () {
                       Clipboard.setData(
                         ClipboardData(
-                          text: isSoles ? "00320000300407757039" : '00320000300475430932',
+                          text: isSoles
+                              ? "00320000300407757039"
+                              : '00320000300475430932',
                         ),
                       ).then((_) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -391,7 +421,9 @@ class AccountNumbersWidget extends StatelessWidget {
                       });
                     },
                     child: ImageIcon(
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(grayText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(grayText),
                       size: 18,
                       const AssetImage(
                         'assets/icons/double_square.png',
@@ -408,7 +440,8 @@ class AccountNumbersWidget extends StatelessWidget {
   }
 }
 
-void showGrantPermissionModal(BuildContext ctx, bool isDarkMode, bool showRequestVersionModal) {
+void showGrantPermissionModal(
+    BuildContext ctx, bool isDarkMode, bool showRequestVersionModal) {
   showDialog(
     context: ctx,
     builder: (ctx) => AlertDialog(
@@ -417,7 +450,9 @@ void showGrantPermissionModal(BuildContext ctx, bool isDarkMode, bool showReques
           Radius.circular(20),
         ),
       ),
-      backgroundColor: isDarkMode ? const Color(backgroundColorDark) : const Color(orangeLight),
+      backgroundColor: isDarkMode
+          ? const Color(backgroundColorDark)
+          : const Color(orangeLight),
       content: GrantPermissionModalBody(
         showRequestVersionModal: showRequestVersionModal,
       ),
@@ -427,7 +462,8 @@ void showGrantPermissionModal(BuildContext ctx, bool isDarkMode, bool showReques
 
 class GrantPermissionModalBody extends HookConsumerWidget {
   final bool showRequestVersionModal;
-  const GrantPermissionModalBody({super.key, required this.showRequestVersionModal});
+  const GrantPermissionModalBody(
+      {super.key, required this.showRequestVersionModal});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -456,11 +492,14 @@ class GrantPermissionModalBody extends HookConsumerWidget {
                       'assets/svg_icons/x-circle.svg',
                       width: 24,
                       height: 24,
-                      color: Color(themeProvider.isDarkMode ? whiteText : blackText),
+                      color: Color(
+                          themeProvider.isDarkMode ? whiteText : blackText),
                     ),
                   ),
                 ),
-          showRequestVersionModal ? const SizedBox.shrink() : const SizedBox(height: 20),
+          showRequestVersionModal
+              ? const SizedBox.shrink()
+              : const SizedBox(height: 20),
           const Center(
             child: Image(
               image: AssetImage('assets/images/cellphone.png'),
@@ -484,7 +523,9 @@ class GrantPermissionModalBody extends HookConsumerWidget {
             style: TextStyle(
               fontSize: 13,
               fontWeight: FontWeight.w400,
-              color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
+              color: themeProvider.isDarkMode
+                  ? const Color(whiteText)
+                  : const Color(blackText),
             ),
           ),
           const SizedBox(height: 20),
@@ -500,7 +541,9 @@ class GrantPermissionModalBody extends HookConsumerWidget {
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.fromLTRB(50, 10, 50, 10),
                           backgroundColor: Color(
-                            themeProvider.isDarkMode ? darkModeOKButtonColor : primaryLight,
+                            themeProvider.isDarkMode
+                                ? darkModeOKButtonColor
+                                : primaryLight,
                           ),
                         ),
                         child: Text(
@@ -508,7 +551,9 @@ class GrantPermissionModalBody extends HookConsumerWidget {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: themeProvider.isDarkMode ? Colors.white : Color(primaryDark),
+                            color: themeProvider.isDarkMode
+                                ? Colors.white
+                                : Color(primaryDark),
                           ),
                         ),
                       ),
@@ -517,7 +562,9 @@ class GrantPermissionModalBody extends HookConsumerWidget {
                         style: TextButton.styleFrom(
                           padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
                           backgroundColor: Color(
-                            themeProvider.isDarkMode ? primaryLight : primaryDark,
+                            themeProvider.isDarkMode
+                                ? primaryLight
+                                : primaryDark,
                           ),
                         ),
                         onPressed: () {
@@ -527,7 +574,9 @@ class GrantPermissionModalBody extends HookConsumerWidget {
                         child: Text(
                           'Ir a los ajustes',
                           style: TextStyle(
-                            color: themeProvider.isDarkMode ? const Color(primaryDark) : Colors.white,
+                            color: themeProvider.isDarkMode
+                                ? const Color(primaryDark)
+                                : Colors.white,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),

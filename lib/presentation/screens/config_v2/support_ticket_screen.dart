@@ -1,13 +1,16 @@
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/helpers/send_ticket.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/dropdown_support.dart';
+import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/input_get_image.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/input_support.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/text_area_support.dart';
 import 'package:finniu/presentation/screens/config_v2/widgets/support_ticket/tittle_support.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
+import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -44,13 +47,26 @@ class _FormSupport extends HookConsumerWidget {
   static GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userProfile = ref.watch(userProfileNotifierProvider);
+
+    List<String> categories = [
+      "Login",
+      "Inversiones",
+      "Pagos",
+    ];
     const String title =
         "Completa los siguiente datos para poder ayudarte lo más pronto posible";
     //categorias: login, inversiones, pagos
     final categoryController = useTextEditingController();
-    final emailController = useTextEditingController();
-    final firstNameController = useTextEditingController();
-    final lastNameController = useTextEditingController();
+    final emailController = useTextEditingController(
+      text: userProfile.email ?? "",
+    );
+    final firstNameController = useTextEditingController(
+      text: userProfile.firstName ?? "",
+    );
+    final lastNameController = useTextEditingController(
+      text: userProfile.lastNameFather ?? "",
+    );
     final textExtendedController = useTextEditingController();
     // final imageController = useTextEditingController();
 
@@ -91,6 +107,9 @@ class _FormSupport extends HookConsumerWidget {
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
+      height: MediaQuery.of(context).size.height < 700
+          ? 600
+          : MediaQuery.of(context).size.height * 0.72,
       child: Form(
         key: formKey,
         child: Column(
@@ -109,11 +128,7 @@ class _FormSupport extends HookConsumerWidget {
                   isError: isError,
                   onError: () => categoryError.value = false,
                   itemSelectedValue: categoryController.text,
-                  options: const [
-                    "Login",
-                    "Inversiones",
-                    "Pagos",
-                  ],
+                  options: categories,
                   selectController: categoryController,
                   hintText: "Elige una categoría",
                   validator: (value) {
@@ -144,9 +159,8 @@ class _FormSupport extends HookConsumerWidget {
                   controller: emailController,
                   hintText: "Ingresa tu correo electrónico",
                   validator: (value) {
-                    validateString(
+                    validateEmail(
                       value: value,
-                      field: "Nombre",
                       context: context,
                       boolNotifier: emailError,
                     );
@@ -216,6 +230,10 @@ class _FormSupport extends HookConsumerWidget {
                 );
               },
             ),
+            const InputGetImage(),
+            const Expanded(
+              child: SizedBox(),
+            ),
             ButtonInvestment(
               text: "Enviar mi reporte",
               onPressed: () => sendTicket(),
@@ -226,6 +244,8 @@ class _FormSupport extends HookConsumerWidget {
     );
   }
 }
+
+
 
 
 
