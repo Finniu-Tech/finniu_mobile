@@ -15,6 +15,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.d
 import 'package:finniu/presentation/screens/catalog/widgets/no_investments_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/row_schedule_logbook.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/feedback_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investment.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
@@ -67,6 +68,15 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "show feedback modal",
+              onPressed: () {
+                showFeedbackModal(context);
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "navigate geolocator",
               onPressed: () {
