@@ -8,19 +8,23 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-void showFeedbackModal(BuildContext context) {
+void showFeedbackModal(BuildContext context, {bool isReInvestment = false}) {
   showDialog(
     barrierDismissible: false,
     context: context,
     builder: (context) {
-      return const _BodyFeedback();
+      return _BodyFeedback(
+        isReInvestment: isReInvestment,
+      );
     },
   );
 }
 
 class _BodyFeedback extends StatelessWidget {
-  const _BodyFeedback();
-
+  const _BodyFeedback({
+    required this.isReInvestment,
+  });
+  final bool isReInvestment;
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
@@ -33,14 +37,18 @@ class _BodyFeedback extends StatelessWidget {
           ),
         );
       },
-      child: const _Dialog(),
+      child: const _Dialog(
+        isReInvestment: false,
+      ),
     );
   }
 }
 
 class _Dialog extends HookConsumerWidget {
-  const _Dialog();
-
+  const _Dialog({
+    required this.isReInvestment,
+  });
+  final bool isReInvestment;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -71,7 +79,9 @@ class _Dialog extends HookConsumerWidget {
             FeedbackContainer(
               pageController: pageController,
             ),
-            const ThankYouContainer(),
+            ThankYouContainer(
+              isReInvestment: isReInvestment,
+            ),
           ],
         ),
       ),
@@ -82,12 +92,14 @@ class _Dialog extends HookConsumerWidget {
 class ThankYouContainer extends ConsumerWidget {
   const ThankYouContainer({
     super.key,
-    this.isReInvestment = false,
+    required this.isReInvestment,
   });
-  final bool? isReInvestment;
+  final bool isReInvestment;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const String titleText = "Gracias por \ninvertir en Finniu!";
+    String titleText =
+        "Gracias por \n${isReInvestment ? "reinvertir" : "invertir"} en Finniu!";
+
     const String secondText =
         "Recuerda que las tranferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!";
     const String thankText = "Gracias por tu comprensión!";
@@ -95,7 +107,7 @@ class ThankYouContainer extends ConsumerWidget {
     const int titleColorLight = 0xff0D3A5C;
 
     void onPressed() {
-      Navigator.pop(context);
+      Navigator.pushNamedAndRemoveUntil(context, "/home_v2", (route) => false);
     }
 
     return SizedBox(
@@ -110,7 +122,7 @@ class ThankYouContainer extends ConsumerWidget {
               children: [
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.6,
-                  child: const TextPoppins(
+                  child: TextPoppins(
                     text: titleText,
                     fontSize: 20,
                     fontWeight: FontWeight.w600,

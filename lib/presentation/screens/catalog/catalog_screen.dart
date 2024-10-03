@@ -71,7 +71,9 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonInvestment(
               text: "show feedback modal",
               onPressed: () {
-                showFeedbackModal(context);
+                showFeedbackModal(
+                  context,
+                );
               },
             ),
             const SizedBox(
