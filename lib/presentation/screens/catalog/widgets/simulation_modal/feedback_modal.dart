@@ -59,11 +59,11 @@ class _Dialog extends HookConsumerWidget {
     return Dialog(
       backgroundColor:
           isDarkMode ? const Color(colorDark) : const Color(colorLight),
-      insetPadding: EdgeInsets.zero,
+      insetPadding: const EdgeInsets.all(10),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         width: MediaQuery.of(context).size.width * 0.9,
-        height: isExpanded.value ? 560 : 271,
+        height: isExpanded.value ? 500 : 271,
         child: PageView(
           controller: pageController,
           physics: const NeverScrollableScrollPhysics(),
@@ -87,7 +87,7 @@ class ThankYouContainer extends ConsumerWidget {
   final bool? isReInvestment;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const String titleText = "Gracias por invertir en Finniu!";
+    const String titleText = "Gracias por \ninvertir en Finniu!";
     const String secondText =
         "Recuerda que las tranferencias se confimarán en un plazo de 24hr si son directas y en un plazo de máximo 72hr si son interbancarios!";
     const String thankText = "Gracias por tu comprensión!";
@@ -101,7 +101,7 @@ class ThankYouContainer extends ConsumerWidget {
     return SizedBox(
       height: 270,
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.all(30.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,

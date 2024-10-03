@@ -63,33 +63,32 @@ class FormFeedback extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final feedbackTextController = useTextEditingController();
     final feedbackNumerController = useTextEditingController();
+    final buttonTrue = useState(false);
 
     void pushFeedback() async {
       if (formKey.currentState!.validate()) {
         final data = DtoFedbackForm(
-          message: feedbackTextController.text,
-          rating: feedbackNumerController.text,
+          question: "¿Qué tan satisfecho estás con el proceso de inversión?",
+          answer: feedbackNumerController.text,
+          questionSecond:
+              "¿que podemos hacer para mejorar en el proceso de inversión?",
+          answerSecond: feedbackTextController.text,
         );
 
-        print("message");
-        print(data.message);
-        print("rating");
-        print(data.rating);
         context.loaderOverlay.show();
         final result = await pushFeedbackData(context, data, ref);
         if (result) {
-          print(result.toString());
           pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.bounceIn,
           );
         } else {
-          print(result.toString());
           pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.bounceIn,
           );
         }
+        context.loaderOverlay.hide();
       }
     }
 
@@ -101,6 +100,7 @@ class FormFeedback extends HookConsumerWidget {
         children: [
           SelectFeedback(
             controller: feedbackNumerController,
+            buttonTrue: buttonTrue,
           ),
           const TextPoppins(
             text:
@@ -117,9 +117,9 @@ class FormFeedback extends HookConsumerWidget {
             hintText: "Por favor, cuéntanos tu experiencia con Finniu",
             validator: null,
           ),
-          ButtonInvestment(
+          ButtonForm(
             text: 'Enviar mi feedback',
-            onPressed: () => pushFeedback(),
+            onPressed: buttonTrue.value ? pushFeedback : null,
           ),
         ],
       ),
@@ -131,8 +131,10 @@ class SelectFeedback extends HookConsumerWidget {
   const SelectFeedback({
     super.key,
     required this.controller,
+    required this.buttonTrue,
   });
   final TextEditingController controller;
+  final ValueNotifier<bool> buttonTrue;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -142,6 +144,7 @@ class SelectFeedback extends HookConsumerWidget {
     );
 
     List<String> options = ["1", "2", "3", "4", "5"];
+    List<String> optionsSelect = ["😖", "☹️", "🤨", "😁", "🤩"];
     List<int> colors = [
       0xffFF4A40,
       0xffFFAE34,
@@ -165,6 +168,7 @@ class SelectFeedback extends HookConsumerWidget {
                     onTap: () {
                       controller.text = number;
                       selectedNumber.value = number;
+                      buttonTrue.value = true;
                     },
                     child: Container(
                       width: 40,
@@ -187,8 +191,10 @@ class SelectFeedback extends HookConsumerWidget {
                       ),
                       child: Center(
                         child: TextPoppins(
-                          text: number,
-                          fontSize: 11,
+                          text: selectedNumber.value == number
+                              ? optionsSelect[options.indexOf(number)]
+                              : number,
+                          fontSize: selectedNumber.value == number ? 20 : 15,
                           fontWeight: FontWeight.w600,
                           textDark: textColor,
                           textLight: textColor,
