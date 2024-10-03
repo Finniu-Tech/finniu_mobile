@@ -1,7 +1,7 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/profile_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/button_to_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -19,19 +19,23 @@ class NavigationBarHome extends ConsumerWidget {
       switch (index) {
         case 0:
           ref.read(navigatorStateProvider.notifier).state = 0;
-          Navigator.of(context).pushNamedAndRemoveUntil('/home_v2', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home_v2', (route) => false);
           break;
         case 1:
           ref.read(navigatorStateProvider.notifier).state = 1;
-          Navigator.of(context).pushNamedAndRemoveUntil('/v2/simulator', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/v2/simulator', (route) => false);
           break;
         case 2:
           ref.read(navigatorStateProvider.notifier).state = 2;
-          Navigator.of(context).pushNamedAndRemoveUntil('/v2/investment', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/v2/investment', (route) => false);
           break;
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
-          Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil('/home_home', (route) => false);
       }
     }
 
@@ -39,7 +43,7 @@ class NavigationBarHome extends ConsumerWidget {
       height: 120,
       width: MediaQuery.of(context).size.width * 0.7,
       constraints: const BoxConstraints(maxWidth: 350),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.transparent,
         // color: colorBackground ??
         //     (currentTheme.isDarkMode
@@ -49,11 +53,12 @@ class NavigationBarHome extends ConsumerWidget {
       child: Padding(
         // padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 30),
         // padding: EdgeInsets.fromLTRB(60, 0, 60, 45),
-        padding: EdgeInsets.fromLTRB(20, 0, 20, 45),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 45),
         child: Container(
           decoration: BoxDecoration(
-            color:
-                currentTheme.isDarkMode ? const Color(bottomBarBackgroundDark) : const Color(bottomBarBackgroundLight),
+            color: currentTheme.isDarkMode
+                ? const Color(bottomBarBackgroundDark)
+                : const Color(bottomBarBackgroundLight),
             borderRadius: const BorderRadius.all(Radius.circular(40)),
           ),
           child: Row(
@@ -80,7 +85,9 @@ class NavigationBarHome extends ConsumerWidget {
                 isSelected: selectedIndex == 2 ? true : false,
                 currentTheme: currentTheme,
               ),
-              const ProfileButton(),
+              const ButtonToProfile(
+                size: 36,
+              ),
             ],
           ),
         ),
@@ -168,13 +175,13 @@ class NavigationButton extends StatelessWidget {
   final dynamic currentTheme;
 
   const NavigationButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.title,
     required this.onTap,
     required this.isSelected,
     required this.currentTheme,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -205,7 +212,9 @@ class NavigationButton extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                      color: currentTheme.isDarkMode
+                          ? const Color(primaryLight)
+                          : const Color(primaryDark),
                       fontSize: 8,
                     ),
                   ),
@@ -236,7 +245,8 @@ class NavigationButton extends StatelessWidget {
         height: 24,
       );
     } else {
-      return const SizedBox.shrink(); // Fallback if icon is neither IconData nor String
+      return const SizedBox
+          .shrink(); // Fallback if icon is neither IconData nor String
     }
   }
 }

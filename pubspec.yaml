@@ -74,7 +74,10 @@ dependencies:
   sensors_plus: ^4.0.2
   permission_handler: ^11.3.1
   auto_size_text: ^3.0.0
+  internet_connection_checker: ^1.0.0
   webview_flutter: ^4.8.0
+  local_auth: ^2.3.0
+  geolocator: ^13.0.1
 
 dev_dependencies:
   flutter_test:

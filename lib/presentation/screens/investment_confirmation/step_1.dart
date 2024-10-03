@@ -18,13 +18,14 @@ import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
+// import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -154,21 +155,24 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
         widget.deadLineController.text.isEmpty ||
         widget.bankController.text.isEmpty ||
         widget.originFundsController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Hubo un problema, asegúrate de haber completado los campos anteriores',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error revisar datos",
+        message: 'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        snackType: SnackType.warning,
       );
 
       return false;
     }
 
     if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Debe de ingresar el origen de los fondos',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Ingrese el origen de los fondos",
+        message: 'Debe de ingresar el origen de los fondos',
+        snackType: SnackType.warning,
       );
+
       return false;
     }
 
@@ -200,10 +204,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
         context.loaderOverlay.hide();
       } catch (e) {
         context.loaderOverlay.hide();
-        CustomSnackbar.show(
-          context,
-          'Hubo un problema, intenta nuevamente',
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Error interno",
+          message: 'Hubo un problema, intenta nuevamente',
+          snackType: SnackType.error,
         );
       }
     }
@@ -228,8 +233,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     useEffect(
       () {
         selectedPlan = widget.plan;
-        if (userProfile.hasRequiredData() == false) {
-          completeProfileDialog(context, ref);
+        if (userProfile.completeToInvestData() < 1.0) {
+          // showVerifyIdentity(context);
         }
 
         _updateBankAccount();
@@ -604,80 +609,82 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     maxHeight: 50,
                     maxWidth: 150,
                   ),
-                  suffixIcon: Container(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        // minimumSize: Size(80, 30),
-                        side: const BorderSide(
-                          width: 0.5,
+                  suffixIcon: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      // minimumSize: Size(80, 30),
+                      side: const BorderSide(
+                        width: 0.5,
+                        color: Color(primaryDark),
+                      ),
+                      backgroundColor: const Color(primaryLight),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
+                        ),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 10),
+                      child: Text(
+                        "Aplicarlo",
+                        style: TextStyle(
                           color: Color(primaryDark),
                         ),
-                        backgroundColor: const Color(primaryLight),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
-                          ),
-                        ),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.only(top: 12, bottom: 10),
-                        child: Text(
-                          "Aplicarlo",
-                          style: TextStyle(
-                            color: Color(primaryDark),
-                          ),
-                        ),
-                      ),
-                      onPressed: () async {
-                        if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
-                          CustomSnackbar.show(
-                            context,
-                            'Debes ingresar el monto y el plazo para aplicar el cupón',
-                            'error',
-                          );
-                          return; // Sale de la función para evitar que continúe el proceso
-                        }
-                        context.loaderOverlay.show();
-                        final inputCalculator = CalculatorInput(
-                          amount: int.parse(widget.amountController.text),
-                          months: int.parse(
-                            widget.deadLineController.text.split(' ')[0],
-                          ),
-                          currency: isSoles ? currencyNuevoSol : currencyDollar,
-                          coupon: widget.couponController.text,
-                        );
-
-                        resultCalculator = await ref.watch(
-                          calculateInvestmentFutureProvider(
-                            inputCalculator,
-                          ).future,
-                        );
-                        setState(() {
-                          if (resultCalculator?.plan != null) {
-                            selectedPlan = resultCalculator!.plan!;
-                            profitability = resultCalculator!.profitability;
-                            showInvestmentBoxes = true;
-                          }
-                        });
-
-                        context.loaderOverlay.hide();
-                        if (resultCalculator?.error == null) {
-                          CustomSnackbar.show(
-                            context,
-                            'Cupón aplicado correctamente',
-                            'success',
-                          );
-                        } else {
-                          widget.couponController.clear();
-                          CustomSnackbar.show(
-                            context,
-                            resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
-                            'error',
-                          );
-                        }
-                      },
                     ),
+                    onPressed: () async {
+                      if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error al aplicar el cupón",
+                          message: 'Debes ingresar el monto y el plazo para aplicar el cupón',
+                          snackType: SnackType.warning,
+                        );
+
+                        return;
+                      }
+                      context.loaderOverlay.show();
+                      final inputCalculator = CalculatorInput(
+                        amount: int.parse(widget.amountController.text),
+                        months: int.parse(
+                          widget.deadLineController.text.split(' ')[0],
+                        ),
+                        currency: isSoles ? currencyNuevoSol : currencyDollar,
+                        coupon: widget.couponController.text,
+                      );
+
+                      resultCalculator = await ref.watch(
+                        calculateInvestmentFutureProvider(
+                          inputCalculator,
+                        ).future,
+                      );
+                      setState(() {
+                        if (resultCalculator?.plan != null) {
+                          selectedPlan = resultCalculator!.plan!;
+                          profitability = resultCalculator!.profitability;
+                          showInvestmentBoxes = true;
+                        }
+                      });
+
+                      context.loaderOverlay.hide();
+                      if (resultCalculator?.error == null) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Cupón aplicado",
+                          message: 'Cupón aplicado correctamente',
+                          snackType: SnackType.success,
+                        );
+                      } else {
+                        widget.couponController.clear();
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error al aplicar el cupón",
+                          message: 'Hubo un problema, intenta nuevamente',
+                          snackType: SnackType.error,
+                        );
+                      }
+                    },
                   ),
                   hintText: 'Ingresa tu código',
                   hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
@@ -791,8 +798,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               height: 50,
               child: TextButton(
                 onPressed: () async {
-                  if (userProfile.hasRequiredData() == false) {
-                    completeProfileDialog(context, ref);
+                  if (userProfile.completeToInvestData() < 1.0) {
+                    // showVerifyIdentity(context);
                     return;
                   }
                   if (validate() == false) {
@@ -826,11 +833,13 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                   if (preInvestmentEntityResponse?.success == false) {
                     context.loaderOverlay.hide();
                     // CHECK HERE
-                    CustomSnackbar.show(
-                      context,
-                      preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
-                      'error',
+                    showSnackBarV2(
+                      context: context,
+                      title: "Error al iniciar inversión",
+                      message: preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
+                      snackType: SnackType.error,
                     );
+
                     return;
                   } else {
                     context.loaderOverlay.hide();
@@ -870,15 +879,15 @@ class StepBar extends ConsumerStatefulWidget {
   final int step;
 
   const StepBar({
-    Key? key,
+    super.key,
     required this.step,
   });
 
   @override
-  _StepBarState createState() => _StepBarState();
+  StepBarState createState() => StepBarState();
 }
 
-class _StepBarState extends ConsumerState<StepBar> {
+class StepBarState extends ConsumerState<StepBar> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);

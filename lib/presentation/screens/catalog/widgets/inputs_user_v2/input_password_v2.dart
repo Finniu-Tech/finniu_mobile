@@ -10,11 +10,21 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
     required this.controller,
     required this.hintText,
     required this.validator,
+    required this.isError,
+    required this.onError,
+    required this.onTap,
+    this.focusNode,
+    this.onFocusChanged,
   });
 
+  final FocusNode? focusNode;
+  final VoidCallback onTap;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hintText;
+  final bool isError;
+  final VoidCallback? onError;
+  final Function(bool)? onFocusChanged;
 
   final int hintDark = 0xFF989898;
   final int hintLight = 0xFF989898;
@@ -24,6 +34,7 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
   final int textLight = 0xFF000000;
   final int borderColorDark = 0xFFA2E6FA;
   final int borderColorLight = 0xFF0D3A5C;
+  final int borderError = 0xFFED1C24;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,11 +42,38 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
     final isObscure = useState(true);
     const int iconDark = 0xFFA2E6FA;
     const int iconLight = 0xFF000000;
+    // final localFocusNode = FocusNode();
+    // final localFocusNode = focusNode ?? FocusNode();
+    // useEffect(
+    //   () {
+    //     localFocusNode.addListener(() {
+    //       if (!localFocusNode.hasFocus) {
+    //         print("------------------");
+    //         print("onFocusChanged ${localFocusNode.hasFocus}");
+    //         print("------------------");
+    //         onFocusChanged(false);
+    //       }
+    //       {
+    //         print("onFocusChanged ${localFocusNode.hasFocus}");
+    //       }
+    //     });
+    //     return localFocusNode.dispose;
+    //   },
+    //   [localFocusNode],
+    // );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+          focusNode: focusNode,
+          onTap: () {
+            if (onError != null && isError) {
+              onError!();
+              ScaffoldMessenger.of(context).clearSnackBars();
+            }
+            onTap();
+          },
           controller: controller,
           style: TextStyle(
             fontSize: 12,
@@ -54,48 +92,52 @@ class InputPasswordFieldUserProfile extends HookConsumerWidget {
             hintText: hintText,
             fillColor: isDarkMode ? Color(fillDark) : Color(fillLight),
             filled: true,
-            border: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
+            border: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              borderSide: isError
+                  ? BorderSide(color: Color(borderError), width: 1)
+                  : BorderSide.none,
             ),
-            enabledBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
+            enabledBorder: OutlineInputBorder(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              borderSide: isError
+                  ? BorderSide(color: Color(borderError), width: 1)
+                  : BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: const BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide(
-                color: isDarkMode
-                    ? Color(borderColorDark)
-                    : Color(borderColorLight),
-                width: 1,
-              ),
-            ),
-            errorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
-            ),
-            focusedErrorBorder: const OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(25.0)),
-              borderSide: BorderSide.none,
+              borderSide: isError
+                  ? BorderSide(color: Color(borderError), width: 1)
+                  : BorderSide(
+                      color: isDarkMode
+                          ? Color(borderColorDark)
+                          : Color(borderColorLight),
+                      width: 1,
+                    ),
             ),
             suffixIcon: IconButton(
-              icon: isObscure.value
-                  ? SvgPicture.asset(
-                      "assets/svg_icons/eye_close.svg",
-                      width: 20,
-                      height: 20,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
-                    )
-                  : Icon(
-                      Icons.visibility,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
+              icon: isError
+                  ? Icon(
+                      Icons.error_outline,
+                      color: Color(borderError),
                       size: 24,
-                    ),
+                    )
+                  : isObscure.value
+                      ? SvgPicture.asset(
+                          "assets/svg_icons/eye_close.svg",
+                          width: 20,
+                          height: 20,
+                          color: isDarkMode
+                              ? const Color(iconDark)
+                              : const Color(iconLight),
+                        )
+                      : Icon(
+                          Icons.visibility,
+                          color: isDarkMode
+                              ? const Color(iconDark)
+                              : const Color(iconLight),
+                          size: 24,
+                        ),
               onPressed: () {
                 isObscure.value = !isObscure.value;
               },

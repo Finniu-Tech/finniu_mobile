@@ -5,12 +5,12 @@ import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/widgets/header_blue_gold.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/widgets/row_items.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -27,7 +27,9 @@ class InvestmentAggroProcessScreen extends ConsumerWidget {
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
         isDarkMode: currentTheme.isDarkMode,
-        backgroundColor: currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(whiteText),
+        backgroundColor: currentTheme.isDarkMode
+            ? const Color(scaffoldBlackBackground)
+            : const Color(whiteText),
         // currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
         body: AggroBody(
           fund: fund,
@@ -126,7 +128,7 @@ class UpperSectionWidget extends StatelessWidget {
             child: TextPoppins(
               text: title,
               fontSize: 20,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               lines: 2,
               textDark: titleColorDark,
               textLight: titleColorLight,
@@ -175,7 +177,12 @@ class BottomSection extends HookConsumerWidget {
     required this.monthlyRevenue,
     required this.totalInvestedAmount,
   });
-  void calculateInvestment(String quote, String parcel, WidgetRef ref, BuildContext ctx) async {
+  void calculateInvestment(
+    String quote,
+    String parcel,
+    WidgetRef ref,
+    BuildContext ctx,
+  ) async {
     if (quote.isEmpty || parcel.isEmpty) {
       return;
     }
@@ -199,11 +206,13 @@ class BottomSection extends HookConsumerWidget {
     if (calculateResponse.success == false) {
       ctx.loaderOverlay.hide();
 
-      CustomSnackbar.show(
-        ctx,
-        calculateResponse.messages?[0].message ?? 'Ocurrio un error',
-        'error',
+      showSnackBarV2(
+        context: ctx,
+        title: "Error al calcular inversión",
+        message: calculateResponse.messages?[0].message ?? 'Ocurrio un error',
+        snackType: SnackType.error,
       );
+
       return;
     }
     monthlyRevenue.value = calculateResponse.parcelMonthly;
@@ -224,19 +233,24 @@ class BottomSection extends HookConsumerWidget {
     if (quoteNumberController.text.isEmpty ||
         parcelNumberController.text.isEmpty ||
         originFundsController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Asegúrate de haber completado los campos anteriores',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error al calcular inversión",
+        message: 'Asegúrate de haber completado los campos anteriores',
+        snackType: SnackType.warning,
       );
+
       return false;
     }
-    if (originFundsController.text == 'Otros' && otherOriginFundsController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Debe de ingresar el origen de los fondos',
-        'error',
+    if (originFundsController.text == 'Otros' &&
+        otherOriginFundsController.text.isEmpty) {
+      showSnackBarV2(
+        context: context,
+        title: "Error origen de fondos",
+        message: 'Debe de ingresar el origen de los fondos',
+        snackType: SnackType.warning,
       );
+
       return false;
     }
 
@@ -251,8 +265,15 @@ class BottomSection extends HookConsumerWidget {
       height: MediaQuery.of(context).size.height * 0.5,
       //rouded border
       decoration: BoxDecoration(
-        borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-        color: Color(isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight()),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        color: Color(
+          isDarkMode
+              ? fund.getHexDetailColorDark()
+              : fund.getHexDetailColorLight(),
+        ),
       ),
       child: Column(
         children: [
@@ -272,23 +293,34 @@ class BottomSection extends HookConsumerWidget {
               //   '12 cuotas',
               // ],
               asyncItems: (String filter) async {
-                final quoteNumbers = await ref.watch(getAggroInvestmentQuotesFutureProvider.future);
-                print('quoteNumbers222: $quoteNumbers');
+                final quoteNumbers = await ref
+                    .watch(getAggroInvestmentQuotesFutureProvider.future);
+
                 // append the word "cuota" to each item in the list
-                return quoteNumbers.map((item) => '$item ${item == 1 ? "cuota" : "cuotas"}').toList();
+                return quoteNumbers
+                    .map((item) => '$item ${item == 1 ? "cuota" : "cuotas"}')
+                    .toList();
               },
               callbackOnChange: (value) async {
                 quoteNumberController.text = value;
                 // installments.value = int.parse((value).split(' ')[0]);
                 installments.value = _getNumberFromString(value);
-                if (quoteNumberController.text.isNotEmpty && parcelNumberController.text.isNotEmpty) {
-                  calculateInvestment(quoteNumberController.text, parcelNumberController.text, ref, context);
+                if (quoteNumberController.text.isNotEmpty &&
+                    parcelNumberController.text.isNotEmpty) {
+                  calculateInvestment(
+                    quoteNumberController.text,
+                    parcelNumberController.text,
+                    ref,
+                    context,
+                  );
                 }
               },
               textEditingController: quoteNumberController,
               labelText: "Cantidad de Cuotas",
               hintText: "Seleccione numero de cuotas",
-              enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode
+                  ? Color(fund.getHexDetailColorDark())
+                  : Color(fund.getHexDetailColorLight()),
               unselectedItemColor: isDarkMode
                   ? Color(fund.getHexDetailColorSecondaryDark())
                   : Color(fund.getHexDetailColorSecondaryLight()),
@@ -326,14 +358,22 @@ class BottomSection extends HookConsumerWidget {
               callbackOnChange: (value) async {
                 parcelNumberController.text = value;
                 plots.value = _getNumberFromString(value);
-                if (quoteNumberController.text.isNotEmpty && parcelNumberController.text.isNotEmpty) {
-                  calculateInvestment(quoteNumberController.text, parcelNumberController.text, ref, context);
+                if (quoteNumberController.text.isNotEmpty &&
+                    parcelNumberController.text.isNotEmpty) {
+                  calculateInvestment(
+                    quoteNumberController.text,
+                    parcelNumberController.text,
+                    ref,
+                    context,
+                  );
                 }
               },
               textEditingController: parcelNumberController,
               labelText: "Cantidad de Parcelas",
               hintText: "Seleccione numero de parcelas",
-              enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode
+                  ? Color(fund.getHexDetailColorDark())
+                  : Color(fund.getHexDetailColorLight()),
               unselectedItemColor: isDarkMode
                   ? Color(fund.getHexDetailColorSecondaryDark())
                   : Color(fund.getHexDetailColorSecondaryLight()),
@@ -366,7 +406,9 @@ class BottomSection extends HookConsumerWidget {
                 }
               },
               textEditingController: originFundsController,
-              enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode
+                  ? Color(fund.getHexDetailColorDark())
+                  : Color(fund.getHexDetailColorLight()),
               labelText: "Origen de procedencia del dinero",
               hintText: "Seleccione el origen",
               unselectedItemColor: isDarkMode
@@ -420,23 +462,31 @@ class BottomSection extends HookConsumerWidget {
                 if (!isValid) {
                   return;
                 }
-                final SaveAggroInvestmentInput saveInput = SaveAggroInvestmentInput(
-                  numberInstallments: _getNumberFromString(quoteNumberController.text)!,
-                  numberParcel: _getNumberFromString(parcelNumberController.text)!,
+                final SaveAggroInvestmentInput saveInput =
+                    SaveAggroInvestmentInput(
+                  numberInstallments:
+                      _getNumberFromString(quoteNumberController.text)!,
+                  numberParcel:
+                      _getNumberFromString(parcelNumberController.text)!,
                   fundUUID: fund.uuid,
                   originFunds: OriginFunds(
-                    originFundsEnum: OriginFoundsUtil.fromReadableName(originFundsController.text),
+                    originFundsEnum: OriginFoundsUtil.fromReadableName(
+                      originFundsController.text,
+                    ),
                     otherText: otherOriginFundsController.text,
                   ),
                 );
-                final SaveAggroInvestmentResponse response =
-                    await ref.read(saveAggroInvestmentFutureProvider(saveInput).future);
+                final SaveAggroInvestmentResponse response = await ref
+                    .read(saveAggroInvestmentFutureProvider(saveInput).future);
                 if (response.success == false) {
-                  CustomSnackbar.show(
-                    context,
-                    response.messages?[0].message ?? 'Ocurrio un error',
-                    'error',
+                  showSnackBarV2(
+                    context: context,
+                    title: "Error al calcular inversión",
+                    message:
+                        response.messages?[0].message ?? 'Ocurrio un error',
+                    snackType: SnackType.error,
                   );
+
                   return;
                 }
 
@@ -448,7 +498,10 @@ class BottomSection extends HookConsumerWidget {
                   textTitle: 'Gracias por \nconfiar en Finniu!',
                   textButton: 'Agendar Cita',
                   onPressed: () => {
-                    Navigator.pushNamed(context, '/v2/aggro-investment/booking'),
+                    Navigator.pushNamed(
+                      context,
+                      '/v2/aggro-investment/booking',
+                    ),
                   },
                 );
 

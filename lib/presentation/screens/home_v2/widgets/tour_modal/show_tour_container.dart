@@ -51,7 +51,7 @@ class _ShowTourContainerState extends State<ShowTourContainer> {
               const TextPoppins(
                 text: "📲",
                 fontSize: 30,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 align: TextAlign.center,
               ),
               const SizedBox(width: 10),
@@ -60,7 +60,7 @@ class _ShowTourContainerState extends State<ShowTourContainer> {
                   child: TextPoppins(
                     text: "Conóce lo nuevo",
                     fontSize: 16,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textLight: textColor,
                     textDark: textColor,
                     align: TextAlign.center,

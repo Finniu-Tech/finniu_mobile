@@ -26,7 +26,7 @@ class ValidateIdentityScreenV2 extends StatelessWidget {
         TextPoppins(
           text: textTitle,
           fontSize: 20,
-          isBold: true,
+          fontWeight: FontWeight.w500,
           lines: 2,
           textDark: titleDark,
           textLight: titleLight,
@@ -37,7 +37,6 @@ class ValidateIdentityScreenV2 extends StatelessWidget {
         TextPoppins(
           text: textBody,
           fontSize: 14,
-          isBold: false,
           lines: 2,
           align: TextAlign.start,
           textDark: bodyDark,

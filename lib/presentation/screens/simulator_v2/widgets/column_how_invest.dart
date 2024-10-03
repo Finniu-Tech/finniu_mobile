@@ -39,7 +39,7 @@ class _ColumnHowInvestState extends ConsumerState<ColumnHowInvest> {
         const TextPoppins(
           text: "¿Cuánto quiero invertir?",
           fontSize: 17,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         TextField(
           keyboardType: const TextInputType.numberWithOptions(decimal: true),

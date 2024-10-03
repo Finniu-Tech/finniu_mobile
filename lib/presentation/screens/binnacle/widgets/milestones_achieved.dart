@@ -36,7 +36,7 @@ class MilestonesAchieved extends ConsumerWidget {
           TextPoppins(
             text: title,
             fontSize: 14,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             lines: longShort ? 3 : 2,
           ),
           TextPoppins(

@@ -25,25 +25,30 @@ class BlueGoldBody extends HookConsumerWidget {
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
 
-    final aggroInvestmentListAsyncValue = ref.watch(aggroInvestmentListFutureProvider);
+    final aggroInvestmentListAsyncValue =
+        ref.watch(aggroInvestmentListFutureProvider);
 
     return aggroInvestmentListAsyncValue.when(
       loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stack) => Center(child: Text('Error: $error')),
       data: (data) {
-        final List<AggroInvestment> displayData = data.isEmpty ? _getFakeData() : data;
+        final List<AggroInvestment> displayData =
+            data.isEmpty ? _getFakeData() : data;
 
         return ExpandablePageView.builder(
           itemBuilder: (context, constraints) {
             return Stack(
               children: [
                 Container(
-                  color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+                  color: isDarkMode
+                      ? const Color(columnColorDark)
+                      : const Color(columnColorLight),
                   width: MediaQuery.of(context).size.width,
                   // height: constraints.maxHeight, // Usa la altura máxima disponible
                   child: SingleChildScrollView(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +71,9 @@ class BlueGoldBody extends HookConsumerWidget {
                 if (data.isEmpty)
                   Positioned.fill(
                     child: Container(
-                      color: isDarkMode ? Colors.black.withOpacity(0.7) : Colors.white.withOpacity(0.7),
+                      color: isDarkMode
+                          ? Colors.black.withOpacity(0.7)
+                          : Colors.white.withOpacity(0.7),
                       child: Center(
                         child: NoInvestmentBody(
                           onPressed: () {
@@ -125,7 +132,8 @@ class InvestmentList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final List<ProgressBlueGold> items = aggroInvestmentList[pageNotifier.value].progressList;
+    final List<ProgressBlueGold> items =
+        aggroInvestmentList[pageNotifier.value].progressList;
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -162,7 +170,7 @@ class TitleProgress extends StatelessWidget {
         TextPoppins(
           text: "Progreso de mi inversión",
           fontSize: 16,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         SizedBox(
           height: 10,

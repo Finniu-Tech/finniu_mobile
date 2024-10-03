@@ -5,8 +5,8 @@ import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/signup/widgets/counter.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_verification_code/flutter_verification_code.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -23,7 +23,9 @@ void sendEmailRecoveryPasswordModal(BuildContext ctx, WidgetRef ref) {
       ),
     ),
     elevation: 10,
-    backgroundColor: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(cardBackgroundColorLight),
+    backgroundColor: themeProvider.isDarkMode
+        ? const Color(primaryDark)
+        : const Color(cardBackgroundColorLight),
     context: ctx,
     builder: (ctx) => SMSBody(themeProvider: themeProvider),
   );
@@ -38,11 +40,11 @@ class SMSBody extends HookConsumerWidget {
   final SettingsProviderState themeProvider;
 
   @override
-  Widget build(BuildContext ctx, ref) {
+  Widget build(BuildContext context, ref) {
     final UserProfile userProfile = ref.watch(userProfileNotifierProvider);
 
     return SizedBox(
-      height: MediaQuery.of(ctx).size.height * 0.90,
+      height: MediaQuery.of(context).size.height * 0.90,
       width: double.infinity,
       child: SingleChildScrollView(
         child: Column(
@@ -79,7 +81,9 @@ class SMSBody extends HookConsumerWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                   height: 1.5,
-                  color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                  color: themeProvider.isDarkMode
+                      ? Colors.white
+                      : const Color(primaryDark),
                 ),
                 "Ingresa el código de verificación",
               ),
@@ -92,7 +96,9 @@ class SMSBody extends HookConsumerWidget {
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
                   height: 1.5,
-                  color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                  color: themeProvider.isDarkMode
+                      ? Colors.white
+                      : const Color(primaryDark),
                 ),
                 "Te hemos enviado un código a tu correo para confirmar la operación",
               ),
@@ -111,19 +117,15 @@ class SMSBody extends HookConsumerWidget {
                 );
                 futureIsValidCode.then((status) {
                   if (status == true) {
-                    Navigator.of(ctx).pushNamed('/set_new_password');
+                    Navigator.of(context).pushNamed('/set_new_password');
                   } else {
-                    Navigator.of(ctx).pop();
-                    CustomSnackbar.show(
-                      ctx,
-                      'No se pudo validar el código de verificación',
-                      'error',
+                    Navigator.of(context).pop();
+                    showSnackBarV2(
+                      context: context,
+                      title: "Error al validar el código de verificación",
+                      message: 'No se pudo validar el código de verificación',
+                      snackType: SnackType.error,
                     );
-                    // ScaffoldMessenger.of(ctx).showSnackBar(
-                    //   customSnackBar(
-                    //       'No se pudo validar el código de verificación',
-                    //       'error'),
-                    // );
                   }
                 });
               },
@@ -131,7 +133,9 @@ class SMSBody extends HookConsumerWidget {
               textStyle: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: themeProvider.isDarkMode ? Colors.white : const Color(blackText),
+                color: themeProvider.isDarkMode
+                    ? Colors.white
+                    : const Color(blackText),
               ),
 
               keyboardType: TextInputType.number,
@@ -143,7 +147,8 @@ class SMSBody extends HookConsumerWidget {
               ),
               length: 4,
               fullBorder: true,
-              cursorColor: Colors.blue, // If this is null it will default to the ambient
+              cursorColor:
+                  Colors.blue, // If this is null it will default to the ambient
               itemSize: 70,
             ),
 
@@ -155,16 +160,16 @@ class SMSBody extends HookConsumerWidget {
 
                   ref.read(resendOTPCodeFutureProvider.future).then((status) {
                     if (status == true) {
-                      ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
+                      ref
+                          .read(timerCounterDownProvider.notifier)
+                          .startTimer(first: true);
                     } else {
-                      CustomSnackbar.show(
-                        ctx,
-                        'No se pudo reenviar el correo',
-                        "error",
+                      showSnackBarV2(
+                        context: context,
+                        title: "Error al reenviar el correo",
+                        message: 'No se pudo reenviar el correo',
+                        snackType: SnackType.error,
                       );
-                      // ScaffoldMessenger.of(ctx).showSnackBar(
-                      //   customSnackBar('No se pudo reenviar el correo', 'error'),
-                      // );
                     }
                   });
                 },
@@ -180,7 +185,9 @@ class SMSBody extends HookConsumerWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
-                    color: themeProvider.isDarkMode ? Color(primaryDark) : Colors.white,
+                    color: themeProvider.isDarkMode
+                        ? const Color(primaryDark)
+                        : Colors.white,
                   ),
                 ),
               ),
@@ -193,7 +200,9 @@ class SMSBody extends HookConsumerWidget {
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                     height: 1.5,
-                    color: themeProvider.isDarkMode ? Colors.white : const Color(primaryDark),
+                    color: themeProvider.isDarkMode
+                        ? Colors.white
+                        : const Color(primaryDark),
                   ),
                   "Reenviar el codigo en",
                 ),
