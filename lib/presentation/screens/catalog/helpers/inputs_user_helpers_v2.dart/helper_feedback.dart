@@ -15,7 +15,7 @@ class DtoFedbackForm {
   });
 }
 
-pushFeedbackData(
+Future<bool> pushFeedbackData(
   BuildContext context,
   DtoFedbackForm data,
   WidgetRef ref,
@@ -44,6 +44,8 @@ pushFeedbackData(
       message: "Gracias por compartir tu experiencia",
       snackType: SnackType.success,
     );
+    context.loaderOverlay.hide();
+    return true;
   } else {
     showSnackBarV2(
       context: context,
@@ -52,5 +54,6 @@ pushFeedbackData(
       snackType: SnackType.error,
     );
     context.loaderOverlay.hide();
+    return false;
   }
 }
