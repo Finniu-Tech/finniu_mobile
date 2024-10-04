@@ -1,6 +1,7 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_register_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_date_picker.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_phone_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -27,6 +28,7 @@ class FormRegister extends HookConsumerWidget {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
+    final dateController = useTextEditingController();
     // final acceptPrivacyAndTerms = useState(false);
     final ValueNotifier<bool> isPasswordExpanded = useState(false);
     final ValueNotifier<bool> nickNameError = useState(false);
@@ -34,6 +36,7 @@ class FormRegister extends HookConsumerWidget {
     final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> passwordError = useState(false);
     final ValueNotifier<bool> passwordConfirmError = useState(false);
+    final ValueNotifier<bool> dateError = useState(false);
     final ValueNotifier<bool> acceptPrivacyAndTerms = useState(false);
 
     FocusNode passwordFocusNode = useFocusNode();
@@ -134,6 +137,30 @@ class FormRegister extends HookConsumerWidget {
                         context: context,
                         boolNotifier: phoneNumberError,
                       );
+                      return null;
+                    },
+                  );
+                },
+              ),
+              ValueListenableBuilder<bool>(
+                valueListenable: dateError,
+                builder: (context, isError, child) {
+                  return InputDatePickerUserProfile(
+                    isError: isError,
+                    onError: () => dateError.value = false,
+                    hintText: "Fecha de nacimiento",
+                    controller: dateController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Fecha de nacimiento incorrecta",
+                          message: "Por favor, completa la fecha.",
+                          snackType: SnackType.warning,
+                        );
+                        dateError.value = true;
+                        return null;
+                      }
                       return null;
                     },
                   );
