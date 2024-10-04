@@ -80,6 +80,7 @@ class FormRegister extends HookConsumerWidget {
         if (emailError.value) return;
         if (passwordError.value) return;
         if (passwordConfirmError.value) return;
+        if (dateError.value) return;
         context.loaderOverlay.show();
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text.trim(),
@@ -296,7 +297,7 @@ class RedirectLogin extends ConsumerWidget {
       child: const TextPoppins(
         text: "Inicia sesión",
         fontSize: 14,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.w600,
         textDark: linkDark,
         textLight: linkLight,
       ),
