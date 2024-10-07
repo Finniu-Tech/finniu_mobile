@@ -68,6 +68,15 @@ class CatalogScreen extends HookConsumerWidget {
         child: Column(
           children: [
             ButtonInvestment(
+              text: "navigate firebase test",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/firebase_test');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "navigate geolocator",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/geolocator');

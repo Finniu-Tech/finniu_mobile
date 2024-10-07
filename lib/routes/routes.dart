@@ -3,6 +3,7 @@ import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
 import 'package:finniu/presentation/screens/biometric_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
+import 'package:finniu/presentation/screens/catalog/firebase_test_screen.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/frequently_questions_screen.dart';
@@ -246,5 +247,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/set_new_password': (BuildContext context) => const NewPasswordV2(),
     '/biometric_test': (BuildContext context) => BiometricTestPage(),
     '/v2/geolocator': (BuildContext context) => const GeolocatorScreen(),
+    '/v2/firebase_test': (BuildContext context) => const FirebaseTestScreen(),
   };
 }
