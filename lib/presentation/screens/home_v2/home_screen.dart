@@ -703,7 +703,6 @@ class ToValidateSlider extends ConsumerWidget {
   });
 
   void contact() async {
-    // 51952484612
     var whatsappNumber = "51952484612";
     var whatsappMessage = "Hola";
     var whatsappUrlAndroid = Uri.parse(
