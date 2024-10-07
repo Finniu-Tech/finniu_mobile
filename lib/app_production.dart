@@ -3,6 +3,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/intro_screen.dart';
 import 'package:finniu/routes/routes.dart';
 import 'package:finniu/services/deep_link_service.dart';
+import 'package:finniu/services/push_notifications_service.dart';
 import 'package:finniu/widgets/connectivity.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,8 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppProduction extends ConsumerStatefulWidget {
-  const AppProduction({Key? key}) : super(key: key);
+  final PushNotificationService pushNotificationService;
+  const AppProduction({Key? key, required this.pushNotificationService}) : super(key: key);
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 

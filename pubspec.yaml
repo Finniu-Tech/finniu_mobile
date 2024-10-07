@@ -79,6 +79,7 @@ dependencies:
   local_auth: ^2.3.0
   geolocator: ^13.0.1
   app_links: ^6.3.2
+  firebase_messaging: ^14.7.10
 
 dev_dependencies:
   flutter_test:
