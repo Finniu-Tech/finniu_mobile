@@ -15,6 +15,7 @@ class AppProduction extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    analytics.setAnalyticsCollectionEnabled(true);
     return MaterialApp(
       title: 'Finniu',
       debugShowCheckedModeBanner: false,
@@ -31,7 +32,8 @@ class AppProduction extends ConsumerWidget {
         );
       },
       builder: (context, child) {
-        return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());
+        return InternetConnectionAlertWidget(
+            child: child ?? const SizedBox.shrink());
       },
     );
   }
