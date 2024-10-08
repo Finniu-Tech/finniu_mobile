@@ -22,30 +22,27 @@ class FormJobDataV2 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        floatingActionButton: Container(
-          width: 0,
-          height: 90,
-          color: Colors.transparent,
-        ),
-        appBar: const AppBarLogo(),
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          const ProgressForm(
-            progress: 0.7,
-          ),
-          const TitleForm(
-            title: "Mi ocupación",
-            subTitle: "¿Cuál es tu ocupación o profesión?",
-            icon: "assets/svg_icons/bag_icon_v2.svg",
-          ),
-          LocationForm(),
-        ],
+    return ScaffoldUserProfile(
+      floatingActionButton: Container(
+        width: 0,
+        height: 90,
+        color: Colors.transparent,
       ),
+      appBar: const AppBarLogo(),
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        const ProgressForm(
+          progress: 0.7,
+        ),
+        const TitleForm(
+          title: "Mi ocupación",
+          subTitle: "¿Cuál es tu ocupación o profesión?",
+          icon: "assets/svg_icons/bag_icon_v2.svg",
+        ),
+        LocationForm(),
+      ],
     );
   }
 }
@@ -69,7 +66,9 @@ class LocationForm extends HookConsumerWidget {
       text: userProfile.companyName ?? "",
     );
     final serviceTimeSelectController = useTextEditingController(
-      text: userProfile.serviceTime == null ? "" : getServiceTimeEnumByUser(userProfile.serviceTime),
+      text: userProfile.serviceTime == null
+          ? ""
+          : getServiceTimeEnumByUser(userProfile.serviceTime),
     );
 
     final ValueNotifier<bool> laborSituationError = useState(false);
@@ -96,8 +95,11 @@ class LocationForm extends HookConsumerWidget {
         DtoOccupationForm data = DtoOccupationForm(
           companyName: companyNameTextController.text.trim(),
           occupation: occupationTextController.text.trim(),
-          serviceTime: getServiceTimeEnum(serviceTimeSelectController.text) ?? ServiceTimeEnum.LESS_THAN_ONE_YEAR,
-          laborSituation: getLaborsStatusEnum(laborSituationSelectController.text) ?? LaborSituationEnum.EMPLOYED,
+          serviceTime: getServiceTimeEnum(serviceTimeSelectController.text) ??
+              ServiceTimeEnum.LESS_THAN_ONE_YEAR,
+          laborSituation:
+              getLaborsStatusEnum(laborSituationSelectController.text) ??
+                  LaborSituationEnum.EMPLOYED,
         );
         pushOccupationDataForm(context, data, ref);
       }
@@ -111,7 +113,9 @@ class LocationForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700 ? 430 : MediaQuery.of(context).size.height * 0.77,
+        height: MediaQuery.of(context).size.height < 700
+            ? 430
+            : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
             ValueListenableBuilder<bool>(
@@ -129,7 +133,8 @@ class LocationForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "La situacion laboral es obligatoria",
-                        message: "Por favor, completa el selecciona tu situación laboral.",
+                        message:
+                            "Por favor, completa el selecciona tu situación laboral.",
                         snackType: SnackType.warning,
                       );
                       laborSituationError.value = true;
@@ -198,7 +203,8 @@ class LocationForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "La situacion laboral es obligatoria",
-                        message: "Por favor, completa el selecciona tu situación laboral.",
+                        message:
+                            "Por favor, completa el selecciona tu situación laboral.",
                         snackType: SnackType.warning,
                       );
                       serviceTimeError.value = true;

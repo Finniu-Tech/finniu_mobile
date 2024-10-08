@@ -19,32 +19,31 @@ class FormLegalTermsDataV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final isPublicOfficialOrFamilyCheckbox = useState(userProfile.isPublicOfficialOrFamily ?? false);
-    final isDirectorOrShareholder10PercentCheckbox = useState(userProfile.isDirectorOrShareholder10Percent ?? false);
+    final isPublicOfficialOrFamilyCheckbox =
+        useState(userProfile.isPublicOfficialOrFamily ?? false);
+    final isDirectorOrShareholder10PercentCheckbox =
+        useState(userProfile.isDirectorOrShareholder10Percent ?? false);
 
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        appBar: const AppBarLogo(),
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          const ProgressForm(
-            progress: 0.3,
-          ),
-          const TitleForm(
-            title: "Términos legales",
-            subTitle: "",
-            icon: "assets/svg_icons/legal_icon_v2.svg",
-          ),
-          LegalTermsForm(
-            formKey: formKey,
-            publicOfficialCheckboxValue: isPublicOfficialOrFamilyCheckbox,
-            amDirectorCheckboxValue: isDirectorOrShareholder10PercentCheckbox,
-          ),
-        ],
-      ),
+    return ScaffoldUserProfile(
+      appBar: const AppBarLogo(),
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        const ProgressForm(
+          progress: 0.3,
+        ),
+        const TitleForm(
+          title: "Términos legales",
+          subTitle: "",
+          icon: "assets/svg_icons/legal_icon_v2.svg",
+        ),
+        LegalTermsForm(
+          formKey: formKey,
+          publicOfficialCheckboxValue: isPublicOfficialOrFamilyCheckbox,
+          amDirectorCheckboxValue: isDirectorOrShareholder10PercentCheckbox,
+        ),
+      ],
     );
   }
 }
@@ -61,7 +60,8 @@ class LegalTermsForm extends ConsumerWidget {
   final ValueNotifier<bool> amDirectorCheckboxValue;
   final String civilServantText =
       "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.";
-  final String amDirectorText = "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.";
+  final String amDirectorText =
+      "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.";
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,7 +79,8 @@ class LegalTermsForm extends ConsumerWidget {
 
     void continueLater() {
       ScaffoldMessenger.of(context).clearSnackBars();
-      Navigator.pushNamedAndRemoveUntil(context, '/v2/home', (Route<dynamic> route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/v2/home', (Route<dynamic> route) => false);
     }
 
     return Form(
@@ -91,7 +92,8 @@ class LegalTermsForm extends ConsumerWidget {
             text: civilServantText,
             checkboxValue: publicOfficialCheckboxValue.value,
             onPressed: () {
-              publicOfficialCheckboxValue.value = !publicOfficialCheckboxValue.value;
+              publicOfficialCheckboxValue.value =
+                  !publicOfficialCheckboxValue.value;
             },
           ),
           const SizedBox(
