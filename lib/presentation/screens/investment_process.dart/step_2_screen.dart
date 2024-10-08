@@ -12,6 +12,7 @@ import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/feedback_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
@@ -611,12 +612,9 @@ class Step2Body extends HookConsumerWidget {
                         );
                       } else {
                         context.loaderOverlay.hide();
-                        showThanksForInvestingModal(
+                        showFeedbackModal(
                           context,
-                          () {
-                            Navigator.pushNamedAndRemoveUntil(context, '/evaluation', (route) => false);
-                          },
-                          isReInvestment,
+                          isReInvestment: isReInvestment ?? false,
                         );
                       }
                     },
