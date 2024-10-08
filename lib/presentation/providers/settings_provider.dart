@@ -1,3 +1,4 @@
+import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/constants/themes.dart';
 import 'package:riverpod/riverpod.dart';
@@ -9,7 +10,7 @@ class SettingsProviderState {
 
   SettingsProviderState({
     required this.currentTheme,
-    this.isDarkMode = false,
+    required this.isDarkMode,
     required this.showWelcomeModal,
   });
 
@@ -27,19 +28,17 @@ class SettingsProviderState {
 }
 
 class SettingsNotifierProvider extends StateNotifier<SettingsProviderState> {
-  SettingsNotifierProvider({
-    required bool isDarkMode,
-    required bool showWelcomeModal,
-  }) : super(
+  SettingsNotifierProvider()
+      : super(
           SettingsProviderState(
-            currentTheme:
-                isDarkMode ? AppTheme().darkTheme : AppTheme().lightTheme,
-            isDarkMode: isDarkMode,
-            showWelcomeModal: showWelcomeModal,
+            currentTheme: Preferences.isDarkMode ? AppTheme().darkTheme : AppTheme().lightTheme,
+            isDarkMode: Preferences.isDarkMode,
+            showWelcomeModal: Preferences.showWelcomeModal,
           ),
         );
 
   void setLightMode() {
+    Preferences.isDarkMode = false;
     state = state.copyWith(
       currentTheme: AppTheme().lightTheme,
       isDarkMode: false,
@@ -47,6 +46,7 @@ class SettingsNotifierProvider extends StateNotifier<SettingsProviderState> {
   }
 
   void setDarkMode() {
+    Preferences.isDarkMode = true;
     state = state.copyWith(
       currentTheme: AppTheme().darkTheme,
       isDarkMode: true,
@@ -54,53 +54,21 @@ class SettingsNotifierProvider extends StateNotifier<SettingsProviderState> {
   }
 
   void setShowWelcomeModal(bool value) {
+    Preferences.showWelcomeModal = value;
     state = state.copyWith(
       showWelcomeModal: value,
     );
   }
 
-  void toggleTheme() {}
+  void toggleTheme() {
+    if (state.isDarkMode) {
+      setLightMode();
+    } else {
+      setDarkMode();
+    }
+  }
 }
 
-final settingsNotifierProvider =
-    StateNotifierProvider<SettingsNotifierProvider, SettingsProviderState>(
-        (ref) {
-  return SettingsNotifierProvider(
-    isDarkMode: false,
-    showWelcomeModal: true,
-  );
-});
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:finniu/constants/themes.dart';
-
-// class SettingsProvider extends ChangeNotifier {
-//   ThemeData? currentTheme;
-//   bool isDarkMode = false;
-//   bool showWelcomeModal = true;
-
-//   SettingsProvider({required bool isDarkMode, required bool showWelcomeModal}) {
-//     currentTheme = isDarkMode ? AppTheme().darkTheme : AppTheme().lightTheme;
-//     // ignore: prefer_initializing_formals
-//     this.isDarkMode = isDarkMode;
-//   }
-
-//   setLightMode() {
-//     currentTheme = AppTheme().lightTheme;
-//     isDarkMode = false;
-//     notifyListeners();
-//   }
-
-//   setDarkMode() {
-//     isDarkMode = true;
-//     currentTheme = AppTheme().darkTheme;
-//     notifyListeners();
-//   }
-
-//   setShowWelcomeModal(bool value) {
-//     showWelcomeModal = value;
-//     notifyListeners();
-//   }
-// }
+final settingsNotifierProvider = StateNotifierProvider<SettingsNotifierProvider, SettingsProviderState>(
+  (ref) => SettingsNotifierProvider(),
+);

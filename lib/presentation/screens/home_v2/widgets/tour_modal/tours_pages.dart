@@ -20,40 +20,41 @@ class TourEight extends StatelessWidget {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
     const String title = "Detalle de tu inversión en drafts ";
-    const String textBody = "Puedes ver a detalle la inversión que no llegaste a finalizar el proceso de inversión";
+    const String textBody =
+        "Puedes ver a detalle la inversión que no llegaste a finalizar el proceso de inversión";
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        BodyTour(
-          isFinal: true,
-          indexTour: 7,
-          title: title,
-          textColor: textColor,
-          textBody: textBody,
-          onPressed: onPressed,
-          onClosePressed: closedTour,
-          pageLength: pageLength,
-        ),
-        Container(
-          padding: const EdgeInsets.all(10),
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.45,
-          decoration: const BoxDecoration(
-            color: Color(imageContainerColor),
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
+    return SingleChildScrollView(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          BodyTour(
+            isFinal: true,
+            indexTour: 7,
+            title: title,
+            textColor: textColor,
+            textBody: textBody,
+            onPressed: onPressed,
+            onClosePressed: closedTour,
+            pageLength: pageLength,
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            width: MediaQuery.of(context).size.width * 0.9,
+            decoration: const BoxDecoration(
+              color: Color(imageContainerColor),
+              borderRadius: BorderRadius.all(
+                Radius.circular(10),
+              ),
+            ),
+            child: Image.asset(
+              "assets/tour/imagen_tour8.png",
+              width: MediaQuery.of(context).size.width * 0.9,
+              fit: BoxFit.fill,
             ),
           ),
-          child: Image.asset(
-            "assets/tour/imagen_tour8.png",
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.45,
-            fit: BoxFit.fill,
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -73,7 +74,8 @@ class TourSeven extends StatelessWidget {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
     const String title = "Visualiza tus inversiones en drafts";
-    const String textBody = "Puedes ver en el home cuales son tus inversiones que dejaste incompletas";
+    const String textBody =
+        "Puedes ver en el home cuales son tus inversiones que dejaste incompletas";
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +174,8 @@ class TourFive extends StatelessWidget {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
     const String title = "Información mas detallada de tus inversiones";
-    const String textBody = "Visualiza todos los detalles de cada una de tus inversiones";
+    const String textBody =
+        "Visualiza todos los detalles de cada una de tus inversiones";
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -223,7 +226,8 @@ class TourFour extends StatelessWidget {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
     const String title = "¡Entérate de tus próximos pagos!";
-    const String textBody = "Visualiza el historial de tus pagos de tus inversiones.";
+    const String textBody =
+        "Visualiza el historial de tus pagos de tus inversiones.";
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -272,7 +276,8 @@ class TourThree extends StatelessWidget {
   Widget build(BuildContext context) {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
-    const String title = "¡En Mis inversiones puedes ver historial de sus inversiones !";
+    const String title =
+        "¡En Mis inversiones puedes ver historial de sus inversiones !";
     const String textBody = "Conoce el estado de tus inversiones a tiempo real";
 
     return Column(
@@ -330,7 +335,8 @@ class TourTwo extends StatelessWidget {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffDEF7FF;
     const String title = "¡Visualiza todos los fondos de inversiones!";
-    const String textBody = "Conoce los fondos de inversión que tenemos para ti";
+    const String textBody =
+        "Conoce los fondos de inversión que tenemos para ti";
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -381,8 +387,10 @@ class TourOne extends StatelessWidget {
   Widget build(BuildContext context) {
     const int textColor = 0xffFFFFFF;
     const int imageContainerColor = 0xffFFFFFF;
-    const String title = "¡Ahora puedes cambiar de fondo de inversión en un click! ";
-    const String textBody = "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
+    const String title =
+        "¡Ahora puedes cambiar de fondo de inversión en un click! ";
+    const String textBody =
+        "Es muy útil para visualizar el gráfico del crecimiento de tu inversión.";
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -450,7 +458,7 @@ class TourInit extends ConsumerWidget {
             const TextPoppins(
               text: "Nos renovamos para ti .....",
               fontSize: 24,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textColor,
               textLight: textColor,
               align: TextAlign.start,
@@ -461,7 +469,6 @@ class TourInit extends ConsumerWidget {
             const TextPoppins(
               text: "Conoce cuales son las nuevas funcionalidades ",
               fontSize: 15,
-              isBold: false,
               textDark: textColor,
               textLight: textColor,
               lines: 2,

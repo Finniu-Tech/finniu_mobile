@@ -24,7 +24,8 @@ import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/buttons.dart';
@@ -34,7 +35,6 @@ import 'package:finniu/presentation/screens/investment_process.dart/widgets/scaf
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -49,7 +49,7 @@ String formatDeadLine(String? deadLine) {
     if (deadLine.endsWith('meses')) {
       return deadLine;
     } else {
-      return deadLine + ' meses';
+      return '$deadLine meses';
     }
   } else {
     return '';
@@ -176,7 +176,11 @@ class Step1Body extends HookConsumerWidget {
                 ),
                 Text(
                   isReInvestment == true ? 'Tu operación en curso' : fund.name,
-                  style: const TextStyle(color: Color(primaryDark), fontSize: 24, fontWeight: FontWeight.w600),
+                  style: const TextStyle(
+                    color: Color(primaryDark),
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
@@ -270,27 +274,54 @@ class FormStep1 extends StatefulHookConsumerWidget {
 class _FormStep1State extends ConsumerState<FormStep1> {
   // final currentTheme = ref.watch(settingsNotifierProvider);
 
-  late Future deadLineFuture;
-  late Future bankFuture;
-  late double? profitability;
-  late bool showInvestmentBoxes = false;
+  late Future<List<DeadLineEntity>> deadLineFuture;
+  double? profitability;
+  bool showInvestmentBoxes = false;
   PlanSimulation? resultCalculator;
-  BankEntity? selectedBank;
   BankAccount? selectedBankAccount;
+  late ValueNotifier<int> finalReinvestmentAmount;
+  late ValueNotifier<bool> userReadContract;
+  late ValueNotifier<BankAccount?> receiverBankAccountState;
 
-  Future<void> _savePreInvestment(BuildContext context, WidgetRef ref, SaveCorporateInvestmentInput input) async {
+  @override
+  void initState() {
+    super.initState();
+    deadLineFuture = ref.read(deadLineFutureProvider.future);
+    finalReinvestmentAmount = ValueNotifier(widget.reinvestmentOriginAmount ?? 0);
+    userReadContract = ValueNotifier(false);
+    receiverBankAccountState = ValueNotifier(null);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(userAcceptedTermsProvider.notifier).state = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    finalReinvestmentAmount.dispose();
+    userReadContract.dispose();
+    receiverBankAccountState.dispose();
+    super.dispose();
+  }
+
+  Future<void> _savePreInvestment(
+    BuildContext context,
+    WidgetRef ref,
+    SaveCorporateInvestmentInput input,
+  ) async {
     Navigator.pop(context);
     context.loaderOverlay.show();
     final response = await ref.read(saveCorporateInvestmentFutureProvider(input).future);
 
     if (!response.success) {
       context.loaderOverlay.hide();
-
-      CustomSnackbar.show(
-        context,
-        response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error interno",
+        message: response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
+        snackType: SnackType.error,
       );
+
       return;
     }
 
@@ -308,23 +339,28 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   }
 
   //save ReInvestment
-  Future<void> _saveReInvestment(BuildContext context, WidgetRef ref, CreateReInvestmentParams input) async {
+  Future<void> _saveReInvestment(
+    BuildContext context,
+    WidgetRef ref,
+    CreateReInvestmentParams input,
+  ) async {
     Navigator.pop(context);
     context.loaderOverlay.show();
     final CreateReInvestmentResponse response = await ref.read(createReInvestmentProvider(input).future);
     if (response.success == false) {
       context.loaderOverlay.hide();
-      CustomSnackbar.show(
-        context,
-        response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error interno",
+        message: response.messages?[0].message ?? 'Hubo un problema, asegúrate de haber completado todos los campos',
+        snackType: SnackType.error,
       );
+
       return;
     }
 
     context.loaderOverlay.hide();
     if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
-      print('origin amount ${int.parse(input.finalAmount) - widget.reinvestmentOriginAmount!}');
       Navigator.pushNamed(
         context,
         '/v2/investment/step-2',
@@ -336,12 +372,16 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         },
       );
     } else {
-      showThanksForInvestingModal(context, () {
-        Navigator.pushReplacementNamed(
-          context,
-          '/v2/investment',
-        );
-      }, true);
+      showThanksForInvestingModal(
+        context,
+        () {
+          Navigator.pushReplacementNamed(
+            context,
+            '/v2/investment',
+          );
+        },
+        true,
+      );
     }
   }
 
@@ -350,10 +390,11 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         widget.deadLineController.text.isEmpty ||
         // widget.bankController.text.isEmpty ||
         widget.originFundsController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Hubo un problema, asegúrate de haber completado los campos anteriores',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error al completar datos",
+        message: 'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        snackType: SnackType.warning,
       );
 
       return false;
@@ -361,20 +402,24 @@ class _FormStep1State extends ConsumerState<FormStep1> {
 
     //validate amount mayor than 1000
     if (double.parse(widget.amountController.text) < 1000) {
-      CustomSnackbar.show(
-        context,
-        "El monto ingresado debe ser mayor a ${widget.isSoles! ? 'S/.' : '\$/'}1 000",
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error al completar el monto",
+        message: "El monto ingresado debe ser mayor a ${widget.isSoles! ? 'S/.' : '\$/'}1 000",
+        snackType: SnackType.warning,
       );
+
       return false;
     }
 
     if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Debe de ingresar el origen de los fondos',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error al completar origen de  fondos",
+        message: 'Debe de ingresar el origen de los fondos',
+        snackType: SnackType.warning,
       );
+
       return false;
     }
 
@@ -389,29 +434,35 @@ class _FormStep1State extends ConsumerState<FormStep1> {
   ) {
     if (reinvestmentParams.typeReinvestment == typeReinvestmentEnum.CAPITAL_ONLY) {
       if (!userAcceptedTerms) {
-        CustomSnackbar.show(
-          context,
-          'Debe de leer y aceptar el contrato',
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Error al aceptar el contrato",
+          message: 'Debe de leer y aceptar el contrato',
+          snackType: SnackType.warning,
         );
+
         return false;
       }
       if (receiverBankAccount == null) {
-        CustomSnackbar.show(
-          context,
-          'Debe de seleccionar una cuenta de destino',
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Error cuenta de destino",
+          message: 'Debe de seleccionar una cuenta de destino',
+          snackType: SnackType.warning,
         );
+
         return false;
       }
     }
     if (reinvestmentParams.typeReinvestment == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
       if (aditionalAmount == '' || aditionalAmount == '0') {
-        CustomSnackbar.show(
-          context,
-          'Debe de ingresar un monto',
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Error al completar el monto",
+          message: 'Debe de ingresar un monto',
+          snackType: SnackType.warning,
         );
+
         return false;
       }
     }
@@ -419,31 +470,112 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     return true;
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final deadLineFuture = ref.watch(deadLineFutureProvider.future);
-    final isSoles = ref.watch(isSolesStateProvider);
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final userProfile = ref.watch(userProfileNotifierProvider);
-    final debouncer = Debouncer(milliseconds: 3000);
-    final finalReinvestmentAmount = useState(widget.reinvestmentOriginAmount ?? 0);
-    final userReadContract = useState(false);
-    final trackerService = ref.watch(eventTrackerServiceProvider);
-    bool userAcceptedTerms = ref.watch(userAcceptedTermsProvider);
-    ValueNotifier<BankAccount?> receiverBankAccountState = useState(null);
+  Future<void> handleContinueButton() async {
+    final trackerService = ref.read(eventTrackerServiceProvider);
+    await trackerService.logButtonClick('step-1-enterprise-continue-button');
+
+    if (!validateForm()) return;
+
+    String amount = calculateAmount();
     CreateReInvestmentParams? reinvestmentParams;
 
-    useEffect(
-      () {
-        if (userProfile.hasRequiredData() == false) {
-          completeProfileDialog(context, ref);
-        }
+    if (widget.isReInvestment) {
+      reinvestmentParams = await createReinvestmentParams(amount);
+      if (!validateReinvestmentForm(ref.read(userAcceptedTermsProvider), reinvestmentParams,
+          receiverBankAccountState.value, widget.additionalAmountController.text)) return;
+    }
 
-        return null;
-      },
-      [userProfile],
+    showInvestmentSimulationModal(amount, reinvestmentParams);
+  }
+
+  String calculateAmount() {
+    if (widget.isReInvestment && widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+      return '${widget.reinvestmentOriginAmount! + int.parse(widget.additionalAmountController.text)}';
+    } else if (widget.isReInvestment && widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) {
+      return widget.reinvestmentOriginAmount.toString();
+    }
+    return widget.amountController.text;
+  }
+
+  Future<CreateReInvestmentParams> createReinvestmentParams(String amount) async {
+    final deadLineUuid = await DeadLineEntity.getUuidByName(widget.deadLineController.text, await deadLineFuture);
+    return CreateReInvestmentParams(
+      preInvestmentUUID: widget.preInvestmentUUID!,
+      finalAmount: amount,
+      deadlineUUID: deadLineUuid,
+      currency: widget.isSoles! ? currencyEnum.PEN : currencyEnum.USD,
+      coupon: widget.couponController.text,
+      originFounds: OriginFunds(
+        originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
+        otherText: widget.otherFundOriginController.text,
+      ),
+      typeReinvestment: widget.reInvestmentType!,
     );
-    //on init change the userAcceptedTermsProvider provider to false
+  }
+
+  void showInvestmentSimulationModal(String amount, CreateReInvestmentParams? reinvestmentParams) {
+    investmentSimulationModal(
+      context,
+      startingAmount: int.parse(amount),
+      finalAmount: int.parse(widget.amountController.text),
+      mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
+      coupon: widget.couponController.text,
+      toInvestPressed: () async {
+        if (widget.isReInvestment) {
+          _saveReInvestment(context, ref, reinvestmentParams!);
+        } else {
+          _savePreInvestment(
+            context,
+            ref,
+            SaveCorporateInvestmentInput(
+              amount: amount,
+              months: widget.deadLineController.text.split(' ')[0],
+              coupon: widget.couponController.text,
+              currency: widget.isSoles! ? currencyNuevoSol : currencyDollar,
+              originFunds: OriginFunds(
+                originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
+                otherText: widget.otherFundOriginController.text,
+              ),
+              fundUUID: widget.fund.uuid,
+            ),
+          );
+        }
+      },
+      recalculatePressed: () => Navigator.pop(context),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider, (previous, next) {
+      receiverBankAccountState.value = next;
+    });
+    // final deadLineFuture = ref.watch(deadLineFutureProvider.future);
+    // final isSoles = ref.watch(isSolesStateProvider);
+    // final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    // final userProfile = ref.watch(userProfileNotifierProvider);
+    final debouncer = Debouncer(milliseconds: 3000);
+    // final finalReinvestmentAmount = useState(widget.reinvestmentOriginAmount ?? 0);
+    // final userReadContract = useState(false);
+    // final trackerService = ref.watch(eventTrackerServiceProvider);
+    // bool userAcceptedTerms = ref.watch(userAcceptedTermsProvider);
+    // ValueNotifier<BankAccount?> receiverBankAccountState = useState(null);
+    // CreateReInvestmentParams? reinvestmentParams;
+
+    // useEffect(
+    //   () {
+    //     if (userProfile.completeToInvestData() < 1.0) {
+    //       // showVerifyIdentity(context);
+    //     }
+
+    //     return null;
+    //   },
+    //   [userProfile],
+    // );
+    // //on init change the userAcceptedTermsProvider provider to false
     useEffect(
       () {
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -654,88 +786,92 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                   maxHeight: 50,
                   maxWidth: 150,
                 ),
-                suffixIcon: Container(
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      // minimumSize: Size(80, 30),
-                      side: const BorderSide(
-                        width: 0.5,
+                suffixIcon: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    // minimumSize: Size(80, 30),
+                    side: const BorderSide(
+                      width: 0.5,
+                      color: Color(primaryDark),
+                    ),
+                    backgroundColor: const Color(primaryLight),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(25),
+                        bottomRight: Radius.circular(25),
+                      ),
+                    ),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 12, bottom: 10),
+                    child: Text(
+                      "Aplicarlo",
+                      style: TextStyle(
                         color: Color(primaryDark),
                       ),
-                      backgroundColor: const Color(primaryLight),
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(25),
-                          bottomRight: Radius.circular(25),
-                        ),
-                      ),
                     ),
-                    child: const Padding(
-                      padding: EdgeInsets.only(top: 12, bottom: 10),
-                      child: Text(
-                        "Aplicarlo",
-                        style: TextStyle(
-                          color: Color(primaryDark),
-                        ),
-                      ),
-                    ),
-                    onPressed: () async {
-                      if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debes ingresar el monto y el plazo para aplicar el cupón',
-                          'error',
-                        );
-                        return; // Sale de la función para evitar que continúe el proceso
-                      }
-                      if (widget.couponController.text.isEmpty) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debes ingresar el cupón',
-                          'error',
-                        );
-                        return;
-                      }
-                      context.loaderOverlay.show();
-                      final inputCalculator = CalculatorInput(
-                        amount: int.parse(widget.amountController.text),
-                        months: int.parse(
-                          widget.deadLineController.text.split(' ')[0],
-                        ),
-                        currency: isSoles ? currencyNuevoSol : currencyDollar,
-                        coupon: widget.couponController.text,
-                      );
-
-                      resultCalculator = await ref.watch(
-                        calculateInvestmentFutureProvider(
-                          inputCalculator,
-                        ).future,
-                      );
-                      setState(() {
-                        if (resultCalculator?.plan != null) {
-                          // selectedPlan = resultCalculator!.plan!;
-                          profitability = resultCalculator!.profitability;
-                          showInvestmentBoxes = true;
-                        }
-                      });
-
-                      context.loaderOverlay.hide();
-                      if (resultCalculator?.error == null) {
-                        CustomSnackbar.show(
-                          context,
-                          'Cupón aplicado correctamente',
-                          'success',
-                        );
-                      } else {
-                        widget.couponController.clear();
-                        CustomSnackbar.show(
-                          context,
-                          resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
-                          'error',
-                        );
-                      }
-                    },
                   ),
+                  onPressed: () async {
+                    if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "Error al aplicar cupón",
+                        message: 'Debes ingresar el monto y el plazo para aplicar el cupón',
+                        snackType: SnackType.warning,
+                      );
+
+                      return;
+                    }
+                    if (widget.couponController.text.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "Error al aplicar cupón",
+                        message: 'Debes ingresar el cupón',
+                        snackType: SnackType.warning,
+                      );
+
+                      return;
+                    }
+                    context.loaderOverlay.show();
+                    final inputCalculator = CalculatorInput(
+                      amount: int.parse(widget.amountController.text),
+                      months: int.parse(
+                        widget.deadLineController.text.split(' ')[0],
+                      ),
+                      currency: isSoles ? currencyNuevoSol : currencyDollar,
+                      coupon: widget.couponController.text,
+                    );
+
+                    resultCalculator = await ref.watch(
+                      calculateInvestmentFutureProvider(
+                        inputCalculator,
+                      ).future,
+                    );
+                    setState(() {
+                      if (resultCalculator?.plan != null) {
+                        // selectedPlan = resultCalculator!.plan!;
+                        profitability = resultCalculator!.profitability;
+                        showInvestmentBoxes = true;
+                      }
+                    });
+
+                    context.loaderOverlay.hide();
+                    if (resultCalculator?.error == null) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "Cupón aplicado",
+                        message: 'Cupón aplicado correctamente',
+                        snackType: SnackType.success,
+                      );
+                    } else {
+                      widget.couponController.clear();
+                      showSnackBarV2(
+                        context: context,
+                        title: "Error al aplicar cupón",
+                        message: resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
+                        snackType: SnackType.error,
+                      );
+                    }
+                  },
                 ),
                 hintText: 'Ingresa tu código(opcional)',
                 hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
@@ -924,95 +1060,133 @@ class _FormStep1State extends ConsumerState<FormStep1> {
             height: 50,
             child: TextButton(
               onPressed: () async {
-                await trackerService.logButtonClick('step-1-enterprise-continue-button');
-                String amount = '${widget.amountController.text}';
-                if (widget.isReInvestment == true &&
-                    widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
-                  final originAmount = widget.reinvestmentOriginAmount;
-                  final additionalAmount = widget.additionalAmountController.text;
-                  amount = '${originAmount! + int.parse(additionalAmount)}';
-                } else if (widget.isReInvestment == true &&
-                    widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) {
-                  amount = widget.reinvestmentOriginAmount.toString();
-                }
-
-                if (userProfile.hasRequiredData() == false) {
-                  completeProfileDialog(context, ref);
-                  return;
-                }
-                if (validateForm() == false) {
-                  return;
-                }
-                if (widget.isReInvestment == true) {
-                  final deadLineUuid = DeadLineEntity.getUuidByName(
-                    widget.deadLineController.text,
-                    await deadLineFuture,
-                  );
-                  reinvestmentParams = CreateReInvestmentParams(
-                    preInvestmentUUID: widget.preInvestmentUUID!,
-                    finalAmount: amount,
-                    deadlineUUID: deadLineUuid,
-                    currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
-                    coupon: widget.couponController.text,
-                    originFounds: OriginFunds(
-                      originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
-                      otherText: widget.otherFundOriginController.text,
-                    ),
-                    typeReinvestment: widget.reInvestmentType!,
-                  );
-                  bool isValidReinvestment = validateReinvestmentForm(
-                    userAcceptedTerms,
-                    reinvestmentParams!,
-                    receiverBankAccountState.value,
-                    widget.additionalAmountController.text,
-                  );
-                  if (isValidReinvestment == false) {
-                    return;
+                context.loaderOverlay.show();
+                try {
+                  final userProfileCompleteness = await ref.read(userProfileCompletenessProvider.future);
+                  if (!userProfileCompleteness.isComplete()) {
+                    context.loaderOverlay.hide();
+                    showVerifyIdentity(
+                      context,
+                      userProfileCompleteness,
+                      redirect: handleContinueButton,
+                    );
+                  } else {
+                    await handleContinueButton();
                   }
+                } catch (error) {
+                  print('Error al verificar el perfil: $error');
+                  showSnackBarV2(
+                    context: context,
+                    title: "Error",
+                    message: "Ocurrió un error al verificar tu perfil. Por favor, inténtalo de nuevo.",
+                    snackType: SnackType.error,
+                  );
+                } finally {
+                  context.loaderOverlay.hide();
                 }
-                investmentSimulationModal(
-                  context,
-                  startingAmount: int.parse(amount),
-                  finalAmount: int.parse(widget.amountController.text),
-                  // startingAmount: int.parse(widget.amountController.text),
-                  // finalAmount: int.parse(amount),
-                  mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
-                  coupon: widget.couponController.text,
-                  toInvestPressed: () async {
-                    if (widget.isReInvestment == true) {
-                      _saveReInvestment(
-                        context,
-                        ref,
-                        reinvestmentParams!,
-                      );
-                    } else {
-                      _savePreInvestment(
-                        context,
-                        ref,
-                        SaveCorporateInvestmentInput(
-                          amount: amount,
-                          months: widget.deadLineController.text.split(' ')[0],
-                          coupon: widget.couponController.text,
-                          currency: isSoles ? currencyNuevoSol : currencyDollar,
-                          originFunds: OriginFunds(
-                            originFundsEnum: OriginFoundsUtil.fromReadableName(widget.originFundsController.text),
-                            otherText: widget.otherFundOriginController.text,
-                          ),
-                          fundUUID: widget.fund.uuid,
-                        ),
-                      );
-                    }
-                  },
-                  recalculatePressed: () {
-                    Navigator.pop(context);
-                  },
-                );
               },
-              child: const Text(
-                'Continuar',
-              ),
+              child: const Text('Continuar'),
             ),
           ),
+
+          // SizedBox(
+          //   width: 224,
+          //   height: 50,
+          //   child: TextButton(
+          //     onPressed: () async {
+          //       await trackerService.logButtonClick('step-1-enterprise-continue-button');
+          //       String amount = widget.amountController.text;
+          //       if (widget.isReInvestment == true &&
+          //           widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
+          //         final originAmount = widget.reinvestmentOriginAmount;
+          //         final additionalAmount = widget.additionalAmountController.text;
+          //         amount = '${originAmount! + int.parse(additionalAmount)}';
+          //       } else if (widget.isReInvestment == true &&
+          //           widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ONLY) {
+          //         amount = widget.reinvestmentOriginAmount.toString();
+          //       }
+
+          //       if (userProfile.completeToInvestData() < 1.0) {
+          //         // showVerifyIdentity(context);
+          //         return;
+          //       }
+          //       if (validateForm() == false) {
+          //         return;
+          //       }
+          //       if (widget.isReInvestment == true) {
+          //         final deadLineUuid = DeadLineEntity.getUuidByName(
+          //           widget.deadLineController.text,
+          //           await deadLineFuture,
+          //         );
+          //         reinvestmentParams = CreateReInvestmentParams(
+          //           preInvestmentUUID: widget.preInvestmentUUID!,
+          //           finalAmount: amount,
+          //           deadlineUUID: deadLineUuid,
+          //           currency: isSoles ? currencyEnum.PEN : currencyEnum.USD,
+          //           coupon: widget.couponController.text,
+          //           originFounds: OriginFunds(
+          //             originFundsEnum: OriginFoundsUtil.fromReadableName(
+          //               widget.originFundsController.text,
+          //             ),
+          //             otherText: widget.otherFundOriginController.text,
+          //           ),
+          //           typeReinvestment: widget.reInvestmentType!,
+          //         );
+          //         bool isValidReinvestment = validateReinvestmentForm(
+          //           userAcceptedTerms,
+          //           reinvestmentParams!,
+          //           receiverBankAccountState.value,
+          //           widget.additionalAmountController.text,
+          //         );
+          //         if (isValidReinvestment == false) {
+          //           return;
+          //         }
+          //       }
+          //       investmentSimulationModal(
+          //         context,
+          //         startingAmount: int.parse(amount),
+          //         finalAmount: int.parse(widget.amountController.text),
+          //         // startingAmount: int.parse(widget.amountController.text),
+          //         // finalAmount: int.parse(amount),
+          //         mouthInvestment: int.parse(widget.deadLineController.text.split(' ')[0]),
+          //         coupon: widget.couponController.text,
+          //         toInvestPressed: () async {
+          //           if (widget.isReInvestment == true) {
+          //             _saveReInvestment(
+          //               context,
+          //               ref,
+          //               reinvestmentParams!,
+          //             );
+          //           } else {
+          //             _savePreInvestment(
+          //               context,
+          //               ref,
+          //               SaveCorporateInvestmentInput(
+          //                 amount: amount,
+          //                 months: widget.deadLineController.text.split(' ')[0],
+          //                 coupon: widget.couponController.text,
+          //                 currency: isSoles ? currencyNuevoSol : currencyDollar,
+          //                 originFunds: OriginFunds(
+          //                   originFundsEnum: OriginFoundsUtil.fromReadableName(
+          //                     widget.originFundsController.text,
+          //                   ),
+          //                   otherText: widget.otherFundOriginController.text,
+          //                 ),
+          //                 fundUUID: widget.fund.uuid,
+          //               ),
+          //             );
+          //           }
+          //         },
+          //         recalculatePressed: () {
+          //           Navigator.pop(context);
+          //         },
+          //       );
+          //     },
+          //     child: const Text(
+          //       'Continuar',
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
@@ -1020,8 +1194,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
 }
 
 class ReinvestmentRentabilityCard extends HookConsumerWidget {
-  const ReinvestmentRentabilityCard(
-      {super.key, required this.rentability, required this.amount, required this.isSoles, required this.deadline});
+  const ReinvestmentRentabilityCard({
+    super.key,
+    required this.rentability,
+    required this.amount,
+    required this.isSoles,
+    required this.deadline,
+  });
 
   final double rentability;
   final double amount;
@@ -1073,16 +1252,16 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
                         width: 14,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 4,
                     ),
                     Text(
-                      '${isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount)}',
+                      isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
                       textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? Color(whiteText) : Color(primaryDark),
+                        color: isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                       ),
                     ),
                   ],
@@ -1092,7 +1271,7 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 10,
-                    color: isDarkMode ? Color(whiteText) : Color(blackText),
+                    color: isDarkMode ? const Color(whiteText) : const Color(blackText),
                   ),
                 ),
               ],
@@ -1126,7 +1305,7 @@ class ReinvestmentRentabilityCard extends HookConsumerWidget {
                         width: 2,
                       ),
                       Text(
-                        '$rentability% x ${deadline} meses',
+                        '$rentability% x $deadline meses',
                         style: const TextStyle(
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
@@ -1188,12 +1367,20 @@ class FinalAmountWidget extends HookConsumerWidget {
               children: [
                 const Text(
                   'Monto final',
-                  style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w800, color: activeTextColor),
+                  style: TextStyle(
+                    fontSize: 12.0,
+                    fontWeight: FontWeight.w800,
+                    color: activeTextColor,
+                  ),
                 ),
                 const SizedBox(height: 4.0),
                 Text(
                   '(Capital de la operación en curso + monto adicional)',
-                  style: TextStyle(fontSize: 7.0, fontWeight: FontWeight.w600, color: activeTextColor.withOpacity(0.6)),
+                  style: TextStyle(
+                    fontSize: 7.0,
+                    fontWeight: FontWeight.w600,
+                    color: activeTextColor.withOpacity(0.6),
+                  ),
                 ),
               ],
             ),
@@ -1201,7 +1388,11 @@ class FinalAmountWidget extends HookConsumerWidget {
           const SizedBox(width: 8.0),
           AutoSizeText(
             isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
-            style: const TextStyle(fontSize: 12.0, fontWeight: FontWeight.w800, color: activeTextColor),
+            style: const TextStyle(
+              fontSize: 12.0,
+              fontWeight: FontWeight.w800,
+              color: activeTextColor,
+            ),
             maxLines: 1,
             minFontSize: 8,
           ),

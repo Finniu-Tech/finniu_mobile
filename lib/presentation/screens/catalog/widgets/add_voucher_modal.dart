@@ -110,7 +110,7 @@ class ImageRender extends ConsumerWidget {
                 const TextPoppins(
                   text: "Año 2024",
                   fontSize: 14,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                 ),
                 SizedBox(
                   width: 185,
@@ -250,7 +250,7 @@ class TitleBody extends ConsumerWidget {
         const TextPoppins(
           text: textTitle,
           fontSize: 20,
-          isBold: true,
+          fontWeight: FontWeight.w500,
           textDark: titleDark,
           textLight: titleLight,
         ),

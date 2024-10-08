@@ -30,7 +30,7 @@ class TitleForm extends ConsumerWidget {
               TextPoppins(
                 text: title,
                 fontSize: 20,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: titleTextDark,
                 textLight: titleTextLight,
               ),

@@ -12,6 +12,7 @@ import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/buttons.dart';
@@ -20,7 +21,6 @@ import 'package:finniu/presentation/screens/investment_process.dart/widgets/moda
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/utils/color_utils.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -54,8 +54,12 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
         isDarkMode: currentTheme.isDarkMode,
         backgroundColor:
             currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
-        body:
-            Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID, isReInvestment: isReInvestment),
+        body: Step2Body(
+          fund: fund,
+          amount: amount,
+          preInvestmentUUID: preInvestmentUUID,
+          isReInvestment: isReInvestment,
+        ),
       ),
     );
   }
@@ -76,7 +80,6 @@ class Step2Body extends HookConsumerWidget {
 
   Future<void> getImageFromGallery(BuildContext context, WidgetRef ref) async {
     PermissionStatus status = await Permission.photos.status;
-    print('Initial status: $status');
     bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     if (Platform.isIOS) {
@@ -200,7 +203,11 @@ class Step2Body extends HookConsumerWidget {
               const SizedBox(height: 20),
               Text(
                 fund.name,
-                style: const TextStyle(color: Color(primaryDark), fontSize: 20, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  color: Color(primaryDark),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -264,7 +271,9 @@ class Step2Body extends HookConsumerWidget {
                       fontSize: 14,
                       color: currentTheme.isDarkMode
                           ? const Color(whiteText)
-                          : const Color(primaryDark), // Reemplaza estos valores con tus constantes
+                          : const Color(
+                              primaryDark,
+                            ), // Reemplaza estos valores con tus constantes
                     ),
                     children: [
                       const TextSpan(
@@ -349,7 +358,9 @@ class Step2Body extends HookConsumerWidget {
                               size: 20, // Tamaño de la imagen
                               color: currentTheme.isDarkMode
                                   ? const Color(grayText)
-                                  : const Color(primaryDark), // Color de la imagen
+                                  : const Color(
+                                      primaryDark,
+                                    ), // Color de la imagen
                             ),
                           ),
                         ),
@@ -358,7 +369,6 @@ class Step2Body extends HookConsumerWidget {
                         alignment: Alignment.center,
                         child: InkWell(
                           onTap: () {
-                            print('Abrir galeria');
                             getImageFromGallery(context, ref);
                           },
                           // onTap: () async {
@@ -367,10 +377,14 @@ class Step2Body extends HookConsumerWidget {
 
                           child: Builder(
                             builder: (context) {
-                              final voucherPreview = ref.watch(preInvestmentVoucherImagesPreviewProvider);
+                              final voucherPreview = ref.watch(
+                                preInvestmentVoucherImagesPreviewProvider,
+                              );
                               return voucherPreview.isEmpty
                                   ? ImageIcon(
-                                      const AssetImage('assets/icons/photo.png'),
+                                      const AssetImage(
+                                        'assets/icons/photo.png',
+                                      ),
                                       color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
                                     )
                                   : SizedBox(
@@ -533,28 +547,34 @@ class Step2Body extends HookConsumerWidget {
                       var response;
                       final base64Image = voucherImageBase64;
                       if (base64Image.isEmpty) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debe subir una imagen de la constancia de transferencia',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "La constancia es requerida",
+                          message: 'Debe subir una imagen de la constancia de transferencia',
+                          snackType: SnackType.warning,
                         );
+
                         return;
                       }
 
                       if (ref.watch(userAcceptedTermsProvider) == false) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debe aceptar y leer el contrato',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Debe aceptar y leer el contrato",
+                          message: 'Debe aceptar y leer el contrato',
+                          snackType: SnackType.warning,
                         );
+
                         return;
                       }
                       if (senderBankAccountState.value == null || receiverBankAccountState.value == null) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debe seleccionar una cuenta bancaria',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Debe seleccionar una cuenta bancaria",
+                          message: 'Debe seleccionar una cuenta bancaria',
+                          snackType: SnackType.warning,
                         );
+
                         return;
                       }
                       if (isReInvestment == true) {
@@ -566,7 +586,9 @@ class Step2Body extends HookConsumerWidget {
                           bankAccountReceiver: receiverBankAccountState.value!.id,
                           bankAccountSender: senderBankAccountState.value!.id,
                         );
-                        response = await ref.read(updateReInvestmentProvider(updateReInvestmentParams).future);
+                        response = await ref.read(
+                          updateReInvestmentProvider(updateReInvestmentParams).future,
+                        );
                       } else {
                         context.loaderOverlay.show();
                         response = await PreInvestmentDataSourceImp().update(
@@ -581,10 +603,11 @@ class Step2Body extends HookConsumerWidget {
 
                       if (response.success == false) {
                         context.loaderOverlay.hide();
-                        CustomSnackbar.show(
-                          context,
-                          response.error ?? 'Hubo un problema al guardar',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error al guardar",
+                          message: response.error ?? 'Hubo un problema al guardar',
+                          snackType: SnackType.error,
                         );
                       } else {
                         context.loaderOverlay.hide();

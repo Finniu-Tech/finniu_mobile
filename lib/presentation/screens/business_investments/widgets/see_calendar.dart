@@ -58,7 +58,7 @@ class SeeCalendar extends ConsumerWidget {
                   const TextPoppins(
                     text: "Ver mi calendario de pagos",
                     fontSize: 14,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
               ),
