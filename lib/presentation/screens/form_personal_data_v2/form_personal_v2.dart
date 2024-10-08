@@ -21,30 +21,27 @@ class FormPersonalDataV2 extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        floatingActionButton: Container(
-          width: 0,
-          height: 90,
-          color: Colors.transparent,
-        ),
-        appBar: const AppBarLogo(),
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          const ProgressForm(
-            progress: 0.2,
-          ),
-          const TitleForm(
-            title: "Datos personales",
-            subTitle: "¿Cuales son tus datos personales?",
-            icon: "assets/svg_icons/user_icon_v2.svg",
-          ),
-          PersonalForm(),
-        ],
+    return ScaffoldUserProfile(
+      floatingActionButton: Container(
+        width: 0,
+        height: 90,
+        color: Colors.transparent,
       ),
+      appBar: const AppBarLogo(),
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        const ProgressForm(
+          progress: 0.2,
+        ),
+        const TitleForm(
+          title: "Datos personales",
+          subTitle: "¿Cuales son tus datos personales?",
+          icon: "assets/svg_icons/user_icon_v2.svg",
+        ),
+        PersonalForm(),
+      ],
     );
   }
 }
@@ -59,18 +56,28 @@ class PersonalForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    final firstNameController = useTextEditingController(text: userProfile.firstName ?? '');
-    final lastNameFatherController = useTextEditingController(text: userProfile.lastNameFather ?? '');
-    final lastNameMotherController = useTextEditingController(text: userProfile.lastNameMother ?? '');
+    final firstNameController =
+        useTextEditingController(text: userProfile.firstName ?? '');
+    final lastNameFatherController =
+        useTextEditingController(text: userProfile.lastNameFather ?? '');
+    final lastNameMotherController =
+        useTextEditingController(text: userProfile.lastNameMother ?? '');
     final documentTypeController = useTextEditingController(
-      text: userProfile.documentType == null ? "" : getTypeDocumentByUser(userProfile.documentType!),
+      text: userProfile.documentType == null
+          ? ""
+          : getTypeDocumentByUser(userProfile.documentType!),
     );
-    final documentNumberController = useTextEditingController(text: userProfile.documentNumber);
+    final documentNumberController =
+        useTextEditingController(text: userProfile.documentNumber);
     final civilStatusController = useTextEditingController(
-      text: userProfile.civilStatus == null ? "" : getCivilStatusByUser(userProfile.civilStatus!),
+      text: userProfile.civilStatus == null
+          ? ""
+          : getCivilStatusByUser(userProfile.civilStatus!),
     );
     final genderTypeController = useTextEditingController(
-      text: userProfile.gender == null ? "" : getGenderByUser(userProfile.gender!),
+      text: userProfile.gender == null
+          ? ""
+          : getGenderByUser(userProfile.gender!),
     );
 
     final ValueNotifier<bool> firstNameError = useState(false);
@@ -106,7 +113,8 @@ class PersonalForm extends HookConsumerWidget {
           lastNameMother: lastNameMotherController.text.trim(),
           documentType: getTypeDocumentEnum(documentTypeController.text),
           documentNumber: documentNumberController.text.trim(),
-          civilStatus: getCivilStatusEnum(civilStatusController.text) ?? CivilStatusEnum.SINGLE,
+          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
+              CivilStatusEnum.SINGLE,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
 
@@ -124,7 +132,9 @@ class PersonalForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700 ? 600 : MediaQuery.of(context).size.height * 0.77,
+        height: MediaQuery.of(context).size.height < 700
+            ? 600
+            : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
             ValueListenableBuilder<bool>(
@@ -202,7 +212,8 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message: "Por favor, completa el seleciona el tipo de documento.",
+                        message:
+                            "Por favor, completa el seleciona el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -228,7 +239,8 @@ class PersonalForm extends HookConsumerWidget {
                   hintText: "Ingrese su Nº de documento de identidad",
                   validator: (value) {
                     validateNumberDocument(
-                      typeDocument: getTypeDocumentEnum(documentTypeController.text),
+                      typeDocument:
+                          getTypeDocumentEnum(documentTypeController.text),
                       value: value,
                       field: "Numero de documento",
                       context: context,
@@ -254,7 +266,8 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message: "Por favor, completa el seleciona el estado civil",
+                        message:
+                            "Por favor, completa el seleciona el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;

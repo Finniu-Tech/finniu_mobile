@@ -43,8 +43,11 @@ class ScaffoldConfig extends ConsumerWidget {
         backgroundColor: isDarkMode
             ? const Color(backgroundDark)
             : const Color(backgroundLight),
-        body: SingleChildScrollView(
-          child: children,
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: SingleChildScrollView(
+            child: children,
+          ),
         ),
       ),
     );
