@@ -39,238 +39,241 @@ class EmailLoginScreen extends HookConsumerWidget {
 
     return CustomLoaderOverlay(
       child: CustomScaffoldReturn(
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(
-                height: 30,
-              ),
-              SizedBox(
-                width: 224,
-                child: Image(
-                  fit: BoxFit.cover,
-                  image: AssetImage(
-                    themeProvider.isDarkMode
-                        ? "assets/images/logo_finniu_dark.png"
-                        : "assets/images/logo_finniu_light.png",
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 30,
+                ),
+                SizedBox(
+                  width: 224,
+                  child: Image(
+                    fit: BoxFit.cover,
+                    image: AssetImage(
+                      themeProvider.isDarkMode
+                          ? "assets/images/logo_finniu_dark.png"
+                          : "assets/images/logo_finniu_light.png",
+                    ),
                   ),
                 ),
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: TextPoppins(
-                  text: '¡Bienvenido a Finniu!',
-                  colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
+                Align(
+                  alignment: Alignment.center,
+                  child: TextPoppins(
+                    text: '¡Bienvenido a Finniu!',
+                    colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 30),
-              SizedBox(
-                width: 250,
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: TextPoppins(
-                          text: 'Ingresa a tu cuenta',
-                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      SizedBox(
-                        width: 224,
-                        // height: 38,
-                        child: TextFormField(
-                          autocorrect: false,
-                          onChanged: (value) {
-                            // Actualiza _email y el textvalue.toLowerCase();
-                            _emailController.text = value.trim().toLowerCase();
-                            ;
-                            // Mueve el cursor al final del texto
-                            _emailController.selection =
-                                TextSelection.fromPosition(TextPosition(offset: _emailController.text.length));
-                          },
-                          decoration: const InputDecoration(
-                            hintText: 'Escriba su correo electrónico',
-                            label: Text(
-                              "Correo electrónico",
-                            ),
+                const SizedBox(height: 30),
+                SizedBox(
+                  width: 250,
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: TextPoppins(
+                            text: 'Ingresa a tu cuenta',
+                            colorText: themeProvider.isDarkMode ? whiteText : blackText,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
                           ),
-                          controller: _emailController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Por favor ingrese un correo';
-                            }
-                            if (EmailValidator.validate(value, true) == false) {
-                              return 'Ingrese un correo válido';
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      const SizedBox(height: 29),
-                      SizedBox(
-                        width: 224,
-                        // height: 38,
-                        child: PasswordField(
-                          passwordController: passwordController,
-                          secureStorage: secureStorage,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(context, '/login_forgot');
+                        const SizedBox(height: 30),
+                        SizedBox(
+                          width: 224,
+                          // height: 38,
+                          child: TextFormField(
+                            autocorrect: false,
+                            onChanged: (value) {
+                              // Actualiza _email y el textvalue.toLowerCase();
+                              _emailController.text = value.trim().toLowerCase();
+                              ;
+                              // Mueve el cursor al final del texto
+                              _emailController.selection =
+                                  TextSelection.fromPosition(TextPosition(offset: _emailController.text.length));
                             },
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child: TextPoppins(
-                                text: 'Olvidé mi contraseña',
-                                colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w700,
+                            decoration: const InputDecoration(
+                              hintText: 'Escriba su correo electrónico',
+                              label: Text(
+                                "Correo electrónico",
                               ),
+                            ),
+                            controller: _emailController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor ingrese un correo';
+                              }
+                              if (EmailValidator.validate(value, true) == false) {
+                                return 'Ingrese un correo válido';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 29),
+                        SizedBox(
+                          width: 224,
+                          // height: 38,
+                          child: PasswordField(
+                            passwordController: passwordController,
+                            secureStorage: secureStorage,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/login_forgot');
+                              },
+                              child: Align(
+                                alignment: Alignment.topRight,
+                                child: TextPoppins(
+                                  text: 'Olvidé mi contraseña',
+                                  colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        if (showError.value) ...[
+                          const Text(
+                            'No se pudo validar sus credenciales',
+                            style: TextStyle(
+                              fontSize: 11,
+                              color: Colors.red,
                             ),
                           ),
                         ],
-                      ),
-                      const SizedBox(height: 10),
-                      if (showError.value) ...[
-                        const Text(
-                          'No se pudo validar sus credenciales',
-                          style: TextStyle(
-                            fontSize: 11,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ],
-                      const SizedBox(height: 5),
-                      SizedBox(
-                        width: 224,
-                        height: 50,
-                        child: TextButton(
-                          child: const Text('Ingresar'),
-                          // onPressed: () {
-                          //   Navigator.pushNamed(context, '/investment_step2');
-                          // },
-
-                          onPressed: () async {
-                            if (formKey.currentState!.validate()) {
-                              context.loaderOverlay.show();
-                              final loginResponse = AuthRepository().login(
-                                client: await graphqlProvider,
-                                username: _emailController.value.text.toLowerCase(),
-                                password: passwordController.value.text,
-                              );
-                              loginResponse.then((value) {
-                                if (value.success == true) {
-                                  final token = ref.watch(
-                                    authTokenMutationProvider(
-                                      LoginModel(
-                                        email: _emailController.value.text.toLowerCase(),
-                                        password: passwordController.value.text,
-                                      ),
-                                    ).future,
-                                  );
-                                  token.then(
-                                    (value) async {
-                                      if (value != null) {
-                                        ref.read(authTokenProvider.notifier).state = value;
-                                        Preferences.username = _emailController.value.text.toLowerCase();
-                                        context.loaderOverlay.hide();
-                                        if (rememberPassword.value) {
-                                          // print(password.value);
-                                          await secureStorage.write(
-                                            key: 'password',
-                                            value: passwordController.value.text,
+                        const SizedBox(height: 5),
+                        SizedBox(
+                          width: 224,
+                          height: 50,
+                          child: TextButton(
+                            child: const Text('Ingresar'),
+                            // onPressed: () {
+                            //   Navigator.pushNamed(context, '/investment_step2');
+                            // },
+          
+                            onPressed: () async {
+                              if (formKey.currentState!.validate()) {
+                                context.loaderOverlay.show();
+                                final loginResponse = AuthRepository().login(
+                                  client: await graphqlProvider,
+                                  username: _emailController.value.text.toLowerCase(),
+                                  password: passwordController.value.text,
+                                );
+                                loginResponse.then((value) {
+                                  if (value.success == true) {
+                                    final token = ref.watch(
+                                      authTokenMutationProvider(
+                                        LoginModel(
+                                          email: _emailController.value.text.toLowerCase(),
+                                          password: passwordController.value.text,
+                                        ),
+                                      ).future,
+                                    );
+                                    token.then(
+                                      (value) async {
+                                        if (value != null) {
+                                          ref.read(authTokenProvider.notifier).state = value;
+                                          Preferences.username = _emailController.value.text.toLowerCase();
+                                          context.loaderOverlay.hide();
+                                          if (rememberPassword.value) {
+                                            // print(password.value);
+                                            await secureStorage.write(
+                                              key: 'password',
+                                              value: passwordController.value.text,
+                                            );
+                                          }
+          
+                                          final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+                                          print('featureFlags: $featureFlags');
+                                          ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
+          
+                                          final String route =
+                                              ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
+                                                  ? FeatureRoutes.getRouteForFlag(FeatureFlags.homeV2, defaultHomeRoute)
+                                                  : defaultHomeRoute;
+          
+                                          Navigator.pushNamed(
+                                            context,
+                                            route,
                                           );
+                                        } else {
+                                          showError.value = true;
                                         }
-
-                                        final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
-                                        print('featureFlags: $featureFlags');
-                                        ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
-
-                                        final String route =
-                                            ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
-                                                ? FeatureRoutes.getRouteForFlag(FeatureFlags.homeV2, defaultHomeRoute)
-                                                : defaultHomeRoute;
-
-                                        Navigator.pushNamed(
-                                          context,
-                                          route,
-                                        );
-                                      } else {
+                                      },
+                                      onError: (err) {
+                                        context.loaderOverlay.hide();
                                         showError.value = true;
-                                      }
-                                    },
-                                    onError: (err) {
-                                      context.loaderOverlay.hide();
-                                      showError.value = true;
-                                    },
-                                  );
-                                } else {
-                                  context.loaderOverlay.hide();
-                                  if (value.error == 'Su usuario no a sido activado') {
-                                    CustomSnackbar.show(
-                                      context,
-                                      value.error ?? 'Su usuario no a sido activado',
-                                      'error',
+                                      },
                                     );
-                                    ref.read(userProfileNotifierProvider.notifier).updateFields(
-                                        email: _emailController.value.text, password: passwordController.value.text);
-                                    Future.delayed(const Duration(seconds: 3), () {
-                                      Navigator.pushNamed(context, '/send_code');
-                                    });
                                   } else {
-                                    CustomSnackbar.show(
-                                      context,
-                                      value.error ?? 'No se pudo validar sus credenciales',
-                                      'error',
-                                    );
+                                    context.loaderOverlay.hide();
+                                    if (value.error == 'Su usuario no a sido activado') {
+                                      CustomSnackbar.show(
+                                        context,
+                                        value.error ?? 'Su usuario no a sido activado',
+                                        'error',
+                                      );
+                                      ref.read(userProfileNotifierProvider.notifier).updateFields(
+                                          email: _emailController.value.text, password: passwordController.value.text);
+                                      Future.delayed(const Duration(seconds: 3), () {
+                                        Navigator.pushNamed(context, '/send_code');
+                                      });
+                                    } else {
+                                      CustomSnackbar.show(
+                                        context,
+                                        value.error ?? 'No se pudo validar sus credenciales',
+                                        'error',
+                                      );
+                                    }
                                   }
-                                }
-                              });
-                            }
-                          },
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      Center(
-                        child: TextPoppins(
-                          text: '¿Aún no tienes una cuenta creada?',
-                          colorText: themeProvider.isDarkMode ? whiteText : blackText,
-                          fontSize: 11,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      const SizedBox(height: 5),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(context, '/sign_up_email');
-                        },
-                        child: Center(
-                          child: TextPoppins(
-                            text: 'Registrarme',
-                            colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
-                            fontSize: 11,
-                            fontWeight: FontWeight.bold,
+                                });
+                              }
+                            },
                           ),
                         ),
-                      )
-                    ],
+                        const SizedBox(height: 10),
+                        Center(
+                          child: TextPoppins(
+                            text: '¿Aún no tienes una cuenta creada?',
+                            colorText: themeProvider.isDarkMode ? whiteText : blackText,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        const SizedBox(height: 5),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/sign_up_email');
+                          },
+                          child: Center(
+                            child: TextPoppins(
+                              text: 'Registrarme',
+                              colorText: themeProvider.isDarkMode ? skyBlueText : primaryDark,
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
