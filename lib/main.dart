@@ -2,6 +2,7 @@ import 'package:finniu/app_config.dart';
 import 'package:finniu/app_production.dart';
 import 'package:finniu/app_staging.dart';
 import 'package:finniu/firebase_options.dart';
+import 'package:finniu/services/push_notifications_service.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -18,11 +19,10 @@ Future<void> mainCommon(AppConfig config) async {
   await Preferences.init();
   await initializeDateFormatting();
   await initHiveForFlutter();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   if (config.environment == "production") {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-
     if (!kDebugMode) {
       FlutterError.onError = (errorDetails) {
         FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
@@ -34,6 +34,19 @@ Future<void> mainCommon(AppConfig config) async {
       };
     }
   }
+  final pushNotificationService = PushNotificationService();
+  await pushNotificationService.initialize();
+
   appConfig = config;
-  runApp(ProviderScope(child: config.environment == "production" ? const AppProduction() : const AppStaging()));
+  runApp(
+    ProviderScope(
+      child: config.environment == "production"
+          ? AppProduction(
+              pushNotificationService: pushNotificationService,
+            )
+          : AppStaging(
+              pushNotificationService: pushNotificationService,
+            ),
+    ),
+  );
 }
