@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/calendar_container.d
 import 'package:finniu/presentation/screens/catalog/widgets/completed_progress_card.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/init_progress_blue_gold.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_date_picker.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_complete.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/less_year_progress_card.dart';
@@ -53,6 +54,9 @@ class CatalogScreen extends HookConsumerWidget {
 
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
+
+    final TextEditingController controller = TextEditingController();
+
     return Scaffold(
       backgroundColor: isDarkMode
           ? const Color(backgroundDark)
@@ -67,6 +71,22 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: InputDatePickerUserProfile(
+                controller: controller,
+                hintText: "Fecha de nacimiento",
+                validator: (p0) {
+                  return null;
+                },
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "navigate geolocator",
               onPressed: () {
