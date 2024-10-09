@@ -153,4 +153,9 @@ class FirebaseAnalyticsEvents {
   static const String addVoucher = "add_voucher";
   static const String contactAdviser = "contact_adviser";
   static const String investmentPressValidate = "investment_press_validate";
+  static const String clickCalendar = "click_calendar";
+  static const String voucherDownloadHistory = "voucher_download_history";
+  static const String voucherDownloadDetail = "voucher_download_detail";
+  static const String contactDownloadDetail = "contact_download_detail";
+  static const String seeInterestTable = "see_interest_table";
 }
