@@ -51,7 +51,6 @@ void loginEmailHelper({
         token.then(
           (value) async {
             if (value != null) {
-              print(email);
               ref.read(firebaseAnalyticsServiceProvider).logLogin(email);
               showSnackBarV2(
                 context: context,

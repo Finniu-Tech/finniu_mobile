@@ -16,18 +16,17 @@ class FirebaseAnalyticsService {
   }
 
   Future<void> logLogin(String loginMethod) async {
-    try {
-      await _analytics.logLogin(loginMethod: loginMethod);
-    } catch (e) {
-      print(e);
-    }
+    await _analytics.logLogin(loginMethod: loginMethod);
   }
 
   Future<void> setUserId(String userId) async {
     await _analytics.setUserId(id: userId);
   }
 
-  Future<void> setUserProperty(String name, String value) async {
+  Future<void> setUserProperty({
+    required String name,
+    required String value,
+  }) async {
     await _analytics.setUserProperty(
       name: name,
       value: value,
@@ -88,10 +87,15 @@ class FirebaseAnalyticsService {
     );
   }
 
-  Future<void> logScreenView(String screenName, String screenClass) async {
+  Future<void> logScreenView({
+    required String screenName,
+    required String screenClass,
+    required Map<String, String> parameters,
+  }) async {
     await _analytics.logScreenView(
       screenName: screenName,
       screenClass: screenClass,
+      parameters: parameters,
     );
   }
 }
@@ -139,4 +143,14 @@ class FirebaseAnalyticsEvents {
   static const String selectItem = "select_item";
   static const String selectPromotion = "select_promotion";
   static const String viewSearchResults = "view_search_results";
+
+  // Custom Events
+  static const String addCoupon = "add_coupon";
+  static const String completeRegistration = "complete_registration";
+  static const String calculateSimulation = "calculate_simulation";
+  static const String continueSimulation = "continue_simulation";
+  static const String editSimulation = "edit_simulation";
+  static const String addVoucher = "add_voucher";
+  static const String contactAdviser = "contact_adviser";
+  static const String investmentPressValidate = "investment_press_validate";
 }

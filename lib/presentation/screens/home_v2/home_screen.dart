@@ -6,8 +6,10 @@ import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/last_operation_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/last_operation_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -35,7 +37,6 @@ import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour_container.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
-import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -63,57 +64,73 @@ class HomeScreenV2 extends HookConsumerWidget {
       [],
     );
 
-    return PopScope(
-      child: AnalyticsAwareWidget(
-        screenName: 'Home Screen V2',
-        child: Scaffold(
-          appBar: CustomAppBar(
-            currentTheme: currentTheme,
-            userProfile: userProfile,
-          ),
-          backgroundColor: Color(currentTheme.isDarkMode
-              ? scaffoldBlackBackground
-              : scaffoldLightGradientPrimary),
-          bottomNavigationBar: const NavigationBarHome(),
-          extendBody: true,
-          body: HookBuilder(
-            builder: (context) {
-              final userProfile = ref.watch(userProfileFutureProvider);
+    return Scaffold(
+      appBar: CustomAppBar(
+        currentTheme: currentTheme,
+        userProfile: userProfile,
+      ),
+      backgroundColor: Color(
+        currentTheme.isDarkMode
+            ? scaffoldBlackBackground
+            : scaffoldLightGradientPrimary,
+      ),
+      bottomNavigationBar: const NavigationBarHome(),
+      extendBody: true,
+      body: HookBuilder(
+        builder: (context) {
+          final userProfile = ref.watch(userProfileFutureProvider);
 
-              return userProfile.when(
-                data: (profile) {
-                  if (profile.hasCompletedTour != null) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      bool seeLaterTour = ref.watch(seeLaterProvider);
-
-                      if (profile.hasCompletedTour == false &&
-                          seeLaterTour == false) {
-                        showTourV2(context);
-                      }
-                    });
-                  }
-                  return Stack(
-                    children: [
-                      HomeBody(
-                        currentTheme: currentTheme,
-                        userProfile: profile,
-                      ),
-                      if (ref.read(seeLaterProvider) == true &&
-                          profile.hasCompletedTour == false)
-                        Positioned(
-                          left: 0,
-                          top: MediaQuery.of(context).size.height * 0.2,
-                          child: const ShowTourContainer(),
-                        ),
-                    ],
+          return userProfile.when(
+            data: (profile) {
+              ref.read(firebaseAnalyticsServiceProvider).setUserId(
+                    "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
                   );
-                },
-                loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, _) => Center(child: Text(error.toString())),
+              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+                    name: "first_name",
+                    value: "${profile.firstName}_${profile.lastName}",
+                  );
+              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+                    name: "document_number",
+                    value: "${profile.documentNumber}",
+                  );
+              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+                    name: "email",
+                    value: "${profile.email}",
+                  );
+              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+                    name: "phone_number",
+                    value: "${profile.phoneNumber}",
+                  );
+              if (profile.hasCompletedTour != null) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  bool seeLaterTour = ref.watch(seeLaterProvider);
+
+                  if (profile.hasCompletedTour == false &&
+                      seeLaterTour == false) {
+                    showTourV2(context);
+                  }
+                });
+              }
+              return Stack(
+                children: [
+                  HomeBody(
+                    currentTheme: currentTheme,
+                    userProfile: profile,
+                  ),
+                  if (ref.read(seeLaterProvider) == true &&
+                      profile.hasCompletedTour == false)
+                    Positioned(
+                      left: 0,
+                      top: MediaQuery.of(context).size.height * 0.2,
+                      child: const ShowTourContainer(),
+                    ),
+                ],
               );
             },
-          ),
-        ),
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (error, _) => Center(child: Text(error.toString())),
+          );
+        },
       ),
     );
   }
@@ -196,15 +213,15 @@ class HomeBody extends HookConsumerWidget {
                 const SizedBox(
                   height: 15,
                 ),
+                TextButton(
+                  onPressed: () => Navigator.pushNamed(context, '/catalog'),
+                  child: const Text('Ver Catalogo de Widgets'),
+                ),
                 if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] ==
                     true) ...[
                   ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/home_home'),
                     child: const Text('Ir a home normal'),
-                  ),
-                  TextButton(
-                    onPressed: () => Navigator.pushNamed(context, '/catalog'),
-                    child: const Text('Ver Catalogo de Widgets'),
                   ),
                 ],
                 const SizedBox(
@@ -699,31 +716,50 @@ class ToValidateSlider extends ConsumerWidget {
     required this.fundName,
   });
 
-  void contact() async {
-    var whatsappNumber = "51940206852";
-    var whatsappMessage = "Hola";
-    var whatsappUrlAndroid = Uri.parse(
-      "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
-    );
-    var whatsappUrlIphone =
-        Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
-
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      await launchUrl(whatsappUrlAndroid);
-    } else {
-      await launchUrl(whatsappUrlIphone);
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void contact() async {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.contactAdviser,
+        parameters: {
+          "amount": amount.toString(),
+          "fundName": fundName,
+        },
+      );
+      var whatsappNumber = "51940206852";
+      var whatsappMessage = "Hola";
+      var whatsappUrlAndroid = Uri.parse(
+        "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
+      );
+      var whatsappUrlIphone =
+          Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await launchUrl(whatsappUrlAndroid);
+      } else {
+        await launchUrl(whatsappUrlIphone);
+      }
+    }
+
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const backgroundLight = 0xffD6F6FF;
     const backgroundDark = 0xff08273F;
     return Stack(
       children: [
         GestureDetector(
-          onTap: () => showValidationModal(context, contact),
+          onTap: () => {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.investmentPressValidate,
+              parameters: {
+                "amount": amount.toString(),
+                "fundName": fundName,
+              },
+            ),
+            showValidationModal(
+              context,
+              contact,
+            ),
+          },
           child: Container(
             width: 330,
             height: 96,

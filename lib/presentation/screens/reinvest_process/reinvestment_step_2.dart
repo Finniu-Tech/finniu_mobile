@@ -7,7 +7,9 @@ import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/plan_entities.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -602,6 +604,12 @@ class Step2BodyState extends ConsumerState<Step2Body> {
                       padding: const EdgeInsets.only(right: 10, top: 10),
                       child: InkWell(
                         onTap: () {
+                          ref
+                              .read(firebaseAnalyticsServiceProvider)
+                              .logCustomEvent(
+                            eventName: FirebaseAnalyticsEvents.addVoucher,
+                            parameters: {},
+                          );
                           showVoucherHelpModal(context);
                         },
                         child: ImageIcon(
