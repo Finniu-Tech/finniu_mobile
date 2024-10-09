@@ -5,10 +5,10 @@ class FirebaseAnalyticsService {
 
   FirebaseAnalyticsService(this._analytics);
 
-  Future<void> logCustomEvent(
-    String eventName,
-    Map<String, String> parameters,
-  ) async {
+  Future<void> logCustomEvent({
+    required String eventName,
+    required Map<String, String> parameters,
+  }) async {
     await _analytics.logEvent(
       name: eventName,
       parameters: parameters,
@@ -16,18 +16,11 @@ class FirebaseAnalyticsService {
   }
 
   Future<void> logLogin(String loginMethod) async {
-    await _analytics.logLogin(loginMethod: loginMethod);
-  }
-
-  Future<void> logGlobalEvent() async {
-    await _analytics.logEvent(
-      name: "prueba_global_true",
-      parameters: {
-        "prueba": "prueba",
-        "prueba2": "prueba2",
-      },
-      callOptions: AnalyticsCallOptions(global: true),
-    );
+    try {
+      await _analytics.logLogin(loginMethod: loginMethod);
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> setUserId(String userId) async {
@@ -100,22 +93,6 @@ class FirebaseAnalyticsService {
       screenName: screenName,
       screenClass: screenClass,
     );
-  }
-
-  Future<void> logAddToWishlist() async {
-    await logCustomEvent(FirebaseAnalyticsEvents.addToWishlist, {});
-  }
-
-  Future<void> logBeginCheckout() async {
-    await logCustomEvent(FirebaseAnalyticsEvents.beginCheckout, {});
-  }
-
-  Future<void> logViewCart() async {
-    await logCustomEvent(FirebaseAnalyticsEvents.viewCart, {});
-  }
-
-  Future<void> logViewItem(String itemId) async {
-    await logCustomEvent(FirebaseAnalyticsEvents.viewItem, {"item_id": itemId});
   }
 }
 
