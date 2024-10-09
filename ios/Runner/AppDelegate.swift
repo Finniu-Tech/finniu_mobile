@@ -1,6 +1,3 @@
-import UIKit
-import Flutter
-
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
@@ -10,27 +7,25 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
-  //url schemes
+
   override func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
     return handleDeepLink(url)
   }
 
-  // deep links
-  private func handleDeepLink(_ url: URL) -> Bool {
-    print("Recibido deep link: \(url)")
+  override func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+    if let url = userActivity.webpageURL {
+      return handleDeepLink(url)
+    }
+    return false
+  }
 
-    // get FlutterViewController
+  private func handleDeepLink(_ url: URL) -> Bool {
+    print("Received deep link: \(url)")
     guard let flutterViewController = window?.rootViewController as? FlutterViewController else {
       return false
     }
-
-    // channel
-    let channel = FlutterMethodChannel(name: "com.finniu.finniuapp/deeplink",
-                                       binaryMessenger: flutterViewController.binaryMessenger)
-
-    // send the url to flutter
+    let channel = FlutterMethodChannel(name: "com.finniu.finniuapp/deeplink", binaryMessenger: flutterViewController.binaryMessenger)
     channel.invokeMethod("handleDeepLink", arguments: url.absoluteString)
-
     return true
   }
 }
