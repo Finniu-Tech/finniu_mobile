@@ -1,32 +1,41 @@
-import 'dart:async';
-import 'package:app_links/app_links.dart';
+import 'package:finniu/presentation/providers/auth_provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:app_links/app_links.dart';
 
 final appLinksProvider = Provider<AppLinks>((ref) => AppLinks());
-final deepLinkHandlerProvider = Provider((ref) => DeepLinkHandler(ref));
+// final deepLinkHandlerProvider = Provider((ref) => DeepLinkHandler(ref));
+final deepLinkRouteProvider = StateProvider<String?>((ref) => null);
+final navigatorKeyProvider = Provider((ref) => GlobalKey<NavigatorState>());
+
+final deepLinkHandlerProvider = Provider((ref) {
+  final navigatorKey = ref.watch(navigatorKeyProvider);
+  return DeepLinkHandler(ref, navigatorKey);
+});
 
 class DeepLinkHandler {
   final Ref _ref;
-  StreamSubscription<Uri>? _linkSubscription;
   late AppLinks _appLinks;
-  static const platform = MethodChannel('com.finniu/deeplink');
-  late String _deepLinkScheme;
+  final GlobalKey<NavigatorState> navigatorKey;
+  static const MethodChannel _channel = MethodChannel('com.finniu/deeplink');
 
-  DeepLinkHandler(this._ref);
+  DeepLinkHandler(this._ref, this.navigatorKey);
 
   Future<void> initialize() async {
     print('DeepLinkHandler: initialize');
     _appLinks = _ref.read(appLinksProvider);
 
-    // Get the deep link scheme for the current flavor
-    _deepLinkScheme = await getDeepLinkScheme();
-    print('Current deep link scheme: $_deepLinkScheme');
+    _channel.setMethodCallHandler((call) async {
+      if (call.method == 'handleDeepLink') {
+        final String url = call.arguments;
+        print('Received deep link from native: $url');
+        handleDeepLink(Uri.parse(url));
+      }
+    });
 
-    // Handle initial link
     try {
       final initialLink = await _appLinks.getInitialLink();
-      print('Initial deep link: $initialLink');
       if (initialLink != null) {
         handleDeepLink(initialLink);
       }
@@ -34,58 +43,70 @@ class DeepLinkHandler {
       print('Error getting initial app link: $e');
     }
 
-    // Listen to app link changes when the app is in the foreground or background
-    _linkSubscription = _appLinks.uriLinkStream.listen((Uri? uri) {
-      print('onAppLink: $uri');
-      if (uri != null) {
-        handleDeepLink(uri);
-      }
+    _appLinks.uriLinkStream.listen((uri) {
+      handleDeepLink(uri);
     });
-
-    // Set up method channel handler
-    platform.setMethodCallHandler((call) async {
-      if (call.method == 'handleDeepLink') {
-        final String? link = call.arguments;
-        if (link != null) {
-          handleDeepLink(Uri.parse(link));
-        }
-      }
-    });
-  }
-
-  Future<String> getDeepLinkScheme() async {
-    try {
-      final String result = await platform.invokeMethod('getDeepLinkScheme');
-      return result;
-    } on PlatformException catch (e) {
-      print("Failed to get deep link scheme: '${e.message}'.");
-      return 'finniuapp'; // Default to production scheme
-    }
   }
 
   void handleDeepLink(Uri uri) {
-    if (isValidDeepLink(uri)) {
-      print('Deep link handled: $uri');
-      print('Scheme: ${uri.scheme}');
-      print('Host: ${uri.host}');
-      print('Path: ${uri.path}');
-      print('Query parameters: ${uri.queryParameters}');
-      // Implement your navigation logic here
-      // For example:
-      // if (uri.path.startsWith('/ver-detalle')) {
-      //   final id = uri.pathSegments.last;
-      //   // Navigate to detail page with id
-      // }
+    print('Deep link handled: $uri');
+    final isAuthenticated = checkAuthentication();
+    print('Is authenticated: $isAuthenticated');
+
+    if (!isAuthenticated) {
+      print('is not authenticated');
+      // Guardar la ruta del deep link
+      _ref.read(deepLinkRouteProvider.notifier).state = uri.path;
+      // Navegar al login
+      navigatorKey.currentState?.pushNamed('/v2/login_email');
     } else {
-      print('Invalid deep link: $uri');
+      print('is authenticated');
+      // Procesar el deep link directamente
+      processDeepLink(uri.path);
     }
   }
 
-  bool isValidDeepLink(Uri uri) {
-    return uri.scheme == _deepLinkScheme || uri.scheme == 'https';
+  void processDeepLink(String path) {
+    print('Processing deep link path: $path');
+    if (navigatorKey.currentState == null) {
+      print('Error: Navigator is null');
+      return;
+    }
+
+    try {
+      navigatorKey.currentState!.pushNamed(path);
+      print('Successfully navigated to: $path');
+    } catch (e) {
+      print('Error navigating to $path: $e');
+      // Fallback a una ruta por defecto si la navegación falla
+      navigatorKey.currentState!.pushNamed('/v2/home');
+    }
   }
 
-  void dispose() {
-    _linkSubscription?.cancel();
+  bool checkAuthentication() {
+    //get token
+    final token = _ref.watch(authTokenProvider);
+    print('Checking authentication: $token');
+    if (token == '') {
+      print('Not authenticated');
+      return false;
+    } else {
+      print('Authenticated');
+      return true;
+    }
+  }
+
+  Future<bool> checkSavedDeepLink() async {
+    final savedRoute = _ref.read(deepLinkRouteProvider);
+    print('Checking saved deep link route: $savedRoute');
+    if (savedRoute != null) {
+      processDeepLink(savedRoute);
+      // Limpiar la ruta guardada solo después de procesarla
+      _ref.read(deepLinkRouteProvider.notifier).state = null;
+      return true;
+    } else {
+      print('No saved deep link route found');
+      return false;
+    }
   }
 }
