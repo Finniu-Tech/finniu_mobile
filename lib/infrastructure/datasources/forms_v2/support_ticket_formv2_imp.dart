@@ -10,7 +10,7 @@ class SupportTicketFormv2Imp extends GraphQLBaseDataSource {
     required DtoSupportForm data,
   }) async {
     try {
-      await client.mutate(
+      final response = await client.mutate(
         MutationOptions(
           document: gql(
             MutationRepository.createSupportTicket(),
@@ -26,7 +26,8 @@ class SupportTicketFormv2Imp extends GraphQLBaseDataSource {
         ),
       );
 
-      return true;
+      final responseJson = response.data?['createSupportTicket'];
+      return responseJson != null;
     } catch (e) {
       return false;
     }

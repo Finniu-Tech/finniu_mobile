@@ -756,7 +756,7 @@ class MutationRepository {
   static String createSupportTicket() {
     return '''
     mutation createSupportTicket(
-      \$category: String!
+      \$category: CategoryTicketEnum!
       \$description: String!
       \$email: String!
       \$name: String!
