@@ -65,7 +65,10 @@ class FirebaseAnalyticsService {
   }
 
   Future<void> logPurchase(
-      String currency, double value, String transactionId) async {
+    String currency,
+    double value,
+    String transactionId,
+  ) async {
     await _analytics.logPurchase(
       currency: currency,
       value: value,

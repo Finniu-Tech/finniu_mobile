@@ -593,7 +593,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
           );
         }
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.editSimulation,
+          eventName: FirebaseAnalyticsEvents.continueSimulation,
           parameters: {
             "amout": amount,
             "isReInvestment": widget.isReInvestment.toString(),
@@ -1187,6 +1187,12 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       redirect: handleContinueButton,
                     );
                   } else {
+                    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                      eventName: FirebaseAnalyticsEvents.completeRegistration,
+                      parameters: {
+                        'complete_registration': true.toString(),
+                      },
+                    );
                     await handleContinueButton();
                   }
                 } catch (error) {
