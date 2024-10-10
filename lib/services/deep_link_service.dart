@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:app_links/app_links.dart';
 
@@ -17,12 +18,21 @@ class DeepLinkHandler {
   final Ref _ref;
   late AppLinks _appLinks;
   final GlobalKey<NavigatorState> navigatorKey;
+  static const MethodChannel _channel = MethodChannel('com.finniu/deeplink');
 
   DeepLinkHandler(this._ref, this.navigatorKey);
 
   Future<void> initialize() async {
     print('DeepLinkHandler: initialize');
     _appLinks = _ref.read(appLinksProvider);
+
+    _channel.setMethodCallHandler((call) async {
+      if (call.method == 'handleDeepLink') {
+        final String url = call.arguments;
+        print('Received deep link from native: $url');
+        handleDeepLink(Uri.parse(url));
+      }
+    });
 
     try {
       final initialLink = await _appLinks.getInitialLink();
