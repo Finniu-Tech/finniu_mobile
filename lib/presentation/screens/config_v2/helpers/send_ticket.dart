@@ -23,7 +23,7 @@ class DtoSupportForm {
   });
 }
 
-sendTicketSupport(
+Future<bool?> sendTicketSupport(
   BuildContext context,
   DtoSupportForm data,
   WidgetRef ref,
@@ -51,6 +51,11 @@ sendTicketSupport(
         message: "Se a enviado un ticket de soporte",
         snackType: SnackType.success,
       );
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home_v2',
+        (route) => false,
+      );
       return value;
     } else {
       context.loaderOverlay.hide();
@@ -63,4 +68,5 @@ sendTicketSupport(
       return value;
     }
   });
+  return null;
 }

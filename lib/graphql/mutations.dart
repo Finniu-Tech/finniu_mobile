@@ -752,4 +752,26 @@ class MutationRepository {
   }
     ''';
   }
+
+  static String createSupportTicket() {
+    return '''
+    mutation createSupportTicket(
+      \$category: String!
+      \$description: String!
+      \$email: String!
+      \$name: String!
+      \$lastName: String!
+    ) {
+      createSupportTicket(
+        category: \$category
+        name: \$name
+        description: \$description
+        email: \$email
+        lastName: \$lastName
+      ) {
+        success
+      }
+    }
+    ''';
+  }
 }
