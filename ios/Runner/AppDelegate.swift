@@ -1,3 +1,6 @@
+import UIKit
+import Flutter
+
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
@@ -21,11 +24,25 @@
 
   private func handleDeepLink(_ url: URL) -> Bool {
     print("Received deep link: \(url)")
-    guard let flutterViewController = window?.rootViewController as? FlutterViewController else {
-      return false
+    
+    // Get the deep link scheme for the current flavor
+    let stagingScheme = "finniuappstaging"
+    let productionScheme = "finniuapp"
+    let currentScheme = Bundle.main.object(forInfoDictionaryKey: "DEEP_LINK_SCHEME") as? String ?? productionScheme
+    
+    if url.scheme == currentScheme || url.scheme == "https" {
+      guard let flutterViewController = window?.rootViewController as? FlutterViewController else {
+        return false
+      }
+      let channel = FlutterMethodChannel(name: "com.finniu.finniuapp/deeplink", binaryMessenger: flutterViewController.binaryMessenger)
+      
+      // Pass both the URL and the current flavor to the Dart side
+      let flavorInfo = ["url": url.absoluteString, "flavor": currentScheme == stagingScheme ? "staging" : "production"]
+      channel.invokeMethod("handleDeepLink", arguments: flavorInfo)
+      
+      return true
     }
-    let channel = FlutterMethodChannel(name: "com.finniu.finniuapp/deeplink", binaryMessenger: flutterViewController.binaryMessenger)
-    channel.invokeMethod("handleDeepLink", arguments: url.absoluteString)
-    return true
+    
+    return false
   }
 }
