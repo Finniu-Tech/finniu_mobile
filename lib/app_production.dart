@@ -19,17 +19,18 @@ class AppProduction extends ConsumerStatefulWidget {
 }
 
 class _AppProductionState extends ConsumerState<AppProduction> {
-  final _navigatorKey = GlobalKey<NavigatorState>();
+  late final DeepLinkHandler _deepLinkHandler;
 
   @override
   void initState() {
     super.initState();
-    ref.read(deepLinkHandlerProvider).initialize();
+    _deepLinkHandler = ref.read(deepLinkHandlerProvider);
+    _deepLinkHandler.initialize();
   }
 
   @override
   void dispose() {
-    ref.read(deepLinkHandlerProvider).dispose();
+    // ref.read(deepLinkHandlerProvider).dispose();
     super.dispose();
   }
 
@@ -38,7 +39,7 @@ class _AppProductionState extends ConsumerState<AppProduction> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     return MaterialApp(
-      navigatorKey: _navigatorKey,
+      navigatorKey: _deepLinkHandler.navigatorKey,
       title: 'Finniu',
       debugShowCheckedModeBanner: false,
       navigatorObservers: [
