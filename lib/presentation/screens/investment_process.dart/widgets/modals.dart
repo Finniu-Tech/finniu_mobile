@@ -32,8 +32,9 @@ class ThanksForInvestingModal extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const String titleText = "Gracias por";
-    final String secondTitleText =
-        isReInvestment! ? "reinvertir en Finniu!" : "invertir en Finniu!";
+
+    final String secondTitleText = isReInvestment! ? "reinvertir en Finniu!" : "invertir en Finniu!";
+
     // final String textButton = "Ver mi progreso";
     const String textButton = "Evaluar mi experiencia";
     const String textTanks = "Gracias por tu comprensión!";
@@ -81,112 +82,111 @@ class ThanksModalBody extends StatelessWidget {
     return Dialog(
       insetPadding: const EdgeInsets.all(20),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         width: 329,
         height: 272,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              right: 0,
-              child: IconButton(
-                onPressed: () => Navigator.pop(context),
-                icon: Transform.rotate(
-                  angle: math.pi / 4,
-                  child: const Icon(
-                    Icons.add_circle_outline,
-                    size: 25,
+        child: Center(
+          child: Stack(
+            children: [
+              Positioned(
+                top: 0,
+                right: 0,
+                child: IconButton(
+                  onPressed: onPressed,
+                  icon: Transform.rotate(
+                    angle: math.pi / 4,
+                    child: const Icon(
+                      Icons.add_circle_outline,
+                      size: 25,
+                    ),
                   ),
                 ),
               ),
-            ),
-            SizedBox(
-              width: 282,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        titleText,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: isDarkMode
-                              ? const Color(labelTextDarkColor)
-                              : const Color(labelTextLightColor),
+
+              SizedBox(
+                width: 282,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          titleText,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                          ),
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            secondTitleText,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: isDarkMode
-                                  ? const Color(labelTextDarkColor)
-                                  : const Color(labelTextLightColor),
+                        Row(
+                          children: [
+                            Text(
+                              secondTitleText,
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                              ),
+
                             ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Image.asset('assets/icons/icon_tanks.png'),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        textBody,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontFamily: "Poppins",
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Image.asset('assets/icons/icon_tanks.png'),
+                          ],
                         ),
-                        maxLines: 4,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Text(
-                        textTanks,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Poppins",
-                          color: isDarkMode
-                              ? const Color(labelTextDarkColor)
-                              : const Color(labelTextLightColor),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          textBody,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontFamily: "Poppins",
+                          ),
+                          maxLines: 4,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        maxLines: 1,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  ThankButtonDialog(
-                    onPressed: onPressed,
-                    text: textButton,
-                  ),
-                ],
+
+                        Text(
+                          textTanks,
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "Poppins",
+                            color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                          ),
+                          maxLines: 1,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    ThankButtonDialog(
+                      onPressed: onPressed,
+                      text: textButton,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
