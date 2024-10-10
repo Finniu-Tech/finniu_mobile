@@ -10,13 +10,18 @@ class DeepLinkHandler {
   final Ref _ref;
   StreamSubscription<Uri>? _linkSubscription;
   late AppLinks _appLinks;
-  static const platform = MethodChannel('com.finniu.finniuapp/deeplink');
+  static const platform = MethodChannel('com.finniu/deeplink');
+  late String _deepLinkScheme;
 
   DeepLinkHandler(this._ref);
 
   Future<void> initialize() async {
     print('DeepLinkHandler: initialize');
     _appLinks = _ref.read(appLinksProvider);
+
+    // Get the deep link scheme for the current flavor
+    _deepLinkScheme = await getDeepLinkScheme();
+    print('Current deep link scheme: $_deepLinkScheme');
 
     // Handle initial link
     try {
@@ -37,7 +42,7 @@ class DeepLinkHandler {
       }
     });
 
-    // Set up method channel handler for iOS
+    // Set up method channel handler
     platform.setMethodCallHandler((call) async {
       if (call.method == 'handleDeepLink') {
         final String? link = call.arguments;
@@ -48,20 +53,36 @@ class DeepLinkHandler {
     });
   }
 
+  Future<String> getDeepLinkScheme() async {
+    try {
+      final String result = await platform.invokeMethod('getDeepLinkScheme');
+      return result;
+    } on PlatformException catch (e) {
+      print("Failed to get deep link scheme: '${e.message}'.");
+      return 'finniuapp'; // Default to production scheme
+    }
+  }
+
   void handleDeepLink(Uri uri) {
-    // Ejemplo: Navigator.of(context).pushNamed(uri.path);
-    //test for ios - the first part is the schema , the seconds the host and the path.
-    //finniuapp://finniu.com/ver-detalle/123
+    if (isValidDeepLink(uri)) {
+      print('Deep link handled: $uri');
+      print('Scheme: ${uri.scheme}');
+      print('Host: ${uri.host}');
+      print('Path: ${uri.path}');
+      print('Query parameters: ${uri.queryParameters}');
+      // Implement your navigation logic here
+      // For example:
+      // if (uri.path.startsWith('/ver-detalle')) {
+      //   final id = uri.pathSegments.last;
+      //   // Navigate to detail page with id
+      // }
+    } else {
+      print('Invalid deep link: $uri');
+    }
+  }
 
-    //test for android
-    //adb shell am start -W -a android.intent.action.VIEW -d "finniuapp://finniu.com/ver-detalle/123"
-
-    print('Deep link handled: $uri');
-    print('Scheme: ${uri.scheme}');
-    print('Host: ${uri.host}');
-    print('Path: ${uri.path}');
-    print('Query parameters: ${uri.queryParameters}');
-    // Implement your navigation logic here
+  bool isValidDeepLink(Uri uri) {
+    return uri.scheme == _deepLinkScheme || uri.scheme == 'https';
   }
 
   void dispose() {

@@ -22,7 +22,7 @@
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
         <!-- URL Scheme -->
-        <data android:scheme="finniuapp" android:host="finniu.com" />
+        <data android:scheme="${DEEP_LINK_SCHEME}" android:host="finniu.com" />
         <!-- Opcional: para links http/https -->
         <data android:scheme="https" android:host="finniu.com" />
       </intent-filter>
