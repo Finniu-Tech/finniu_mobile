@@ -761,6 +761,7 @@ class MutationRepository {
       \$email: String!
       \$name: String!
       \$lastName: String!
+      \$imageReport:String
     ) {
       createSupportTicket(
         category: \$category
@@ -768,6 +769,7 @@ class MutationRepository {
         description: \$description
         email: \$email
         lastName: \$lastName
+        imageReport: \$imageReport
       ) {
         success
       }

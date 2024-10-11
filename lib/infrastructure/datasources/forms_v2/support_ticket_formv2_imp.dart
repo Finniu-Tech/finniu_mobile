@@ -21,6 +21,7 @@ class SupportTicketFormv2Imp extends GraphQLBaseDataSource {
             'name': data.firstName,
             'lastName': data.lastName,
             'description': data.message,
+            'imageReport': data.imageBase64,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),
