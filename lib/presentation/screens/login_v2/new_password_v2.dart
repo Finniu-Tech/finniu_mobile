@@ -20,42 +20,39 @@ class NewPasswordV2 extends ConsumerWidget {
     const int titleLight = 0xff0D3A5C;
     const String text = "Ingresa tu nueva contraseña";
 
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScaffoldUserProfile(
-        children: [
-          Center(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/images/forgot_password.png",
-                    width: 64,
-                    height: 64,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const TextPoppins(
-                    text: text,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    textDark: titleDark,
-                    textLight: titleLight,
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const FormNewPasword(),
-                ],
-              ),
+    return ScaffoldUserProfile(
+      children: [
+        Center(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Image.asset(
+                  "assets/images/forgot_password.png",
+                  width: 64,
+                  height: 64,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const TextPoppins(
+                  text: text,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                  textDark: titleDark,
+                  textLight: titleLight,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const FormNewPasword(),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

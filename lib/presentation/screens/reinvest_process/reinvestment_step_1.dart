@@ -262,7 +262,7 @@ class Step1BodyState extends ConsumerState<ReinvestmentStep1Body> {
 
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).unfocus();
+        FocusManager.instance.primaryFocus?.unfocus();
       },
       child: SingleChildScrollView(
         child: Column(

@@ -42,18 +42,21 @@ class ScaffoldUserProfile extends ConsumerWidget {
         backgroundColor: isDarkMode
             ? const Color(backgroundDark)
             : const Color(backgroundLight),
-        body: SingleChildScrollView(
-          child: Center(
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.85,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 15),
-                child: Column(
-                  mainAxisAlignment:
-                      mainAxisAlignment ?? MainAxisAlignment.spaceAround,
-                  crossAxisAlignment:
-                      crossAxisAlignment ?? CrossAxisAlignment.start,
-                  children: children,
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: SingleChildScrollView(
+            child: Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.85,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: Column(
+                    mainAxisAlignment:
+                        mainAxisAlignment ?? MainAxisAlignment.spaceAround,
+                    crossAxisAlignment:
+                        crossAxisAlignment ?? CrossAxisAlignment.start,
+                    children: children,
+                  ),
                 ),
               ),
             ),
