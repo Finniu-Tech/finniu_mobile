@@ -53,21 +53,31 @@ android {
             dimension "flavor-type"
             applicationId "com.finniu.app.staging"
             resValue "string", "app_name", "Finniu Staging"
+            buildConfigField "String", "DEEP_LINK_SCHEME", "\"finniuappstaging\""
             sourceSets{
                 staging {
                     res.srcDirs = ['src/staging/res']
                 }
             }
+            manifestPlaceholders = [
+                DEEP_LINK_SCHEME: "finniuappstaging",
+                applicationName: "io.flutter.app.FlutterApplication"
+            ]
         }
         production {
             dimension "flavor-type"
             applicationId "com.finniu"
             resValue "string", "app_name", "Finniu"
+            buildConfigField "String", "DEEP_LINK_SCHEME", "\"finniuapp\""
             sourceSets{
                 production {
                     res.srcDirs = ['src/production/res']
                 }
             }
+            manifestPlaceholders = [
+                DEEP_LINK_SCHEME: "finniuapp",
+                applicationName: "io.flutter.app.FlutterApplication"
+            ]
         }
     }
 
@@ -98,6 +108,10 @@ android {
         versionCode 98
         versionName "4.2.0"
         multiDexEnabled true
+        manifestPlaceholders = [
+            DEEP_LINK_SCHEME: "finniuapp",
+            applicationName: "io.flutter.app.FlutterApplication"
+        ]
     }
 
     signingConfigs {
