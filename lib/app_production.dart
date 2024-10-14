@@ -31,7 +31,13 @@ class _AppProductionState extends ConsumerState<AppProduction> {
   }
 
   @override
-  void dispose() {
+/*************  ✨ Codeium Command ⭐  *************/
+  /// Clean up resources used by the app.
+  ///
+  /// Currently, this doesn't do anything because the
+  /// [DeepLinkHandler] doesn't have any resources to clean up, but this method
+  /// is here in case it's needed in the future.
+/******  8d0720dc-2810-41bb-ad3a-d04e60de101d  *******/ void dispose() {
     // ref.read(deepLinkHandlerProvider).dispose();
     super.dispose();
   }
