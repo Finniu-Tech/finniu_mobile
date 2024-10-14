@@ -8,6 +8,7 @@ import 'package:finniu/widgets/connectivity.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppStaging extends ConsumerStatefulWidget {
@@ -56,8 +57,18 @@ class _AppStagingState extends ConsumerState<AppStaging> {
           builder: (BuildContext context) => const IntroScreen(),
         );
       },
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('es', ''),
+      ],
       builder: (context, child) {
-        return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());
+        return InternetConnectionAlertWidget(
+          child: child ?? const SizedBox.shrink(),
+        );
       },
     );
   }
