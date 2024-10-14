@@ -92,7 +92,15 @@ class _FormSupport extends HookConsumerWidget {
         if (firstNameError.value) return;
         if (lastNameError.value) return;
         if (textExtendedError.value) return;
-        if (imageBase64 == null || imageBase64.isEmpty) return;
+        if (imageBase64 == null || imageBase64.isEmpty) {
+          showSnackBarV2(
+            context: context,
+            title: "Imagen obligatoria",
+            message: "Por favor, adjunta una imagen",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
         // if (imageError.value) return;
         context.loaderOverlay.show();
         final DtoSupportForm data = DtoSupportForm(
