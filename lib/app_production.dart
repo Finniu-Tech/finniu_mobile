@@ -13,8 +13,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppProduction extends ConsumerStatefulWidget {
   final PushNotificationService pushNotificationService;
-  const AppProduction({Key? key, required this.pushNotificationService})
-      : super(key: key);
+  const AppProduction({super.key, required this.pushNotificationService});
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   @override
   ConsumerState<AppProduction> createState() => _AppProductionState();
