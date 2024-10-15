@@ -8,6 +8,7 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/services/deep_link_service.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -66,25 +67,26 @@ void loginEmailHelper({
                 );
               }
 
-              final featureFlags =
-                  await ref.read(userFeatureFlagListFutureProvider.future);
-              ref
-                  .read(featureFlagsProvider.notifier)
-                  .setFeatureFlags(featureFlags);
+              final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
+              ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
 
-              final String route = ref
-                      .watch(featureFlagsProvider.notifier)
-                      .isEnabled(FeatureFlags.homeV2)
+              final String route = ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
                   ? FeatureRoutes.getRouteForFlag(
                       FeatureFlags.homeV2,
                       defaultHomeRoute,
                     )
                   : defaultHomeRoute;
 
-              Navigator.pushNamed(
-                context,
-                route,
-              );
+              final deepLinkHandler = ref.read(deepLinkHandlerProvider);
+              bool hadDeepLink = await deepLinkHandler.checkSavedDeepLink();
+
+              if (!hadDeepLink) {
+                print('is null stored deep link');
+                Navigator.pushNamed(
+                  context,
+                  route,
+                );
+              }
             }
           },
           onError: (err) {
