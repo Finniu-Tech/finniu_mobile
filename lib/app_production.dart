@@ -13,10 +13,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppProduction extends ConsumerStatefulWidget {
   final PushNotificationService pushNotificationService;
-  const AppProduction({Key? key, required this.pushNotificationService}) : super(key: key);
-
+  const AppProduction({super.key, required this.pushNotificationService});
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-
   @override
   ConsumerState<AppProduction> createState() => _AppProductionState();
 }
@@ -46,6 +44,8 @@ class _AppProductionState extends ConsumerState<AppProduction> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
+    AppProduction.analytics.setAnalyticsCollectionEnabled(true);
 
     return MaterialApp(
       navigatorKey: _deepLinkHandler.navigatorKey,
