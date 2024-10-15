@@ -1,4 +1,5 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -27,17 +28,24 @@ class EditPersonalDataScreen extends StatelessWidget {
   }
 }
 
-class _BodyEditPersonal extends ConsumerWidget {
+class _BodyEditPersonal extends HookConsumerWidget {
   const _BodyEditPersonal();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
-    final ValueNotifier<bool> isEdit = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> isEdit = useState(false);
     return Column(
       children: [
-        ImageEditStack(
-          profileImage: "${userProfile.imageProfileUrl}",
+        ValueListenableBuilder<bool>(
+          valueListenable: isEdit,
+          builder: (context, isEditValue, child) {
+            return isEditValue
+                ? const PickImageEditStack()
+                : ImageEditStack(
+                    profileImage: "${userProfile.imageProfileUrl}",
+                  );
+          },
         ),
         const TextPoppins(
           text: "Información de mis datos personales",
@@ -105,7 +113,7 @@ class EditPersonalForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
-
+    final String? imagePath = ref.watch(imagePathProvider);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController =
         useTextEditingController(text: userProfile.firstName ?? '');
@@ -125,11 +133,6 @@ class EditPersonalForm extends HookConsumerWidget {
           ? ""
           : getCivilStatusByUser(userProfile.civilStatus!),
     );
-    final genderTypeController = useTextEditingController(
-      text: userProfile.gender == null
-          ? ""
-          : getGenderByUser(userProfile.gender!),
-    );
 
     final ValueNotifier<bool> firstNameError = useState(false);
     final ValueNotifier<bool> lastNameFatherError = useState(false);
@@ -137,7 +140,6 @@ class EditPersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentTypeError = useState(false);
     final ValueNotifier<bool> documentNumberError = useState(false);
     final ValueNotifier<bool> civilStatusError = useState(false);
-    final ValueNotifier<bool> genderTypeError = useState(false);
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
@@ -155,18 +157,18 @@ class EditPersonalForm extends HookConsumerWidget {
         if (documentTypeError.value) return;
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
-        if (genderTypeError.value) return;
 
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
-            firstName: firstNameController.text.trim(),
-            lastNameFather: lastNameFatherController.text.trim(),
-            lastNameMother: lastNameMotherController.text.trim(),
-            documentType: getTypeDocumentEnum(documentTypeController.text),
-            documentNumber: documentNumberController.text.trim(),
-            civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-                CivilStatusEnum.SINGLE,
-            imageProfile: "");
+          firstName: firstNameController.text.trim(),
+          lastNameFather: lastNameFatherController.text.trim(),
+          lastNameMother: lastNameMotherController.text.trim(),
+          documentType: getTypeDocumentEnum(documentTypeController.text),
+          documentNumber: documentNumberController.text.trim(),
+          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
+              CivilStatusEnum.SINGLE,
+          imageProfile: imagePath ?? userProfile.imageProfile ?? "",
+        );
 
         context.loaderOverlay.show();
         pushPersonalDataForm(
@@ -327,36 +329,6 @@ class EditPersonalForm extends HookConsumerWidget {
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
-                      return null;
-                    }
-
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: genderTypeError,
-              builder: (context, isError, child) {
-                return SelectableDropdownItem(
-                  isError: isError,
-                  onError: () => genderTypeError.value = false,
-                  itemSelectedValue: genderTypeController.text,
-                  options: genderType,
-                  selectController: genderTypeController,
-                  hintText: "Seleccione su genero",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "El genero es obligatorio",
-                        message: "Por favor, completa el seleciona el genero",
-                        snackType: SnackType.warning,
-                      );
-                      genderTypeError.value = true;
                       return null;
                     }
 

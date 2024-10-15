@@ -77,7 +77,8 @@ class AboutMeForm extends HookConsumerWidget {
       if (formKey.currentState!.validate()) {
         context.loaderOverlay.show();
         if (biographyAreaController.text == "" || imageBase64 == null) {
-          Navigator.pushNamedAndRemoveUntil(context, '/home_v2', (route) => false);
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/home_v2', (route) => false);
           context.loaderOverlay.hide();
           return;
         }
@@ -104,14 +105,18 @@ class AboutMeForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700 ? 650 : MediaQuery.of(context).size.height * 0.77,
+        height: MediaQuery.of(context).size.height < 700
+            ? 650
+            : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 10,
             ),
-            imagePath == null ? const AddImageProfile() : const ImageProfileRender(),
+            imagePath == null
+                ? const AddImageProfile()
+                : const ImageProfileRender(),
             const SizedBox(
               height: 10,
             ),
@@ -189,7 +194,9 @@ class AddImageProfile extends ConsumerWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+                color: isDarkMode
+                    ? const Color(backgroundDark)
+                    : const Color(backgroundLight),
                 borderRadius: BorderRadius.circular(100),
               ),
               child: Center(
@@ -197,7 +204,9 @@ class AddImageProfile extends ConsumerWidget {
                   "assets/svg_icons/gallery_add_icon_v2.svg",
                   width: 20,
                   height: 20,
-                  color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+                  color: isDarkMode
+                      ? const Color(iconDark)
+                      : const Color(iconLight),
                 ),
               ),
             ),
