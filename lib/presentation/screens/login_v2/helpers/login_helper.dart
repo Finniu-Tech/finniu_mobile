@@ -4,6 +4,7 @@ import 'package:finniu/infrastructure/models/auth.dart';
 import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
@@ -51,6 +52,7 @@ void loginEmailHelper({
         token.then(
           (value) async {
             if (value != null) {
+              ref.read(firebaseAnalyticsServiceProvider).logLogin(email);
               showSnackBarV2(
                 context: context,
                 title: "Inicio de sesión exitoso",
@@ -107,6 +109,8 @@ void loginEmailHelper({
                 email: email,
                 password: password,
               );
+          final user = ref.read(userProfileNotifierProvider);
+          print(user.email);
           Future.delayed(const Duration(seconds: 3), () {
             Navigator.pushNamed(context, '/v2/send_code');
           });

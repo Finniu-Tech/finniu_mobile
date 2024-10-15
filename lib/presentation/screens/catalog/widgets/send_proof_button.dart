@@ -48,6 +48,7 @@ class ButtonInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.85,
       height: 50,

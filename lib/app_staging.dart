@@ -13,10 +13,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppStaging extends ConsumerStatefulWidget {
   final PushNotificationService pushNotificationService;
-
-  AppStaging({Key? key, required this.pushNotificationService}) : super(key: key);
-
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  const AppStaging({super.key, required this.pushNotificationService});
 
   @override
   ConsumerState<AppStaging> createState() => _AppStagingState();
@@ -41,7 +39,7 @@ class _AppStagingState extends ConsumerState<AppStaging> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
+    AppStaging.analytics.setAnalyticsCollectionEnabled(true);
     return MaterialApp(
       navigatorKey: _deepLinkHandler.navigatorKey,
       title: 'Finniu Staging',
@@ -50,6 +48,7 @@ class _AppStagingState extends ConsumerState<AppStaging> {
       theme: ref.watch(settingsNotifierProvider).currentTheme,
       routes: getApplicationRoutes(),
       navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: AppStaging.analytics),
         ConnectionAwareNavigatorObserver(),
       ],
       onGenerateRoute: (RouteSettings settings) {
@@ -67,8 +66,7 @@ class _AppStagingState extends ConsumerState<AppStaging> {
       ],
       builder: (context, child) {
         return InternetConnectionAlertWidget(
-          child: child ?? const SizedBox.shrink(),
-        );
+            child: child ?? const SizedBox.shrink());
       },
     );
   }
