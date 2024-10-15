@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +82,12 @@ class DownloadButton extends ConsumerWidget {
       bottom: 7,
       child: GestureDetector(
         onTap: () async {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.voucherDownloadHistory,
+            parameters: {
+              "voucher_url": voucherUrl,
+            },
+          );
           await launchUrl(Uri.parse(voucherUrl));
         },
         child: Container(
@@ -87,10 +95,14 @@ class DownloadButton extends ConsumerWidget {
           height: 26,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: isDarkMode ? const Color(buttonColorDark) : const Color(buttonColorLight),
+            color: isDarkMode
+                ? const Color(buttonColorDark)
+                : const Color(buttonColorLight),
             boxShadow: [
               BoxShadow(
-                color: isDarkMode ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2),
+                color: isDarkMode
+                    ? Colors.white.withOpacity(0.2)
+                    : Colors.black.withOpacity(0.2),
                 spreadRadius: 2,
                 blurRadius: 5,
                 offset: const Offset(0, 3),
@@ -116,7 +128,9 @@ class DownloadButton extends ConsumerWidget {
                 "Descargar voucher",
                 style: TextStyle(
                   fontSize: 10,
-                  color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+                  color: isDarkMode
+                      ? const Color(textColorDark)
+                      : const Color(textColorLight),
                 ),
               ),
             ],
@@ -160,7 +174,9 @@ class AmountInvestment extends ConsumerWidget {
           Container(
             width: 4,
             height: 47,
-            color: isDarkMode ? Color(dividerAmountColorDark) : Color(dividerAmountColor),
+            color: isDarkMode
+                ? Color(dividerAmountColorDark)
+                : Color(dividerAmountColor),
           ),
           const SizedBox(width: 10),
           Column(
@@ -180,7 +196,8 @@ class AmountInvestment extends ConsumerWidget {
                 style: TextStyle(
                   fontSize: 9,
                   fontWeight: FontWeight.bold,
-                  color: isDarkMode ? Color(textColorDark) : Color(textColorLight),
+                  color:
+                      isDarkMode ? Color(textColorDark) : Color(textColorLight),
                 ),
               ),
               AnimationNumber(
@@ -227,7 +244,9 @@ class LabelState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode ? Color(labelDarkContainer) : Color(labelLightContainer),
+          color: isDarkMode
+              ? Color(labelDarkContainer)
+              : Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

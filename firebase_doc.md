@@ -1,108 +1,65 @@
-import 'package:firebase_analytics/firebase_analytics.dart';
 
-class FirebaseAnalyticsService {
-  final FirebaseAnalytics _analytics;
+## Firebase doc
 
-  FirebaseAnalyticsService(this._analytics);
+link debugmode console https://console.firebase.google.com/project/finniu/analytics/app/android:com.finniu/debugview
 
-  Future<void> logCustomEvent({
-    required String eventName,
-    required Map<String, String> parameters,
-  }) async {
-    await _analytics.logEvent(
-      name: eventName,
-      parameters: parameters,
+event purifier documentation page https://firebase.google.com/docs/analytics/debugview?hl=es-419
+
+event documentation https://firebase.google.com/docs/reference/android/com/google/firebase/analytics/FirebaseAnalytics.Event
+
+document link with the implemented events https://docs.google.com/spreadsheets/d/1b82gxUfsIbZFAKq5kNh1QNbCG-cMLJiVg0uitFMx1q0/edit?gid=0#gid=0
+
+To enable Analytics debug mode on your development device, specify the following command line argument in Xcode:
+``````
+-FIRDebugEnabled
+```````
+
+This behavior persists until you explicitly disable debug mode by specifying the following command line argument:
+``````
+-FIRDebugDisabled
+``````
+
+To enable Analytics debug mode on an Android device, execute the following commands:
+``````
+adb shell setprop debug.firebase.analytics.app com.finniu
+```````
+
+This behavior persists until you explicitly disable debug mode by executing the following command:
+``````
+adb shell setprop debug.firebase.analytics.app .none.
+``````
+provider firebaseAnalyticsServiceProvider
+``````
+final firebaseAnalyticsProvider = Provider<FirebaseAnalytics>((ref) {
+  return FirebaseAnalytics.instance;
+});
+
+final firebaseAnalyticsServiceProvider =
+    Provider<FirebaseAnalyticsService>((ref) {
+  final analytics = ref.watch(firebaseAnalyticsProvider);
+  return FirebaseAnalyticsService(analytics);
+});
+``````
+example firebaseAnalyticsServiceProvider
+``````
+    ref.read(firebaseAnalyticsServiceProvider).setUserId(
+        "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
     );
-  }
 
-  Future<void> logLogin(String loginMethod) async {
-    await _analytics.logLogin(loginMethod: loginMethod);
-  }
-
-  Future<void> setUserId(String userId) async {
-    await _analytics.setUserId(id: userId);
-  }
-
-  Future<void> setUserProperty({
-    required String name,
-    required String value,
-  }) async {
-    await _analytics.setUserProperty(
-      name: name,
-      value: value,
+     ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+        name: "first_name",
+        value: "${profile.firstName}_${profile.lastName}",
     );
-  }
 
-  Future<void> setAnalyticsCollectionEnabled(bool enabled) async {
-    await _analytics.setAnalyticsCollectionEnabled(enabled);
-  }
-
-  Future<void> setSessionTimeoutDuration(Duration duration) async {
-    await _analytics.setSessionTimeoutDuration(duration);
-  }
-
-  Future<void> resetAnalyticsData() async {
-    await _analytics.resetAnalyticsData();
-  }
-
-  Future<void> logAppOpen() async {
-    await _analytics.logAppOpen();
-  }
-
-  Future<void> logSelectContent(String contentType, String itemId) async {
-    await _analytics.logSelectContent(
-      contentType: contentType,
-      itemId: itemId,
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.[event],
+        parameters: {
+          'parameter': [parameter],
+        },
     );
-  }
-
-  Future<void> logTutorialBegin() async {
-    await _analytics.logTutorialBegin();
-  }
-
-  Future<void> logTutorialComplete() async {
-    await _analytics.logTutorialComplete();
-  }
-
-  Future<void> logPurchase(
-    String currency,
-    double value,
-    String transactionId,
-  ) async {
-    await _analytics.logPurchase(
-      currency: currency,
-      value: value,
-      transactionId: transactionId,
-    );
-  }
-
-  Future<void> logAddToCart(String currency, double value) async {
-    await _analytics.logAddToCart(
-      currency: currency,
-      value: value,
-    );
-  }
-
-  Future<void> logRemoveFromCart(String currency, double value) async {
-    await _analytics.logRemoveFromCart(
-      currency: currency,
-      value: value,
-    );
-  }
-
-  Future<void> logScreenView({
-    required String screenName,
-    required String screenClass,
-    required Map<String, String> parameters,
-  }) async {
-    await _analytics.logScreenView(
-      screenName: screenName,
-      screenClass: screenClass,
-      parameters: parameters,
-    );
-  }
-}
-
+``````
+events FirebaseAnalyticsEvents import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+``````
 class FirebaseAnalyticsEvents {
   // E-Commerce Events
   static const String addPaymentInfo = "add_payment_info";
@@ -162,3 +119,4 @@ class FirebaseAnalyticsEvents {
   static const String contactDownloadDetail = "contact_download_detail";
   static const String seeInterestTable = "see_interest_table";
 }
+``````

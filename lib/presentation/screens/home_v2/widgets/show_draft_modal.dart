@@ -1,4 +1,6 @@
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft_modal.dart';
@@ -90,6 +92,15 @@ class _DraftBody extends ConsumerWidget {
     }
 
     void contact() async {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.contactAdviser,
+        parameters: {
+          "amount": amountNumber.toString(),
+          "fundName": fund.name,
+          "currency": currency,
+          "isReinvest": isReinvest.toString(),
+        },
+      );
       var whatsappNumber = "51952484612";
       var whatsappMessage = "Hola";
       var whatsappUrlAndroid = Uri.parse(
