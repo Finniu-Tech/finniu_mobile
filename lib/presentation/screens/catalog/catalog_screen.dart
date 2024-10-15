@@ -30,6 +30,7 @@ import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_pro
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/row_dowload.dart';
 import 'package:finniu/widgets/buttons.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -243,6 +244,13 @@ class CatalogScreen extends HookConsumerWidget {
             SizedBox(
               height: 10,
             ),
+            ButtonInvestment(
+                text: 'Log error on crashalytics',
+                onPressed: () async {
+                  print('log error on crashalytics');
+                  FirebaseCrashlytics.instance.log('Esto es un log de prueba');
+                  throw Exception();
+                }),
             const Padding(
               padding: EdgeInsets.all(8.0),
               child: RowDownload(
