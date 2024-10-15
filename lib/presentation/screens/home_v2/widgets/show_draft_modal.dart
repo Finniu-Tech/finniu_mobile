@@ -101,7 +101,7 @@ class _DraftBody extends ConsumerWidget {
           "isReinvest": isReinvest.toString(),
         },
       );
-      var whatsappNumber = "51940206852";
+      var whatsappNumber = "51952484612";
       var whatsappMessage = "Hola";
       var whatsappUrlAndroid = Uri.parse(
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
