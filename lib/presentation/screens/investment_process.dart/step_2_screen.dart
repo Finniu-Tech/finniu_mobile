@@ -676,14 +676,7 @@ class Step2Body extends HookConsumerWidget {
                         context.loaderOverlay.hide();
                         showFeedbackModal(
                           context,
-
-                          () {
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, '/evaluation', (route) => false);
-                          },
-                          isReInvestment,
-
-
+                          isReInvestment: isReInvestment ?? false,
                         );
                       }
                     },
