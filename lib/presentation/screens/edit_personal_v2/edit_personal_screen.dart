@@ -159,15 +159,14 @@ class EditPersonalForm extends HookConsumerWidget {
 
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
-          firstName: firstNameController.text.trim(),
-          lastNameFather: lastNameFatherController.text.trim(),
-          lastNameMother: lastNameMotherController.text.trim(),
-          documentType: getTypeDocumentEnum(documentTypeController.text),
-          documentNumber: documentNumberController.text.trim(),
-          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-              CivilStatusEnum.SINGLE,
-          gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
-        );
+            firstName: firstNameController.text.trim(),
+            lastNameFather: lastNameFatherController.text.trim(),
+            lastNameMother: lastNameMotherController.text.trim(),
+            documentType: getTypeDocumentEnum(documentTypeController.text),
+            documentNumber: documentNumberController.text.trim(),
+            civilStatus: getCivilStatusEnum(civilStatusController.text) ??
+                CivilStatusEnum.SINGLE,
+            imageProfile: "");
 
         context.loaderOverlay.show();
         pushPersonalDataForm(

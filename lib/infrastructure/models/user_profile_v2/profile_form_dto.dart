@@ -31,7 +31,7 @@ class DtoPersonalForm {
   final TypeDocumentEnum documentType;
   final String documentNumber;
   final CivilStatusEnum civilStatus;
-  final GenderEnum gender;
+  final String imageProfile;
 
   DtoPersonalForm({
     required this.firstName,
@@ -40,7 +40,7 @@ class DtoPersonalForm {
     required this.documentType,
     required this.documentNumber,
     required this.civilStatus,
-    required this.gender,
+    required this.imageProfile,
   });
 }
 
