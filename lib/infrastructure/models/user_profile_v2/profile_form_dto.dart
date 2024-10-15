@@ -7,6 +7,7 @@ class DtoRegisterForm {
   final String email;
   final String password;
   final String confirmPassword;
+  final String birthday;
   final bool acceptTermsConditions;
   final bool acceptPrivacyPolicy;
 
@@ -19,6 +20,7 @@ class DtoRegisterForm {
     required this.confirmPassword,
     required this.acceptTermsConditions,
     required this.acceptPrivacyPolicy,
+    required this.birthday,
   });
 }
 

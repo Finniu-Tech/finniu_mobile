@@ -91,6 +91,7 @@ class FormRegister extends HookConsumerWidget {
           confirmPassword: passwordConfirmController.text.trim(),
           acceptTermsConditions: acceptPrivacyAndTerms.value,
           acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
+          birthday: dateController.text.trim(),
         );
 
         context.loaderOverlay.show();
