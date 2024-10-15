@@ -18,11 +18,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class FormPersonalDataV2 extends ConsumerWidget {
+class FormPersonalDataV2 extends StatelessWidget {
   const FormPersonalDataV2({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ScaffoldUserProfile(

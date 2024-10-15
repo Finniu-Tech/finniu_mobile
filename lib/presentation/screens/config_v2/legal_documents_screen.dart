@@ -10,11 +10,11 @@ import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LegalDocumentsScreen extends ConsumerWidget {
+class LegalDocumentsScreen extends StatelessWidget {
   const LegalDocumentsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return const ScaffoldConfig(
       title: "Documentos legales",
       floatingNull: true,

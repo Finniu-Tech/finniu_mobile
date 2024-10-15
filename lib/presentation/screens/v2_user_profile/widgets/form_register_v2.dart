@@ -23,20 +23,20 @@ class FormRegister extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nickNameController = useTextEditingController();
+    final dateController = useTextEditingController();
     final countryPrefixController = useTextEditingController();
     final phoneNumberController = useTextEditingController();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
-    final dateController = useTextEditingController();
     // final acceptPrivacyAndTerms = useState(false);
     final ValueNotifier<bool> isPasswordExpanded = useState(false);
     final ValueNotifier<bool> nickNameError = useState(false);
+    final ValueNotifier<bool> dateError = useState(false);
     final ValueNotifier<bool> phoneNumberError = useState(false);
     final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> passwordError = useState(false);
     final ValueNotifier<bool> passwordConfirmError = useState(false);
-    final ValueNotifier<bool> dateError = useState(false);
     final ValueNotifier<bool> acceptPrivacyAndTerms = useState(false);
 
     FocusNode passwordFocusNode = useFocusNode();
