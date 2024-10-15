@@ -25,7 +25,7 @@ Para agregar estos argumentos, edita el esquema de tu proyecto y agrega una entr
 Para habilitar el modo de depuración de Analytics en un dispositivo Android, ejecuta los siguientes comandos:
 
 ```
-adb shell setprop debug.firebase.analytics.app 
+adb shell setprop debug.firebase.analytics.app com.finniu
 ```
 
 Este comportamiento persiste hasta que inhabilites explícitamente el modo de depuración a través del siguiente comando:
