@@ -120,14 +120,12 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
   final districtSelectController = TextEditingController();
   final addressTextController = TextEditingController();
   final houseNumberController = TextEditingController();
-  final postalCodeController = TextEditingController();
 
   final ValueNotifier<bool> regionsError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> provinceError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> districtError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> addressError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> postalCodeError = ValueNotifier<bool>(false);
 
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
@@ -143,7 +141,6 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
       if (districtError.value) return;
       if (addressError.value) return;
       if (houseNumberError.value) return;
-      if (postalCodeError.value) return;
       DtoLocationForm data = DtoLocationForm(
         country: countrySelectController.text,
         region: regionsSelectController.text,
@@ -151,7 +148,6 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
         district: districtSelectController.text,
         address: addressTextController.text.trim(),
         houseNumber: houseNumberController.text.trim(),
-        postalCode: postalCodeController.text.trim(),
       );
       context.loaderOverlay.show();
       pushLocationDataForm(
@@ -187,7 +183,6 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
     districtSelectController.text = userProfile.distrito ?? "";
     addressTextController.text = userProfile.address ?? "";
     houseNumberController.text = userProfile.houseNumber ?? "";
-    postalCodeController.text = userProfile.postalCode ?? "";
     regionsSelectController.addListener(() {
       ref.invalidate(
         provincesSelectProvider(regionsSelectController.text),
@@ -214,7 +209,6 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
     districtSelectController.dispose();
     addressTextController.dispose();
     houseNumberController.dispose();
-    postalCodeController.dispose();
     super.dispose();
   }
 
@@ -469,34 +463,6 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
                       context: context,
                       boolNotifier: houseNumberError,
                     );
-                    return null;
-                  },
-                );
-              },
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: postalCodeError,
-              builder: (context, isError, child) {
-                return InputTextFileUserProfile(
-                  isNumeric: true,
-                  isError: isError,
-                  onError: () => postalCodeError.value = false,
-                  controller: postalCodeController,
-                  hintText: "Código postal (opcional)",
-                  validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Código postal incorrecto",
-                          message: 'Solo puedes usar números',
-                          snackType: SnackType.warning,
-                        );
-                        postalCodeError.value = true;
-                        return null;
-                      }
-                    }
-                    postalCodeError.value = false;
                     return null;
                   },
                 );

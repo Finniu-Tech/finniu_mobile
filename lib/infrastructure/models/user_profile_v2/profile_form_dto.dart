@@ -165,7 +165,6 @@ class DtoLocationForm {
   final String district;
   final String address;
   final String houseNumber;
-  final String postalCode;
 
   DtoLocationForm({
     required this.country,
@@ -174,21 +173,16 @@ class DtoLocationForm {
     required this.district,
     required this.address,
     required this.houseNumber,
-    required this.postalCode,
   });
 }
 
 class DtoOccupationForm {
   final String occupation;
   final String companyName;
-  final LaborSituationEnum laborSituation;
-  final ServiceTimeEnum serviceTime;
 
   DtoOccupationForm({
     required this.occupation,
     required this.companyName,
-    required this.laborSituation,
-    required this.serviceTime,
   });
 }
 

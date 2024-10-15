@@ -148,11 +148,6 @@ class EditPersonalForm extends HookConsumerWidget {
         DtoOccupationForm data = DtoOccupationForm(
           companyName: companyNameTextController.text.trim(),
           occupation: occupationTextController.text.trim(),
-          serviceTime: getServiceTimeEnum(serviceTimeSelectController.text) ??
-              ServiceTimeEnum.LESS_THAN_ONE_YEAR,
-          laborSituation:
-              getLaborsStatusEnum(laborSituationSelectController.text) ??
-                  LaborSituationEnum.EMPLOYED,
         );
         pushOccupationDataForm(
           context,

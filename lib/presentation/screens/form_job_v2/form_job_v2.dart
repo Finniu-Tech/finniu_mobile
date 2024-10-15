@@ -2,7 +2,6 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_jod_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
@@ -10,7 +9,6 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/valida
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -59,23 +57,15 @@ class LocationForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    final laborSituationSelectController = useTextEditingController(
-      text: getLaborsStatusEnumByUser(userProfile.laborSituation ?? ""),
-    );
     final occupationTextController = useTextEditingController(
       text: userProfile.occupation ?? "",
     );
     final companyNameTextController = useTextEditingController(
       text: userProfile.companyName ?? "",
     );
-    final serviceTimeSelectController = useTextEditingController(
-      text: userProfile.serviceTime == null ? "" : getServiceTimeEnumByUser(userProfile.serviceTime),
-    );
 
-    final ValueNotifier<bool> laborSituationError = useState(false);
     final ValueNotifier<bool> occupationError = useState(false);
     final ValueNotifier<bool> companyNameError = useState(false);
-    final ValueNotifier<bool> serviceTimeError = useState(false);
 
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {
@@ -87,17 +77,13 @@ class LocationForm extends HookConsumerWidget {
         );
         return;
       } else {
-        if (laborSituationError.value) return;
         if (occupationError.value) return;
         if (companyNameError.value) return;
-        if (serviceTimeError.value) return;
 
         context.loaderOverlay.show();
         DtoOccupationForm data = DtoOccupationForm(
           companyName: companyNameTextController.text.trim(),
           occupation: occupationTextController.text.trim(),
-          serviceTime: getServiceTimeEnum(serviceTimeSelectController.text) ?? ServiceTimeEnum.LESS_THAN_ONE_YEAR,
-          laborSituation: getLaborsStatusEnum(laborSituationSelectController.text) ?? LaborSituationEnum.EMPLOYED,
         );
         pushOccupationDataForm(context, data, ref);
       }
@@ -111,38 +97,11 @@ class LocationForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700 ? 430 : MediaQuery.of(context).size.height * 0.77,
+        height: MediaQuery.of(context).size.height < 700
+            ? 430
+            : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: laborSituationError,
-              builder: (context, isError, child) {
-                return SelectableDropdownItem(
-                  isError: isError,
-                  onError: () => laborSituationError.value = false,
-                  itemSelectedValue: laborSituationSelectController.text,
-                  options: workSituation,
-                  selectController: laborSituationSelectController,
-                  hintText: "Selecciona tu situación laboral",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "La situacion laboral es obligatoria",
-                        message: "Por favor, completa el selecciona tu situación laboral.",
-                        snackType: SnackType.warning,
-                      );
-                      laborSituationError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
-            ),
             ValueListenableBuilder<bool>(
               valueListenable: occupationError,
               builder: (context, isError, child) {
@@ -182,35 +141,6 @@ class LocationForm extends HookConsumerWidget {
                   },
                 );
               },
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: serviceTimeError,
-              builder: (context, isError, child) {
-                return SelectableDropdownItem(
-                  isError: isError,
-                  onError: () => serviceTimeError.value = false,
-                  itemSelectedValue: serviceTimeSelectController.text,
-                  options: serviceTime,
-                  selectController: serviceTimeSelectController,
-                  hintText: "Selecciona tu situación laboral",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "La situacion laboral es obligatoria",
-                        message: "Por favor, completa el selecciona tu situación laboral.",
-                        snackType: SnackType.warning,
-                      );
-                      serviceTimeError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
             ),
             const ContainerMessage(),
             const Expanded(
