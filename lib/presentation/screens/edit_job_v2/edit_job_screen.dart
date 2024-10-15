@@ -2,8 +2,6 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_jod_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -109,25 +107,15 @@ class EditPersonalForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
 
-    final laborSituationSelectController = useTextEditingController(
-      text: getLaborsStatusEnumByUser(userProfile.laborSituation ?? ""),
-    );
     final occupationTextController = useTextEditingController(
       text: userProfile.occupation ?? "",
     );
     final companyNameTextController = useTextEditingController(
       text: userProfile.companyName ?? "",
     );
-    final serviceTimeSelectController = useTextEditingController(
-      text: userProfile.serviceTime == null
-          ? ""
-          : getServiceTimeEnumByUser(userProfile.serviceTime),
-    );
 
-    final ValueNotifier<bool> laborSituationError = useState(false);
     final ValueNotifier<bool> occupationError = useState(false);
     final ValueNotifier<bool> companyNameError = useState(false);
-    final ValueNotifier<bool> serviceTimeError = useState(false);
 
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {
@@ -139,10 +127,8 @@ class EditPersonalForm extends HookConsumerWidget {
         );
         return;
       } else {
-        if (laborSituationError.value) return;
         if (occupationError.value) return;
         if (companyNameError.value) return;
-        if (serviceTimeError.value) return;
 
         context.loaderOverlay.show();
         DtoOccupationForm data = DtoOccupationForm(
@@ -170,36 +156,6 @@ class EditPersonalForm extends HookConsumerWidget {
             : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: laborSituationError,
-              builder: (context, isError, child) {
-                return SelectableDropdownItem(
-                  isError: isError,
-                  onError: () => laborSituationError.value = false,
-                  itemSelectedValue: laborSituationSelectController.text,
-                  options: workSituation,
-                  selectController: laborSituationSelectController,
-                  hintText: "Selecciona tu situación laboral",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "La situacion laboral es obligatoria",
-                        message:
-                            "Por favor, completa el seleciona tu situación laboral.",
-                        snackType: SnackType.warning,
-                      );
-                      laborSituationError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
-            ),
             ValueListenableBuilder<bool>(
               valueListenable: occupationError,
               builder: (context, isError, child) {
@@ -239,36 +195,6 @@ class EditPersonalForm extends HookConsumerWidget {
                   },
                 );
               },
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: serviceTimeError,
-              builder: (context, isError, child) {
-                return SelectableDropdownItem(
-                  isError: isError,
-                  onError: () => serviceTimeError.value = false,
-                  itemSelectedValue: serviceTimeSelectController.text,
-                  options: serviceTime,
-                  selectController: serviceTimeSelectController,
-                  hintText: "Selecciona tu situación laboral",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "La situacion laboral es obligatoria",
-                        message:
-                            "Por favor, completa el seleciona tu situación laboral.",
-                        snackType: SnackType.warning,
-                      );
-                      serviceTimeError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
             ),
             const Expanded(
               child: SizedBox(),
