@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -74,6 +75,63 @@ class ButtonInvestment extends ConsumerWidget {
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonForm extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  const ButtonForm({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int textColorDark = 0xff000000;
+    const int textColorLight = 0xffFFFFFF;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: 50,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return Colors.grey;
+              }
+              return Color(
+                isDarkMode
+                    ? buttonBackgroundColorDark
+                    : buttonBackgroundColorLight,
+              );
+            },
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return Colors.black38;
+              }
+              return isDarkMode
+                  ? const Color(colorTextButtonDarkColor)
+                  : const Color(colorTextButtonLightColor);
+            },
+          ),
+        ),
+        onPressed: onPressed,
+        child: TextPoppins(
+          text: text,
+          fontSize: 14,
+          align: TextAlign.center,
+          fontWeight: FontWeight.w600,
+          textDark: textColorDark,
+          textLight: textColorLight,
         ),
       ),
     );
