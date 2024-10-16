@@ -27,14 +27,11 @@ class _AppStagingState extends ConsumerState<AppStaging> {
   void initState() {
     super.initState();
     _deepLinkHandler = ref.read(deepLinkHandlerProvider);
-    _deepLinkHandler.initialize().then((_) {
-      _deepLinkHandler.checkSavedDeepLink();
-    });
+    _deepLinkHandler.initialize();
   }
 
   @override
   void dispose() {
-    // ref.read(deepLinkHandlerProvider).dispose();
     super.dispose();
   }
 
@@ -68,6 +65,10 @@ class _AppStagingState extends ConsumerState<AppStaging> {
         Locale('es', ''),
       ],
       builder: (context, child) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _deepLinkHandler.processPendingNavigations();
+        });
+
         return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());
       },
     );

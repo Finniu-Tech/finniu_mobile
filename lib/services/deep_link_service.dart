@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:app_links/app_links.dart';
 
 final appLinksProvider = Provider<AppLinks>((ref) => AppLinks());
-// final deepLinkHandlerProvider = Provider((ref) => DeepLinkHandler(ref));
 final deepLinkRouteProvider = StateProvider<String?>((ref) => null);
 final navigatorKeyProvider = Provider((ref) => GlobalKey<NavigatorState>());
 
@@ -19,6 +18,7 @@ class DeepLinkHandler {
   late AppLinks _appLinks;
   final GlobalKey<NavigatorState> navigatorKey;
   static const MethodChannel _channel = MethodChannel('com.finniu/deeplink');
+  final _pendingNavigation = <String>[];
 
   DeepLinkHandler(this._ref, this.navigatorKey);
 
@@ -57,12 +57,30 @@ class DeepLinkHandler {
       print('is not authenticated');
       // Guardar la ruta del deep link
       _ref.read(deepLinkRouteProvider.notifier).state = uri.path;
-      // Navegar al login
-      navigatorKey.currentState?.pushNamed('/v2/login_email');
+      _scheduleNavigation('/v2/login_email');
     } else {
       print('is authenticated');
-      // Procesar el deep link directamente
-      processDeepLink(uri.path);
+      _scheduleNavigation(uri.path);
+    }
+  }
+
+  void _scheduleNavigation(String route) {
+    if (navigatorKey.currentState == null) {
+      _pendingNavigation.add(route);
+    } else {
+      _performNavigation(route);
+    }
+  }
+
+  void _performNavigation(String route) {
+    print('Performing navigation to: $route');
+    navigatorKey.currentState?.pushReplacementNamed(route);
+  }
+
+  void processPendingNavigations() {
+    while (_pendingNavigation.isNotEmpty) {
+      final route = _pendingNavigation.removeAt(0);
+      _performNavigation(route);
     }
   }
 
@@ -74,17 +92,16 @@ class DeepLinkHandler {
     }
 
     try {
-      navigatorKey.currentState!.pushNamed(path);
+      navigatorKey.currentState!.pushReplacementNamed(path);
       print('Successfully navigated to: $path');
     } catch (e) {
       print('Error navigating to $path: $e');
       // Fallback a una ruta por defecto si la navegación falla
-      navigatorKey.currentState!.pushNamed('/v2/home');
+      navigatorKey.currentState!.pushReplacementNamed('/v2/home');
     }
   }
 
   bool checkAuthentication() {
-    //get token
     final token = _ref.watch(authTokenProvider);
     print('Checking authentication: $token');
     if (token == '') {
@@ -100,10 +117,16 @@ class DeepLinkHandler {
     final savedRoute = _ref.read(deepLinkRouteProvider);
     print('Checking saved deep link route: $savedRoute');
     if (savedRoute != null) {
-      processDeepLink(savedRoute);
-      // Limpiar la ruta guardada solo después de procesarla
-      _ref.read(deepLinkRouteProvider.notifier).state = null;
-      return true;
+      final isAuthenticated = checkAuthentication();
+      if (isAuthenticated) {
+        processDeepLink(savedRoute);
+        // clean the route when is processed
+        _ref.read(deepLinkRouteProvider.notifier).state = null;
+        return true;
+      } else {
+        _performNavigation('/v2/login_email');
+        return false;
+      }
     } else {
       print('No saved deep link route found');
       return false;
