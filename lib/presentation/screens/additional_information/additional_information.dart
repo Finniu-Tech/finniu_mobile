@@ -46,7 +46,7 @@ class _BodyAdditional extends HookConsumerWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height * 0.7,
+        height: MediaQuery.of(context).size.height * 0.9,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,78 +64,137 @@ class _BodyAdditional extends HookConsumerWidget {
             ValueListenableBuilder<bool>(
               valueListenable: isEdit,
               builder: (context, isEditValue, child) {
-                return Stack(
+                return isEditValue
+                    ? const SizedBox()
+                    : EditWidget(
+                        onTap: () => isEdit.value = true,
+                      );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Stack(
+              children: [
+                Column(
                   children: [
-                    Column(
-                      children: [
-                        isEditValue
-                            ? const SizedBox()
-                            : EditWidget(
-                                onTap: () => isEdit.value = true,
-                              ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                      ],
+                    ValueListenableBuilder<bool>(
+                      valueListenable: nickNameError,
+                      builder: (context, isError, child) {
+                        return InputTextFileUserProfile(
+                          onError: () => nickNameError.value = false,
+                          isError: isError,
+                          hintText: "Como te llaman",
+                          controller: nickNameController,
+                          validator: (value) {
+                            validateName(
+                              value: value,
+                              context: context,
+                              boolNotifier: nickNameError,
+                            );
+                            return null;
+                          },
+                        );
+                      },
+                    ),
+                    ValueListenableBuilder<bool>(
+                      valueListenable: dateError,
+                      builder: (context, isError, child) {
+                        return InputDatePickerUserProfile(
+                          isError: isError,
+                          onError: () => dateError.value = false,
+                          hintText: "Fecha de nacimiento",
+                          controller: dateController,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              showSnackBarV2(
+                                context: context,
+                                title: "Fecha de nacimiento incorrecta",
+                                message: "Por favor, completa la fecha.",
+                                snackType: SnackType.warning,
+                              );
+                              dateError.value = true;
+                              return null;
+                            }
+                            return null;
+                          },
+                        );
+                      },
                     ),
                   ],
-                );
+                ),
+                ValueListenableBuilder<bool>(
+                  valueListenable: isEdit,
+                  builder: (context, isEditValue, child) {
+                    return isEditValue
+                        ? const SizedBox()
+                        : Positioned.fill(
+                            child: IgnorePointer(
+                              ignoring: false,
+                              child: Container(
+                                color: Colors.transparent,
+                              ),
+                            ),
+                          );
+                  },
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: TextPoppins(
+                text: "Marcaste que eres",
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                align: TextAlign.start,
+              ),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const TextPoppins(
+              text:
+                  "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              lines: 2,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            const TextPoppins(
+              text:
+                  "Eres director o accionista del 10% de una corporación que cotiza en bolsa.",
+              fontSize: 13,
+              fontWeight: FontWeight.w400,
+              lines: 2,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: isEdit,
+              builder: (context, isEditValue, child) {
+                return isEditValue ? const RequestChange() : const SizedBox();
               },
             ),
             const SizedBox(
               height: 15,
             ),
             ValueListenableBuilder<bool>(
-              valueListenable: nickNameError,
-              builder: (context, isError, child) {
-                return InputTextFileUserProfile(
-                  onError: () => nickNameError.value = false,
-                  isError: isError,
-                  hintText: "Como te llaman",
-                  controller: nickNameController,
-                  validator: (value) {
-                    validateName(
-                      value: value,
-                      context: context,
-                      boolNotifier: nickNameError,
-                    );
-                    return null;
-                  },
-                );
+              valueListenable: isEdit,
+              builder: (context, isEditValue, child) {
+                return isEditValue
+                    ? const ButtonInvestment(
+                        text: "Guardar",
+                        onPressed: null,
+                      )
+                    : const SizedBox();
               },
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable: dateError,
-              builder: (context, isError, child) {
-                return InputDatePickerUserProfile(
-                  isError: isError,
-                  onError: () => dateError.value = false,
-                  hintText: "Fecha de nacimiento",
-                  controller: dateController,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "Fecha de nacimiento incorrecta",
-                        message: "Por favor, completa la fecha.",
-                        snackType: SnackType.warning,
-                      );
-                      dateError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            const RequestChange(),
-            const SizedBox(
-              height: 15,
-            ),
-            const ButtonInvestment(text: "Guardar", onPressed: null),
           ],
         ),
       ),
@@ -156,38 +215,6 @@ class RequestChange extends ConsumerWidget {
     const int iconLight = 0xff0D3A5C;
     return Column(
       children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: TextPoppins(
-            text: "Marcaste que eres",
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-            align: TextAlign.start,
-          ),
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        const TextPoppins(
-          text:
-              "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.",
-          fontSize: 13,
-          fontWeight: FontWeight.w400,
-          lines: 2,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
-        const TextPoppins(
-          text:
-              "Eres director o accionista del 10% de una corporación que cotiza en bolsa.",
-          fontSize: 13,
-          fontWeight: FontWeight.w400,
-          lines: 2,
-        ),
-        const SizedBox(
-          height: 15,
-        ),
         const Divider(
           color: Color(divider),
           height: 2,
