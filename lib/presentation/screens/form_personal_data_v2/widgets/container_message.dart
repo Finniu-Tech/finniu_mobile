@@ -55,6 +55,64 @@ class ContainerMessage extends ConsumerWidget {
   }
 }
 
+class LocationMessage extends ConsumerWidget {
+  const LocationMessage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xff0D3A5C;
+    const int backgroundLight = 0xffE0F8FF;
+
+    const int iconColor = 0xff0D3A5C;
+    const int textColor = 0xff000000;
+
+    const String message =
+        "Recuerda que la dirección que ingreses coincida con la que figura en tu DNI.";
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5),
+        color: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
+      ),
+      width: MediaQuery.of(context).size.width,
+      height: 62,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: 5,
+          ),
+          SvgPicture.asset(
+            "assets/svg_icons/document_icon.svg",
+            width: 35,
+            height: 35,
+            color: const Color(iconColor),
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.65,
+            child: const TextPoppins(
+              text: message,
+              fontSize: 14,
+              lines: 2,
+              textDark: textColor,
+              textLight: textColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 void messageDialog(BuildContext context) {
   showDialog(
     context: context,

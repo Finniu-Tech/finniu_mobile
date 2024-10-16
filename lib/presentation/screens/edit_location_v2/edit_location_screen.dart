@@ -12,6 +12,7 @@ import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/widgets/image_edit_stack.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
+import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -220,10 +221,14 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
-            ? 470
+            ? 540
             : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [
+            const LocationMessage(),
+            const SizedBox(
+              height: 15,
+            ),
             SelectableDropdownItem(
               options: const ["Peru"],
               itemSelectedValue: countrySelectController.text,

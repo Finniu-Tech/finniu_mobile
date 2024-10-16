@@ -43,6 +43,10 @@ class FormLocationDataV2 extends HookConsumerWidget {
             subTitle: "¿Donde te encuentras?",
             icon: "assets/svg_icons/map_icon_v2.svg",
           ),
+          LocationMessage(),
+          SizedBox(
+            height: 15,
+          ),
           LocationForm(),
         ],
       ),
@@ -168,7 +172,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
             ? 520
-            : MediaQuery.of(context).size.height * 0.77,
+            : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [
             SelectableDropdownItem(
