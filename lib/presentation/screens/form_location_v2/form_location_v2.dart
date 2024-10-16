@@ -167,7 +167,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
       key: formKey,
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
-            ? 600
+            ? 520
             : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
@@ -415,10 +415,10 @@ class LocationFormState extends ConsumerState<LocationForm> {
                 );
               },
             ),
-            const ContainerMessage(),
             const Expanded(
               child: SizedBox(),
             ),
+            const ContainerMessage(),
             FormDataNavigator(
               addData: () => uploadLocationData(),
               continueLater: () => continueLater(),

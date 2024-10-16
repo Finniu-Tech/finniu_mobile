@@ -219,6 +219,10 @@ class HomeBody extends HookConsumerWidget {
                     onPressed: () => Navigator.pushNamed(context, '/home_home'),
                     child: const Text('Ir a home normal'),
                   ),
+                  ElevatedButton(
+                    onPressed: () => Navigator.pushNamed(context, '/catalog'),
+                    child: const Text('Ir a catalogo'),
+                  ),
                 ],
                 const SizedBox(
                   height: 120,

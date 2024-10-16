@@ -141,7 +141,7 @@ class PersonalForm extends HookConsumerWidget {
       key: formKey,
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
-            ? 600
+            ? 650
             : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
@@ -294,10 +294,10 @@ class PersonalForm extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            const ContainerMessage(),
             const Expanded(
               child: SizedBox(),
             ),
+            const ContainerMessage(),
             FormDataNavigator(
               addData: () => uploadPersonalData(),
               continueLater: null,

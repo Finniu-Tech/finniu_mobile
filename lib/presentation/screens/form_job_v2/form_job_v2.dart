@@ -142,10 +142,10 @@ class LocationForm extends HookConsumerWidget {
                 );
               },
             ),
-            const ContainerMessage(),
             const Expanded(
               child: SizedBox(),
             ),
+            const ContainerMessage(),
             FormDataNavigator(
               addData: () => uploadJobData(),
               continueLater: () => continueLater(),
