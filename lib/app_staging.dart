@@ -32,7 +32,6 @@ class _AppStagingState extends ConsumerState<AppStaging> {
 
   @override
   void dispose() {
-    // ref.read(deepLinkHandlerProvider).dispose();
     super.dispose();
   }
 
@@ -40,6 +39,7 @@ class _AppStagingState extends ConsumerState<AppStaging> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     AppStaging.analytics.setAnalyticsCollectionEnabled(true);
+
     return MaterialApp(
       navigatorKey: _deepLinkHandler.navigatorKey,
       title: 'Finniu Staging',
@@ -65,8 +65,11 @@ class _AppStagingState extends ConsumerState<AppStaging> {
         Locale('es', ''),
       ],
       builder: (context, child) {
-        return InternetConnectionAlertWidget(
-            child: child ?? const SizedBox.shrink());
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _deepLinkHandler.processPendingNavigations();
+        });
+
+        return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());
       },
     );
   }

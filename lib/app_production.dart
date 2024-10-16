@@ -13,8 +13,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppProduction extends ConsumerStatefulWidget {
   final PushNotificationService pushNotificationService;
-  const AppProduction({super.key, required this.pushNotificationService});
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  const AppProduction({super.key, required this.pushNotificationService});
+
   @override
   ConsumerState<AppProduction> createState() => _AppProductionState();
 }
@@ -30,36 +31,29 @@ class _AppProductionState extends ConsumerState<AppProduction> {
   }
 
   @override
-/*************  ✨ Codeium Command ⭐  *************/
-  /// Clean up resources used by the app.
-  ///
-  /// Currently, this doesn't do anything because the
-  /// [DeepLinkHandler] doesn't have any resources to clean up, but this method
-  /// is here in case it's needed in the future.
-/******  8d0720dc-2810-41bb-ad3a-d04e60de101d  *******/ void dispose() {
-    // ref.read(deepLinkHandlerProvider).dispose();
+  void dispose() {
+    // Uncomment if DeepLinkHandler needs disposal in the future
+    // _deepLinkHandler.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-
     AppProduction.analytics.setAnalyticsCollectionEnabled(true);
 
     return MaterialApp(
       navigatorKey: _deepLinkHandler.navigatorKey,
       title: 'Finniu',
       debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      theme: ref.watch(settingsNotifierProvider).currentTheme,
+      routes: getApplicationRoutes(),
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: AppProduction.analytics),
         ConnectionAwareNavigatorObserver(),
       ],
-      initialRoute: '/',
-      theme: ref.watch(settingsNotifierProvider).currentTheme,
-      routes: getApplicationRoutes(),
       onGenerateRoute: (RouteSettings settings) {
-        // Aquí puedes manejar rutas dinámicas si es necesario
         return MaterialPageRoute(
           builder: (BuildContext context) => const IntroScreen(),
         );
@@ -73,8 +67,11 @@ class _AppProductionState extends ConsumerState<AppProduction> {
         Locale('es', ''),
       ],
       builder: (context, child) {
-        return InternetConnectionAlertWidget(
-            child: child ?? const SizedBox.shrink());
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _deepLinkHandler.processPendingNavigations();
+        });
+
+        return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());
       },
     );
   }

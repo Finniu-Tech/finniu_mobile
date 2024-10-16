@@ -57,7 +57,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>This app requires access to Gyroscope to detect rotation on the device</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>photos</string>
+	<string>We need access to your photos to upload transfer receipts, allowing you to easily submit proof of payment through our app.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
