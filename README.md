@@ -21,3 +21,7 @@ flutter build appbundle --flavor production --target lib/main_production.dart
 
 Build the project for staging:
 flutter build appbundle --flavor staging --target lib/main_staging.dart
+
+To test the project as a release mode
+
+flutter run --release --flavor staging --target lib/main_staging.dart

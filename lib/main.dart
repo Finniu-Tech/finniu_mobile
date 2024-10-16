@@ -16,40 +16,50 @@ import 'package:intl/date_symbol_data_local.dart';
 late AppConfig appConfig;
 
 Future<void> mainCommon(AppConfig config) async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Preferences.init();
-  await initializeDateFormatting();
-  await initHiveForFlutter();
-  await Firebase.initializeApp(
-    options: config.environment == "production"
-        ? DefaultFirebaseOptionsProd.currentPlatform
-        : DefaultFirebaseOptionsStaging.currentPlatform,
-  );
-  if (config.environment == "production") {
-    if (!kDebugMode) {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Preferences.init();
+    await initializeDateFormatting();
+    await initHiveForFlutter();
+    await Firebase.initializeApp(
+      options: config.environment == "production"
+          ? DefaultFirebaseOptionsProd.currentPlatform
+          : DefaultFirebaseOptionsStaging.currentPlatform,
+    );
+
+    // Habilitar Crashlytics en producción y staging
+    if (config.environment == "production" || config.environment == "staging") {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = (errorDetails) {
         FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       };
-
+      // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
       PlatformDispatcher.instance.onError = (error, stack) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
       };
     }
-  }
-  final pushNotificationService = PushNotificationService();
-  await pushNotificationService.initialize();
 
-  appConfig = config;
-  runApp(
-    ProviderScope(
-      child: config.environment == "production"
-          ? AppProduction(
-              pushNotificationService: pushNotificationService,
-            )
-          : AppStaging(
-              pushNotificationService: pushNotificationService,
-            ),
-    ),
-  );
+    final pushNotificationService = PushNotificationService();
+    await pushNotificationService.initialize();
+
+    appConfig = config;
+    runApp(
+      ProviderScope(
+        child: config.environment == "production"
+            ? AppProduction(
+                pushNotificationService: pushNotificationService,
+              )
+            : AppStaging(
+                pushNotificationService: pushNotificationService,
+              ),
+      ),
+    );
+  } catch (error, stack) {
+    print('Error during initialization: $error');
+    if (config.environment == "production" || config.environment == "staging") {
+      await FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    }
+    rethrow;
+  }
 }
