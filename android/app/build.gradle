@@ -59,10 +59,8 @@ android {
                     res.srcDirs = ['src/staging/res']
                 }
             }
-            manifestPlaceholders = [
-                DEEP_LINK_SCHEME: "finniuappstaging",
-                applicationName: "io.flutter.app.FlutterApplication"
-            ]
+            manifestPlaceholders = [DEEP_LINK_SCHEME: "finniuappstaging"]
+
         }
         production {
             dimension "flavor-type"
@@ -74,10 +72,7 @@ android {
                     res.srcDirs = ['src/production/res']
                 }
             }
-            manifestPlaceholders = [
-                DEEP_LINK_SCHEME: "finniuapp",
-                applicationName: "io.flutter.app.FlutterApplication"
-            ]
+            manifestPlaceholders = [DEEP_LINK_SCHEME: "finniuapp"]
         }
     }
 
