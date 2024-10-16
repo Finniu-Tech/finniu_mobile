@@ -72,8 +72,9 @@ class MessageCompletingData extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff1A1A1A;
     const int backgroundLight = 0xffFFFFFF;
-    final String text =
-        "Necesitamos esta información para cumplir con las normas financieras y confirmar quién eres. Tus datos están seguros y protegidos, así que no te preocupes por eso.";
+    const String title = "¡Pronto estaremos regulados por la SBS!";
+    const String text =
+        "Es importante completar tus datos para cumplir con las normativas de la SBS y asegurar un servicio más seguro para ti. Tus datos están seguros y protegidos, así que no te preocupes por eso.";
     return Dialog(
       insetPadding: const EdgeInsets.all(20),
       child: Container(
@@ -85,7 +86,7 @@ class MessageCompletingData extends ConsumerWidget {
               : const Color(backgroundLight),
         ),
         width: 329,
-        height: 230,
+        height: 270,
         child: Stack(
           children: [
             const CloseButtonModal(),
@@ -115,10 +116,19 @@ class MessageCompletingData extends ConsumerWidget {
                   const SizedBox(
                     height: 5,
                   ),
-                  TextPoppins(
+                  const TextPoppins(
+                    text: title,
+                    fontSize: 14,
+                    lines: 1,
+                    fontWeight: FontWeight.w600,
+                    align: TextAlign.center,
+                  ),
+                  const TextPoppins(
                     text: text,
                     fontSize: 14,
                     lines: 5,
+                    fontWeight: FontWeight.w400,
+                    align: TextAlign.center,
                   ),
                 ],
               ),
