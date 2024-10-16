@@ -47,7 +47,7 @@
     <string>Main</string>
     <!-- Permission options for the `photos` group -->
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>photos</string>
+    <string>We need access to your photos to upload transfer receipts, allowing you to easily submit proof of payment through our app.</string>
 
     <key>UISupportedInterfaceOrientations</key>
     <array>
