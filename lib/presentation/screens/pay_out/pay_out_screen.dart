@@ -1,8 +1,10 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/pay_out/widgets/container_pay_out.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class PayOutScreen extends StatelessWidget {
   const PayOutScreen({super.key});
@@ -46,7 +48,15 @@ class _BodyPayOut extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              ContainerPayOut(),
+              ContainerPayOutInProgress(),
+              SizedBox(
+                height: 10,
+              ),
+              ContainerPayOutFilled(),
+              SizedBox(
+                height: 10,
+              ),
+              ContainerPayOutInvalid()
             ],
           ),
         ),
@@ -79,29 +89,33 @@ class TitlePayOut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const int textDark = 0xffA2E6FA;
     return const TextPoppins(
       text: "¡Tu pago está en proceso!",
       fontSize: 20,
       fontWeight: FontWeight.w600,
       lines: 2,
+      textDark: textDark,
     );
   }
 }
 
-class IconsRow extends StatelessWidget {
+class IconsRow extends ConsumerWidget {
   const IconsRow({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    const int iconColor = 0xff03253E;
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff03253E;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image.asset(
-          "assets/images/rextie_image.png",
+          "assets/images/rextie_image_${isDarkMode ? "dark" : "light"}.png",
           width: 70,
           height: 45,
         ),
@@ -112,13 +126,13 @@ class IconsRow extends StatelessWidget {
           "assets/svg_icons/refresh_icon.svg",
           width: 20,
           height: 20,
-          color: const Color(iconColor),
+          color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
         ),
         const SizedBox(
           width: 10,
         ),
         Image.asset(
-          "assets/images/logo_finniu_light.png",
+          "assets/images/logo_finniu_${isDarkMode ? "dark" : "light"}.png",
           width: 70,
           height: 45,
         ),
