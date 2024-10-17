@@ -51,9 +51,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                   child: Image(
                     fit: BoxFit.cover,
                     image: AssetImage(
-                      themeProvider.isDarkMode
-                          ? "assets/images/logo_small_dark.png"
-                          : "assets/images/logo_small.png",
+                      themeProvider.isDarkMode ? "assets/images/logo_small_dark.png" : "assets/images/logo_small.png",
                     ),
                   ),
                 ),
@@ -68,11 +66,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                         alignment: Alignment.topLeft,
                         child: TextPoppins(
                           text: 'Crea tu cuenta en Finniu y guarda tus datos',
-                          colorText: Theme.of(context)
-                              .textTheme
-                              .titleLarge!
-                              .color!
-                              .value,
+                          colorText: Theme.of(context).textTheme.titleLarge!.color!.value,
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
                         ),
@@ -97,9 +91,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       viewportFraction: 0.8,
                       initialPage: ref.watch(indexAvatarSelectedStateProvider),
                       onPageChanged: (index, reason) {
-                        ref
-                            .read(indexAvatarSelectedStateProvider.notifier)
-                            .state = index;
+                        ref.read(indexAvatarSelectedStateProvider.notifier).state = index;
                         // currentPage = index;
                         // setState((){});
                       },
@@ -220,9 +212,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       suffixIcon: IconButton(
                         splashRadius: 20,
                         icon: Icon(
-                          isHidden.value
-                              ? Icons.visibility
-                              : Icons.visibility_off,
+                          isHidden.value ? Icons.visibility : Icons.visibility_off,
                           size: 23.20,
                         ),
                         alignment: Alignment.center,
@@ -260,8 +250,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                             }
                             return themeProvider.isDarkMode
                                 ? const Color(primaryLight)
-                                : Colors
-                                    .transparent; // Color when checkbox is not selected (unchecked)
+                                : Colors.transparent; // Color when checkbox is not selected (unchecked)
                           },
                         ),
                         value: userAcceptedTerms.value,
@@ -274,23 +263,18 @@ class SignUpEmailScreen extends HookConsumerWidget {
                       'Acepto las',
                       style: TextStyle(
                         fontSize: 10,
-                        color: themeProvider.isDarkMode
-                            ? const Color(whiteText)
-                            : const Color(blackText),
+                        color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(blackText),
                       ),
                     ),
                     GestureDetector(
                       onTap: () async {
-                        Uri politicasURL =
-                            Uri.parse('https://finniu.com/terminos/');
+                        Uri politicasURL = Uri.parse('https://manage.finniu.com/terminos/');
                         launchUrl(politicasURL);
                       },
                       child: Text(
                         ' Las políticas de privacidad ',
                         style: TextStyle(
-                          color: themeProvider.isDarkMode
-                              ? const Color(primaryLight)
-                              : const Color(primaryDark),
+                          color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
                           fontSize: 10,
                           fontWeight: FontWeight.bold,
                         ),
@@ -326,17 +310,14 @@ class SignUpEmailScreen extends HookConsumerWidget {
 
                       if (formKey.currentState!.validate()) {
                         context.loaderOverlay.show();
-                        ref
-                            .read(userProfileNotifierProvider.notifier)
-                            .updateFields(
+                        ref.read(userProfileNotifierProvider.notifier).updateFields(
                               nickName: nickNameController.text,
                               password: passwordController.text,
                               email: emailController.text,
                               phoneNumber: phoneController.text,
                             );
 
-                        Future<bool> status =
-                            SignUpService().finishRegister(ref);
+                        Future<bool> status = SignUpService().finishRegister(ref);
                         status.then((value) {
                           if (value) {
                             context.loaderOverlay.hide();
@@ -372,9 +353,7 @@ class SignUpEmailScreen extends HookConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                       ),
-                      foregroundColor: themeProvider.isDarkMode
-                          ? const Color(skyBlueText)
-                          : const Color(primaryDark),
+                      foregroundColor: themeProvider.isDarkMode ? const Color(skyBlueText) : const Color(primaryDark),
                     ),
                     child: const Text('Iniciar sesión'),
                     onPressed: () {

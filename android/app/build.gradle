@@ -95,8 +95,8 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 99
-        versionName "3.3.4"
+        versionCode 335000
+        versionName "3.3.5"
         multiDexEnabled true
     }
 
