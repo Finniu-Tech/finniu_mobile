@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/scan_document_v2/widgets/custom_border_container.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,15 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class ContainerPayOutInProgress extends ConsumerWidget {
   const ContainerPayOutInProgress({
     super.key,
+    required this.amount,
+    required this.currency,
+    required this.accountNumber,
+    required this.urlImageAccount,
   });
+  final String amount;
+  final String currency;
+  final String accountNumber;
+  final String urlImageAccount;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,6 +28,9 @@ class ContainerPayOutInProgress extends ConsumerWidget {
     const int iconColor = 0xff03253E;
     const int borderColorDark = 0xffA2E6FA;
     const int borderColorLight = 0xff4C8DBE;
+    const int creditCardDark = 0xffFFFFFF;
+    const int creditCardLight = 0xff000000;
+    const int iconErrorColor = 0xffA2E6FA;
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -42,9 +54,12 @@ class ContainerPayOutInProgress extends ConsumerWidget {
               color: const Color(textColor),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const SizedBox(
+                  width: 10,
+                ),
                 SvgPicture.asset(
                   "assets/svg_icons/clock_icon.svg",
                   color: const Color(iconColor),
@@ -61,15 +76,15 @@ class ContainerPayOutInProgress extends ConsumerWidget {
               ],
             ),
           ),
-          const Row(
+          Row(
             children: [
-              TextPoppins(
+              const TextPoppins(
                 text: "Enviamos ",
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
               ),
               TextPoppins(
-                text: "S/860.50",
+                text: amount,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
               ),
@@ -110,6 +125,9 @@ class ContainerPayOutInProgress extends ConsumerWidget {
                           "assets/svg_icons/credit-card.svg",
                           width: 15,
                           height: 15,
+                          color: isDarkMode
+                              ? const Color(creditCardDark)
+                              : const Color(creditCardLight),
                         ),
                       ],
                     ),
@@ -119,18 +137,35 @@ class ContainerPayOutInProgress extends ConsumerWidget {
                           width: 24,
                           height: 24,
                           child: ClipOval(
-                            child: Image.asset(
-                              "assets/images/bank_example.png",
+                            child: Image.network(
+                              urlImageAccount,
                               width: 24,
                               height: 24,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return const CircularLoader(
+                                    width: 24,
+                                    height: 24,
+                                  );
+                                }
+                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                Icons.image_not_supported_outlined,
+                                color: Color(iconErrorColor),
+                                size: 24,
+                              ),
                             ),
                           ),
                         ),
                         const SizedBox(
                           width: 10,
                         ),
-                        const TextPoppins(
-                          text: "Cuenta soles | 122009301103",
+                        TextPoppins(
+                          text: "$currency | $accountNumber",
                           fontSize: 10,
                         ),
                       ],
@@ -149,17 +184,29 @@ class ContainerPayOutInProgress extends ConsumerWidget {
 class ContainerPayOutFilled extends ConsumerWidget {
   const ContainerPayOutFilled({
     super.key,
+    required this.amount,
+    required this.currency,
+    required this.accountNumber,
+    required this.urlImageAccount,
   });
-
+  final String amount;
+  final String currency;
+  final String accountNumber;
+  final String urlImageAccount;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xffD8FFCD;
     const int backgroundLight = 0xffF5FFF3;
     const int textColor = 0xffA9F196;
+    const int textContentColor = 0xff000000;
     const int iconColor = 0xff000000;
+    const int iconErrorColor = 0xff03253E;
     const int borderColorDark = 0xff008D34;
-    const int borderColorLight = 0xff4C8DBE;
+    const int borderColorLight = 0xff008D34;
+    const String tagText = "Completado";
+    const String messaje =
+        "Te hemos enviado la rentabilidad a tu cuenta bancaria registrada";
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -182,19 +229,23 @@ class ContainerPayOutFilled extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
               color: const Color(textColor),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset(
-                  "assets/svg_icons/clock_icon.svg",
-                  color: const Color(iconColor),
+                SizedBox(
+                  width: 10,
                 ),
-                const SizedBox(
+                Icon(
+                  Icons.check_circle_outline,
+                  color: Color(iconColor),
+                  size: 15,
+                ),
+                SizedBox(
                   width: 5,
                 ),
-                const TextPoppins(
-                  text: "En proceso",
+                TextPoppins(
+                  text: tagText,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   textDark: iconColor,
@@ -208,19 +259,24 @@ class ContainerPayOutFilled extends ConsumerWidget {
                 text: "Enviamos ",
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
+                textDark: textContentColor,
+                textLight: textContentColor,
               ),
               TextPoppins(
                 text: "S/860.50",
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
+                textDark: textContentColor,
+                textLight: textContentColor,
               ),
             ],
           ),
           const TextPoppins(
-            text:
-                "En breve te llegará la transferencia al siguiente destino que registraste en el proceso de inversión",
+            text: messaje,
             fontSize: 10,
             lines: 3,
+            textDark: textContentColor,
+            textLight: textContentColor,
           ),
           CustomBorderContainer(
             height: 78,
@@ -243,6 +299,8 @@ class ContainerPayOutFilled extends ConsumerWidget {
                           text: "Cuenta bancaria",
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
+                          textDark: textContentColor,
+                          textLight: textContentColor,
                         ),
                         const SizedBox(
                           width: 10,
@@ -260,10 +318,27 @@ class ContainerPayOutFilled extends ConsumerWidget {
                           width: 24,
                           height: 24,
                           child: ClipOval(
-                            child: Image.asset(
-                              "assets/images/bank_example.png",
+                            child: Image.network(
+                              urlImageAccount,
                               width: 24,
                               height: 24,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return const CircularLoader(
+                                    width: 24,
+                                    height: 24,
+                                  );
+                                }
+                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                Icons.image_not_supported_outlined,
+                                color: Color(iconErrorColor),
+                                size: 24,
+                              ),
                             ),
                           ),
                         ),
@@ -273,6 +348,8 @@ class ContainerPayOutFilled extends ConsumerWidget {
                         const TextPoppins(
                           text: "Cuenta soles | 122009301103",
                           fontSize: 10,
+                          textDark: textContentColor,
+                          textLight: textContentColor,
                         ),
                       ],
                     ),
@@ -290,18 +367,30 @@ class ContainerPayOutFilled extends ConsumerWidget {
 class ContainerPayOutInvalid extends ConsumerWidget {
   const ContainerPayOutInvalid({
     super.key,
+    required this.amount,
+    required this.currency,
+    required this.accountNumber,
+    required this.urlImageAccount,
   });
-
+  final String amount;
+  final String currency;
+  final String accountNumber;
+  final String urlImageAccount;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xffFFCAC7;
     const int backgroundLight = 0xffFFEAE9;
     const int textColor = 0xffFF3B30;
-    const int iconColor = 0xff000000;
-    const int borderColorDark = 0xff008D34;
-    const int borderColorLight = 0xff4C8DBE;
+    const int textContentColor = 0xff000000;
+    const int iconColor = 0xffFFFFFF;
+    const int iconErrorColor = 0xff03253E;
+    const int borderColorDark = 0xffFF3B30;
+    const int borderColorLight = 0xffFF3B30;
 
+    const String tagText = "Inválido";
+    const String message =
+        "Hemos detectado un inconveniente al procesar el pago que ha resultado un rebote, en breve nuestro equipo se  encargará de solucionarlo";
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
       height: 255,
@@ -323,22 +412,27 @@ class ContainerPayOutInvalid extends ConsumerWidget {
               borderRadius: BorderRadius.circular(20),
               color: const Color(textColor),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset(
-                  "assets/svg_icons/clock_icon.svg",
-                  color: const Color(iconColor),
+                SizedBox(
+                  width: 10,
                 ),
-                const SizedBox(
+                Icon(
+                  Icons.error_outline,
+                  color: Color(iconColor),
+                  size: 15,
+                ),
+                SizedBox(
                   width: 5,
                 ),
-                const TextPoppins(
-                  text: "En proceso",
+                TextPoppins(
+                  text: tagText,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   textDark: iconColor,
+                  textLight: iconColor,
                 ),
               ],
             ),
@@ -349,19 +443,24 @@ class ContainerPayOutInvalid extends ConsumerWidget {
                 text: "Enviamos ",
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
+                textDark: textContentColor,
+                textLight: textContentColor,
               ),
               TextPoppins(
                 text: "S/860.50",
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
+                textDark: textContentColor,
+                textLight: textContentColor,
               ),
             ],
           ),
           const TextPoppins(
-            text:
-                "En breve te llegará la transferencia al siguiente destino que registraste en el proceso de inversión",
+            text: message,
             fontSize: 10,
             lines: 3,
+            textDark: textContentColor,
+            textLight: textContentColor,
           ),
           CustomBorderContainer(
             height: 78,
@@ -384,6 +483,8 @@ class ContainerPayOutInvalid extends ConsumerWidget {
                           text: "Cuenta bancaria",
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
+                          textDark: textContentColor,
+                          textLight: textContentColor,
                         ),
                         const SizedBox(
                           width: 10,
@@ -401,10 +502,27 @@ class ContainerPayOutInvalid extends ConsumerWidget {
                           width: 24,
                           height: 24,
                           child: ClipOval(
-                            child: Image.asset(
-                              "assets/images/bank_example.png",
+                            child: Image.network(
+                              urlImageAccount,
                               width: 24,
                               height: 24,
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  return const CircularLoader(
+                                    width: 24,
+                                    height: 24,
+                                  );
+                                }
+                              },
+                              errorBuilder: (context, error, stackTrace) =>
+                                  const Icon(
+                                Icons.image_not_supported_outlined,
+                                color: Color(iconErrorColor),
+                                size: 24,
+                              ),
                             ),
                           ),
                         ),
@@ -414,6 +532,8 @@ class ContainerPayOutInvalid extends ConsumerWidget {
                         const TextPoppins(
                           text: "Cuenta soles | 122009301103",
                           fontSize: 10,
+                          textDark: textContentColor,
+                          textLight: textContentColor,
                         ),
                       ],
                     ),

@@ -27,11 +27,15 @@ class _BodyPayOut extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String amount = 'S/ 1,000.00';
+    const String currency = 'Cuenta soles';
+    const String accountNumber = '122009301103';
+    const String urlImageAccount =
+        'https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/f484570d/pichincha.pnga';
     return SingleChildScrollView(
       child: Center(
         child: SizedBox(
           width: MediaQuery.of(context).size.width * 0.85,
-          height: MediaQuery.of(context).size.height,
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,15 +52,33 @@ class _BodyPayOut extends StatelessWidget {
               SizedBox(
                 height: 10,
               ),
-              ContainerPayOutInProgress(),
+              ContainerPayOutInProgress(
+                amount: amount,
+                currency: currency,
+                accountNumber: accountNumber,
+                urlImageAccount: urlImageAccount,
+              ),
               SizedBox(
                 height: 10,
               ),
-              ContainerPayOutFilled(),
+              ContainerPayOutFilled(
+                amount: amount,
+                currency: currency,
+                accountNumber: accountNumber,
+                urlImageAccount: urlImageAccount,
+              ),
               SizedBox(
                 height: 10,
               ),
-              ContainerPayOutInvalid()
+              ContainerPayOutInvalid(
+                amount: amount,
+                currency: currency,
+                accountNumber: accountNumber,
+                urlImageAccount: urlImageAccount,
+              ),
+              SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),
