@@ -9,19 +9,50 @@ class QueryRepository {
         nickName
         civilStatus
 
-        documentNumber
-        gender
+       
         hasCompletedOnboarding
         id
         isActive
         occupation
 
-        typeDocument
+     
         uuid
         imageProfileUrl
         address
         percentCompleteProfile
         hasCompletedTour
+        
+        lastNameFather
+        lastNameMother
+        typeDocument
+        documentNumber
+        gender
+        region{
+          id
+        }
+        provincia{
+          id
+        }
+        distrito{
+          id
+        }
+      	address
+        houseNumber
+        postalCode
+        
+        laborSituation
+        companyName
+        serviceTime
+
+        biography
+        facebook
+        instagram
+        linkedin
+
+        isDirectorOrShareholder10Percent
+        isPublicOfficialOrFamily
+        acceptPrivacyPolicy
+        acceptTermsConditions
       }
     }
   ''';
@@ -1191,6 +1222,7 @@ class QueryRepository {
             typeAccount
             isJointAccount
             isDefaultAccount
+            bankLogoUrl
           }
         }
       }
@@ -1591,6 +1623,38 @@ class QueryRepository {
           }
         }
       }
+    ''';
+  }
+
+  static String get getLegalDocuments {
+    return '''
+     query{
+      userGetLegalDocuments{
+        legalAcceptance{
+          termsAndConditions
+          privacyPolicy
+        }
+        sunatDeclarations{ 
+          nameFile
+          declarationUrl
+        }
+      }
+    }
+    ''';
+  }
+
+  static String get getProfileCompleteness {
+    return '''
+     query getUserProfileCompleteness{
+      userCompletenessProfile{
+        completionPercentage
+        personalDataComplete
+        locationComplete
+        occupationComplete
+        legalTermsCompleteness
+        profileComplete
+      }
+    }
     ''';
   }
 }

@@ -30,7 +30,7 @@ class NoInvestmentCase extends ConsumerWidget {
           TextPoppins(
             text: title,
             fontSize: 14,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           const SizedBox(
             height: 5,
@@ -38,7 +38,6 @@ class NoInvestmentCase extends ConsumerWidget {
           TextPoppins(
             text: textBody,
             fontSize: 12,
-            isBold: false,
             lines: 3,
             align: TextAlign.center,
           ),

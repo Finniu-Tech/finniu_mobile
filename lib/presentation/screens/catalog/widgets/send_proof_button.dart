@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -47,7 +48,8 @@ class ButtonInvestment extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Container(
+
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.85,
       height: 50,
       child: ElevatedButton(
@@ -55,7 +57,9 @@ class ButtonInvestment extends ConsumerWidget {
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -64,11 +68,70 @@ class ButtonInvestment extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
+            color: isDarkMode
+                ? const Color(colorTextButtonDarkColor)
+                : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonForm extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  const ButtonForm({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int textColorDark = 0xff000000;
+    const int textColorLight = 0xffFFFFFF;
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: 50,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return Colors.grey;
+              }
+              return Color(
+                isDarkMode
+                    ? buttonBackgroundColorDark
+                    : buttonBackgroundColorLight,
+              );
+            },
+          ),
+          foregroundColor: WidgetStateProperty.resolveWith<Color>(
+            (Set<WidgetState> states) {
+              if (states.contains(WidgetState.disabled)) {
+                return Colors.black38;
+              }
+              return isDarkMode
+                  ? const Color(colorTextButtonDarkColor)
+                  : const Color(colorTextButtonLightColor);
+            },
+          ),
+        ),
+        onPressed: onPressed,
+        child: TextPoppins(
+          text: text,
+          fontSize: 14,
+          align: TextAlign.center,
+          fontWeight: FontWeight.w600,
+          textDark: textColorDark,
+          textLight: textColorLight,
         ),
       ),
     );
@@ -129,7 +192,9 @@ class ButtonDialog extends ConsumerWidget {
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -138,7 +203,9 @@ class ButtonDialog extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
+            color: isDarkMode
+                ? const Color(colorTextButtonDarkColor)
+                : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
           ),
@@ -225,7 +292,9 @@ class BodyDialog extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                        color: isDarkMode
+                            ? const Color(labelTextDarkColor)
+                            : const Color(labelTextLightColor),
                       ),
                     ),
                     Image.asset('assets/icons/icon_tanks.png'),
@@ -253,7 +322,9 @@ class BodyDialog extends ConsumerWidget {
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Poppins",
-                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                        color: isDarkMode
+                            ? const Color(labelTextDarkColor)
+                            : const Color(labelTextLightColor),
                       ),
                       maxLines: 1,
                       textAlign: TextAlign.start,

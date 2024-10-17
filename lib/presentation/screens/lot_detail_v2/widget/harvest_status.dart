@@ -66,12 +66,12 @@ class _DaysPassedMissing extends StatelessWidget {
         TextPoppins(
           text: passedDays,
           fontSize: 12,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         TextPoppins(
           text: missingDays,
           fontSize: 12,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
       ],
     );
@@ -163,7 +163,7 @@ class _ProcessStatus extends StatelessWidget {
         TextPoppins(
           text: "$harvestNumber cosecha",
           fontSize: 11,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
       ],
     );

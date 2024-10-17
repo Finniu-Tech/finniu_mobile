@@ -27,7 +27,9 @@ class InvestmentBlueGoldScreen extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
-          color: isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
+          color: isDarkMode
+              ? const Color(backgroundColorDark)
+              : const Color(backgroundColorLight),
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +38,7 @@ class InvestmentBlueGoldScreen extends HookConsumerWidget {
               TextPoppins(
                 text: title,
                 fontSize: 20,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 lines: 2,
                 textDark: titleColorDark,
                 textLight: titleColorLight,

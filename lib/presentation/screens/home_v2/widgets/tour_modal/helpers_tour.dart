@@ -11,15 +11,13 @@ void seeAnotherTime(
   idFinal = false,
 }) async {
   if (idFinal) {
-    print("es el ulitmo");
-    ref.read(seeLaterProvider.notifier).state = false;
+    ref.read(seeLaterProvider.notifier).state = true;
     final GraphQLClient client = ref.read(gqlClientProvider).value!;
     await CompleteLastTourImp(client).completeLastTour();
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           hasCompletedTour: true,
         );
   } else {
-    print("no es el ulitmo");
     ref.read(seeLaterProvider.notifier).state = true;
   }
   Navigator.pop(context);

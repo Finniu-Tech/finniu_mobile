@@ -1,7 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/event_tracker_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/utils/color_utils.dart';
@@ -18,10 +20,23 @@ class OurInvestmentFunds extends ConsumerWidget {
     final trackerService = ref.watch(eventTrackerServiceProvider);
 
     Future<void> onTapNavigate(FundEntity fund) async {
-      final String fundEventName =
-          fund.fundType == FundTypeEnum.corporate ? 'fund-corporate-detail-card' : 'fund-aggro-detail-card';
+      final String fundEventName = fund.fundType == FundTypeEnum.corporate
+          ? 'fund-corporate-detail-card'
+          : 'fund-aggro-detail-card';
       await trackerService.logButtonClick(fundEventName);
-
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.screenView,
+        parameters: {
+          'navigated_from': fund.name,
+        },
+      );
+      ref.read(firebaseAnalyticsServiceProvider).logScreenView(
+        screenName: fundEventName,
+        screenClass: 'home_v2',
+        parameters: {
+          'navigated_from': fund.name,
+        },
+      );
       Navigator.pushNamed(
         context,
         '/fund_detail',
@@ -51,9 +66,12 @@ class OurInvestmentFunds extends ConsumerWidget {
                 final fundCardList = fundList
                     .map(
                       (fund) => CardInvestment(
-                        background: isDarkMode ? Color(fund.getHexListColorDark()) : Color(fund.getHexListColorLight()),
-                        backgroundImage:
-                            isDarkMode ? Color(fund.getHexListColorDark()) : Color(fund.getHexListColorLight()),
+                        background: isDarkMode
+                            ? Color(fund.getHexListColorDark())
+                            : Color(fund.getHexListColorLight()),
+                        backgroundImage: isDarkMode
+                            ? Color(fund.getHexListColorDark())
+                            : Color(fund.getHexListColorLight()),
                         textBody: fund.name,
                         onTap: () => onTapNavigate(fund),
                         imageUrl: fund.iconUrl != null

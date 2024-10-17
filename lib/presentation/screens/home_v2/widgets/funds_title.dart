@@ -17,7 +17,9 @@ class EnterpriseFundTitle extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryLight),
+          color: currentTheme.isDarkMode
+              ? const Color(primaryDark)
+              : const Color(primaryLight),
         ),
         color: currentTheme.isDarkMode
             ? const Color(backGroundColorFundTitleContainer)
@@ -60,7 +62,8 @@ class RealStateTitleAndNavigate extends StatefulWidget {
   });
 
   @override
-  RealStateTitleAndNavigateState createState() => RealStateTitleAndNavigateState();
+  RealStateTitleAndNavigateState createState() =>
+      RealStateTitleAndNavigateState();
 }
 
 class RealStateTitleAndNavigateState extends State<RealStateTitleAndNavigate> {
@@ -84,9 +87,13 @@ class RealStateTitleAndNavigateState extends State<RealStateTitleAndNavigate> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
         border: Border.all(
-          color: widget.isDarkMode ? const Color(borderDark) : const Color(borderLight),
+          color: widget.isDarkMode
+              ? const Color(borderDark)
+              : const Color(borderLight),
         ),
-        color: widget.isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        color: widget.isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
@@ -102,7 +109,7 @@ class RealStateTitleAndNavigateState extends State<RealStateTitleAndNavigate> {
           child: TextPoppins(
             text: widget.isSelect ? "🏢 $fundName" : "🏢",
             fontSize: 14,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ),

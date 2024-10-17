@@ -15,7 +15,8 @@ void showTablePay(BuildContext context, {required String preInvestmentUUID}) {
   print('show table pay !!!!');
   showDialog(
     context: context,
-    builder: (context) => ProfitabilityTable(preInvestmentUUID: preInvestmentUUID),
+    builder: (context) =>
+        ProfitabilityTable(preInvestmentUUID: preInvestmentUUID),
   );
 }
 
@@ -35,7 +36,9 @@ class NotProfitability extends ConsumerWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+          color: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
         ),
         width: 300,
         height: 150,
@@ -46,7 +49,7 @@ class NotProfitability extends ConsumerWidget {
             const TextPoppins(
               text: "Rentabilidad no disponible",
               fontSize: 16,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: titleDark,
               textLight: titleLight,
             ),
@@ -67,11 +70,13 @@ class NotProfitability extends ConsumerWidget {
 class ProfitabilityTable extends ConsumerWidget {
   final String preInvestmentUUID;
 
-  const ProfitabilityTable({Key? key, required this.preInvestmentUUID}) : super(key: key);
+  const ProfitabilityTable({Key? key, required this.preInvestmentUUID})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profitabilityData = ref.watch(getMonthlyPaymentProvider(preInvestmentUUID));
+    final profitabilityData =
+        ref.watch(getMonthlyPaymentProvider(preInvestmentUUID));
 
     return Dialog(
       insetPadding: const EdgeInsets.all(20.0),
@@ -79,7 +84,9 @@ class ProfitabilityTable extends ConsumerWidget {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.6,
         decoration: BoxDecoration(
-          color: ref.watch(settingsNotifierProvider).isDarkMode ? const Color(0xff1A1A1A) : const Color(0xffFFFFFF),
+          color: ref.watch(settingsNotifierProvider).isDarkMode
+              ? const Color(0xff1A1A1A)
+              : const Color(0xffFFFFFF),
           borderRadius: const BorderRadius.all(Radius.circular(10)),
         ),
         child: profitabilityData.when(
@@ -96,7 +103,8 @@ class ProfitabilityTable extends ConsumerWidget {
     );
   }
 
-  Widget _buildProfitabilityContent(BuildContext context, WidgetRef ref, List<ProfitabilityItem> list) {
+  Widget _buildProfitabilityContent(
+      BuildContext context, WidgetRef ref, List<ProfitabilityItem> list) {
     return Align(
       alignment: Alignment.topCenter,
       child: Stack(
@@ -113,7 +121,7 @@ class ProfitabilityTable extends ConsumerWidget {
                     TextPoppins(
                       text: "Tabla de mis rentabilidades",
                       fontSize: 16,
-                      isBold: true,
+                      fontWeight: FontWeight.w500,
                       textDark: 0xffA2E6FA,
                       textLight: 0xff0D3A5C,
                     ),
@@ -179,7 +187,9 @@ class ProfitabilityList extends ConsumerWidget {
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1,
-                color: isDarkMode ? const Color(borderColorDark) : const Color(borderColorLight),
+                color: isDarkMode
+                    ? const Color(borderColorDark)
+                    : const Color(borderColorLight),
               ),
               borderRadius: index == list.length - 1
                   ? const BorderRadius.only(
@@ -211,7 +221,9 @@ class ProfitabilityList extends ConsumerWidget {
                 ),
                 VerticalDivider(
                   thickness: 1,
-                  color: isDarkMode ? const Color(borderColorDark) : const Color(borderColorLight),
+                  color: isDarkMode
+                      ? const Color(borderColorDark)
+                      : const Color(borderColorLight),
                 ),
                 Expanded(
                   child: Row(
@@ -224,7 +236,7 @@ class ProfitabilityList extends ConsumerWidget {
                             ? formatterSoles.format(list[index].amount)
                             : formatterUSD.format(list[index].amount),
                         fontSize: 16,
-                        isBold: true,
+                        fontWeight: FontWeight.w500,
                       ),
                     ],
                   ),
@@ -257,10 +269,14 @@ class TitleData extends ConsumerWidget {
       width: double.infinity,
       height: 38,
       decoration: BoxDecoration(
-        color: isDarkMode ? const Color(backgroundColorDark) : const Color(backgroundColorLight),
+        color: isDarkMode
+            ? const Color(backgroundColorDark)
+            : const Color(backgroundColorLight),
         border: Border.all(
           width: 1,
-          color: isDarkMode ? const Color(borderColorDark) : const Color(borderColorLight),
+          color: isDarkMode
+              ? const Color(borderColorDark)
+              : const Color(borderColorLight),
         ),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(10),
@@ -282,7 +298,9 @@ class TitleData extends ConsumerWidget {
                 Icon(
                   Icons.calendar_today_outlined,
                   size: 15,
-                  color: isDarkMode ? const Color(titleTableDark) : const Color(titleTableLight),
+                  color: isDarkMode
+                      ? const Color(titleTableDark)
+                      : const Color(titleTableLight),
                 ),
                 const SizedBox(
                   width: 5,
@@ -290,7 +308,7 @@ class TitleData extends ConsumerWidget {
                 const TextPoppins(
                   text: "Mes",
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   textDark: titleTableDark,
                   textLight: titleTableLight,
                 ),
@@ -299,7 +317,9 @@ class TitleData extends ConsumerWidget {
           ),
           VerticalDivider(
             thickness: 1,
-            color: isDarkMode ? const Color(borderColorDark) : const Color(borderColorLight),
+            color: isDarkMode
+                ? const Color(borderColorDark)
+                : const Color(borderColorLight),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -312,7 +332,9 @@ class TitleData extends ConsumerWidget {
                 'assets/svg_icons/status_up_two.svg',
                 width: 17,
                 height: 17,
-                color: isDarkMode ? const Color(titleTableDark) : const Color(titleTableLight),
+                color: isDarkMode
+                    ? const Color(titleTableDark)
+                    : const Color(titleTableLight),
               ),
               const SizedBox(
                 width: 5,
@@ -320,7 +342,7 @@ class TitleData extends ConsumerWidget {
               const TextPoppins(
                 text: "Rentabilidad",
                 fontSize: 16,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: titleTableDark,
                 textLight: titleTableLight,
               ),

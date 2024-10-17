@@ -1,6 +1,8 @@
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -34,7 +36,9 @@ class V2SummaryScreen extends HookConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+      backgroundColor: isDarkMode
+          ? const Color(columnColorDark)
+          : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
       bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
@@ -49,12 +53,14 @@ class _BodyScaffold extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final ArgumentsNavigator arguments = ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
+    final ArgumentsNavigator arguments =
+        ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
     const int columnColorLight = 0xffF8F8F8;
-    final investmentDetailByUuid = ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
+    final investmentDetailByUuid =
+        ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
     return investmentDetailByUuid.when(
       error: (error, stack) {
@@ -85,7 +91,9 @@ class _BodyScaffold extends ConsumerWidget {
           );
         }
         return Container(
-          color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+          color: isDarkMode
+              ? const Color(columnColorDark)
+              : const Color(columnColorLight),
           width: MediaQuery.of(context).size.width,
           // height: MediaQuery.of(context).size.height,
           child: Padding(
@@ -95,7 +103,8 @@ class _BodyScaffold extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TitleModal(
-                  status: StatusInvestmentEnum.getLabelForStatus(arguments.status),
+                  status:
+                      StatusInvestmentEnum.getLabelForStatus(arguments.status),
                   isReInvestment: data.isReInvestment,
                 ),
                 const SizedBox(height: 10),
@@ -123,7 +132,10 @@ class _BodyScaffold extends ConsumerWidget {
                         bankAccountSender: data.bankAccountSender!,
                       )
                     : const SizedBox(),
-                data.bankAccountReceiver != null ? const SizedBox() : const SizedBox(),
+                const SizedBox(height: 15),
+                data.bankAccountReceiver != null
+                    ? const SizedBox()
+                    : const SizedBox(),
                 data.bankAccountReceiver != null
                     ? SelectedBankDeposit(
                         bankAccountReceiver: data.bankAccountReceiver!,
@@ -141,8 +153,14 @@ class _BodyScaffold extends ConsumerWidget {
                 ),
                 const SizedBox(height: 15),
                 if (arguments.isReinvestAvailable == true &&
-                    StatusInvestmentEnum.compare(arguments.status, StatusInvestmentEnum.in_course) &&
-                    ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.defaultReInvestment)) ...[
+                    StatusInvestmentEnum.compare(
+                      arguments.status,
+                      StatusInvestmentEnum.in_course,
+                    ) &&
+                    ActionStatusEnum.compare(
+                      arguments.actionStatus ?? '',
+                      ActionStatusEnum.defaultReInvestment,
+                    )) ...[
                   arguments.isReinvestAvailable
                       ? ButtonInvestment(
                           text: 'Reinvertir mi inversión',
@@ -158,19 +176,25 @@ class _BodyScaffold extends ConsumerWidget {
                             data.month,
                           ),
                         )
-                      : const SizedBox()
+                      : const SizedBox(),
                 ],
-                if (ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.pendingReInvestment)) ...[
+                if (ActionStatusEnum.compare(
+                  arguments.actionStatus ?? '',
+                  ActionStatusEnum.pendingReInvestment,
+                )) ...[
                   const ButtonInvestmentDisabled(
                     text: 'Re-inversión Solicitada',
                     colorBackground: Color(0xff55B63D),
-                  )
+                  ),
                 ],
-                if (ActionStatusEnum.compare(arguments.actionStatus ?? '', ActionStatusEnum.disabledReInvestment)) ...[
+                if (ActionStatusEnum.compare(
+                  arguments.actionStatus ?? '',
+                  ActionStatusEnum.disabledReInvestment,
+                )) ...[
                   const ButtonInvestmentDisabled(
                     text: 'Devolución de Capital Solicitada',
                     colorBackground: Color(0xff7C73FE),
-                  )
+                  ),
                 ],
                 const SizedBox(height: 15),
               ],
@@ -182,18 +206,24 @@ class _BodyScaffold extends ConsumerWidget {
   }
 }
 
-class SeeInterestPayment extends StatelessWidget {
+class SeeInterestPayment extends ConsumerWidget {
   final String preInvestmentUUID;
   const SeeInterestPayment({
     super.key,
     required this.preInvestmentUUID,
   });
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ButtonsTable(
       text: 'Ver tabla de los pagos de intereses',
       icon: "square_half.svg",
-      onPressed: () => showTablePay(context, preInvestmentUUID: preInvestmentUUID),
+      onPressed: () => {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.seeInterestTable,
+          parameters: {},
+        ),
+        showTablePay(context, preInvestmentUUID: preInvestmentUUID),
+      },
     );
   }
 }
@@ -209,6 +239,10 @@ class RowButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void voucherOnPress() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.voucherDownloadDetail,
+        parameters: {},
+      );
       if (voucher == null) {
         showNotVoucherOrContract(context, true);
       } else {
@@ -217,6 +251,10 @@ class RowButtons extends ConsumerWidget {
     }
 
     void downloadOnPress() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.contactDownloadDetail,
+        parameters: {},
+      );
       if (contract == null) {
         showNotVoucherOrContract(context, false);
       } else {

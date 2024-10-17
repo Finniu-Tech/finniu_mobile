@@ -1,4 +1,6 @@
+import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/graphql/mutations.dart';
+import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/infrastructure/models/user.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 
@@ -55,5 +57,18 @@ class UserProfileDataSourceImp {
     bool success = response.data?['updateUserImageProfile']['success'];
     String imageProfileUrl = response.data?['updateUserImageProfile']['userProfile']['imageProfileUrl'];
     return success ? imageProfileUrl : null;
+  }
+
+  Future<UserProfileCompleteness> getUserProfileCompleteness({required GraphQLClient client}) async {
+    final response = await client.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.getProfileCompleteness,
+        ),
+        fetchPolicy: FetchPolicy.noCache,
+      ),
+    );
+
+    return UserProfileCompleteness.fromJson(response.data?['userCompletenessProfile']);
   }
 }

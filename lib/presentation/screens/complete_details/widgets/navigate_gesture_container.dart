@@ -52,7 +52,7 @@ class NavigateGestureContainer extends ConsumerWidget {
               child: TextPoppins(
                 text: textBody,
                 fontSize: 15,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 lines: 2,
                 textDark: textDark,
                 textLight: textLight,

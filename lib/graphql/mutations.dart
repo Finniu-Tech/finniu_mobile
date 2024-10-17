@@ -589,14 +589,14 @@ class MutationRepository {
 
   static String savePersonalDataV2() {
     return '''
-    mutation RegisterPersonalData (
+       mutation RegisterPersonalData (
       \$firstName: String!
       \$lastNameFather: String!
       \$lastNameMother: String!
-      \$documentType: DocumentTypeEnum!
+      \$documentType: DocumentTypeEnumV2!
       \$documentNumber: String!
       \$civilStatus: CivilStatusEnum!
-      \$gender: String!
+      \$gender: GenderEnum!
     ){
     registerPersonalData(input:{
       firstName: \$firstName,
@@ -617,6 +617,7 @@ class MutationRepository {
     }
     }
 }
+
     ''';
   }
 
@@ -703,9 +704,9 @@ class MutationRepository {
   static String saveAboutMeDataV2() {
     return '''
    mutation registerUserAboutMe (
-    \$imageProfile: String!
-    \$backgroundPhoto: String!
-    \$biography: String!
+    \$imageProfile: String
+    \$backgroundPhoto: String
+    \$biography: String
     \$socialMedia: SocialMediaInput
 
    ){
@@ -733,6 +734,44 @@ class MutationRepository {
      mutation completeLastTour( \$hasCompletedTour: Boolean! ){
       completeLastTour(hasCompletedTour : \$hasCompletedTour){
         success   
+      }
+    }
+    ''';
+  }
+
+  static String emailReset() {
+    return '''
+    mutation emailReset (
+     \$inputEmail: EmailChangePasswordInput!
+       ){
+    emailResetPassword(
+        input: \$inputEmail
+    ) {
+      success
+    }
+  }
+    ''';
+  }
+
+  static String createSupportTicket() {
+    return '''
+    mutation createSupportTicket(
+      \$category: CategoryTicketEnum!
+      \$description: String!
+      \$email: String!
+      \$name: String!
+      \$lastName: String!
+      \$imageReport:String
+    ) {
+      createSupportTicket(
+        category: \$category
+        name: \$name
+        description: \$description
+        email: \$email
+        lastName: \$lastName
+        imageReport: \$imageReport
+      ) {
+        success
       }
     }
     ''';

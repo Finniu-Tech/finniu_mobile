@@ -171,7 +171,7 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget>
                               fontSize: 9,
                               textDark: textTimeDark,
                               textLight: textTimeLight,
-                              isBold: true,
+                              fontWeight: FontWeight.w500,
                             ),
                             Icon(
                               Icons.keyboard_arrow_up,
@@ -226,7 +226,7 @@ class TitleCard extends ConsumerWidget {
             fontSize: 16,
             textDark: textTimeDark,
             textLight: textTimeLight,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           Row(
             children: [
@@ -235,12 +235,12 @@ class TitleCard extends ConsumerWidget {
                 fontSize: 12,
                 textDark: textTimeInDayDark,
                 textLight: textTimeInDayLight,
-                isBold: true,
+                fontWeight: FontWeight.w500,
               ),
               TextPoppins(
                 text: "$timeInDay días ",
                 fontSize: 16,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: textTimeInDayDark,
                 textLight: textTimeInDayLight,
               ),

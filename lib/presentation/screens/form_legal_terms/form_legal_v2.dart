@@ -1,4 +1,5 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_terms_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_box_input.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
@@ -12,44 +13,25 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class FormLegalTermsDataV2 extends HookConsumerWidget {
-  FormLegalTermsDataV2({super.key});
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  const FormLegalTermsDataV2({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isPublicOfficialOrFamilyCheckbox = useState(false);
-    final isDirectorOrShareholder10PercentCheckbox = useState(false);
-    void uploadJobData() {
-      if (formKey.currentState!.validate()) {
-        context.loaderOverlay.show();
-        final data = DtoLegalTermsForm(
-          isPublicOfficialOrFamily: isPublicOfficialOrFamilyCheckbox.value,
-          isDirectorOrShareholder10Percent:
-              isDirectorOrShareholder10PercentCheckbox.value,
-        );
-        pushLegalTermsDataForm(context, data, ref);
-      }
-    }
-
-    void continueLater() {
-      Navigator.pushNamed(context, "/home_v2");
-    }
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+    final isPublicOfficialOrFamilyCheckbox = useState(userProfile.isPublicOfficialOrFamily ?? false);
+    final isDirectorOrShareholder10PercentCheckbox = useState(userProfile.isDirectorOrShareholder10Percent ?? false);
 
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ScaffoldUserProfile(
-        bottomNavigationBar: FormDataNavigator(
-          addData: () => uploadJobData(),
-          continueLater: null,
-          continueLaterBool: false,
-        ),
         appBar: const AppBarLogo(),
         children: [
           const SizedBox(
             height: 10,
           ),
           const ProgressForm(
-            progress: 0.7,
+            progress: 0.3,
           ),
           const TitleForm(
             title: "Términos legales",
@@ -79,10 +61,27 @@ class LegalTermsForm extends ConsumerWidget {
   final ValueNotifier<bool> amDirectorCheckboxValue;
   final String civilServantText =
       "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta.";
-  final String amDirectorText =
-      "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.";
+  final String amDirectorText = "Soy un director o un accionista del 10% de una corporación que cotiza en bolsa.";
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void uploadJobData() {
+      if (formKey.currentState!.validate()) {
+        context.loaderOverlay.show();
+        final data = DtoLegalTermsForm(
+          isPublicOfficialOrFamily: publicOfficialCheckboxValue.value,
+          isDirectorOrShareholder10Percent: amDirectorCheckboxValue.value,
+        );
+        context.loaderOverlay.show();
+        pushLegalTermsDataForm(context, data, ref);
+      }
+    }
+
+    void continueLater() {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      Navigator.pushNamedAndRemoveUntil(context, '/v2/home', (Route<dynamic> route) => false);
+    }
+
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
@@ -92,8 +91,7 @@ class LegalTermsForm extends ConsumerWidget {
             text: civilServantText,
             checkboxValue: publicOfficialCheckboxValue.value,
             onPressed: () {
-              publicOfficialCheckboxValue.value =
-                  !publicOfficialCheckboxValue.value;
+              publicOfficialCheckboxValue.value = !publicOfficialCheckboxValue.value;
             },
           ),
           const SizedBox(
@@ -105,6 +103,11 @@ class LegalTermsForm extends ConsumerWidget {
             onPressed: () {
               amDirectorCheckboxValue.value = !amDirectorCheckboxValue.value;
             },
+          ),
+          FormDataNavigator(
+            addData: () => uploadJobData(),
+            continueLater: continueLater,
+            continueLaterBool: false,
           ),
         ],
       ),

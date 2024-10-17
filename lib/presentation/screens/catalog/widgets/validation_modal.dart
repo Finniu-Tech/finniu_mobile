@@ -21,7 +21,8 @@ class ValidationModal extends StatelessWidget {
   }
 }
 
-Future<dynamic> showValidationModal(BuildContext context, VoidCallback onPressed) {
+Future<dynamic> showValidationModal(
+    BuildContext context, VoidCallback onPressed) {
   return showDialog(
     barrierDismissible: false,
     context: context,
@@ -86,7 +87,6 @@ class ModalBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('onPressed: $onPressed');
     return Dialog(
       insetPadding: const EdgeInsets.all(20),
       child: Container(
@@ -126,7 +126,9 @@ class ModalBody extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                            color: isDarkMode
+                                ? const Color(labelTextDarkColor)
+                                : const Color(labelTextLightColor),
                           ),
                         ),
                         Row(
@@ -137,7 +139,9 @@ class ModalBody extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                                color: isDarkMode
+                                    ? const Color(labelTextDarkColor)
+                                    : const Color(labelTextLightColor),
                               ),
                             ),
                             const SizedBox(
@@ -170,7 +174,9 @@ class ModalBody extends StatelessWidget {
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                             fontFamily: "Poppins",
-                            color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
+                            color: isDarkMode
+                                ? const Color(labelTextDarkColor)
+                                : const Color(labelTextLightColor),
                           ),
                           maxLines: 1,
                           textAlign: TextAlign.start,

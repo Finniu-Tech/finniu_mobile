@@ -2,10 +2,10 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/infrastructure/datasources/change_password_logued_imp.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/settings/widgets.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -30,28 +30,38 @@ class PrivacyScreen extends HookConsumerWidget {
       body: Center(
         child: SingleChildScrollView(
           child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 700, minWidth: 400, maxHeight: 1000, minHeight: 825),
+            constraints: const BoxConstraints(
+              maxWidth: 700,
+              minWidth: 400,
+              maxHeight: 1000,
+              minHeight: 825,
+            ),
             child: Padding(
               padding: const EdgeInsets.all(25.0),
               child: Column(
                 children: [
-                  Row(children: [
-                    const SizedBox(
-                      height: 10,
-                    ),
+                  Row(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
 
-                    Image.asset(
-                      'assets/privacy/privacy.png',
-                    ),
-                    // SizedBox(width: 10),
-                    Text(
-                      "Privacidad",
-                      style: TextStyle(
+                      Image.asset(
+                        'assets/privacy/privacy.png',
+                      ),
+                      // SizedBox(width: 10),
+                      Text(
+                        "Privacidad",
+                        style: TextStyle(
                           fontSize: 24,
-                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
-                          fontWeight: FontWeight.bold),
-                    )
-                  ]),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(primaryDark),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Row(
@@ -71,11 +81,16 @@ class PrivacyScreen extends HookConsumerWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        Text("Contraseñas",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
-                                fontWeight: FontWeight.bold)),
+                        Text(
+                          "Contraseñas",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -103,7 +118,9 @@ class PrivacyScreen extends HookConsumerWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
-                          color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
                         ),
                       ),
                       const SizedBox(
@@ -133,7 +150,9 @@ class PrivacyScreen extends HookConsumerWidget {
                           "Mostrar caracteres brevemente mientras escribes",
                           style: TextStyle(
                             fontSize: 10,
-                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
                             height: 1.5,
                           ),
                         ),
@@ -149,7 +168,9 @@ class PrivacyScreen extends HookConsumerWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
                         ),
                       ),
                     ],
@@ -162,7 +183,9 @@ class PrivacyScreen extends HookConsumerWidget {
                     height: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: currentTheme.isDarkMode ? const Color(colorblacklight) : const Color(grayText3),
+                      color: currentTheme.isDarkMode
+                          ? const Color(colorblacklight)
+                          : const Color(grayText3),
                     ),
                     child: TextFormField(
                       controller: oldPasswordController,
@@ -177,20 +200,25 @@ class PrivacyScreen extends HookConsumerWidget {
                       //   // emailController.text = value.toString();
                       // },
                       autocorrect: false,
-                      obscureText: isHideOldPassword.value, // esto oculta la contrasenia
+                      obscureText:
+                          isHideOldPassword.value, // esto oculta la contrasenia
                       obscuringCharacter: '*',
                       decoration: InputDecoration(
                         hintText: 'Escriba su contraseña actual',
                         hintStyle: TextStyle(
                           fontSize: 10,
-                          color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
                         ),
                         label: const Text('Contraseña actual'),
                         suffixIcon: IconButton(
                           splashRadius: 20,
                           padding: EdgeInsets.zero,
                           icon: Icon(
-                            isHideOldPassword.value ? Icons.visibility : Icons.visibility_off,
+                            isHideOldPassword.value
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                             size: 23.20,
                           ),
                           alignment: Alignment.center,
@@ -209,11 +237,14 @@ class PrivacyScreen extends HookConsumerWidget {
                     height: 30,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.0),
-                      color: currentTheme.isDarkMode ? const Color(colorblacklight) : const Color(grayText3),
+                      color: currentTheme.isDarkMode
+                          ? const Color(colorblacklight)
+                          : const Color(grayText3),
                     ),
                     child: TextFormField(
                       controller: newPasswordController,
-                      obscureText: isHideNewPassword.value, // esto oculta la contrasenia
+                      obscureText:
+                          isHideNewPassword.value, // esto oculta la contrasenia
                       obscuringCharacter: '*',
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -227,18 +258,25 @@ class PrivacyScreen extends HookConsumerWidget {
                       decoration: InputDecoration(
                         hintText: 'Escriba su nueva contraseña',
                         hintStyle: TextStyle(
-                            fontSize: 10,
-                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText)),
+                          fontSize: 10,
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
+                        ),
                         labelText: 'Nueva contraseña',
                         labelStyle: TextStyle(
                           fontSize: 10,
-                          color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(primaryLight)
+                              : const Color(blackText),
                         ),
                         suffixIcon: IconButton(
                           splashRadius: 20,
                           padding: EdgeInsets.zero,
                           icon: Icon(
-                            isHideNewPassword.value ? Icons.visibility : Icons.visibility_off,
+                            isHideNewPassword.value
+                                ? Icons.visibility
+                                : Icons.visibility_off,
                             size: 23.20,
                           ),
                           alignment: Alignment.center,
@@ -255,34 +293,44 @@ class PrivacyScreen extends HookConsumerWidget {
 
                   TextButton(
                     onPressed: () async {
-                      if (newPasswordController.text.isEmpty || oldPasswordController.text.isEmpty) {
-                        CustomSnackbar.show(
-                          context,
-                          'No puede tener campos en blanco',
-                          'error',
+                      if (newPasswordController.text.isEmpty ||
+                          oldPasswordController.text.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Debes rellenar todos los campos",
+                          message: 'No puede tener campos en blanco',
+                          snackType: SnackType.warning,
                         );
                       }
-                      final success = await ChangePasswordLoguedDataSourceImp().changePasswordLogued(
+                      final success = await ChangePasswordLoguedDataSourceImp()
+                          .changePasswordLogued(
                         client: ref.watch(gqlClientProvider).value!,
                         newPassword: newPasswordController.text,
                         oldPassword: oldPasswordController.text,
                       );
                       if (success) {
-                        CustomSnackbar.show(
-                          context,
-                          'Contraseña cambiada con éxito',
-                          'success',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Contraseña cambiada con éxito",
+                          message: 'Contraseña cambiada con éxito',
+                          snackType: SnackType.success,
                         );
                       } else {
-                        CustomSnackbar.show(
-                          context,
-                          'No se pudo cambiar la contraseña',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: 'Error al cambiar la contraseña',
+                          message: 'No se pudo cambiar la contraseña',
+                          snackType: SnackType.error,
                         );
                       }
                     },
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                        top: 5,
+                        bottom: 5,
+                      ),
                     ),
                     child: const Text(
                       "Confirmar",
@@ -450,7 +498,9 @@ class PrivacyScreen extends HookConsumerWidget {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                          color: currentTheme.isDarkMode
+                              ? const Color(whiteText)
+                              : const Color(blackText),
                         ),
                       ),
                     ],
@@ -469,7 +519,9 @@ class PrivacyScreen extends HookConsumerWidget {
                           overflow: TextOverflow.fade,
                           style: TextStyle(
                             fontSize: 10,
-                            color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                            color: currentTheme.isDarkMode
+                                ? const Color(whiteText)
+                                : const Color(blackText),
                             height: 1.5,
                           ),
                         ),
@@ -484,9 +536,13 @@ class PrivacyScreen extends HookConsumerWidget {
                       launchUrl(url);
                     },
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-                      fixedSize: MaterialStateProperty.all<Size>(
-                        const Size(99, 35), // Especifica el ancho y alto deseados del botón
+                      backgroundColor:
+                          WidgetStateProperty.all<Color>(Colors.red),
+                      fixedSize: WidgetStateProperty.all<Size>(
+                        const Size(
+                          99,
+                          35,
+                        ), // Especifica el ancho y alto deseados del botón
                       ),
                     ),
                     child: const Text(

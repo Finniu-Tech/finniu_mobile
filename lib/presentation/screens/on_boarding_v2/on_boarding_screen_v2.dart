@@ -1,13 +1,13 @@
 import 'dart:async';
-import 'package:finniu/constants/colors.dart';
+import 'package:finniu/main.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/page_one.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/positiones_column.dart';
-import 'package:finniu/services/share_preferences_service.dart';
+import 'package:finniu/widgets/fonts.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 class OnBoardingScreen extends ConsumerWidget {
   const OnBoardingScreen({super.key});
@@ -39,11 +39,21 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     viewportFraction: 1.0,
   );
   Timer? _timer;
+  String appCurrentVersion = '';
+
+  Future<void> _getCurrentAppVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    setState(() {
+      appCurrentVersion = packageInfo.version;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _startAutoScroll();
+    _getCurrentAppVersion();
+    ref.read(firebaseAnalyticsServiceProvider).logAppOpen();
   }
 
   void _startAutoScroll() {
@@ -68,8 +78,12 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     super.dispose();
   }
 
+  void pushLogin() => Navigator.pushNamed(context, '/v2/login_email');
+  void pushRegister() => Navigator.pushNamed(context, '/v2/register');
+
   @override
   Widget build(BuildContext context) {
+    final themeProvider = ref.watch(settingsNotifierProvider);
     return SizedBox(
       height: MediaQuery.of(context).size.height,
       child: Stack(
@@ -85,11 +99,21 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
               PageFiveContainer(),
             ],
           ),
-          _index == 0 ? const SwitchTheme() : const SizedBox(),
+          Positioned(
+            top: 40,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: 40,
+              child: VersionAppSectionWidget(
+                  themeProvider: themeProvider, version: appCurrentVersion),
+            ),
+          ),
           Positioned(
             bottom: 25,
             child: PositionedColumn(
               index: _index,
+              pushLogin: pushLogin,
+              pushRegister: pushRegister,
             ),
           ),
         ],
@@ -98,39 +122,37 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
   }
 }
 
-class SwitchTheme extends ConsumerWidget {
-  const SwitchTheme({
-    super.key,
-  });
+class VersionAppSectionWidget extends StatelessWidget {
+  const VersionAppSectionWidget(
+      {super.key, required this.themeProvider, required this.version});
+
+  final SettingsProviderState themeProvider;
+  final String version;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final settings = ref.read(settingsNotifierProvider.notifier);
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Positioned(
-      top: MediaQuery.of(context).size.height * 0.1,
-      right: 20,
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, top: 10),
       child: Row(
-        children: [
-          TextPoppins(
-            text: isDarkMode ? 'Dark mode' : 'Light mode',
-            fontSize: 10,
-            isBold: true,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          Text(
+            'V$version',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: 12,
+              color: Theme.of(context).colorScheme.primary,
+            ),
           ),
-          const SizedBox(width: 10),
-          FlutterSwitch(
-            width: 45,
-            height: 24,
-            value: isDarkMode ? true : false,
-            inactiveColor: const Color(primaryDark),
-            activeColor: const Color(primaryLight),
-            inactiveToggleColor: const Color(primaryLight),
-            activeToggleColor: const Color(primaryDark),
-            onToggle: (value) {
-              Preferences.isDarkMode = value;
-              value ? settings.setDarkMode() : settings.setLightMode();
-            },
-          ),
+          if (appConfig.environment != 'production') ...[
+            const SizedBox(width: 5),
+            TextPoppins(
+              text: appConfig.environment,
+              colorText: 0xffff0000,
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ],
         ],
       ),
     );

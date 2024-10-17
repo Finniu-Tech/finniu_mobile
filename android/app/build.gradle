@@ -3,7 +3,7 @@ plugins {
     id "kotlin-android"
     id "dev.flutter.flutter-gradle-plugin"
 }
-
+apply plugin: 'com.google.gms.google-services'
 
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
@@ -53,21 +53,26 @@ android {
             dimension "flavor-type"
             applicationId "com.finniu.app.staging"
             resValue "string", "app_name", "Finniu Staging"
+            buildConfigField "String", "DEEP_LINK_SCHEME", "\"finniuappstaging\""
             sourceSets{
                 staging {
                     res.srcDirs = ['src/staging/res']
                 }
             }
+            manifestPlaceholders = [DEEP_LINK_SCHEME: "finniuappstaging"]
+
         }
         production {
             dimension "flavor-type"
             applicationId "com.finniu"
             resValue "string", "app_name", "Finniu"
+            buildConfigField "String", "DEEP_LINK_SCHEME", "\"finniuapp\""
             sourceSets{
                 production {
                     res.srcDirs = ['src/production/res']
                 }
             }
+            manifestPlaceholders = [DEEP_LINK_SCHEME: "finniuapp"]
         }
     }
 
@@ -95,9 +100,13 @@ android {
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
-        versionCode 335000
-        versionName "3.3.5"
+        versionCode 441000
+        versionName "4.4.1"
         multiDexEnabled true
+        manifestPlaceholders = [
+            DEEP_LINK_SCHEME: "finniuapp",
+            applicationName: "io.flutter.app.FlutterApplication"
+        ]
     }
 
     signingConfigs {

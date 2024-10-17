@@ -70,7 +70,7 @@ class _FloatingActionButton extends ConsumerWidget {
             const TextPoppins(
               text: "Guardar mi progreso",
               fontSize: 16,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textColorDark,
               textLight: textColorLight,
             ),
@@ -239,7 +239,7 @@ class _HarvestDate extends ConsumerWidget {
           fontSize: 16,
           textDark: subTitleDark,
           textLight: subTitleLight,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
       ],
     );
@@ -258,7 +258,7 @@ class _TitleBody extends StatelessWidget {
     return TextPoppins(
       text: "Cosecha Lote $title",
       fontSize: 24,
-      isBold: true,
+      fontWeight: FontWeight.w500,
       textDark: titleDark,
       textLight: titleLight,
     );
