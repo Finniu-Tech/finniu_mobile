@@ -253,9 +253,9 @@ class ContainerPayOutFilled extends ConsumerWidget {
               ],
             ),
           ),
-          const Row(
+          Row(
             children: [
-              TextPoppins(
+              const TextPoppins(
                 text: "Enviamos ",
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
@@ -263,7 +263,7 @@ class ContainerPayOutFilled extends ConsumerWidget {
                 textLight: textContentColor,
               ),
               TextPoppins(
-                text: "S/860.50",
+                text: amount,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 textDark: textContentColor,
@@ -345,8 +345,8 @@ class ContainerPayOutFilled extends ConsumerWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        const TextPoppins(
-                          text: "Cuenta soles | 122009301103",
+                        TextPoppins(
+                          text: "$currency | $accountNumber",
                           fontSize: 10,
                           textDark: textContentColor,
                           textLight: textContentColor,
@@ -437,9 +437,9 @@ class ContainerPayOutInvalid extends ConsumerWidget {
               ],
             ),
           ),
-          const Row(
+          Row(
             children: [
-              TextPoppins(
+              const TextPoppins(
                 text: "Enviamos ",
                 fontSize: 10,
                 fontWeight: FontWeight.w400,
@@ -447,7 +447,7 @@ class ContainerPayOutInvalid extends ConsumerWidget {
                 textLight: textContentColor,
               ),
               TextPoppins(
-                text: "S/860.50",
+                text: amount,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 textDark: textContentColor,
@@ -529,8 +529,8 @@ class ContainerPayOutInvalid extends ConsumerWidget {
                         const SizedBox(
                           width: 10,
                         ),
-                        const TextPoppins(
-                          text: "Cuenta soles | 122009301103",
+                        TextPoppins(
+                          text: "$currency | $accountNumber",
                           fontSize: 10,
                           textDark: textContentColor,
                           textLight: textContentColor,
