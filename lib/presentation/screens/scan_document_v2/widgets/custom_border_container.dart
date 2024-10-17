@@ -58,9 +58,9 @@ class BorderPainter extends CustomPainter {
     final Color borderColor =
         isDarkMode ? Color(borderColorDark) : Color(borderColorLight);
 
-    const double radius = 20.0;
-    const double step = 20.0;
-    const double dashWidth = 10.0;
+    const double radius = 13.0;
+    const double step = 13.0;
+    const double dashWidth = 7.0;
 
     Path path = Path()
       ..addRRect(

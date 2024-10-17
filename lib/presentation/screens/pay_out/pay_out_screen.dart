@@ -28,7 +28,7 @@ class _BodyPayOut extends StatelessWidget {
     return SingleChildScrollView(
       child: Center(
         child: SizedBox(
-          width: MediaQuery.of(context).size.width * 0.8,
+          width: MediaQuery.of(context).size.width * 0.85,
           height: MediaQuery.of(context).size.height,
           child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
