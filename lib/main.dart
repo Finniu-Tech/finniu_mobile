@@ -27,13 +27,11 @@ Future<void> mainCommon(AppConfig config) async {
           : DefaultFirebaseOptionsStaging.currentPlatform,
     );
 
-    // Habilitar Crashlytics en producción y staging
     if (config.environment == "production" || config.environment == "staging") {
       await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
       FlutterError.onError = (errorDetails) {
         FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
       };
-      // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
       PlatformDispatcher.instance.onError = (error, stack) {
         FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
         return true;
@@ -41,6 +39,7 @@ Future<void> mainCommon(AppConfig config) async {
     }
 
     final pushNotificationService = PushNotificationService();
+
     await pushNotificationService.initialize();
 
     appConfig = config;
