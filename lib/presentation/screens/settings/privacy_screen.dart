@@ -532,7 +532,7 @@ class PrivacyScreen extends HookConsumerWidget {
                   TextButton(
                     onPressed: () {
                       // launch('https://finniu.com/cerrar_cuenta/');
-                      var url = Uri.parse('https://finniu.com/cerrar_cuenta/');
+                      var url = Uri.parse('https://manage.finniu.com/cerrar_cuenta/');
                       launchUrl(url);
                     },
                     style: ButtonStyle(
