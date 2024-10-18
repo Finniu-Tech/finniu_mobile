@@ -364,7 +364,6 @@ final List<String> genderType = [
 ];
 
 String getGenderByUser(String type) {
-  print('getGenderByUser: $type');
   switch (type) {
     case 'MALE':
       return "Masculino";
@@ -396,7 +395,7 @@ extension GenderEnumExtension on GenderEnum {
       case GenderEnum.PREFER_NOT_TO_SAY:
         return "PREFER_NOT_TO_SAY";
       default:
-        return "PREFER_NOT_TO_SAY";
+        return "OTHER";
     }
   }
 }

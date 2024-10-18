@@ -1,6 +1,5 @@
 import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal_02.dart';
