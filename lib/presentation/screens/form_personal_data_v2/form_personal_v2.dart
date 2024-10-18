@@ -61,6 +61,7 @@ class PersonalForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final String? imagePath = ref.watch(imagePathProvider);
+    final String? imageBase64 = ref.watch(imageBase64Provider);
 
     final firstNameController =
         useTextEditingController(text: userProfile.firstName ?? '');
@@ -80,6 +81,11 @@ class PersonalForm extends HookConsumerWidget {
           ? ""
           : getCivilStatusByUser(userProfile.civilStatus!),
     );
+    final genderTypeController = useTextEditingController(
+      text: userProfile.gender == null
+          ? ""
+          : getGenderByUser(userProfile.gender!),
+    );
 
     final ValueNotifier<bool> firstNameError = useState(false);
     final ValueNotifier<bool> lastNameFatherError = useState(false);
@@ -87,6 +93,7 @@ class PersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentTypeError = useState(false);
     final ValueNotifier<bool> documentNumberError = useState(false);
     final ValueNotifier<bool> civilStatusError = useState(false);
+    final ValueNotifier<bool> genderTypeError = useState(false);
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
@@ -104,7 +111,18 @@ class PersonalForm extends HookConsumerWidget {
         if (documentTypeError.value) return;
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
+        if (genderTypeError.value) return;
+
         if (imagePath == null) {
+          showSnackBarV2(
+            context: context,
+            title: "Falta imagen de perfil",
+            message: "Por favor, agrega una imagen de perfil.",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+        if (imageBase64 == null) {
           showSnackBarV2(
             context: context,
             title: "Falta imagen de perfil",
@@ -123,7 +141,8 @@ class PersonalForm extends HookConsumerWidget {
           documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
-          imageProfile: imagePath,
+          imageProfile: imageBase64,
+          gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
 
         context.loaderOverlay.show();
@@ -142,7 +161,7 @@ class PersonalForm extends HookConsumerWidget {
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
             ? 650
-            : MediaQuery.of(context).size.height * 0.77,
+            : MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
             imagePath == null
@@ -283,6 +302,36 @@ class PersonalForm extends HookConsumerWidget {
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
+                      return null;
+                    }
+
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: genderTypeError,
+              builder: (context, isError, child) {
+                return SelectableDropdownItem(
+                  isError: isError,
+                  onError: () => genderTypeError.value = false,
+                  itemSelectedValue: genderTypeController.text,
+                  options: genderType,
+                  selectController: genderTypeController,
+                  hintText: "Seleccione su genero",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "El genero es obligatorio",
+                        message: "Por favor, completa el seleciona el genero",
+                        snackType: SnackType.warning,
+                      );
+                      genderTypeError.value = true;
                       return null;
                     }
 

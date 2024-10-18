@@ -599,6 +599,7 @@ class MutationRepository {
       \$documentNumber: String!
       \$civilStatus: CivilStatusEnum!
       \$gender: GenderEnum!
+      \$imageProfile: String
     ){
     registerPersonalData(input:{
       firstName: \$firstName,
@@ -608,6 +609,7 @@ class MutationRepository {
       documentNumber: \$documentNumber,
       civilStatus: \$civilStatus,
       gender: \$gender
+      imageProfile: \$imageProfile
     }
     )
     {

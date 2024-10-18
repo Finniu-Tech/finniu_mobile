@@ -11,6 +11,15 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
     required DtoPersonalForm data,
   }) async {
     try {
+      print(data.imageProfile);
+      print(data.firstName);
+      print(data.lastNameFather);
+      print(data.lastNameMother);
+      print(data.documentType.name);
+      print(data.documentNumber);
+      print(data.civilStatus.name);
+      print(data.gender.name);
+
       final response = await client.mutate(
         MutationOptions(
           document: gql(
@@ -23,7 +32,8 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
             "documentType": data.documentType.name,
             "documentNumber": data.documentNumber,
             "civilStatus": data.civilStatus.name,
-            //imagen: data.imageProfile
+            "gender": data.gender.name,
+            "imageProfile": data.imageProfile,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),

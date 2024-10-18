@@ -133,6 +133,11 @@ class EditPersonalForm extends HookConsumerWidget {
           ? ""
           : getCivilStatusByUser(userProfile.civilStatus!),
     );
+    final genderTypeController = useTextEditingController(
+      text: userProfile.gender == null
+          ? ""
+          : getGenderByUser(userProfile.gender!),
+    );
 
     final ValueNotifier<bool> firstNameError = useState(false);
     final ValueNotifier<bool> lastNameFatherError = useState(false);
@@ -140,6 +145,7 @@ class EditPersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentTypeError = useState(false);
     final ValueNotifier<bool> documentNumberError = useState(false);
     final ValueNotifier<bool> civilStatusError = useState(false);
+    final ValueNotifier<bool> genderTypeError = useState(false);
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
@@ -157,6 +163,7 @@ class EditPersonalForm extends HookConsumerWidget {
         if (documentTypeError.value) return;
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
+        if (genderTypeError.value) return;
 
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
@@ -168,6 +175,7 @@ class EditPersonalForm extends HookConsumerWidget {
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
           imageProfile: imagePath ?? userProfile.imageProfile ?? "",
+          gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
 
         context.loaderOverlay.show();
@@ -191,7 +199,7 @@ class EditPersonalForm extends HookConsumerWidget {
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
             ? 470
-            : MediaQuery.of(context).size.height * 0.70,
+            : MediaQuery.of(context).size.height * 0.7,
         child: Column(
           children: [
             const SizedBox(height: 10),
@@ -329,6 +337,36 @@ class EditPersonalForm extends HookConsumerWidget {
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
+                      return null;
+                    }
+
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: genderTypeError,
+              builder: (context, isError, child) {
+                return SelectableDropdownItem(
+                  isError: isError,
+                  onError: () => genderTypeError.value = false,
+                  itemSelectedValue: genderTypeController.text,
+                  options: genderType,
+                  selectController: genderTypeController,
+                  hintText: "Seleccione su genero",
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "El genero es obligatorio",
+                        message: "Por favor, completa el seleciona el genero",
+                        snackType: SnackType.warning,
+                      );
+                      genderTypeError.value = true;
                       return null;
                     }
 

@@ -12,7 +12,7 @@ pushPersonalDataForm(
   BuildContext context,
   DtoPersonalForm data,
   WidgetRef ref, {
-  String navigate = '/v2/form_legal_terms',
+  String navigate = '/v2/form_location',
   bool isEdit = false,
   bool isNavigate = true,
 }) async {
@@ -26,7 +26,8 @@ pushPersonalDataForm(
       snackType: SnackType.error,
     );
   }
-  final Future<RegisterUserV2Response> response = PersonalFormV2Imp(gqlClient!).savePersonalDataUserV2(data: data);
+  final Future<RegisterUserV2Response> response =
+      PersonalFormV2Imp(gqlClient!).savePersonalDataUserV2(data: data);
 
   response.then((value) {
     if (value.success) {

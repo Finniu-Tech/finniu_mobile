@@ -10,15 +10,6 @@ class RegisterFormV2Impl extends GraphQLBaseDataSource {
   Future<RegisterUserV2Response> saveCreateUserV2({
     required DtoRegisterForm data,
   }) async {
-    print(data.nickName);
-    print(data.countryPrefix);
-    print(data.phoneNumber);
-    print(data.email);
-    print(data.password);
-    print(data.confirmPassword);
-    print(data.acceptTermsConditions);
-    print(data.acceptPrivacyPolicy);
-    print(data.birthday);
     try {
       final response = await client.mutate(
         MutationOptions(
