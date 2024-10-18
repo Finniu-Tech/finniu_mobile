@@ -333,7 +333,8 @@ class UserProfile {
         civilStatus != null &&
         civilStatus!.isNotEmpty &&
         gender != null &&
-        gender!.isNotEmpty;
+        gender!.isNotEmpty &&
+        imageProfileUrl != null;
   }
 
   bool completeLocationData() {
@@ -344,20 +345,14 @@ class UserProfile {
         provincia != null &&
         provincia!.isNotEmpty &&
         address != null &&
-        address!.isNotEmpty &&
-        houseNumber != null &&
-        houseNumber!.isNotEmpty;
+        address!.isNotEmpty;
   }
 
   bool completeJobData() {
-    return laborSituation != null &&
-        laborSituation!.isNotEmpty &&
-        occupation != null &&
+    return occupation != null &&
         occupation!.isNotEmpty &&
         companyName != null &&
-        companyName!.isNotEmpty &&
-        serviceTime != null &&
-        serviceTime!.isNotEmpty;
+        companyName!.isNotEmpty;
   }
 
   bool completeAboutData() {
@@ -369,11 +364,11 @@ class UserProfile {
   }
 
   double completeData() {
-    double result = 0.0;
+    double result = 0.25;
     if (completePersonalData()) result += 0.25;
     if (completeLocationData()) result += 0.25;
     if (completeJobData()) result += 0.25;
-    if (completeAboutData()) result += 0.25;
+
     return result;
   }
 

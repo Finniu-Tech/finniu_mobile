@@ -364,6 +364,7 @@ final List<String> genderType = [
 ];
 
 String getGenderByUser(String type) {
+  print('getGenderByUser: $type');
   switch (type) {
     case 'MALE':
       return "Masculino";
@@ -375,10 +376,9 @@ String getGenderByUser(String type) {
       return "Otro";
     case "PREFER_NOT_TO_SAY":
       return "Prefiero no decirlo";
-    case "":
-      return "";
+
     default:
-      return "";
+      return "Otro";
   }
 }
 
