@@ -22,7 +22,7 @@ class LocationFormV2Imp extends GraphQLBaseDataSource {
             "province": data.province,
             "district": data.district,
             "address": data.address,
-            "houseNumber": data.houseNumber,
+            // "houseNumber": data.houseNumber,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),

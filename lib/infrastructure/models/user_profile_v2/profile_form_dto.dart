@@ -166,7 +166,6 @@ class DtoLocationForm {
   final String province;
   final String district;
   final String address;
-  final String houseNumber;
 
   DtoLocationForm({
     required this.country,
@@ -174,7 +173,6 @@ class DtoLocationForm {
     required this.province,
     required this.district,
     required this.address,
-    required this.houseNumber,
   });
 }
 

@@ -120,13 +120,13 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
   final provinceSelectController = TextEditingController();
   final districtSelectController = TextEditingController();
   final addressTextController = TextEditingController();
-  final houseNumberController = TextEditingController();
+  // final houseNumberController = TextEditingController();
 
   final ValueNotifier<bool> regionsError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> provinceError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> districtError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> addressError = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
+  // final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
 
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
@@ -141,14 +141,14 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
       if (provinceError.value) return;
       if (districtError.value) return;
       if (addressError.value) return;
-      if (houseNumberError.value) return;
+      // if (houseNumberError.value) return;
       DtoLocationForm data = DtoLocationForm(
         country: countrySelectController.text,
         region: regionsSelectController.text,
         province: provinceSelectController.text,
         district: districtSelectController.text,
         address: addressTextController.text.trim(),
-        houseNumber: houseNumberController.text.trim(),
+        // houseNumber: houseNumberController.text.trim(),
       );
       context.loaderOverlay.show();
       pushLocationDataForm(
@@ -183,7 +183,7 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
     provinceSelectController.text = userProfile.provincia ?? "";
     districtSelectController.text = userProfile.distrito ?? "";
     addressTextController.text = userProfile.address ?? "";
-    houseNumberController.text = userProfile.houseNumber ?? "";
+    // houseNumberController.text = userProfile.houseNumber ?? "";
     regionsSelectController.addListener(() {
       ref.invalidate(
         provincesSelectProvider(regionsSelectController.text),
@@ -209,7 +209,7 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
     provinceSelectController.dispose();
     districtSelectController.dispose();
     addressTextController.dispose();
-    houseNumberController.dispose();
+    // houseNumberController.dispose();
     super.dispose();
   }
 
@@ -452,27 +452,27 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
                 );
               },
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable: houseNumberError,
-              builder: (context, isError, child) {
-                return InputTextFileUserProfile(
-                  isNumeric: true,
-                  isError: isError,
-                  onError: () => houseNumberError.value = false,
-                  controller: houseNumberController,
-                  hintText: "Número de tu domicilio",
-                  validator: (value) {
-                    validateNumber(
-                      value: value,
-                      field: "Número de tu domicilio",
-                      context: context,
-                      boolNotifier: houseNumberError,
-                    );
-                    return null;
-                  },
-                );
-              },
-            ),
+            // ValueListenableBuilder<bool>(
+            //   valueListenable: houseNumberError,
+            //   builder: (context, isError, child) {
+            //     return InputTextFileUserProfile(
+            //       isNumeric: true,
+            //       isError: isError,
+            //       onError: () => houseNumberError.value = false,
+            //       controller: houseNumberController,
+            //       hintText: "Número de tu domicilio",
+            //       validator: (value) {
+            //         validateNumber(
+            //           value: value,
+            //           field: "Número de tu domicilio",
+            //           context: context,
+            //           boolNotifier: houseNumberError,
+            //         );
+            //         return null;
+            //       },
+            //     );
+            //   },
+            // ),
             const Expanded(
               child: SizedBox(),
             ),

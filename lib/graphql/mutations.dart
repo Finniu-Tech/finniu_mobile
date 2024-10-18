@@ -633,8 +633,6 @@ class MutationRepository {
       \$province: String!
       \$district: String!
       \$address: String!
-      \$houseNumber: String!
-      \$postalCode: String!
   ){
     registerUserUbication(input:{
       country: \$country,
@@ -642,8 +640,6 @@ class MutationRepository {
       province: \$province,
       district: \$district,
       address: \$address,
-      houseNumber: \$houseNumber,
-      postalCode: \$postalCode
     }){
       success
       messages {
