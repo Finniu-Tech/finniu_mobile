@@ -174,7 +174,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
       key: formKey,
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
-            ? 520
+            ? 460
             : MediaQuery.of(context).size.height * 0.72,
         child: Column(
           children: [

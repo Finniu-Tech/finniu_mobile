@@ -48,14 +48,14 @@ class _BodyMyData extends ConsumerWidget {
           subtitle: "Información sobre tu ocupación laboral \n",
           onTap: () => navigate(context, '/v2/edit_job_data'),
         ),
-        ButtonNavigateProfile(
-          isComplete: userProfile.completeAboutData(),
-          icon: "assets/svg_icons/user_icon_v2.svg",
-          title: "Información adicional",
-          subtitle:
-              "Información de mi nombre favorito, cumpleaños y otros más....",
-          onTap: () => navigate(context, '/v2/additional_information'),
-        ),
+        // ButtonNavigateProfile(
+        //   isComplete: userProfile.completeAboutData(),
+        //   icon: "assets/svg_icons/user_icon_v2.svg",
+        //   title: "Información adicional",
+        //   subtitle:
+        //       "Información de mi nombre favorito, cumpleaños y otros más....",
+        //   onTap: () => navigate(context, '/v2/additional_information'),
+        // ),
       ],
     );
   }

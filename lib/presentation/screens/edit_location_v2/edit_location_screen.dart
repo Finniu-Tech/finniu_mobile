@@ -221,7 +221,7 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
-            ? 540
+            ? 490
             : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [

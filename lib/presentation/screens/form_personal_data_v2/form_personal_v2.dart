@@ -160,7 +160,7 @@ class PersonalForm extends HookConsumerWidget {
       key: formKey,
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
-            ? 650
+            ? 700
             : MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
