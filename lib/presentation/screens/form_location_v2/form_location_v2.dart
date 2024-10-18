@@ -175,7 +175,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
             ? 460
-            : MediaQuery.of(context).size.height * 0.72,
+            : MediaQuery.of(context).size.height - 290,
         child: Column(
           children: [
             SelectableDropdownItem(
