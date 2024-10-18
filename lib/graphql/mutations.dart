@@ -561,6 +561,7 @@ class MutationRepository {
       \$confirmPassword: String!
       \$acceptTermsConditions: Boolean!
       \$acceptPrivacyPolicy: Boolean!
+      \$birthdayDate: Date!
       ){
       registerUserV2(input:{
         nickName: \$nickName,
@@ -571,6 +572,7 @@ class MutationRepository {
         confirmPassword: \$confirmPassword,
         acceptPrivacyPolicy: \$acceptTermsConditions,
         acceptTermsConditions: \$acceptPrivacyPolicy
+        birthdayDate: \$birthdayDate
       }){
         success
         messages{

@@ -69,7 +69,7 @@ class PasswordRequired extends HookConsumerWidget {
     );
 
     return Positioned(
-      top: 250,
+      top: 370,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
