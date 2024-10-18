@@ -191,7 +191,7 @@ class UserProfile {
         houseNumber: json["houseNumber"],
         postalCode: json["postalCode"],
         laborSituation: json["laborSituation"],
-        companyName: json["companyName"],
+        companyName: json["actualPosition"],
         serviceTime: json["serviceTime"],
         biography: json["biography"],
         facebook: json["facebook"],

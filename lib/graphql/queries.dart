@@ -41,7 +41,7 @@ class QueryRepository {
         postalCode
         
         laborSituation
-        companyName
+        actualPosition
         serviceTime
 
         biography
