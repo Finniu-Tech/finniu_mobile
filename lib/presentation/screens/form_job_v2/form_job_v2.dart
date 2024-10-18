@@ -90,7 +90,11 @@ class LocationForm extends HookConsumerWidget {
     }
 
     void continueLater() {
-      Navigator.pushNamed(context, "/v2/form_about_me");
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/home_v2',
+        (Route<dynamic> route) => false,
+      );
     }
 
     return Form(

@@ -105,7 +105,11 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
-    Navigator.pushNamed(context, '/v2/form_job');
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/home_v2',
+      (Route<dynamic> route) => false,
+    );
   }
 
   List<GeoLocationItemV2> districts = [
@@ -386,7 +390,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                   controller: addressTextController,
                   hintText: "Escribe tu dirección de domicilio",
                   validator: (value) {
-                    validateString(
+                    validateAddress(
                       value: value,
                       field: "Dirección de domicilio",
                       context: context,

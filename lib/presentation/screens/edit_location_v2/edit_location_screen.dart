@@ -441,7 +441,7 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
                   controller: addressTextController,
                   hintText: "Escribe tu dirección de domicilio",
                   validator: (value) {
-                    validateString(
+                    validateAddress(
                       value: value,
                       field: "Dirección de domicilio",
                       context: context,

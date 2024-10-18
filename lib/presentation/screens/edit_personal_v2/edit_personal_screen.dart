@@ -113,7 +113,7 @@ class EditPersonalForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
-    final String? imagePath = ref.watch(imagePathProvider);
+    final String? imageBase64 = ref.watch(imageBase64Provider);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController =
         useTextEditingController(text: userProfile.firstName ?? '');
@@ -174,7 +174,7 @@ class EditPersonalForm extends HookConsumerWidget {
           documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
-          imageProfile: imagePath ?? userProfile.imageProfile ?? "",
+          imageProfile: imageBase64 ?? userProfile.imageProfile ?? "",
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
 
