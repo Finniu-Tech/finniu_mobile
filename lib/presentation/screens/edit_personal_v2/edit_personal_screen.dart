@@ -1,4 +1,5 @@
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -27,17 +28,24 @@ class EditPersonalDataScreen extends StatelessWidget {
   }
 }
 
-class _BodyEditPersonal extends ConsumerWidget {
+class _BodyEditPersonal extends HookConsumerWidget {
   const _BodyEditPersonal();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
-    final ValueNotifier<bool> isEdit = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> isEdit = useState(false);
     return Column(
       children: [
-        ImageEditStack(
-          profileImage: "${userProfile.imageProfileUrl}",
+        ValueListenableBuilder<bool>(
+          valueListenable: isEdit,
+          builder: (context, isEditValue, child) {
+            return isEditValue
+                ? const PickImageEditStack()
+                : ImageEditStack(
+                    profileImage: "${userProfile.imageProfileUrl}",
+                  );
+          },
         ),
         const TextPoppins(
           text: "Información de mis datos personales",
@@ -105,7 +113,7 @@ class EditPersonalForm extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
-
+    final String? imageBase64 = ref.watch(imageBase64Provider);
     final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController =
         useTextEditingController(text: userProfile.firstName ?? '');
@@ -156,6 +164,7 @@ class EditPersonalForm extends HookConsumerWidget {
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
+        final String imagePush = imageBase64 ?? userProfile.imageProfile ?? '';
 
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
@@ -166,6 +175,7 @@ class EditPersonalForm extends HookConsumerWidget {
           documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
+          imageProfile: imagePush,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
 
@@ -190,7 +200,7 @@ class EditPersonalForm extends HookConsumerWidget {
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
             ? 540
-            : MediaQuery.of(context).size.height * 0.70,
+            : MediaQuery.of(context).size.height * 0.7,
         child: Column(
           children: [
             const SizedBox(height: 10),

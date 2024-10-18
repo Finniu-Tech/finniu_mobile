@@ -42,6 +42,36 @@ String? validateString({
   return null;
 }
 
+String? validateAddress({
+  required String field,
+  required String? value,
+  required BuildContext context,
+  required ValueNotifier<bool> boolNotifier,
+}) {
+  if (value == null || value.isEmpty) {
+    showSnackBarV2(
+      context: context,
+      title: "$field obligatorio",
+      message: "Por favor, completa el ${field.toLowerCase()}.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (value.length < 2) {
+    showSnackBarV2(
+      context: context,
+      title: "$field obligatorio",
+      message: "El ${field.toLowerCase()} debe tener al menos 1 caracter.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+
+  return null;
+}
+
 String? validateNumber({
   required String field,
   required String? value,

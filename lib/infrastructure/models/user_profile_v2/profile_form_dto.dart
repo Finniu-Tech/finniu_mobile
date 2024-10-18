@@ -7,6 +7,7 @@ class DtoRegisterForm {
   final String email;
   final String password;
   final String confirmPassword;
+  final String birthday;
   final bool acceptTermsConditions;
   final bool acceptPrivacyPolicy;
 
@@ -19,6 +20,7 @@ class DtoRegisterForm {
     required this.confirmPassword,
     required this.acceptTermsConditions,
     required this.acceptPrivacyPolicy,
+    required this.birthday,
   });
 }
 
@@ -29,6 +31,7 @@ class DtoPersonalForm {
   final TypeDocumentEnum documentType;
   final String documentNumber;
   final CivilStatusEnum civilStatus;
+  final String imageProfile;
   final GenderEnum gender;
 
   DtoPersonalForm({
@@ -38,6 +41,7 @@ class DtoPersonalForm {
     required this.documentType,
     required this.documentNumber,
     required this.civilStatus,
+    required this.imageProfile,
     required this.gender,
   });
 }
@@ -162,8 +166,6 @@ class DtoLocationForm {
   final String province;
   final String district;
   final String address;
-  final String houseNumber;
-  final String postalCode;
 
   DtoLocationForm({
     required this.country,
@@ -171,22 +173,16 @@ class DtoLocationForm {
     required this.province,
     required this.district,
     required this.address,
-    required this.houseNumber,
-    required this.postalCode,
   });
 }
 
 class DtoOccupationForm {
   final String occupation;
   final String companyName;
-  final LaborSituationEnum laborSituation;
-  final ServiceTimeEnum serviceTime;
 
   DtoOccupationForm({
     required this.occupation,
     required this.companyName,
-    required this.laborSituation,
-    required this.serviceTime,
   });
 }
 
@@ -379,10 +375,9 @@ String getGenderByUser(String type) {
       return "Otro";
     case "PREFER_NOT_TO_SAY":
       return "Prefiero no decirlo";
-    case "":
-      return "";
+
     default:
-      return "";
+      return "Otro";
   }
 }
 
@@ -400,7 +395,7 @@ extension GenderEnumExtension on GenderEnum {
       case GenderEnum.PREFER_NOT_TO_SAY:
         return "PREFER_NOT_TO_SAY";
       default:
-        return "PREFER_NOT_TO_SAY";
+        return "OTHER";
     }
   }
 }

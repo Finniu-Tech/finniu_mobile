@@ -24,6 +24,7 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
             "documentNumber": data.documentNumber,
             "civilStatus": data.civilStatus.name,
             "gender": data.gender.name,
+            "imageProfile": data.imageProfile,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),

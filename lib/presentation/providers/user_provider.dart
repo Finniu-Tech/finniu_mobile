@@ -28,7 +28,6 @@ final userProfileFutureProvider =
         return result;
       },
     );
-
     if (result.data?['userProfile'] != null) {
       final userProfile = UserProfile.fromJson(result.data?['userProfile']);
 
@@ -59,7 +58,7 @@ final userProfileFutureProvider =
             lastNameMother: userProfile.lastNameMother,
             countryPrefix: userProfile.countryPrefix,
             documentType: userProfile.documentType,
-            gender: userProfile.gender,
+            gender: userProfile.gender ?? "OTHER",
             houseNumber: userProfile.houseNumber,
             postalCode: userProfile.postalCode,
             laborSituation: userProfile.laborSituation,

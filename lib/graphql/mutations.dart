@@ -561,6 +561,7 @@ class MutationRepository {
       \$confirmPassword: String!
       \$acceptTermsConditions: Boolean!
       \$acceptPrivacyPolicy: Boolean!
+      \$birthdayDate: Date!
       ){
       registerUserV2(input:{
         nickName: \$nickName,
@@ -571,6 +572,7 @@ class MutationRepository {
         confirmPassword: \$confirmPassword,
         acceptPrivacyPolicy: \$acceptTermsConditions,
         acceptTermsConditions: \$acceptPrivacyPolicy
+        birthdayDate: \$birthdayDate
       }){
         success
         messages{
@@ -597,6 +599,7 @@ class MutationRepository {
       \$documentNumber: String!
       \$civilStatus: CivilStatusEnum!
       \$gender: GenderEnum!
+      \$imageProfile: String
     ){
     registerPersonalData(input:{
       firstName: \$firstName,
@@ -606,6 +609,7 @@ class MutationRepository {
       documentNumber: \$documentNumber,
       civilStatus: \$civilStatus,
       gender: \$gender
+      imageProfile: \$imageProfile
     }
     )
     {
@@ -629,8 +633,6 @@ class MutationRepository {
       \$province: String!
       \$district: String!
       \$address: String!
-      \$houseNumber: String!
-      \$postalCode: String!
   ){
     registerUserUbication(input:{
       country: \$country,
@@ -638,8 +640,6 @@ class MutationRepository {
       province: \$province,
       district: \$district,
       address: \$address,
-      houseNumber: \$houseNumber,
-      postalCode: \$postalCode
     }){
       success
       messages {
@@ -655,16 +655,12 @@ class MutationRepository {
   static String saveOccupationDataV2() {
     return '''
     mutation RegisterOcupation(
-        \$laborSituation: LaborSituationEnum!
         \$occupation: String!
         \$companyName: String!
-        \$serviceTime:  ServiceTimeEnum!
     ){
       registerUserOcupation(input:{
-        laborSituation: \$laborSituation,
         occupation: \$occupation,
-        companyName: \$companyName,
-        serviceTime: \$serviceTime
+        actualPosition: \$companyName,
       }){
         success
         messages {

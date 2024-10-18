@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
+import 'package:finniu/presentation/screens/additional_information/additional_information.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
 import 'package:finniu/presentation/screens/biometric_screen.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
@@ -14,7 +15,6 @@ import 'package:finniu/presentation/screens/config_v2/privacy_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/settings_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/support_help_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/support_ticket_screen.dart';
-import 'package:finniu/presentation/screens/edit_about_v2/edit_about_screen.dart';
 import 'package:finniu/presentation/screens/edit_job_v2/edit_job_screen.dart';
 import 'package:finniu/presentation/screens/edit_location_v2/edit_location_screen.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
@@ -93,7 +93,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/login_forgot': (BuildContext context) => const ForgotPassword(),
     '/login_invalid': (BuildContext context) => const InvalidEmail(),
     '/on_boarding_start': (BuildContext context) => StartOnboarding(),
-    '/onboarding_questions_start': (BuildContext context) => const StartInvestment(),
+    '/onboarding_questions_start': (BuildContext context) =>
+        const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeScreen(),
     '/home_v2': (BuildContext context) => const HomeScreenV2(),
@@ -120,7 +121,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/process_investment': (BuildContext context) => InvestmentStatusScreen(),
     '/investment_history': (BuildContext context) => const InvestmentHistory(),
     '/reinvestment_step_1': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return ReinvestmentStep1(
         preInvestmentUUID: args['preInvestmentUUID'],
         preInvestmentAmount: args['preInvestmentAmount'],
@@ -129,7 +131,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       );
     },
     '/reinvestment_step_2': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return ReInvestmentStep2(
         plan: args['plan'],
         resultCalculator: args['resultCalculator'],
@@ -141,13 +144,15 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/activate_account': (BuildContext context) => const ActivateAccount(),
     // '/fund_detail': (BuildContext context) => const FundDetailScreen(),
     '/fund_detail': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return FundDetailScreen(
         fund: args['fund'],
       );
     },
     '/v2/investment/step-1': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return InvestmentProcessStep1Screen(
         fund: args['fund'],
         amount: args['amount'],
@@ -160,7 +165,8 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       );
     },
     '/v2/investment/step-2': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return InvestmentProcessStep2Screen(
         fund: args['fund'],
         preInvestmentUUID: args['preInvestmentUUID'],
@@ -168,15 +174,18 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         isReInvestment: args['isReInvestment'] ?? false,
       );
     },
-    '/v2/aggro-investment/booking': (BuildContext context) => ManualConfirmationBookingWidget(),
+    '/v2/aggro-investment/booking': (BuildContext context) =>
+        ManualConfirmationBookingWidget(),
     // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
     '/v2/aggro-investment': (BuildContext context) {
-      final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      final args =
+          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
       return InvestmentAggroProcessScreen(
         fund: args['fund'],
       );
     },
-    '/v2/investment_blue_gold': (BuildContext context) => const InvestmentBlueGoldScreen(),
+    '/v2/investment_blue_gold': (BuildContext context) =>
+        const InvestmentBlueGoldScreen(),
     '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
     '/v2/binnacle': (BuildContext context) => const BinnacleScreen(),
 
@@ -201,29 +210,40 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/send_code': (BuildContext context) => const SendCodeV2(),
     'v2/activate_account': (BuildContext context) => const ActivateAccountV2(),
 
-    'v2/complete_details': (BuildContext context) => const CompleteDetailsScreenV2(),
-    'v2/validate_identity': (BuildContext context) => const ValidateIdentityScreenV2(),
+    'v2/complete_details': (BuildContext context) =>
+        const CompleteDetailsScreenV2(),
+    'v2/validate_identity': (BuildContext context) =>
+        const ValidateIdentityScreenV2(),
 
     '/v2/scan_document': (BuildContext context) => const ScanDocumentScreenV2(),
-    '/v2/form_personal_data': (BuildContext context) => const FormPersonalDataV2(),
+    '/v2/form_personal_data': (BuildContext context) =>
+        const FormPersonalDataV2(),
     '/v2/form_location': (BuildContext context) => const FormLocationDataV2(),
     '/v2/form_job': (BuildContext context) => const FormJobDataV2(),
-    '/v2/form_legal_terms': (BuildContext context) => const FormLegalTermsDataV2(),
+    '/v2/form_legal_terms': (BuildContext context) =>
+        const FormLegalTermsDataV2(),
     '/v2/form_about_me': (BuildContext context) => const AboutMeDataV2(),
     '/v2/profile': (BuildContext context) => const UserProfileV2(),
     '/v2/on_boarding': (BuildContext context) => const OnBoardingScreen(),
     '/v2/my_data': (BuildContext context) => const MyDataScreen(),
     '/v2/settings': (BuildContext context) => const SettingsScreen(),
-    '/v2/new_notifications': (BuildContext context) => const NotificationsScreenV2(),
+    '/v2/new_notifications': (BuildContext context) =>
+        const NotificationsScreenV2(),
     '/v2/privacy': (BuildContext context) => const PrivacyScreenV2(),
-    '/v2/legal_documents': (BuildContext context) => const LegalDocumentsScreen(),
+    '/v2/legal_documents': (BuildContext context) =>
+        const LegalDocumentsScreen(),
     '/v2/support': (BuildContext context) => const SupportHelpScreen(),
     '/v2/support_ticket': (BuildContext context) => const SupportTicketScreen(),
-    '/v2/frequently_questions': (BuildContext context) => const FrequentlyQuestionsScreen(),
-    '/v2/edit_personal_data': (BuildContext context) => const EditPersonalDataScreen(),
-    '/v2/edit_location_data': (BuildContext context) => const EditLocationDataScreen(),
+    '/v2/frequently_questions': (BuildContext context) =>
+        const FrequentlyQuestionsScreen(),
+    '/v2/edit_personal_data': (BuildContext context) =>
+        const EditPersonalDataScreen(),
+    '/v2/edit_location_data': (BuildContext context) =>
+        const EditLocationDataScreen(),
     '/v2/edit_job_data': (BuildContext context) => const EditJobDataScreen(),
-    '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
+    // '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
+    '/v2/additional_information': (BuildContext context) =>
+        const AdditionalInformationScreen(),
     '/v2/my_accounts': (BuildContext context) => const AccountsV2Screen(),
     '/v2/login_email': (BuildContext context) => const LoginScreenV2(),
     '/v2/login_forgot': (BuildContext context) => const ForgotPasswordV2(),
@@ -234,6 +254,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/firebase_test': (BuildContext context) => const FirebaseTestScreen(),
 
     '/push_notification': (BuildContext context) => FirebaseTokenScreen(),
-
   };
 }

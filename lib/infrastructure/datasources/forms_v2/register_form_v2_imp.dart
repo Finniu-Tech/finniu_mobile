@@ -25,6 +25,7 @@ class RegisterFormV2Impl extends GraphQLBaseDataSource {
             "confirmPassword": data.confirmPassword,
             "acceptTermsConditions": data.acceptTermsConditions,
             "acceptPrivacyPolicy": data.acceptPrivacyPolicy,
+            "birthdayDate": data.birthday,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),
