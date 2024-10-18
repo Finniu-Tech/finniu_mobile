@@ -37,6 +37,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour_container.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
+import 'package:finniu/services/push_notifications_service.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -51,7 +52,6 @@ class HomeScreenV2 extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final userProfile = ref.watch(userProfileNotifierProvider);
-    // bool? seeLaterTour = ref.read(seeLaterProvider);
 
     useEffect(
       () {
@@ -82,35 +82,8 @@ class HomeScreenV2 extends HookConsumerWidget {
 
           return userProfile.when(
             data: (profile) {
-              ref.read(firebaseAnalyticsServiceProvider).setUserId(
-                    "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
-                  );
-              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
-                    name: "first_name",
-                    value: "${profile.firstName}_${profile.lastName}",
-                  );
-              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
-                    name: "document_number",
-                    value: "${profile.documentNumber}",
-                  );
-              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
-                    name: "email",
-                    value: "${profile.email}",
-                  );
-              ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
-                    name: "phone_number",
-                    value: "${profile.phoneNumber}",
-                  );
-              if (profile.hasCompletedTour != null) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  bool seeLaterTour = ref.watch(seeLaterProvider);
-
-                  if (profile.hasCompletedTour == false &&
-                      seeLaterTour == false) {
-                    showTourV2(context);
-                  }
-                });
-              }
+              _setUserAnalytics(ref, profile);
+              _handleTourAndNotifications(context, ref, profile);
               return Stack(
                 children: [
                   HomeBody(
@@ -133,6 +106,56 @@ class HomeScreenV2 extends HookConsumerWidget {
         },
       ),
     );
+  }
+
+  void _setUserAnalytics(WidgetRef ref, UserProfile profile) {
+    final analytics = ref.read(firebaseAnalyticsServiceProvider);
+    analytics.setUserId(
+      "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
+    );
+    analytics.setUserProperty(
+      name: "first_name",
+      value: "${profile.firstName}_${profile.lastName}",
+    );
+    analytics.setUserProperty(
+      name: "document_number",
+      value: "${profile.documentNumber}",
+    );
+    analytics.setUserProperty(
+      name: "email",
+      value: "${profile.email}",
+    );
+    analytics.setUserProperty(
+      name: "phone_number",
+      value: "${profile.phoneNumber}",
+    );
+  }
+
+  void _handleTourAndNotifications(
+      BuildContext context, WidgetRef ref, UserProfile profile) {
+    if (profile.hasCompletedTour != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        bool seeLaterTour = ref.watch(seeLaterProvider);
+
+        if (profile.hasCompletedTour == false && seeLaterTour == false) {
+          showTourV2(context);
+        }
+
+        if (profile.hasCompletedTour == true) {
+          final pushNotificationService = PushNotificationService();
+          await pushNotificationService.requestPermissions(context);
+          String? token = await pushNotificationService.getToken();
+
+          if (token != null) {
+            // TODO: set user token to the backend
+            // ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+            //       name: "fcm_token",
+            //       value: token,
+            //     );
+          }
+        }
+      });
+    }
   }
 }
 
