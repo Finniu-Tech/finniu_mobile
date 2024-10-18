@@ -5,16 +5,18 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 
 class FrequentlyQuestionsScreen extends StatefulHookConsumerWidget {
-  const FrequentlyQuestionsScreen({Key? key}) : super(key: key);
+  const FrequentlyQuestionsScreen({super.key});
 
   @override
-  _FrequentlyQuestionsScreenState createState() => _FrequentlyQuestionsScreenState();
+  FrequentlyQuestionsScreenState createState() =>
+      FrequentlyQuestionsScreenState();
 }
 
-class _FrequentlyQuestionsScreenState extends ConsumerState<FrequentlyQuestionsScreen> {
+class FrequentlyQuestionsScreenState
+    extends ConsumerState<FrequentlyQuestionsScreen> {
   late WebViewController _controller;
   bool _isLoading = true;
-  final String supportURL = 'https://finniu.notion.site/Preguntas-Frecuentes-3e9f2732211d4193ad0b77d061c8cc78';
+  final String supportURL = 'https://finniu.tawk.help/';
 
   @override
   void initState() {
@@ -71,7 +73,8 @@ class _FrequentlyQuestionsScreenState extends ConsumerState<FrequentlyQuestionsS
 
   Widget _buildBody() {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    Color backgroundColor = isDarkMode ? const Color(0xff191919) : const Color(0xffFFFFFF);
+    Color backgroundColor =
+        isDarkMode ? const Color(0xff191919) : const Color(0xffFFFFFF);
 
     return Stack(
       children: [
