@@ -116,7 +116,7 @@ class CatalogScreen extends HookConsumerWidget {
                 showModalPaymentVoucher(
                   context: context,
                   voucherData: const VoucherDto(
-                    month: 'Matos',
+                    month: 'Mayo',
                     amount: '1,200',
                     depositDay: '12/09/2024',
                     depositHour: '12:30 am',

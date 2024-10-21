@@ -64,7 +64,7 @@ class BoncedBody extends StatelessWidget {
                         text: text,
                         fontSize: 12,
                         fontWeight: FontWeight.w400,
-                        lines: 5,
+                        lines: 6,
                         align: TextAlign.center,
                       ),
                     ],
