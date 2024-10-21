@@ -31,6 +31,10 @@ class ReceiveAskBody extends StatelessWidget {
     const int tanksDark = 0xffA2E6FA;
     const int tanksLight = 0xff0D3A5C;
 
+    void contact() {
+      print("contact");
+    }
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -78,7 +82,7 @@ class ReceiveAskBody extends StatelessWidget {
                   const RowDivider(),
                   ButtonIconDialog(
                     text: "Hablar con un asesor",
-                    onPressed: () {},
+                    onPressed: () => contact(),
                   ),
                 ],
               ),
