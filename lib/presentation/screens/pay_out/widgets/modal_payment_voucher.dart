@@ -47,9 +47,14 @@ class VoucherDialog extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int backgroundDark = 0xffA2E6FA;
-    const int backgroundLight = 0xff0D3A5C;
+    const int backgroundDark = 0xff1A1A1A;
+    const int backgroundLight = 0xffFFFFFF;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
     return Dialog(
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
@@ -81,8 +86,8 @@ class VoucherDialog extends ConsumerWidget {
                                 width: 24,
                                 height: 24,
                                 color: isDarkMode
-                                    ? const Color(backgroundDark)
-                                    : const Color(backgroundLight),
+                                    ? const Color(iconDark)
+                                    : const Color(iconLight),
                               ),
                               const SizedBox(width: 5),
                               const SizedBox(
@@ -91,8 +96,8 @@ class VoucherDialog extends ConsumerWidget {
                                   text: 'Voucher del pago realizado',
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  textDark: backgroundDark,
-                                  textLight: backgroundLight,
+                                  textDark: iconDark,
+                                  textLight: iconLight,
                                 ),
                               ),
                             ],

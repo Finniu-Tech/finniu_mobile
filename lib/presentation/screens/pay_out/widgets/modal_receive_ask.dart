@@ -17,25 +17,31 @@ void showReceiveAdk({
   );
 }
 
-class ReceiveAskBody extends StatelessWidget {
+class ReceiveAskBody extends ConsumerWidget {
   const ReceiveAskBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const String title = "¿Recibiste tu pago? 🕓";
     const String text =
         "Estimado, recuerda que los pagos llegan en un plazo max de 24hr";
     const String textTanks = "Gracias por tu comprensión!";
     const int tanksDark = 0xffA2E6FA;
     const int tanksLight = 0xff0D3A5C;
+    const int backgroundDark = 0xff1A1A1A;
+    const int backgroundLight = 0xffFFFFFF;
 
     void contact() {
       print("contact");
     }
 
     return Dialog(
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
       ),
