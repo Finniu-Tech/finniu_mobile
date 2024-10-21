@@ -77,8 +77,8 @@ class TitlePayOut extends StatelessWidget {
   }
 }
 
-class IconsRow extends ConsumerWidget {
-  const IconsRow({
+class PayOutIconsRow extends ConsumerWidget {
+  const PayOutIconsRow({
     super.key,
   });
 

@@ -52,7 +52,7 @@ class _PayOutColumn extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const IconsRow(),
+          const PayOutIconsRow(),
           const SizedBox(height: 10),
           const TitlePayOut(status: PayOutStatus.failed),
           const SizedBox(height: 10),
@@ -74,7 +74,7 @@ class _PayOutColumn extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const IconsRow(),
+          const PayOutIconsRow(),
           const SizedBox(height: 10),
           TitlePayOut(status: data.status),
           const SizedBox(height: 10),

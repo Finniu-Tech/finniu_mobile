@@ -258,7 +258,7 @@ class ButtonIconDialog extends ConsumerWidget {
               color: Color(colorTextButtonDarkColor),
             ),
             const SizedBox(
-              width: 5,
+              width: 10,
             ),
             Text(
               text,

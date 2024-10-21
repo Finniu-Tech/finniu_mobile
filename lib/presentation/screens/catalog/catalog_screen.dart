@@ -26,6 +26,7 @@ import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/presentation/screens/login_v2/widgets/modal_new_password.dart';
 import 'package:finniu/presentation/screens/pay_out/widgets/modal_payment_voucher.dart';
+import 'package:finniu/presentation/screens/pay_out/widgets/modal_receive_ask.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
@@ -74,6 +75,17 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            ButtonInvestment(
+              text: "modal receive adk",
+              onPressed: () {
+                showReceiveAdk(
+                  context: context,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "modal voucher payment",
               onPressed: () {
