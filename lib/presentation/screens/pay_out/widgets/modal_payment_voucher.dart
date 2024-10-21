@@ -3,6 +3,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/blue_gold_card/butto
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class VoucherDto {
@@ -37,14 +38,17 @@ void showModalPaymentVoucher({
   );
 }
 
-class VoucherDialog extends StatelessWidget {
+class VoucherDialog extends ConsumerWidget {
   const VoucherDialog({
     super.key,
     required this.voucher,
   });
   final VoucherDto voucher;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundDark = 0xffA2E6FA;
+    const int backgroundLight = 0xff0D3A5C;
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20.0),
@@ -57,7 +61,7 @@ class VoucherDialog extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(25.0),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(
@@ -70,10 +74,25 @@ class VoucherDialog extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const TextPoppins(
-                            text: 'Voucher del pago realizado',
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/svg_icons/receipt_item.svg',
+                                width: 24,
+                                height: 24,
+                                color: isDarkMode
+                                    ? const Color(backgroundDark)
+                                    : const Color(backgroundLight),
+                              ),
+                              const SizedBox(width: 10),
+                              const TextPoppins(
+                                text: 'Voucher del pago realizado',
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600,
+                                textDark: backgroundDark,
+                                textLight: backgroundLight,
+                              ),
+                            ],
                           ),
                           VoucherData(
                             voucher: voucher,
@@ -82,6 +101,7 @@ class VoucherDialog extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 10),
                   ButtonIconInvestment(
                     text: "Descargar voucher",
                     onPressed: () {},
