@@ -14,9 +14,17 @@ class PayOutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: null,
-      floatingActionButton: ButtonInvestment(
-        text: 'Entendido',
-        onPressed: () => Navigator.of(context).pop(),
+      bottomNavigationBar: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.8,
+        height: 70,
+        child: Column(
+          children: [
+            ButtonInvestment(
+              text: 'Entendido',
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Center(
