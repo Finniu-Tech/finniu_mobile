@@ -81,6 +81,71 @@ class ButtonInvestment extends ConsumerWidget {
   }
 }
 
+class ButtonIconInvestment extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final IconData icon;
+  final double height;
+  const ButtonIconInvestment({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+    this.height = 50,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: height,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.all(
+            Color(
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
+            ),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: isDarkMode
+                  ? const Color(colorTextButtonDarkColor)
+                  : const Color(colorTextButtonLightColor),
+              size: 24,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: isDarkMode
+                    ? const Color(colorTextButtonDarkColor)
+                    : const Color(colorTextButtonLightColor),
+                fontSize: 16,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class ButtonForm extends ConsumerWidget {
   final String text;
   final VoidCallback? onPressed;

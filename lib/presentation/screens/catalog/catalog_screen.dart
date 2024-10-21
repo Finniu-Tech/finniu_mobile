@@ -77,7 +77,17 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonInvestment(
               text: "modal voucher payment",
               onPressed: () {
-                showModalPaymentVoucher(context);
+                showModalPaymentVoucher(
+                  context: context,
+                  voucherData: const VoucherDto(
+                    month: 'Matos',
+                    amount: '1,200',
+                    depositDay: '12/09/2024',
+                    depositHour: '12:30 am',
+                    bank: 'Interbank',
+                    urlVoucher: '',
+                  ),
+                );
               },
             ),
             const SizedBox(
