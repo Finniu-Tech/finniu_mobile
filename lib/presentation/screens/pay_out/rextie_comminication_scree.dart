@@ -58,11 +58,16 @@ class ComunicationBody extends ConsumerWidget {
     const int spanDart = 0xffA2E6FA;
     const int spanLight = 0xff03253E;
 
+    const bool isRextie = true;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const PayOutIconsRow(),
+        isRextie
+            ? Image.asset(
+                "assets/images/rextie_hand_${isDarkMode ? "dark" : "light"}.png")
+            : const PayOutIconsRow(),
         const SizedBox(
           height: 10,
         ),
