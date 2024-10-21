@@ -76,6 +76,18 @@ class CatalogScreen extends HookConsumerWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "screen rextie comunicacion",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/rextie_comminication');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             ButtonInvestment(
               text: "modal bounced payment",
               onPressed: () {
