@@ -1,10 +1,10 @@
-import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/bank_tranfer_container.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/fund_row_step.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/term_condittions_step.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/step_scaffolf.dart';
-import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class StepTwoV2 extends StatelessWidget {
   const StepTwoV2({super.key});
@@ -17,14 +17,13 @@ class StepTwoV2 extends StatelessWidget {
   }
 }
 
-class StepTwoBody extends ConsumerWidget {
+class StepTwoBody extends StatelessWidget {
   const StepTwoBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+  Widget build(BuildContext context) {
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int textDark = 0xffFFFFFF;
@@ -32,13 +31,12 @@ class StepTwoBody extends ConsumerWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
+        height: MediaQuery.of(context).size.height - 100,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const FundRowStep(),
-            const SizedBox(
-              height: 15,
-            ),
             const TextPoppins(
               text: "Fondo prestamos\nempresariales",
               fontSize: 20,
@@ -48,9 +46,6 @@ class StepTwoBody extends ConsumerWidget {
               textDark: titleDark,
               textLight: titleLight,
             ),
-            const SizedBox(
-              height: 15,
-            ),
             const TextPoppins(
               text: "Agrega tus cuentas",
               fontSize: 14,
@@ -59,62 +54,13 @@ class StepTwoBody extends ConsumerWidget {
               textDark: textDark,
               textLight: textLight,
             ),
-            const SizedBox(
-              height: 15,
-            ),
             const BankTranferContainer(
               title: "Desde que banco nos transfieres",
-            ),
-            const SizedBox(
-              height: 15,
             ),
             const BankTranferContainer(
               title: "A que banco te depositamos",
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            Text.rich(
-              TextSpan(
-                text: "Realiza tu transferencia de ",
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: isDarkMode
-                      ? const Color(textDark)
-                      : const Color(textLight),
-                ),
-                children: [
-                  TextSpan(
-                    text: 'S/5,000',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: isDarkMode
-                          ? const Color(textDark)
-                          : const Color(textLight),
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' a la cuenta bancaria de Finniu:',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: isDarkMode
-                          ? const Color(textDark)
-                          : const Color(textLight),
-                    ),
-                  ),
-                ],
-              ),
-              textAlign: TextAlign.start,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
+            const TextRickStep(),
             Container(
               width: MediaQuery.of(context).size.width,
               height: 140,
@@ -125,18 +71,12 @@ class StepTwoBody extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
             const TextPoppins(
               text: "Adjunta tu constancia de transferencia:",
               fontSize: 14,
               align: TextAlign.start,
               textDark: textDark,
               textLight: textLight,
-            ),
-            const SizedBox(
-              height: 15,
             ),
             Container(
               width: MediaQuery.of(context).size.width,
@@ -148,50 +88,7 @@ class StepTwoBody extends ConsumerWidget {
                 ),
               ),
             ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                CheckBoxWidget(
-                  value: true,
-                  onChanged: (value) {},
-                ),
-                Text.rich(
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  TextSpan(
-                    text: "He leído y acepto el ",
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                      color: isDarkMode
-                          ? const Color(textDark)
-                          : const Color(textLight),
-                    ),
-                    children: [
-                      TextSpan(
-                        text: 'Contrato de Inversión de Finniu',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          fontSize: 11,
-                          fontWeight: FontWeight.w700,
-                          color: isDarkMode
-                              ? const Color(textDark)
-                              : const Color(textLight),
-                        ),
-                      ),
-                    ],
-                  ),
-                  textAlign: TextAlign.start,
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
+            const TermConditionsStep(),
             ButtonInvestment(
               text: "Enviar constancia",
               onPressed: () {},
@@ -199,156 +96,6 @@ class StepTwoBody extends ConsumerWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class BankTranferContainer extends ConsumerWidget {
-  const BankTranferContainer({super.key, required this.title});
-  final String title;
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int containerDark = 0xff212121;
-    const int containerLight = 0xffBCF0FF;
-    const int iconBackground = 0xff95E7FF;
-    const int icon = 0xff0D3A5C;
-    const int iconDark = 0xffFFFFFF;
-    const int iconLight = 0xff0D3A5C;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      width: MediaQuery.of(context).size.width,
-      height: 38,
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(containerDark)
-            : const Color(containerLight),
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 30,
-                height: 30,
-                decoration: const BoxDecoration(
-                  color: Color(iconBackground),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(50),
-                  ),
-                ),
-                child: const Icon(
-                  Icons.add_card_outlined,
-                  size: 20,
-                  color: Color(icon),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              TextPoppins(
-                text: title,
-                fontSize: 11,
-              ),
-            ],
-          ),
-          Icon(
-            Icons.arrow_forward_outlined,
-            size: 24,
-            color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class FundRowStep extends ConsumerWidget {
-  const FundRowStep({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int containerDark = 0xff0D3A5C;
-    const int containerLight = 0xffA2E6FA;
-    const int iconDark = 0xff08273F;
-    const int iconLight = 0xffB4EEFF;
-    const int dividerDark = 0xff00518E;
-    const int dividerLight = 0xff0D3A5C;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Stack(
-          alignment: Alignment.centerLeft,
-          children: [
-            Container(
-              width: 150,
-              height: 30,
-              padding: const EdgeInsets.only(right: 10),
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: isDarkMode
-                    ? const Color(containerDark)
-                    : const Color(containerLight),
-              ),
-              child: const Row(
-                children: [
-                  SizedBox(
-                    width: 60,
-                  ),
-                  TextPoppins(
-                    text: "Invierte",
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    lines: 1,
-                    align: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-            Positioned(
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                child: const Center(
-                  child: TextPoppins(
-                    text: "🏢",
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                // child: Image.asset(
-                //   urlIcon,
-                // ),
-              ),
-            ),
-          ],
-        ),
-        SizedBox(
-          width: MediaQuery.of(context).size.width * 0.4,
-          child: Container(
-            height: 5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: isDarkMode
-                  ? const Color(dividerDark)
-                  : const Color(dividerLight),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
