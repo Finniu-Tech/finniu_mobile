@@ -10,6 +10,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart'
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart';
@@ -183,11 +184,11 @@ class ScrollBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final Color mainColorText = isDarkMode ? Colors.white : Colors.black;
-    final Color downloadInfoButtonColor =
-        fund.fundType == FundTypeEnum.corporate
-            ? const Color(primaryDark)
-            : const Color(0xff3A66BF);
+    const int benefitsDark = 0xff0D3A5C;
+    const int benefitsLight = 0xffA2E6FA;
+    const int textDark = 0xff000000;
+    const int textLight = 0xffFFFFFF;
+
     final bool isSoles = ref.watch(isSolesStateProvider);
     return Expanded(
       child: SingleChildScrollView(
@@ -199,16 +200,12 @@ class ScrollBody extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                fund.fundType == FundTypeEnum.corporate
+              TextPoppins(
+                text: fund.fundType == FundTypeEnum.corporate
                     ? 'Descubre el portafolio'
                     : 'Nuestro modelo de negocio',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: mainColorText,
-                ),
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
               ),
               const SizedBox(
                 height: 10,
@@ -222,53 +219,50 @@ class ScrollBody extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      showBenefits(context);
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Ver los beneficios',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: mainColorText,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Transform.rotate(
-                          angle: -0.7854,
-                          child: Icon(
-                            Icons.arrow_forward_sharp,
-                            size: 24,
-                            color: mainColorText,
-                          ),
-                        ),
-                      ],
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        (isDarkMode
+                            ? const Color(benefitsDark)
+                            : const Color(benefitsLight)),
+                      ),
+                    ),
+                    onPressed: () => showBenefits(context),
+                    child: const TextPoppins(
+                      fontSize: 14,
+                      text: "Ver beneficios",
+                      textDark: textLight,
+                      textLight: textDark,
                     ),
                   ),
                   const Spacer(),
-                  TextButton(
+                  ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor:
-                          WidgetStateProperty.all((downloadInfoButtonColor)),
+                      backgroundColor: WidgetStateProperty.all(
+                        (isDarkMode
+                            ? const Color(benefitsLight)
+                            : const Color(benefitsDark)),
+                      ),
                     ),
                     onPressed: () {
                       launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
                     },
-                    child: const Row(
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          'Ver más información',
-                          style: TextStyle(color: Colors.white),
+                        const TextPoppins(
+                          fontSize: 14,
+                          text: "Más información",
+                          textDark: textDark,
+                          textLight: textLight,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Icon(
-                          Icons.download_rounded,
-                          size: 16,
+                          Icons.file_download_outlined,
+                          size: 18,
+                          color: isDarkMode
+                              ? const Color(textDark)
+                              : const Color(textLight),
                         ),
                       ],
                     ),
