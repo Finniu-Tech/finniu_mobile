@@ -184,12 +184,27 @@ class ScrollBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final bool isSoles = ref.watch(isSolesStateProvider);
+
     const int benefitsDark = 0xff0D3A5C;
     const int benefitsLight = 0xffA2E6FA;
     const int textDark = 0xff000000;
     const int textLight = 0xffFFFFFF;
 
-    final bool isSoles = ref.watch(isSolesStateProvider);
+    void onPressedBenefits() {
+      ref
+          .read(firebaseAnalyticsServiceProvider)
+          .logCustomEvent(eventName: "click_benefits", parameters: {});
+      showBenefits(context);
+    }
+
+    void onPressedInformation() {
+      ref
+          .read(firebaseAnalyticsServiceProvider)
+          .logCustomEvent(eventName: "click_information", parameters: {});
+      launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
+    }
+
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
@@ -227,7 +242,7 @@ class ScrollBody extends ConsumerWidget {
                             : const Color(benefitsLight)),
                       ),
                     ),
-                    onPressed: () => showBenefits(context),
+                    onPressed: () => onPressedBenefits(),
                     child: const TextPoppins(
                       fontSize: 14,
                       text: "Ver beneficios",
@@ -244,9 +259,7 @@ class ScrollBody extends ConsumerWidget {
                             : const Color(benefitsDark)),
                       ),
                     ),
-                    onPressed: () {
-                      launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
-                    },
+                    onPressed: () => onPressedInformation(),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
