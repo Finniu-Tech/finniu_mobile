@@ -597,8 +597,8 @@ class MutationRepository {
       \$lastNameMother: String!
       \$documentType: DocumentTypeEnumV2!
       \$documentNumber: String!
-      \$civilStatus: CivilStatusEnum
-      \$gender: GenderEnum
+      \$civilStatus: CivilStatusEnum!
+      \$gender: GenderEnum!
       \$imageProfile: String
       \$birthdayDate: Date
     ){

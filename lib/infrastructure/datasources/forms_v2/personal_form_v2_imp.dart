@@ -23,9 +23,11 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
       if (data.imageProfile != null) {
         variables["imageProfile"] = data.imageProfile;
       }
+      print(data.birthday);
       if (data.birthday != null) {
         variables["birthdayDate"] = data.birthday;
       }
+      print(variables);
       final QueryResult<Object?> response = await client.mutate(
         MutationOptions(
           document: gql(
@@ -35,7 +37,7 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
           fetchPolicy: FetchPolicy.noCache,
         ),
       );
-
+      print(response);
       if (response.data == null) {
         return RegisterUserV2Response(
           success: false,
@@ -54,6 +56,7 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
       );
       return registerUserV2Response;
     } catch (e) {
+      print(e);
       return RegisterUserV2Response(
         messages: [
           Message(

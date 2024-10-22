@@ -8,3 +8,16 @@ final formatterSolesNotComma =
     NumberFormat.currency(locale: 'en_US', symbol: 'S/', decimalDigits: 0);
 final formatterUSDNotComma =
     NumberFormat.currency(locale: 'en_US', symbol: '\$', decimalDigits: 0);
+
+String formatDate(String date) {
+    try {
+      DateTime parsedDate = DateTime.parse(date);
+  String formattedDate =
+      "${parsedDate.year}/${parsedDate.month.toString().padLeft(2, '0')}/${parsedDate.day.toString().padLeft(2, '0')}";
+
+  return formattedDate;
+    } catch (e) {
+      return "";
+    }
+  
+}

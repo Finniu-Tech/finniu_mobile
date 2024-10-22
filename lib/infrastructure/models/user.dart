@@ -205,7 +205,7 @@ class UserProfile {
         isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
         acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
         acceptTermsConditions: json["acceptTermsConditions"],
-        birthDate: json["birthDate"],
+        birthDate: json["birthdayDate"],
       );
 
   Map<String, dynamic> toJson() => {

@@ -1,3 +1,4 @@
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class EditPersonalDataScreen extends StatelessWidget {
@@ -140,7 +142,9 @@ class EditPersonalForm extends HookConsumerWidget {
           : getGenderByUser(userProfile.gender!),
     );
     final dateController = useTextEditingController(
-      text: userProfile.birthDate ?? "",
+      text: userProfile.birthDate == null
+          ? ""
+          : formatDate(userProfile.birthDate!),
     );
 
     final ValueNotifier<bool> firstNameError = useState(false);
@@ -172,6 +176,9 @@ class EditPersonalForm extends HookConsumerWidget {
         if (birthDateError.value) return;
 
         context.loaderOverlay.show();
+        DateTime parsedDate =
+            DateFormat("d/M/yyyy").parse(dateController.text.trim());
+        String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
         final DtoPersonalForm data = DtoPersonalForm(
           firstName: firstNameController.text.trim(),
           lastNameFather: lastNameFatherController.text.trim(),
@@ -182,7 +189,7 @@ class EditPersonalForm extends HookConsumerWidget {
               CivilStatusEnum.SINGLE,
           imageProfile: imageBase64,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
-          birthday: dateController.text.trim(),
+          birthday: formattedDate,
         );
 
         context.loaderOverlay.show();
