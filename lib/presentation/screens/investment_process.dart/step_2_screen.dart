@@ -48,7 +48,6 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
   });
 
   @override
-  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
@@ -154,16 +153,17 @@ class Step2Body extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final voucherImageBase64 = ref.watch(preInvestmentVoucherImagesProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
+
     final userReadContract = useState(false);
     ValueNotifier<BankAccount?> senderBankAccountState = useState(null);
     ValueNotifier<BankAccount?> receiverBankAccountState = useState(null);
-    final isSoles = ref.watch(isSolesStateProvider);
+    final effectExecuted = useState(false);
+
     final isDarkMode = currentTheme.isDarkMode;
     final String textCurrency = isSoles ? 'soles' : 'dólares';
     final String currencyValue = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final String symbolCurrency = isSoles ? 'S/' : 'US\$';
-
-    final effectExecuted = useState(false);
 
     useEffect(
       () {

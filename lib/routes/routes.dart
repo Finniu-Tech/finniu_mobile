@@ -29,6 +29,7 @@ import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_screen.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/step_2_v2_screen.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/investment_blue_gold_screen.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
 import 'package:finniu/presentation/screens/login_v2/forgot_password_v2.dart';
@@ -173,6 +174,16 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         amount: args['amount'],
         isReInvestment: args['isReInvestment'] ?? false,
       );
+    },
+    '/fran/investment/step-2': (BuildContext context) {
+      // final args =
+      //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      return const StepTwoV2(
+          // fund: args['fund'],
+          // preInvestmentUUID: args['preInvestmentUUID'],
+          // amount: args['amount'],
+          // isReInvestment: args['isReInvestment'] ?? false,
+          );
     },
     '/v2/aggro-investment/booking': (BuildContext context) =>
         ManualConfirmationBookingWidget(),
