@@ -597,29 +597,29 @@ class MutationRepository {
       \$lastNameMother: String!
       \$documentType: DocumentTypeEnumV2!
       \$documentNumber: String!
-      \$civilStatus: CivilStatusEnum!
-      \$gender: GenderEnum!
+      \$civilStatus: CivilStatusEnum
+      \$gender: GenderEnum
       \$imageProfile: String
     ){
-    registerPersonalData(input:{
-      firstName: \$firstName,
-      lastNameFather: \$lastNameFather,
-      lastNameMother: \$lastNameMother,
-      documentType: \$documentType,
-      documentNumber: \$documentNumber,
-      civilStatus: \$civilStatus,
-      gender: \$gender
-      imageProfile: \$imageProfile
-    }
-    )
-    {
-    success
-    messages {
-      field
-      message
-      errorCode
-    }
-    }
+      registerPersonalData(input:{
+        firstName: \$firstName,
+        lastNameFather: \$lastNameFather,
+        lastNameMother: \$lastNameMother,
+        documentType: \$documentType,
+        documentNumber: \$documentNumber,
+        civilStatus: \$civilStatus,
+        gender: \$gender
+        imageProfile: \$imageProfile
+      }
+      )
+      {
+      success
+      messages {
+        field
+        message
+        errorCode
+      }
+      }
 }
 
     ''';

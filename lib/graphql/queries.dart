@@ -53,6 +53,7 @@ class QueryRepository {
         isPublicOfficialOrFamily
         acceptPrivacyPolicy
         acceptTermsConditions
+        birthdayDate
       }
     }
   ''';

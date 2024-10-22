@@ -2,6 +2,7 @@ import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.da
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_date_picker.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -138,6 +139,9 @@ class EditPersonalForm extends HookConsumerWidget {
           ? ""
           : getGenderByUser(userProfile.gender!),
     );
+    final dateController = useTextEditingController(
+      text: userProfile.birthDate ?? "",
+    );
 
     final ValueNotifier<bool> firstNameError = useState(false);
     final ValueNotifier<bool> lastNameFatherError = useState(false);
@@ -146,6 +150,7 @@ class EditPersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentNumberError = useState(false);
     final ValueNotifier<bool> civilStatusError = useState(false);
     final ValueNotifier<bool> genderTypeError = useState(false);
+    final ValueNotifier<bool> birthDateError = useState(false);
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
@@ -164,7 +169,6 @@ class EditPersonalForm extends HookConsumerWidget {
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
-        final String imagePush = imageBase64 ?? userProfile.imageProfile ?? '';
 
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
@@ -175,7 +179,7 @@ class EditPersonalForm extends HookConsumerWidget {
           documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
-          imageProfile: imagePush,
+          imageProfile: imageBase64,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
 
@@ -199,8 +203,8 @@ class EditPersonalForm extends HookConsumerWidget {
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height < 700
-            ? 540
-            : MediaQuery.of(context).size.height * 0.7,
+            ? 610
+            : MediaQuery.of(context).size.height - 250,
         child: Column(
           children: [
             const SizedBox(height: 10),
@@ -371,6 +375,33 @@ class EditPersonalForm extends HookConsumerWidget {
                       return null;
                     }
 
+                    return null;
+                  },
+                );
+              },
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            ValueListenableBuilder<bool>(
+              valueListenable: birthDateError,
+              builder: (context, isError, child) {
+                return InputDatePickerUserProfile(
+                  isError: isError,
+                  onError: () => birthDateError.value = false,
+                  hintText: "Fecha de nacimiento",
+                  controller: dateController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      // showSnackBarV2(
+                      //   context: context,
+                      //   title: "Fecha de nacimiento incorrecta",
+                      //   message: "Por favor, completa la fecha.",
+                      //   snackType: SnackType.warning,
+                      // );
+                      // birthDateError.value = true;
+                      return null;
+                    }
                     return null;
                   },
                 );

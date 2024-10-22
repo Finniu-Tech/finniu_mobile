@@ -11,24 +11,45 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
     required DtoPersonalForm data,
   }) async {
     try {
-      final response = await client.mutate(
-        MutationOptions(
-          document: gql(
-            MutationRepository.savePersonalDataV2(),
+      final QueryResult<Object?> response;
+      if (data.imageProfile != null) {
+        response = await client.mutate(
+          MutationOptions(
+            document: gql(
+              MutationRepository.savePersonalDataV2(),
+            ),
+            variables: {
+              "firstName": data.firstName,
+              "lastNameFather": data.lastNameFather,
+              "lastNameMother": data.lastNameMother,
+              "documentType": data.documentType.name,
+              "documentNumber": data.documentNumber,
+              "civilStatus": data.civilStatus.name,
+              "gender": data.gender.name,
+              "imageProfile": data.imageProfile,
+            },
+            fetchPolicy: FetchPolicy.noCache,
           ),
-          variables: {
-            "firstName": data.firstName,
-            "lastNameFather": data.lastNameFather,
-            "lastNameMother": data.lastNameMother,
-            "documentType": data.documentType.name,
-            "documentNumber": data.documentNumber,
-            "civilStatus": data.civilStatus.name,
-            "gender": data.gender.name,
-            "imageProfile": data.imageProfile,
-          },
-          fetchPolicy: FetchPolicy.noCache,
-        ),
-      );
+        );
+      } else {
+        response = await client.mutate(
+          MutationOptions(
+            document: gql(
+              MutationRepository.savePersonalDataV2(),
+            ),
+            variables: {
+              "firstName": data.firstName,
+              "lastNameFather": data.lastNameFather,
+              "lastNameMother": data.lastNameMother,
+              "documentType": data.documentType.name,
+              "documentNumber": data.documentNumber,
+              "civilStatus": data.civilStatus.name,
+              "gender": data.gender.name,
+            },
+            fetchPolicy: FetchPolicy.noCache,
+          ),
+        );
+      }
 
       if (response.data == null) {
         return RegisterUserV2Response(

@@ -31,7 +31,7 @@ class DtoPersonalForm {
   final TypeDocumentEnum documentType;
   final String documentNumber;
   final CivilStatusEnum civilStatus;
-  final String imageProfile;
+  final String? imageProfile;
   final GenderEnum gender;
 
   DtoPersonalForm({

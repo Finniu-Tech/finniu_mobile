@@ -115,6 +115,7 @@ class UserProfile {
     this.isPublicOfficialOrFamily,
     this.acceptPrivacyPolicy,
     this.acceptTermsConditions,
+    this.birthDate,
   });
   String? documentType;
   String? firstName;
@@ -152,6 +153,8 @@ class UserProfile {
   String? facebook;
   String? instagram;
   String? linkedin;
+  String? birthDate;
+
   bool? isDirectorOrShareholder10Percent;
   bool? isPublicOfficialOrFamily;
   bool? acceptPrivacyPolicy;
@@ -202,6 +205,7 @@ class UserProfile {
         isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
         acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
         acceptTermsConditions: json["acceptTermsConditions"],
+        birthDate: json["birthDate"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -267,6 +271,7 @@ class UserProfile {
     bool? isPublicOfficialOrFamily,
     bool? acceptPrivacyPolicy,
     bool? acceptTermsConditions,
+    String? birthDate,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -310,6 +315,7 @@ class UserProfile {
       acceptPrivacyPolicy: acceptPrivacyPolicy ?? this.acceptPrivacyPolicy,
       acceptTermsConditions:
           acceptTermsConditions ?? this.acceptTermsConditions,
+      birthDate: birthDate ?? this.birthDate,
     );
   }
 

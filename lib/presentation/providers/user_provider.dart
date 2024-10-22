@@ -73,6 +73,7 @@ final userProfileFutureProvider =
             isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
             acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
             acceptTermsConditions: userProfile.acceptTermsConditions,
+            birthDate: userProfile.birthDate,
           );
       return userProfile;
     }
@@ -130,6 +131,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
           acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
           acceptTermsConditions: userProfile.acceptTermsConditions,
+          birthDate: userProfile.birthDate,
         );
   }
   return success;
@@ -207,6 +209,7 @@ final reloadUserProfileFutureProvider =
           isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
           acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
           acceptTermsConditions: userProfile.acceptTermsConditions,
+          birthDate: userProfile.birthDate,
         );
 
     return true;
@@ -261,6 +264,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     bool? isPublicOfficialOrFamily,
     bool? acceptPrivacyPolicy,
     bool? acceptTermsConditions,
+    String? birthDate,
   }) {
     state = state.copyWith(
       id: id,
@@ -299,6 +303,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       isPublicOfficialOrFamily: isPublicOfficialOrFamily,
       acceptPrivacyPolicy: acceptPrivacyPolicy,
       acceptTermsConditions: acceptTermsConditions,
+      birthDate: birthDate,
     );
   }
 
