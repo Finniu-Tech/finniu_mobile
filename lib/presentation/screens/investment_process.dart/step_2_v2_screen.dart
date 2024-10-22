@@ -17,13 +17,14 @@ class StepTwoV2 extends StatelessWidget {
   }
 }
 
-class StepTwoBody extends StatelessWidget {
+class StepTwoBody extends ConsumerWidget {
   const StepTwoBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int textDark = 0xffFFFFFF;
@@ -61,37 +62,55 @@ class StepTwoBody extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 38,
-              decoration: BoxDecoration(
-                color: const Color(0xffBCF0FF),
-                borderRadius: BorderRadius.circular(50),
-              ),
+            const BankTranferContainer(
+              title: "Desde que banco nos transfieres",
             ),
             const SizedBox(
               height: 15,
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 38,
-              decoration: BoxDecoration(
-                color: const Color(0xffBCF0FF),
-                borderRadius: BorderRadius.circular(50),
-              ),
+            const BankTranferContainer(
+              title: "A que banco te depositamos",
             ),
             const SizedBox(
               height: 15,
             ),
-            const TextPoppins(
-              text:
-                  "Realiza tu transferencia de S/5,000 a la cuenta bancaria de Finniu:",
-              fontSize: 14,
-              fontWeight: FontWeight.w500,
-              lines: 2,
-              align: TextAlign.start,
-              textDark: textDark,
-              textLight: textLight,
+            Text.rich(
+              TextSpan(
+                text: "Realiza tu transferencia de ",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: isDarkMode
+                      ? const Color(textDark)
+                      : const Color(textLight),
+                ),
+                children: [
+                  TextSpan(
+                    text: 'S/5,000',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: isDarkMode
+                          ? const Color(textDark)
+                          : const Color(textLight),
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' a la cuenta bancaria de Finniu:',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: isDarkMode
+                          ? const Color(textDark)
+                          : const Color(textLight),
+                    ),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.start,
             ),
             const SizedBox(
               height: 15,
@@ -139,10 +158,34 @@ class StepTwoBody extends StatelessWidget {
                   value: true,
                   onChanged: (value) {},
                 ),
-                const TextPoppins(
-                  text: 'He leído y acepto el Contrato de Inversión de Finniu',
-                  fontSize: 12,
-                  lines: 2,
+                Text.rich(
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  TextSpan(
+                    text: "He leído y acepto el ",
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                      color: isDarkMode
+                          ? const Color(textDark)
+                          : const Color(textLight),
+                    ),
+                    children: [
+                      TextSpan(
+                        text: 'Contrato de Inversión de Finniu',
+                        style: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 11,
+                          fontWeight: FontWeight.w700,
+                          color: isDarkMode
+                              ? const Color(textDark)
+                              : const Color(textLight),
+                        ),
+                      ),
+                    ],
+                  ),
+                  textAlign: TextAlign.start,
                 ),
               ],
             ),
@@ -155,6 +198,68 @@ class StepTwoBody extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class BankTranferContainer extends ConsumerWidget {
+  const BankTranferContainer({super.key, required this.title});
+  final String title;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int containerDark = 0xff212121;
+    const int containerLight = 0xffBCF0FF;
+    const int iconBackground = 0xff95E7FF;
+    const int icon = 0xff0D3A5C;
+    const int iconDark = 0xffFFFFFF;
+    const int iconLight = 0xff0D3A5C;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      width: MediaQuery.of(context).size.width,
+      height: 38,
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? const Color(containerDark)
+            : const Color(containerLight),
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: const BoxDecoration(
+                  color: Color(iconBackground),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(50),
+                  ),
+                ),
+                child: const Icon(
+                  Icons.add_card_outlined,
+                  size: 20,
+                  color: Color(icon),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              TextPoppins(
+                text: title,
+                fontSize: 11,
+              ),
+            ],
+          ),
+          Icon(
+            Icons.arrow_forward_outlined,
+            size: 24,
+            color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+          ),
+        ],
       ),
     );
   }
