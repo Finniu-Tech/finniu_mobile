@@ -169,6 +169,7 @@ class EditPersonalForm extends HookConsumerWidget {
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
+        if (birthDateError.value) return;
 
         context.loaderOverlay.show();
         final DtoPersonalForm data = DtoPersonalForm(
@@ -181,6 +182,7 @@ class EditPersonalForm extends HookConsumerWidget {
               CivilStatusEnum.SINGLE,
           imageProfile: imageBase64,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
+          birthday: dateController.text.trim(),
         );
 
         context.loaderOverlay.show();
