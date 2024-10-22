@@ -37,20 +37,23 @@ Future<void> mainCommon(AppConfig config) async {
         return true;
       };
     }
+    final container = ProviderContainer();
+    final pushService = container.read(pushNotificationServiceProvider);
+    await pushService.initialize();
 
-    final pushNotificationService = PushNotificationService();
+    // final pushNotificationService = PushNotificationService(ref: ref);
 
-    await pushNotificationService.initialize();
+    // await pushNotificationService.initialize();
 
     appConfig = config;
     runApp(
       ProviderScope(
         child: config.environment == "production"
             ? AppProduction(
-                pushNotificationService: pushNotificationService,
+                pushNotificationService: pushService,
               )
             : AppStaging(
-                pushNotificationService: pushNotificationService,
+                pushNotificationService: pushService,
               ),
       ),
     );

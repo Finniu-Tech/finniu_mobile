@@ -22,6 +22,7 @@ import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
@@ -81,7 +82,8 @@ class HomeScreenV2 extends HookConsumerWidget {
           return userProfile.when(
             data: (profile) {
               _setUserAnalytics(ref, profile);
-              _handleTourAndNotifications(context, ref, profile);
+              _handleTour(context, ref, profile);
+              _handleNotificationPermission(context, ref);
 
               return Stack(
                 children: [
@@ -129,8 +131,11 @@ class HomeScreenV2 extends HookConsumerWidget {
     );
   }
 
-  void _handleTourAndNotifications(BuildContext context, WidgetRef ref, UserProfile profile) {
-    if (profile.hasCompletedTour != null) {
+  void _handleTour(BuildContext context, WidgetRef ref, UserProfile profile) {
+    print('has completed tour: ${profile.hasCompletedTour}');
+    // if (profile.hasCompletedTour != null) {
+
+    if (profile.hasCompletedTour == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         bool seeLaterTour = ref.watch(seeLaterProvider);
 
@@ -138,21 +143,63 @@ class HomeScreenV2 extends HookConsumerWidget {
           showTourV2(context);
         }
 
-        if (profile.hasCompletedTour == true) {
-          final pushNotificationService = PushNotificationService();
-          await pushNotificationService.requestPermissions(context);
-          String? token = await pushNotificationService.getToken();
+        // if (profile.hasCompletedTour == true) {
+        //   final pushNotificationService = PushNotificationService();
+        //   await pushNotificationService.requestPermissions(context);
+        //   String? token = await pushNotificationService.getToken();
 
-          if (token != null) {
-            // TODO: set user token to the backend
-            // ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
-            //       name: "fcm_token",
-            //       value: token,
-            //     );
-          }
-        }
+        //   if (token != null) {
+        //     // TODO: set user token to the backend
+        //     // ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+        //     //       name: "fcm_token",
+        //     //       value: token,
+        //     //     );
+        //   }
+        // }
       });
     }
+  }
+
+  void _handleNotificationPermission(BuildContext context, WidgetRef ref) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final pushNotificationService = ref.read(pushNotificationServiceProvider);
+
+      try {
+        final token = await pushNotificationService.initializeAfterLogin();
+
+        if (token != null) {
+          print('Push notification token obtenido: $token');
+
+          if (context.mounted) {
+            showThanksInvestmentDialog(
+              context,
+              textTitle: '¡Notificaciones activadas!',
+              textBody: 'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
+              textButton: 'Entendido',
+              onPressed: () => Navigator.pop(context),
+              textTanks: '',
+            );
+          }
+        }
+      } on PushNotificationPermissionDeniedException {
+        if (context.mounted) {
+          pushNotificationService.showLaterReminderModal(context);
+          await pushNotificationService.setReminderShown();
+        }
+      } catch (e) {
+        print('Error al inicializar notificaciones: $e');
+        if (context.mounted) {
+          showThanksInvestmentDialog(
+            context,
+            textTitle: 'Notificaciones',
+            textBody: 'No pudimos activar las notificaciones. Puedes intentarlo más tarde desde tu perfil.',
+            textButton: 'Entendido',
+            onPressed: () => Navigator.pop(context),
+            textTanks: '',
+          );
+        }
+      }
+    });
   }
 }
 
