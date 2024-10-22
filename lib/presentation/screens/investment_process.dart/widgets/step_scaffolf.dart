@@ -14,7 +14,7 @@ class StepScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff0E0E0E;
-    const int backgroundLight = 0xffA2E6FA;
+    const int backgroundLight = 0xffDEF7FF;
     const int iconColorDark = 0xffA2E6FA;
     const int iconColorLight = 0xff0D3A5C;
     return LoaderOverlay(
@@ -29,6 +29,9 @@ class StepScaffold extends ConsumerWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,

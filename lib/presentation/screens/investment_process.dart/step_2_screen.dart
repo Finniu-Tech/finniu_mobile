@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
@@ -18,6 +17,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/fee
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/helpers/step_helpers.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/buttons.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/modals.dart';
@@ -26,12 +26,9 @@ import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widge
 import 'package:finniu/utils/color_utils.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class InvestmentProcessStep2Screen extends ConsumerWidget {
   final FundEntity fund;
@@ -80,74 +77,6 @@ class Step2Body extends HookConsumerWidget {
     required this.preInvestmentUUID,
     this.isReInvestment,
   });
-
-  Future<void> getImageFromGallery(BuildContext context, WidgetRef ref) async {
-    PermissionStatus status = await Permission.photos.status;
-    bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-
-    if (Platform.isIOS) {
-      if (status.isGranted || status.isLimited) {
-        await _openGallery(context, ref);
-      } else if (status.isDenied) {
-        status = await Permission.photos.request();
-        if (status.isGranted || status.isLimited) {
-          // ignore: use_build_context_synchronously
-          await _openGallery(context, ref);
-        } else {
-          _showPermissionDeniedDialog(context, isDarkMode);
-        }
-      } else if (status.isPermanentlyDenied) {
-        _showOpenSettingsDialog(context, isDarkMode);
-      }
-    } else {
-      // Para Android
-      if (status.isGranted) {
-        await _openGallery(context, ref);
-      } else {
-        await _openGallery(context, ref);
-      }
-    }
-  }
-
-  Future<void> _openGallery(context, ref) async {
-    try {
-      final ImagePicker picker = ImagePicker();
-      final List<XFile> images = await picker.pickMultiImage();
-      if (images.isNotEmpty) {
-        List<String> voucherImageListBase64 = [];
-        List<String> voucherImageListPreview = [];
-        for (var image in images) {
-          final File imageFile = File(image.path);
-          final List<int> imageBytes = await imageFile.readAsBytes();
-          final base64Image =
-              "data:image/jpeg;base64,${base64Encode(imageBytes)}";
-          voucherImageListBase64.add(base64Image);
-          voucherImageListPreview.add(image.path);
-        }
-        ref.read(preInvestmentVoucherImagesProvider.notifier).state =
-            voucherImageListBase64;
-        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state =
-            voucherImageListPreview;
-      }
-    } catch (e) {
-      bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-      if (e is PlatformException && e.code == 'photo_access_denied') {
-        _showOpenSettingsDialog(context, isDarkMode);
-      } else {
-        _showPermissionDeniedDialog(context, isDarkMode);
-      }
-    }
-  }
-
-  void _showPermissionDeniedDialog(context, isDarkMode) {
-    // Show a dialog indicating that the user has denied access to the gallery
-    showGrantPermissionModal(context, isDarkMode, false);
-  }
-
-  void _showOpenSettingsDialog(context, isDarkMode) {
-    // Show a dialog indicating that the user has permanently denied access to the gallery
-    showGrantPermissionModal(context, isDarkMode, true);
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

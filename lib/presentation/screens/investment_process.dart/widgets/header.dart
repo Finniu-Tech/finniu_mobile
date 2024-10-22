@@ -30,14 +30,14 @@ class HeaderWidget extends StatelessWidget {
           urlIcon: urlIcon,
           labelText: labelText,
         ),
-        Spacer(),
+        const Spacer(),
         Container(
           width: MediaQuery.of(context).size.width * 0.4,
           height: 5,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: Color(primaryDark),
+            color: const Color(primaryDark),
           ),
         )
       ],
