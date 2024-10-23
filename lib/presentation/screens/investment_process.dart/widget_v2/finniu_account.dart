@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/finniu_account_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -6,14 +7,68 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class FinniuAccount extends ConsumerWidget {
-  const FinniuAccount({
-    super.key,
-  });
+class FinniuAccountProvider extends ConsumerWidget {
+  const FinniuAccountProvider({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final finniuAccount = ref.watch(finniuAccountProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int containerDark = 0xff0D3A5C;
+    const int containerLight = 0xffFFEEDD;
+
+    return finniuAccount.when(
+      data: (data) {
+        return FinniuAccount(
+          accountCci: data.accountCci,
+          bankName: data.bankName,
+          accountNumber: data.accountNumber,
+          bankUrl: data.bankUrl ?? "",
+        );
+      },
+      error: (error, stackTrace) {
+        return const FinniuAccount(
+          accountCci: "003-200-003004077570-39",
+          bankName: "Interbank",
+          accountNumber: "200-3004077570",
+          bankUrl: "",
+        );
+      },
+      loading: () {
+        return Container(
+          width: MediaQuery.of(context).size.width,
+          height: 100,
+          decoration: BoxDecoration(
+            color: isDarkMode
+                ? const Color(containerDark)
+                : const Color(containerLight),
+            borderRadius: const BorderRadius.only(
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          child: const Center(child: CircularLoader(width: 50, height: 50)),
+        );
+      },
+    );
+  }
+}
+
+class FinniuAccount extends ConsumerWidget {
+  const FinniuAccount({
+    super.key,
+    required this.bankName,
+    required this.accountNumber,
+    required this.accountCci,
+    required this.bankUrl,
+  });
+  final String bankName;
+  final String accountNumber;
+  final String accountCci;
+  final String bankUrl;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     const int containerDark = 0xff0D3A5C;
     const int containerLight = 0xffFFEEDD;
     const int titleDark = 0xffA2E6FA;
@@ -32,21 +87,21 @@ class FinniuAccount extends ConsumerWidget {
         horizontal: 20,
         vertical: 10,
       ),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          TextPoppins(
+          const TextPoppins(
             text: "Finniu S.A.C",
             fontSize: 14,
             fontWeight: FontWeight.w600,
             textDark: titleDark,
             textLight: titleLight,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          Row(
+          const Row(
             children: [
               TextPoppins(
                 text: "RUC",
@@ -64,23 +119,21 @@ class FinniuAccount extends ConsumerWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           FinniuTranferContainer(
-            bank: "Nº cuenta BBVA",
-            bankNumber: "1937075076012",
-            bankUrl:
-                "https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/43af74af/interbank.png",
+            bank: "Nº cuenta $bankName",
+            bankNumber: accountNumber,
+            bankUrl: bankUrl,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           FinniuTranferContainer(
             bank: "CCI    ",
-            bankNumber: "003-200-003004077570-39",
-            bankUrl:
-                "https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/43af74af/interbaank.png",
+            bankNumber: accountCci,
+            bankUrl: bankUrl,
           ),
         ],
       ),

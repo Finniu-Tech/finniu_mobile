@@ -1,3 +1,6 @@
+import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
+import 'package:finniu/presentation/providers/graphql_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +17,8 @@ class TermConditionsStep extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xff0D3A5C;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -25,23 +30,22 @@ class TermConditionsStep extends ConsumerWidget {
         ),
         GestureDetector(
           onTap: () async {
-            print("asdd");
-            // String contractURL = await ContractDataSourceImp().getContract(
-            //   uuid: "asdasd",
-            //   client: ref.watch(gqlClientProvider).value!,
-            // );
+            String contractURL = await ContractDataSourceImp().getContract(
+              uuid: args['preInvestmentUUID'],
+              client: ref.watch(gqlClientProvider).value!,
+            );
 
-            // if (contractURL.isNotEmpty) {
-            //   conditions.value = true;
+            if (contractURL.isNotEmpty) {
+              conditions.value = true;
 
-            //   Navigator.pushNamed(
-            //     context,
-            //     '/contract_view',
-            //     arguments: {
-            //       'contractURL': contractURL,
-            //     },
-            //   );
-            // }
+              Navigator.pushNamed(
+                context,
+                '/contract_view',
+                arguments: {
+                  'contractURL': contractURL,
+                },
+              );
+            }
           },
           child: Text.rich(
             maxLines: 1,
@@ -85,6 +89,7 @@ class TextRickStep extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xff0D3A5C;
     final args =
@@ -100,7 +105,7 @@ class TextRickStep extends ConsumerWidget {
         ),
         children: [
           TextSpan(
-            text: args['amount'] ?? '',
+            text: isSoles ? "S/ ${args['amount']}" : "USD ${args['amount']}",
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 15,

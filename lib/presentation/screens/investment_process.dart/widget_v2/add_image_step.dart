@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/helpers/step_helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -32,6 +35,14 @@ class AddImageStep extends ConsumerWidget {
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
 
+    void questionModal() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.addVoucher,
+        parameters: {},
+      );
+      photoHelp(context);
+    }
+
     return GestureDetector(
       onTap: () {
         getImageFromGallery(context, ref);
@@ -62,12 +73,15 @@ class AddImageStep extends ConsumerWidget {
           Positioned(
             top: 10,
             right: 10,
-            child: SvgPicture.asset(
-              "assets/svg_icons/message_question_icon.svg",
-              width: 24,
-              height: 24,
-              color:
-                  isDarkMode ? const Color(iconDark) : const Color(iconLight),
+            child: GestureDetector(
+              onTap: () => questionModal(),
+              child: SvgPicture.asset(
+                "assets/svg_icons/message_question_icon.svg",
+                width: 24,
+                height: 24,
+                color:
+                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+              ),
             ),
           ),
         ],

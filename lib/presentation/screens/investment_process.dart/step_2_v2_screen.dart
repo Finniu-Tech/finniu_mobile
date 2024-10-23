@@ -74,7 +74,7 @@ class StepTwoBody extends StatelessWidget {
               isSended: false,
             ),
             const TextRickStep(),
-            const FinniuAccount(),
+            const FinniuAccountProvider(),
             const TextPoppins(
               text: "Adjunta tu constancia de transferencia:",
               fontSize: 14,
@@ -105,6 +105,8 @@ class ColumnPush extends HookConsumerWidget {
       final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
       final bankSender = ref.read(selectedBankAccountSenderProvider);
       final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
+      print(bankSender?.id);
+      print(bankSender?.bankName);
       if (voucherImageBase64.isEmpty) {
         showSnackBarV2(
           context: context,
