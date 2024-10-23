@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/bank_tranfer_container.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/finniu_account.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/fund_row_step.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/term_condittions_step.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/step_scaffolf.dart';
@@ -31,7 +32,7 @@ class StepTwoBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height - 100,
+        height: MediaQuery.of(context).size.height - 120,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -61,16 +62,7 @@ class StepTwoBody extends StatelessWidget {
               title: "A que banco te depositamos",
             ),
             const TextRickStep(),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 140,
-              decoration: const BoxDecoration(
-                color: Color(0xffFFEEDD),
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(20),
-                ),
-              ),
-            ),
+            const FinniuAccount(),
             const TextPoppins(
               text: "Adjunta tu constancia de transferencia:",
               fontSize: 14,
