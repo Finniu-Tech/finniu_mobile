@@ -83,6 +83,7 @@ class Step2Body extends HookConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final voucherImageBase64 = ref.watch(preInvestmentVoucherImagesProvider);
     final isSoles = ref.watch(isSolesStateProvider);
+    final String currencyValue = isSoles ? currencyEnum.PEN : currencyEnum.USD;
 
     final userReadContract = useState(false);
     ValueNotifier<BankAccount?> senderBankAccountState = useState(null);
@@ -91,7 +92,6 @@ class Step2Body extends HookConsumerWidget {
 
     final isDarkMode = currentTheme.isDarkMode;
     final String textCurrency = isSoles ? 'soles' : 'dólares';
-    final String currencyValue = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final String symbolCurrency = isSoles ? 'S/' : 'US\$';
 
     useEffect(

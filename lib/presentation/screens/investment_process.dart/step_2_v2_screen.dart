@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/add_image_step.dart';
@@ -56,11 +57,15 @@ class StepTwoBody extends StatelessWidget {
               textDark: textDark,
               textLight: textLight,
             ),
-            const BankTranferContainer(
+            BankTranferContainer(
               title: "Desde que banco nos transfieres",
+              providerWatch: selectedBankAccountSenderProvider,
+              isSended: true,
             ),
-            const BankTranferContainer(
+            BankTranferContainer(
               title: "A que banco te depositamos",
+              providerWatch: selectedBankAccountReceiverProvider,
+              isSended: false,
             ),
             const TextRickStep(),
             const FinniuAccount(),
@@ -75,7 +80,9 @@ class StepTwoBody extends StatelessWidget {
             const TermConditionsStep(),
             ButtonInvestment(
               text: "Enviar constancia",
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamedAndRemoveUntil(context, '/home_v2' , (route) => false);
+              },
             ),
           ],
         ),
