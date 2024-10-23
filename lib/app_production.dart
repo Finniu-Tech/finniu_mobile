@@ -13,6 +13,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppProduction extends ConsumerStatefulWidget {
   final PushNotificationService pushNotificationService;
+
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   const AppProduction({super.key, required this.pushNotificationService});
 
@@ -71,7 +72,8 @@ class _AppProductionState extends ConsumerState<AppProduction> {
           _deepLinkHandler.processPendingNavigations();
         });
 
-        return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());
+        return InternetConnectionAlertWidget(
+            child: child ?? const SizedBox.shrink());
       },
     );
   }

@@ -8,8 +8,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 void showVerifyIdentity(
-    BuildContext context, UserProfileCompleteness userCompletenessProfile,
-    {Function()? redirect}) {
+  BuildContext context,
+  UserProfileCompleteness userCompletenessProfile, {
+  Function()? redirect,
+}) {
   showModalBottomSheet(
     context: context,
     builder: (context) => _BodyVerify(
@@ -31,7 +33,9 @@ class _BodyVerify extends ConsumerWidget {
     const int backgroundLight = 0xffFFFFFF;
     void navigate(UserProfileCompleteness userProfileCompleteness) {
       Navigator.popAndPushNamed(
-          context, userProfileCompleteness.getNextStep() ?? '/v2/my_data');
+        context,
+        userProfileCompleteness.getNextStep() ?? '/v2/my_data',
+      );
       // Navigator.pushNamed(context, '/v2/my_data');
     }
 
@@ -58,67 +62,41 @@ class _BodyVerify extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ItemRowValidate(
-                onTap: () {
-                  // userCompletenessProfile.hasCompletePersonalData()
-                  //     ? Navigator.pushNamed(context, '/v2/edit_personal_data')
-                  //     : Navigator.pushNamed(context, '/v2/form_personal_data');
-                },
-                iconUrl: "assets/svg_icons/user_icon.svg",
-                isSelect: userCompletenessProfile.hasCompletePersonalData(),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              ItemRowValidate(
-                onTap: () {
-                  // userCompletenessProfile.hasCompleteLegalTerms()
-                  //     ? Navigator.pushNamed(context, '/v2/form_legal_terms')
-                  //     : Navigator.pushNamed(context, '/v2/form_legal_terms');
-                },
-                iconUrl: "assets/svg_icons/scale_icon.svg",
-                isSelect: userCompletenessProfile.hasCompleteLegalTerms(),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              ItemRowValidate(
-                onTap: () {
-                  // userCompletenessProfile.hasCompleteLocation()
-                  //     ? Navigator.pushNamed(context, '/v2/edit_location_data')
-                  //     : Navigator.pushNamed(context, '/v2/form_location');
-                },
-                iconUrl: "assets/svg_icons/map_icon_v2.svg",
-                isSelect: userCompletenessProfile.hasCompleteLocation(),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              ItemRowValidate(
-                onTap: () {
-                  // userCompletenessProfile.hasCompleteOccupation()
-                  //     ? Navigator.pushNamed(context, '/v2/edit_job_data')
-                  //     : Navigator.pushNamed(context, '/v2/form_job');
-                },
-                iconUrl: "assets/svg_icons/bag_icon_v2.svg",
-                isSelect: userCompletenessProfile.hasCompleteOccupation(),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              ItemRowValidate(
-                onTap: () {
-                  // userCompletenessProfile.hasCompleteProfile()
-                  //     ? Navigator.pushNamed(context, '/v2/edit_about_me')
-                  //     : Navigator.pushNamed(context, '/v2/form_about_me');
-                },
-                iconUrl: "assets/svg_icons/user_icon_v2.svg",
-                isSelect: userCompletenessProfile.hasCompleteProfile(),
-              ),
-            ],
+          SizedBox(
+            width: 350,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ItemRowValidate(
+                  onTap: () {
+                    // userCompletenessProfile.hasCompletePersonalData()
+                    //     ? Navigator.pushNamed(context, '/v2/edit_personal_data')
+                    //     : Navigator.pushNamed(context, '/v2/form_personal_data');
+                  },
+                  iconUrl: "assets/svg_icons/user_icon.svg",
+                  isSelect: userCompletenessProfile.hasCompletePersonalData(),
+                ),
+                ItemRowValidate(
+                  onTap: () {
+                    // userCompletenessProfile.hasCompleteLocation()
+                    //     ? Navigator.pushNamed(context, '/v2/edit_location_data')
+                    //     : Navigator.pushNamed(context, '/v2/form_location');
+                  },
+                  iconUrl: "assets/svg_icons/map_icon_v2.svg",
+                  isSelect: userCompletenessProfile.hasCompleteLocation(),
+                ),
+                ItemRowValidate(
+                  onTap: () {
+                    // userCompletenessProfile.hasCompleteOccupation()
+                    //     ? Navigator.pushNamed(context, '/v2/edit_job_data')
+                    //     : Navigator.pushNamed(context, '/v2/form_job');
+                  },
+                  iconUrl: "assets/svg_icons/bag_icon_v2.svg",
+                  isSelect: userCompletenessProfile.hasCompleteOccupation(),
+                ),
+              ],
+            ),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.8,
@@ -160,12 +138,7 @@ class _BodyVerify extends ConsumerWidget {
               isDarkMode: isDarkMode,
               text: "En otro momento",
               onPressed: () {
-                if (redirect != null) {
-                  Navigator.pop(context);
-                  redirect!();
-                } else {
-                  Navigator.pop(context);
-                }
+                Navigator.pop(context);
               },
               underline: false,
             ),

@@ -41,8 +41,8 @@ class PositionedColumn extends ConsumerWidget {
                 : index == 1
                     ? isDarkMode
                     : true,
-            text: "Crear mi cuenta",
-            onPressed: pushRegister,
+            text: "Ingresar",
+            onPressed: pushLogin,
           ),
           const SizedBox(
             height: 10,
@@ -63,8 +63,8 @@ class PositionedColumn extends ConsumerWidget {
                 : index == 1
                     ? isDarkMode
                     : true,
-            text: "Ingresar",
-            onPressed: pushLogin,
+            text: "Crear mi cuenta",
+            onPressed: pushRegister,
           ),
           const SizedBox(
             height: 10,

@@ -41,7 +41,7 @@ class QueryRepository {
         postalCode
         
         laborSituation
-        companyName
+        actualPosition
         serviceTime
 
         biography
@@ -53,6 +53,7 @@ class QueryRepository {
         isPublicOfficialOrFamily
         acceptPrivacyPolicy
         acceptTermsConditions
+        birthdayDate
       }
     }
   ''';

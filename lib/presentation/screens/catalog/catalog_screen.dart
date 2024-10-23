@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/add_voucher_modal.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart';
@@ -22,6 +23,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/to_validate_investme
 import 'package:finniu/presentation/screens/catalog/widgets/modal_investment_summary.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/presentation/screens/login_v2/widgets/modal_new_password.dart';
@@ -60,7 +62,9 @@ class CatalogScreen extends HookConsumerWidget {
     final TextEditingController controller = TextEditingController();
 
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         elevation: 0.0,
@@ -92,6 +96,29 @@ class CatalogScreen extends HookConsumerWidget {
               onPressed: () {
                 showFeedbackModal(
                   context,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "show verify",
+              onPressed: () {
+                showVerifyIdentity(
+                  context,
+                  UserProfileCompleteness(
+                    completionPercentage: 100,
+                    legalTermsCompleteness: 100,
+                    personalDataComplete: 100,
+                    locationComplete: 90,
+                    occupationComplete: 90,
+                    profileComplete: 100,
+                  ),
+                  redirect: () {
+                    Navigator.pushNamed(context, '/v2/investment/step-1',
+                        arguments: {'fund': ""});
+                  },
                 );
               },
             ),
@@ -176,7 +203,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.error,
                 );
               },
@@ -190,7 +218,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.warning,
                 );
               },
@@ -204,7 +233,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.success,
                 );
               },
@@ -218,7 +248,8 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message:
+                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.info,
                 );
               },
@@ -261,7 +292,8 @@ class CatalogScreen extends HookConsumerWidget {
               title: "Verificación  legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
+                  text:
+                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
                   value: true,
                 ),
               ],
@@ -285,7 +317,8 @@ class CatalogScreen extends HookConsumerWidget {
             const ExpansionTitleProfile(
               icon: "assets/svg_icons/dark_mode_icon.svg",
               title: "Contraseñas",
-              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               children: [
                 ChildrenTitle(
                   title: "Visualización de contraseña",
@@ -303,7 +336,8 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonSwitchProfile(
               icon: null,
               title: "Sobre mis inversiones",
-              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle:
+                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               onTap: () => setInvest(),
               value: invest,
             ),

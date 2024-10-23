@@ -13,6 +13,7 @@ import 'package:finniu/presentation/screens/v2_user_profile/widgets/password_req
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class FormRegister extends HookConsumerWidget {
@@ -23,20 +24,20 @@ class FormRegister extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nickNameController = useTextEditingController();
+    final dateController = useTextEditingController();
     final countryPrefixController = useTextEditingController();
     final phoneNumberController = useTextEditingController();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final passwordConfirmController = useTextEditingController();
-    final dateController = useTextEditingController();
     // final acceptPrivacyAndTerms = useState(false);
     final ValueNotifier<bool> isPasswordExpanded = useState(false);
     final ValueNotifier<bool> nickNameError = useState(false);
+    final ValueNotifier<bool> dateError = useState(false);
     final ValueNotifier<bool> phoneNumberError = useState(false);
     final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> passwordError = useState(false);
     final ValueNotifier<bool> passwordConfirmError = useState(false);
-    final ValueNotifier<bool> dateError = useState(false);
     final ValueNotifier<bool> acceptPrivacyAndTerms = useState(false);
 
     FocusNode passwordFocusNode = useFocusNode();
@@ -82,6 +83,9 @@ class FormRegister extends HookConsumerWidget {
         if (passwordConfirmError.value) return;
         if (dateError.value) return;
         context.loaderOverlay.show();
+        DateTime parsedDate =
+            DateFormat("d/M/yyyy").parse(dateController.text.trim());
+        String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text.trim(),
           countryPrefix: countryPrefixController.text.trim(),
@@ -91,6 +95,7 @@ class FormRegister extends HookConsumerWidget {
           confirmPassword: passwordConfirmController.text.trim(),
           acceptTermsConditions: acceptPrivacyAndTerms.value,
           acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
+          birthday: formattedDate,
         );
 
         context.loaderOverlay.show();

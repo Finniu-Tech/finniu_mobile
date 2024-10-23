@@ -28,7 +28,6 @@ final userProfileFutureProvider =
         return result;
       },
     );
-
     if (result.data?['userProfile'] != null) {
       final userProfile = UserProfile.fromJson(result.data?['userProfile']);
 
@@ -59,7 +58,7 @@ final userProfileFutureProvider =
             lastNameMother: userProfile.lastNameMother,
             countryPrefix: userProfile.countryPrefix,
             documentType: userProfile.documentType,
-            gender: userProfile.gender,
+            gender: userProfile.gender ?? "OTHER",
             houseNumber: userProfile.houseNumber,
             postalCode: userProfile.postalCode,
             laborSituation: userProfile.laborSituation,
@@ -74,6 +73,7 @@ final userProfileFutureProvider =
             isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
             acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
             acceptTermsConditions: userProfile.acceptTermsConditions,
+            birthDate: userProfile.birthDate,
           );
       return userProfile;
     }
@@ -131,6 +131,7 @@ final updateUserProfileFutureProvider = FutureProvider.autoDispose
           isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
           acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
           acceptTermsConditions: userProfile.acceptTermsConditions,
+          birthDate: userProfile.birthDate,
         );
   }
   return success;
@@ -208,6 +209,7 @@ final reloadUserProfileFutureProvider =
           isPublicOfficialOrFamily: userProfile.isPublicOfficialOrFamily,
           acceptPrivacyPolicy: userProfile.acceptPrivacyPolicy,
           acceptTermsConditions: userProfile.acceptTermsConditions,
+          birthDate: userProfile.birthDate,
         );
 
     return true;
@@ -262,6 +264,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
     bool? isPublicOfficialOrFamily,
     bool? acceptPrivacyPolicy,
     bool? acceptTermsConditions,
+    String? birthDate,
   }) {
     state = state.copyWith(
       id: id,
@@ -300,6 +303,7 @@ class UserProfileStateNotifierProvider extends StateNotifier<UserProfile> {
       isPublicOfficialOrFamily: isPublicOfficialOrFamily,
       acceptPrivacyPolicy: acceptPrivacyPolicy,
       acceptTermsConditions: acceptTermsConditions,
+      birthDate: birthDate,
     );
   }
 
