@@ -7,15 +7,17 @@ final importantDaysFutureProvider = FutureProvider<List<dynamic>>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
 
-    final resultImportantDays =
-        await ImportantDaysDataSourceImp().getImportantDays(
+    final resultImportantDays = await ImportantDaysDataSourceImp().getImportantDays(
       client: client!,
     );
-    final resultPaymentDays =
-        await PaymentDaysDataSourceImp().getPaymentDays(client: client);
+
+    print('resultImportantDays: $resultImportantDays');
+    final resultPaymentDays = await PaymentDaysDataSourceImp().getPaymentDays(client: client);
+    print('resultPaymentDays: $resultPaymentDays');
     final mergedResult = mergeResults(resultImportantDays, resultPaymentDays);
     return mergedResult;
   } catch (e, stack) {
+    print('Error importan days: $e');
     return Future.error('Error: $e', stack);
   }
 });
