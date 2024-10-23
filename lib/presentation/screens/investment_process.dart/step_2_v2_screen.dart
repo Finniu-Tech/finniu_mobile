@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/add_image_step.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/bank_tranfer_container.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/finniu_account.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/fund_row_step.dart';
@@ -70,16 +71,7 @@ class StepTwoBody extends StatelessWidget {
               textDark: textDark,
               textLight: textLight,
             ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 93,
-              decoration: const BoxDecoration(
-                color: Color(0xffB6EFFF),
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
-                ),
-              ),
-            ),
+            const AddImageStep(),
             const TermConditionsStep(),
             ButtonInvestment(
               text: "Enviar constancia",

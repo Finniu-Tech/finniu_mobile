@@ -157,6 +157,9 @@ class FinniuTranferContainer extends HookConsumerWidget {
                   text: bank,
                   fontSize: 12,
                 ),
+                const SizedBox(
+                  width: 5,
+                ),
                 TextPoppins(
                   text: bankNumber,
                   fontSize: 12,
