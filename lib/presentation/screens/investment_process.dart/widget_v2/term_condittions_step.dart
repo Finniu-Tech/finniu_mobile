@@ -6,8 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class TermConditionsStep extends ConsumerWidget {
   const TermConditionsStep({
     super.key,
+    required this.conditions,
   });
-
+  final ValueNotifier<bool> conditions;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -17,36 +18,59 @@ class TermConditionsStep extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         CheckBoxWidget(
-          value: true,
-          onChanged: (value) {},
+          value: conditions.value,
+          onChanged: (value) {
+            conditions.value = conditions.value ? false : true;
+          },
         ),
-        Text.rich(
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          TextSpan(
-            text: "He leído y acepto el ",
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 10,
-              fontWeight: FontWeight.w500,
-              color:
-                  isDarkMode ? const Color(textDark) : const Color(textLight),
-            ),
-            children: [
-              TextSpan(
-                text: 'Contrato de Inversión de Finniu',
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
-                  color: isDarkMode
-                      ? const Color(textDark)
-                      : const Color(textLight),
-                ),
+        GestureDetector(
+          onTap: () async {
+            print("asdd");
+            // String contractURL = await ContractDataSourceImp().getContract(
+            //   uuid: "asdasd",
+            //   client: ref.watch(gqlClientProvider).value!,
+            // );
+
+            // if (contractURL.isNotEmpty) {
+            //   conditions.value = true;
+
+            //   Navigator.pushNamed(
+            //     context,
+            //     '/contract_view',
+            //     arguments: {
+            //       'contractURL': contractURL,
+            //     },
+            //   );
+            // }
+          },
+          child: Text.rich(
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            TextSpan(
+              text: "He leído y acepto el ",
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 10,
+                fontWeight: FontWeight.w500,
+                color:
+                    isDarkMode ? const Color(textDark) : const Color(textLight),
               ),
-            ],
+              children: [
+                TextSpan(
+                  text: 'Contrato de Inversión de Finniu',
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: isDarkMode
+                        ? const Color(textDark)
+                        : const Color(textLight),
+                  ),
+                ),
+              ],
+            ),
+            textAlign: TextAlign.start,
           ),
-          textAlign: TextAlign.start,
         ),
       ],
     );
@@ -63,6 +87,8 @@ class TextRickStep extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xff0D3A5C;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return Text.rich(
       TextSpan(
         text: "Realiza tu transferencia de ",
@@ -74,7 +100,7 @@ class TextRickStep extends ConsumerWidget {
         ),
         children: [
           TextSpan(
-            text: 'S/5,000',
+            text: args['amount'] ?? '',
             style: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 15,

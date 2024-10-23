@@ -166,14 +166,20 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       );
     },
     '/v2/investment/step-2': (BuildContext context) {
-      final args =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return InvestmentProcessStep2Screen(
-        fund: args['fund'],
-        preInvestmentUUID: args['preInvestmentUUID'],
-        amount: args['amount'],
-        isReInvestment: args['isReInvestment'] ?? false,
-      );
+      return const StepTwoV2(
+          // fund: args['fund'],
+          // preInvestmentUUID: args['preInvestmentUUID'],
+          // amount: args['amount'],
+          // isReInvestment: args['isReInvestment'] ?? false,
+          );
+      // final args =
+      //     ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+      // return InvestmentProcessStep2Screen(
+      //   fund: args['fund'],
+      //   preInvestmentUUID: args['preInvestmentUUID'],
+      //   amount: args['amount'],
+      //   isReInvestment: args['isReInvestment'] ?? false,
+      // );
     },
     '/fran/investment/step-2': (BuildContext context) {
       // final args =

@@ -28,6 +28,9 @@ class StepScaffold extends ConsumerWidget {
         );
       },
       child: Scaffold(
+        floatingActionButton: const SizedBox(
+          height: 80,
+        ),
         appBar: AppBar(
           backgroundColor: isDarkMode
               ? const Color(backgroundDark)
