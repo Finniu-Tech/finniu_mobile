@@ -105,8 +105,6 @@ class ColumnPush extends HookConsumerWidget {
       final voucherImageBase64 = ref.read(preInvestmentVoucherImagesProvider);
       final bankSender = ref.read(selectedBankAccountSenderProvider);
       final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
-      print(bankSender?.id);
-      print(bankSender?.bankName);
       if (voucherImageBase64.isEmpty) {
         showSnackBarV2(
           context: context,
@@ -157,7 +155,6 @@ class ColumnPush extends HookConsumerWidget {
         ),
       );
 
-      context.loaderOverlay.hide();
       // Navigator.pushNamedAndRemoveUntil(
       //           context, '/home_v2', (route) => false);
     }
