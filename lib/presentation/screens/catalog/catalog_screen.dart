@@ -78,15 +78,6 @@ class CatalogScreen extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            ButtonInvestment(
-              text: "navigate fran invest",
-              onPressed: () {
-                Navigator.pushNamed(context, '/fran/investment/step-2');
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             const SizedBox(
               height: 10,
             ),

@@ -28,7 +28,6 @@ import 'package:finniu/presentation/screens/geolocator/geolocator_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
-import 'package:finniu/presentation/screens/investment_process.dart/step_2_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_v2_screen.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/investment_blue_gold_screen.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
