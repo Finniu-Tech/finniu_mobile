@@ -38,6 +38,8 @@ import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/accounts_screen_v2.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/notifications/notifications_screen.dart';
+import 'package:finniu/presentation/screens/pay_out/pay_out_screen.dart';
+import 'package:finniu/presentation/screens/pay_out/rextie_comminication_scree.dart';
 import 'package:finniu/presentation/screens/profile_v2/profile_screen_v2.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/on_boarding_screen_v2.dart';
 import 'package:finniu/presentation/screens/push_notifications/push_notification_screen.dart';
@@ -250,9 +252,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/set_new_password': (BuildContext context) => const NewPasswordV2(),
     '/biometric_test': (BuildContext context) => BiometricTestPage(),
     '/v2/geolocator': (BuildContext context) => const GeolocatorScreen(),
-
     '/v2/firebase_test': (BuildContext context) => const FirebaseTestScreen(),
-
+    '/v2/pay_out': (BuildContext context) => const PayOutScreen(),
+    '/v2/rextie_comminication': (BuildContext context) =>
+        const RextieComminicationScree(),
     '/push_notification': (BuildContext context) => FirebaseTokenScreen(),
   };
 }
