@@ -71,7 +71,7 @@ class StepTwoBody extends StatelessWidget {
               textDark: textDark,
               textLight: textLight,
             ),
-            const AddImageStep(),
+            const ImageStep(),
             const TermConditionsStep(),
             ButtonInvestment(
               text: "Enviar constancia",

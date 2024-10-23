@@ -80,7 +80,7 @@ class FinniuAccount extends ConsumerWidget {
             bank: "CCI    ",
             bankNumber: "003-200-003004077570-39",
             bankUrl:
-                "https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/43af74af/interbank.png",
+                "https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/43af74af/interbaank.png",
           ),
         ],
       ),
@@ -107,6 +107,8 @@ class FinniuTranferContainer extends HookConsumerWidget {
     const int titleLight = 0xff0D3A5C;
     const int snackDark = 0xff000000;
     const int snackLight = 0xffFFFFFF;
+    const int errorDark = 0xff181818;
+    const int errorLight = 0xffA2E6FA;
 
     void copyToClipboard() {
       Clipboard.setData(ClipboardData(text: bankNumber));
@@ -141,11 +143,28 @@ class FinniuTranferContainer extends HookConsumerWidget {
                   if (loadingProgress == null) {
                     return child;
                   } else {
-                    return const CircularLoader(width: 50, height: 50);
+                    return const CircularLoader(width: 10, height: 10);
                   }
                 },
-                errorBuilder: (context, error, stackTrace) =>
-                    const CircularLoader(width: 50, height: 50),
+                errorBuilder: (context, error, stackTrace) => Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: isDarkMode
+                        ? const Color(errorDark)
+                        : const Color(errorLight),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(50),
+                    ),
+                  ),
+                  child: Center(
+                    child: Image.asset(
+                      "assets/images/bank_case_error.png",
+                      width: 15,
+                      height: 15,
+                    ),
+                  ),
+                ),
               ),
             ),
             const SizedBox(

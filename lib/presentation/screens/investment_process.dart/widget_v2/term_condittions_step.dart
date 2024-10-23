@@ -27,7 +27,7 @@ class TermConditionsStep extends ConsumerWidget {
             text: "He leído y acepto el ",
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 11,
+              fontSize: 10,
               fontWeight: FontWeight.w500,
               color:
                   isDarkMode ? const Color(textDark) : const Color(textLight),
@@ -37,7 +37,7 @@ class TermConditionsStep extends ConsumerWidget {
                 text: 'Contrato de Inversión de Finniu',
                 style: TextStyle(
                   fontFamily: 'Poppins',
-                  fontSize: 11,
+                  fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: isDarkMode
                       ? const Color(textDark)
@@ -68,7 +68,7 @@ class TextRickStep extends ConsumerWidget {
         text: "Realiza tu transferencia de ",
         style: TextStyle(
           fontFamily: 'Poppins',
-          fontSize: 14,
+          fontSize: 13,
           fontWeight: FontWeight.w500,
           color: isDarkMode ? const Color(textDark) : const Color(textLight),
         ),
@@ -77,7 +77,7 @@ class TextRickStep extends ConsumerWidget {
             text: 'S/5,000',
             style: TextStyle(
               fontFamily: 'Poppins',
-              fontSize: 14,
+              fontSize: 15,
               fontWeight: FontWeight.w700,
               color:
                   isDarkMode ? const Color(textDark) : const Color(textLight),
