@@ -37,7 +37,32 @@ class BubbleBody extends StatelessWidget {
             ),
           ),
         ),
+        const StackWhatsApp(),
+      ],
+    );
+  }
+}
+
+class StackWhatsApp extends StatelessWidget {
+  const StackWhatsApp({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          color: Colors.black.withOpacity(0.2),
+        ),
         const WhatsAppBubble(),
+        Positioned(
+          bottom: 20,
+          right: MediaQuery.of(context).size.width / 2,
+          child: Icon(Icons.abc_rounded),
+        )
       ],
     );
   }
