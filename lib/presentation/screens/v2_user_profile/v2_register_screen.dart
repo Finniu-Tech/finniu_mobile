@@ -47,7 +47,7 @@ class RegisterScreenV2 extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const FormRegister(),
+          FormRegister(),
         ],
       ),
     );

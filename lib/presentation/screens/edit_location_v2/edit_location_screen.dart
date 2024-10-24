@@ -98,14 +98,14 @@ class _BodyEditLocation extends ConsumerWidget {
 }
 
 class EditLocationForm extends ConsumerStatefulWidget {
-  const EditLocationForm({
+  EditLocationForm({
     super.key,
     required this.isEdit,
     required this.onEdit,
   });
   final ValueNotifier<bool> isEdit;
   final VoidCallback onEdit;
-
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   LocationFormState createState() => LocationFormState();
 }
