@@ -48,7 +48,7 @@ class TermConditionsStep extends ConsumerWidget {
             }
           },
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.6,
+            width: MediaQuery.of(context).size.width * 0.7,
             child: Text.rich(
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
