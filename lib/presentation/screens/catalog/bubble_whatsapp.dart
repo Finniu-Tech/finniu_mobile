@@ -179,7 +179,7 @@ class StackWhatsApp extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final bubbleStateText = ref.watch(positionProvider);
+    final bubbleState = ref.watch(positionProvider);
     const int iconCloseDark = 0xffA2E6FA;
     const int iconCloseLight = 0xff0D3A5C;
     double size = MediaQuery.of(context).size.width;
@@ -194,7 +194,7 @@ class StackWhatsApp extends HookConsumerWidget {
         Container(
           width: size,
           height: MediaQuery.of(context).size.height,
-          color: bubbleStateText.isMove
+          color: bubbleState.isMove
               ? Colors.black.withOpacity(0.2)
               : Colors.transparent,
         ),
@@ -202,26 +202,28 @@ class StackWhatsApp extends HookConsumerWidget {
         Positioned(
           bottom: 40.0,
           width: size,
-          child: ClipOval(
-            child: Container(
-              padding: const EdgeInsets.all(4.0),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: isDarkMode
-                      ? const Color(iconCloseDark)
-                      : const Color(iconCloseLight),
-                  width: 2.0,
-                ),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.close,
-                color: isDarkMode
-                    ? const Color(iconCloseDark)
-                    : const Color(iconCloseLight),
-              ),
-            ),
-          ),
+          child: bubbleState.isMove
+              ? ClipOval(
+                  child: Container(
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: isDarkMode
+                            ? const Color(iconCloseDark)
+                            : const Color(iconCloseLight),
+                        width: 2.0,
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.close,
+                      color: isDarkMode
+                          ? const Color(iconCloseDark)
+                          : const Color(iconCloseLight),
+                    ),
+                  ),
+                )
+              : const SizedBox(),
         ),
       ],
     );
