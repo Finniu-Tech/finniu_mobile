@@ -82,6 +82,18 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
+              text: "whats app",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/bubble_whatsapp');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "screen rextie comunicacion",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/rextie_comminication');

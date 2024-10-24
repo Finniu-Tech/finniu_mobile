@@ -2,6 +2,7 @@ import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_ac
 import 'package:finniu/presentation/screens/additional_information/additional_information.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
 import 'package:finniu/presentation/screens/biometric_screen.dart';
+import 'package:finniu/presentation/screens/catalog/bubble_whatsapp.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/catalog/firebase_test_screen.dart';
@@ -257,5 +258,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/rextie_comminication': (BuildContext context) =>
         const RextieComminicationScree(),
     '/push_notification': (BuildContext context) => FirebaseTokenScreen(),
+    '/v2/bubble_whatsapp': (BuildContext context) =>
+        const BubbleWhatsappScreen(),
   };
 }
