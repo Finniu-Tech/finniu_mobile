@@ -51,26 +51,25 @@ class LoginScreenV2 extends ConsumerWidget {
         const SizedBox(
           height: 20,
         ),
-        const FormLogin(),
+        FormLogin(),
       ],
     );
   }
 }
 
 class FormLogin extends HookConsumerWidget {
-  const FormLogin({
+  FormLogin({
     super.key,
   });
 
   final secureStorage = const FlutterSecureStorage();
-
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     final rememberPassword = useState(Preferences.rememberMe);
     final passwordState = useState("");
-    final formKey = GlobalKey<FormState>();
 
     final emailController =
         useTextEditingController(text: Preferences.username ?? "");

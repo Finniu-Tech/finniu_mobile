@@ -18,6 +18,7 @@ import 'package:finniu/presentation/screens/config_v2/support_ticket_screen.dart
 import 'package:finniu/presentation/screens/edit_job_v2/edit_job_screen.dart';
 import 'package:finniu/presentation/screens/edit_location_v2/edit_location_screen.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
+import 'package:finniu/presentation/screens/exit_screen/exit_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
 import 'package:finniu/presentation/screens/form_job_v2/form_job_v2.dart';
 import 'package:finniu/presentation/screens/form_legal_terms/form_legal_v2.dart';
@@ -257,5 +258,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/rextie_comminication': (BuildContext context) =>
         const RextieComminicationScree(),
     '/push_notification': (BuildContext context) => FirebaseTokenScreen(),
+    '/v2/exit': (BuildContext context) => const ExitScreen(),
   };
 }

@@ -82,6 +82,18 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
+              text: "screen exit",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/exit');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "screen rextie comunicacion",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/rextie_comminication');
