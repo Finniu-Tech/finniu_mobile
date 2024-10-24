@@ -118,34 +118,22 @@ class EditPersonalForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
     final String? imageBase64 = ref.watch(imageBase64Provider);
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final firstNameController =
-        useTextEditingController(text: userProfile.firstName ?? '');
-    final lastNameFatherController =
-        useTextEditingController(text: userProfile.lastNameFather ?? '');
-    final lastNameMotherController =
-        useTextEditingController(text: userProfile.lastNameMother ?? '');
+
+    final firstNameController = useTextEditingController(text: userProfile.firstName ?? '');
+    final lastNameFatherController = useTextEditingController(text: userProfile.lastNameFather ?? '');
+    final lastNameMotherController = useTextEditingController(text: userProfile.lastNameMother ?? '');
     final documentTypeController = useTextEditingController(
-      text: userProfile.documentType == null
-          ? ""
-          : getTypeDocumentByUser(userProfile.documentType!),
+      text: userProfile.documentType == null ? "" : getTypeDocumentByUser(userProfile.documentType!),
     );
-    final documentNumberController =
-        useTextEditingController(text: userProfile.documentNumber);
+    final documentNumberController = useTextEditingController(text: userProfile.documentNumber);
     final civilStatusController = useTextEditingController(
-      text: userProfile.civilStatus == null
-          ? ""
-          : getCivilStatusByUser(userProfile.civilStatus!),
+      text: userProfile.civilStatus == null ? "" : getCivilStatusByUser(userProfile.civilStatus!),
     );
     final genderTypeController = useTextEditingController(
-      text: userProfile.gender == null
-          ? ""
-          : getGenderByUser(userProfile.gender!),
+      text: userProfile.gender == null ? "" : getGenderByUser(userProfile.gender!),
     );
     final dateController = useTextEditingController(
-      text: userProfile.birthDate == null
-          ? ""
-          : formatDate(userProfile.birthDate!),
+      text: userProfile.birthDate == null ? "" : formatDate(userProfile.birthDate!),
     );
 
     final ValueNotifier<bool> firstNameError = useState(false);
@@ -177,8 +165,7 @@ class EditPersonalForm extends HookConsumerWidget {
         if (birthDateError.value) return;
 
         context.loaderOverlay.show();
-        DateTime parsedDate =
-            DateFormat("d/M/yyyy").parse(dateController.text.trim());
+        DateTime parsedDate = DateFormat("d/M/yyyy").parse(dateController.text.trim());
         String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
         final DtoPersonalForm data = DtoPersonalForm(
           firstName: firstNameController.text.trim(),
@@ -186,8 +173,7 @@ class EditPersonalForm extends HookConsumerWidget {
           lastNameMother: lastNameMotherController.text.trim(),
           documentType: getTypeDocumentEnum(documentTypeController.text),
           documentNumber: documentNumberController.text.trim(),
-          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-              CivilStatusEnum.SINGLE,
+          civilStatus: getCivilStatusEnum(civilStatusController.text) ?? CivilStatusEnum.SINGLE,
           imageProfile: imageBase64,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
           birthday: formattedDate,
@@ -293,8 +279,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el tipo de documento.",
+                        message: "Por favor, completa el seleciona el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -320,8 +305,7 @@ class EditPersonalForm extends HookConsumerWidget {
                   hintText: "Ingrese su Nº de documento de identidad",
                   validator: (value) {
                     validateNumberDocument(
-                      typeDocument:
-                          getTypeDocumentEnum(documentTypeController.text),
+                      typeDocument: getTypeDocumentEnum(documentTypeController.text),
                       value: value,
                       field: "Numero de documento",
                       context: context,
@@ -347,8 +331,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el estado civil",
+                        message: "Por favor, completa el seleciona el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
