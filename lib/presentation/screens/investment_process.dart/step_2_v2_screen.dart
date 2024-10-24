@@ -40,7 +40,9 @@ class StepTwoBody extends StatelessWidget {
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
-        height: MediaQuery.of(context).size.height - 120,
+        height: MediaQuery.of(context).size.height < 700
+            ? 650
+            : MediaQuery.of(context).size.height - 120,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -154,7 +156,8 @@ class ColumnPush extends HookConsumerWidget {
           isReInvestment: args['isReInvestment'] ?? false,
         ),
       );
-
+      ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+      ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
       // Navigator.pushNamedAndRemoveUntil(
       //           context, '/home_v2', (route) => false);
     }
@@ -168,6 +171,7 @@ class ColumnPush extends HookConsumerWidget {
           text: "Enviar constancia",
           onPressed: () => pushData(),
         ),
+        const SizedBox(height: 15),
       ],
     );
   }

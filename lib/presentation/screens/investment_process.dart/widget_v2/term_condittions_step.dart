@@ -47,33 +47,37 @@ class TermConditionsStep extends ConsumerWidget {
               );
             }
           },
-          child: Text.rich(
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            TextSpan(
-              text: "He leído y acepto el ",
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-                color:
-                    isDarkMode ? const Color(textDark) : const Color(textLight),
-              ),
-              children: [
-                TextSpan(
-                  text: 'Contrato de Inversión de Finniu',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: isDarkMode
-                        ? const Color(textDark)
-                        : const Color(textLight),
-                  ),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width * 0.6,
+            child: Text.rich(
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              TextSpan(
+                text: "He leído y acepto el ",
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  color: isDarkMode
+                      ? const Color(textDark)
+                      : const Color(textLight),
                 ),
-              ],
+                children: [
+                  TextSpan(
+                    text: 'Contrato de Inversión de Finniu',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: isDarkMode
+                          ? const Color(textDark)
+                          : const Color(textLight),
+                    ),
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.start,
             ),
-            textAlign: TextAlign.start,
           ),
         ),
       ],

@@ -104,32 +104,23 @@ class ListImage extends ConsumerWidget {
     const int containerLight = 0xffB6EFFF;
 
     void onTapImage(int index) {
-      List<String> voucherImageBase64 = ref.watch(
-        preInvestmentVoucherImagesProvider,
-      );
-      List<String> voucherPreviewImage = ref.watch(
-        preInvestmentVoucherImagesPreviewProvider,
-      );
-      List<String> modifiedVoucherImageBase64 = List.from(
-        voucherImageBase64,
-      );
+      List<String> voucherImageBase64 =
+          ref.watch(preInvestmentVoucherImagesProvider);
 
-      List<String> modifiedVoucherPreviewImage = List.from(
-        voucherPreviewImage,
-      );
+      List<String> voucherPreviewImage =
+          ref.watch(preInvestmentVoucherImagesPreviewProvider);
+
+      List<String> modifiedVoucherImageBase64 = List.from(voucherImageBase64);
+
+      List<String> modifiedVoucherPreviewImage = List.from(voucherPreviewImage);
 
       modifiedVoucherImageBase64.removeAt(index);
       modifiedVoucherPreviewImage.removeAt(index);
-      ref
-          .read(
-            preInvestmentVoucherImagesProvider.notifier,
-          )
-          .state = modifiedVoucherImageBase64;
-      ref
-          .read(
-            preInvestmentVoucherImagesPreviewProvider.notifier,
-          )
-          .state = modifiedVoucherPreviewImage;
+
+      ref.read(preInvestmentVoucherImagesProvider.notifier).state =
+          modifiedVoucherImageBase64;
+      ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state =
+          modifiedVoucherPreviewImage;
     }
 
     return Container(
