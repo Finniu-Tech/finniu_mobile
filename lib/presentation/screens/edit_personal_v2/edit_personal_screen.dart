@@ -212,9 +212,9 @@ class EditPersonalForm extends HookConsumerWidget {
       key: formKey,
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height < 700
-            ? 610
-            : MediaQuery.of(context).size.height - 250,
+        // height: MediaQuery.of(context).size.height < 700
+        //     ? 630
+        //     : MediaQuery.of(context).size.height - 250,
         child: Column(
           children: [
             const SizedBox(height: 10),
@@ -420,24 +420,27 @@ class EditPersonalForm extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            const Expanded(
-              child: SizedBox(),
-            ),
+            // const Expanded(
+            //   child: SizedBox(),
+            // ),
             ValueListenableBuilder<bool>(
               valueListenable: isEdit,
               builder: (context, isEditValue, child) {
-                return Column(
-                  children: [
-                    isEditValue
-                        ? ButtonInvestment(
-                            text: "Guardar datos",
-                            onPressed: uploadPersonalData,
-                          )
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      isEditValue
+                          ? ButtonInvestment(
+                              text: "Guardar datos",
+                              onPressed: uploadPersonalData,
+                            )
+                          : const SizedBox(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 );
               },
             ),
