@@ -13,8 +13,9 @@ class ExitScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int backgroundDark = 0xff0D3A5C;
-    const int backgroundLight = 0xffA2E6FA;
+    const int backgroundDark = 0xff191919;
+    // const int backgroundLight = 0xffA2E6FA;
+    const int backgroundLight = 0xffFFFFFF;
     useEffect(() {
       Future.delayed(const Duration(seconds: 2), () {
         WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -26,7 +27,7 @@ class ExitScreen extends HookConsumerWidget {
     }, []);
 
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -38,9 +39,7 @@ class ExitScreen extends HookConsumerWidget {
                 height: 300,
                 child: Image(
                   image: AssetImage(
-                    isDarkMode
-                        ? "assets/images/logo_finniu_dark.png"
-                        : "assets/images/logo_finniu_light.png",
+                    isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
                   ),
                 ),
               ),
