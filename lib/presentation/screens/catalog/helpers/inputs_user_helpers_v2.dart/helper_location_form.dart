@@ -25,13 +25,14 @@ pushLocationDataForm(
       snackType: SnackType.error,
     );
   }
-  Future<RegisterUserV2Response> response = LocationFormV2Imp(gqlClient!).saveLocationDataUserV2(data: data);
+  Future<RegisterUserV2Response> response =
+      LocationFormV2Imp(gqlClient!).saveLocationDataUserV2(data: data);
   response.then((value) {
     if (value.success) {
       showSnackBarV2(
         context: context,
-        title: "Registro exitoso",
-        message: value.messages[0].message,
+        title: "¡Guardado exitoso!",
+        message: "Tus datos fueron guardados con éxito",
         snackType: SnackType.success,
       );
       ref.read(reloadUserProfileFutureProvider);
