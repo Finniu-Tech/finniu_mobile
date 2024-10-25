@@ -143,11 +143,13 @@ class FinniuAccount extends ConsumerWidget {
           const SizedBox(
             height: 5,
           ),
-          FinniuTranferContainer(
-            bank: "CCI ",
-            bankNumber: accountCci,
-            bankUrl: bankUrl,
-          ),
+          accountCci.isNotEmpty
+              ? FinniuTranferContainer(
+                  bank: "CCI ",
+                  bankNumber: accountCci,
+                  bankUrl: bankUrl,
+                )
+              : const SizedBox(),
         ],
       ),
     );
