@@ -42,7 +42,7 @@ class _BodySettings extends ConsumerWidget {
           title: "Modo oscuro",
           subtitle: "Elige tu modo favorito",
           onTap: () => setDarkMode(),
-          value: !isDarkMode,
+          value: isDarkMode,
         ),
         // ButtonNavigateProfile(
         //   isComplete: true,

@@ -32,8 +32,8 @@ pushOccupationDataForm(
     if (value.success) {
       showSnackBarV2(
         context: context,
-        title: "Registro exitoso",
-        message: value.messages[0].message,
+        title: "¡Guardado exitoso!",
+        message: "Tus datos fueron guardados con éxito",
         snackType: SnackType.success,
       );
       ref.read(reloadUserProfileFutureProvider);

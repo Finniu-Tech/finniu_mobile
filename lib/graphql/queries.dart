@@ -1658,4 +1658,24 @@ class QueryRepository {
     }
     ''';
   }
+
+  static String get getStepBankAccounts {
+    return '''
+    query getStepBankAccounts(\$uuid: UUID, \$bankSlug: String) {
+      companyBankAccountQueries{
+          companyBankAccounts( bankUuid : \$uuid , bankSlug : \$bankSlug   ) {
+          companyBankType
+          accountNumber
+          accountCci
+          bank{
+            bankName
+            slug
+            bankImageUrl
+          }
+        
+      }
+    }
+  }
+    ''';
+  }
 }

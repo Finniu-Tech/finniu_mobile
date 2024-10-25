@@ -31,7 +31,7 @@ pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
       showSnackBarV2(
         context: context,
         title: "¡Registro exitoso!",
-        message: value.messages[0].message,
+        message: "Tu cuenta ha sido creada correctamente",
         snackType: SnackType.success,
       );
       Future.delayed(const Duration(seconds: 1), () {

@@ -66,8 +66,8 @@ class CheckTermsAndConditions extends HookConsumerWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
-                            Uri politicasURL =
-                                Uri.parse('https://finniu.com/terminos/');
+                            Uri politicasURL = Uri.parse(
+                                'https://manage.finniu.com/terminos/');
                             launchUrl(politicasURL);
                           },
                       ),
