@@ -53,7 +53,7 @@ class ForgotPasswordV2 extends ConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
-              const FormForgot(),
+              FormForgot(),
             ],
           ),
         ),
@@ -63,9 +63,9 @@ class ForgotPasswordV2 extends ConsumerWidget {
 }
 
 class FormForgot extends HookConsumerWidget {
-  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  const FormForgot({super.key});
+  FormForgot({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
