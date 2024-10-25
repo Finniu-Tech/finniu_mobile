@@ -41,7 +41,7 @@ class FormPersonalDataV2 extends StatelessWidget {
           ),
           const TitleForm(
             title: "Datos personales",
-            subTitle: "¿Cuales son tus datos personales?",
+            subTitle: "¿Cuáles son tus datos personales?",
             icon: "assets/svg_icons/user_icon_v2.svg",
           ),
           PersonalForm(),

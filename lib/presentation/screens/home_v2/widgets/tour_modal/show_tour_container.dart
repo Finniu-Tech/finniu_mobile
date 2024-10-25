@@ -58,7 +58,7 @@ class _ShowTourContainerState extends State<ShowTourContainer> {
               if (isShow)
                 Flexible(
                   child: TextPoppins(
-                    text: "Conóce lo nuevo",
+                    text: "Conoce lo nuevo",
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                     textLight: textColor,

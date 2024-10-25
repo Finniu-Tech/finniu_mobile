@@ -17,7 +17,7 @@ class ContainerMessage extends ConsumerWidget {
     const int backgroundLight = 0xffE0F8FF;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff000000;
-    const String message = "¿Por que es importante completar los datos?";
+    const String message = "¿Por qué es importante completar los datos?";
     return GestureDetector(
       onTap: () => messageDialog(context),
       child: Container(
