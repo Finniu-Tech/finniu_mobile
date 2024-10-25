@@ -62,10 +62,7 @@ class LocationMessage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int backgroundDark = 0xff0D3A5C;
-    const int backgroundLight = 0xffE0F8FF;
-
+    const int background = 0xffA2E6FA;
     const int iconColor = 0xff0D3A5C;
     const int textColor = 0xff000000;
 
@@ -74,11 +71,8 @@ class LocationMessage extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
-      ),
+          borderRadius: BorderRadius.circular(5),
+          color: const Color(background)),
       width: MediaQuery.of(context).size.width,
       height: 62,
       child: Row(
