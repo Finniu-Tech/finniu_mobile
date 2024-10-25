@@ -24,8 +24,8 @@ class FinniuAccount {
 }
 
 final finniuAccountSolesDefault = FinniuAccount(
-  accountNumber: '17262727227',
-  accountCci: '173783838383',
+  accountNumber: '200-3004077570',
+  accountCci: '003-200-003004077570-39',
   bankName: 'Interbank',
   slug: 'interbank',
   currency: 'SOLES',
@@ -33,8 +33,8 @@ final finniuAccountSolesDefault = FinniuAccount(
       "https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/43af74af/interbank.png",
 );
 final finniuAccountDolarsDefault = FinniuAccount(
-  accountNumber: '95005003333',
-  accountCci: "445667889090",
+  accountNumber: '200-3004754309',
+  accountCci: "003-200-003004754309-32",
   bankName: "Interbank",
   slug: "interbank",
   currency: "DOLARES",
@@ -55,8 +55,10 @@ final finniuAccountProvider =
 
     final Map<String, dynamic> variables = {};
     if (bankSender != null) {
-      variables['bankSlug'] = bankSender.bankName;
+      print(bankSender.bankName);
+      variables['bankSlug'] = bankSender.bankName.toLowerCase();
     }
+
     final response = await gqlClient.query(
       QueryOptions(
         document: gql(QueryRepository.getStepBankAccounts),
@@ -68,29 +70,33 @@ final finniuAccountProvider =
     final data =
         response.data?["companyBankAccountQueries"]['companyBankAccounts'];
     if (data != null && data.isNotEmpty) {
-      final solesAccount = data.length > 0
-          ? FinniuAccount(
-              accountNumber: data[0]['accountNumber'],
-              bankName: data[0]["bank"]['bankName'],
-              accountCci: data[0]['accountCci'] ?? '',
-              slug: data[0]["bank"]['slug'],
-              bankUrl: data[0]["bank"]["bankImageUrl"] ?? '',
-              currency: data[0]["companyBankType"] ?? '',
-            )
-          : finniuAccountSolesDefault;
+      if (isSoles) {
+        final solesAccount = data.length > 0 && data[0] != null
+            ? FinniuAccount(
+                accountNumber: data[0]['accountNumber'],
+                bankName: data[0]["bank"]['bankName'],
+                accountCci: data[0]['accountCci'] ?? '',
+                slug: data[0]["bank"]['slug'],
+                bankUrl: data[0]["bank"]["bankImageUrl"] ?? '',
+                currency: data[0]["companyBankType"] ?? '',
+              )
+            : finniuAccountSolesDefault;
 
-      final dollarsAccount = data.length > 1
-          ? FinniuAccount(
-              accountNumber: data[1]['accountNumber'],
-              bankName: data[1]["bank"]['bankName'],
-              accountCci: data[1]['accountCci'] ?? '',
-              slug: data[1]["bank"]['slug'] ?? '',
-              bankUrl: data[1]["bank"]["bankImageUrl"] ?? '',
-              currency: data[1]["companyBankType"] ?? '',
-            )
-          : finniuAccountDolarsDefault;
+        return solesAccount;
+      } else {
+        final dollarsAccount = data.length > 1
+            ? FinniuAccount(
+                accountNumber: data[1]['accountNumber'],
+                bankName: data[1]["bank"]['bankName'],
+                accountCci: data[1]['accountCci'] ?? '',
+                slug: data[1]["bank"]['slug'] ?? '',
+                bankUrl: data[1]["bank"]["bankImageUrl"] ?? '',
+                currency: data[1]["companyBankType"] ?? '',
+              )
+            : finniuAccountDolarsDefault;
 
-      return isSoles ? solesAccount : dollarsAccount;
+        return dollarsAccount;
+      }
     } else {
       throw Exception('No bank accounts found');
     }

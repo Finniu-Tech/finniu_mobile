@@ -211,7 +211,9 @@ class FinniuTranferContainer extends HookConsumerWidget {
                   if (loadingProgress == null) {
                     return child;
                   } else {
-                    return const CircularLoader(width: 10, height: 10);
+                    return const Center(
+                      child: CircularLoader(width: 10, height: 10),
+                    );
                   }
                 },
                 errorBuilder: (context, error, stackTrace) => Container(
