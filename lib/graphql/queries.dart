@@ -1664,11 +1664,13 @@ class QueryRepository {
     query getStepBankAccounts(\$uuid: UUID, \$bankSlug: String) {
       companyBankAccountQueries{
           companyBankAccounts( bankUuid : \$uuid , bankSlug : \$bankSlug   ) {
-        accountNumber
+          companyBankType
+          accountNumber
           accountCci
           bank{
             bankName
             slug
+            bankImageUrl
           }
         
       }

@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/finniu_account_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -14,6 +15,7 @@ class FinniuAccountProvider extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final finniuAccount = ref.watch(finniuAccountProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
     const int containerDark = 0xff0D3A5C;
     const int containerLight = 0xffFFEEDD;
 
@@ -27,12 +29,23 @@ class FinniuAccountProvider extends ConsumerWidget {
         );
       },
       error: (error, stackTrace) {
-        return const FinniuAccount(
-          accountCci: "003-200-003004077570-39",
-          bankName: "Interbank",
-          accountNumber: "200-3004077570",
-          bankUrl: "",
-        );
+        if (isSoles) {
+          final data = finniuAccountSolesDefault;
+          return FinniuAccount(
+            accountCci: data.accountCci,
+            bankName: data.bankName,
+            accountNumber: data.accountNumber,
+            bankUrl: data.bankUrl ?? "",
+          );
+        } else {
+          final data = finniuAccountDolarsDefault;
+          return FinniuAccount(
+            accountCci: data.accountCci,
+            bankName: data.bankName,
+            accountNumber: data.accountNumber,
+            bankUrl: data.bankUrl ?? "",
+          );
+        }
       },
       loading: () {
         return Container(
