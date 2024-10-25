@@ -211,7 +211,7 @@ class BankContainer extends ConsumerWidget {
                   width: MediaQuery.of(context).size.width * 0.65,
                   child: TextPoppins(
                     text:
-                        "${selectBank?.bankName ?? "banco"} - ${getCurrency(selectBank?.currency)}  |${selectBank?.bankAccount ?? "----"}",
+                        "${selectBank?.bankName ?? "banco"} - ${getCurrency(selectBank?.currency)}  | ${selectBank?.bankAccount ?? "----"}",
                     fontSize: 11,
                   ),
                 ),

@@ -68,23 +68,27 @@ final finniuAccountProvider =
     final data =
         response.data?["companyBankAccountQueries"]['companyBankAccounts'];
     if (data != null && data.isNotEmpty) {
-      final solesAccount = FinniuAccount(
-        accountNumber: data[0]['accountNumber'] ?? '-----',
-        accountCci: data[0]['accountCci'] ?? '-----',
-        bankName: data[0]["bank"]['bankName'] ?? '-----',
-        slug: data[0]["bank"]['slug'] ?? '-----',
-        bankUrl: data[0]["bank"]["bankImageUrl"] ?? '-----',
-        currency: data[0]["companyBankType"] ?? '-----',
-      );
+      final solesAccount = data.length > 0
+          ? FinniuAccount(
+              accountNumber: data[0]['accountNumber'] ?? '-----',
+              accountCci: data[0]['accountCci'] ?? '-----',
+              bankName: data[0]["bank"]['bankName'] ?? '-----',
+              slug: data[0]["bank"]['slug'] ?? '-----',
+              bankUrl: data[0]["bank"]["bankImageUrl"] ?? '-----',
+              currency: data[0]["companyBankType"] ?? '-----',
+            )
+          : finniuAccountSolesDefault;
 
-      final dollarsAccount = FinniuAccount(
-        accountNumber: data[1]['accountNumber'] ?? '-----',
-        accountCci: data[1]['accountCci'] ?? '-----',
-        bankName: data[1]["bank"]['bankName'] ?? '-----',
-        slug: data[1]["bank"]['slug'] ?? '-----',
-        bankUrl: data[1]["bank"]["bankImageUrl"] ?? '-----',
-        currency: data[1]["companyBankType"] ?? '-----',
-      );
+      final dollarsAccount = data.length > 1
+          ? FinniuAccount(
+              accountNumber: data[1]['accountNumber'] ?? '-----',
+              accountCci: data[1]['accountCci'] ?? '-----',
+              bankName: data[1]["bank"]['bankName'] ?? '-----',
+              slug: data[1]["bank"]['slug'] ?? '-----',
+              bankUrl: data[1]["bank"]["bankImageUrl"] ?? '-----',
+              currency: data[1]["companyBankType"] ?? '-----',
+            )
+          : finniuAccountDolarsDefault;
 
       return isSoles ? solesAccount : dollarsAccount;
     } else {

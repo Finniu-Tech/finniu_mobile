@@ -144,7 +144,7 @@ class FinniuAccount extends ConsumerWidget {
             height: 5,
           ),
           FinniuTranferContainer(
-            bank: "CCI    ",
+            bank: "CCI ",
             bankNumber: accountCci,
             bankUrl: bankUrl,
           ),
