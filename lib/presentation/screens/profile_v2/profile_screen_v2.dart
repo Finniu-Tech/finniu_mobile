@@ -5,7 +5,6 @@ import 'package:finniu/presentation/screens/profile_v2/widgets/app_bar_profile.d
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_my_data.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/image_profile.dart';
-import 'package:finniu/utils/log_out.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -121,8 +120,10 @@ class _BodyProfile extends ConsumerWidget {
           onlyTitle: true,
           subtitle: "",
           onTap: () => {
-            context.loaderOverlay.show(),
-            logOut(context, ref),
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/v2/exit',
+              (route) => false,
+            ),
           },
         ),
       ],

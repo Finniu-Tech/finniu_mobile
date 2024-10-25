@@ -159,9 +159,6 @@ class PersonalForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700
-            ? 700
-            : MediaQuery.of(context).size.height * 0.8,
         child: Column(
           children: [
             imagePath == null
@@ -343,9 +340,9 @@ class PersonalForm extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            const Expanded(
-              child: SizedBox(),
-            ),
+            // const Expanded(
+            //   child: SizedBox(),
+            // ),
             const ContainerMessage(),
             FormDataNavigator(
               addData: () => uploadPersonalData(),

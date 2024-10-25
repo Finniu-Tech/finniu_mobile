@@ -106,45 +106,34 @@ class _BodyEditPersonal extends HookConsumerWidget {
 }
 
 class EditPersonalForm extends HookConsumerWidget {
-  const EditPersonalForm({
+  EditPersonalForm({
     super.key,
     required this.isEdit,
     required this.onEdit,
   });
   final VoidCallback onEdit;
   final ValueNotifier<bool> isEdit;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
     final String? imageBase64 = ref.watch(imageBase64Provider);
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-    final firstNameController =
-        useTextEditingController(text: userProfile.firstName ?? '');
-    final lastNameFatherController =
-        useTextEditingController(text: userProfile.lastNameFather ?? '');
-    final lastNameMotherController =
-        useTextEditingController(text: userProfile.lastNameMother ?? '');
+
+    final firstNameController = useTextEditingController(text: userProfile.firstName ?? '');
+    final lastNameFatherController = useTextEditingController(text: userProfile.lastNameFather ?? '');
+    final lastNameMotherController = useTextEditingController(text: userProfile.lastNameMother ?? '');
     final documentTypeController = useTextEditingController(
-      text: userProfile.documentType == null
-          ? ""
-          : getTypeDocumentByUser(userProfile.documentType!),
+      text: userProfile.documentType == null ? "" : getTypeDocumentByUser(userProfile.documentType!),
     );
-    final documentNumberController =
-        useTextEditingController(text: userProfile.documentNumber);
+    final documentNumberController = useTextEditingController(text: userProfile.documentNumber);
     final civilStatusController = useTextEditingController(
-      text: userProfile.civilStatus == null
-          ? ""
-          : getCivilStatusByUser(userProfile.civilStatus!),
+      text: userProfile.civilStatus == null ? "" : getCivilStatusByUser(userProfile.civilStatus!),
     );
     final genderTypeController = useTextEditingController(
-      text: userProfile.gender == null
-          ? ""
-          : getGenderByUser(userProfile.gender!),
+      text: userProfile.gender == null ? "" : getGenderByUser(userProfile.gender!),
     );
     final dateController = useTextEditingController(
-      text: userProfile.birthDate == null
-          ? ""
-          : formatDate(userProfile.birthDate!),
+      text: userProfile.birthDate == null ? "" : formatDate(userProfile.birthDate!),
     );
 
     final ValueNotifier<bool> firstNameError = useState(false);
@@ -176,8 +165,7 @@ class EditPersonalForm extends HookConsumerWidget {
         if (birthDateError.value) return;
 
         context.loaderOverlay.show();
-        DateTime parsedDate =
-            DateFormat("d/M/yyyy").parse(dateController.text.trim());
+        DateTime parsedDate = DateFormat("d/M/yyyy").parse(dateController.text.trim());
         String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
         final DtoPersonalForm data = DtoPersonalForm(
           firstName: firstNameController.text.trim(),
@@ -185,8 +173,7 @@ class EditPersonalForm extends HookConsumerWidget {
           lastNameMother: lastNameMotherController.text.trim(),
           documentType: getTypeDocumentEnum(documentTypeController.text),
           documentNumber: documentNumberController.text.trim(),
-          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-              CivilStatusEnum.SINGLE,
+          civilStatus: getCivilStatusEnum(civilStatusController.text) ?? CivilStatusEnum.SINGLE,
           imageProfile: imageBase64,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
           birthday: formattedDate,
@@ -211,9 +198,9 @@ class EditPersonalForm extends HookConsumerWidget {
       key: formKey,
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height < 700
-            ? 610
-            : MediaQuery.of(context).size.height - 250,
+        // height: MediaQuery.of(context).size.height < 700
+        //     ? 630
+        //     : MediaQuery.of(context).size.height - 250,
         child: Column(
           children: [
             const SizedBox(height: 10),
@@ -292,8 +279,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el tipo de documento.",
+                        message: "Por favor, completa el seleciona el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -319,8 +305,7 @@ class EditPersonalForm extends HookConsumerWidget {
                   hintText: "Ingrese su Nº de documento de identidad",
                   validator: (value) {
                     validateNumberDocument(
-                      typeDocument:
-                          getTypeDocumentEnum(documentTypeController.text),
+                      typeDocument: getTypeDocumentEnum(documentTypeController.text),
                       value: value,
                       field: "Numero de documento",
                       context: context,
@@ -346,8 +331,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el estado civil",
+                        message: "Por favor, completa el seleciona el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
@@ -419,24 +403,27 @@ class EditPersonalForm extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            const Expanded(
-              child: SizedBox(),
-            ),
+            // const Expanded(
+            //   child: SizedBox(),
+            // ),
             ValueListenableBuilder<bool>(
               valueListenable: isEdit,
               builder: (context, isEditValue, child) {
-                return Column(
-                  children: [
-                    isEditValue
-                        ? ButtonInvestment(
-                            text: "Guardar datos",
-                            onPressed: uploadPersonalData,
-                          )
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      isEditValue
+                          ? ButtonInvestment(
+                              text: "Guardar datos",
+                              onPressed: uploadPersonalData,
+                            )
+                          : const SizedBox(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

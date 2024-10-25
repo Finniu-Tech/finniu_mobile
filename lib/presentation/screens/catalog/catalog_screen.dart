@@ -27,6 +27,9 @@ import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/non_investmenr.dart';
 import 'package:finniu/presentation/screens/login_v2/widgets/modal_new_password.dart';
+import 'package:finniu/presentation/screens/pay_out/widgets/modal_payment_bounced.dart';
+import 'package:finniu/presentation/screens/pay_out/widgets/modal_payment_voucher.dart';
+import 'package:finniu/presentation/screens/pay_out/widgets/modal_receive_ask.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
@@ -77,6 +80,74 @@ class CatalogScreen extends HookConsumerWidget {
           children: [
             const SizedBox(
               height: 10,
+            ),
+            ButtonInvestment(
+              text: "screen exit",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/exit');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "screen rextie comunicacion",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/rextie_comminication');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "modal bounced payment",
+              onPressed: () {
+                showPayBounced(
+                  context: context,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "modal receive adk",
+              onPressed: () {
+                showReceiveAdk(
+                  context: context,
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "modal voucher payment",
+              onPressed: () {
+                showModalPaymentVoucher(
+                  context: context,
+                  voucherData: const VoucherDto(
+                    month: 'Mayo',
+                    amount: '1,200',
+                    depositDay: '12/09/2024',
+                    depositHour: '12:30 am',
+                    bank: 'Interbank',
+                    urlVoucher: '',
+                  ),
+                );
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "navigate pay out",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/pay_out');
+              },
             ),
             const SizedBox(
               height: 10,
@@ -275,7 +346,7 @@ class CatalogScreen extends HookConsumerWidget {
                 Navigator.pushNamed(context, '/push_notification');
               },
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             ButtonInvestment(

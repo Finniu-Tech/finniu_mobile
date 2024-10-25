@@ -2,6 +2,7 @@ import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -75,6 +76,139 @@ class ButtonInvestment extends ConsumerWidget {
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonIconInvestment extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final IconData icon;
+  final double height;
+  const ButtonIconInvestment({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+    this.height = 50,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: height,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.all(
+            Color(
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
+            ),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: isDarkMode
+                  ? const Color(colorTextButtonDarkColor)
+                  : const Color(colorTextButtonLightColor),
+              size: 24,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: isDarkMode
+                    ? const Color(colorTextButtonDarkColor)
+                    : const Color(colorTextButtonLightColor),
+                fontSize: 16,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ButtonSvgIconInvestment extends ConsumerWidget {
+  final String text;
+  final VoidCallback? onPressed;
+  final String icon;
+  final double height;
+  final double size;
+  const ButtonSvgIconInvestment({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    required this.icon,
+    this.height = 50,
+    this.size = 24,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.85,
+      height: height,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          elevation: WidgetStateProperty.all(5),
+          backgroundColor: WidgetStateProperty.all(
+            Color(
+              isDarkMode
+                  ? buttonBackgroundColorDark
+                  : buttonBackgroundColorLight,
+            ),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              icon,
+              color: isDarkMode
+                  ? const Color(colorTextButtonDarkColor)
+                  : const Color(colorTextButtonLightColor),
+              width: size,
+              height: size,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: isDarkMode
+                    ? const Color(colorTextButtonDarkColor)
+                    : const Color(colorTextButtonLightColor),
+                fontSize: 16,
+                fontFamily: "Poppins",
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
       ),
     );
