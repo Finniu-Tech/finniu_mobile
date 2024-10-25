@@ -8,6 +8,7 @@ import 'package:finniu/presentation/screens/profile_v2/widgets/row_dowload.dart'
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class LegalDocumentsScreen extends StatelessWidget {
@@ -68,6 +69,8 @@ class _BodyLegalDocuments extends HookConsumerWidget {
     // }
 
     Future<void> openUrl(String? url, BuildContext context) async {
+      context.loaderOverlay.show();
+
       if (url == null || url.isEmpty) {
         showSnackBarV2(
           context: context,
@@ -75,24 +78,22 @@ class _BodyLegalDocuments extends HookConsumerWidget {
           message: "No hay redirección disponible, por favor intenta de nuevo",
           snackType: SnackType.warning,
         );
+        context.loaderOverlay.hide();
         return;
       }
 
       try {
         final urlParsed = Uri.parse(url);
-        final canLaunch = await canLaunchUrl(urlParsed);
-        if (canLaunch) {
-          await launchUrl(urlParsed);
-        } else {
-          throw 'No se puede abrir la URL: $url';
-        }
+        await launchUrl(urlParsed);
+        context.loaderOverlay.hide();
       } catch (e) {
         showSnackBarV2(
           context: context,
           title: "Error de redirección",
-          message: "No se pudo abrir el enlace, por favor intenta de nuevo",
+          message: 'No se puede abrir la URL: $url',
           snackType: SnackType.error,
         );
+        context.loaderOverlay.hide();
       }
     }
 
