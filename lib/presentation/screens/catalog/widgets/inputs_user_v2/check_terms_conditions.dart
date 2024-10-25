@@ -3,6 +3,7 @@ import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_p
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class CheckTermsAndConditions extends HookConsumerWidget {
@@ -66,9 +67,12 @@ class CheckTermsAndConditions extends HookConsumerWidget {
                         ),
                         recognizer: TapGestureRecognizer()
                           ..onTap = () {
+                            context.loaderOverlay.show();
                             Uri politicasURL = Uri.parse(
                                 'https://manage.finniu.com/terminos/');
                             launchUrl(politicasURL);
+                            Future.delayed(const Duration(seconds: 1),
+                                () => context.loaderOverlay.hide());
                           },
                       ),
                     ],
