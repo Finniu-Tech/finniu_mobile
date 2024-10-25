@@ -85,7 +85,8 @@ class _BodyLegalDocuments extends HookConsumerWidget {
       try {
         final urlParsed = Uri.parse(url);
         await launchUrl(urlParsed);
-        context.loaderOverlay.hide();
+        Future.delayed(
+            const Duration(seconds: 1), () => context.loaderOverlay.hide());
       } catch (e) {
         showSnackBarV2(
           context: context,
