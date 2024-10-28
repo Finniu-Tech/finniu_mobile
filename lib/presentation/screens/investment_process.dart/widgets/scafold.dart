@@ -1,7 +1,5 @@
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ScaffoldInvestment extends StatelessWidget {
   final dynamic body;
@@ -30,7 +28,9 @@ class ScaffoldInvestment extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
           icon: Icon(
-            color: isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+            color: isDarkMode
+                ? const Color(primaryLight)
+                : const Color(primaryDark),
             Icons.arrow_back,
           ),
           onPressed: () => Navigator.of(context).pop(),

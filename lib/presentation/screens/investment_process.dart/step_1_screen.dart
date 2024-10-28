@@ -1186,6 +1186,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       userProfileCompleteness,
                       redirect: handleContinueButton,
                     );
+                    FocusManager.instance.primaryFocus?.unfocus();
                   } else {
                     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                       eventName: FirebaseAnalyticsEvents.completeRegistration,
@@ -1194,6 +1195,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       },
                     );
                     await handleContinueButton();
+                    FocusManager.instance.primaryFocus?.unfocus();
                   }
                 } catch (error) {
                   print('Error al verificar el perfil: $error');

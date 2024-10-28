@@ -95,14 +95,14 @@ class _BodyEditJob extends ConsumerWidget {
 }
 
 class EditPersonalForm extends HookConsumerWidget {
-  const EditPersonalForm({
+  EditPersonalForm({
     super.key,
     required this.isEdit,
     required this.onEdit,
   });
   final ValueNotifier<bool> isEdit;
   final VoidCallback onEdit;
-  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);

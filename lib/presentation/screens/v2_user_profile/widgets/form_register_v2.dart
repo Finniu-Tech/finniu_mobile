@@ -17,10 +17,10 @@ import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class FormRegister extends HookConsumerWidget {
-  const FormRegister({
+  FormRegister({
     super.key,
   });
-  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nickNameController = useTextEditingController();

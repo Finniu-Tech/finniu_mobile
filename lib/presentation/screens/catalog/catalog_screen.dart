@@ -82,9 +82,11 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
+
               text: "whats app",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/bubble_whatsapp');
+
               },
             ),
             const SizedBox(

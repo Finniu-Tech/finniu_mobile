@@ -1,6 +1,5 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/button_to_profile.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/notification_button.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -42,7 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       actions: const [
-        NotificationButton(),
+        // NotificationButton(),
         ButtonToProfile(size: 36),
         SizedBox(width: 10),
       ],

@@ -15,11 +15,22 @@ class InputGetImage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final imageBase64 = ref.watch(imageBase64Provider);
+    final imageBase = ref.watch(imagePathProvider);
     const int borderColorDark = 0xFF292828;
     const int borderColorLight = 0xFFD9D9D9;
     const int textColor = 0xFFB3B3B3;
     const int textImageColor = 0xFF828282;
     const int iconColor = 0xFF757575;
+
+    String getTextImage() {
+      if (imageBase == "" || imageBase == null) {
+        return "Sube una imagen (Png,Jpd,SVG)";
+      } else {
+        List<String> parts = imageBase.split('/');
+        return parts.last;
+      }
+    }
+
     return GestureDetector(
       onTap: () {
         addImage(context: context, ref: ref);
@@ -52,7 +63,7 @@ class InputGetImage extends ConsumerWidget {
                           textLight: textColor,
                         )
                       : TextPoppins(
-                          text: imageBase64,
+                          text: getTextImage(),
                           fontSize: 12,
                         ),
                 ),

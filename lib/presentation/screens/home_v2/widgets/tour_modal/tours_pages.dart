@@ -75,7 +75,7 @@ class TourSeven extends StatelessWidget {
     const int imageContainerColor = 0xffFFFFFF;
     const String title = "Visualiza tus inversiones en drafts";
     const String textBody =
-        "Puedes ver en el home cuales son tus inversiones que dejaste incompletas";
+        "Puedes ver en el home cuáles son tus inversiones que dejaste incompletas";
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -467,7 +467,7 @@ class TourInit extends ConsumerWidget {
               height: 10,
             ),
             const TextPoppins(
-              text: "Conoce cuales son las nuevas funcionalidades ",
+              text: "Conoce cuáles son las nuevas funcionalidades ",
               fontSize: 15,
               textDark: textColor,
               textLight: textColor,
