@@ -1,9 +1,11 @@
 import 'package:finniu/presentation/providers/bubble_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WhatsAppBubbleDrag extends HookConsumerWidget {
   const WhatsAppBubbleDrag({
@@ -26,7 +28,27 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
     const int weTalkTextLight = 0xffFFFFFF;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+
+    void contactBubble() async {
+      var whatsappNumber = "51983796139";
+      var whatsappMessage = "Hola";
+      var whatsappUrlAndroid = Uri.parse(
+        "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
+      );
+      var whatsappUrlIphone =
+          Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+
+      if (defaultTargetPlatform == TargetPlatform.android) {
+        await launchUrl(whatsappUrlAndroid);
+      } else {
+        await launchUrl(whatsappUrlIphone);
+      }
+    }
+
     void onTap() {
+      if (isTalkRender.value) {
+        contactBubble();
+      }
       isTalkRender.value = !isTalkRender.value;
     }
 
