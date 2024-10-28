@@ -1,16 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PositionState {
-  final double right;
+  final double left;
   final double top;
-  final bool isRender;
-  final bool isMove;
 
   PositionState({
-    required this.right,
+    required this.left,
     required this.top,
-    required this.isRender,
-    required this.isMove,
   });
 
   void updatePosition(double value, double value2) {}
@@ -20,28 +16,25 @@ class PositionNotifier extends StateNotifier<PositionState> {
   PositionNotifier()
       : super(
           PositionState(
-            right: 20.0,
+            left: 20.0,
             top: 20.0,
-            isRender: true,
-            isMove: false,
           ),
         );
 
-  void updatePosition(double newRight, double newTop, bool isRender) {
+  void updatePosition(
+    double newRight,
+    double newTop,
+  ) {
     state = PositionState(
-      right: newRight,
+      left: newRight,
       top: newTop,
-      isRender: isRender,
-      isMove: false,
     );
   }
 
-  void setMove(bool newIsMove) {
+  void resetMoveAndHide() {
     state = PositionState(
-      right: state.right,
-      top: state.top,
-      isRender: state.isRender,
-      isMove: newIsMove,
+      left: 20,
+      top: 20,
     );
   }
 }
