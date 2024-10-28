@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/bubble_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +38,19 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
       );
       var whatsappUrlIphone =
           Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
-
-      if (defaultTargetPlatform == TargetPlatform.android) {
-        await launchUrl(whatsappUrlAndroid);
-      } else {
-        await launchUrl(whatsappUrlIphone);
+      try {
+        if (defaultTargetPlatform == TargetPlatform.android) {
+          await launchUrl(whatsappUrlAndroid);
+        } else {
+          await launchUrl(whatsappUrlIphone);
+        }
+      } catch (e) {
+        showSnackBarV2(
+          context: context,
+          title: "No se pudo abrir Julia",
+          message: "Por favor intenta de nuevo",
+          snackType: SnackType.warning,
+        );
       }
     }
 
