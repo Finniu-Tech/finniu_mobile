@@ -48,7 +48,7 @@ class WhatsAppBubble extends HookConsumerWidget {
           left.value <= centerLeftMax &&
           top.value >= bottomThreshold;
       isInCenterBottom
-          ? ref.read(positionProvider.notifier).resetMoveAndHide()
+          ? ref.read(positionProvider.notifier).resetBubble()
           : ref.read(positionProvider.notifier).updatePosition(
                 left.value,
                 top.value,

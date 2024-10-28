@@ -3,10 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class PositionState {
   final double left;
   final double top;
+  final bool isRender;
 
   PositionState({
     required this.left,
     required this.top,
+    this.isRender = false,
   });
 
   void updatePosition(double value, double value2) {}
@@ -28,14 +30,16 @@ class PositionNotifier extends StateNotifier<PositionState> {
     state = PositionState(
       left: newRight,
       top: newTop,
+      isRender: state.isRender,
     );
   }
 
-  void resetMoveAndHide() {
-    state = PositionState(
-      left: 20,
-      top: 20,
-    );
+  void resetBubble() {
+    state = PositionState(left: 20, top: 20, isRender: false);
+  }
+
+  void getBubble() {
+    state = PositionState(left: 20, top: 20, isRender: true);
   }
 }
 

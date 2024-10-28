@@ -6,26 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class BubbleWhatsappScreen extends HookConsumerWidget {
+class BubbleWhatsappScreen extends ConsumerWidget {
   const BubbleWhatsappScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isVisible = useState<bool>(true);
     return Scaffold(
       appBar: AppBar(
         actions: [
           IconButton(
             onPressed: () {
-              isVisible.value = !isVisible.value;
+              ref.read(positionProvider.notifier).getBubble();
             },
             icon: const Icon(Icons.close_fullscreen_outlined),
           ),
         ],
       ),
-      body: BubbleBody(
-        isVisible: isVisible,
-      ),
+      body: BubbleBody(),
     );
   }
 }
@@ -33,9 +30,8 @@ class BubbleWhatsappScreen extends HookConsumerWidget {
 class BubbleBody extends ConsumerWidget {
   const BubbleBody({
     super.key,
-    required this.isVisible,
   });
-  final ValueNotifier<bool> isVisible;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bubbleStateText = ref.watch(positionProvider);
@@ -45,9 +41,7 @@ class BubbleBody extends ConsumerWidget {
         height: MediaQuery.of(context).size.height,
         child: Column(
           children: [
-            WhatsAppBubbleDrag(
-              isVisible: isVisible,
-            ),
+            const WhatsAppBubbleDrag(),
             Expanded(
               child: Center(
                 child: Text(
@@ -65,13 +59,11 @@ class BubbleBody extends ConsumerWidget {
 class WhatsAppBubbleDrag extends HookConsumerWidget {
   const WhatsAppBubbleDrag({
     super.key,
-    required this.isVisible,
   });
-  final ValueNotifier<bool> isVisible;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final bubbleState = ref.read(positionProvider);
+    final bubbleState = ref.watch(positionProvider);
 
     final isTalkRender = useState<bool>(false);
     final isMove = useState<bool>(false);
@@ -85,33 +77,32 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
     const int weTalkTextLight = 0xffFFFFFF;
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
+    print(screenHeight);
     void onTap() {
       isTalkRender.value = !isTalkRender.value;
     }
 
     void closeBubble() {
-      print("closeBubble");
-      ref.read(positionProvider.notifier).resetMoveAndHide();
-      isVisible.value = false;
+      ref.read(positionProvider.notifier).resetBubble();
     }
 
     void onDragUpdate(DragUpdateDetails details) {
       isMove.value = true;
+      isTalkRender.value = false;
     }
 
     void onDragEnd(DraggableDetails details) {
-      isMove.value = true;
-      final newTop = details.offset.dy.clamp(0.0, screenHeight - 60);
-      final newLeft = details.offset.dx.clamp(0.0, screenWidth - 60);
+      final newTop = details.offset.dy.clamp(0.0, screenHeight);
+      final newLeft = details.offset.dx.clamp(0.0, screenWidth);
 
       top = newTop;
       left = newLeft;
 
       ref.read(positionProvider.notifier).updatePosition(newLeft, newTop);
 
-      if (newTop > screenHeight - 100 &&
-          newLeft > (screenWidth / 2 - 30) &&
-          newLeft < (screenWidth / 2 + 30)) {
+      if (newTop > screenHeight - 120 &&
+          newLeft > (screenWidth / 2 - 50) &&
+          newLeft < (screenWidth / 2 + 50)) {
         closeBubble();
       } else {
         ref.read(positionProvider.notifier).updatePosition(newLeft, newTop);
@@ -119,7 +110,7 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
       isMove.value = false;
     }
 
-    return isVisible.value
+    return bubbleState.isRender
         ? Stack(
             children: [
               Container(
@@ -133,19 +124,19 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
                 top: top,
                 left: left,
                 child: SizedBox(
-                  width: 170,
+                  width: 150,
                   height: 140,
                   child: Stack(
                     alignment: Alignment.centerLeft,
                     children: [
                       Draggable(
                         feedback: Container(
-                          width: 60,
-                          height: 60,
+                          width: 50,
+                          height: 50,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.5),
+                                color: Colors.black.withOpacity(0.3),
                                 spreadRadius: 5,
                                 blurRadius: 7,
                                 offset: const Offset(0, 3),
@@ -171,17 +162,17 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
                             decoration: BoxDecoration(
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(0, 3),
+                                  color: Colors.black.withOpacity(0.3),
+                                  spreadRadius: 3,
+                                  blurRadius: 5,
+                                  offset: const Offset(0, 1),
                                 ),
                               ],
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(50),
                             ),
-                            width: 60,
-                            height: 60,
+                            width: 50,
+                            height: 50,
                             child: ClipOval(
                               child: Image.asset(
                                 "assets/images/whatsapp_image.png",
@@ -202,6 +193,14 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
                                 children: [
                                   Container(
                                     decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withOpacity(0.2),
+                                          spreadRadius: 1,
+                                          blurRadius: 5,
+                                          offset: const Offset(0, 1),
+                                        ),
+                                      ],
                                       borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(10),
                                         bottomRight: Radius.circular(10),
@@ -240,33 +239,29 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
               isMove.value
                   ? Positioned(
                       left: MediaQuery.of(context).size.width / 2,
-                      bottom: 50,
-                      child: Icon(
-                        Icons.close,
-                        color: isDarkMode
-                            ? const Color(weTalkDark)
-                            : const Color(weTalkLight),
-                        size: 30,
+                      bottom: 60,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            color: isDarkMode
+                                ? const Color(weTalkDark)
+                                : const Color(weTalkLight),
+                            width: 2, // Grosor del borde
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.close,
+                          color: isDarkMode
+                              ? const Color(weTalkDark)
+                              : const Color(weTalkLight),
+                          size: 30,
+                        ),
                       ),
                     )
                   : const SizedBox(),
             ],
           )
-        : Positioned(
-            top: 60,
-            right: 20,
-            child: IconButton(
-              onPressed: () {
-                isVisible.value = true;
-              },
-              icon: Icon(
-                size: 30,
-                Icons.help,
-                color: isDarkMode
-                    ? const Color(weTalkDark)
-                    : const Color(weTalkLight),
-              ),
-            ),
-          );
+        : const SizedBox();
   }
 }
