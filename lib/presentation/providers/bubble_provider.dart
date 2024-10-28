@@ -8,7 +8,7 @@ class PositionState {
   PositionState({
     required this.left,
     required this.top,
-    this.isRender = false,
+    this.isRender = true,
   });
 
   void updatePosition(double value, double value2) {}
