@@ -1,5 +1,7 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -97,6 +99,13 @@ class PersonalForm extends HookConsumerWidget {
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "/v2/form_personal_data",
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -105,15 +114,85 @@ class PersonalForm extends HookConsumerWidget {
         );
         return;
       } else {
-        if (firstNameError.value) return;
-        if (lastNameFatherError.value) return;
-        if (lastNameMotherError.value) return;
-        if (documentTypeError.value) return;
-        if (documentNumberError.value) return;
-        if (civilStatusError.value) return;
-        if (genderTypeError.value) return;
+        if (firstNameError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_name",
+            },
+          );
+          return;
+        }
+        if (lastNameFatherError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_last_name_father",
+            },
+          );
+          return;
+        }
+        if (lastNameMotherError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_last_name_mother",
+            },
+          );
+          return;
+        }
+        if (documentTypeError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_document_type",
+            },
+          );
+          return;
+        }
+        if (documentNumberError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_document_number",
+            },
+          );
+          return;
+        }
+        if (civilStatusError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_civil_status",
+            },
+          );
+          return;
+        }
+        if (genderTypeError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_gender",
+            },
+          );
+          return;
+        }
 
         if (imagePath == null) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_personal_data",
+              "error": "input_image",
+            },
+          );
           showSnackBarV2(
             context: context,
             title: "Falta imagen de perfil",
