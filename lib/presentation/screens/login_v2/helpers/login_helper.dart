@@ -128,7 +128,7 @@ void loginEmailHelper({
                 email: email,
                 password: password,
               );
-          final user = ref.read(userProfileNotifierProvider);
+          // final user = ref.read(userProfileNotifierProvider);
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.navigateTo,
             parameters: {
