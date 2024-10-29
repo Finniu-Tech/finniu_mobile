@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
@@ -32,7 +34,13 @@ class ActivateAccountV2 extends ConsumerWidget {
       client.when(
         data: (client) async {
           final result = await (sendEmailOTPCode(user.email!, client));
-
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataSucces,
+            parameters: {
+              "screen": "/v2/activate_account",
+              "send_email": "refresh_code",
+            },
+          );
           if (result == true) {
             ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
           } else {
