@@ -215,6 +215,13 @@ class FormLogin extends HookConsumerWidget {
               CheckBoxWidget(
                 value: rememberPassword.value,
                 onChanged: (value) {
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.clickEvent,
+                    parameters: {
+                      "screen": "/v2/login_email",
+                      "event": "remember_password",
+                    },
+                  );
                   rememberPassword.value = value ?? false;
                   Preferences.rememberMe = value ?? false;
                   if (!rememberPassword.value) {
