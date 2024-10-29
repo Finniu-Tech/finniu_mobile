@@ -1,4 +1,6 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_jod_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -69,6 +71,13 @@ class LocationForm extends HookConsumerWidget {
 
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "/v2/form_job",
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -77,9 +86,26 @@ class LocationForm extends HookConsumerWidget {
         );
         return;
       } else {
-        if (occupationError.value) return;
-        if (companyNameError.value) return;
-
+        if (occupationError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_job",
+              "error": "input_occupation",
+            },
+          );
+          return;
+        }
+        if (companyNameError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/form_job",
+              "error": "input_occupation",
+            },
+          );
+          return;
+        }
         context.loaderOverlay.show();
         DtoOccupationForm data = DtoOccupationForm(
           companyName: companyNameTextController.text.trim(),

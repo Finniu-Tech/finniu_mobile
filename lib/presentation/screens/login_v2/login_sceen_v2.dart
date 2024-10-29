@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -98,6 +100,13 @@ class FormLogin extends HookConsumerWidget {
 
     void loginEmail() async {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "/v2/login_email",
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Error de inicio de sesión",
@@ -106,8 +115,26 @@ class FormLogin extends HookConsumerWidget {
         );
         return;
       } else {
-        if (emailError.value) return;
-        if (passwordError.value) return;
+        if (emailError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/login_email",
+              "error": "input_email",
+            },
+          );
+          return;
+        }
+        if (passwordError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/login_email",
+              "error": "input_password",
+            },
+          );
+          return;
+        }
         context.loaderOverlay.show();
 
         loginEmailHelper(
@@ -202,7 +229,16 @@ class FormLogin extends HookConsumerWidget {
             fontWeight: FontWeight.w500,
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/v2/register'),
+            onTap: () => {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.navigateTo,
+                parameters: {
+                  "screen": "/v2/login_email",
+                  "navigateTo": '/v2/register',
+                },
+              ),
+              Navigator.pushNamed(context, '/v2/register'),
+            },
             child: const TextPoppins(
               text: "Registrarme",
               fontSize: 13,

@@ -1,6 +1,7 @@
 import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/infrastructure/models/auth.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
@@ -52,6 +53,13 @@ void loginEmailHelper({
         token.then(
           (value) async {
             if (value != null) {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataSucces,
+                parameters: {
+                  "screen": "/v2/login_email",
+                  "success": "login",
+                },
+              );
               ref.read(firebaseAnalyticsServiceProvider).logLogin(email);
               showSnackBarV2(
                 context: context,
@@ -61,7 +69,7 @@ void loginEmailHelper({
               );
               ref.read(authTokenProvider.notifier).state = value;
               Preferences.username = email.toLowerCase();
-              context.loaderOverlay.hide();
+
               if (rememberPassword) {
                 await secureStorage.write(
                   key: 'password',
@@ -69,10 +77,15 @@ void loginEmailHelper({
                 );
               }
 
-              final featureFlags = await ref.read(userFeatureFlagListFutureProvider.future);
-              ref.read(featureFlagsProvider.notifier).setFeatureFlags(featureFlags);
+              final featureFlags =
+                  await ref.read(userFeatureFlagListFutureProvider.future);
+              ref
+                  .read(featureFlagsProvider.notifier)
+                  .setFeatureFlags(featureFlags);
 
-              final String route = ref.watch(featureFlagsProvider.notifier).isEnabled(FeatureFlags.homeV2)
+              final String route = ref
+                      .watch(featureFlagsProvider.notifier)
+                      .isEnabled(FeatureFlags.homeV2)
                   ? FeatureRoutes.getRouteForFlag(
                       FeatureFlags.homeV2,
                       defaultHomeRoute,
@@ -81,9 +94,8 @@ void loginEmailHelper({
 
               final deepLinkHandler = ref.read(deepLinkHandlerProvider);
               bool hadDeepLink = await deepLinkHandler.checkSavedDeepLink();
-
+              context.loaderOverlay.hide();
               if (!hadDeepLink) {
-                print('is null stored deep link');
                 Navigator.pushNamed(
                   context,
                   route,
@@ -98,6 +110,13 @@ void loginEmailHelper({
       } else {
         context.loaderOverlay.hide();
         if (value.error == 'Su usuario no a sido activado') {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "/v2/login_email",
+              "error": "user_not_activated",
+            },
+          );
           showSnackBarV2(
             context: context,
             title: value.error ?? 'Su usuario no a sido activado',
@@ -110,7 +129,13 @@ void loginEmailHelper({
                 password: password,
               );
           final user = ref.read(userProfileNotifierProvider);
-          print(user.email);
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.navigateTo,
+            parameters: {
+              "screen": "/v2/login_email",
+              "navigateTo": '/v2/send_code',
+            },
+          );
           Future.delayed(const Duration(seconds: 3), () {
             Navigator.pushNamed(context, '/v2/send_code');
           });

@@ -1,6 +1,8 @@
 import 'package:finniu/infrastructure/datasources/forms_v2/ocupation_form_v2_imp.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_response.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -38,6 +40,15 @@ pushOccupationDataForm(
       );
       ref.read(reloadUserProfileFutureProvider);
       Future.delayed(const Duration(seconds: 1), () {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataSucces,
+          parameters: {
+            "screen": "/v2/form_job",
+            "success": "job_data_success",
+            "navigate": navigate,
+          },
+        );
+
         context.loaderOverlay.hide();
         isNavigate
             ? null
@@ -49,6 +60,13 @@ pushOccupationDataForm(
         ScaffoldMessenger.of(context).clearSnackBars();
       });
     } else {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": "/v2/form_job",
+          "error": "error_back",
+        },
+      );
       showSnackBarV2(
         context: context,
         title: "Error al registrar",
