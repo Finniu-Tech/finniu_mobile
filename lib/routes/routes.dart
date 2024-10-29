@@ -229,9 +229,24 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     //     const BlueGoldInvestmentsScreen(),
     // '/v2/investment_blue_gold': (BuildContext context) =>
     //     const InvestmentBlueGoldScreen(),
-    '/v2/summary': (BuildContext context) => const V2SummaryScreen(),
-    '/v2/calendar': (BuildContext context) => const CalendarV2(),
-    '/v2/investment': (BuildContext context) => const InvestmentsV2Screen(),
+    '/v2/summary': (BuildContext context) => const Stack(
+          children: [
+            V2SummaryScreen(),
+            WhatsAppBubbleDrag(),
+          ],
+        ),
+    '/v2/calendar': (BuildContext context) => const Stack(
+          children: [
+            CalendarV2(),
+            WhatsAppBubbleDrag(),
+          ],
+        ),
+    '/v2/investment': (BuildContext context) => const Stack(
+          children: [
+            InvestmentsV2Screen(),
+            WhatsAppBubbleDrag(),
+          ],
+        ),
     // '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
     '/v2/notifications': (BuildContext context) => const NotificationsScreen(),
     '/v2/lot_detail': (BuildContext context) => const LotDetailScreenV2(),
