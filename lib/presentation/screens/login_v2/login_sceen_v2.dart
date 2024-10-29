@@ -191,7 +191,16 @@ class FormLogin extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/v2/login_forgot'),
+                onTap: () => {
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.navigateTo,
+                    parameters: {
+                      "screen": "/v2/login_email",
+                      "navigateTo": '/v2/login_forgot',
+                    },
+                  ),
+                  Navigator.pushNamed(context, '/v2/login_forgot'),
+                },
                 child: const TextPoppins(
                   text: "¿Olvidaste tu contraseña?",
                   fontSize: 11,

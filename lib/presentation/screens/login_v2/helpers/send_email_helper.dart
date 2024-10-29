@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/recovery_password_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -14,9 +16,24 @@ void sendEmailRecovery({
     recoveryPasswordFutureProvider(email).future,
   );
   if (status == true) {
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataSucces,
+      parameters: {
+        "screen": "/v2/form_forgot",
+        "success": "push_data_succes",
+        "show_modal": "modal_send_code",
+      },
+    );
     ref.read(userProfileNotifierProvider.notifier).setEmail(email);
     sendEmailRecoveryPasswordModalV2(context, ref);
   } else {
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataError,
+      parameters: {
+        "screen": "/v2/form_forgot",
+        "error": "push_data_error",
+      },
+    );
     showSnackBarV2(
       context: context,
       title: "Error al enviar correo",
