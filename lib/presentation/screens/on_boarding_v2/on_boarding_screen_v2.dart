@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/main.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -78,8 +79,24 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     super.dispose();
   }
 
-  void pushLogin() => Navigator.pushNamed(context, '/v2/login_email');
-  void pushRegister() => Navigator.pushNamed(context, '/v2/register');
+  void pushLogin() => {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.navigateTo,
+          parameters: {
+            "screen": "login_email",
+          },
+        ),
+        Navigator.pushNamed(context, '/v2/login_email'),
+      };
+  void pushRegister() => {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.navigateTo,
+          parameters: {
+            "screen": "register",
+          },
+        ),
+        Navigator.pushNamed(context, '/v2/register'),
+      };
 
   @override
   Widget build(BuildContext context) {

@@ -11,7 +11,7 @@ class FirebaseAnalyticsService {
   }) async {
     await _analytics.logEvent(
       name: eventName,
-      parameters: parameters,
+      parameters: {...parameters, "date_now": "${DateTime.now().toLocal()}"},
     );
   }
 
@@ -148,17 +148,22 @@ class FirebaseAnalyticsEvents {
   static const String viewSearchResults = "view_search_results";
 
   // Custom Events
-  static const String addCoupon = "add_coupon";
-  static const String completeRegistration = "complete_registration";
-  static const String calculateSimulation = "calculate_simulation";
-  static const String continueSimulation = "continue_simulation";
-  static const String editSimulation = "edit_simulation";
-  static const String addVoucher = "add_voucher";
-  static const String contactAdviser = "contact_adviser";
-  static const String investmentPressValidate = "investment_press_validate";
+  static const String addCoupon = "click_add_coupon";
+  static const String completeRegistration = "click_complete_registration";
+  static const String calculateSimulation = "click_calculate_simulation";
+  static const String continueSimulation = "click_continue_simulation";
+  static const String editSimulation = "click_edit_simulation";
+  static const String addVoucher = "click_add_voucher";
+  static const String contactAdviser = "click_contact_adviser";
+  static const String investmentPressValidate =
+      "click_investment_press_validate";
   static const String clickCalendar = "click_calendar";
-  static const String voucherDownloadHistory = "voucher_download_history";
-  static const String voucherDownloadDetail = "voucher_download_detail";
-  static const String contactDownloadDetail = "contact_download_detail";
-  static const String seeInterestTable = "see_interest_table";
+  static const String voucherDownloadHistory = "click_voucher_download_history";
+  static const String voucherDownloadDetail = "click_voucher_download_detail";
+  static const String contactDownloadDetail = "click_contact_download_detail";
+  static const String seeInterestTable = "click_see_interest_table";
+  static const String navigateTo = "navigate_to";
+  static const String clickEvent = "click_event";
+  static const String pushDataSucces = "push_data_succes";
+  static const String pushDataError = "push_data_error";
 }

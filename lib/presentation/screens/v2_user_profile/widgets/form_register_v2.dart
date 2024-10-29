@@ -1,4 +1,6 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_register_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_date_picker.dart';
@@ -59,6 +61,13 @@ class FormRegister extends HookConsumerWidget {
     );
     void saveAndPush(BuildContext context) async {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "register",
+            "error": "error_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -76,12 +85,68 @@ class FormRegister extends HookConsumerWidget {
           );
           return;
         }
-        if (nickNameError.value) return;
-        if (phoneNumberError.value) return;
-        if (emailError.value) return;
-        if (passwordError.value) return;
-        if (passwordConfirmError.value) return;
-        if (dateError.value) return;
+        if (nickNameError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "register",
+              "error": "error_name",
+            },
+          );
+          return;
+        }
+
+        if (phoneNumberError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "register",
+              "error": "error_phone",
+            },
+          );
+          return;
+        }
+
+        if (emailError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "register",
+              "error": "error_email",
+            },
+          );
+          return;
+        }
+        if (passwordError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "register",
+              "error": "error_password",
+            },
+          );
+          return;
+        }
+        if (passwordConfirmError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "register",
+              "error": "error_password_confirm",
+            },
+          );
+          return;
+        }
+        if (dateError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": "register",
+              "error": "error_date",
+            },
+          );
+          return;
+        }
         context.loaderOverlay.show();
         DateTime parsedDate =
             DateFormat("d/M/yyyy").parse(dateController.text.trim());
@@ -297,6 +362,12 @@ class RedirectLogin extends ConsumerWidget {
     const int linkLight = 0xff0D3A5C;
     return GestureDetector(
       onTap: () {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.navigateTo,
+          parameters: {
+            "screen": "login_email",
+          },
+        );
         Navigator.pushNamed(context, '/v2/login_email');
       },
       child: const TextPoppins(
