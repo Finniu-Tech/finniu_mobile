@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -72,8 +74,26 @@ class SendCodeV2 extends ConsumerWidget {
 
                       if (result == true) {
                         context.loaderOverlay.hide();
+                        ref
+                            .read(firebaseAnalyticsServiceProvider)
+                            .logCustomEvent(
+                          eventName: FirebaseAnalyticsEvents.navigateTo,
+                          parameters: {
+                            "screen": "/v2/activate_account",
+                            "send_email": "email_true",
+                          },
+                        );
                         Navigator.of(context).pushNamed('v2/activate_account');
                       } else {
+                        ref
+                            .read(firebaseAnalyticsServiceProvider)
+                            .logCustomEvent(
+                          eventName: FirebaseAnalyticsEvents.pushDataError,
+                          parameters: {
+                            "screen": '/v2/send_code',
+                            "send_email": "email_flase",
+                          },
+                        );
                         showSnackBarV2(
                           context: context,
                           title: "Error al enviar el correo",
