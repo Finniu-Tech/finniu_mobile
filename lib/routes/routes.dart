@@ -6,6 +6,7 @@ import 'package:finniu/presentation/screens/catalog/bubble_whatsapp.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/catalog/firebase_test_screen.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/bubble/whats_bubble.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/frequently_questions_screen.dart';
@@ -101,7 +102,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeScreen(),
-    '/home_v2': (BuildContext context) => const HomeScreenV2(),
+    '/home_v2': (BuildContext context) => const Stack(
+          children: [
+            HomeScreenV2(),
+            WhatsAppBubbleDrag(),
+          ],
+        ),
     '/home_notification': (BuildContext context) => const NotificationScreen(),
     '/profile': (BuildContext context) => const ProfileScreen(),
     '/plan_list': (BuildContext context) => const PlanListScreen(),
@@ -150,26 +156,41 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/fund_detail': (BuildContext context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return FundDetailScreen(
-        fund: args['fund'],
+      return Stack(
+        children: [
+          FundDetailScreen(
+            fund: args['fund'],
+          ),
+          const WhatsAppBubbleDrag(),
+        ],
       );
     },
     '/v2/investment/step-1': (BuildContext context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return InvestmentProcessStep1Screen(
-        fund: args['fund'],
-        amount: args['amount'],
-        deadLine: args['deadLine'],
-        preInvestmentUUID: args['preInvestmentUUID'],
-        isReInvestment: args['isReInvestment'],
-        reInvestmentType: args['reInvestmentType'],
-        currency: args['currency'],
-        originInvestmentRentability: args['originInvestmentRentability'],
+      return Stack(
+        children: [
+          InvestmentProcessStep1Screen(
+            fund: args['fund'],
+            amount: args['amount'],
+            deadLine: args['deadLine'],
+            preInvestmentUUID: args['preInvestmentUUID'],
+            isReInvestment: args['isReInvestment'],
+            reInvestmentType: args['reInvestmentType'],
+            currency: args['currency'],
+            originInvestmentRentability: args['originInvestmentRentability'],
+          ),
+          const WhatsAppBubbleDrag(),
+        ],
       );
     },
     '/v2/investment/step-2': (BuildContext context) {
-      return const StepTwoV2();
+      return const Stack(
+        children: [
+          StepTwoV2(),
+          WhatsAppBubbleDrag(),
+        ],
+      );
     },
 
     '/v2/aggro-investment/booking': (BuildContext context) =>
@@ -178,13 +199,23 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/aggro-investment': (BuildContext context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return InvestmentAggroProcessScreen(
-        fund: args['fund'],
+      return Stack(
+        children: [
+          InvestmentAggroProcessScreen(
+            fund: args['fund'],
+          ),
+          const WhatsAppBubbleDrag(),
+        ],
       );
     },
     '/v2/investment_blue_gold': (BuildContext context) =>
         const InvestmentBlueGoldScreen(),
-    '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
+    '/v2/simulator': (BuildContext context) => const Stack(
+          children: [
+            V2SimulatorScreen(),
+            WhatsAppBubbleDrag(),
+          ],
+        ),
     '/v2/binnacle': (BuildContext context) => const BinnacleScreen(),
 
     // '/fund_detail': (BuildContext context) => const FundDetailScreen(),
@@ -221,10 +252,20 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/form_legal_terms': (BuildContext context) =>
         const FormLegalTermsDataV2(),
     '/v2/form_about_me': (BuildContext context) => const AboutMeDataV2(),
-    '/v2/profile': (BuildContext context) => const UserProfileV2(),
+    '/v2/profile': (BuildContext context) => const Stack(
+          children: [
+            UserProfileV2(),
+            WhatsAppBubbleDrag(),
+          ],
+        ),
     '/v2/on_boarding': (BuildContext context) => const OnBoardingScreen(),
     '/v2/my_data': (BuildContext context) => const MyDataScreen(),
-    '/v2/settings': (BuildContext context) => const SettingsScreen(),
+    '/v2/settings': (BuildContext context) => const Stack(
+          children: [
+            SettingsScreen(),
+            WhatsAppBubbleDrag(),
+          ],
+        ),
     '/v2/new_notifications': (BuildContext context) =>
         const NotificationsScreenV2(),
     '/v2/privacy': (BuildContext context) => const PrivacyScreenV2(),
@@ -258,6 +299,5 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const BubbleWhatsappScreen(),
 
     '/v2/exit': (BuildContext context) => const ExitScreen(),
-
   };
 }

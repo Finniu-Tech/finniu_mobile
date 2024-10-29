@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
@@ -19,7 +18,6 @@ import 'package:finniu/presentation/providers/report_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_title_blue_gold.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/bubble/whats_bubble.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
@@ -98,7 +96,6 @@ class HomeScreenV2 extends HookConsumerWidget {
                       top: MediaQuery.of(context).size.height * 0.2,
                       child: const ShowTourContainer(),
                     ),
-                  const WhatsAppBubbleDrag(),
                 ],
               );
             },

@@ -73,7 +73,7 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
     void onDragEnd(DraggableDetails details) {
       final maxTop = screenHeight * 0.6;
       final maxLeft = screenWidth * 0.9;
-      final newTop = details.offset.dy.clamp(0.0, maxTop);
+      final newTop = (details.offset.dy - 10).clamp(0.0, maxTop);
       final newLeft = details.offset.dx.clamp(0.0, maxLeft);
 
       // top = newTop;
