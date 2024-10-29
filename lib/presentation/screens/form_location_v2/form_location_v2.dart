@@ -1,6 +1,8 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -80,6 +82,13 @@ class LocationFormState extends ConsumerState<LocationForm> {
 
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": "/v2/form_location",
+          "error": "input_form",
+        },
+      );
       showSnackBarV2(
         context: context,
         title: "Datos obligatorios incompletos",
@@ -87,10 +96,46 @@ class LocationFormState extends ConsumerState<LocationForm> {
         snackType: SnackType.warning,
       );
     } else {
-      if (regionsError.value) return;
-      if (provinceError.value) return;
-      if (districtError.value) return;
-      if (addressError.value) return;
+      if (regionsError.value) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "/v2/form_location",
+            "error": "input_region",
+          },
+        );
+        return;
+      }
+      if (provinceError.value) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "/v2/form_location",
+            "error": "input_province",
+          },
+        );
+        return;
+      }
+      if (districtError.value) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "/v2/form_location",
+            "error": "input_district",
+          },
+        );
+        return;
+      }
+      if (addressError.value) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": "/v2/form_location",
+            "error": "input_address",
+          },
+        );
+        return;
+      }
       // if (houseNumberError.value) return;
       DtoLocationForm data = DtoLocationForm(
         country: countrySelectController.text,
