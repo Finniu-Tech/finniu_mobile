@@ -55,6 +55,9 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     _startAutoScroll();
     _getCurrentAppVersion();
     ref.read(firebaseAnalyticsServiceProvider).logAppOpen();
+    ref.read(firebaseAnalyticsServiceProvider).setSessionTimeoutDuration(
+          const Duration(minutes: 5),
+        );
   }
 
   void _startAutoScroll() {
