@@ -1,4 +1,6 @@
 import 'package:finniu/infrastructure/datasources/forms_v2/support_ticket_formv2_imp.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +46,13 @@ Future<bool?> sendTicketSupport(
   );
   response.then((value) {
     if (value) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataSucces,
+        parameters: {
+          "screen": FirebaseScreen.supportTicketV2,
+          "success": "push_data_succes",
+        },
+      );
       context.loaderOverlay.hide();
       showSnackBarV2(
         context: context,
@@ -58,6 +67,13 @@ Future<bool?> sendTicketSupport(
       );
       return value;
     } else {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.supportTicketV2,
+          "error": "push_data_error",
+        },
+      );
       context.loaderOverlay.hide();
       showSnackBarV2(
         context: context,
