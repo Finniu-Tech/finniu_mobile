@@ -83,7 +83,8 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.navigateTo,
           parameters: {
-            "screen": FirebaseScreen.loginEmailV2,
+            "screen": FirebaseScreen.onBoardingV2,
+            "navigate_to": FirebaseScreen.loginEmailV2,
           },
         ),
         Navigator.pushNamed(context, '/v2/login_email'),
@@ -92,7 +93,8 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.navigateTo,
           parameters: {
-            "screen": FirebaseScreen.registerV2,
+            "screen": FirebaseScreen.onBoardingV2,
+            "navigate_to": FirebaseScreen.registerV2,
           },
         ),
         Navigator.pushNamed(context, '/v2/register'),

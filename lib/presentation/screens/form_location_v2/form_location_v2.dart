@@ -150,6 +150,14 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.navigateTo,
+      parameters: {
+        "screen": FirebaseScreen.formLocationV2,
+        "navigate_to": FirebaseScreen.homeV2,
+        "continue_later": "true",
+      },
+    );
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/home_v2',

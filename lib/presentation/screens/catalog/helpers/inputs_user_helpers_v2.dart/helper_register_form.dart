@@ -44,9 +44,9 @@ pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
         snackType: SnackType.success,
       );
       Future.delayed(const Duration(seconds: 1), () {
-        context.loaderOverlay.hide();
         Navigator.pushNamed(context, "/v2/send_code");
         ScaffoldMessenger.of(context).clearSnackBars();
+        context.loaderOverlay.hide();
       });
     } else {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
