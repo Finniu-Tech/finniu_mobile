@@ -52,7 +52,7 @@ class CompleteInvestment extends ConsumerWidget {
             ),
           ),
         ),
-        LabelState(
+        const LabelState(
           label: "Depositado",
         ),
         const DownloadButton(

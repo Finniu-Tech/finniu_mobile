@@ -65,6 +65,7 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
   final bool? isReInvestment;
   final String? reInvestmentType;
   final String? preInvestmentUUID; //USED FOR REINVESTMENT
+
   final int? originInvestmentRentability;
   const InvestmentProcessStep1Screen({
     super.key,

@@ -260,4 +260,5 @@ class FirebaseAnalyticsEvents {
   static const String clickEvent = "click_event";
   static const String pushDataSucces = "push_data_succes";
   static const String pushDataError = "push_data_error";
+  static const String scrollPage = "scroll_page";
 }
