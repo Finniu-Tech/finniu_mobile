@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
-import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
