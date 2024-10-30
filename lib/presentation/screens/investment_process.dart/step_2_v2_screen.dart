@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -108,6 +110,13 @@ class ColumnPush extends HookConsumerWidget {
       final bankSender = ref.read(selectedBankAccountSenderProvider);
       final bankReceiver = ref.read(selectedBankAccountReceiverProvider);
       if (voucherImageBase64.isEmpty) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_voucher",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "La constancia es requerida",
@@ -117,6 +126,13 @@ class ColumnPush extends HookConsumerWidget {
         return;
       }
       if (conditions.value == false) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_conditions",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Debe aceptar y leer el contrato",
@@ -126,6 +142,13 @@ class ColumnPush extends HookConsumerWidget {
         return;
       }
       if (bankSender == null) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_bank_sender",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Seleccionar banco de origen",
@@ -135,6 +158,13 @@ class ColumnPush extends HookConsumerWidget {
         return;
       }
       if (bankReceiver == null) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "event": "error_bank_receiver",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Seleccionar banco de destino",

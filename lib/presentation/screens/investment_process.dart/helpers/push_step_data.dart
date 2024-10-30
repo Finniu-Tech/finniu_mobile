@@ -1,5 +1,7 @@
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/feedback_modal.dart';
@@ -48,6 +50,13 @@ void stepTwoPushData(context, ref, PushStepData pushStepData) async {
   }
 
   if (response.success == false) {
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataError,
+      parameters: {
+        "screen": FirebaseScreen.investmentStep2V2,
+        "event": "error_push_data",
+      },
+    );
     showSnackBarV2(
       context: context,
       title: "Error al guardar",
@@ -55,6 +64,13 @@ void stepTwoPushData(context, ref, PushStepData pushStepData) async {
       snackType: SnackType.error,
     );
   } else {
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataSucces,
+      parameters: {
+        "screen": FirebaseScreen.investmentStep2V2,
+        "event": "success_push_data",
+      },
+    );
     showFeedbackModal(
       context,
       isReInvestment: pushStepData.isReInvestment,

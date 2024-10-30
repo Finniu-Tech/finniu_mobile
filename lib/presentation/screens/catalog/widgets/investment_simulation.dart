@@ -1,4 +1,5 @@
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/calculate_investment_provider.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -22,6 +23,13 @@ class InvestmentSimulationButton extends ConsumerWidget {
     }
 
     void recalculatePressed() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.clickEvent,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
+          "event": "recalculate_simulation",
+        },
+      );
       Navigator.of(context).pop();
     }
 

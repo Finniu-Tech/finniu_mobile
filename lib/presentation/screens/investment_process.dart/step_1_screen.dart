@@ -324,6 +324,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         await ref.read(saveCorporateInvestmentFutureProvider(input).future);
 
     if (!response.success) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
+          "event": "save_pre_investment_error",
+        },
+      );
       context.loaderOverlay.hide();
       showSnackBarV2(
         context: context,
@@ -336,8 +343,14 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       return;
     }
 
-    context.loaderOverlay.hide();
-
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataSucces,
+      parameters: {
+        "screen": FirebaseScreen.investmentStep1V2,
+        "event": "save_pre_investment_success",
+        "navigate_to": FirebaseScreen.investmentStep2V2,
+      },
+    );
     Navigator.pushNamed(
       context,
       '/v2/investment/step-2',
@@ -347,6 +360,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         'amount': input.amount,
       },
     );
+    context.loaderOverlay.hide();
   }
 
   //save ReInvestment
@@ -360,6 +374,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     final CreateReInvestmentResponse response =
         await ref.read(createReInvestmentProvider(input).future);
     if (response.success == false) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
+          "event": "save_re_investment_error",
+        },
+      );
       context.loaderOverlay.hide();
       showSnackBarV2(
         context: context,
@@ -371,7 +392,14 @@ class _FormStep1State extends ConsumerState<FormStep1> {
 
       return;
     }
-
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataSucces,
+      parameters: {
+        "screen": FirebaseScreen.investmentStep1V2,
+        "event": "save_re_investment_success",
+        "navigate_to": FirebaseScreen.investmentStep2V2,
+      },
+    );
     context.loaderOverlay.hide();
     if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
       Navigator.pushNamed(
@@ -405,6 +433,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         widget.deadLineController.text.isEmpty ||
         // widget.bankController.text.isEmpty ||
         widget.originFundsController.text.isEmpty) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
+          "event": "form_error",
+        },
+      );
       showSnackBarV2(
         context: context,
         title: "Error al completar datos",
@@ -525,6 +560,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         "isReInvestment": widget.isReInvestment.toString(),
       },
     );
+
     showInvestmentSimulationModal(amount, reinvestmentParams);
   }
 
