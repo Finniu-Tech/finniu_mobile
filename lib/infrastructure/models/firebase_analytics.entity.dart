@@ -11,7 +11,10 @@ class FirebaseAnalyticsService {
   }) async {
     await _analytics.logEvent(
       name: eventName,
-      parameters: {...parameters, "date_now": "${DateTime.now().toLocal()}"},
+      parameters: {
+        ...parameters,
+        "date_now": "${DateTime.now().toLocal()}",
+      },
     );
   }
 
@@ -101,6 +104,97 @@ class FirebaseAnalyticsService {
       parameters: parameters,
     );
   }
+}
+
+class FirebaseScreen {
+  static const String home = '/';
+  static const String loginStart = '/login_start';
+  static const String loginEmail = '/login_email';
+  static const String onboardingQuestions = '/onboarding_questions';
+  static const String signUpEmail = '/sign_up_email';
+  static const String loginForgot = '/login_forgot';
+  static const String loginInvalid = '/login_invalid';
+  static const String onBoardingStart = '/on_boarding_start';
+  static const String onboardingQuestionsStart = '/onboarding_questions_start';
+  static const String investmentResult = '/investment_result';
+  static const String homeHome = '/home_home';
+  static const String homeV2 = '/home_v2';
+  static const String homeNotification = '/home_notification';
+  static const String profile = '/profile';
+  static const String planList = '/plan_list';
+  static const String privacy = '/privacy';
+  static const String transfers = '/transfers';
+  static const String languages = '/languages';
+  static const String help = '/help';
+  static const String sendCode = '/send_code';
+  static const String investmentStep1 = '/investment_step1';
+  static const String investmentStep2 = '/investment_step2';
+  static const String investmentStep3 = '/investment_step3';
+  static const String setNewPassword = '/set_new_password';
+  static const String calculatorTool = '/calculator_tool';
+  static const String calculatorResult = '/calculator_result';
+  static const String finance = '/finance';
+  static const String catalog = '/catalog';
+  static const String financeScreen2 = '/finance_screen2';
+  static const String contractView = '/contract_view';
+  static const String calendarPage = '/calendar_page';
+  static const String finishInvestment = '/finish_investment';
+  static const String processInvestment = '/process_investment';
+  static const String investmentHistory = '/investment_history';
+  static const String reinvestmentStep1 = '/reinvestment_step_1';
+  static const String reinvestmentStep2 = '/reinvestment_step_2';
+  static const String evaluation = '/evaluation';
+  static const String emptyTransference = '/empty_transference';
+  static const String activateAccount = '/activate_account';
+  static const String fundDetail = '/fund_detail';
+  static const String investmentStep1V2 = '/v2/investment/step-1';
+  static const String investmentStep2V2 = '/v2/investment/step-2';
+  static const String aggroInvestmentBookingV2 = '/v2/aggro-investment/booking';
+  static const String aggroInvestmentV2 = '/v2/aggro-investment';
+  static const String investmentBlueGoldV2 = '/v2/investment_blue_gold';
+  static const String simulatorV2 = '/v2/simulator';
+  static const String binnacleV2 = '/v2/binnacle';
+  static const String summaryV2 = '/v2/summary';
+  static const String calendarV2 = '/v2/calendar';
+  static const String investmentV2 = '/v2/investment';
+  static const String notificationsV2 = '/v2/notifications';
+  static const String lotDetailV2 = '/v2/lot_detail';
+  static const String registerV2 = '/v2/register';
+  static const String sendCodeV2 = '/v2/send_code';
+  static const String activateAccountV2 = '/v2/activate_account';
+  static const String completeDetailsV2 = '/v2/complete_details';
+  static const String validateIdentityV2 = '/v2/validate_identity';
+  static const String scanDocumentV2 = '/v2/scan_document';
+  static const String formPersonalDataV2 = '/v2/form_personal_data';
+  static const String formLocationV2 = '/v2/form_location';
+  static const String formJobV2 = '/v2/form_job';
+  static const String formLegalTermsV2 = '/v2/form_legal_terms';
+  static const String aboutMeV2 = '/v2/form_about_me';
+  static const String profileV2 = '/v2/profile';
+  static const String onBoardingV2 = '/v2/on_boarding';
+  static const String myDataV2 = '/v2/my_data';
+  static const String settingsV2 = '/v2/settings';
+  static const String newNotificationsV2 = '/v2/new_notifications';
+  static const String privacyV2 = '/v2/privacy';
+  static const String legalDocumentsV2 = '/v2/legal_documents';
+  static const String supportV2 = '/v2/support';
+  static const String supportTicketV2 = '/v2/support_ticket';
+  static const String frequentlyQuestionsV2 = '/v2/frequently_questions';
+  static const String editPersonalDataV2 = '/v2/edit_personal_data';
+  static const String editLocationDataV2 = '/v2/edit_location_data';
+  static const String editJobDataV2 = '/v2/edit_job_data';
+  static const String additionalInformationV2 = '/v2/additional_information';
+  static const String myAccountsV2 = '/v2/my_accounts';
+  static const String loginEmailV2 = '/v2/login_email';
+  static const String loginForgotV2 = '/v2/login_forgot';
+  static const String setNewPasswordV2 = '/v2/set_new_password';
+  static const String biometricTest = '/biometric_test';
+  static const String geolocatorV2 = '/v2/geolocator';
+  static const String firebaseTestV2 = '/v2/firebase_test';
+  static const String payOutV2 = '/v2/pay_out';
+  static const String rextieCommunicationV2 = '/v2/rextie_comminication';
+  static const String pushNotification = '/push_notification';
+  static const String exitV2 = '/v2/exit';
 }
 
 class FirebaseAnalyticsEvents {

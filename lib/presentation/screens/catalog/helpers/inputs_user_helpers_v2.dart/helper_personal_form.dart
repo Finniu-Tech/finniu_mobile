@@ -42,7 +42,7 @@ pushPersonalDataForm(
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataSucces,
         parameters: {
-          "screen": "/v2/form_personal_data",
+          "screen": FirebaseScreen.formPersonalDataV2,
           "success": "personal_data_success",
         },
       );
@@ -61,7 +61,7 @@ pushPersonalDataForm(
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataError,
         parameters: {
-          "screen": "/v2/form_personal_data",
+          "screen": FirebaseScreen.formPersonalDataV2,
           "error": "personal_data_error",
         },
       );

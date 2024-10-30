@@ -103,7 +103,7 @@ class FormLogin extends HookConsumerWidget {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/login_email",
+            "screen": FirebaseScreen.loginEmailV2,
             "error": "input_form",
           },
         );
@@ -119,7 +119,7 @@ class FormLogin extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/login_email",
+              "screen": FirebaseScreen.loginEmailV2,
               "error": "input_email",
             },
           );
@@ -129,7 +129,7 @@ class FormLogin extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/login_email",
+              "screen": FirebaseScreen.loginEmailV2,
               "error": "input_password",
             },
           );
@@ -195,8 +195,8 @@ class FormLogin extends HookConsumerWidget {
                   ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                     eventName: FirebaseAnalyticsEvents.navigateTo,
                     parameters: {
-                      "screen": "/v2/login_email",
-                      "navigateTo": '/v2/login_forgot',
+                      "screen": FirebaseScreen.loginEmailV2,
+                      "navigateTo": FirebaseScreen.loginForgotV2,
                     },
                   ),
                   Navigator.pushNamed(context, '/v2/login_forgot'),
@@ -218,7 +218,7 @@ class FormLogin extends HookConsumerWidget {
                   ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                     eventName: FirebaseAnalyticsEvents.clickEvent,
                     parameters: {
-                      "screen": "/v2/login_email",
+                      "screen": FirebaseScreen.loginEmailV2,
                       "event": "remember_password",
                     },
                   );
@@ -249,8 +249,8 @@ class FormLogin extends HookConsumerWidget {
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                 eventName: FirebaseAnalyticsEvents.navigateTo,
                 parameters: {
-                  "screen": "/v2/login_email",
-                  "navigateTo": '/v2/register',
+                  "screen": FirebaseScreen.loginEmailV2,
+                  "navigateTo": FirebaseScreen.registerV2,
                 },
               ),
               Navigator.pushNamed(context, '/v2/register'),

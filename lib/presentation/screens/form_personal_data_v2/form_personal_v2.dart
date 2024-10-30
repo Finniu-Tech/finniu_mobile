@@ -102,7 +102,7 @@ class PersonalForm extends HookConsumerWidget {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/form_personal_data",
+            "screen": FirebaseScreen.formPersonalDataV2,
             "error": "input_form",
           },
         );
@@ -118,7 +118,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_name",
             },
           );
@@ -128,7 +128,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_last_name_father",
             },
           );
@@ -138,7 +138,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_last_name_mother",
             },
           );
@@ -148,7 +148,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_document_type",
             },
           );
@@ -158,7 +158,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_document_number",
             },
           );
@@ -168,7 +168,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_civil_status",
             },
           );
@@ -178,7 +178,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_gender",
             },
           );
@@ -189,7 +189,7 @@ class PersonalForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_personal_data",
+              "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_image",
             },
           );

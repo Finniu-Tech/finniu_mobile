@@ -37,7 +37,7 @@ class ActivateAccountV2 extends ConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataSucces,
             parameters: {
-              "screen": "/v2/activate_account",
+              "screen": FirebaseScreen.activateAccountV2,
               "send_email": "refresh_code",
             },
           );

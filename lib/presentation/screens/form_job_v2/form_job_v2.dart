@@ -74,7 +74,7 @@ class LocationForm extends HookConsumerWidget {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/form_job",
+            "screen": FirebaseScreen.formJobV2,
             "error": "input_form",
           },
         );
@@ -90,7 +90,7 @@ class LocationForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_job",
+              "screen": FirebaseScreen.formJobV2,
               "error": "input_occupation",
             },
           );
@@ -100,7 +100,7 @@ class LocationForm extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/form_job",
+              "screen": FirebaseScreen.formJobV2,
               "error": "input_occupation",
             },
           );

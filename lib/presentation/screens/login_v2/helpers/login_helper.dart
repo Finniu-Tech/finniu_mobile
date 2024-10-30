@@ -56,7 +56,7 @@ void loginEmailHelper({
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                 eventName: FirebaseAnalyticsEvents.pushDataSucces,
                 parameters: {
-                  "screen": "/v2/login_email",
+                  "screen": FirebaseScreen.loginEmailV2,
                   "success": "login",
                 },
               );
@@ -113,7 +113,7 @@ void loginEmailHelper({
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "/v2/login_email",
+              "screen": FirebaseScreen.loginEmailV2,
               "error": "user_not_activated",
             },
           );
@@ -132,7 +132,7 @@ void loginEmailHelper({
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.navigateTo,
             parameters: {
-              "screen": "/v2/login_email",
+              "screen": FirebaseScreen.loginEmailV2,
               "navigateTo": '/v2/send_code',
             },
           );

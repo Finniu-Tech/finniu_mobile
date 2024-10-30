@@ -81,7 +81,7 @@ class FormForgotState extends ConsumerState<FormForgot> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/form_forgot",
+            "screen": FirebaseScreen.loginForgotV2,
             "error": "input_email",
           },
         );
@@ -97,7 +97,7 @@ class FormForgotState extends ConsumerState<FormForgot> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/form_forgot",
+            "screen": FirebaseScreen.loginForgotV2,
             "error": "input_validation",
           },
         );

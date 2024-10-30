@@ -33,7 +33,7 @@ pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataSucces,
         parameters: {
-          "screen": "register",
+          "screen": FirebaseScreen.registerV2,
           "succes": "register_succes",
         },
       );
@@ -52,7 +52,7 @@ pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataError,
         parameters: {
-          "screen": "register",
+          "screen": FirebaseScreen.registerV2,
           "error": "error_back",
         },
       );

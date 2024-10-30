@@ -19,7 +19,7 @@ void sendEmailRecovery({
     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
       eventName: FirebaseAnalyticsEvents.pushDataSucces,
       parameters: {
-        "screen": "/v2/form_forgot",
+        "screen": FirebaseScreen.loginForgotV2,
         "success": "push_data_succes",
         "show_modal": "modal_send_code",
       },
@@ -30,7 +30,7 @@ void sendEmailRecovery({
     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
       eventName: FirebaseAnalyticsEvents.pushDataError,
       parameters: {
-        "screen": "/v2/form_forgot",
+        "screen": FirebaseScreen.loginForgotV2,
         "error": "push_data_error",
       },
     );

@@ -64,7 +64,7 @@ class FormRegister extends HookConsumerWidget {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "register",
+            "screen": FirebaseScreen.registerV2,
             "error": "error_form",
           },
         );
@@ -89,7 +89,7 @@ class FormRegister extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "register",
+              "screen": FirebaseScreen.registerV2,
               "error": "error_name",
             },
           );
@@ -100,7 +100,7 @@ class FormRegister extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "register",
+              "screen": FirebaseScreen.registerV2,
               "error": "error_phone",
             },
           );
@@ -111,7 +111,7 @@ class FormRegister extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "register",
+              "screen": FirebaseScreen.registerV2,
               "error": "error_email",
             },
           );
@@ -121,7 +121,7 @@ class FormRegister extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "register",
+              "screen": FirebaseScreen.registerV2,
               "error": "error_password",
             },
           );
@@ -131,7 +131,7 @@ class FormRegister extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "register",
+              "screen": FirebaseScreen.registerV2,
               "error": "error_password_confirm",
             },
           );
@@ -141,7 +141,7 @@ class FormRegister extends HookConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataError,
             parameters: {
-              "screen": "register",
+              "screen": FirebaseScreen.registerV2,
               "error": "error_date",
             },
           );
@@ -365,7 +365,8 @@ class RedirectLogin extends ConsumerWidget {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.navigateTo,
           parameters: {
-            "screen": "login_email",
+            "screen": FirebaseScreen.registerV2,
+            "navigate_to": FirebaseScreen.loginEmailV2,
           },
         );
         Navigator.pushNamed(context, '/v2/login_email');

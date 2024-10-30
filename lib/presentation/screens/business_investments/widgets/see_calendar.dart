@@ -24,7 +24,10 @@ class SeeCalendar extends ConsumerWidget {
       onTap: () {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.clickCalendar,
-          parameters: {},
+          parameters: {
+            "screen": FirebaseScreen.homeV2,
+            "navigateTo": FirebaseScreen.calendarV2,
+          },
         );
         Navigator.pushNamed(context, '/v2/calendar');
       },

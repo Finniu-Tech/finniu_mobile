@@ -34,7 +34,7 @@ pushLocationDataForm(
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataSucces,
         parameters: {
-          "screen": "/v2/form_location",
+          "screen": FirebaseScreen.formLocationV2,
           "success": "location_data_success",
         },
       );
@@ -54,7 +54,7 @@ pushLocationDataForm(
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataError,
         parameters: {
-          "screen": "/v2/form_location",
+          "screen": FirebaseScreen.formLocationV2,
           "error": "location_data_error",
         },
       );

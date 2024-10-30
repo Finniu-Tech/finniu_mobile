@@ -85,6 +85,7 @@ class DownloadButton extends ConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.voucherDownloadHistory,
             parameters: {
+              "screen": FirebaseScreen.binnacleV2,
               "voucher_url": voucherUrl,
             },
           );

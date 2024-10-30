@@ -43,7 +43,7 @@ pushOccupationDataForm(
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataSucces,
           parameters: {
-            "screen": "/v2/form_job",
+            "screen": FirebaseScreen.formJobV2,
             "success": "job_data_success",
             "navigate": navigate,
           },
@@ -63,7 +63,7 @@ pushOccupationDataForm(
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataError,
         parameters: {
-          "screen": "/v2/form_job",
+          "screen": FirebaseScreen.formJobV2,
           "error": "error_back",
         },
       );

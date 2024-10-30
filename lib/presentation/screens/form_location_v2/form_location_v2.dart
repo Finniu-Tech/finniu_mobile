@@ -85,7 +85,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataError,
         parameters: {
-          "screen": "/v2/form_location",
+          "screen": FirebaseScreen.formLocationV2,
           "error": "input_form",
         },
       );
@@ -100,7 +100,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/form_location",
+            "screen": FirebaseScreen.formLocationV2,
             "error": "input_region",
           },
         );
@@ -120,7 +120,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/form_location",
+            "screen": FirebaseScreen.formLocationV2,
             "error": "input_district",
           },
         );
@@ -130,7 +130,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
           parameters: {
-            "screen": "/v2/form_location",
+            "screen": FirebaseScreen.formLocationV2,
             "error": "input_address",
           },
         );
