@@ -72,7 +72,7 @@ class LocationForm extends HookConsumerWidget {
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
+          eventName: FirebaseAnalyticsEvents.formValidateError,
           parameters: {
             "screen": FirebaseScreen.formJobV2,
             "error": "input_form",
@@ -86,26 +86,9 @@ class LocationForm extends HookConsumerWidget {
         );
         return;
       } else {
-        if (occupationError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formJobV2,
-              "error": "input_occupation",
-            },
-          );
-          return;
-        }
-        if (companyNameError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formJobV2,
-              "error": "input_occupation",
-            },
-          );
-          return;
-        }
+        if (occupationError.value) return;
+        if (companyNameError.value) return;
+
         context.loaderOverlay.show();
         DtoOccupationForm data = DtoOccupationForm(
           companyName: companyNameTextController.text.trim(),

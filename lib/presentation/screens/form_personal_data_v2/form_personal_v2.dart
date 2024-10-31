@@ -100,7 +100,7 @@ class PersonalForm extends HookConsumerWidget {
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
+          eventName: FirebaseAnalyticsEvents.formValidateError,
           parameters: {
             "screen": FirebaseScreen.formPersonalDataV2,
             "error": "input_form",
@@ -114,76 +114,13 @@ class PersonalForm extends HookConsumerWidget {
         );
         return;
       } else {
-        if (firstNameError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_name",
-            },
-          );
-          return;
-        }
-        if (lastNameFatherError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_last_name_father",
-            },
-          );
-          return;
-        }
-        if (lastNameMotherError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_last_name_mother",
-            },
-          );
-          return;
-        }
-        if (documentTypeError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_document_type",
-            },
-          );
-          return;
-        }
-        if (documentNumberError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_document_number",
-            },
-          );
-          return;
-        }
-        if (civilStatusError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_civil_status",
-            },
-          );
-          return;
-        }
-        if (genderTypeError.value) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_gender",
-            },
-          );
-          return;
-        }
+        if (firstNameError.value) return;
+        if (lastNameFatherError.value) return;
+        if (lastNameMotherError.value) return;
+        if (documentTypeError.value) return;
+        if (documentNumberError.value) return;
+        if (civilStatusError.value) return;
+        if (genderTypeError.value) return;
 
         if (imagePath == null) {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(

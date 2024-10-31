@@ -199,39 +199,39 @@ class FirebaseScreen {
 
 class FirebaseAnalyticsEvents {
   // E-Commerce Events
-  static const String addPaymentInfo = "add_payment_info";
-  static const String addShippingInfo = "add_shipping_info";
-  static const String addToCart = "add_to_cart";
-  static const String addToWishlist = "add_to_wishlist";
-  static const String beginCheckout = "begin_checkout";
-  static const String purchase = "purchase";
-  static const String refund = "refund";
-  static const String removeFromCart = "remove_from_cart";
-  static const String viewCart = "view_cart";
-  static const String viewItem = "view_item";
-  static const String viewItemList = "view_item_list";
-  static const String viewPromotion = "view_promotion";
+  // static const String addPaymentInfo = "add_payment_info";
+  // static const String addShippingInfo = "add_shipping_info";
+  // static const String addToCart = "add_to_cart";
+  // static const String addToWishlist = "add_to_wishlist";
+  // static const String beginCheckout = "begin_checkout";
+  // static const String purchase = "purchase";
+  // static const String refund = "refund";
+  // static const String removeFromCart = "remove_from_cart";
+  // static const String viewCart = "view_cart";
+  // static const String viewItem = "view_item";
+  // static const String viewItemList = "view_item_list";
+  // static const String viewPromotion = "view_promotion";
 
-  // General App Events
-  static const String adImpression = "ad_impression";
+  // // General App Events
+  // static const String adImpression = "ad_impression";
   static const String appOpen = "app_open";
-  static const String campaignDetails = "campaign_details";
-  static const String earnVirtualCurrency = "earn_virtual_currency";
-  static const String generateLead = "generate_lead";
-  static const String joinGroup = "join_group";
+  // static const String campaignDetails = "campaign_details";
+  // static const String earnVirtualCurrency = "earn_virtual_currency";
+  // static const String generateLead = "generate_lead";
+  // static const String joinGroup = "join_group";
   static const String login = "login";
   static const String signUp = "sign_up";
-  static const String spendVirtualCurrency = "spend_virtual_currency";
-  static const String unlockAchievement = "unlock_achievement";
-  static const String share = "share";
+  // static const String spendVirtualCurrency = "spend_virtual_currency";
+  // static const String unlockAchievement = "unlock_achievement";
+  // static const String share = "share";
 
-  // Gameplay Events
-  static const String levelEnd = "level_end";
-  static const String levelStart = "level_start";
-  static const String levelUp = "level_up";
-  static const String postScore = "post_score";
-  static const String tutorialBegin = "tutorial_begin";
-  static const String tutorialComplete = "tutorial_complete";
+  // // Gameplay Events
+  // static const String levelEnd = "level_end";
+  // static const String levelStart = "level_start";
+  // static const String levelUp = "level_up";
+  // static const String postScore = "post_score";
+  // static const String tutorialBegin = "tutorial_begin";
+  // static const String tutorialComplete = "tutorial_complete";
 
   // User Interaction Events
   static const String screenView = "screen_view";
@@ -261,4 +261,5 @@ class FirebaseAnalyticsEvents {
   static const String pushDataSucces = "push_data_succes";
   static const String pushDataError = "push_data_error";
   static const String scrollPage = "scroll_page";
+  static const String formValidateError = "form_validate_error";
 }

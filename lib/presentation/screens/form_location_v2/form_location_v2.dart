@@ -83,7 +83,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-        eventName: FirebaseAnalyticsEvents.pushDataError,
+        eventName: FirebaseAnalyticsEvents.formValidateError,
         parameters: {
           "screen": FirebaseScreen.formLocationV2,
           "error": "input_form",
@@ -96,46 +96,11 @@ class LocationFormState extends ConsumerState<LocationForm> {
         snackType: SnackType.warning,
       );
     } else {
-      if (regionsError.value) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": FirebaseScreen.formLocationV2,
-            "error": "input_region",
-          },
-        );
-        return;
-      }
-      if (provinceError.value) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": "/v2/form_location",
-            "error": "input_province",
-          },
-        );
-        return;
-      }
-      if (districtError.value) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": FirebaseScreen.formLocationV2,
-            "error": "input_district",
-          },
-        );
-        return;
-      }
-      if (addressError.value) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
-          parameters: {
-            "screen": FirebaseScreen.formLocationV2,
-            "error": "input_address",
-          },
-        );
-        return;
-      }
+      if (regionsError.value) return;
+      if (provinceError.value) return;
+      if (districtError.value) return;
+      if (addressError.value) return;
+
       // if (houseNumberError.value) return;
       DtoLocationForm data = DtoLocationForm(
         country: countrySelectController.text,
