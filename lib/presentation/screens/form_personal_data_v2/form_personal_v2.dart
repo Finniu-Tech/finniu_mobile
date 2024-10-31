@@ -124,7 +124,7 @@ class PersonalForm extends HookConsumerWidget {
 
         if (imagePath == null) {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.pushDataError,
+            eventName: FirebaseAnalyticsEvents.formValidateError,
             parameters: {
               "screen": FirebaseScreen.formPersonalDataV2,
               "error": "input_image",
