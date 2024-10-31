@@ -78,17 +78,15 @@ class FormFeedback extends HookConsumerWidget {
         );
 
         context.loaderOverlay.show();
+
         final result = await pushFeedbackData(context, data, ref);
+        print("result $result");
         if (result) {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataSucces,
             parameters: {
               "screen": FirebaseScreen.investmentStep2V2,
               "event": "push_feedback_succes",
-              "question": data.question,
-              "answer": data.answer,
-              "questionSecond": data.questionSecond ?? "",
-              "answerSecond": data.answerSecond ?? "",
             },
           );
           pageController.nextPage(
@@ -101,10 +99,6 @@ class FormFeedback extends HookConsumerWidget {
             parameters: {
               "screen": FirebaseScreen.investmentStep2V2,
               "event": "push_feedback_false",
-              "question": data.question,
-              "answer": data.answer,
-              "questionSecond": data.questionSecond ?? "",
-              "answerSecond": data.answerSecond ?? "",
             },
           );
           pageController.nextPage(

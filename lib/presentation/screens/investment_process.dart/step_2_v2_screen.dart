@@ -174,6 +174,7 @@ class ColumnPush extends HookConsumerWidget {
         return;
       }
       context.loaderOverlay.show();
+      FocusManager.instance.primaryFocus?.unfocus();
       stepTwoPushData(
         context,
         ref,

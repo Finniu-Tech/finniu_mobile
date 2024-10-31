@@ -71,6 +71,7 @@ void stepTwoPushData(context, ref, PushStepData pushStepData) async {
         "event": "success_push_data",
       },
     );
+
     showFeedbackModal(
       context,
       isReInvestment: pushStepData.isReInvestment,
