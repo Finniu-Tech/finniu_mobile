@@ -1,5 +1,7 @@
+
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/bubble_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
@@ -25,6 +27,7 @@ class _BodySettings extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final bubbleState = ref.watch(positionProvider);
     void setDarkMode() {
       if (!isDarkMode) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -44,6 +47,14 @@ class _BodySettings extends ConsumerWidget {
           },
         );
         ref.read(settingsNotifierProvider.notifier).setLightMode();
+      }
+    }
+
+    void setBubble() {
+      if (bubbleState.isRender) {
+        ref.read(positionProvider.notifier).resetBubble();
+      } else {
+        ref.read(positionProvider.notifier).getBubble();
       }
     }
 
@@ -80,6 +91,13 @@ class _BodySettings extends ConsumerWidget {
           title: "Privacidad",
           subtitle: "Configura tu privacidad \n",
           onTap: () => navigatePrivacy(),
+        ),
+        ButtonSwitchProfile(
+          icon: "assets/svg_icons/julia_icon.svg",
+          title: "Chat de ayuda",
+          subtitle: "Visualización de chat con Julia en la app",
+          onTap: () => setBubble(),
+          value: bubbleState.isRender,
         ),
       ],
     );
