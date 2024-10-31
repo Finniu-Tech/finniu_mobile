@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_feedback.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/about_me_inputs.dart';
@@ -78,17 +80,47 @@ class FormFeedback extends HookConsumerWidget {
         context.loaderOverlay.show();
         final result = await pushFeedbackData(context, data, ref);
         if (result) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataSucces,
+            parameters: {
+              "screen": FirebaseScreen.investmentStep2V2,
+              "event": "push_feedback_succes",
+              "question": data.question,
+              "answer": data.answer,
+              "questionSecond": data.questionSecond ?? "",
+              "answerSecond": data.answerSecond ?? "",
+            },
+          );
           pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.bounceIn,
           );
         } else {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.investmentStep2V2,
+              "event": "push_feedback_false",
+              "question": data.question,
+              "answer": data.answer,
+              "questionSecond": data.questionSecond ?? "",
+              "answerSecond": data.answerSecond ?? "",
+            },
+          );
           pageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.bounceIn,
           );
         }
         context.loaderOverlay.hide();
+      } else {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.investmentStep2V2,
+            "error": "input_form",
+          },
+        );
       }
     }
 
