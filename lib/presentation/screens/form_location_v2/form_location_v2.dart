@@ -105,11 +105,12 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      '/home_v2',
-      (Route<dynamic> route) => false,
-    );
+    messageDialog(context);
+    // Navigator.pushNamedAndRemoveUntil(
+    //   context,
+    //   '/home_v2',
+    //   (Route<dynamic> route) => false,
+    // );
   }
 
   List<GeoLocationItemV2> districts = [
