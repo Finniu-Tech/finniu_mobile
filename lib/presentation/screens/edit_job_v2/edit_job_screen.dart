@@ -122,7 +122,7 @@ class EditPersonalForm extends HookConsumerWidget {
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.pushDataError,
+          eventName: FirebaseAnalyticsEvents.formValidateError,
           parameters: {
             "screen": FirebaseScreen.editJobDataV2,
             "error": "input_form",

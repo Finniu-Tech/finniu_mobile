@@ -133,7 +133,7 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-        eventName: FirebaseAnalyticsEvents.pushDataError,
+        eventName: FirebaseAnalyticsEvents.formValidateError,
         parameters: {
           "screen": FirebaseScreen.editLocationDataV2,
           "error": "input_form",
