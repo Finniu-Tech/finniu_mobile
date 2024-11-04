@@ -1,18 +1,24 @@
 class Investment {
   final String uuid;
   final int amount;
+  final int? rentability;
   final String finishDateInvestment;
-  final bool? isReinvestAvailable; //this is for ReInvestmentAvailable
+  final bool? isReinvestAvailable;
   final bool? isReinvestment;
   final String? actionStatus;
+  final String? boucherImage;
+  final bool isCapital;
 
   Investment({
     required this.uuid,
     required this.amount,
     required this.finishDateInvestment,
+    this.rentability,
     this.isReinvestAvailable = false,
     this.isReinvestment = false,
     this.actionStatus,
+    this.boucherImage,
+    this.isCapital = false,
   });
 
   factory Investment.fromJson(Map<String, dynamic> json) {
@@ -23,6 +29,10 @@ class Investment {
       isReinvestAvailable: json['reinvestmentAvailable'] ?? false,
       isReinvestment: json['isReInvestment'] ?? false,
       actionStatus: json['actionStatus'] ?? '',
+      rentability: json['rentabilityAmmount'] == null
+          ? null
+          : _parseAmount(json['rentabilityAmmount']),
+      boucherImage: json['boucherList']?[0]?['boucherImage'],
     );
   }
 
@@ -38,10 +48,11 @@ class Investment {
   }
 
   static int _parseAmount(String amount) {
-    double parsedDouble = double.parse(amount);
-    if (parsedDouble == parsedDouble.toInt()) {
-      return parsedDouble.toInt();
-    } else {
+    try {
+      double parsedDouble = double.parse(amount);
+      int parsedDoublee = parsedDouble.toInt();
+      return parsedDoublee;
+    } catch (e) {
       throw FormatException("Invalid amount format: $amount");
     }
   }
@@ -95,14 +106,24 @@ class UserInfoAllInvestment {
 
   factory UserInfoAllInvestment.fromJson(Map<String, dynamic> json) {
     return UserInfoAllInvestment(
-      investmentInSoles: json['invesmentInSoles'] != null && json['invesmentInSoles'].isNotEmpty
+      investmentInSoles: json['invesmentInSoles'] != null &&
+              json['invesmentInSoles'].isNotEmpty
           ? InvestmentCategory.fromJson(json['invesmentInSoles'][0])
           : InvestmentCategory(
-              investmentPending: [], investmentInCourse: [], investmentFinished: [], investmentInProcess: []),
-      investmentInDolares: json['invesmentInDolares'] != null && json['invesmentInDolares'].isNotEmpty
+              investmentPending: [],
+              investmentInCourse: [],
+              investmentFinished: [],
+              investmentInProcess: [],
+            ),
+      investmentInDolares: json['invesmentInDolares'] != null &&
+              json['invesmentInDolares'].isNotEmpty
           ? InvestmentCategory.fromJson(json['invesmentInDolares'][0])
           : InvestmentCategory(
-              investmentPending: [], investmentInCourse: [], investmentFinished: [], investmentInProcess: []),
+              investmentPending: [],
+              investmentInCourse: [],
+              investmentFinished: [],
+              investmentInProcess: [],
+            ),
     );
   }
 
@@ -132,7 +153,8 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-      userInfoAllInvestment: UserInfoAllInvestment.fromJson(json['userInfoAllInvestment']),
+      userInfoAllInvestment:
+          UserInfoAllInvestment.fromJson(json['userInfoAllInvestment']),
     );
   }
 

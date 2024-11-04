@@ -1279,6 +1279,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
           invesmentInDolares{
@@ -1306,6 +1310,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
         }

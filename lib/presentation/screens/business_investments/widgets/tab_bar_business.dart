@@ -58,16 +58,28 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
           userToValidateList =
               data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
-          userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
           userInPendingList = data?.investmentInSoles.investmentPending ?? [];
+          data?.investmentInSoles.investmentFinished.forEach((element) {
+            userCompletedList.add(element);
+            if (element.rentability != null) {
+              userCompletedList.add(
+                Investment(
+                  uuid: element.uuid,
+                  amount: element.rentability!,
+                  finishDateInvestment: element.finishDateInvestment,
+                  rentability: element.rentability,
+                ),
+              );
+            }
+          });
         } else {
           userToValidateList =
               data?.investmentInDolares.investmentInProcess ?? [];
           userInProgressList =
               data?.investmentInDolares.investmentInCourse ?? [];
+          userInPendingList = data?.investmentInDolares.investmentPending ?? [];
           userCompletedList =
               data?.investmentInDolares.investmentFinished ?? [];
-          userInPendingList = data?.investmentInDolares.investmentPending ?? [];
         }
 
         return Column(
