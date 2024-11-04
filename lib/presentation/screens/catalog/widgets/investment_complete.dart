@@ -52,7 +52,7 @@ class CompleteInvestment extends ConsumerWidget {
             ),
           ),
         ),
-        LabelState(
+        const LabelState(
           label: "Depositado",
         ),
         const DownloadButton(
@@ -85,6 +85,7 @@ class DownloadButton extends ConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.voucherDownloadHistory,
             parameters: {
+              "screen": FirebaseScreen.binnacleV2,
               "voucher_url": voucherUrl,
             },
           );

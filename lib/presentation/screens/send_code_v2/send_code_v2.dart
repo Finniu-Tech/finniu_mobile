@@ -77,9 +77,10 @@ class SendCodeV2 extends ConsumerWidget {
                         ref
                             .read(firebaseAnalyticsServiceProvider)
                             .logCustomEvent(
-                          eventName: FirebaseAnalyticsEvents.navigateTo,
+                          eventName: FirebaseAnalyticsEvents.pushDataSucces,
                           parameters: {
-                            "screen": "/v2/activate_account",
+                            "screen": FirebaseScreen.sendCodeV2,
+                            "navigate_to": FirebaseScreen.activateAccountV2,
                             "send_email": "email_true",
                           },
                         );
@@ -90,8 +91,8 @@ class SendCodeV2 extends ConsumerWidget {
                             .logCustomEvent(
                           eventName: FirebaseAnalyticsEvents.pushDataError,
                           parameters: {
-                            "screen": '/v2/send_code',
-                            "send_email": "email_flase",
+                            "screen": FirebaseScreen.sendCodeV2,
+                            "send_email": "email_false",
                           },
                         );
                         showSnackBarV2(

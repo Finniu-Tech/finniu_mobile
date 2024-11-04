@@ -10,5 +10,6 @@ final firebaseAnalyticsProvider = Provider<FirebaseAnalytics>((ref) {
 final firebaseAnalyticsServiceProvider =
     Provider<FirebaseAnalyticsService>((ref) {
   final analytics = ref.watch(firebaseAnalyticsProvider);
+
   return FirebaseAnalyticsService(analytics);
 });

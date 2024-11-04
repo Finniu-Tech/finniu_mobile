@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/v2_simulator_slider_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
@@ -19,6 +21,16 @@ class ButtonCalculate extends ConsumerWidget {
     final defaultCorporateFund = ref.watch(defaultCorporateFundProvider);
 
     void toInvestPressed() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.navigateTo,
+        parameters: {
+          "screen": FirebaseScreen.simulatorV2,
+          "currency": isSoles ? "dollar" : "soles",
+          "navigate_to": FirebaseScreen.investmentStep1V2,
+          'deadLine': '${months.getMonthValue()} meses',
+          "amount": amount.toString(),
+        },
+      );
       Navigator.pushNamed(
         context,
         '/v2/investment/step-1',
@@ -31,6 +43,14 @@ class ButtonCalculate extends ConsumerWidget {
     }
 
     void recalculatePressed() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.clickEvent,
+        parameters: {
+          "screen": FirebaseScreen.simulatorV2,
+          "currency": isSoles ? "dollar" : "soles",
+          "recalculate": "recalculate_simulation",
+        },
+      );
       Navigator.of(context).pop();
     }
 
