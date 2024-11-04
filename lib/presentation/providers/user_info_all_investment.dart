@@ -8,6 +8,7 @@ final userInfoAllInvestmentFutureProvider =
     FutureProvider.autoDispose<UserInfoAllInvestment?>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
+
     final result = await client!.query(
       QueryOptions(
         document: gql(

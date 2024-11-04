@@ -68,6 +68,8 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
                   amount: element.rentability!,
                   finishDateInvestment: element.finishDateInvestment,
                   rentability: element.rentability,
+                  isCapital: false,
+                  boucherImage: element.boucherImage,
                 ),
               );
             }
@@ -78,8 +80,21 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
           userInProgressList =
               data?.investmentInDolares.investmentInCourse ?? [];
           userInPendingList = data?.investmentInDolares.investmentPending ?? [];
-          userCompletedList =
-              data?.investmentInDolares.investmentFinished ?? [];
+          data?.investmentInDolares.investmentFinished.forEach((element) {
+            userCompletedList.add(element);
+            if (element.rentability != null) {
+              userCompletedList.add(
+                Investment(
+                  uuid: element.uuid,
+                  amount: element.rentability!,
+                  finishDateInvestment: element.finishDateInvestment,
+                  rentability: element.rentability,
+                  isCapital: false,
+                  boucherImage: element.boucherImage,
+                ),
+              );
+            }
+          });
         }
 
         return Column(
@@ -179,6 +194,8 @@ class CompletedList extends StatelessWidget {
                     child: CompleteInvestment(
                       dateEnds: list[index].finishDateInvestment,
                       amount: list[index].amount,
+                      isCapital: list[index].isCapital,
+                      boucherImage: list[index].boucherImage,
                     ),
                   ),
                 );

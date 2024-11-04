@@ -18,7 +18,7 @@ class Investment {
     this.isReinvestment = false,
     this.actionStatus,
     this.boucherImage,
-    this.isCapital = false,
+    this.isCapital = true,
   });
 
   factory Investment.fromJson(Map<String, dynamic> json) {

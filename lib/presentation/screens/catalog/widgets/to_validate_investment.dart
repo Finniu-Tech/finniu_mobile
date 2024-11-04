@@ -27,7 +27,9 @@ class ToValidateInvestment extends ConsumerWidget {
           height: 90,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+            color: isDarkMode
+                ? const Color(backgroundDark)
+                : const Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -71,8 +73,9 @@ class ValidationText extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
-    String text =
-        isReinvestment == true ? 'Tu reinversión esta a la espera de que finalice la inversión previa' : 'Validación';
+    String text = isReinvestment == true
+        ? 'Tu reinversión esta a la espera de que finalice la inversión previa'
+        : 'Validación';
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,7 +118,10 @@ class AmountInvestment extends ConsumerWidget {
           Container(
             width: 4,
             height: 47,
-            color: const Color(dividerAmountColor),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(dividerAmountColor),
+            ),
           ),
           const SizedBox(width: 10),
           Column(
@@ -169,7 +175,9 @@ class LabelState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode ? const Color(labelDarkContainer) : const Color(labelLightContainer),
+          color: isDarkMode
+              ? const Color(labelDarkContainer)
+              : const Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -181,7 +189,8 @@ class LabelState extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: isDarkMode ? const Color(textDark) : const Color(textLight),
+                color:
+                    isDarkMode ? const Color(textDark) : const Color(textLight),
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
               ),
