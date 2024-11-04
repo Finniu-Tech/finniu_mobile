@@ -15,6 +15,9 @@ class NavigationBarHome extends ConsumerWidget {
     final selectedIndex = ref.watch(navigatorStateProvider);
     final currentTheme = ref.watch(settingsNotifierProvider);
 
+    const int backgroudDark = 0xff0F456D;
+    const int backgroudLight = 0xffC0F1FF;
+
     void navigate(BuildContext context, int index) {
       switch (index) {
         case 0:
@@ -57,8 +60,8 @@ class NavigationBarHome extends ConsumerWidget {
         child: Container(
           decoration: BoxDecoration(
             color: currentTheme.isDarkMode
-                ? const Color(bottomBarBackgroundDark)
-                : const Color(bottomBarBackgroundLight),
+                ? const Color(backgroudDark)
+                : const Color(backgroudLight),
             borderRadius: const BorderRadius.all(Radius.circular(40)),
           ),
           child: Row(
@@ -72,17 +75,17 @@ class NavigationBarHome extends ConsumerWidget {
                 currentTheme: currentTheme,
               ),
               NavigationButton(
-                icon: 'assets/svg_icons/dollar-circle.svg',
-                title: 'Simulador',
-                onTap: () => navigate(context, 1),
-                isSelected: selectedIndex == 1 ? true : false,
+                icon: 'assets/svg_icons/nav_bar_invest_icon.svg',
+                title: 'Inversiones',
+                onTap: () => navigate(context, 2),
+                isSelected: selectedIndex == 2 ? true : false,
                 currentTheme: currentTheme,
               ),
               NavigationButton(
-                icon: 'assets/svg_icons/chart_bar_icon.svg',
-                title: 'Historial',
-                onTap: () => navigate(context, 2),
-                isSelected: selectedIndex == 2 ? true : false,
+                icon: 'assets/svg_icons/nav_bar_simulation_icon.svg',
+                title: 'Simulador',
+                onTap: () => navigate(context, 1),
+                isSelected: selectedIndex == 1 ? true : false,
                 currentTheme: currentTheme,
               ),
               const ButtonToProfile(
@@ -185,6 +188,10 @@ class NavigationButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const int selectDark = 0xff08273F;
+    const int selectLight = 0xffA2E6FA;
+    const int backgroudDark = 0xff0F456D;
+    const int backgroudLight = 0xffC0F1FF;
     return Container(
       margin: const EdgeInsets.all(5),
       width: 80,
@@ -192,11 +199,11 @@ class NavigationButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: isSelected
             ? currentTheme.isDarkMode
-                ? const Color(primaryDark)
-                : const Color(gradient_primary)
+                ? const Color(selectDark)
+                : const Color(selectLight)
             : currentTheme.isDarkMode
-                ? const Color(bottomBarBackgroundDark)
-                : const Color(bottomBarBackgroundLight),
+                ? const Color(backgroudDark)
+                : const Color(backgroudLight),
         borderRadius: BorderRadius.circular(30),
       ),
       child: Column(
