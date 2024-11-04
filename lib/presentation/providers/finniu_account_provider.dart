@@ -24,22 +24,20 @@ class FinniuAccount {
 }
 
 final finniuAccountSolesDefault = FinniuAccount(
-  accountNumber: '200-3004077570',
-  accountCci: '003-200-003004077570-39',
-  bankName: 'Interbank',
-  slug: 'interbank',
+  accountNumber: '---------',
+  accountCci: '---------',
+  bankName: '---------',
+  slug: '---------',
   currency: 'SOLES',
-  bankUrl:
-      "https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/43af74af/interbank.png",
+  bankUrl: '---------',
 );
 final finniuAccountDolarsDefault = FinniuAccount(
-  accountNumber: '200-3004754309',
-  accountCci: "003-200-003004754309-32",
-  bankName: "Interbank",
-  slug: "interbank",
+  accountNumber: '---------',
+  accountCci: '---------',
+  bankName: '---------',
+  slug: '---------',
   currency: "DOLARES",
-  bankUrl:
-      "https://finniu-statics-qa.s3.amazonaws.com/finniu/images/bank/43af74af/interbank.png",
+  bankUrl: "",
 );
 
 final finniuAccountProvider =
@@ -55,7 +53,6 @@ final finniuAccountProvider =
 
     final Map<String, dynamic> variables = {};
     if (bankSender != null) {
-      print(bankSender.bankName);
       variables['bankSlug'] = bankSender.bankName.toLowerCase();
     }
 
