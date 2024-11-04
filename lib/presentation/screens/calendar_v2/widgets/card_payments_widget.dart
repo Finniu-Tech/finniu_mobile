@@ -28,7 +28,7 @@ class PaymentCard extends ConsumerWidget {
       children: [
         Container(
           width: MediaQuery.of(context).size.width,
-          height: 90,
+          height: 95,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),

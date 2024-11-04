@@ -173,7 +173,7 @@ class AmountInvestment extends ConsumerWidget {
     int textColorLight = 0xff0D3A5C;
 
     return SizedBox(
-      height: 52,
+      height: 57,
       child: Row(
         children: [
           Container(
