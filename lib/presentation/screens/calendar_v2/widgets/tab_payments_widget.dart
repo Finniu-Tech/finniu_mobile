@@ -79,7 +79,7 @@ class PaymentData {
           ? PaymentCurrency.soles
           : PaymentCurrency.dolares,
       fundName: json['fundName'],
-      isCapitalPayment: !json['isCapitalPayment'],
+      isCapitalPayment: json['isCapitalPayment'],
     );
   }
 }
