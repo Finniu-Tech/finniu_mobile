@@ -115,6 +115,8 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
+    messageDialog(context);
+
     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
       eventName: FirebaseAnalyticsEvents.navigateTo,
       parameters: {
@@ -123,11 +125,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
         "continue_later": "true",
       },
     );
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      '/home_v2',
-      (Route<dynamic> route) => false,
-    );
+
   }
 
   List<GeoLocationItemV2> districts = [
