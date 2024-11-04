@@ -11,8 +11,10 @@ class PaymentListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleEmptyCase = "Aún no tienes registros de pagos ${status.displayName.toLowerCase()}";
-    final isPaymentFinished = status == PaymentStatus.past || status == PaymentStatus.recent;
+    final titleEmptyCase =
+        "Aún no tienes registros de pagos ${status.displayName.toLowerCase()}";
+    final isPaymentFinished =
+        status == PaymentStatus.past || status == PaymentStatus.recent;
     return SizedBox(
       child: list.isEmpty
           ? NoInvestmentCase(
@@ -26,11 +28,15 @@ class PaymentListView extends StatelessWidget {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: PaymentCard(
-                    dateEnds: DateFormat('dd-MM-yyyy').format(payment.paymentDate),
+                    dateEnds:
+                        DateFormat('dd-MM-yyyy').format(payment.paymentDate),
                     amount: payment.amount.toInt(),
                     paymentVoucherUrl: payment.paymentVoucherUrl,
                     isPaid: isPaymentFinished,
-                    isSoles: payment.currency == PaymentCurrency.soles ? true : false,
+                    isSoles: payment.currency == PaymentCurrency.soles
+                        ? true
+                        : false,
+                    isCapitalPayment: payment.isCapitalPayment,
                   ),
                 );
               },

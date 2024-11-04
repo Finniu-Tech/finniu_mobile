@@ -63,6 +63,7 @@ class AnimationNumberNotComma extends ConsumerWidget {
     required this.fontSize,
     required this.colorText,
     required this.beginNumber,
+    required this.isSoles,
   });
 
   final num endNumber;
@@ -70,11 +71,11 @@ class AnimationNumberNotComma extends ConsumerWidget {
   final int duration;
   final double fontSize;
   final int colorText;
+  final bool? isSoles;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isSoles = ref.watch(isSolesStateProvider);
-
+    final bool isSolesState = isSoles ?? ref.watch(isSolesStateProvider);
     return TweenAnimationBuilder(
       tween: Tween<double>(
           begin: beginNumber.toDouble(), end: endNumber.toDouble()),
@@ -84,7 +85,7 @@ class AnimationNumberNotComma extends ConsumerWidget {
 
         String formattedString;
         try {
-          formattedString = isSoles
+          formattedString = isSolesState
               ? formatterSolesNotComma.format(formattedValue)
               : formatterUSDNotComma.format(formattedValue);
         } catch (e) {

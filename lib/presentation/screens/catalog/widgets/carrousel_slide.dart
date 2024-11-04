@@ -26,7 +26,8 @@ class FundInfoSlider extends StatelessWidget {
     required this.netWorthAmount,
   });
 
-  List<Map<String, dynamic>> formatNetWorthData(List<FundNetWorthEntity> netWorthData) {
+  List<Map<String, dynamic>> formatNetWorthData(
+      List<FundNetWorthEntity> netWorthData) {
     final DateFormat dateFormat = DateFormat('yyyy-MM-ddTHH:mm:ss');
     final DateFormat monthFormat = DateFormat('MMM', 'es_ES');
 
@@ -41,7 +42,8 @@ class FundInfoSlider extends StatelessWidget {
     }).toList();
   }
 
-  String capitalize(String s) => s.isNotEmpty ? '${s[0].toUpperCase()}${s.substring(1)}' : s;
+  String capitalize(String s) =>
+      s.isNotEmpty ? '${s[0].toUpperCase()}${s.substring(1)}' : s;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +133,8 @@ class AnnualProfitability extends ConsumerWidget {
           Container(
             width: 245,
             decoration: BoxDecoration(
-              color: Color(isDarkMode ? containerColorDark : containerColorLight),
+              color:
+                  Color(isDarkMode ? containerColorDark : containerColorLight),
               borderRadius: const BorderRadius.all(Radius.circular(20)),
             ),
             child: Padding(
@@ -153,7 +156,8 @@ class AnnualProfitability extends ConsumerWidget {
                       TweenAnimationBuilder(
                         tween: IntTween(begin: 0, end: profitability),
                         duration: const Duration(seconds: 1),
-                        builder: (BuildContext context, int value, Widget? child) {
+                        builder:
+                            (BuildContext context, int value, Widget? child) {
                           return Text(
                             "${value.toString()}.0%",
                             style: const TextStyle(
@@ -291,7 +295,8 @@ class ManagedAssets extends ConsumerWidget {
             builder: (BuildContext context, int value, Widget? child) {
               return AutoSizeText(
                 formatterSoles.format(value),
-                style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               );
             },
           ),
@@ -373,6 +378,7 @@ class FundAssets extends ConsumerWidget {
                 fontSize: 32,
                 colorText: isDarkMode ? textColorDark : textColorLight,
                 beginNumber: 0,
+                isSoles: null,
               ),
             ],
           ),
@@ -397,6 +403,7 @@ class FundAssets extends ConsumerWidget {
                 fontSize: 32,
                 colorText: isDarkMode ? textColorDark : textColorLight,
                 beginNumber: 0,
+                isSoles: null,
               ),
             ],
           ),

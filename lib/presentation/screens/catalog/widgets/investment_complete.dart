@@ -16,7 +16,7 @@ class CompleteInvestment extends ConsumerWidget {
     super.key,
     required this.dateEnds,
     required this.amount,
-    this.isCapital = true,
+    this.isCapital = false,
     this.boucherImage = "",
   });
 
@@ -292,6 +292,7 @@ class AmountInvestmentFinal extends ConsumerWidget {
                 duration: 1,
                 fontSize: 14,
                 colorText: isDarkMode ? amountColorDark : amountColorLight,
+                isSoles: isSoles,
               ),
             ],
           ),

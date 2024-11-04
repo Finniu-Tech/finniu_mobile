@@ -1610,7 +1610,7 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
-          
+           isCapitalPayment
           }
           passPayments{
             uuid
@@ -1620,6 +1620,7 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
           recentPayments{
             uuid
@@ -1629,6 +1630,7 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
         }
       }

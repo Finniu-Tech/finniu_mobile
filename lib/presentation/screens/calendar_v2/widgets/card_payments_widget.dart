@@ -9,6 +9,8 @@ class PaymentCard extends ConsumerWidget {
   final String? paymentVoucherUrl;
   final bool isPaid;
   final bool isSoles;
+  final bool isCapitalPayment;
+
   const PaymentCard({
     super.key,
     required this.dateEnds,
@@ -16,14 +18,16 @@ class PaymentCard extends ConsumerWidget {
     required this.paymentVoucherUrl,
     required this.isPaid,
     required this.isSoles,
+    required this.isCapitalPayment,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
-    int backgroundLight = 0xffD6F6FF;
-    int backgroundDark = 0xff08273F;
+    int backgroundDark = isCapitalPayment ? 0xff6749E2 : 0xff08273F;
+
+    int backgroundLight = isCapitalPayment ? 0xffCFC3FF : 0xffD6F6FF;
     return Stack(
       children: [
         Container(
@@ -39,15 +43,17 @@ class PaymentCard extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AmountInvestment(
+                AmountInvestmentFinal(
                   amount: amount,
                   isSoles: isSoles,
+                  isCapital: isCapitalPayment,
                 ),
                 const SizedBox(height: 1),
                 Text(
                   isPaid ? "Finalizado el $dateEnds" : "Finaliza el $dateEnds",
                   style: TextStyle(
                     fontSize: 10,
+                    fontFamily: "Poppins",
                     color: isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
@@ -55,8 +61,9 @@ class PaymentCard extends ConsumerWidget {
             ),
           ),
         ),
-        LabelState(
+        LabelStateFinal(
           label: isPaid ? "Depositado" : "Próximo",
+          isCapital: isCapitalPayment,
         ),
         if (isPaid)
           DownloadButton(
