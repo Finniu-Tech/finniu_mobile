@@ -109,7 +109,7 @@ class FormLogin extends HookConsumerWidget {
         if (emailError.value) return;
         if (passwordError.value) return;
         context.loaderOverlay.show();
-
+        FocusManager.instance.primaryFocus?.unfocus();
         loginEmailHelper(
           context: context,
           ref: ref,
