@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -27,6 +29,13 @@ class _BodyPrivacy extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String? email = ref.watch(userProfileNotifierProvider).email;
     void setRememberPassword() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.clickEvent,
+        parameters: {
+          "screen": FirebaseScreen.privacyV2,
+          "click": "change_password",
+        },
+      );
       context.loaderOverlay.show();
       emailReset(context, ref);
     }

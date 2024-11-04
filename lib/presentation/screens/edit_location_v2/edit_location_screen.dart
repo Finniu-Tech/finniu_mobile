@@ -1,6 +1,8 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -130,6 +132,13 @@ class LocationFormState extends ConsumerState<EditLocationForm> {
 
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.formValidateError,
+        parameters: {
+          "screen": FirebaseScreen.editLocationDataV2,
+          "error": "input_form",
+        },
+      );
       showSnackBarV2(
         context: context,
         title: "Datos obligatorios incompletos",

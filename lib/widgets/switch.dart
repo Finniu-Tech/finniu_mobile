@@ -1,4 +1,6 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +13,11 @@ class SwitchMoney extends StatefulHookConsumerWidget {
   // final String switchText;
 
   const SwitchMoney({
-    Key? key,
+    super.key,
     required this.switchWidth,
     required this.switchHeight,
     // required this.switchText,
-  }) : super(key: key);
+  });
 
   @override
   _SwitchMoneyState createState() => _SwitchMoneyState();
@@ -30,8 +32,10 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
     final currentTheme = ref.watch(settingsNotifierProvider);
     isDarkMode = currentTheme.isDarkMode;
     isSoles = ref.watch(isSolesStateProvider);
-    final colorTextSoles = isDarkMode ? Color(primaryDark) : Color(whiteText);
-    final colorTextDollars = isDarkMode ? Color(whiteText) : Color(primaryDark);
+    final colorTextSoles =
+        isDarkMode ? const Color(primaryDark) : const Color(whiteText);
+    final colorTextDollars =
+        isDarkMode ? const Color(whiteText) : const Color(primaryDark);
     // final currencyColors = ref.watch(currencyColorsProvider);
 
     return Row(
@@ -61,6 +65,13 @@ class _SwitchMoneyState extends ConsumerState<SwitchMoney> {
               onToggle: (value) {
                 setState(() {
                   // isDarkMode = currentTheme.isDarkMode;
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.clickEvent,
+                    parameters: {
+                      "screen": FirebaseScreen.investmentV2,
+                      "event": "switch_currency_${value ? "soles" : "dollars"}",
+                    },
+                  );
                   isSoles = value;
                   ref.read(isSolesStateProvider.notifier).toggleSwitch(value);
                 });

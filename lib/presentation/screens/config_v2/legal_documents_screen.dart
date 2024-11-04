@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_get_legal_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -78,6 +80,7 @@ class _BodyLegalDocuments extends HookConsumerWidget {
           message: "No hay redirección disponible, por favor intenta de nuevo",
           snackType: SnackType.warning,
         );
+
         context.loaderOverlay.hide();
         return;
       }
@@ -174,7 +177,16 @@ class _BodyLegalDocuments extends HookConsumerWidget {
                 const TitleLegal(),
                 ...documents.sunatDeclarations.map(
                   (e) => GestureDetector(
-                    onTap: () => openUrl(e.declarationUrl, context),
+                    onTap: () => {
+                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                        eventName: FirebaseAnalyticsEvents.clickEvent,
+                        parameters: {
+                          "screen": FirebaseScreen.legalDocumentsV2,
+                          "click": "declaration_sunat_${e.nameFile}",
+                        },
+                      ),
+                      openUrl(e.declarationUrl, context),
+                    },
                     child: RowDownload(
                       title: e.nameFile,
                     ),
@@ -186,15 +198,31 @@ class _BodyLegalDocuments extends HookConsumerWidget {
               title: "Aceptaciones legales y/o tributarios",
               children: [
                 GestureDetector(
-                  onTap: () =>
-                      openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  onTap: () => {
+                    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                      eventName: FirebaseAnalyticsEvents.clickEvent,
+                      parameters: {
+                        "screen": FirebaseScreen.legalDocumentsV2,
+                        "click": "terms_conditions",
+                      },
+                    ),
+                    openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  },
                   child: const RowDownload(
                     title: "Términos y Condiciones",
                   ),
                 ),
                 GestureDetector(
-                  onTap: () =>
-                      openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  onTap: () => {
+                    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                      eventName: FirebaseAnalyticsEvents.clickEvent,
+                      parameters: {
+                        "screen": FirebaseScreen.legalDocumentsV2,
+                        "click": "policy_privacy",
+                      },
+                    ),
+                    openUrl(documents.legalAcceptance.privacyPolicy, context),
+                  },
                   child: const RowDownload(
                     title: "Política de Privacidad",
                   ),

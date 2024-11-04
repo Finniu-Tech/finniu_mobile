@@ -1,3 +1,6 @@
+
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/bubble_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
@@ -27,8 +30,22 @@ class _BodySettings extends ConsumerWidget {
     final bubbleState = ref.watch(positionProvider);
     void setDarkMode() {
       if (!isDarkMode) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.clickEvent,
+          parameters: {
+            "screen": FirebaseScreen.settingsV2,
+            "click": "dark_mode",
+          },
+        );
         ref.read(settingsNotifierProvider.notifier).setDarkMode();
       } else {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.clickEvent,
+          parameters: {
+            "screen": FirebaseScreen.settingsV2,
+            "click": "light_mode",
+          },
+        );
         ref.read(settingsNotifierProvider.notifier).setLightMode();
       }
     }
@@ -42,6 +59,13 @@ class _BodySettings extends ConsumerWidget {
     }
 
     void navigatePrivacy() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.navigateTo,
+        parameters: {
+          "screen": FirebaseScreen.settingsV2,
+          "navigate_to": FirebaseScreen.privacyV2,
+        },
+      );
       Navigator.pushNamed(context, '/v2/privacy');
     }
 

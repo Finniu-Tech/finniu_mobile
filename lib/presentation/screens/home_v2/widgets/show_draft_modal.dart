@@ -67,7 +67,16 @@ class _DraftBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void navigate() {
-      //pop the actual modal
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.navigateTo,
+        parameters: {
+          "navigate_to": FirebaseScreen.investmentStep2V2,
+          "amount": amountNumber.toString(),
+          "fundName": fund.name,
+          "currency": currency,
+          "isReinvest": isReinvest.toString(),
+        },
+      );
       Navigator.pop(context);
       Navigator.pushNamed(
         context,
@@ -76,6 +85,7 @@ class _DraftBody extends ConsumerWidget {
           'fund': fund,
           'preInvestmentUUID': uuid,
           'amount': amountNumber.toString(),
+          "isReinvest": isReinvest.toString(),
         },
       );
       // if (isReinvest) {

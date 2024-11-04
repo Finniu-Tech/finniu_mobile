@@ -55,6 +55,9 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     _startAutoScroll();
     _getCurrentAppVersion();
     ref.read(firebaseAnalyticsServiceProvider).logAppOpen();
+    ref.read(firebaseAnalyticsServiceProvider).setSessionTimeoutDuration(
+          const Duration(minutes: 5),
+        );
   }
 
   void _startAutoScroll() {
@@ -83,7 +86,8 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.navigateTo,
           parameters: {
-            "screen": "login_email",
+            "screen": FirebaseScreen.onBoardingV2,
+            "navigate_to": FirebaseScreen.loginEmailV2,
           },
         ),
         Navigator.pushNamed(context, '/v2/login_email'),
@@ -92,7 +96,8 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.navigateTo,
           parameters: {
-            "screen": "register",
+            "screen": FirebaseScreen.onBoardingV2,
+            "navigate_to": FirebaseScreen.registerV2,
           },
         ),
         Navigator.pushNamed(context, '/v2/register'),

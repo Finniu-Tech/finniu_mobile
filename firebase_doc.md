@@ -42,6 +42,8 @@ final firebaseAnalyticsServiceProvider =
 ``````
 example firebaseAnalyticsServiceProvider
 ``````
+
+
     ref.read(firebaseAnalyticsServiceProvider).setUserId(
         "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
     );
@@ -57,6 +59,26 @@ example firebaseAnalyticsServiceProvider
           'parameter': [parameter],
         },
     );
+
+    Future<void> logCustomEvent({
+    required String eventName,
+    required Map<String, String> parameters,
+    }) async {
+      await _analytics.logEvent(
+        name: eventName,
+        parameters: {
+          ...parameters,
+          "date_now": "${DateTime.now().toLocal()}",
+        },
+      );
+    }
+
+    ref.read(firebaseAnalyticsServiceProvider).setSessionTimeoutDuration(
+          const Duration(minutes: 5),
+      );
+
+
+
 ``````
 events FirebaseAnalyticsEvents import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 ``````

@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -98,6 +100,13 @@ class FormLogin extends HookConsumerWidget {
 
     void loginEmail() async {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.loginEmailV2,
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Error de inicio de sesión",
@@ -106,8 +115,26 @@ class FormLogin extends HookConsumerWidget {
         );
         return;
       } else {
-        if (emailError.value) return;
-        if (passwordError.value) return;
+        if (emailError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.loginEmailV2,
+              "error": "input_email",
+            },
+          );
+          return;
+        }
+        if (passwordError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.loginEmailV2,
+              "error": "input_password",
+            },
+          );
+          return;
+        }
         context.loaderOverlay.show();
         FocusManager.instance.primaryFocus?.unfocus();
         loginEmailHelper(
@@ -164,7 +191,16 @@ class FormLogin extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/v2/login_forgot'),
+                onTap: () => {
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.navigateTo,
+                    parameters: {
+                      "screen": FirebaseScreen.loginEmailV2,
+                      "navigateTo": FirebaseScreen.loginForgotV2,
+                    },
+                  ),
+                  Navigator.pushNamed(context, '/v2/login_forgot'),
+                },
                 child: const TextPoppins(
                   text: "¿Olvidaste tu contraseña?",
                   fontSize: 11,
@@ -179,6 +215,13 @@ class FormLogin extends HookConsumerWidget {
               CheckBoxWidget(
                 value: rememberPassword.value,
                 onChanged: (value) {
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.clickEvent,
+                    parameters: {
+                      "screen": FirebaseScreen.loginEmailV2,
+                      "event": "remember_password",
+                    },
+                  );
                   rememberPassword.value = value ?? false;
                   Preferences.rememberMe = value ?? false;
                   if (!rememberPassword.value) {
@@ -202,7 +245,16 @@ class FormLogin extends HookConsumerWidget {
             fontWeight: FontWeight.w500,
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/v2/register'),
+            onTap: () => {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.navigateTo,
+                parameters: {
+                  "screen": FirebaseScreen.loginEmailV2,
+                  "navigateTo": FirebaseScreen.registerV2,
+                },
+              ),
+              Navigator.pushNamed(context, '/v2/register'),
+            },
             child: const TextPoppins(
               text: "Registrarme",
               fontSize: 13,

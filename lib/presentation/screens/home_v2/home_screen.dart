@@ -110,16 +110,13 @@ class HomeScreenV2 extends HookConsumerWidget {
   void _setUserAnalytics(WidgetRef ref, UserProfile profile) {
     final analytics = ref.read(firebaseAnalyticsServiceProvider);
     analytics.setUserId(
-      "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
+      "_${profile.id}${profile.firstName}_${profile.lastName}${profile.email}_${profile.phoneNumber}",
     );
     analytics.setUserProperty(
       name: "first_name",
       value: "${profile.firstName}_${profile.lastName}",
     );
-    analytics.setUserProperty(
-      name: "document_number",
-      value: "${profile.documentNumber}",
-    );
+
     analytics.setUserProperty(
       name: "email",
       value: "${profile.email}",

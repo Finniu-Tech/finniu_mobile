@@ -1,4 +1,6 @@
 import 'package:finniu/constants/colors.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/button_to_profile.dart';
@@ -22,23 +24,44 @@ class NavigationBarHome extends ConsumerWidget {
       switch (index) {
         case 0:
           ref.read(navigatorStateProvider.notifier).state = 0;
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.navigateTo,
+            parameters: {
+              "navigate_to": FirebaseScreen.homeV2,
+              "nav_bar": "true",
+            },
+          );
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/home_v2', (route) => false);
           break;
         case 1:
           ref.read(navigatorStateProvider.notifier).state = 1;
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.navigateTo,
+            parameters: {
+              "navigate_to": FirebaseScreen.simulatorV2,
+              "nav_bar": "true",
+            },
+          );
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/v2/simulator', (route) => false);
           break;
         case 2:
           ref.read(navigatorStateProvider.notifier).state = 2;
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.navigateTo,
+            parameters: {
+              "navigate_to": FirebaseScreen.investmentV2,
+              "nav_bar": "true",
+            },
+          );
           Navigator.of(context)
               .pushNamedAndRemoveUntil('/v2/investment', (route) => false);
           break;
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
           Navigator.of(context)
-              .pushNamedAndRemoveUntil('/home_home', (route) => false);
+              .pushNamedAndRemoveUntil('/home_v2', (route) => false);
       }
     }
 
