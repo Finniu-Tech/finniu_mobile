@@ -130,14 +130,11 @@ class DownloadButton extends ConsumerWidget {
                       height: 16,
                     ),
               const SizedBox(width: 3),
-              Text(
-                "Descargar voucher",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: isDarkMode
-                      ? const Color(textColorDark)
-                      : const Color(textColorLight),
-                ),
+              const TextPoppins(
+                text: "Descargar voucher",
+                fontSize: 10,
+                textDark: textColorDark,
+                textLight: textColorLight,
               ),
             ],
           ),
