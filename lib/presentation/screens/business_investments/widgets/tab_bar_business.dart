@@ -60,16 +60,43 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
           userToValidateList =
               data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
-          userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
           userInPendingList = data?.investmentInSoles.investmentPending ?? [];
+          data?.investmentInSoles.investmentFinished.forEach((element) {
+            userCompletedList.add(element);
+            if (element.rentability != null) {
+              userCompletedList.add(
+                Investment(
+                  uuid: element.uuid,
+                  amount: element.rentability!,
+                  finishDateInvestment: element.finishDateInvestment,
+                  rentability: element.rentability,
+                  isCapital: false,
+                  boucherImage: element.boucherImage,
+                ),
+              );
+            }
+          });
         } else {
           userToValidateList =
               data?.investmentInDolares.investmentInProcess ?? [];
           userInProgressList =
               data?.investmentInDolares.investmentInCourse ?? [];
-          userCompletedList =
-              data?.investmentInDolares.investmentFinished ?? [];
           userInPendingList = data?.investmentInDolares.investmentPending ?? [];
+          data?.investmentInDolares.investmentFinished.forEach((element) {
+            userCompletedList.add(element);
+            if (element.rentability != null) {
+              userCompletedList.add(
+                Investment(
+                  uuid: element.uuid,
+                  amount: element.rentability!,
+                  finishDateInvestment: element.finishDateInvestment,
+                  rentability: element.rentability,
+                  isCapital: false,
+                  boucherImage: element.boucherImage,
+                ),
+              );
+            }
+          });
         }
 
         return Column(
@@ -177,6 +204,8 @@ class CompletedList extends ConsumerWidget {
                     child: CompleteInvestment(
                       dateEnds: list[index].finishDateInvestment,
                       amount: list[index].amount,
+                      isCapital: list[index].isCapital,
+                      boucherImage: list[index].boucherImage,
                     ),
                   ),
                 );

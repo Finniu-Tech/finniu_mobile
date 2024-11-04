@@ -26,14 +26,17 @@ class AnimationNumber extends ConsumerWidget {
     final bool isSolesState = isSoles ?? ref.watch(isSolesStateProvider);
 
     return TweenAnimationBuilder(
-      tween: Tween<double>(begin: beginNumber.toDouble(), end: endNumber.toDouble()),
+      tween: Tween<double>(
+          begin: beginNumber.toDouble(), end: endNumber.toDouble()),
       duration: Duration(seconds: duration),
       builder: (BuildContext context, double value, Widget? child) {
         final formattedValue = value % 1 == 0 ? value.toInt() : value;
 
         String formattedString;
         try {
-          formattedString = isSolesState ? formatterSoles.format(formattedValue) : formatterUSD.format(formattedValue);
+          formattedString = isSolesState
+              ? formatterSoles.format(formattedValue)
+              : formatterUSD.format(formattedValue);
         } catch (e) {
           formattedString = formattedValue.toStringAsFixed(2);
         }
@@ -42,7 +45,8 @@ class AnimationNumber extends ConsumerWidget {
           formattedString,
           style: TextStyle(
             fontSize: fontSize,
-            fontWeight: FontWeight.bold,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w600,
             color: Color(colorText),
           ),
         );
@@ -59,6 +63,7 @@ class AnimationNumberNotComma extends ConsumerWidget {
     required this.fontSize,
     required this.colorText,
     required this.beginNumber,
+    required this.isSoles,
   });
 
   final num endNumber;
@@ -66,22 +71,23 @@ class AnimationNumberNotComma extends ConsumerWidget {
   final int duration;
   final double fontSize;
   final int colorText;
+  final bool? isSoles;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final isSoles = ref.watch(isSolesStateProvider);
-    const isSoles = true;
-
+    final bool isSolesState = isSoles ?? ref.watch(isSolesStateProvider);
     return TweenAnimationBuilder(
-      tween: Tween<double>(begin: beginNumber.toDouble(), end: endNumber.toDouble()),
+      tween: Tween<double>(
+          begin: beginNumber.toDouble(), end: endNumber.toDouble()),
       duration: Duration(seconds: duration),
       builder: (BuildContext context, double value, Widget? child) {
         final formattedValue = value % 1 == 0 ? value.toInt() : value;
 
         String formattedString;
         try {
-          formattedString =
-              isSoles ? formatterSolesNotComma.format(formattedValue) : formatterUSDNotComma.format(formattedValue);
+          formattedString = isSolesState
+              ? formatterSolesNotComma.format(formattedValue)
+              : formatterUSDNotComma.format(formattedValue);
         } catch (e) {
           formattedString = formattedValue.toStringAsFixed(2);
         }
@@ -90,7 +96,8 @@ class AnimationNumberNotComma extends ConsumerWidget {
           formattedString,
           style: TextStyle(
             fontSize: fontSize,
-            fontWeight: FontWeight.bold,
+            fontFamily: "Poppins",
+            fontWeight: FontWeight.w600,
             color: Color(colorText),
           ),
         );

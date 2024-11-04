@@ -136,7 +136,7 @@ class FormLogin extends HookConsumerWidget {
           return;
         }
         context.loaderOverlay.show();
-
+        FocusManager.instance.primaryFocus?.unfocus();
         loginEmailHelper(
           context: context,
           ref: ref,

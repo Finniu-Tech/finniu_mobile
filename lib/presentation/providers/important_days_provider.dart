@@ -3,7 +3,8 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 
-final importantDaysFutureProvider = FutureProvider<List<dynamic>>((ref) async {
+final importantDaysFutureProvider =
+    FutureProvider.autoDispose<List<dynamic>>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
 
