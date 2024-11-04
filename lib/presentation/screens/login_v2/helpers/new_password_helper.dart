@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/recovery_password_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -27,9 +29,23 @@ void resetPassword({
     );
 
     await Future.delayed(const Duration(seconds: 1));
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataSucces,
+      parameters: {
+        "screen": FirebaseScreen.setNewPasswordV2,
+        "navigate_to": FirebaseScreen.loginEmailV2
+      },
+    );
     context.loaderOverlay.hide();
     modalNewPassword(context);
   } else {
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataError,
+      parameters: {
+        "screen": FirebaseScreen.setNewPasswordV2,
+        "ërror": "password_false",
+      },
+    );
     context.loaderOverlay.hide();
     showSnackBarV2(
       context: context,

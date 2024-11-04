@@ -23,43 +23,48 @@ Future<bool> pushFeedbackData(
   DtoFedbackForm data,
   WidgetRef ref,
 ) async {
-  final gqlClient = ref.watch(gqlClientProvider).value;
-  if (gqlClient == null) {
-    showSnackBarV2(
-      context: context,
-      title: "Error al registrar",
-      message: "No se pudo conectar con el servidor",
-      snackType: SnackType.error,
-    );
-    return false;
-  }
+  try {
+    final gqlClient = ref.watch(gqlClientProvider).value;
+    if (gqlClient == null) {
+      showSnackBarV2(
+        context: context,
+        title: "Error al registrar",
+        message: "No se pudo conectar con el servidor",
+        snackType: SnackType.error,
+      );
+      return false;
+    }
 
-  final npsDataSource = NPSDataSourceImpl();
-  final futures = <Future<bool>>[];
-  futures.add(
-    npsDataSource.save(
-      question: data.question,
-      answer: data.answer,
-      comment: "",
-      client: gqlClient,
-    ),
-  );
-  if (data.answerSecond != null) {
+    final npsDataSource = NPSDataSourceImpl();
+    final futures = <Future<bool>>[];
     futures.add(
       npsDataSource.save(
-        question: data.questionSecond ?? "",
-        answer: data.answerSecond ?? "",
+        question: data.question,
+        answer: data.answer,
         comment: "",
         client: gqlClient,
       ),
     );
-  }
+    if (data.answerSecond != null) {
+      futures.add(
+        npsDataSource.save(
+          question: data.questionSecond ?? "",
+          answer: data.answerSecond ?? "",
+          comment: "",
+          client: gqlClient,
+        ),
+      );
+    }
 
-  final results = await Future.wait(futures);
+    final results = await Future.wait(futures);
 
-  if (results.every((result) => result)) {
-    return true;
-  } else {
+    if (results.every((result) => result)) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    print(e);
     return false;
   }
 }

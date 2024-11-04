@@ -53,7 +53,7 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                 eventName: FirebaseAnalyticsEvents.pushDataSucces,
                 parameters: {
-                  "screen": "/v2/activate_account",
+                  "screen": FirebaseScreen.activateAccountV2,
                   "push_code": "push_code_success",
                   "navigate": "/v2/form_personal_data",
                 },
@@ -65,7 +65,7 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
               ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                 eventName: FirebaseAnalyticsEvents.pushDataSucces,
                 parameters: {
-                  "screen": "/v2/activate_account",
+                  "screen": FirebaseScreen.activateAccountV2,
                   "push_code": "push_code_error",
                 },
               );

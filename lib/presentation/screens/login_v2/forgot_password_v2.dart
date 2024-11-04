@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -75,7 +77,14 @@ class FormForgotState extends ConsumerState<FormForgot> {
   @override
   Widget build(BuildContext context) {
     void seedEmail() async {
-      if (emailController.text == null || emailController.text.isEmpty) {
+      if (emailController.text.isEmpty) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.loginForgotV2,
+            "error": "input_email",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Email incorrecto",
@@ -85,6 +94,13 @@ class FormForgotState extends ConsumerState<FormForgot> {
         return null;
       }
       if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(emailController.text)) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.loginForgotV2,
+            "error": "input_validation",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Email incorrecto",

@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -107,6 +109,14 @@ class ThankYouContainer extends ConsumerWidget {
     const int titleColorLight = 0xff0D3A5C;
 
     void onPressed() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.navigateTo,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep2V2,
+          "nevigate_to": FirebaseScreen.homeV2,
+          "event": "push_feedback_succes",
+        },
+      );
       Navigator.pushNamedAndRemoveUntil(context, "/home_v2", (route) => false);
     }
 

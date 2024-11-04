@@ -33,7 +33,7 @@ pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataSucces,
         parameters: {
-          "screen": "register",
+          "screen": FirebaseScreen.registerV2,
           "succes": "register_succes",
         },
       );
@@ -44,15 +44,15 @@ pushDataForm(BuildContext context, DtoRegisterForm data, WidgetRef ref) {
         snackType: SnackType.success,
       );
       Future.delayed(const Duration(seconds: 1), () {
-        context.loaderOverlay.hide();
         Navigator.pushNamed(context, "/v2/send_code");
         ScaffoldMessenger.of(context).clearSnackBars();
+        context.loaderOverlay.hide();
       });
     } else {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.pushDataError,
         parameters: {
-          "screen": "register",
+          "screen": FirebaseScreen.registerV2,
           "error": "error_back",
         },
       );

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/number_format.dart';
-import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
@@ -66,6 +65,7 @@ class InvestmentProcessStep1Screen extends ConsumerWidget {
   final bool? isReInvestment;
   final String? reInvestmentType;
   final String? preInvestmentUUID; //USED FOR REINVESTMENT
+
   final int? originInvestmentRentability;
   const InvestmentProcessStep1Screen({
     super.key,
@@ -324,6 +324,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         await ref.read(saveCorporateInvestmentFutureProvider(input).future);
 
     if (!response.success) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
+          "event": "save_pre_investment_error",
+        },
+      );
       context.loaderOverlay.hide();
       showSnackBarV2(
         context: context,
@@ -336,8 +343,14 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       return;
     }
 
-    context.loaderOverlay.hide();
-
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataSucces,
+      parameters: {
+        "screen": FirebaseScreen.investmentStep1V2,
+        "event": "save_pre_investment_success",
+        "navigate_to": FirebaseScreen.investmentStep2V2,
+      },
+    );
     Navigator.pushNamed(
       context,
       '/v2/investment/step-2',
@@ -347,6 +360,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         'amount': input.amount,
       },
     );
+    context.loaderOverlay.hide();
   }
 
   //save ReInvestment
@@ -360,6 +374,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     final CreateReInvestmentResponse response =
         await ref.read(createReInvestmentProvider(input).future);
     if (response.success == false) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
+          "event": "save_re_investment_error",
+        },
+      );
       context.loaderOverlay.hide();
       showSnackBarV2(
         context: context,
@@ -371,7 +392,14 @@ class _FormStep1State extends ConsumerState<FormStep1> {
 
       return;
     }
-
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataSucces,
+      parameters: {
+        "screen": FirebaseScreen.investmentStep1V2,
+        "event": "save_re_investment_success",
+        "navigate_to": FirebaseScreen.investmentStep2V2,
+      },
+    );
     context.loaderOverlay.hide();
     if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
       Navigator.pushNamed(
@@ -405,6 +433,13 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         widget.deadLineController.text.isEmpty ||
         // widget.bankController.text.isEmpty ||
         widget.originFundsController.text.isEmpty) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
+          "event": "form_error",
+        },
+      );
       showSnackBarV2(
         context: context,
         title: "Error al completar datos",
@@ -505,6 +540,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.calculateSimulation,
         parameters: {
+          "screen": FirebaseScreen.investmentStep1V2,
           "amout": amount,
           "isReInvestment": widget.isReInvestment.toString(),
         },
@@ -519,10 +555,12 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
       eventName: FirebaseAnalyticsEvents.calculateSimulation,
       parameters: {
+        "screen": FirebaseScreen.investmentStep1V2,
         "amout": amount,
         "isReInvestment": widget.isReInvestment.toString(),
       },
     );
+
     showInvestmentSimulationModal(amount, reinvestmentParams);
   }
 
@@ -608,6 +646,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.editSimulation,
           parameters: {
+            "screen": FirebaseScreen.investmentStep1V2,
             "amout": amount,
             "isReInvestment": widget.isReInvestment.toString(),
             "coupon": widget.couponController.text,
@@ -946,6 +985,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                         eventName: FirebaseAnalyticsEvents.addCoupon,
                         parameters: {
+                          "screen": FirebaseScreen.investmentStep1V2,
                           'cupon_applied': true.toString(),
                         },
                       );
@@ -960,6 +1000,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                         eventName: FirebaseAnalyticsEvents.addCoupon,
                         parameters: {
+                          "screen": FirebaseScreen.investmentStep1V2,
                           'cupon_applied': false.toString(),
                         },
                       );
@@ -1177,6 +1218,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                       eventName: FirebaseAnalyticsEvents.completeRegistration,
                       parameters: {
+                        "screen": FirebaseScreen.investmentStep1V2,
                         'complete_registration': false.toString(),
                       },
                     );
@@ -1191,6 +1233,7 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                       eventName: FirebaseAnalyticsEvents.completeRegistration,
                       parameters: {
+                        "screen": FirebaseScreen.investmentStep1V2,
                         'complete_registration': true.toString(),
                       },
                     );

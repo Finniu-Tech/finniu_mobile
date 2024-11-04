@@ -1,4 +1,6 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/add_voucher_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -78,6 +80,13 @@ class _FormSupport extends HookConsumerWidget {
     // final ValueNotifier<bool> imageError = useState(false);
     void sendTicket() {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.supportTicketV2,
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
