@@ -27,12 +27,13 @@ class OurInvestmentFunds extends ConsumerWidget {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.screenView,
         parameters: {
+          'screen': FirebaseScreen.homeV2,
           'navigated_from': fund.name,
         },
       );
       ref.read(firebaseAnalyticsServiceProvider).logScreenView(
         screenName: fundEventName,
-        screenClass: 'home_v2',
+        screenClass: FirebaseScreen.homeV2,
         parameters: {
           'navigated_from': fund.name,
         },

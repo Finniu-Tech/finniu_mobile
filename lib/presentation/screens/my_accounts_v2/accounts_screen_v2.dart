@@ -1,4 +1,6 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/account_card.dart';
@@ -78,11 +80,20 @@ class _BodyMyAccounts extends ConsumerWidget {
                 ),
                 const SizedBox(height: 15),
                 GestureDetector(
-                  onTap: () => showAccountTransferModal(
-                    context,
-                    currency,
-                    true,
-                  ),
+                  onTap: () => {
+                    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                      eventName: FirebaseAnalyticsEvents.clickEvent,
+                      parameters: {
+                        "screen": FirebaseScreen.myAccountsV2,
+                        "add_account": "add_account",
+                      },
+                    ),
+                    showAccountTransferModal(
+                      context,
+                      currency,
+                      true,
+                    ),
+                  },
                   child: const AddAccounts(),
                 ),
                 const SizedBox(height: 35),

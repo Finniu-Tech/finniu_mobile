@@ -1279,6 +1279,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
           invesmentInDolares{
@@ -1306,6 +1310,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
         }
@@ -1602,7 +1610,7 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
-          
+           isCapitalPayment
           }
           passPayments{
             uuid
@@ -1612,6 +1620,7 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
           recentPayments{
             uuid
@@ -1621,6 +1630,7 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
         }
       }

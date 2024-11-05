@@ -4,9 +4,11 @@ import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-final userInfoAllInvestmentFutureProvider = FutureProvider.autoDispose<UserInfoAllInvestment?>((ref) async {
+final userInfoAllInvestmentFutureProvider =
+    FutureProvider.autoDispose<UserInfoAllInvestment?>((ref) async {
   try {
     final client = ref.watch(gqlClientProvider).value;
+
     final result = await client!.query(
       QueryOptions(
         document: gql(
@@ -16,6 +18,7 @@ final userInfoAllInvestmentFutureProvider = FutureProvider.autoDispose<UserInfoA
       ),
     );
     final data = result.data?['userInfoAllInvestment'];
+
     if (data == null) {
       return null;
     }
@@ -23,6 +26,7 @@ final userInfoAllInvestmentFutureProvider = FutureProvider.autoDispose<UserInfoA
 
     return user;
   } catch (e) {
+    print(e);
     return null;
   }
 });

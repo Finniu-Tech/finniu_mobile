@@ -37,13 +37,20 @@ class ActivateAccountV2 extends ConsumerWidget {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataSucces,
             parameters: {
-              "screen": "/v2/activate_account",
+              "screen": FirebaseScreen.activateAccountV2,
               "send_email": "refresh_code",
             },
           );
           if (result == true) {
             ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
           } else {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.pushDataError,
+              parameters: {
+                "screen": FirebaseScreen.activateAccountV2,
+                "send_email": "email_false",
+              },
+            );
             showSnackBarV2(
               context: context,
               title: "Error al enviar el correo",

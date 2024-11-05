@@ -100,7 +100,8 @@ class FundDetailBody extends ConsumerWidget {
                 ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                   eventName: FirebaseAnalyticsEvents.screenView,
                   parameters: {
-                    'navigated_from': fund.name,
+                    "screen": FirebaseScreen.fundDetail,
+                    'navigatedTo': fund.name,
                   },
                 );
                 ref.read(firebaseAnalyticsServiceProvider).logScreenView(
@@ -122,6 +123,7 @@ class FundDetailBody extends ConsumerWidget {
                 ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                   eventName: FirebaseAnalyticsEvents.screenView,
                   parameters: {
+                    "screen": FirebaseScreen.fundDetail,
                     'navigated_from': fund.name,
                   },
                 );

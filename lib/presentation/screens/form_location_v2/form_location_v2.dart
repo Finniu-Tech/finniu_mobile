@@ -1,6 +1,8 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -80,6 +82,13 @@ class LocationFormState extends ConsumerState<LocationForm> {
 
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.formValidateError,
+        parameters: {
+          "screen": FirebaseScreen.formLocationV2,
+          "error": "input_form",
+        },
+      );
       showSnackBarV2(
         context: context,
         title: "Datos obligatorios incompletos",
@@ -91,6 +100,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
       if (provinceError.value) return;
       if (districtError.value) return;
       if (addressError.value) return;
+
       // if (houseNumberError.value) return;
       DtoLocationForm data = DtoLocationForm(
         country: countrySelectController.text,
@@ -105,11 +115,17 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      '/home_v2',
-      (Route<dynamic> route) => false,
+    messageDialog(context);
+
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.navigateTo,
+      parameters: {
+        "screen": FirebaseScreen.formLocationV2,
+        "navigate_to": FirebaseScreen.homeV2,
+        "continue_later": "true",
+      },
     );
+
   }
 
   List<GeoLocationItemV2> districts = [

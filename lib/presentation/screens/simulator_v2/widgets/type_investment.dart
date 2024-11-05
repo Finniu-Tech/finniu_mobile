@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -33,6 +35,13 @@ class SwitchIsSoles extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     void onTap() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.clickEvent,
+        parameters: {
+          "screen": FirebaseScreen.simulatorV2,
+          "click": "switch_${isSoles ? "dollar" : "soles"}",
+        },
+      );
       ref
           .read(isSolesStateProvider.notifier)
           .toggleSwitch(isSoles ? false : true);

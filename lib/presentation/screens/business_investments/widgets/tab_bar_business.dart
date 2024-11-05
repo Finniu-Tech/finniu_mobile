@@ -1,6 +1,8 @@
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_info_all_investment.dart';
@@ -58,16 +60,43 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
           userToValidateList =
               data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
-          userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
           userInPendingList = data?.investmentInSoles.investmentPending ?? [];
+          data?.investmentInSoles.investmentFinished.forEach((element) {
+            userCompletedList.add(element);
+            if (element.rentability != null) {
+              userCompletedList.add(
+                Investment(
+                  uuid: element.uuid,
+                  amount: element.rentability!,
+                  finishDateInvestment: element.finishDateInvestment,
+                  rentability: element.rentability,
+                  isCapital: false,
+                  boucherImage: element.boucherImage,
+                ),
+              );
+            }
+          });
         } else {
           userToValidateList =
               data?.investmentInDolares.investmentInProcess ?? [];
           userInProgressList =
               data?.investmentInDolares.investmentInCourse ?? [];
-          userCompletedList =
-              data?.investmentInDolares.investmentFinished ?? [];
           userInPendingList = data?.investmentInDolares.investmentPending ?? [];
+          data?.investmentInDolares.investmentFinished.forEach((element) {
+            userCompletedList.add(element);
+            if (element.rentability != null) {
+              userCompletedList.add(
+                Investment(
+                  uuid: element.uuid,
+                  amount: element.rentability!,
+                  finishDateInvestment: element.finishDateInvestment,
+                  rentability: element.rentability,
+                  isCapital: false,
+                  boucherImage: element.boucherImage,
+                ),
+              );
+            }
+          });
         }
 
         return Column(
@@ -134,12 +163,12 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
   }
 }
 
-class CompletedList extends StatelessWidget {
+class CompletedList extends ConsumerWidget {
   final List<Investment> list;
   const CompletedList({super.key, required this.list});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       // width: 336,
       child: list.isEmpty
@@ -155,6 +184,14 @@ class CompletedList extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: GestureDetector(
                     onTap: () {
+                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                        eventName: FirebaseAnalyticsEvents.navigateTo,
+                        parameters: {
+                          "screen": FirebaseScreen.investmentV2,
+                          "navigate_to": FirebaseScreen.summaryV2,
+                          "status": StatusInvestmentEnum.finished,
+                        },
+                      );
                       Navigator.pushNamed(
                         context,
                         '/v2/summary',
@@ -167,6 +204,8 @@ class CompletedList extends StatelessWidget {
                     child: CompleteInvestment(
                       dateEnds: list[index].finishDateInvestment,
                       amount: list[index].amount,
+                      isCapital: list[index].isCapital,
+                      boucherImage: list[index].boucherImage,
                     ),
                   ),
                 );
@@ -176,12 +215,12 @@ class CompletedList extends StatelessWidget {
   }
 }
 
-class InProgressList extends StatelessWidget {
+class InProgressList extends ConsumerWidget {
   final List<Investment> list;
   const InProgressList({super.key, required this.list});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       // width: 336,
       child: list.isEmpty
@@ -197,6 +236,14 @@ class InProgressList extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: GestureDetector(
                     onTap: () {
+                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                        eventName: FirebaseAnalyticsEvents.navigateTo,
+                        parameters: {
+                          "screen": FirebaseScreen.investmentV2,
+                          "navigate_to": FirebaseScreen.summaryV2,
+                          "status": "in_process",
+                        },
+                      );
                       Navigator.pushNamed(
                         context,
                         '/v2/summary',
@@ -216,6 +263,14 @@ class InProgressList extends StatelessWidget {
                           list[index].isReinvestAvailable ?? false,
                       actionStatus: list[index].actionStatus ?? "",
                       onPressed: () {
+                        ref
+                            .read(firebaseAnalyticsServiceProvider)
+                            .logCustomEvent(
+                          eventName: FirebaseAnalyticsEvents.scrollPage,
+                          parameters: {
+                            "screen": FirebaseScreen.investmentV2,
+                          },
+                        );
                         Navigator.pushNamed(
                           context,
                           '/v2/summary',
@@ -237,12 +292,12 @@ class InProgressList extends StatelessWidget {
   }
 }
 
-class ToValidateList extends StatelessWidget {
+class ToValidateList extends ConsumerWidget {
   final List<Investment> list;
   const ToValidateList({super.key, required this.list});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       // height: 336,
       child: list.isEmpty
@@ -258,6 +313,14 @@ class ToValidateList extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: GestureDetector(
                     onTap: () {
+                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                        eventName: FirebaseAnalyticsEvents.navigateTo,
+                        parameters: {
+                          "screen": FirebaseScreen.investmentV2,
+                          "navigate_to": FirebaseScreen.summaryV2,
+                          "status": StatusInvestmentEnum.in_process,
+                        },
+                      );
                       Navigator.pushNamed(
                         context,
                         '/v2/summary',
@@ -279,12 +342,12 @@ class ToValidateList extends StatelessWidget {
   }
 }
 
-class PendingList extends StatelessWidget {
+class PendingList extends ConsumerWidget {
   final List<Investment> list;
   const PendingList({super.key, required this.list});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       // height: 336,
       child: list.isEmpty
@@ -296,11 +359,18 @@ class PendingList extends StatelessWidget {
           : ListView.builder(
               itemCount: list.length,
               itemBuilder: (context, index) {
-                print('is reinvest 11111${list[index].isReinvestment}');
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: GestureDetector(
                     onTap: () {
+                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                        eventName: FirebaseAnalyticsEvents.navigateTo,
+                        parameters: {
+                          "screen": FirebaseScreen.investmentV2,
+                          "navigate_to": FirebaseScreen.summaryV2,
+                          "status": StatusInvestmentEnum.pending,
+                        },
+                      );
                       Navigator.pushNamed(
                         context,
                         '/v2/summary',
