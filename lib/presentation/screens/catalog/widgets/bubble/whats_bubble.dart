@@ -36,8 +36,7 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
       var whatsappUrlAndroid = Uri.parse(
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
       );
-      var whatsappUrlIphone =
-          Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+      var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
       try {
         if (defaultTargetPlatform == TargetPlatform.android) {
           await launchUrl(whatsappUrlAndroid);
@@ -180,9 +179,7 @@ class WhatsAppBubbleDrag extends HookConsumerWidget {
                                     bottomRight: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   ),
-                                  color: isDarkMode
-                                      ? const Color(weTalkDark)
-                                      : const Color(weTalkLight),
+                                  color: isDarkMode ? const Color(weTalkDark) : const Color(weTalkLight),
                                 ),
                                 width: 110,
                                 height: 35,
@@ -424,15 +421,13 @@ class WhatsAppBubble extends HookConsumerWidget {
                                     bottomRight: Radius.circular(10),
                                     topRight: Radius.circular(10),
                                   ),
-                                  color: isDarkMode
-                                      ? const Color(weTalkDark)
-                                      : const Color(weTalkLight),
+                                  color: isDarkMode ? const Color(weTalkDark) : const Color(weTalkLight),
                                 ),
                                 width: 110,
                                 height: 35,
                                 child: const Center(
                                   child: TextPoppins(
-                                    text: "¿Conversamos?",
+                                    text: "¿Conversamosxd?",
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     textDark: weTalkTextDark,
