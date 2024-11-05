@@ -5,7 +5,7 @@ class QueryRepository {
         firstName
         lastName
         email
-        id
+        userId
         nickName
         civilStatus
 
