@@ -2,6 +2,7 @@ import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -85,20 +86,33 @@ class DownloadButton extends ConsumerWidget {
     const int buttonColorLight = 0xff0D3A5C;
     const int textColorDark = 0xff08273F;
     const int textColorLight = 0xffFFFFFF;
+    void download() async {
+      try {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.voucherDownloadHistory,
+          parameters: {
+            "screen": FirebaseScreen.binnacleV2,
+            "voucher_url": voucherUrl,
+          },
+        );
+
+        final uri = Uri.parse(voucherUrl);
+        await launchUrl(uri);
+      } catch (e) {
+        showSnackBarV2(
+          context: context,
+          title: "No se pudo el voucher",
+          message: "Por favor intenta mas tarde",
+          snackType: SnackType.warning,
+        );
+      }
+    }
+
     return Positioned(
       right: 7,
       bottom: 7,
       child: GestureDetector(
-        onTap: () async {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.voucherDownloadHistory,
-            parameters: {
-              "screen": FirebaseScreen.binnacleV2,
-              "voucher_url": voucherUrl,
-            },
-          );
-          await launchUrl(Uri.parse(voucherUrl));
-        },
+        onTap: () => download(),
         child: Container(
           width: 144,
           height: 26,
