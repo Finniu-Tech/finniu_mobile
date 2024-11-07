@@ -69,11 +69,12 @@ class JuliaBubble extends HookConsumerWidget {
               onPanUpdate: (details) => onPanUpdate(details),
               child: SizedBox(
                 width: 110,
+                height: 70,
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: [
                     Container(
-                      width: 70,
+                      width: 60,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -90,8 +91,8 @@ class JuliaBubble extends HookConsumerWidget {
                       child: ClipOval(
                         child: Image.asset(
                           "assets/images/whatsapp_image.png",
-                          width: 70,
-                          height: 70,
+                          width: 60,
+                          height: 60,
                         ),
                       ),
                     ),
