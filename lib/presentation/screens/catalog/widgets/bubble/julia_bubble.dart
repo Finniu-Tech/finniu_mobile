@@ -123,7 +123,7 @@ class JuliaBubble extends HookConsumerWidget {
                           child: TextPoppins(
                             text: "¿Conversamos?",
                             fontSize: 5,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
                             textDark: weTalkTextDark,
                             textLight: weTalkTextLight,
                           ),
