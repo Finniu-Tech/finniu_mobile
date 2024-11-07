@@ -40,7 +40,7 @@ final userProfileFutureProvider = FutureProvider.autoDispose<UserProfile>((ref) 
       // ref.read(hasCompletedOnboardingProvider.notifier).state =
       //     userProfile.hasCompletedOnboarding ?? false;
       ref.read(userProfileNotifierProvider.notifier).updateFields(
-            id: userProfile.uuid,
+            id: userProfile.id,
             nickName: userProfile.nickName,
             email: userProfile.email,
             firstName: userProfile.firstName,

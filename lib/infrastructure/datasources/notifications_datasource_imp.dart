@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:finniu/infrastructure/models/notifications/device_info_model.dart';
+import 'package:finniu/services/device_info_service.dart';
 import 'package:http/http.dart' as http;
 
 class NotificationsDataSource {
@@ -44,7 +45,10 @@ class NotificationsDataSource {
     try {
       final queryParams = {
         'user_id': userId,
+        'status': 'delivered',
+        'from_date': DateTime.now().subtract(const Duration(days: 3)).toIso8601String(),
       };
+      print('query params: $queryParams');
 
       final uri = Uri.parse('$baseUrl/notification-logs');
       final response = await _client.post(
@@ -67,62 +71,52 @@ class NotificationsDataSource {
     }
   }
 
-  // Marcar notificación como leída
-  // Future<bool> markNotificationAsRead(String notificationId) async {
-  //   try {
-  //     final response = await _client.patch(
-  //       Uri.parse('$baseUrl/notifications/$notificationId/read'),
-  //       headers: _headers,
-  //     );
+  Future<bool> saveNotificationLog({
+    required String title,
+    required String body,
+    required String userId,
+    required String notificationType,
+    required String status,
+    required String deviceId,
+    required String token,
+    String? parentNotificationUuid,
+    Map<String, dynamic>? extraData,
+  }) async {
+    final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
+    try {
+      final payload = {
+        'title': title,
+        'body': body,
+        'user_id': userId,
+        'notification_type': notificationType,
+        'status': status,
+        'device_id': deviceId,
+        'device_info': deviceInfo.toJson(),
+        'token': token,
+        'extra_data': extraData ?? {},
+        if (parentNotificationUuid != null) 'parent_notification_uuid': parentNotificationUuid,
+      };
+      print('payload xxx: $payload');
+      final response = await _client.post(
+        Uri.parse('$baseUrl/register-log'),
+        headers: _headers,
+        body: json.encode(payload),
+      );
 
-  //     return response.statusCode == 200;
-  //   } catch (e) {
-  //     print('Error marking notification as read: $e');
-  //     rethrow;
-  //   }
-  // }
-
-  // // Obtener conteo de notificaciones no leídas
-  // Future<int> getUnreadNotificationsCount(String userId) async {
-  //   try {
-  //     final response = await _client.get(
-  //       Uri.parse('$baseUrl/notifications/unread-count?user_id=$userId'),
-  //       headers: _headers,
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       return json.decode(response.body)['count'];
-  //     } else {
-  //       throw Exception(
-  //         'Failed to get unread count. Status: ${response.statusCode}',
-  //       );
-  //     }
-  //   } catch (e) {
-  //     print('Error getting unread count: $e');
-  //     rethrow;
-  //   }
-  // }
-
-  // Eliminar token de dispositivo
-  // Future<bool> deleteDeviceToken(String token) async {
-  //   try {
-  //     final response = await _client.delete(
-  //       Uri.parse('$baseUrl/token-device/$token'),
-  //       headers: _headers,
-  //     );
-
-  //     return response.statusCode == 200;
-  //   } catch (e) {
-  //     print('Error deleting device token: $e');
-  //     rethrow;
-  //   }
-  // }
+      print('Register log response: ${response.body}');
+      return response.statusCode == 200;
+    } catch (e) {
+      print('Error registering notification log: $e');
+      // No relanzamos la excepción para que no afecte el flujo principal
+      return false;
+    }
+  }
 }
 
 // También necesitarás un modelo para las notificaciones:
 // lib/models/notification_model.dart
 
-enum NotificationStatus { delivered, read, error }
+enum NotificationStatus { delivered, read, error, open }
 
 class NotificationModel {
   final String id;

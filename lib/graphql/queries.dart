@@ -7,11 +7,8 @@ class QueryRepository {
         email
         userId
         nickName
-        civilStatus
-
-       
+        civilStatus  
         hasCompletedOnboarding
-        id
         isActive
         occupation
 

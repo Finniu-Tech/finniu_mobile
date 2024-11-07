@@ -37,13 +37,13 @@ class _BodyListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationDataSource = NotificationsDataSource(baseUrl: appConfig.notificationsBaseUrl);
-    final String userId = 'harol.calzada@gmail.com';
+    final userProfile = ref.watch(userProfileNotifierProvider);
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height - 100,
       child: FutureBuilder<List<NotificationModel>>(
-        future: notificationDataSource.getNotifications(userId: userId),
+        future: notificationDataSource.getNotifications(userId: userProfile.id!),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
