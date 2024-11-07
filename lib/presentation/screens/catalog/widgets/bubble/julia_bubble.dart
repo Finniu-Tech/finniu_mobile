@@ -1,4 +1,6 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/bubble_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -24,6 +26,12 @@ class JuliaBubble extends HookConsumerWidget {
     const int weTalkTextLight = 0xffFFFFFF;
 
     void contactBubble() async {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.navigateToJulia,
+        parameters: {
+          "": "",
+        },
+      );
       var whatsappNumber = "51983796139";
       var whatsappMessage = "Hola";
       var whatsappUrlAndroid = Uri.parse(
@@ -34,10 +42,28 @@ class JuliaBubble extends HookConsumerWidget {
       try {
         if (defaultTargetPlatform == TargetPlatform.android) {
           await launchUrl(whatsappUrlAndroid);
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.navigateToJulia,
+            parameters: {
+              "device": "android",
+            },
+          );
         } else {
           await launchUrl(whatsappUrlIphone);
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.navigateToJulia,
+            parameters: {
+              "device": "ios",
+            },
+          );
         }
       } catch (e) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.navigateToJulia,
+          parameters: {
+            "error": "error_open_whatsapp",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "No se pudo abrir Julia",

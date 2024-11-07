@@ -1,4 +1,3 @@
-
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/bubble_provider.dart';
@@ -52,8 +51,22 @@ class _BodySettings extends ConsumerWidget {
 
     void setBubble() {
       if (bubbleState.isRender) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.closeJulia,
+          parameters: {
+            "screen": FirebaseScreen.settingsV2,
+            "click": "close_julia",
+          },
+        );
         ref.read(positionProvider.notifier).resetBubble();
       } else {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.openJulia,
+          parameters: {
+            "screen": FirebaseScreen.settingsV2,
+            "click": "open_julia",
+          },
+        );
         ref.read(positionProvider.notifier).getBubble();
       }
     }
