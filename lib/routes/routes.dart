@@ -6,7 +6,7 @@ import 'package:finniu/presentation/screens/catalog/bubble_whatsapp.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
 import 'package:finniu/presentation/screens/catalog/firebase_test_screen.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/bubble/whats_bubble.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/bubble/julia_bubble.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/frequently_questions_screen.dart';
@@ -105,7 +105,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/home_v2': (BuildContext context) => const Stack(
           children: [
             HomeScreenV2(),
-            WhatsAppBubbleDrag(),
+            JuliaBubble(),
           ],
         ),
     '/home_notification': (BuildContext context) => const NotificationScreen(),
@@ -161,7 +161,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
           FundDetailScreen(
             fund: args['fund'],
           ),
-          const WhatsAppBubbleDrag(),
+          const JuliaBubble(),
         ],
       );
     },
@@ -180,7 +180,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
             currency: args['currency'],
             originInvestmentRentability: args['originInvestmentRentability'],
           ),
-          const WhatsAppBubbleDrag(),
+          const JuliaBubble(),
         ],
       );
     },
@@ -188,7 +188,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
       return const Stack(
         children: [
           StepTwoV2(),
-          WhatsAppBubbleDrag(),
+          JuliaBubble(),
         ],
       );
     },
@@ -204,7 +204,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
           InvestmentAggroProcessScreen(
             fund: args['fund'],
           ),
-          const WhatsAppBubbleDrag(),
+          const JuliaBubble(),
         ],
       );
     },
@@ -213,7 +213,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/simulator': (BuildContext context) => const Stack(
           children: [
             V2SimulatorScreen(),
-            WhatsAppBubbleDrag(),
+            JuliaBubble(),
           ],
         ),
     '/v2/binnacle': (BuildContext context) => const BinnacleScreen(),
@@ -232,19 +232,19 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/summary': (BuildContext context) => const Stack(
           children: [
             V2SummaryScreen(),
-            WhatsAppBubbleDrag(),
+            JuliaBubble(),
           ],
         ),
     '/v2/calendar': (BuildContext context) => const Stack(
           children: [
             CalendarV2(),
-            WhatsAppBubbleDrag(),
+            JuliaBubble(),
           ],
         ),
     '/v2/investment': (BuildContext context) => const Stack(
           children: [
             InvestmentsV2Screen(),
-            WhatsAppBubbleDrag(),
+            JuliaBubble(),
           ],
         ),
     // '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
@@ -270,7 +270,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/profile': (BuildContext context) => const Stack(
           children: [
             UserProfileV2(),
-            WhatsAppBubbleDrag(),
+            JuliaBubble(),
           ],
         ),
     '/v2/on_boarding': (BuildContext context) => const OnBoardingScreen(),
@@ -278,7 +278,7 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/settings': (BuildContext context) => const Stack(
           children: [
             SettingsScreen(),
-            WhatsAppBubbleDrag(),
+            JuliaBubble(),
           ],
         ),
     '/v2/new_notifications': (BuildContext context) =>
