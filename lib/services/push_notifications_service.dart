@@ -181,8 +181,10 @@ class PushNotificationService {
   void _handleMessageOpenedApp(RemoteMessage message) {
     print("onMessageOpenedApp: $message");
     print('data from message: ${message.data}');
-    _logNotificationOpenAsync(message); //
     _handleNotificationNavigation(message.data);
+    if (checkAuthentication()) {
+      _logNotificationOpenAsync(message);
+    }
   }
 
   void _handleInitialMessage(RemoteMessage message) {
@@ -246,11 +248,26 @@ class PushNotificationService {
 
     if (!isAuthenticated) {
       print('Not authenticated');
+      _ref.read(pushNotificationRouteProvider.notifier).state = route;
       _scheduleNavigation('/v2/login_email');
     } else {
       print('Authenticated');
       _scheduleNavigation(route);
     }
+  }
+
+  Future<bool> checkSavedNotificationRoute() async {
+    final savedRoute = _ref.read(pushNotificationRouteProvider);
+    print('Checking saved notification route: $savedRoute');
+
+    if (savedRoute != null) {
+      if (checkAuthentication()) {
+        _performNavigation(savedRoute);
+        _ref.read(pushNotificationRouteProvider.notifier).state = null;
+        return true;
+      }
+    }
+    return false;
   }
 
   Future<String?> getToken() async {
@@ -368,25 +385,25 @@ class PushNotificationService {
     Preferences.hasRequestedPushNotificationPermission = true;
   }
 
-  Future<bool> checkSavedNotificationRoute() async {
-    return false;
-    // final savedRoute = _ref.read(pushNotificationRouteProvider);
-    // print('Checking saved notification route: $savedRoute');
-    // if (savedRoute != null) {
-    //   final isAuthenticated = _checkAuthentication();
-    //   if (isAuthenticated) {
-    //     _performNavigation(savedRoute);
-    //     _ref.read(pushNotificationRouteProvider.notifier).state = null;
-    //     return true;
-    //   } else {
-    //     _performNavigation('/v2/login_email');
-    //     return false;
-    //   }
-    // } else {
-    //   print('No saved notification route found');
-    //   return false;
-    // }
-  }
+  // Future<bool> checkSavedNotificationRoute() async {
+  //   return false;
+  //   // final savedRoute = _ref.read(pushNotificationRouteProvider);
+  //   // print('Checking saved notification route: $savedRoute');
+  //   // if (savedRoute != null) {
+  //   //   final isAuthenticated = _checkAuthentication();
+  //   //   if (isAuthenticated) {
+  //   //     _performNavigation(savedRoute);
+  //   //     _ref.read(pushNotificationRouteProvider.notifier).state = null;
+  //   //     return true;
+  //   //   } else {
+  //   //     _performNavigation('/v2/login_email');
+  //   //     return false;
+  //   //   }
+  //   // } else {
+  //   //   print('No saved notification route found');
+  //   //   return false;
+  //   // }
+  // }
 
   void _logNotificationOpenAsync(RemoteMessage message) {
     unawaited(_logNotificationOpen(message));
