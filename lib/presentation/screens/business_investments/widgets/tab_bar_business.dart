@@ -71,7 +71,7 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabBarBusiness>
                   finishDateInvestment: element.finishDateInvestment,
                   rentability: element.rentability,
                   isCapital: false,
-                  boucherImage: element.boucherImage,
+                  boucherImage: null,
                 ),
               );
             }

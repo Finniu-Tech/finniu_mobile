@@ -100,7 +100,7 @@ class JuliaBubble extends HookConsumerWidget {
                   alignment: Alignment.topCenter,
                   children: [
                     Container(
-                      width: 60,
+                      width: 55,
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
@@ -117,8 +117,8 @@ class JuliaBubble extends HookConsumerWidget {
                       child: ClipOval(
                         child: Image.asset(
                           "assets/images/whatsapp_image.png",
-                          width: 60,
-                          height: 60,
+                          width: 50,
+                          height: 50,
                         ),
                       ),
                     ),
@@ -127,7 +127,7 @@ class JuliaBubble extends HookConsumerWidget {
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           vertical: 5,
-                          horizontal: 10,
+                          horizontal: 5,
                         ),
                         decoration: BoxDecoration(
                           boxShadow: [
