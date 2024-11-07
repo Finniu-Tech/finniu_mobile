@@ -65,6 +65,11 @@ class PaymentCard extends ConsumerWidget {
           label: isPaid ? "Depositado" : "Próximo",
           isCapital: isCapitalPayment,
         ),
+        paymentVoucherUrl == null || paymentVoucherUrl == ""
+            ? const SizedBox()
+            : DownloadButton(
+                voucherUrl: paymentVoucherUrl!,
+              ),
       ],
     );
   }

@@ -17,7 +17,7 @@ class CompleteInvestment extends ConsumerWidget {
     required this.dateEnds,
     required this.amount,
     this.isCapital = false,
-    this.boucherImage = "",
+    this.boucherImage,
   });
 
   @override
@@ -61,9 +61,11 @@ class CompleteInvestment extends ConsumerWidget {
           label: "Depositado",
           isCapital: isCapital,
         ),
-        DownloadButton(
-          voucherUrl: boucherImage ?? "",
-        ),
+        boucherImage == null || boucherImage == ""
+            ? const SizedBox()
+            : DownloadButton(
+                voucherUrl: boucherImage!,
+              ),
       ],
     );
   }
