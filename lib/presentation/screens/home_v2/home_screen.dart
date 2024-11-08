@@ -1109,6 +1109,7 @@ class _NotificationPermissionHandlerState extends ConsumerState<NotificationPerm
 
   Future<void> _handleNotificationPermission() async {
     final pushNotificationService = ref.read(pushNotificationServiceProvider);
+    await pushNotificationService.processPendingNotificationLog();
     await pushNotificationService.checkSavedNotificationRoute();
 
     try {

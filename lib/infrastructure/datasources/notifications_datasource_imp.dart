@@ -79,10 +79,13 @@ class NotificationsDataSource {
     required String status,
     required String deviceId,
     required String token,
+    String? campaignId,
     String? parentNotificationUuid,
     Map<String, dynamic>? extraData,
   }) async {
     final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
+    print('save log: ${deviceInfo.deviceId}');
+    print('campaignId: $campaignId');
     try {
       final payload = {
         'title': title,
@@ -92,6 +95,7 @@ class NotificationsDataSource {
         'status': status,
         'device_id': deviceId,
         'device_info': deviceInfo.toJson(),
+        'campaign_id': campaignId,
         'token': token,
         'extra_data': extraData ?? {},
         if (parentNotificationUuid != null) 'parent_notification_uuid': parentNotificationUuid,
