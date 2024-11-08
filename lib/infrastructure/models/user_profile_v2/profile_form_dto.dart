@@ -22,6 +22,17 @@ class DtoRegisterForm {
     required this.acceptPrivacyPolicy,
     required this.birthday,
   });
+  toJson() => {
+        "nickName": nickName,
+        "countryPrefix": countryPrefix,
+        "phoneNumber": phoneNumber,
+        "email": email,
+        "password": password,
+        "confirmPassword": confirmPassword,
+        "acceptTermsConditions": acceptTermsConditions,
+        "acceptPrivacyPolicy": acceptPrivacyPolicy,
+        "birthday": birthday,
+      };
 }
 
 class DtoPersonalForm {
