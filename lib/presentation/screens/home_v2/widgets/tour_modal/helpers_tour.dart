@@ -14,6 +14,7 @@ void seeAnotherTime(
     ref.read(seeLaterProvider.notifier).state = true;
     final GraphQLClient client = ref.read(gqlClientProvider).value!;
     await CompleteLastTourImp(client).completeLastTour();
+
     ref.read(userProfileNotifierProvider.notifier).updateFields(
           hasCompletedTour: true,
         );
