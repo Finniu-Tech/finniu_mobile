@@ -35,7 +35,7 @@ class JuliaBubble extends HookConsumerWidget {
           "": "",
         },
       );
-      var whatsappNumber = "51983796139";
+      var whatsappNumber = "51952484612";
       var whatsappMessage = "Hola";
       var whatsappUrlAndroid = Uri.parse(
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
