@@ -20,6 +20,9 @@ class JuliaBubble extends HookConsumerWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
 
+    const double bubbleWidth = 110.0;
+    const double bubbleHeight = 70.0;
+
     const int weTalkDark = 0xffA2E6FA;
     const int weTalkLight = 0xff0D3A5C;
     const int weTalkTextDark = 0xff0D3A5C;
@@ -37,8 +40,7 @@ class JuliaBubble extends HookConsumerWidget {
       var whatsappUrlAndroid = Uri.parse(
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
       );
-      var whatsappUrlIphone =
-          Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+      var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
       try {
         if (defaultTargetPlatform == TargetPlatform.android) {
           await launchUrl(whatsappUrlAndroid);
@@ -78,10 +80,14 @@ class JuliaBubble extends HookConsumerWidget {
     }
 
     onPanUpdate(DragUpdateDetails details) {
-      final maxTop = screenHeight * 0.8;
-      final maxLeft = screenWidth * 0.7;
-      final newTop = details.globalPosition.dy.clamp(0.0, maxTop);
-      final newLeft = details.globalPosition.dx.clamp(0.0, maxLeft);
+      final maxTop = screenHeight - bubbleHeight;
+      final minTop = 0.0;
+      final maxLeft = screenWidth - bubbleWidth;
+      final minLeft = 0.0;
+
+      final newTop = (details.globalPosition.dy - bubbleHeight / 2).clamp(minTop, maxTop);
+      final newLeft = (details.globalPosition.dx - bubbleWidth / 2).clamp(minLeft, maxLeft);
+
       ref.read(positionProvider.notifier).updatePosition(newLeft, newTop);
     }
 
@@ -141,14 +147,12 @@ class JuliaBubble extends HookConsumerWidget {
                           borderRadius: const BorderRadius.all(
                             Radius.circular(10),
                           ),
-                          color: isDarkMode
-                              ? const Color(weTalkDark)
-                              : const Color(weTalkLight),
+                          color: isDarkMode ? const Color(weTalkDark) : const Color(weTalkLight),
                         ),
                         child: const Center(
                           child: TextPoppins(
                             text: "¿Conversamos?",
-                            fontSize: 5,
+                            fontSize: 4,
                             fontWeight: FontWeight.w400,
                             textDark: weTalkTextDark,
                             textLight: weTalkTextLight,

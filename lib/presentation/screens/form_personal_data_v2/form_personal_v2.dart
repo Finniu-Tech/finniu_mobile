@@ -65,28 +65,18 @@ class PersonalForm extends HookConsumerWidget {
     final String? imagePath = ref.watch(imagePathProvider);
     final String? imageBase64 = ref.watch(imageBase64Provider);
 
-    final firstNameController =
-        useTextEditingController(text: userProfile.firstName ?? '');
-    final lastNameFatherController =
-        useTextEditingController(text: userProfile.lastNameFather ?? '');
-    final lastNameMotherController =
-        useTextEditingController(text: userProfile.lastNameMother ?? '');
+    final firstNameController = useTextEditingController(text: userProfile.firstName ?? '');
+    final lastNameFatherController = useTextEditingController(text: userProfile.lastNameFather ?? '');
+    final lastNameMotherController = useTextEditingController(text: userProfile.lastNameMother ?? '');
     final documentTypeController = useTextEditingController(
-      text: userProfile.documentType == null
-          ? ""
-          : getTypeDocumentByUser(userProfile.documentType!),
+      text: userProfile.documentType == null ? "" : getTypeDocumentByUser(userProfile.documentType!),
     );
-    final documentNumberController =
-        useTextEditingController(text: userProfile.documentNumber);
+    final documentNumberController = useTextEditingController(text: userProfile.documentNumber);
     final civilStatusController = useTextEditingController(
-      text: userProfile.civilStatus == null
-          ? ""
-          : getCivilStatusByUser(userProfile.civilStatus!),
+      text: userProfile.civilStatus == null ? "" : getCivilStatusByUser(userProfile.civilStatus!),
     );
     final genderTypeController = useTextEditingController(
-      text: userProfile.gender == null
-          ? ""
-          : getGenderByUser(userProfile.gender!),
+      text: userProfile.gender == null ? "" : getGenderByUser(userProfile.gender!),
     );
 
     final ValueNotifier<bool> firstNameError = useState(false);
@@ -155,8 +145,7 @@ class PersonalForm extends HookConsumerWidget {
           lastNameMother: lastNameMotherController.text.trim(),
           documentType: getTypeDocumentEnum(documentTypeController.text),
           documentNumber: documentNumberController.text.trim(),
-          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-              CivilStatusEnum.SINGLE,
+          civilStatus: getCivilStatusEnum(civilStatusController.text) ?? CivilStatusEnum.SINGLE,
           imageProfile: imageBase64,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
         );
@@ -177,9 +166,7 @@ class PersonalForm extends HookConsumerWidget {
       child: SizedBox(
         child: Column(
           children: [
-            imagePath == null
-                ? const AddImageProfile()
-                : const ImageProfileRender(),
+            imagePath == null ? const AddImageProfile() : const ImageProfileRender(),
             const SizedBox(height: 15),
             ValueListenableBuilder<bool>(
               valueListenable: firstNameError,
@@ -256,8 +243,7 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el tipo de documento.",
+                        message: "Por favor, completa el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -283,10 +269,9 @@ class PersonalForm extends HookConsumerWidget {
                   hintText: "Ingrese su Nº de documento de identidad",
                   validator: (value) {
                     validateNumberDocument(
-                      typeDocument:
-                          getTypeDocumentEnum(documentTypeController.text),
+                      typeDocument: getTypeDocumentEnum(documentTypeController.text),
                       value: value,
-                      field: "Numero de documento",
+                      field: "Número de documento",
                       context: context,
                       boolNotifier: documentNumberError,
                     );
@@ -310,8 +295,7 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el estado civil",
+                        message: "Por favor,  selecciona el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
@@ -335,13 +319,13 @@ class PersonalForm extends HookConsumerWidget {
                   itemSelectedValue: genderTypeController.text,
                   options: genderType,
                   selectController: genderTypeController,
-                  hintText: "Seleccione su genero",
+                  hintText: "Seleccione su género",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       showSnackBarV2(
                         context: context,
                         title: "El genero es obligatorio",
-                        message: "Por favor, completa el seleciona el genero",
+                        message: "Por favor, selecciona el genero",
                         snackType: SnackType.warning,
                       );
                       genderTypeError.value = true;
