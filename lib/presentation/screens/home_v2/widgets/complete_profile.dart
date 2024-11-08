@@ -49,9 +49,10 @@ class ProfileCompletenessSection extends ConsumerWidget {
         buttonText: 'Completar',
         onPressed: () {
           Navigator.pushNamed(
-            context,
-            userProfileCompleteness.getNextStep() ?? '/v2/my_data',
-          );
+              context, userProfileCompleteness.getNextStep() ?? '/v2/my_data',
+              arguments: {
+                'birthday': true,
+              });
         },
         imagePath: 'assets/home/complete_profile.png',
       );
