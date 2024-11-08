@@ -66,7 +66,6 @@ class PersonalForm extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final args =
         ModalRoute.of(context)!.settings.arguments as Map<String, bool>?;
-    print(args.toString());
 
     final userProfile = ref.watch(userProfileNotifierProvider);
     final String? imagePath = ref.watch(imagePathProvider);
