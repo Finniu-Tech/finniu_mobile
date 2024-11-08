@@ -78,24 +78,21 @@ class HomeScreenV2 extends HookConsumerWidget {
       body: HookBuilder(
         builder: (context) {
           final userProfile = ref.watch(userProfileFutureProvider);
+          // final seeLater = ref.watch(seeLaterProvider);
 
           return userProfile.when(
             data: (profile) {
               _setUserAnalytics(ref, profile);
-              _handleTourAndNotifications(context, ref, profile);
+              if (profile.hasCompletedTour == false) {
+                _handleTourAndNotifications(context, ref, profile);
+              }
               return Stack(
                 children: [
                   HomeBody(
                     currentTheme: currentTheme,
                     userProfile: profile,
                   ),
-                  if (ref.read(seeLaterProvider) == true &&
-                      profile.hasCompletedTour == false)
-                    Positioned(
-                      left: 0,
-                      top: MediaQuery.of(context).size.height * 0.2,
-                      child: const ShowTourContainer(),
-                    ),
+                  const SeeLaterWidget(),
                 ],
               );
             },
@@ -151,6 +148,27 @@ class HomeScreenV2 extends HookConsumerWidget {
           }
         }
       });
+    }
+  }
+}
+
+class SeeLaterWidget extends ConsumerWidget {
+  const SeeLaterWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final seeLater = ref.watch(seeLaterProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    if (seeLater == true && userProfile.hasCompletedTour == false) {
+      return Positioned(
+        left: 0,
+        top: MediaQuery.of(context).size.height * 0.2,
+        child: const ShowTourContainer(),
+      );
+    } else {
+      return const SizedBox();
     }
   }
 }
