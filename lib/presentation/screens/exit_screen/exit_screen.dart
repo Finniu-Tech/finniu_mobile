@@ -27,7 +27,9 @@ class ExitScreen extends HookConsumerWidget {
     }, []);
 
     return Scaffold(
-      backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+      backgroundColor: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       body: Center(
         child: SingleChildScrollView(
           child: Column(
@@ -39,7 +41,9 @@ class ExitScreen extends HookConsumerWidget {
                 height: 300,
                 child: Image(
                   image: AssetImage(
-                    isDarkMode ? "assets/images/logo_finniu_dark.png" : "assets/images/logo_finniu_light.png",
+                    isDarkMode
+                        ? "assets/images/logo_finniu_dark.png"
+                        : "assets/images/logo_finniu_light.png",
                   ),
                 ),
               ),
