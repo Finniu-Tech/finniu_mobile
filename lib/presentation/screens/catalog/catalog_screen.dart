@@ -82,11 +82,9 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
-
               text: "whats app",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/bubble_whatsapp');
-
               },
             ),
             const SizedBox(
@@ -210,15 +208,15 @@ class CatalogScreen extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            ButtonInvestment(
-              text: "navigate geolocator",
-              onPressed: () {
-                Navigator.pushNamed(context, '/v2/geolocator');
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
+            // ButtonInvestment(
+            //   text: "navigate geolocator",
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, '/v2/geolocator');
+            //   },
+            // ),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             ButtonInvestment(
               text: "modal error send data",
               onPressed: () {
