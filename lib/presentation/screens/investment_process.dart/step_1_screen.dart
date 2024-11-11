@@ -6,6 +6,7 @@ import 'package:finniu/domain/entities/dead_line.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
+import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
@@ -1223,6 +1224,18 @@ class _FormStep1State extends ConsumerState<FormStep1> {
                       },
                     );
                     context.loaderOverlay.hide();
+                    final userProfile = ref.read(userProfileNotifierProvider);
+                    final userProfileCompleteness = UserProfileCompleteness(
+                      profileComplete: userProfile.completeData(),
+                      personalDataComplete:
+                          userProfile.completePersonalData() ? 100 : 0,
+                      locationComplete:
+                          userProfile.completeLocationData() ? 100 : 0,
+                      occupationComplete:
+                          userProfile.completeJobData() ? 100 : 0,
+                      legalTermsCompleteness: 100,
+                      completionPercentage: 100,
+                    );
                     showVerifyIdentity(
                       context,
                       userProfileCompleteness,
