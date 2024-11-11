@@ -189,7 +189,6 @@ class FirebaseScreen {
   static const String loginForgotV2 = '/v2/login_forgot';
   static const String setNewPasswordV2 = '/v2/set_new_password';
   static const String biometricTest = '/biometric_test';
-  static const String geolocatorV2 = '/v2/geolocator';
   static const String firebaseTestV2 = '/v2/firebase_test';
   static const String payOutV2 = '/v2/pay_out';
   static const String rextieCommunicationV2 = '/v2/rextie_comminication';
