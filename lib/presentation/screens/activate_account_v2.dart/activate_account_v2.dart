@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
@@ -32,10 +34,23 @@ class ActivateAccountV2 extends ConsumerWidget {
       client.when(
         data: (client) async {
           final result = await (sendEmailOTPCode(user.email!, client));
-
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataSucces,
+            parameters: {
+              "screen": FirebaseScreen.activateAccountV2,
+              "send_email": "refresh_code",
+            },
+          );
           if (result == true) {
             ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
           } else {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.pushDataError,
+              parameters: {
+                "screen": FirebaseScreen.activateAccountV2,
+                "send_email": "email_false",
+              },
+            );
             showSnackBarV2(
               context: context,
               title: "Error al enviar el correo",
@@ -90,7 +105,7 @@ class ActivateAccountV2 extends ConsumerWidget {
                   fontSize: 16,
                   textDark: subTitleDark,
                   textLight: subTitleLight,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   align: TextAlign.center,
                 ),
                 const SizedBox(
@@ -102,7 +117,6 @@ class ActivateAccountV2 extends ConsumerWidget {
                   fontSize: 12,
                   textDark: subTitleDark,
                   textLight: subTitleLight,
-                  isBold: false,
                   align: TextAlign.center,
                   lines: 2,
                 ),
@@ -127,7 +141,6 @@ class ActivateAccountV2 extends ConsumerWidget {
                     fontSize: 11,
                     textDark: subTitleDark,
                     textLight: subTitleLight,
-                    isBold: false,
                     align: TextAlign.center,
                   ),
                   const SizedBox(

@@ -37,7 +37,7 @@ class FormDataNavigator extends StatelessWidget {
                   child: TextPoppins(
                     text: "Continuar más tarde",
                     fontSize: 14,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: textDark,
                     textLight: textLight,
                   ),

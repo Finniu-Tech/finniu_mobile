@@ -41,8 +41,8 @@ class PositionedColumn extends ConsumerWidget {
                 : index == 1
                     ? isDarkMode
                     : true,
-            text: "Crear mi cuenta",
-            onPressed: pushRegister,
+            text: "Ingresar",
+            onPressed: pushLogin,
           ),
           const SizedBox(
             height: 10,
@@ -63,8 +63,8 @@ class PositionedColumn extends ConsumerWidget {
                 : index == 1
                     ? isDarkMode
                     : true,
-            text: "Ingresar",
-            onPressed: pushLogin,
+            text: "Crear mi cuenta",
+            onPressed: pushRegister,
           ),
           const SizedBox(
             height: 10,
@@ -98,8 +98,12 @@ class UnderlinedButtonText extends StatelessWidget {
         textAlign: TextAlign.center,
         style: TextStyle(
           decoration: underline ? TextDecoration.underline : null,
-          decorationColor: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
-          color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+          decorationColor: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
+          color: isDarkMode
+              ? const Color(textColorDark)
+              : const Color(textColorLight),
           fontFamily: "Poppins",
           fontSize: 16,
           fontWeight: FontWeight.w700,
@@ -123,7 +127,6 @@ class TextAsk extends StatelessWidget {
     return TextPoppins(
       text: text,
       fontSize: 16,
-      isBold: false,
       textLight: isDarkMode ? textColorDark : textColorLight,
       textDark: isDarkMode ? textColorDark : textColorLight,
     );
@@ -154,7 +157,9 @@ class OnboardingButton extends StatelessWidget {
         style: ButtonStyle(
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
-            isDarkMode ? const Color(buttonColorDark) : const Color(buttonColorLight),
+            isDarkMode
+                ? const Color(buttonColorDark)
+                : const Color(buttonColorLight),
           ),
         ),
         onPressed: onPressed,
@@ -162,7 +167,9 @@ class OnboardingButton extends StatelessWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+            color: isDarkMode
+                ? const Color(textColorDark)
+                : const Color(textColorLight),
             fontSize: 16,
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,

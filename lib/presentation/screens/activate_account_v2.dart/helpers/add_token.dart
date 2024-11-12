@@ -1,7 +1,9 @@
 import 'package:finniu/infrastructure/models/auth.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/otp.dart';
 import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -48,10 +50,25 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
           );
           token.then((value) {
             if (value != null) {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataSucces,
+                parameters: {
+                  "screen": FirebaseScreen.activateAccountV2,
+                  "push_code": "push_code_success",
+                  "navigate": "/v2/form_personal_data",
+                },
+              );
               ref.read(authTokenProvider.notifier).state = value;
               Navigator.pushNamed(context, '/v2/form_personal_data');
               context.loaderOverlay.hide();
             } else {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataSucces,
+                parameters: {
+                  "screen": FirebaseScreen.activateAccountV2,
+                  "push_code": "push_code_error",
+                },
+              );
               showSnackBarV2(
                 context: context,
                 title: "Error al verificar token",

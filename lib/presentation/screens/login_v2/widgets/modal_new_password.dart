@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -47,7 +49,7 @@ class _BodyDialog extends ConsumerWidget {
               const TextPoppins(
                 text: title,
                 fontSize: 20,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 align: TextAlign.center,
               ),
               const TextPoppins(
@@ -58,8 +60,16 @@ class _BodyDialog extends ConsumerWidget {
               ),
               ButtonInvestment(
                 text: 'Ir a inicio de sesión',
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/v2/login_email'),
+                onPressed: () => {
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.navigateTo,
+                    parameters: {
+                      "screen": FirebaseScreen.setNewPasswordV2,
+                      "navigate_to": FirebaseScreen.loginEmailV2
+                    },
+                  ),
+                  Navigator.pushNamed(context, '/v2/login_email'),
+                },
               ),
             ],
           ),

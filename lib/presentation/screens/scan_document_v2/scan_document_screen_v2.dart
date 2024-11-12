@@ -45,7 +45,7 @@ class ScanDocumentScreenV2 extends HookConsumerWidget {
         const TextPoppins(
           text: "Cara frontal",
           fontSize: 16,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 10),
         imagePathFront != null
@@ -60,7 +60,7 @@ class ScanDocumentScreenV2 extends HookConsumerWidget {
         const TextPoppins(
           text: "Cara trasera",
           fontSize: 16,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 10),
         imagePathBack != null
@@ -107,7 +107,7 @@ class ActionButtonScanDocument extends StatelessWidget {
             child: TextPoppins(
               text: "Continuar más tarde",
               fontSize: 14,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: textDark,
               textLight: textLight,
             ),
@@ -178,7 +178,6 @@ class _WarningMessage extends ConsumerWidget {
               text: text,
               fontSize: 12,
               lines: 3,
-              isBold: false,
             ),
           ),
         ],
@@ -195,7 +194,7 @@ class _TitleHeader extends StatelessWidget {
     return const TextPoppins(
       text: 'Escanea tu documento de identidad',
       fontSize: 20,
-      isBold: true,
+      fontWeight: FontWeight.w500,
       lines: 2,
     );
   }

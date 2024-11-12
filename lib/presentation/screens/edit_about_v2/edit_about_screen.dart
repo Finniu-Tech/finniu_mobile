@@ -100,7 +100,7 @@ class _AboutMe extends HookConsumerWidget {
           TextPoppins(
             text: "${userProfile.nickName} ${userProfile.lastName}",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             textDark: fullNameDark,
             textLight: fullNameLight,
           ),
@@ -110,7 +110,7 @@ class _AboutMe extends HookConsumerWidget {
           TextPoppins(
             text: "${userProfile.email}",
             fontSize: 12,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           const SizedBox(
             height: 15,

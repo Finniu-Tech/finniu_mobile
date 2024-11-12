@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -33,7 +35,7 @@ class LoginScreenV2 extends ConsumerWidget {
           child: TextPoppins(
             text: "¡Bienvenido a Finniu!",
             fontSize: 24,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             textDark: titleDark,
             textLight: titleLight,
           ),
@@ -45,32 +47,31 @@ class LoginScreenV2 extends ConsumerWidget {
           child: TextPoppins(
             text: "Ingresa a tu cuenta",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(
           height: 20,
         ),
-        const FormLogin(),
+        FormLogin(),
       ],
     );
   }
 }
 
 class FormLogin extends HookConsumerWidget {
-  const FormLogin({
+  FormLogin({
     super.key,
   });
 
   final secureStorage = const FlutterSecureStorage();
-
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     final rememberPassword = useState(Preferences.rememberMe);
     final passwordState = useState("");
-    final formKey = GlobalKey<FormState>();
 
     final emailController =
         useTextEditingController(text: Preferences.username ?? "");
@@ -78,7 +79,6 @@ class FormLogin extends HookConsumerWidget {
         useTextEditingController(text: passwordState.value);
     final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> passwordError = useState(false);
-
 
     useEffect(
       () {
@@ -100,6 +100,13 @@ class FormLogin extends HookConsumerWidget {
 
     void loginEmail() async {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.loginEmailV2,
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Error de inicio de sesión",
@@ -108,10 +115,28 @@ class FormLogin extends HookConsumerWidget {
         );
         return;
       } else {
-        if (emailError.value) return;
-        if (passwordError.value) return;
+        if (emailError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.loginEmailV2,
+              "error": "input_email",
+            },
+          );
+          return;
+        }
+        if (passwordError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.loginEmailV2,
+              "error": "input_password",
+            },
+          );
+          return;
+        }
         context.loaderOverlay.show();
-
+        FocusManager.instance.primaryFocus?.unfocus();
         loginEmailHelper(
           context: context,
           ref: ref,
@@ -120,7 +145,6 @@ class FormLogin extends HookConsumerWidget {
           rememberPassword: rememberPassword.value,
           secureStorage: secureStorage,
         );
-
       }
     }
 
@@ -167,7 +191,16 @@ class FormLogin extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, '/v2/login_forgot'),
+                onTap: () => {
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.navigateTo,
+                    parameters: {
+                      "screen": FirebaseScreen.loginEmailV2,
+                      "navigateTo": FirebaseScreen.loginForgotV2,
+                    },
+                  ),
+                  Navigator.pushNamed(context, '/v2/login_forgot'),
+                },
                 child: const TextPoppins(
                   text: "¿Olvidaste tu contraseña?",
                   fontSize: 11,
@@ -182,6 +215,13 @@ class FormLogin extends HookConsumerWidget {
               CheckBoxWidget(
                 value: rememberPassword.value,
                 onChanged: (value) {
+                  ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                    eventName: FirebaseAnalyticsEvents.clickEvent,
+                    parameters: {
+                      "screen": FirebaseScreen.loginEmailV2,
+                      "event": "remember_password",
+                    },
+                  );
                   rememberPassword.value = value ?? false;
                   Preferences.rememberMe = value ?? false;
                   if (!rememberPassword.value) {
@@ -202,14 +242,23 @@ class FormLogin extends HookConsumerWidget {
           const TextPoppins(
             text: "¿Aún no tienes una cuenta creada?,",
             fontSize: 13,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           GestureDetector(
-            onTap: () => Navigator.pushNamed(context, '/v2/register'),
+            onTap: () => {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.navigateTo,
+                parameters: {
+                  "screen": FirebaseScreen.loginEmailV2,
+                  "navigateTo": FirebaseScreen.registerV2,
+                },
+              ),
+              Navigator.pushNamed(context, '/v2/register'),
+            },
             child: const TextPoppins(
               text: "Registrarme",
               fontSize: 13,
-              isBold: true,
+              fontWeight: FontWeight.w500,
               textDark: titleDark,
               textLight: titleLight,
             ),

@@ -136,7 +136,7 @@ class RowMilestones extends StatelessWidget {
         TextPoppins(
           text: year,
           fontSize: 17,
-          isBold: true,
+          fontWeight: FontWeight.w500,
           textDark: yearDark,
           textLight: yearLight,
         ),
@@ -166,7 +166,7 @@ class TitleBinnacle extends StatelessWidget {
         child: TextPoppins(
           text: "Conoce nuestros hitos logrados",
           fontSize: 20,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
       ),
     );

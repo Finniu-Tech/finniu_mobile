@@ -1,6 +1,9 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_register_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/check_terms_conditions.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_date_picker.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_password_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_phone_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
@@ -12,16 +15,18 @@ import 'package:finniu/presentation/screens/v2_user_profile/widgets/password_req
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class FormRegister extends HookConsumerWidget {
-  const FormRegister({
+  FormRegister({
     super.key,
   });
-  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final nickNameController = useTextEditingController();
+    final dateController = useTextEditingController();
     final countryPrefixController = useTextEditingController();
     final phoneNumberController = useTextEditingController();
     final emailController = useTextEditingController();
@@ -30,6 +35,7 @@ class FormRegister extends HookConsumerWidget {
     // final acceptPrivacyAndTerms = useState(false);
     final ValueNotifier<bool> isPasswordExpanded = useState(false);
     final ValueNotifier<bool> nickNameError = useState(false);
+    final ValueNotifier<bool> dateError = useState(false);
     final ValueNotifier<bool> phoneNumberError = useState(false);
     final ValueNotifier<bool> emailError = useState(false);
     final ValueNotifier<bool> passwordError = useState(false);
@@ -55,6 +61,13 @@ class FormRegister extends HookConsumerWidget {
     );
     void saveAndPush(BuildContext context) async {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.registerV2,
+            "error": "error_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -72,12 +85,72 @@ class FormRegister extends HookConsumerWidget {
           );
           return;
         }
-        if (nickNameError.value) return;
-        if (phoneNumberError.value) return;
-        if (emailError.value) return;
-        if (passwordError.value) return;
-        if (passwordConfirmError.value) return;
+        if (nickNameError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.registerV2,
+              "error": "error_name",
+            },
+          );
+          return;
+        }
+
+        if (phoneNumberError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.registerV2,
+              "error": "error_phone",
+            },
+          );
+          return;
+        }
+
+        if (emailError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.registerV2,
+              "error": "error_email",
+            },
+          );
+          return;
+        }
+        if (passwordError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.registerV2,
+              "error": "error_password",
+            },
+          );
+          return;
+        }
+        if (passwordConfirmError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.registerV2,
+              "error": "error_password_confirm",
+            },
+          );
+          return;
+        }
+        if (dateError.value) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.registerV2,
+              "error": "error_date",
+            },
+          );
+          return;
+        }
         context.loaderOverlay.show();
+        DateTime parsedDate =
+            DateFormat("d/M/yyyy").parse(dateController.text.trim());
+        String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
         final DtoRegisterForm data = DtoRegisterForm(
           nickName: nickNameController.text.trim(),
           countryPrefix: countryPrefixController.text.trim(),
@@ -87,6 +160,7 @@ class FormRegister extends HookConsumerWidget {
           confirmPassword: passwordConfirmController.text.trim(),
           acceptTermsConditions: acceptPrivacyAndTerms.value,
           acceptPrivacyPolicy: acceptPrivacyAndTerms.value,
+          birthday: formattedDate,
         );
 
         context.loaderOverlay.show();
@@ -134,6 +208,30 @@ class FormRegister extends HookConsumerWidget {
                         context: context,
                         boolNotifier: phoneNumberError,
                       );
+                      return null;
+                    },
+                  );
+                },
+              ),
+              ValueListenableBuilder<bool>(
+                valueListenable: dateError,
+                builder: (context, isError, child) {
+                  return InputDatePickerUserProfile(
+                    isError: isError,
+                    onError: () => dateError.value = false,
+                    hintText: "Fecha de nacimiento",
+                    controller: dateController,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Fecha de nacimiento incorrecta",
+                          message: "Por favor, completa la fecha.",
+                          snackType: SnackType.warning,
+                        );
+                        dateError.value = true;
+                        return null;
+                      }
                       return null;
                     },
                   );
@@ -264,12 +362,19 @@ class RedirectLogin extends ConsumerWidget {
     const int linkLight = 0xff0D3A5C;
     return GestureDetector(
       onTap: () {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.navigateTo,
+          parameters: {
+            "screen": FirebaseScreen.registerV2,
+            "navigate_to": FirebaseScreen.loginEmailV2,
+          },
+        );
         Navigator.pushNamed(context, '/v2/login_email');
       },
       child: const TextPoppins(
         text: "Inicia sesión",
         fontSize: 14,
-        isBold: true,
+        fontWeight: FontWeight.w600,
         textDark: linkDark,
         textLight: linkLight,
       ),

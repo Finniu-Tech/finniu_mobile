@@ -11,20 +11,29 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
     required DtoPersonalForm data,
   }) async {
     try {
-      final response = await client.mutate(
+      final Map<String, dynamic> variables = {
+        "firstName": data.firstName,
+        "lastNameFather": data.lastNameFather,
+        "lastNameMother": data.lastNameMother,
+        "documentType": data.documentType.name,
+        "documentNumber": data.documentNumber,
+        "civilStatus": data.civilStatus.name,
+        "gender": data.gender.name,
+      };
+      if (data.imageProfile != null) {
+        variables["imageProfile"] = data.imageProfile;
+      }
+
+      if (data.birthday != null) {
+        variables["birthdayDate"] = data.birthday;
+      }
+
+      final QueryResult<Object?> response = await client.mutate(
         MutationOptions(
           document: gql(
             MutationRepository.savePersonalDataV2(),
           ),
-          variables: {
-            "firstName": data.firstName,
-            "lastNameFather": data.lastNameFather,
-            "lastNameMother": data.lastNameMother,
-            "documentType": data.documentType.name,
-            "documentNumber": data.documentNumber,
-            "civilStatus": data.civilStatus.name,
-            "gender": data.gender.name,
-          },
+          variables: variables,
           fetchPolicy: FetchPolicy.noCache,
         ),
       );
@@ -47,6 +56,7 @@ class PersonalFormV2Imp extends GraphQLBaseDataSource {
       );
       return registerUserV2Response;
     } catch (e) {
+      print(e);
       return RegisterUserV2Response(
         messages: [
           Message(

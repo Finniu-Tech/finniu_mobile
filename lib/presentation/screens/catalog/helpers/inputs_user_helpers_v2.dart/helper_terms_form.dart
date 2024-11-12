@@ -22,8 +22,7 @@ pushLegalTermsDataForm(
       snackType: SnackType.error,
     );
   }
-  Future<RegisterUserV2Response> response =
-      LegalTermsFormV2Imp(gqlClient!).saveLegalTermsDataUserV2(data: data);
+  Future<RegisterUserV2Response> response = LegalTermsFormV2Imp(gqlClient!).saveLegalTermsDataUserV2(data: data);
   response.then((value) {
     if (value.success) {
       showSnackBarV2(
@@ -35,8 +34,8 @@ pushLegalTermsDataForm(
 
       Future.delayed(const Duration(seconds: 1), () {
         context.loaderOverlay.hide();
-        Navigator.pushNamed(context, '/v2/form_about_me');
         ScaffoldMessenger.of(context).clearSnackBars();
+        Navigator.pushNamed(context, '/v2/form_location');
       });
     } else {
       showSnackBarV2(
@@ -64,8 +63,7 @@ changeLegalTermsData(
       snackType: SnackType.error,
     );
   }
-  Future<RegisterUserV2Response> response =
-      LegalTermsFormV2Imp(gqlClient!).saveLegalTermsDataUserV2(data: data);
+  Future<RegisterUserV2Response> response = LegalTermsFormV2Imp(gqlClient!).saveLegalTermsDataUserV2(data: data);
 
   response.then((value) {
     if (value.success) {

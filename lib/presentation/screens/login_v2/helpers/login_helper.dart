@@ -1,13 +1,16 @@
 import 'package:finniu/domain/entities/feature_flag_entity.dart';
 import 'package:finniu/domain/entities/routes_entity.dart';
 import 'package:finniu/infrastructure/models/auth.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/network_warning.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/services/deep_link_service.dart';
 import 'package:finniu/services/share_preferences_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -50,6 +53,14 @@ void loginEmailHelper({
         token.then(
           (value) async {
             if (value != null) {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataSucces,
+                parameters: {
+                  "screen": FirebaseScreen.loginEmailV2,
+                  "success": "login",
+                },
+              );
+              ref.read(firebaseAnalyticsServiceProvider).logLogin(email);
               showSnackBarV2(
                 context: context,
                 title: "Inicio de sesión exitoso",
@@ -58,7 +69,7 @@ void loginEmailHelper({
               );
               ref.read(authTokenProvider.notifier).state = value;
               Preferences.username = email.toLowerCase();
-              context.loaderOverlay.hide();
+
               if (rememberPassword) {
                 await secureStorage.write(
                   key: 'password',
@@ -81,10 +92,15 @@ void loginEmailHelper({
                     )
                   : defaultHomeRoute;
 
-              Navigator.pushNamed(
-                context,
-                route,
-              );
+              final deepLinkHandler = ref.read(deepLinkHandlerProvider);
+              bool hadDeepLink = await deepLinkHandler.checkSavedDeepLink();
+              context.loaderOverlay.hide();
+              if (!hadDeepLink) {
+                Navigator.pushNamed(
+                  context,
+                  route,
+                );
+              }
             }
           },
           onError: (err) {
@@ -94,6 +110,13 @@ void loginEmailHelper({
       } else {
         context.loaderOverlay.hide();
         if (value.error == 'Su usuario no a sido activado') {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataError,
+            parameters: {
+              "screen": FirebaseScreen.loginEmailV2,
+              "error": "user_not_activated",
+            },
+          );
           showSnackBarV2(
             context: context,
             title: value.error ?? 'Su usuario no a sido activado',
@@ -105,6 +128,14 @@ void loginEmailHelper({
                 email: email,
                 password: password,
               );
+          // final user = ref.read(userProfileNotifierProvider);
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.navigateTo,
+            parameters: {
+              "screen": FirebaseScreen.loginEmailV2,
+              "navigateTo": '/v2/send_code',
+            },
+          );
           Future.delayed(const Duration(seconds: 3), () {
             Navigator.pushNamed(context, '/v2/send_code');
           });

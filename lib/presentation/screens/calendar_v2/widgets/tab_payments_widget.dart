@@ -53,7 +53,7 @@ class PaymentData {
   final DateTime paymentDate;
   final PaymentCurrency currency;
   final String? fundName;
-
+  final bool isCapitalPayment;
   PaymentData({
     required this.uuid,
     required this.amount,
@@ -62,10 +62,12 @@ class PaymentData {
     required this.status,
     required this.paymentDate,
     required this.currency,
+    required this.isCapitalPayment,
     this.fundName,
   });
 
-  factory PaymentData.fromJson(Map<String, dynamic> json, PaymentStatus status) {
+  factory PaymentData.fromJson(
+      Map<String, dynamic> json, PaymentStatus status) {
     return PaymentData(
       uuid: json['uuid'],
       amount: double.parse(json['amount']),
@@ -73,8 +75,11 @@ class PaymentData {
       paymentVoucherUrl: json['paymentVoucherUrl'],
       status: status,
       paymentDate: DateTime.parse(json['paymentDate']),
-      currency: json['currency'] == PaymentCurrency.soles.displayName ? PaymentCurrency.soles : PaymentCurrency.dolares,
+      currency: json['currency'] == PaymentCurrency.soles.displayName
+          ? PaymentCurrency.soles
+          : PaymentCurrency.dolares,
       fundName: json['fundName'],
+      isCapitalPayment: json['isCapitalPayment'],
     );
   }
 }
@@ -84,10 +89,12 @@ class TabPaymentsWidget extends ConsumerStatefulWidget {
   final bool? isReinvest;
 
   @override
-  ConsumerState<TabPaymentsWidget> createState() => _InvestmentHistoryBusiness();
+  ConsumerState<TabPaymentsWidget> createState() =>
+      _InvestmentHistoryBusiness();
 }
 
-class _InvestmentHistoryBusiness extends ConsumerState<TabPaymentsWidget> with SingleTickerProviderStateMixin {
+class _InvestmentHistoryBusiness extends ConsumerState<TabPaymentsWidget>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   @override
@@ -165,9 +172,18 @@ class _InvestmentHistoryBusiness extends ConsumerState<TabPaymentsWidget> with S
               child: TabBarView(
                 controller: _tabController,
                 children: [
-                  PaymentListView(list: pastList, status: PaymentStatus.past),
-                  PaymentListView(list: recentList, status: PaymentStatus.recent),
-                  PaymentListView(list: upcomingList, status: PaymentStatus.upcoming),
+                  PaymentListView(
+                    list: pastList,
+                    status: PaymentStatus.past,
+                  ),
+                  PaymentListView(
+                    list: recentList,
+                    status: PaymentStatus.recent,
+                  ),
+                  PaymentListView(
+                    list: upcomingList,
+                    status: PaymentStatus.upcoming,
+                  ),
                 ],
               ),
             ),

@@ -1,8 +1,12 @@
 import 'package:finniu/presentation/screens/activate_account_v2.dart/activate_account_v2.dart';
+import 'package:finniu/presentation/screens/additional_information/additional_information.dart';
 import 'package:finniu/presentation/screens/binnacle/binnacle_screen.dart';
 import 'package:finniu/presentation/screens/biometric_screen.dart';
+import 'package:finniu/presentation/screens/catalog/bubble_whatsapp.dart';
 import 'package:finniu/presentation/screens/catalog/catalog_screen.dart';
 import 'package:finniu/presentation/screens/calendar_v2/v2_calendar.dart';
+import 'package:finniu/presentation/screens/catalog/firebase_test_screen.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/bubble/julia_bubble.dart';
 import 'package:finniu/presentation/screens/complete_details/complete_details_screen_v2.dart';
 import 'package:finniu/presentation/screens/complete_details/validate_identity_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/frequently_questions_screen.dart';
@@ -13,10 +17,10 @@ import 'package:finniu/presentation/screens/config_v2/privacy_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/settings_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/support_help_screen.dart';
 import 'package:finniu/presentation/screens/config_v2/support_ticket_screen.dart';
-import 'package:finniu/presentation/screens/edit_about_v2/edit_about_screen.dart';
 import 'package:finniu/presentation/screens/edit_job_v2/edit_job_screen.dart';
 import 'package:finniu/presentation/screens/edit_location_v2/edit_location_screen.dart';
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
+import 'package:finniu/presentation/screens/exit_screen/exit_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
 import 'package:finniu/presentation/screens/form_job_v2/form_job_v2.dart';
 import 'package:finniu/presentation/screens/form_legal_terms/form_legal_v2.dart';
@@ -26,7 +30,7 @@ import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart'
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
-import 'package:finniu/presentation/screens/investment_process.dart/step_2_screen.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/step_2_v2_screen.dart';
 import 'package:finniu/presentation/screens/investment_process_blue_gold/investment_blue_gold_screen.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
 import 'package:finniu/presentation/screens/login_v2/forgot_password_v2.dart';
@@ -36,8 +40,11 @@ import 'package:finniu/presentation/screens/lot_detail_v2/lot_detail_v2.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/accounts_screen_v2.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/notifications/notifications_screen.dart';
+import 'package:finniu/presentation/screens/pay_out/pay_out_screen.dart';
+import 'package:finniu/presentation/screens/pay_out/rextie_comminication_scree.dart';
 import 'package:finniu/presentation/screens/profile_v2/profile_screen_v2.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/on_boarding_screen_v2.dart';
+import 'package:finniu/presentation/screens/push_notifications/push_notification_screen.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_experience_eval.dart';
 import 'package:finniu/presentation/screens/reinvest_process/reinvestment_step_2.dart';
 import 'package:finniu/presentation/screens/scan_document_v2/scan_document_screen_v2.dart';
@@ -94,7 +101,12 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
         const StartInvestment(),
     '/investment_result': (BuildContext context) => const ResultInvestment(),
     '/home_home': (BuildContext context) => const HomeScreen(),
-    '/home_v2': (BuildContext context) => const HomeScreenV2(),
+    '/home_v2': (BuildContext context) => const Stack(
+          children: [
+            HomeScreenV2(),
+            JuliaBubble(),
+          ],
+        ),
     '/home_notification': (BuildContext context) => const NotificationScreen(),
     '/profile': (BuildContext context) => const ProfileScreen(),
     '/plan_list': (BuildContext context) => const PlanListScreen(),
@@ -143,47 +155,66 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/fund_detail': (BuildContext context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return FundDetailScreen(
-        fund: args['fund'],
+      return Stack(
+        children: [
+          FundDetailScreen(
+            fund: args['fund'],
+          ),
+          const JuliaBubble(),
+        ],
       );
     },
     '/v2/investment/step-1': (BuildContext context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return InvestmentProcessStep1Screen(
-        fund: args['fund'],
-        amount: args['amount'],
-        deadLine: args['deadLine'],
-        preInvestmentUUID: args['preInvestmentUUID'],
-        isReInvestment: args['isReInvestment'],
-        reInvestmentType: args['reInvestmentType'],
-        currency: args['currency'],
-        originInvestmentRentability: args['originInvestmentRentability'],
+      return Stack(
+        children: [
+          InvestmentProcessStep1Screen(
+            fund: args['fund'],
+            amount: args['amount'],
+            deadLine: args['deadLine'],
+            preInvestmentUUID: args['preInvestmentUUID'],
+            isReInvestment: args['isReInvestment'],
+            reInvestmentType: args['reInvestmentType'],
+            currency: args['currency'],
+            originInvestmentRentability: args['originInvestmentRentability'],
+          ),
+          const JuliaBubble(),
+        ],
       );
     },
     '/v2/investment/step-2': (BuildContext context) {
-      final args =
-          ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return InvestmentProcessStep2Screen(
-        fund: args['fund'],
-        preInvestmentUUID: args['preInvestmentUUID'],
-        amount: args['amount'],
-        isReInvestment: args['isReInvestment'] ?? false,
+      return const Stack(
+        children: [
+          StepTwoV2(),
+          JuliaBubble(),
+        ],
       );
     },
+
     '/v2/aggro-investment/booking': (BuildContext context) =>
         ManualConfirmationBookingWidget(),
     // '/v2/aggro-investment': (BuildContext context) => const InvestmentAggroProcessScreen(),
     '/v2/aggro-investment': (BuildContext context) {
       final args =
           ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-      return InvestmentAggroProcessScreen(
-        fund: args['fund'],
+      return Stack(
+        children: [
+          InvestmentAggroProcessScreen(
+            fund: args['fund'],
+          ),
+          const JuliaBubble(),
+        ],
       );
     },
     '/v2/investment_blue_gold': (BuildContext context) =>
         const InvestmentBlueGoldScreen(),
-    '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
+    '/v2/simulator': (BuildContext context) => const Stack(
+          children: [
+            V2SimulatorScreen(),
+            JuliaBubble(),
+          ],
+        ),
     '/v2/binnacle': (BuildContext context) => const BinnacleScreen(),
 
     // '/fund_detail': (BuildContext context) => const FundDetailScreen(),
@@ -197,9 +228,24 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     //     const BlueGoldInvestmentsScreen(),
     // '/v2/investment_blue_gold': (BuildContext context) =>
     //     const InvestmentBlueGoldScreen(),
-    '/v2/summary': (BuildContext context) => const V2SummaryScreen(),
-    '/v2/calendar': (BuildContext context) => const CalendarV2(),
-    '/v2/investment': (BuildContext context) => const InvestmentsV2Screen(),
+    '/v2/summary': (BuildContext context) => const Stack(
+          children: [
+            V2SummaryScreen(),
+            JuliaBubble(),
+          ],
+        ),
+    '/v2/calendar': (BuildContext context) => const Stack(
+          children: [
+            CalendarV2(),
+            JuliaBubble(),
+          ],
+        ),
+    '/v2/investment': (BuildContext context) => const Stack(
+          children: [
+            InvestmentsV2Screen(),
+            JuliaBubble(),
+          ],
+        ),
     // '/v2/simulator': (BuildContext context) => const V2SimulatorScreen(),
     '/v2/notifications': (BuildContext context) => const NotificationsScreen(),
     '/v2/lot_detail': (BuildContext context) => const LotDetailScreenV2(),
@@ -220,10 +266,20 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/form_legal_terms': (BuildContext context) =>
         const FormLegalTermsDataV2(),
     '/v2/form_about_me': (BuildContext context) => const AboutMeDataV2(),
-    '/v2/profile': (BuildContext context) => const UserProfileV2(),
+    '/v2/profile': (BuildContext context) => const Stack(
+          children: [
+            UserProfileV2(),
+            JuliaBubble(),
+          ],
+        ),
     '/v2/on_boarding': (BuildContext context) => const OnBoardingScreen(),
     '/v2/my_data': (BuildContext context) => const MyDataScreen(),
-    '/v2/settings': (BuildContext context) => const SettingsScreen(),
+    '/v2/settings': (BuildContext context) => const Stack(
+          children: [
+            SettingsScreen(),
+            JuliaBubble(),
+          ],
+        ),
     '/v2/new_notifications': (BuildContext context) =>
         const NotificationsScreenV2(),
     '/v2/privacy': (BuildContext context) => const PrivacyScreenV2(),
@@ -238,11 +294,24 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/edit_location_data': (BuildContext context) =>
         const EditLocationDataScreen(),
     '/v2/edit_job_data': (BuildContext context) => const EditJobDataScreen(),
-    '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
+    // '/v2/edit_about_me': (BuildContext context) => const EditAboutDataScreen(),
+    '/v2/additional_information': (BuildContext context) =>
+        const AdditionalInformationScreen(),
     '/v2/my_accounts': (BuildContext context) => const AccountsV2Screen(),
     '/v2/login_email': (BuildContext context) => const LoginScreenV2(),
     '/v2/login_forgot': (BuildContext context) => const ForgotPasswordV2(),
     '/v2/set_new_password': (BuildContext context) => const NewPasswordV2(),
     '/biometric_test': (BuildContext context) => BiometricTestPage(),
+    // '/v2/geolocator': (BuildContext context) => const GeolocatorScreen(),
+    '/v2/firebase_test': (BuildContext context) => const FirebaseTestScreen(),
+    '/v2/pay_out': (BuildContext context) => const PayOutScreen(),
+    '/v2/rextie_comminication': (BuildContext context) =>
+        const RextieComminicationScree(),
+    '/push_notification': (BuildContext context) => FirebaseTokenScreen(),
+
+    '/v2/bubble_whatsapp': (BuildContext context) =>
+        const BubbleWhatsappScreen(),
+
+    '/v2/exit': (BuildContext context) => const ExitScreen(),
   };
 }

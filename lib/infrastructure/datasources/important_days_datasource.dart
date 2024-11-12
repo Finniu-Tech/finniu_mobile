@@ -10,6 +10,7 @@ class ImportantDaysDataSourceImp {
         document: gql(
           QueryRepository.importantDays,
         ),
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
 
@@ -26,6 +27,7 @@ class PaymentDaysDataSourceImp {
         document: gql(
           QueryRepository.paymentDays,
         ),
+        fetchPolicy: FetchPolicy.noCache,
       ),
     );
     return response.data?['paymentDays'] ?? [];

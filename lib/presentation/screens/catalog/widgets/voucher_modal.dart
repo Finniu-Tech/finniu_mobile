@@ -62,7 +62,7 @@ class BodyVoucher extends ConsumerWidget {
                     const TextPoppins(
                       text: textTitle,
                       fontSize: 20,
-                      isBold: true,
+                      fontWeight: FontWeight.w500,
                       textDark: titleDark,
                       textLight: titleLight,
                     ),

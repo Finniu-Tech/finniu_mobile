@@ -1,6 +1,11 @@
+import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_date_picker.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
@@ -13,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
 class EditPersonalDataScreen extends StatelessWidget {
@@ -27,22 +33,29 @@ class EditPersonalDataScreen extends StatelessWidget {
   }
 }
 
-class _BodyEditPersonal extends ConsumerWidget {
+class _BodyEditPersonal extends HookConsumerWidget {
   const _BodyEditPersonal();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
-    final ValueNotifier<bool> isEdit = ValueNotifier<bool>(false);
+    final ValueNotifier<bool> isEdit = useState(false);
     return Column(
       children: [
-        ImageEditStack(
-          profileImage: "${userProfile.imageProfileUrl}",
+        ValueListenableBuilder<bool>(
+          valueListenable: isEdit,
+          builder: (context, isEditValue, child) {
+            return isEditValue
+                ? const PickImageEditStack()
+                : ImageEditStack(
+                    profileImage: "${userProfile.imageProfileUrl}",
+                  );
+          },
         ),
         const TextPoppins(
           text: "Información de mis datos personales",
           fontSize: 17,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 10),
         ValueListenableBuilder<bool>(
@@ -95,18 +108,19 @@ class _BodyEditPersonal extends ConsumerWidget {
 }
 
 class EditPersonalForm extends HookConsumerWidget {
-  const EditPersonalForm({
+  EditPersonalForm({
     super.key,
     required this.isEdit,
     required this.onEdit,
   });
   final VoidCallback onEdit;
   final ValueNotifier<bool> isEdit;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
+    final String? imageBase64 = ref.watch(imageBase64Provider);
 
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     final firstNameController =
         useTextEditingController(text: userProfile.firstName ?? '');
     final lastNameFatherController =
@@ -130,6 +144,11 @@ class EditPersonalForm extends HookConsumerWidget {
           ? ""
           : getGenderByUser(userProfile.gender!),
     );
+    final dateController = useTextEditingController(
+      text: userProfile.birthDate == null
+          ? ""
+          : formatDate(userProfile.birthDate!),
+    );
 
     final ValueNotifier<bool> firstNameError = useState(false);
     final ValueNotifier<bool> lastNameFatherError = useState(false);
@@ -138,9 +157,17 @@ class EditPersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentNumberError = useState(false);
     final ValueNotifier<bool> civilStatusError = useState(false);
     final ValueNotifier<bool> genderTypeError = useState(false);
+    final ValueNotifier<bool> birthDateError = useState(false);
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.editPersonalDataV2,
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -156,8 +183,12 @@ class EditPersonalForm extends HookConsumerWidget {
         if (documentNumberError.value) return;
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
+        if (birthDateError.value) return;
 
         context.loaderOverlay.show();
+        DateTime parsedDate =
+            DateFormat("d/M/yyyy").parse(dateController.text.trim());
+        String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
         final DtoPersonalForm data = DtoPersonalForm(
           firstName: firstNameController.text.trim(),
           lastNameFather: lastNameFatherController.text.trim(),
@@ -166,7 +197,9 @@ class EditPersonalForm extends HookConsumerWidget {
           documentNumber: documentNumberController.text.trim(),
           civilStatus: getCivilStatusEnum(civilStatusController.text) ??
               CivilStatusEnum.SINGLE,
+          imageProfile: imageBase64,
           gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
+          birthday: formattedDate,
         );
 
         context.loaderOverlay.show();
@@ -188,9 +221,9 @@ class EditPersonalForm extends HookConsumerWidget {
       key: formKey,
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
-        height: MediaQuery.of(context).size.height < 700
-            ? 540
-            : MediaQuery.of(context).size.height * 0.70,
+        // height: MediaQuery.of(context).size.height < 700
+        //     ? 630
+        //     : MediaQuery.of(context).size.height - 250,
         child: Column(
           children: [
             const SizedBox(height: 10),
@@ -269,8 +302,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el tipo de documento.",
+                        message: "Por favor, completa el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -323,8 +355,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el estado civil",
+                        message: "Por favor, completa el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
@@ -353,8 +384,8 @@ class EditPersonalForm extends HookConsumerWidget {
                     if (value == null || value.isEmpty) {
                       showSnackBarV2(
                         context: context,
-                        title: "El genero es obligatorio",
-                        message: "Por favor, completa el seleciona el genero",
+                        title: "El género es obligatorio",
+                        message: "Por favor, completa el género",
                         snackType: SnackType.warning,
                       );
                       genderTypeError.value = true;
@@ -369,24 +400,54 @@ class EditPersonalForm extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            const Expanded(
-              child: SizedBox(),
+            ValueListenableBuilder<bool>(
+              valueListenable: birthDateError,
+              builder: (context, isError, child) {
+                return InputDatePickerUserProfile(
+                  isError: isError,
+                  onError: () => birthDateError.value = false,
+                  hintText: "Fecha de nacimiento",
+                  controller: dateController,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      showSnackBarV2(
+                        context: context,
+                        title: "Fecha de nacimiento incorrecta",
+                        message: "Por favor, completa la fecha.",
+                        snackType: SnackType.warning,
+                      );
+                      birthDateError.value = true;
+                      return null;
+                    }
+                    return null;
+                  },
+                );
+              },
             ),
+            const SizedBox(
+              height: 15,
+            ),
+            // const Expanded(
+            //   child: SizedBox(),
+            // ),
             ValueListenableBuilder<bool>(
               valueListenable: isEdit,
               builder: (context, isEditValue, child) {
-                return Column(
-                  children: [
-                    isEditValue
-                        ? ButtonInvestment(
-                            text: "Guardar datos",
-                            onPressed: uploadPersonalData,
-                          )
-                        : const SizedBox(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                  ],
+                return Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    children: [
+                      isEditValue
+                          ? ButtonInvestment(
+                              text: "Guardar datos",
+                              onPressed: uploadPersonalData,
+                            )
+                          : const SizedBox(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                    ],
+                  ),
                 );
               },
             ),

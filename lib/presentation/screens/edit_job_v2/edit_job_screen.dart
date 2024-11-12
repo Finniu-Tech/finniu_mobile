@@ -1,9 +1,9 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_jod_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/list_select_dropdown.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/selectable_dropdown_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -44,7 +44,7 @@ class _BodyEditJob extends ConsumerWidget {
         const TextPoppins(
           text: "Información de mi ocupación laboral",
           fontSize: 17,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 10),
         ValueListenableBuilder<bool>(
@@ -97,40 +97,37 @@ class _BodyEditJob extends ConsumerWidget {
 }
 
 class EditPersonalForm extends HookConsumerWidget {
-  const EditPersonalForm({
+  EditPersonalForm({
     super.key,
     required this.isEdit,
     required this.onEdit,
   });
   final ValueNotifier<bool> isEdit;
   final VoidCallback onEdit;
-  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.read(userProfileNotifierProvider);
 
-    final laborSituationSelectController = useTextEditingController(
-      text: getLaborsStatusEnumByUser(userProfile.laborSituation ?? ""),
-    );
     final occupationTextController = useTextEditingController(
       text: userProfile.occupation ?? "",
     );
     final companyNameTextController = useTextEditingController(
       text: userProfile.companyName ?? "",
     );
-    final serviceTimeSelectController = useTextEditingController(
-      text: userProfile.serviceTime == null
-          ? ""
-          : getServiceTimeEnumByUser(userProfile.serviceTime),
-    );
 
-    final ValueNotifier<bool> laborSituationError = useState(false);
     final ValueNotifier<bool> occupationError = useState(false);
     final ValueNotifier<bool> companyNameError = useState(false);
-    final ValueNotifier<bool> serviceTimeError = useState(false);
 
     void uploadJobData() {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.editJobDataV2,
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -139,20 +136,13 @@ class EditPersonalForm extends HookConsumerWidget {
         );
         return;
       } else {
-        if (laborSituationError.value) return;
         if (occupationError.value) return;
         if (companyNameError.value) return;
-        if (serviceTimeError.value) return;
 
         context.loaderOverlay.show();
         DtoOccupationForm data = DtoOccupationForm(
           companyName: companyNameTextController.text.trim(),
           occupation: occupationTextController.text.trim(),
-          serviceTime: getServiceTimeEnum(serviceTimeSelectController.text) ??
-              ServiceTimeEnum.LESS_THAN_ONE_YEAR,
-          laborSituation:
-              getLaborsStatusEnum(laborSituationSelectController.text) ??
-                  LaborSituationEnum.EMPLOYED,
         );
         pushOccupationDataForm(
           context,
@@ -175,36 +165,6 @@ class EditPersonalForm extends HookConsumerWidget {
             : MediaQuery.of(context).size.height * 0.70,
         child: Column(
           children: [
-            ValueListenableBuilder<bool>(
-              valueListenable: laborSituationError,
-              builder: (context, isError, child) {
-                return SelectableDropdownItem(
-                  isError: isError,
-                  onError: () => laborSituationError.value = false,
-                  itemSelectedValue: laborSituationSelectController.text,
-                  options: workSituation,
-                  selectController: laborSituationSelectController,
-                  hintText: "Selecciona tu situación laboral",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "La situacion laboral es obligatoria",
-                        message:
-                            "Por favor, completa el seleciona tu situación laboral.",
-                        snackType: SnackType.warning,
-                      );
-                      laborSituationError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
-            ),
             ValueListenableBuilder<bool>(
               valueListenable: occupationError,
               builder: (context, isError, child) {
@@ -244,36 +204,6 @@ class EditPersonalForm extends HookConsumerWidget {
                   },
                 );
               },
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: serviceTimeError,
-              builder: (context, isError, child) {
-                return SelectableDropdownItem(
-                  isError: isError,
-                  onError: () => serviceTimeError.value = false,
-                  itemSelectedValue: serviceTimeSelectController.text,
-                  options: serviceTime,
-                  selectController: serviceTimeSelectController,
-                  hintText: "Selecciona tu situación laboral",
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      showSnackBarV2(
-                        context: context,
-                        title: "La situacion laboral es obligatoria",
-                        message:
-                            "Por favor, completa el seleciona tu situación laboral.",
-                        snackType: SnackType.warning,
-                      );
-                      serviceTimeError.value = true;
-                      return null;
-                    }
-                    return null;
-                  },
-                );
-              },
-            ),
-            const SizedBox(
-              height: 15,
             ),
             const Expanded(
               child: SizedBox(),

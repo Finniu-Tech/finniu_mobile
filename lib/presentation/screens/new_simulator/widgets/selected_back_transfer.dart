@@ -22,7 +22,9 @@ class SelectedBankTransfer extends ConsumerWidget {
       height: 80,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        color: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,12 +55,10 @@ class SelectedBankTransfer extends ConsumerWidget {
               TextPoppins(
                 text: "${bankAccountSender.bankName}",
                 fontSize: 12,
-                isBold: false,
               ),
               TextPoppins(
                 text: "Nro. Cuenta: ${bankAccountSender.bankAccount}",
                 fontSize: 12,
-                isBold: false,
               )
             ],
           ),

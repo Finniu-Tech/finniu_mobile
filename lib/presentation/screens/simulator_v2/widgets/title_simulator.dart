@@ -25,7 +25,7 @@ class TitleSimulator extends StatelessWidget {
               lines: 2,
               textDark: textDark,
               textLight: textLight,
-              isBold: true,
+              fontWeight: FontWeight.w500,
             ),
             TextPoppins(
               text: 'rápida y sencilla 📈 💰',
@@ -33,7 +33,7 @@ class TitleSimulator extends StatelessWidget {
               lines: 2,
               textDark: textDark,
               textLight: textLight,
-              isBold: true,
+              fontWeight: FontWeight.w500,
             ),
           ],
         ),

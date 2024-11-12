@@ -1,9 +1,16 @@
+import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/add_voucher_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_personal_form.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_date_picker.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
 import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_logo.dart';
+import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/container_message.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
@@ -13,13 +20,14 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class FormPersonalDataV2 extends ConsumerWidget {
+class FormPersonalDataV2 extends StatelessWidget {
   const FormPersonalDataV2({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: ScaffoldUserProfile(
@@ -29,16 +37,16 @@ class FormPersonalDataV2 extends ConsumerWidget {
           color: Colors.transparent,
         ),
         appBar: const AppBarLogo(),
-        children: const [
-          SizedBox(
+        children: [
+          const SizedBox(
             height: 10,
           ),
-          ProgressForm(
+          const ProgressForm(
             progress: 0.2,
           ),
-          TitleForm(
+          const TitleForm(
             title: "Datos personales",
-            subTitle: "¿Cuales son tus datos personales?",
+            subTitle: "¿Cuáles son tus datos personales?",
             icon: "assets/svg_icons/user_icon_v2.svg",
           ),
           PersonalForm(),
@@ -49,19 +57,48 @@ class FormPersonalDataV2 extends ConsumerWidget {
 }
 
 class PersonalForm extends HookConsumerWidget {
-  const PersonalForm({
+  PersonalForm({
     super.key,
   });
-  static GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final firstNameController = useTextEditingController();
-    final lastNameFatherController = useTextEditingController();
-    final lastNameMotherController = useTextEditingController();
-    final documentTypeController = useTextEditingController();
-    final documentNumberController = useTextEditingController();
-    final civilStatusController = useTextEditingController();
-    final genderTypeController = useTextEditingController();
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, bool>?;
+
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final String? imagePath = ref.watch(imagePathProvider);
+    final String? imageBase64 = ref.watch(imageBase64Provider);
+
+    final firstNameController =
+        useTextEditingController(text: userProfile.firstName ?? '');
+    final lastNameFatherController =
+        useTextEditingController(text: userProfile.lastNameFather ?? '');
+    final lastNameMotherController =
+        useTextEditingController(text: userProfile.lastNameMother ?? '');
+    final documentTypeController = useTextEditingController(
+      text: userProfile.documentType == null
+          ? ""
+          : getTypeDocumentByUser(userProfile.documentType!),
+    );
+    final documentNumberController =
+        useTextEditingController(text: userProfile.documentNumber);
+    final civilStatusController = useTextEditingController(
+      text: userProfile.civilStatus == null
+          ? ""
+          : getCivilStatusByUser(userProfile.civilStatus!),
+    );
+    final genderTypeController = useTextEditingController(
+      text: userProfile.gender == null
+          ? ""
+          : getGenderByUser(userProfile.gender!),
+    );
+    final dateController = useTextEditingController(
+      text: userProfile.birthDate == null
+          ? ""
+          : formatDate(userProfile.birthDate!),
+    );
 
     final ValueNotifier<bool> firstNameError = useState(false);
     final ValueNotifier<bool> lastNameFatherError = useState(false);
@@ -70,14 +107,17 @@ class PersonalForm extends HookConsumerWidget {
     final ValueNotifier<bool> documentNumberError = useState(false);
     final ValueNotifier<bool> civilStatusError = useState(false);
     final ValueNotifier<bool> genderTypeError = useState(false);
-
-    void continueLater() {
-      ScaffoldMessenger.of(context).clearSnackBars();
-      Navigator.pushNamed(context, '/v2/form_legal_terms');
-    }
+    final ValueNotifier<bool> birthDateError = useState(false);
 
     void uploadPersonalData() {
       if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.formPersonalDataV2,
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
           title: "Datos obligatorios incompletos",
@@ -94,24 +134,83 @@ class PersonalForm extends HookConsumerWidget {
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
 
-        context.loaderOverlay.show();
-        final DtoPersonalForm data = DtoPersonalForm(
-          firstName: firstNameController.text.trim(),
-          lastNameFather: lastNameFatherController.text.trim(),
-          lastNameMother: lastNameMotherController.text.trim(),
-          documentType: getTypeDocumentEnum(documentTypeController.text),
-          documentNumber: documentNumberController.text.trim(),
-          civilStatus: getCivilStatusEnum(civilStatusController.text) ??
-              CivilStatusEnum.SINGLE,
-          gender: getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
-        );
+        if (imagePath == null) {
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.formValidateError,
+            parameters: {
+              "screen": FirebaseScreen.formPersonalDataV2,
+              "error": "input_image",
+            },
+          );
+          showSnackBarV2(
+            context: context,
+            title: "Falta imagen de perfil",
+            message: "Por favor, agrega una imagen de perfil.",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
+        if (imageBase64 == null) {
+          showSnackBarV2(
+            context: context,
+            title: "Falta imagen de perfil",
+            message: "Por favor, agrega una imagen de perfil.",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
 
         context.loaderOverlay.show();
-        pushPersonalDataForm(
-          context,
-          data,
-          ref,
-        );
+        if (args != null &&
+            args.containsKey('birthday') &&
+            args['birthday'] == true) {
+          FocusManager.instance.primaryFocus?.unfocus();
+          DateTime parsedDate =
+              DateFormat("d/M/yyyy").parse(dateController.text.trim());
+          String formattedDate = DateFormat("yyyy-MM-dd").format(parsedDate);
+          final DtoPersonalForm data = DtoPersonalForm(
+            firstName: firstNameController.text.trim(),
+            lastNameFather: lastNameFatherController.text.trim(),
+            lastNameMother: lastNameMotherController.text.trim(),
+            documentType: getTypeDocumentEnum(documentTypeController.text),
+            documentNumber: documentNumberController.text.trim(),
+            civilStatus: getCivilStatusEnum(civilStatusController.text) ??
+                CivilStatusEnum.SINGLE,
+            imageProfile: imageBase64,
+            gender:
+                getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
+            birthday: formattedDate,
+          );
+
+          context.loaderOverlay.show();
+          pushPersonalDataForm(
+            context,
+            data,
+            ref,
+            isNavigate: false,
+          );
+        } else {
+          final DtoPersonalForm data = DtoPersonalForm(
+            firstName: firstNameController.text.trim(),
+            lastNameFather: lastNameFatherController.text.trim(),
+            lastNameMother: lastNameMotherController.text.trim(),
+            documentType: getTypeDocumentEnum(documentTypeController.text),
+            documentNumber: documentNumberController.text.trim(),
+            civilStatus: getCivilStatusEnum(civilStatusController.text) ??
+                CivilStatusEnum.SINGLE,
+            imageProfile: imageBase64,
+            gender:
+                getGenderEnum(genderTypeController.text) ?? GenderEnum.OTHER,
+          );
+
+          context.loaderOverlay.show();
+          pushPersonalDataForm(
+            context,
+            data,
+            ref,
+            isNavigate: false,
+          );
+        }
       }
     }
 
@@ -119,11 +218,12 @@ class PersonalForm extends HookConsumerWidget {
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
-        height: MediaQuery.of(context).size.height < 700
-            ? 600
-            : MediaQuery.of(context).size.height * 0.77,
         child: Column(
           children: [
+            imagePath == null
+                ? const AddImageProfile()
+                : const ImageProfileRender(),
+            const SizedBox(height: 15),
             ValueListenableBuilder<bool>(
               valueListenable: firstNameError,
               builder: (context, isError, child) {
@@ -199,8 +299,7 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el tipo de documento.",
+                        message: "Por favor, completa el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -229,7 +328,7 @@ class PersonalForm extends HookConsumerWidget {
                       typeDocument:
                           getTypeDocumentEnum(documentTypeController.text),
                       value: value,
-                      field: "Numero de documento",
+                      field: "Número de documento",
                       context: context,
                       boolNotifier: documentNumberError,
                     );
@@ -253,8 +352,7 @@ class PersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el estado civil",
+                        message: "Por favor,  selecciona el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
@@ -278,13 +376,13 @@ class PersonalForm extends HookConsumerWidget {
                   itemSelectedValue: genderTypeController.text,
                   options: genderType,
                   selectController: genderTypeController,
-                  hintText: "Seleccione su genero",
+                  hintText: "Seleccione su género",
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       showSnackBarV2(
                         context: context,
                         title: "El genero es obligatorio",
-                        message: "Por favor, completa el seleciona el genero",
+                        message: "Por favor, selecciona el genero",
                         snackType: SnackType.warning,
                       );
                       genderTypeError.value = true;
@@ -299,13 +397,45 @@ class PersonalForm extends HookConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            const ContainerMessage(),
-            const Expanded(
-              child: SizedBox(),
+            args != null &&
+                    args.containsKey('birthday') &&
+                    args['birthday'] == true
+                ? ValueListenableBuilder<bool>(
+                    valueListenable: birthDateError,
+                    builder: (context, isError, child) {
+                      return InputDatePickerUserProfile(
+                        isError: isError,
+                        onError: () => birthDateError.value = false,
+                        hintText: "Fecha de nacimiento",
+                        controller: dateController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            showSnackBarV2(
+                              context: context,
+                              title: "Fecha de nacimiento incorrecta",
+                              message: "Por favor, completa la fecha.",
+                              snackType: SnackType.warning,
+                            );
+                            birthDateError.value = true;
+                            return null;
+                          }
+                          return null;
+                        },
+                      );
+                    },
+                  )
+                : const SizedBox(),
+            const SizedBox(
+              height: 15,
             ),
+            // const Expanded(
+            //   child: SizedBox(),
+            // ),
+            const ContainerMessage(),
             FormDataNavigator(
               addData: () => uploadPersonalData(),
-              continueLater: () => continueLater(),
+              continueLater: null,
+              continueLaterBool: false,
             ),
           ],
         ),

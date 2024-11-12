@@ -69,7 +69,7 @@ class PasswordRequired extends HookConsumerWidget {
     );
 
     return Positioned(
-      top: 250,
+      top: 370,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -78,8 +78,8 @@ class PasswordRequired extends HookConsumerWidget {
               : const Color(containerLight),
         ),
         width: MediaQuery.of(context).size.width * 0.9,
-        height: 200,
-        padding: const EdgeInsets.all(10),
+        height: 180,
+        padding: const EdgeInsets.all(7),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

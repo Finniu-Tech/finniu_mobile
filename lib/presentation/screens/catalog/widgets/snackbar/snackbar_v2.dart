@@ -50,7 +50,7 @@ void showSnackBarV2({
                   TextPoppins(
                     text: title,
                     fontSize: 13,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: textColor,
                     textLight: textColor,
                   ),
@@ -59,7 +59,6 @@ void showSnackBarV2({
                     child: TextPoppins(
                       text: message,
                       fontSize: 12,
-                      isBold: false,
                       textDark: textColor,
                       textLight: textColor,
                       lines: 2,
@@ -126,7 +125,7 @@ class SnackBarContainerV2 extends StatelessWidget {
                   child: TextPoppins(
                     text: title,
                     fontSize: 13,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: textColor,
                     textLight: textColor,
                   ),
@@ -136,7 +135,6 @@ class SnackBarContainerV2 extends StatelessWidget {
                   child: TextPoppins(
                     text: message,
                     fontSize: 12,
-                    isBold: false,
                     textDark: textColor,
                     textLight: textColor,
                     lines: 2,

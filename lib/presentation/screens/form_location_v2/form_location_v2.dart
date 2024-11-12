@@ -1,6 +1,9 @@
 import 'package:finniu/domain/entities/form_select_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/dropdown_select_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/helpers/inputs_user_helpers_v2.dart/helper_location_form.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -35,12 +38,16 @@ class FormLocationDataV2 extends HookConsumerWidget {
             height: 10,
           ),
           ProgressForm(
-            progress: 0.4,
+            progress: 0.5,
           ),
           TitleForm(
             title: "Ubicación",
-            subTitle: "¿Donde te encuentras?",
+            subTitle: "¿Dónde te encuentras?",
             icon: "assets/svg_icons/map_icon_v2.svg",
+          ),
+          LocationMessage(),
+          SizedBox(
+            height: 15,
           ),
           LocationForm(),
         ],
@@ -60,26 +67,28 @@ class LocationForm extends ConsumerStatefulWidget {
 
 class LocationFormState extends ConsumerState<LocationForm> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  final countrySelectController = TextEditingController(
-    text: "Peru",
-  );
-  final regionsSelectController = TextEditingController();
-  final provinceSelectController = TextEditingController();
-  final districtSelectController = TextEditingController();
-  final addressTextController = TextEditingController();
-  final houseNumberController = TextEditingController();
-  final postalCodeController = TextEditingController();
+  late final TextEditingController countrySelectController;
+  late final TextEditingController regionsSelectController;
+  late final TextEditingController provinceSelectController;
+  late final TextEditingController districtSelectController;
+  late final TextEditingController addressTextController;
+  // late final TextEditingController houseNumberController;
 
   final ValueNotifier<bool> regionsError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> provinceError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> districtError = ValueNotifier<bool>(false);
   final ValueNotifier<bool> addressError = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
-  final ValueNotifier<bool> postalCodeError = ValueNotifier<bool>(false);
+  // final ValueNotifier<bool> houseNumberError = ValueNotifier<bool>(false);
 
   void uploadLocationData() {
     if (!formKey.currentState!.validate()) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.formValidateError,
+        parameters: {
+          "screen": FirebaseScreen.formLocationV2,
+          "error": "input_form",
+        },
+      );
       showSnackBarV2(
         context: context,
         title: "Datos obligatorios incompletos",
@@ -91,16 +100,14 @@ class LocationFormState extends ConsumerState<LocationForm> {
       if (provinceError.value) return;
       if (districtError.value) return;
       if (addressError.value) return;
-      if (houseNumberError.value) return;
-      if (postalCodeError.value) return;
+
+      // if (houseNumberError.value) return;
       DtoLocationForm data = DtoLocationForm(
         country: countrySelectController.text,
         region: regionsSelectController.text,
         province: provinceSelectController.text,
         district: districtSelectController.text,
         address: addressTextController.text.trim(),
-        houseNumber: houseNumberController.text.trim(),
-        postalCode: postalCodeController.text.trim(),
       );
       context.loaderOverlay.show();
       pushLocationDataForm(context, data, ref);
@@ -108,7 +115,17 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   void continueLater() {
-    Navigator.pushNamed(context, '/v2/form_legal_terms');
+    messageDialog(context);
+
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.navigateTo,
+      parameters: {
+        "screen": FirebaseScreen.formLocationV2,
+        "navigate_to": FirebaseScreen.homeV2,
+        "continue_later": "true",
+      },
+    );
+
   }
 
   List<GeoLocationItemV2> districts = [
@@ -123,6 +140,19 @@ class LocationFormState extends ConsumerState<LocationForm> {
   @override
   void initState() {
     super.initState();
+    final userProfile = ref.read(userProfileNotifierProvider);
+
+    countrySelectController = TextEditingController(text: "Peru");
+    regionsSelectController =
+        TextEditingController(text: userProfile.region ?? "");
+    provinceSelectController =
+        TextEditingController(text: userProfile.provincia ?? "");
+    districtSelectController =
+        TextEditingController(text: userProfile.distrito ?? "");
+    addressTextController =
+        TextEditingController(text: userProfile.address ?? "");
+    // houseNumberController =
+    //     TextEditingController(text: userProfile.houseNumber ?? "");
 
     regionsSelectController.addListener(() {
       ref.invalidate(
@@ -143,14 +173,25 @@ class LocationFormState extends ConsumerState<LocationForm> {
   }
 
   @override
+  void dispose() {
+    countrySelectController.dispose();
+    regionsSelectController.dispose();
+    provinceSelectController.dispose();
+    districtSelectController.dispose();
+    addressTextController.dispose();
+    // houseNumberController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: SizedBox(
         height: MediaQuery.of(context).size.height < 700
-            ? 600
-            : MediaQuery.of(context).size.height * 0.77,
+            ? 460
+            : MediaQuery.of(context).size.height - 290,
         child: Column(
           children: [
             SelectableDropdownItem(
@@ -365,7 +406,7 @@ class LocationFormState extends ConsumerState<LocationForm> {
                   controller: addressTextController,
                   hintText: "Escribe tu dirección de domicilio",
                   validator: (value) {
-                    validateString(
+                    validateAddress(
                       value: value,
                       field: "Dirección de domicilio",
                       context: context,
@@ -376,59 +417,31 @@ class LocationFormState extends ConsumerState<LocationForm> {
                 );
               },
             ),
-            ValueListenableBuilder<bool>(
-              valueListenable: houseNumberError,
-              builder: (context, isError, child) {
-                return InputTextFileUserProfile(
-                  isNumeric: true,
-                  isError: isError,
-                  onError: () => houseNumberError.value = false,
-                  controller: houseNumberController,
-                  hintText: "Número de tu domicilio",
-                  validator: (value) {
-                    validateNumber(
-                      value: value,
-                      field: "Número de tu domicilio",
-                      context: context,
-                      boolNotifier: houseNumberError,
-                    );
-                    return null;
-                  },
-                );
-              },
-            ),
-            ValueListenableBuilder<bool>(
-              valueListenable: postalCodeError,
-              builder: (context, isError, child) {
-                return InputTextFileUserProfile(
-                  isNumeric: true,
-                  isError: isError,
-                  onError: () => postalCodeError.value = false,
-                  controller: postalCodeController,
-                  hintText: "Código postal (opcional)",
-                  validator: (value) {
-                    if (value != null && value.isNotEmpty) {
-                      if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
-                        showSnackBarV2(
-                          context: context,
-                          title: "Código postal incorrecto",
-                          message: 'Solo puedes usar números',
-                          snackType: SnackType.warning,
-                        );
-                        postalCodeError.value = true;
-                        return null;
-                      }
-                    }
-                    postalCodeError.value = false;
-                    return null;
-                  },
-                );
-              },
-            ),
-            const ContainerMessage(),
+            // ValueListenableBuilder<bool>(
+            //   valueListenable: houseNumberError,
+            //   builder: (context, isError, child) {
+            //     return InputTextFileUserProfile(
+            //       isNumeric: true,
+            //       isError: isError,
+            //       onError: () => houseNumberError.value = false,
+            //       controller: houseNumberController,
+            //       hintText: "Número de tu domicilio",
+            //       validator: (value) {
+            //         validateNumber(
+            //           value: value,
+            //           field: "Número de tu domicilio",
+            //           context: context,
+            //           boolNotifier: houseNumberError,
+            //         );
+            //         return null;
+            //       },
+            //     );
+            //   },
+            // ),
             const Expanded(
               child: SizedBox(),
             ),
+            const ContainerMessage(),
             FormDataNavigator(
               addData: () => uploadLocationData(),
               continueLater: () => continueLater(),

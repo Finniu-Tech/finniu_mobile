@@ -9,6 +9,8 @@ import 'package:finniu/domain/entities/pre_investment.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
@@ -538,6 +540,12 @@ class Step2Body extends HookConsumerWidget {
                       padding: const EdgeInsets.only(right: 10, top: 10),
                       child: InkWell(
                         onTap: () {
+                          ref
+                              .read(firebaseAnalyticsServiceProvider)
+                              .logCustomEvent(
+                            eventName: FirebaseAnalyticsEvents.addVoucher,
+                            parameters: {},
+                          );
                           photoHelp(context);
                         },
                         child: ImageIcon(

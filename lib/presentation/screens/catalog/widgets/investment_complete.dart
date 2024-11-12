@@ -1,5 +1,9 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -7,10 +11,14 @@ import 'package:url_launcher/url_launcher.dart';
 class CompleteInvestment extends ConsumerWidget {
   final String dateEnds;
   final int amount;
+  final bool isCapital;
+  final String? boucherImage;
   const CompleteInvestment({
     super.key,
     required this.dateEnds,
     required this.amount,
+    this.isCapital = false,
+    this.boucherImage,
   });
 
   @override
@@ -18,13 +26,15 @@ class CompleteInvestment extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     // int backgroundLight = isReInvestment ? 0xffCFC3FF : 0xffD6F6FF;
     // int backgroundDark = isReInvestment ? 0xff6749E2 : 0xff08273F;
-    int backgroundLight = 0xffD6F6FF;
-    int backgroundDark = 0xff08273F;
+
+    int backgroundDark = isCapital ? 0xff6749E2 : 0xff08273F;
+
+    int backgroundLight = isCapital ? 0xffCFC3FF : 0xffD6F6FF;
     return Stack(
       children: [
         Container(
           width: 336,
-          height: 90,
+          height: 100,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isDarkMode ? Color(backgroundDark) : Color(backgroundLight),
@@ -35,27 +45,28 @@ class CompleteInvestment extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                AmountInvestment(
+                AmountInvestmentFinal(
                   amount: amount,
+                  isCapital: isCapital,
                 ),
                 const SizedBox(height: 1),
-                Text(
-                  "Finalizado el $dateEnds",
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: isDarkMode ? Colors.white : Colors.black,
-                  ),
+                TextPoppins(
+                  text: "Finalizado el $dateEnds",
+                  fontSize: 10,
                 ),
               ],
             ),
           ),
         ),
-        LabelState(
+        LabelStateFinal(
           label: "Depositado",
+          isCapital: isCapital,
         ),
-        const DownloadButton(
-          voucherUrl: "", //TODO: call the voucher url
-        ),
+        boucherImage == null || boucherImage == ""
+            ? const SizedBox()
+            : DownloadButton(
+                voucherUrl: boucherImage!,
+              ),
       ],
     );
   }
@@ -75,22 +86,46 @@ class DownloadButton extends ConsumerWidget {
     const int buttonColorLight = 0xff0D3A5C;
     const int textColorDark = 0xff08273F;
     const int textColorLight = 0xffFFFFFF;
+    void download() async {
+      try {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.voucherDownloadHistory,
+          parameters: {
+            "screen": FirebaseScreen.binnacleV2,
+            "voucher_url": voucherUrl,
+          },
+        );
+
+        final uri = Uri.parse(voucherUrl);
+        await launchUrl(uri);
+      } catch (e) {
+        showSnackBarV2(
+          context: context,
+          title: "No se pudo el voucher",
+          message: "Por favor intenta mas tarde",
+          snackType: SnackType.warning,
+        );
+      }
+    }
+
     return Positioned(
       right: 7,
       bottom: 7,
       child: GestureDetector(
-        onTap: () async {
-          await launchUrl(Uri.parse(voucherUrl));
-        },
+        onTap: () => download(),
         child: Container(
           width: 144,
           height: 26,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20),
-            color: isDarkMode ? const Color(buttonColorDark) : const Color(buttonColorLight),
+            color: isDarkMode
+                ? const Color(buttonColorDark)
+                : const Color(buttonColorLight),
             boxShadow: [
               BoxShadow(
-                color: isDarkMode ? Colors.white.withOpacity(0.2) : Colors.black.withOpacity(0.2),
+                color: isDarkMode
+                    ? Colors.white.withOpacity(0.2)
+                    : Colors.black.withOpacity(0.2),
                 spreadRadius: 2,
                 blurRadius: 5,
                 offset: const Offset(0, 3),
@@ -112,12 +147,11 @@ class DownloadButton extends ConsumerWidget {
                       height: 16,
                     ),
               const SizedBox(width: 3),
-              Text(
-                "Descargar voucher",
-                style: TextStyle(
-                  fontSize: 10,
-                  color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
-                ),
+              const TextPoppins(
+                text: "Descargar voucher",
+                fontSize: 10,
+                textDark: textColorDark,
+                textLight: textColorLight,
               ),
             ],
           ),
@@ -150,40 +184,126 @@ class AmountInvestment extends ConsumerWidget {
     int amountColorLight = 0xff0D3A5C;
     int dividerAmountColorDark = 0xffA2E6FA;
     int dividerAmountColor = 0xff0D3A5C;
+    int textTitleColorDark = 0xffFFFFFF;
+    int textTitleColorLight = 0xff0D3A5C;
     int textColorDark = 0xff0A2E6FA;
     int textColorLight = 0xff0D3A5C;
 
     return SizedBox(
-      height: 52,
+      height: 57,
       child: Row(
         children: [
           Container(
             width: 4,
             height: 47,
-            color: isDarkMode ? Color(dividerAmountColorDark) : Color(dividerAmountColor),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: isDarkMode
+                  ? Color(dividerAmountColorDark)
+                  : Color(dividerAmountColor),
+            ),
           ),
           const SizedBox(width: 10),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Inversión empresarial',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkMode ? Colors.white : Colors.black,
-                ),
+              TextPoppins(
+                text: 'Inversión empresarial',
+                fontSize: 12,
+                textDark: textTitleColorDark,
+                textLight: textTitleColorLight,
+                fontWeight: FontWeight.bold,
               ),
-              Text(
-                'Monto del retorno de tu capital',
-                style: TextStyle(
-                  fontSize: 9,
-                  fontWeight: FontWeight.bold,
-                  color: isDarkMode ? Color(textColorDark) : Color(textColorLight),
-                ),
+              TextPoppins(
+                text: 'Monto del retorno de tu capital',
+                fontSize: 9,
+                fontWeight: FontWeight.w500,
+                textDark: textColorDark,
+                textLight: textColorLight,
               ),
               AnimationNumber(
+                beginNumber: 0,
+                endNumber: amount,
+                duration: 1,
+                fontSize: 14,
+                colorText: isDarkMode ? amountColorDark : amountColorLight,
+                isSoles: isSoles,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AmountInvestmentFinal extends ConsumerWidget {
+  final int amount;
+  final bool? isSoles;
+  final bool isCapital;
+
+  const AmountInvestmentFinal({
+    super.key,
+    required this.amount,
+    this.isSoles,
+    required this.isCapital,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    // int amountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    // int amountColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    // int dividerAmountColorDark = isReInvestment ? 0xffC1FF79 : 0xffA2E6FA;
+    // int dividerAmountColor = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    // int textColorDark = isReInvestment ? 0xffC1FF79 : 0xff0A2E6FA;
+    // int textColorLight = isReInvestment ? 0xff278B0E : 0xff0D3A5C;
+    int amountColorDark = isCapital ? 0xffFFFFFF : 0xffA2E6FA;
+    int amountColorLight = isCapital ? 0xff0D3A5C : 0xff0D3A5C;
+    int dividerAmountColorDark = isCapital ? 0xffCFC3FF : 0xffA2E6FA;
+    int dividerAmountColor = isCapital ? 0xff9C84FE : 0xff0D3A5C;
+    int textTitleColorDark = isCapital ? 0xffFFFFFF : 0xffFFFFFF;
+    int textTitleColorLight = isCapital ? 0xff0D3A5C : 0xff0D3A5C;
+    int textColorDark = isCapital ? 0xffFFFFFF : 0xff0A2E6FA;
+    int textColorLight = isCapital ? 0xff0D3A5C : 0xff0D3A5C;
+
+    return SizedBox(
+      height: 60,
+      child: Row(
+        children: [
+          Container(
+            width: 4,
+            height: 47,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: isDarkMode
+                  ? Color(dividerAmountColorDark)
+                  : Color(dividerAmountColor),
+            ),
+          ),
+          const SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextPoppins(
+                text: 'Inversión empresarial',
+                fontSize: 12,
+                textDark: textTitleColorDark,
+                textLight: textTitleColorLight,
+                fontWeight: FontWeight.bold,
+              ),
+              TextPoppins(
+                text: isCapital
+                    ? 'Monto del retorno de tu capital'
+                    : 'Monto de la rentabilidad',
+                fontSize: 9,
+                fontWeight: FontWeight.w500,
+                textDark: textColorDark,
+                textLight: textColorLight,
+              ),
+              AnimationNumberNotComma(
                 beginNumber: 0,
                 endNumber: amount,
                 duration: 1,
@@ -227,7 +347,9 @@ class LabelState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode ? Color(labelDarkContainer) : Color(labelLightContainer),
+          color: isDarkMode
+              ? Color(labelDarkContainer)
+              : Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -235,16 +357,66 @@ class LabelState extends ConsumerWidget {
           children: [
             Image.asset('assets/images/money_bag.png', height: 12, width: 12),
             const SizedBox(width: 5),
-            Text(
-              label,
-              textAlign: TextAlign.center,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                color: isDarkMode ? Color(textDark) : Color(textLight),
-                fontSize: 8,
-                fontWeight: FontWeight.bold,
-              ),
+            TextPoppins(
+              text: label,
+              fontSize: 8,
+              fontWeight: FontWeight.w500,
+              textDark: textDark,
+              textLight: textLight,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class LabelStateFinal extends ConsumerWidget {
+  final String label;
+  final bool isCapital;
+  const LabelStateFinal({
+    required this.label,
+    required this.isCapital,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    // int labelLightContainer = isReInvestment ? 0xffA48EFF : 0xff90E5FD;
+    // int labelDarkContainer = isReInvestment ? 0xffA48EFF : 0xff174C74;
+    // int textDark = isReInvestment ? 0xff000000 : 0xffFFFFFF;
+    // int textLight = isReInvestment ? 0xffFFFFFF : 0xff0D3A5C;
+    int labelDarkContainer = isCapital ? 0xffA48EFF : 0xff174C74;
+    int labelLightContainer = isCapital ? 0xff9C84FE : 0xff90E5FD;
+    int textDark = isCapital ? 0xff000000 : 0xffFFFFFF;
+    int textLight = isCapital ? 0xffFFFFFF : 0xff0D3A5C;
+    return Positioned(
+      right: 0,
+      child: Container(
+        height: 24,
+        width: 95,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            bottomLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+          color: isDarkMode
+              ? Color(labelDarkContainer)
+              : Color(labelLightContainer),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image.asset('assets/images/money_bag.png', height: 12, width: 12),
+            const SizedBox(width: 5),
+            TextPoppins(
+              text: label,
+              fontSize: 8,
+              fontWeight: FontWeight.w500,
+              textDark: textDark,
+              textLight: textLight,
             ),
           ],
         ),

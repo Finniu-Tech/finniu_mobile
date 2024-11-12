@@ -25,7 +25,9 @@ class RealEstateBody extends ConsumerWidget {
     const int columnColorLight = 0xffF8F8F8;
 
     return Container(
-      color: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+      color: isDarkMode
+          ? const Color(columnColorDark)
+          : const Color(columnColorLight),
       width: MediaQuery.of(context).size.width,
       child: userInvestment.when(
         data: (investment) {
@@ -35,7 +37,9 @@ class RealEstateBody extends ConsumerWidget {
                 _buildNormalContent(fund: fund),
                 Positioned.fill(
                   child: Container(
-                    color: isDarkMode ? Colors.black.withOpacity(0.7) : Colors.white.withOpacity(0.7),
+                    color: isDarkMode
+                        ? Colors.black.withOpacity(0.7)
+                        : Colors.white.withOpacity(0.7),
                     child: NoInvestmentBody(
                       onPressed: () {
                         Navigator.pushNamed(context, '/home_v2');
@@ -47,7 +51,9 @@ class RealEstateBody extends ConsumerWidget {
             );
           } else {
             final args = ModalRoute.of(context)?.settings.arguments as Map?;
-            final isReinvest = args != null && args['reinvest'] != null ? args['reinvest'] : false;
+            final isReinvest = args != null && args['reinvest'] != null
+                ? args['reinvest']
+                : false;
 
             return _buildNormalContent(isReinvest: isReinvest, fund: fund);
           }
@@ -58,7 +64,8 @@ class RealEstateBody extends ConsumerWidget {
     );
   }
 
-  Widget _buildNormalContent({bool isReinvest = false, required FundEntity fund}) {
+  Widget _buildNormalContent(
+      {bool isReinvest = false, required FundEntity fund}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
       child: Column(
@@ -80,7 +87,7 @@ class RealEstateBody extends ConsumerWidget {
           const TextPoppins(
             text: "Historial de inversiones ",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           const SizedBox(height: 10),
           TabBarBusiness(

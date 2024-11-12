@@ -1,5 +1,7 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -61,6 +63,13 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
               return PageWidget(
                 title: GestureDetector(
                   onTap: () {
+                    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                      eventName: FirebaseAnalyticsEvents.scrollPage,
+                      parameters: {
+                        "screen": FirebaseScreen.investmentV2,
+                        "event": "scroll_page_${fund.name}",
+                      },
+                    );
                     pageController.animateToPage(
                       fundList.indexOf(fund),
                       duration: const Duration(milliseconds: 500),
@@ -77,13 +86,16 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
                     ),
                   ),
                 ),
-                itemBuilder:
-                    fund.fundType == FundTypeEnum.corporate ? RealEstateBody(fund: fund) : BlueGoldBody(fund: fund),
+                itemBuilder: fund.fundType == FundTypeEnum.corporate
+                    ? RealEstateBody(fund: fund)
+                    : BlueGoldBody(fund: fund),
               );
             }).toList();
 
             return Scaffold(
-              backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
+              backgroundColor: isDarkMode
+                  ? const Color(columnColorDark)
+                  : const Color(columnColorLight),
               appBar: const AppBarBusinessScreen(),
               bottomNavigationBar: const NavigationBarHome(
                 colorBackground: Colors.transparent,
@@ -100,7 +112,8 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
                       height: 36,
                       child: ListView(
                         scrollDirection: Axis.horizontal,
-                        children: pageWidgets.map((widget) => widget.title).toList(),
+                        children:
+                            pageWidgets.map((widget) => widget.title).toList(),
                       ),
                     ),
                     Container(
@@ -133,13 +146,15 @@ class InvestmentsV2ScreenState extends ConsumerState<InvestmentsV2Screen> {
 class FundTitleAndNavigate extends ConsumerWidget {
   final FundEntity fund;
   final bool isSelect;
-  const FundTitleAndNavigate({super.key, required this.fund, required this.isSelect});
+  const FundTitleAndNavigate(
+      {super.key, required this.fund, required this.isSelect});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return fund.fundType == FundTypeEnum.corporate
-        ? RealStateTitleAndNavigate(isSelect: isSelect, isDarkMode: isDarkMode, funName: fund.name)
+        ? RealStateTitleAndNavigate(
+            isSelect: isSelect, isDarkMode: isDarkMode, funName: fund.name)
         : BlueGoldTitleAndNavigate(
             isDarkMode: isDarkMode,
             isSelect: isSelect,

@@ -96,7 +96,7 @@ class _NotificationsColumn extends ConsumerWidget {
         TextPoppins(
           text: textDay,
           fontSize: 16,
-          isBold: true,
+          fontWeight: FontWeight.w500,
         ),
         const SizedBox(height: 5),
         Container(
@@ -130,7 +130,7 @@ class _NotificationsColumn extends ConsumerWidget {
                     TextPoppins(
                       text: textTitle,
                       fontSize: 16,
-                      isBold: true,
+                      fontWeight: FontWeight.w500,
                       textDark: titleDark,
                       textLight: titleLight,
                     ),

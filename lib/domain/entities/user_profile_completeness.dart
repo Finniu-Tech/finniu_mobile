@@ -58,18 +58,14 @@ class UserProfileCompleteness {
     if (!hasCompletePersonalData()) {
       return '/v2/form_personal_data';
     }
-    if (!hasCompleteLegalTerms()) {
-      return '/v2/form_legal_terms';
-    }
+
     if (!hasCompleteLocation()) {
       return '/v2/form_location';
     }
     if (!hasCompleteOccupation()) {
       return '/v2/form_job';
     }
-    if (!hasCompleteProfile()) {
-      return '/v2/form_about_me';
-    }
+
     return null;
   }
 }

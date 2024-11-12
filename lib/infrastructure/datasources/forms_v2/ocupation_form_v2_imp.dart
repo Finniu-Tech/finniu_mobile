@@ -17,10 +17,8 @@ class OccupationFormV2Imp extends GraphQLBaseDataSource {
             MutationRepository.saveOccupationDataV2(),
           ),
           variables: {
-            "laborSituation": data.laborSituation.name,
             "occupation": data.occupation,
             "companyName": data.companyName,
-            "serviceTime": data.serviceTime.name,
           },
           fetchPolicy: FetchPolicy.noCache,
         ),

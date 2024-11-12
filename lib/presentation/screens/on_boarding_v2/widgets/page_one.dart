@@ -54,7 +54,7 @@ class PageOneContainer extends ConsumerWidget {
                 child: const TextPoppins(
                   text: text,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   lines: 2,
                   align: TextAlign.center,
                   textDark: textDark,
@@ -64,7 +64,8 @@ class PageOneContainer extends ConsumerWidget {
               Icon(
                 Icons.arrow_forward,
                 size: 24,
-                color: isDarkMode ? const Color(textDark) : const Color(textLight),
+                color:
+                    isDarkMode ? const Color(textDark) : const Color(textLight),
               ),
               SizedBox(
                 height: constraints.maxHeight / 3,
@@ -87,11 +88,14 @@ class PageTwoContainer extends ConsumerWidget {
     const int backgroundLight = 0xffFFFFFF;
 
     const int lineColor = 0xff65DCFF;
-    const String text = "Comienza a invertir desde S/1,000 y \$1,000  sin comisiones";
+    const String text =
+        "Comienza a invertir desde S/1,000 y \$1,000  sin comisiones";
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
-      color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+      color: isDarkMode
+          ? const Color(backgroundDark)
+          : const Color(backgroundLight),
       child: LayoutBuilder(
         builder: (context, constraints) {
           return Column(
@@ -138,7 +142,7 @@ class PageTwoContainer extends ConsumerWidget {
                 child: const TextPoppins(
                   text: text,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   lines: 2,
                   align: TextAlign.center,
                 ),
@@ -160,7 +164,8 @@ class PageThreeContainer extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const String text = "Puedes invertir en plazos de 6, 12 y 24 meses con intereses mensuales";
+    const String text =
+        "Puedes invertir en plazos de 6, 12 y 24 meses con intereses mensuales";
     const String imageUrl = "assets/onboarding/onboarding_image_2.png";
 
     return const ImageAndGradientPage(
@@ -192,7 +197,8 @@ class PageFiveContainer extends ConsumerWidget {
   });
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const String text = "Recibe tu capital y tus intereses garantizado en la fecha establecida";
+    const String text =
+        "Recibe tu capital y tus intereses garantizado en la fecha establecida";
     const String imageUrl = "assets/onboarding/onboarding_image_4.png";
 
     return const ImageAndGradientPage(
@@ -250,7 +256,7 @@ class ImageAndGradientPage extends ConsumerWidget {
                 child: TextPoppins(
                   text: text,
                   fontSize: 16,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   lines: 3,
                   align: TextAlign.center,
                   textDark: textDark,

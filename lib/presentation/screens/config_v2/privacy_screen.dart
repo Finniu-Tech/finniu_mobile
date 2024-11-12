@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -27,6 +29,13 @@ class _BodyPrivacy extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final String? email = ref.watch(userProfileNotifierProvider).email;
     void setRememberPassword() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.clickEvent,
+        parameters: {
+          "screen": FirebaseScreen.privacyV2,
+          "click": "change_password",
+        },
+      );
       context.loaderOverlay.show();
       emailReset(context, ref);
     }
@@ -36,7 +45,8 @@ class _BodyPrivacy extends ConsumerWidget {
         ExpansionTitleProfile(
           icon: "assets/svg_icons/key_icon.svg",
           title: "Contraseñas",
-          subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+          subtitle:
+              "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
           children: [
             // ChildrenSwitchTitle(
             //   title: "Visualización de contraseña",
@@ -45,7 +55,8 @@ class _BodyPrivacy extends ConsumerWidget {
             // ),
             ChildrenEmail(
               title: "Cambio de contraseña",
-              subtitle: "Te enviaremos un correo para reestablecer tu contraseña ",
+              subtitle:
+                  "Te enviaremos un correo para reestablecer tu contraseña ",
               email: email ?? '',
             ),
             ButtonChangePassword(
@@ -120,13 +131,15 @@ class ButtonChangePassword extends ConsumerWidget {
                   offset: const Offset(0, 4),
                 ),
               ],
-              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+              color: isDarkMode
+                  ? const Color(backgroundDark)
+                  : const Color(backgroundLight),
             ),
             child: const Center(
               child: TextPoppins(
                 text: "Solicitar cambio de contraseña",
                 fontSize: 12,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: textDark,
                 textLight: textLight,
               ),

@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/device_orientation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BlueGoldImage extends StatelessWidget {
   const BlueGoldImage({
@@ -29,20 +31,46 @@ class ImageContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.transparent,
-      width: MediaQuery.of(context).size.width,
-      height: 192,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: GestureDetector(
-          onTap: () => showImageFullScreenAsset(
-            context,
-            imageFullScreen: imageFullScreen,
+    return Stack(
+      children: [
+        Container(
+          color: Colors.transparent,
+          width: MediaQuery.of(context).size.width,
+          height: 192,
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            child: GestureDetector(
+              onTap: () => showImageFullScreenAsset(
+                context,
+                imageFullScreen: imageFullScreen,
+              ),
+              child: Image.network(
+                imageContainer,
+                fit: BoxFit.fill,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) {
+                    return child;
+                  } else {
+                    return const CircularLoader(width: 50, height: 50);
+                  }
+                },
+                errorBuilder: (context, error, stackTrace) =>
+                    const CircularLoader(width: 50, height: 50),
+              ),
+            ),
           ),
-          child: Image.network(imageContainer, fit: BoxFit.fill),
         ),
-      ),
+        Positioned(
+          right: 15,
+          top: 15,
+          child: SvgPicture.asset(
+            'assets/svg_icons/arrow_squere_icon.svg',
+            width: 20,
+            height: 20,
+            color: Colors.black,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -82,13 +110,12 @@ class _ImageDialogState extends State<ImageDialog> {
     orientationSubscription = deviceOrientation$.listen((orientation) {
       if (!dialogClosed) {
         if (orientation == DeviceOrientation.portraitUp) {
-          print('portrait');
           if (isFullScreen) {
             dialogClosed = true;
             Navigator.of(context).pop();
           }
-        } else if (orientation == DeviceOrientation.landscapeLeft || orientation == DeviceOrientation.landscapeRight) {
-          print('landscape');
+        } else if (orientation == DeviceOrientation.landscapeLeft ||
+            orientation == DeviceOrientation.landscapeRight) {
           setState(() {
             isFullScreen = true;
           });
@@ -115,6 +142,15 @@ class _ImageDialogState extends State<ImageDialog> {
         child: InteractiveViewer(
           child: Image.network(
             widget.imageFullScreen,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                return const CircularLoader(width: 50, height: 50);
+              }
+            },
+            errorBuilder: (context, error, stackTrace) =>
+                const CircularLoader(width: 50, height: 50),
           ),
         ),
       ),

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/main.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/page_one.dart';
 import 'package:finniu/presentation/screens/on_boarding_v2/widgets/positiones_column.dart';
@@ -52,6 +54,10 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     super.initState();
     _startAutoScroll();
     _getCurrentAppVersion();
+    ref.read(firebaseAnalyticsServiceProvider).logAppOpen();
+    ref.read(firebaseAnalyticsServiceProvider).setSessionTimeoutDuration(
+          const Duration(minutes: 5),
+        );
   }
 
   void _startAutoScroll() {
@@ -76,8 +82,26 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
     super.dispose();
   }
 
-  void pushLogin() => Navigator.pushNamed(context, '/v2/login_email');
-  void pushRegister() => Navigator.pushNamed(context, '/v2/register');
+  void pushLogin() => {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.navigateTo,
+          parameters: {
+            "screen": FirebaseScreen.onBoardingV2,
+            "navigate_to": FirebaseScreen.loginEmailV2,
+          },
+        ),
+        Navigator.pushNamed(context, '/v2/login_email'),
+      };
+  void pushRegister() => {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.navigateTo,
+          parameters: {
+            "screen": FirebaseScreen.onBoardingV2,
+            "navigate_to": FirebaseScreen.registerV2,
+          },
+        ),
+        Navigator.pushNamed(context, '/v2/register'),
+      };
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +126,8 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               height: 40,
-              child: VersionAppSectionWidget(themeProvider: themeProvider, version: appCurrentVersion),
+              child: VersionAppSectionWidget(
+                  themeProvider: themeProvider, version: appCurrentVersion),
             ),
           ),
           Positioned(
@@ -120,7 +145,8 @@ class StackOnBoardingState extends ConsumerState<StackOnBoarding> {
 }
 
 class VersionAppSectionWidget extends StatelessWidget {
-  const VersionAppSectionWidget({super.key, required this.themeProvider, required this.version});
+  const VersionAppSectionWidget(
+      {super.key, required this.themeProvider, required this.version});
 
   final SettingsProviderState themeProvider;
   final String version;

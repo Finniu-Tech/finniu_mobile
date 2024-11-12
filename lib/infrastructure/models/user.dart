@@ -115,6 +115,7 @@ class UserProfile {
     this.isPublicOfficialOrFamily,
     this.acceptPrivacyPolicy,
     this.acceptTermsConditions,
+    this.birthDate,
   });
   String? documentType;
   String? firstName;
@@ -152,6 +153,8 @@ class UserProfile {
   String? facebook;
   String? instagram;
   String? linkedin;
+  String? birthDate;
+
   bool? isDirectorOrShareholder10Percent;
   bool? isPublicOfficialOrFamily;
   bool? acceptPrivacyPolicy;
@@ -191,7 +194,7 @@ class UserProfile {
         houseNumber: json["houseNumber"],
         postalCode: json["postalCode"],
         laborSituation: json["laborSituation"],
-        companyName: json["companyName"],
+        companyName: json["actualPosition"],
         serviceTime: json["serviceTime"],
         biography: json["biography"],
         facebook: json["facebook"],
@@ -202,6 +205,7 @@ class UserProfile {
         isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
         acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
         acceptTermsConditions: json["acceptTermsConditions"],
+        birthDate: json["birthdayDate"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -267,6 +271,7 @@ class UserProfile {
     bool? isPublicOfficialOrFamily,
     bool? acceptPrivacyPolicy,
     bool? acceptTermsConditions,
+    String? birthDate,
   }) {
     return UserProfile(
       firstName: firstName ?? this.firstName,
@@ -310,6 +315,7 @@ class UserProfile {
       acceptPrivacyPolicy: acceptPrivacyPolicy ?? this.acceptPrivacyPolicy,
       acceptTermsConditions:
           acceptTermsConditions ?? this.acceptTermsConditions,
+      birthDate: birthDate ?? this.birthDate,
     );
   }
 
@@ -333,7 +339,10 @@ class UserProfile {
         civilStatus != null &&
         civilStatus!.isNotEmpty &&
         gender != null &&
-        gender!.isNotEmpty;
+        gender!.isNotEmpty &&
+        imageProfileUrl != null &&
+        birthDate != null &&
+        birthDate!.isNotEmpty;
   }
 
   bool completeLocationData() {
@@ -344,20 +353,14 @@ class UserProfile {
         provincia != null &&
         provincia!.isNotEmpty &&
         address != null &&
-        address!.isNotEmpty &&
-        houseNumber != null &&
-        houseNumber!.isNotEmpty;
+        address!.isNotEmpty;
   }
 
   bool completeJobData() {
-    return laborSituation != null &&
-        laborSituation!.isNotEmpty &&
-        occupation != null &&
+    return occupation != null &&
         occupation!.isNotEmpty &&
         companyName != null &&
-        companyName!.isNotEmpty &&
-        serviceTime != null &&
-        serviceTime!.isNotEmpty;
+        companyName!.isNotEmpty;
   }
 
   bool completeAboutData() {
@@ -369,11 +372,11 @@ class UserProfile {
   }
 
   double completeData() {
-    double result = 0.0;
+    double result = 0.25;
     if (completePersonalData()) result += 0.25;
     if (completeLocationData()) result += 0.25;
     if (completeJobData()) result += 0.25;
-    if (completeAboutData()) result += 0.25;
+
     return result;
   }
 

@@ -151,11 +151,20 @@ class AccountTransferModalState extends ConsumerState<AccountTransferModal> {
             )
           : null,
     );
-    createBankAccount(
+    final response = await createBankAccount(
       context: context,
       input: input,
       ref: ref,
     );
+
+    if (response.isNotEmpty) {
+      setState(() {
+        errors = response;
+      });
+      return;
+    }
+
+    Navigator.pop(context);
   }
 
   @override

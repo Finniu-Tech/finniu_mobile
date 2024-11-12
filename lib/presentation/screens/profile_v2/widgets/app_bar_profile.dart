@@ -6,8 +6,10 @@ class AppBarProfile extends ConsumerWidget implements PreferredSizeWidget {
   const AppBarProfile({
     super.key,
     required this.title,
+    this.onLeadingPressed,
   });
   final String title;
+  final VoidCallback? onLeadingPressed;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,7 +41,9 @@ class AppBarProfile extends ConsumerWidget implements PreferredSizeWidget {
         ),
       ),
       leading: IconButton(
-        onPressed: () => Navigator.pop(context),
+        onPressed: () => onLeadingPressed != null
+            ? onLeadingPressed!()
+            : Navigator.of(context).pop(),
         icon: Icon(
           Icons.arrow_back,
           color: isDarkMode

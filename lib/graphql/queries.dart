@@ -41,7 +41,7 @@ class QueryRepository {
         postalCode
         
         laborSituation
-        companyName
+        actualPosition
         serviceTime
 
         biography
@@ -53,6 +53,7 @@ class QueryRepository {
         isPublicOfficialOrFamily
         acceptPrivacyPolicy
         acceptTermsConditions
+        birthdayDate
       }
     }
   ''';
@@ -1278,6 +1279,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
           invesmentInDolares{
@@ -1305,6 +1310,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
         }
@@ -1594,6 +1603,7 @@ class QueryRepository {
       query getPaymentHistory{
         corporatePaymentHistory{
         nextPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1601,9 +1611,10 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
-          
+           isCapitalPayment
           }
           passPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1611,8 +1622,10 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
           recentPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1620,6 +1633,7 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
         }
       }
@@ -1655,6 +1669,26 @@ class QueryRepository {
         profileComplete
       }
     }
+    ''';
+  }
+
+  static String get getStepBankAccounts {
+    return '''
+    query getStepBankAccounts(\$uuid: UUID, \$bankSlug: String) {
+      companyBankAccountQueries{
+          companyBankAccounts( bankUuid : \$uuid , bankSlug : \$bankSlug   ) {
+          companyBankType
+          accountNumber
+          accountCci
+          bank{
+            bankName
+            slug
+            bankImageUrl
+          }
+        
+      }
+    }
+  }
     ''';
   }
 }

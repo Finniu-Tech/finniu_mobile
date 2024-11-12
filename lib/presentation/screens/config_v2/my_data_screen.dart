@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
@@ -18,13 +20,21 @@ class MyDataScreen extends ConsumerWidget {
 
 class _BodyMyData extends ConsumerWidget {
   const _BodyMyData();
-  void navigate(BuildContext context, String navigate) {
-    Navigator.pushNamed(context, navigate);
-  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
+    void navigate(BuildContext context, String navigate) {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.navigateTo,
+        parameters: {
+          "screen": FirebaseScreen.myDataV2,
+          "navigate_to": navigate,
+        },
+      );
+      Navigator.pushNamed(context, navigate);
+    }
+
     return Column(
       children: [
         ButtonNavigateProfile(
@@ -48,13 +58,14 @@ class _BodyMyData extends ConsumerWidget {
           subtitle: "Información sobre tu ocupación laboral \n",
           onTap: () => navigate(context, '/v2/edit_job_data'),
         ),
-        ButtonNavigateProfile(
-          isComplete: userProfile.completeAboutData(),
-          icon: "assets/svg_icons/user_icon_v2.svg",
-          title: "Sobre mí",
-          subtitle: "Información personal que deseas compartir. \n",
-          onTap: () => navigate(context, '/v2/edit_about_me'),
-        ),
+        // ButtonNavigateProfile(
+        //   isComplete: userProfile.completeAboutData(),
+        //   icon: "assets/svg_icons/user_icon_v2.svg",
+        //   title: "Información adicional",
+        //   subtitle:
+        //       "Información de mi nombre favorito, cumpleaños y otros más....",
+        //   onTap: () => navigate(context, '/v2/additional_information'),
+        // ),
       ],
     );
   }

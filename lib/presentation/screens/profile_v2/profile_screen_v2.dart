@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
@@ -5,7 +7,6 @@ import 'package:finniu/presentation/screens/profile_v2/widgets/app_bar_profile.d
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_my_data.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/image_profile.dart';
-import 'package:finniu/utils/log_out.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -30,7 +31,10 @@ class UserProfileV2 extends ConsumerWidget {
         );
       },
       child: Scaffold(
-        appBar: const AppBarProfile(title: "Mi perfil"),
+        appBar: AppBarProfile(
+          title: "Mi perfil",
+          onLeadingPressed: () => Navigator.pushNamed(context, '/home_v2'),
+        ),
         backgroundColor: isDarkMode
             ? const Color(backgroundDark)
             : const Color(backgroundLight),
@@ -49,7 +53,7 @@ class _BodyProfile extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
-    String name = userProfile.nickName ?? "Completar tu perfil";
+    String name = "${userProfile.nickName} ${userProfile.lastNameFather}";
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -71,7 +75,16 @@ class _BodyProfile extends ConsumerWidget {
               title: "Mis datos",
               subtitle: "Clic para ver mis datos",
               load: userProfile.completeData(),
-              onTap: () => Navigator.pushNamed(context, '/v2/my_data'),
+              onTap: () => {
+                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                  eventName: FirebaseAnalyticsEvents.navigateTo,
+                  parameters: {
+                    "screen": FirebaseScreen.profileV2,
+                    "navigate_to": FirebaseScreen.myDataV2,
+                  },
+                ),
+                Navigator.pushNamed(context, '/v2/my_data'),
+              },
             ),
             const SizedBox(
               width: 10,
@@ -81,7 +94,16 @@ class _BodyProfile extends ConsumerWidget {
               title: "Mis cuentas",
               subtitle: "Falta agregar tus cuentas",
               load: 1,
-              onTap: () => Navigator.pushNamed(context, '/v2/my_accounts'),
+              onTap: () => {
+                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                  eventName: FirebaseAnalyticsEvents.navigateTo,
+                  parameters: {
+                    "screen": FirebaseScreen.profileV2,
+                    "navigate_to": FirebaseScreen.myAccountsV2,
+                  },
+                ),
+                Navigator.pushNamed(context, '/v2/my_accounts'),
+              },
               isComplete: true,
             ),
           ],
@@ -95,21 +117,48 @@ class _BodyProfile extends ConsumerWidget {
           title: "Configuraciones",
           subtitle:
               "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
-          onTap: () => Navigator.pushNamed(context, '/v2/settings'),
+          onTap: () => {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.navigateTo,
+              parameters: {
+                "screen": FirebaseScreen.profileV2,
+                "navigate_to": FirebaseScreen.settingsV2,
+              },
+            ),
+            Navigator.pushNamed(context, '/v2/settings'),
+          },
         ),
         ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/legal_icon_v2.svg",
           title: "Documentos legales",
           subtitle: "Información legal para las \ninversiones",
-          onTap: () => Navigator.pushNamed(context, '/v2/legal_documents'),
+          onTap: () => {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.navigateTo,
+              parameters: {
+                "screen": FirebaseScreen.profileV2,
+                "navigate_to": FirebaseScreen.legalDocumentsV2,
+              },
+            ),
+            Navigator.pushNamed(context, '/v2/legal_documents'),
+          },
         ),
         ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/help_circle.svg",
           title: "Soporte y ayuda",
           subtitle: "Ticket de soporte y preguntas \nfrecuentes",
-          onTap: () => Navigator.pushNamed(context, '/v2/support'),
+          onTap: () => {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.navigateTo,
+              parameters: {
+                "screen": FirebaseScreen.profileV2,
+                "navigate_to": FirebaseScreen.supportV2,
+              },
+            ),
+            Navigator.pushNamed(context, '/v2/support'),
+          },
         ),
         ButtonNavigateProfile(
           icon: "assets/svg_icons/log_out.svg",
@@ -118,8 +167,18 @@ class _BodyProfile extends ConsumerWidget {
           onlyTitle: true,
           subtitle: "",
           onTap: () => {
-            context.loaderOverlay.show(),
-            logOut(context, ref),
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.navigateTo,
+              parameters: {
+                "screen": FirebaseScreen.profileV2,
+                "navigate_to": FirebaseScreen.exitV2,
+              },
+            ),
+            ref.read(firebaseAnalyticsServiceProvider).resetAnalyticsData(),
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              '/v2/exit',
+              (route) => false,
+            ),
           },
         ),
       ],

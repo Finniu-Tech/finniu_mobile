@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/inputs_user_v2/input_text_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
@@ -6,14 +8,13 @@ import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafo
 import 'package:finniu/presentation/screens/login_v2/helpers/send_email_helper.dart';
 import 'package:finniu/presentation/screens/v2_user_profile/helpers/validate_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ForgotPasswordV2 extends ConsumerWidget {
+class ForgotPasswordV2 extends StatelessWidget {
   const ForgotPasswordV2({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const String text =
@@ -37,7 +38,7 @@ class ForgotPasswordV2 extends ConsumerWidget {
               const TextPoppins(
                 text: "¿Olvidaste tu contraseña?",
                 fontSize: 25,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: titleDark,
                 textLight: titleLight,
               ),
@@ -53,7 +54,7 @@ class ForgotPasswordV2 extends ConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
-              const FormForgot(),
+              FormForgot(),
             ],
           ),
         ),
@@ -62,39 +63,82 @@ class ForgotPasswordV2 extends ConsumerWidget {
   }
 }
 
-class FormForgot extends HookConsumerWidget {
-  static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  const FormForgot({super.key});
+class FormForgot extends ConsumerStatefulWidget {
+  FormForgot({super.key});
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final emailError = useState<bool>(false);
-    final emailController = useTextEditingController();
+  FormForgotState createState() => FormForgotState();
+}
 
+class FormForgotState extends ConsumerState<FormForgot> {
+  final emailError = ValueNotifier<bool>(false);
+  final emailController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
     void seedEmail() async {
-      if (!formKey.currentState!.validate()) {
+      if (emailController.text.isEmpty) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.loginForgotV2,
+            "error": "input_email",
+          },
+        );
         showSnackBarV2(
           context: context,
-          title: "Error de inicio de sesión",
-          message: "Por favor, revise sus datos.",
+          title: "Email incorrecto",
+          message: 'Por favor ingresa tu correo electrónico',
           snackType: SnackType.warning,
         );
-        return;
-      } else {
-        if (emailError.value) return;
-        sendEmailRecovery(
-          context: context,
-          email: emailController.text.trim(),
-          ref: ref,
-        );
+        return null;
       }
+      if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(emailController.text)) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.pushDataError,
+          parameters: {
+            "screen": FirebaseScreen.loginForgotV2,
+            "error": "input_validation",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "Email incorrecto",
+          message: 'El email escrito es inválido, falta el “@”',
+          snackType: SnackType.warning,
+        );
+        return null;
+      }
+      if (emailError.value) return;
+      sendEmailRecovery(
+        context: context,
+        email: emailController.text.trim(),
+        ref: ref,
+      );
+
+      // if (emailController.text.isEmpty) {
+      //   // if (!widget.formKey.currentState!.validate()) {
+      //   showSnackBarV2(
+      //     context: context,
+      //     title: "Error de inicio de sesión",
+      //     message: "Por favor, revise sus datos.",
+      //     snackType: SnackType.warning,
+      //   );
+      //   return;
+      // } else {
+      //   if (emailError.value) return;
+      //   sendEmailRecovery(
+      //     context: context,
+      //     email: emailController.text.trim(),
+      //     ref: ref,
+      //   );
+      // }
     }
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.9,
       child: Form(
-        key: formKey,
+        // key: widget.formKey,
         child: Column(
           children: [
             InputTextFileUserProfile(

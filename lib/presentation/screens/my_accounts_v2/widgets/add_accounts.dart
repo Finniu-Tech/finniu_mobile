@@ -42,7 +42,7 @@ class AddAccounts extends ConsumerWidget {
           const TextPoppins(
             text: "Agregar cuenta bancaria",
             fontSize: 15,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             textDark: textColor,
             textLight: textColor,
           ),

@@ -23,7 +23,6 @@ class ProgressBarInProgress extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print('actionStatus: $actionStatus');
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const backgroundLight = 0xffD6F6FF;
     const backgroundDark = 0xff08273F;
@@ -33,7 +32,9 @@ class ProgressBarInProgress extends ConsumerWidget {
           width: 336,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+            color: isDarkMode
+                ? const Color(backgroundDark)
+                : const Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -57,14 +58,21 @@ class ProgressBarInProgress extends ConsumerWidget {
                   dateFinal: dateEnds,
                 ),
                 const SizedBox(height: 3),
-                if (isReinvestmentAvailable == true && actionStatus == ActionStatusEnum.defaultReInvestment) ...[
+                if (isReinvestmentAvailable == true &&
+                    actionStatus == ActionStatusEnum.defaultReInvestment) ...[
                   ButtonReinvest(onPressed: onPressed),
                 ],
-                if (isReinvestmentAvailable == true && actionStatus == ActionStatusEnum.pendingReInvestment) ...[
-                  const Align(alignment: Alignment.centerRight, child: ReinvestmentRequestedTag()),
+                if (isReinvestmentAvailable == true &&
+                    actionStatus == ActionStatusEnum.pendingReInvestment) ...[
+                  const Align(
+                      alignment: Alignment.centerRight,
+                      child: ReinvestmentRequestedTag()),
                 ],
-                if (isReinvestmentAvailable == true && actionStatus == ActionStatusEnum.disabledReInvestment) ...[
-                  const Align(alignment: Alignment.centerRight, child: ReinvestmentCancelledTag()),
+                if (isReinvestmentAvailable == true &&
+                    actionStatus == ActionStatusEnum.disabledReInvestment) ...[
+                  const Align(
+                      alignment: Alignment.centerRight,
+                      child: ReinvestmentCancelledTag()),
                 ]
               ],
             ),
@@ -99,7 +107,9 @@ class ButtonReinvest extends ConsumerWidget {
         height: 24,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+          color: isDarkMode
+              ? const Color(backgroundDark)
+              : const Color(backgroundLight),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -115,7 +125,8 @@ class ButtonReinvest extends ConsumerWidget {
             Icon(
               Icons.arrow_forward_rounded,
               size: 16,
-              color: isDarkMode ? const Color(textDark) : const Color(textLight),
+              color:
+                  isDarkMode ? const Color(textDark) : const Color(textLight),
             ),
           ],
         ),
@@ -203,6 +214,7 @@ class FinalText extends ConsumerWidget {
           'Finaliza $dateFinal',
           style: TextStyle(
             fontSize: 11,
+            fontFamily: "Poppins",
             color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
@@ -211,6 +223,7 @@ class FinalText extends ConsumerWidget {
           'En curso',
           style: TextStyle(
             fontSize: 8,
+            fontFamily: "Poppins",
             color: isDarkMode ? Colors.white : Colors.black,
           ),
         ),
@@ -251,8 +264,9 @@ class AmountInvestment extends ConsumerWidget {
               Text(
                 fundName,
                 style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Poppins",
                   color: isDarkMode ? Colors.white : Colors.black,
                 ),
               ),
@@ -295,7 +309,9 @@ class LabelState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode ? const Color(labelDarkContainer) : const Color(labelLightContainer),
+          color: isDarkMode
+              ? const Color(labelDarkContainer)
+              : const Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -307,7 +323,9 @@ class LabelState extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: isDarkMode ? const Color(textDark) : const Color(textLight),
+                fontFamily: "Poppins",
+                color:
+                    isDarkMode ? const Color(textDark) : const Color(textLight),
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
               ),

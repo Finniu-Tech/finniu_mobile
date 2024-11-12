@@ -1,5 +1,8 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
+import 'package:finniu/domain/entities/user_profile_completeness.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
@@ -7,6 +10,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/benefits_modal.dart'
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/image_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart';
@@ -26,7 +30,9 @@ class FundDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final backgroundColor = isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight();
+    final backgroundColor = isDarkMode
+        ? fund.getHexDetailColorDark()
+        : fund.getHexDetailColorLight();
     return AnalyticsAwareWidget(
       screenName: 'Fund Detail Screen: ${fund.name}',
       child: CustomLoaderOverlay(
@@ -57,8 +63,12 @@ class FundDetailBody extends ConsumerWidget {
     return Column(
       children: [
         HeaderInvestment(
-          containerColor: isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight(),
-          iconColor: isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+          containerColor: isDarkMode
+              ? fund.getHexDetailColorDark()
+              : fund.getHexDetailColorLight(),
+          iconColor: isDarkMode
+              ? fund.getHexDetailColorSecondaryDark()
+              : fund.getHexDetailColorSecondaryLight(),
           textColor: isDarkMode ? whiteText : blackText,
           urlIcon: fund.iconUrl!,
           urlImageBackground: fund.backgroundImageUrl!,
@@ -69,18 +79,65 @@ class FundDetailBody extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         ButtonInvestment(
-          text: fund.fundType == FundTypeEnum.corporate ? 'Quiero invertir' : 'Quiero simular',
+          text: fund.fundType == FundTypeEnum.corporate
+              ? 'Quiero invertir'
+              : 'Quiero simular',
           onPressed: () async {
             context.loaderOverlay.show();
-            final userProfileCompleteness = await ref.read(userProfileCompletenessProvider.future);
-            if (!userProfileCompleteness.isComplete()) {
+            // final userProfileCompleteness =
+            //     await ref.read(userProfileCompletenessProvider.future);
+            final userProfileCompleteness = UserProfileCompleteness(
+              profileComplete: userProfile.completeData(),
+              personalDataComplete:
+                  userProfile.completePersonalData() ? 100 : 0,
+              locationComplete: userProfile.completeLocationData() ? 100 : 0,
+              occupationComplete: userProfile.completeJobData() ? 100 : 0,
+              legalTermsCompleteness: 100,
+              completionPercentage: 100,
+            );
+            if (userProfile.completeData() != 1) {
               if (fund.fundType == FundTypeEnum.corporate) {
-                showVerifyIdentity(context, userProfileCompleteness, redirect: () {
-                  Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': fund});
-                });
+                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                  eventName: FirebaseAnalyticsEvents.screenView,
+                  parameters: {
+                    "screen": FirebaseScreen.fundDetail,
+                    'navigatedTo': fund.name,
+                  },
+                );
+                ref.read(firebaseAnalyticsServiceProvider).logScreenView(
+                  screenName: 'fund_detail',
+                  screenClass: 'fund_detail',
+                  parameters: {
+                    'navigated_from': fund.name,
+                  },
+                );
+                showVerifyIdentity(
+                  context,
+                  userProfileCompleteness,
+                  redirect: () {
+                    Navigator.pushNamed(context, '/v2/investment/step-1',
+                        arguments: {'fund': fund});
+                  },
+                );
               } else {
-                showVerifyIdentity(context, userProfileCompleteness, redirect: () {
-                  Navigator.pushNamed(context, '/v2/aggro-investment', arguments: {'fund': fund});
+                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                  eventName: FirebaseAnalyticsEvents.screenView,
+                  parameters: {
+                    "screen": FirebaseScreen.fundDetail,
+                    'navigated_from': fund.name,
+                  },
+                );
+                ref.read(firebaseAnalyticsServiceProvider).logScreenView(
+                  screenName: 'fund_detail',
+                  screenClass: 'fund_detail',
+                  parameters: {
+                    'navigated_from': fund.name,
+                  },
+                );
+                showVerifyIdentity(context, userProfileCompleteness,
+                    redirect: () {
+                  Navigator.pushNamed(context, '/v2/aggro-investment',
+                      arguments: {'fund': fund});
                 });
               }
             } else {
@@ -129,10 +186,27 @@ class ScrollBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final Color mainColorText = isDarkMode ? Colors.white : Colors.black;
-    final Color downloadInfoButtonColor =
-        fund.fundType == FundTypeEnum.corporate ? const Color(primaryDark) : const Color(0xff3A66BF);
     final bool isSoles = ref.watch(isSolesStateProvider);
+
+    const int benefitsDark = 0xff0D3A5C;
+    const int benefitsLight = 0xffA2E6FA;
+    const int textDark = 0xff000000;
+    const int textLight = 0xffFFFFFF;
+
+    void onPressedBenefits() {
+      ref
+          .read(firebaseAnalyticsServiceProvider)
+          .logCustomEvent(eventName: "click_benefits", parameters: {});
+      showBenefits(context);
+    }
+
+    void onPressedInformation() {
+      ref
+          .read(firebaseAnalyticsServiceProvider)
+          .logCustomEvent(eventName: "click_information", parameters: {});
+      launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
+    }
+
     return Expanded(
       child: SingleChildScrollView(
         child: Container(
@@ -143,14 +217,12 @@ class ScrollBody extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                fund.fundType == FundTypeEnum.corporate ? 'Descubre el portafolio' : 'Nuestro modelo de negocio',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: mainColorText,
-                ),
+              TextPoppins(
+                text: fund.fundType == FundTypeEnum.corporate
+                    ? 'Descubre el portafolio'
+                    : 'Nuestro modelo de negocio',
+                fontSize: 20,
+                fontWeight: FontWeight.w600,
               ),
               const SizedBox(
                 height: 10,
@@ -164,52 +236,48 @@ class ScrollBody extends ConsumerWidget {
               ),
               Row(
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      showBenefits(context);
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Ver los beneficios',
-                          style: TextStyle(
-                            fontSize: 12,
-                            color: mainColorText,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Transform.rotate(
-                          angle: -0.7854,
-                          child: Icon(
-                            Icons.arrow_forward_sharp,
-                            size: 24,
-                            color: mainColorText,
-                          ),
-                        ),
-                      ],
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStateProperty.all(
+                        (isDarkMode
+                            ? const Color(benefitsDark)
+                            : const Color(benefitsLight)),
+                      ),
+                    ),
+                    onPressed: () => onPressedBenefits(),
+                    child: const TextPoppins(
+                      fontSize: 14,
+                      text: "Ver beneficios",
+                      textDark: textLight,
+                      textLight: textDark,
                     ),
                   ),
                   const Spacer(),
-                  TextButton(
+                  ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: WidgetStateProperty.all((downloadInfoButtonColor)),
+                      backgroundColor: WidgetStateProperty.all(
+                        (isDarkMode
+                            ? const Color(benefitsLight)
+                            : const Color(benefitsDark)),
+                      ),
                     ),
-                    onPressed: () {
-                      launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
-                    },
-                    child: const Row(
+                    onPressed: () => onPressedInformation(),
+                    child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          'Ver más información',
-                          style: TextStyle(color: Colors.white),
+                        const TextPoppins(
+                          fontSize: 14,
+                          text: "Más información",
+                          textDark: textDark,
+                          textLight: textLight,
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Icon(
-                          Icons.download_rounded,
-                          size: 16,
+                          Icons.file_download_outlined,
+                          size: 18,
+                          color: isDarkMode
+                              ? const Color(textDark)
+                              : const Color(textLight),
                         ),
                       ],
                     ),
@@ -236,7 +304,9 @@ class ScrollBody extends ConsumerWidget {
               if (fund.fundType == FundTypeEnum.aggro) ...[
                 Center(
                   child: BlueGoldContainer(
-                    amount: isSoles ? fund.minAmountInvestmentPEN! : fund.minAmountInvestmentUSD!,
+                    amount: isSoles
+                        ? fund.minAmountInvestmentPEN!
+                        : fund.minAmountInvestmentUSD!,
                   ),
                 ),
               ],
@@ -244,7 +314,9 @@ class ScrollBody extends ConsumerWidget {
                 Center(
                   child: RealStateContainer(
                     minAmount: _getNumberFromString(
-                      isSoles ? fund.minAmountInvestmentPEN : fund.minAmountInvestmentUSD,
+                      isSoles
+                          ? fund.minAmountInvestmentPEN
+                          : fund.minAmountInvestmentUSD,
                     )!,
                   ),
                 ),
@@ -252,9 +324,12 @@ class ScrollBody extends ConsumerWidget {
                   height: 10,
                 ),
                 FundInfoSlider(
-                  annualProfitability: getNumberFromString(fund.lastRentability),
-                  totalInstallmentsAmount: getNumberFromString(fund.totalInstallmentsAmount),
-                  totalAssetsUnderManagement: getNumberFromString(fund.assetUnderManagementAmount),
+                  annualProfitability:
+                      getNumberFromString(fund.lastRentability),
+                  totalInstallmentsAmount:
+                      getNumberFromString(fund.totalInstallmentsAmount),
+                  totalAssetsUnderManagement:
+                      getNumberFromString(fund.assetUnderManagementAmount),
                   netWorthData: fund.netWorths,
                   netWorthAmount: getNumberFromString(fund.netWorthAmount),
                 ),

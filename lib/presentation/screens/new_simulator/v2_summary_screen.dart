@@ -1,6 +1,8 @@
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -152,9 +154,13 @@ class _BodyScaffold extends ConsumerWidget {
                 const SizedBox(height: 15),
                 if (arguments.isReinvestAvailable == true &&
                     StatusInvestmentEnum.compare(
-                        arguments.status, StatusInvestmentEnum.in_course) &&
-                    ActionStatusEnum.compare(arguments.actionStatus ?? '',
-                        ActionStatusEnum.defaultReInvestment)) ...[
+                      arguments.status,
+                      StatusInvestmentEnum.in_course,
+                    ) &&
+                    ActionStatusEnum.compare(
+                      arguments.actionStatus ?? '',
+                      ActionStatusEnum.defaultReInvestment,
+                    )) ...[
                   arguments.isReinvestAvailable
                       ? ButtonInvestment(
                           text: 'Reinvertir mi inversión',
@@ -170,21 +176,25 @@ class _BodyScaffold extends ConsumerWidget {
                             data.month,
                           ),
                         )
-                      : const SizedBox()
+                      : const SizedBox(),
                 ],
-                if (ActionStatusEnum.compare(arguments.actionStatus ?? '',
-                    ActionStatusEnum.pendingReInvestment)) ...[
+                if (ActionStatusEnum.compare(
+                  arguments.actionStatus ?? '',
+                  ActionStatusEnum.pendingReInvestment,
+                )) ...[
                   const ButtonInvestmentDisabled(
                     text: 'Re-inversión Solicitada',
                     colorBackground: Color(0xff55B63D),
-                  )
+                  ),
                 ],
-                if (ActionStatusEnum.compare(arguments.actionStatus ?? '',
-                    ActionStatusEnum.disabledReInvestment)) ...[
+                if (ActionStatusEnum.compare(
+                  arguments.actionStatus ?? '',
+                  ActionStatusEnum.disabledReInvestment,
+                )) ...[
                   const ButtonInvestmentDisabled(
                     text: 'Devolución de Capital Solicitada',
                     colorBackground: Color(0xff7C73FE),
-                  )
+                  ),
                 ],
                 const SizedBox(height: 15),
               ],
@@ -196,19 +206,24 @@ class _BodyScaffold extends ConsumerWidget {
   }
 }
 
-class SeeInterestPayment extends StatelessWidget {
+class SeeInterestPayment extends ConsumerWidget {
   final String preInvestmentUUID;
   const SeeInterestPayment({
     super.key,
     required this.preInvestmentUUID,
   });
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ButtonsTable(
       text: 'Ver tabla de los pagos de intereses',
       icon: "square_half.svg",
-      onPressed: () =>
-          showTablePay(context, preInvestmentUUID: preInvestmentUUID),
+      onPressed: () => {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.seeInterestTable,
+          parameters: {},
+        ),
+        showTablePay(context, preInvestmentUUID: preInvestmentUUID),
+      },
     );
   }
 }
@@ -224,6 +239,10 @@ class RowButtons extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void voucherOnPress() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.voucherDownloadDetail,
+        parameters: {},
+      );
       if (voucher == null) {
         showNotVoucherOrContract(context, true);
       } else {
@@ -232,6 +251,10 @@ class RowButtons extends ConsumerWidget {
     }
 
     void downloadOnPress() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.contactDownloadDetail,
+        parameters: {},
+      );
       if (contract == null) {
         showNotVoucherOrContract(context, false);
       } else {
