@@ -6,6 +6,7 @@ import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/back_account_register_modal.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
@@ -357,51 +358,72 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                         )
                       : Column(
                           children: [
-                            SizedBox(
-                              height: 360,
-                              child: ListWheelScrollView.useDelegate(
-                                controller: controller,
-                                itemExtent: 220,
-                                diameterRatio: 2,
-                                physics: const FixedExtentScrollPhysics(),
-                                childDelegate: ListWheelChildBuilderDelegate(
-                                  builder: (context, index) {
-                                    final bankAccount = bankAccounts[index % bankAccounts.length];
-                                    final bank = banks.isNotEmpty
-                                        ? BankEntity.getBankByName(
-                                            bankAccount.bankName,
-                                            banks,
-                                          )
-                                        : null;
-                                    final imageAsset = bank?.cardImageUrl ??
-                                        'https://finniu-statics.s3.amazonaws.com/finniu/images/bank/1db5fde8/agora.png';
-                                    return CreditCardWidget(
-                                      bankAccount: bankAccount,
-                                      imageAsset: imageAsset,
-                                      onTap: () async {
-                                        if (!showDetail) {
-                                          if (banks.isNotEmpty) {
-                                            final selectedBank = BankEntity.getBankByName(
-                                              bankAccount.bankName,
-                                              banks,
-                                            );
-                                            setState(() {
-                                              showDetail = true;
-                                              bankAccountSelected = bankAccount;
-                                              selectedImage =
-                                                  selectedBank.cardImageUrl ?? 'assets/credit_cards/golden_card.png';
-                                            });
-                                          } else {
-                                            // Manejar el caso cuando banks aún no está cargado
-                                          }
-                                        }
-                                      },
-                                    );
-                                  },
-                                  childCount: bankAccounts.length,
-                                ),
-                              ),
-                            ),
+                            bankAccounts.isEmpty
+                                ? SizedBox(
+                                    child: Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: 50,
+                                        ),
+                                        GestureDetector(
+                                          onTap: () => showAccountTransferModal(
+                                            context,
+                                            widget.currency,
+                                            widget.isSender,
+                                          ),
+                                          child: const CardNotBank(),
+                                        ),
+                                        const SizedBox(
+                                          height: 50,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : SizedBox(
+                                    height: 360,
+                                    child: ListWheelScrollView.useDelegate(
+                                      controller: controller,
+                                      itemExtent: 220,
+                                      diameterRatio: 2,
+                                      physics: const FixedExtentScrollPhysics(),
+                                      childDelegate: ListWheelChildBuilderDelegate(
+                                        builder: (context, index) {
+                                          final bankAccount = bankAccounts[index % bankAccounts.length];
+                                          final bank = banks.isNotEmpty
+                                              ? BankEntity.getBankByName(
+                                                  bankAccount.bankName,
+                                                  banks,
+                                                )
+                                              : null;
+                                          final imageAsset = bank?.cardImageUrl ??
+                                              'https://finniu-statics.s3.amazonaws.com/finniu/images/bank/1db5fde8/agora.png';
+                                          return CreditCardWidget(
+                                            bankAccount: bankAccount,
+                                            imageAsset: imageAsset,
+                                            onTap: () async {
+                                              if (!showDetail) {
+                                                if (banks.isNotEmpty) {
+                                                  final selectedBank = BankEntity.getBankByName(
+                                                    bankAccount.bankName,
+                                                    banks,
+                                                  );
+                                                  setState(() {
+                                                    showDetail = true;
+                                                    bankAccountSelected = bankAccount;
+                                                    selectedImage = selectedBank.cardImageUrl ??
+                                                        'assets/credit_cards/golden_card.png';
+                                                  });
+                                                } else {
+                                                  // Manejar el caso cuando banks aún no está cargado
+                                                }
+                                              }
+                                            },
+                                          );
+                                        },
+                                        childCount: bankAccounts.length,
+                                      ),
+                                    ),
+                                  ),
                             const SizedBox(height: 20),
                             SizedBox(
                               width: 299,
@@ -453,6 +475,48 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
           ),
         );
       },
+    );
+  }
+}
+
+class CardNotBank extends ConsumerWidget {
+  const CardNotBank({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        Container(
+          width: MediaQuery.of(context).size.width * 0.8,
+          height: 205,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF5F5F5),
+            borderRadius: BorderRadius.circular(26.0),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: TextPoppins(
+                  text: "Presione para agregar una cuenta",
+                  fontSize: 20,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

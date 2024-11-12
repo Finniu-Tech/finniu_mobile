@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +22,13 @@ class SeeCalendar extends ConsumerWidget {
     const int iconArrowLight = 0xff000000;
     return GestureDetector(
       onTap: () {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.clickCalendar,
+          parameters: {
+            "screen": FirebaseScreen.homeV2,
+            "navigateTo": FirebaseScreen.calendarV2,
+          },
+        );
         Navigator.pushNamed(context, '/v2/calendar');
       },
       child: Container(
@@ -58,7 +67,7 @@ class SeeCalendar extends ConsumerWidget {
                   const TextPoppins(
                     text: "Ver mi calendario de pagos",
                     fontSize: 14,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                   ),
                 ],
               ),

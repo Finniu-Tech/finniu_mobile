@@ -60,7 +60,7 @@ class RoundedImage extends ConsumerWidget {
           child: const TextPoppins(
             text: "Invierte   ",
             fontSize: 16,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             textDark: textDark,
             textLight: textLight,
           ),

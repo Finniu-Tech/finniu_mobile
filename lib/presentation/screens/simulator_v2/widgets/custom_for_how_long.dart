@@ -22,14 +22,14 @@ class ColumnForHowLong extends ConsumerWidget {
             const TextPoppins(
               text: "¿Por cuánto tiempo?",
               fontSize: 17,
-              isBold: true,
+              fontWeight: FontWeight.w500,
             ),
             TextPoppins(
               text: "$sliderValue meses",
               fontSize: 17,
               textDark: monthDark,
               textLight: monthLight,
-              isBold: true,
+              fontWeight: FontWeight.w500,
             ),
           ],
         ),

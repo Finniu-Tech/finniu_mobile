@@ -9,19 +9,51 @@ class QueryRepository {
         nickName
         civilStatus
 
-        documentNumber
-        gender
+       
         hasCompletedOnboarding
         id
         isActive
         occupation
 
-        typeDocument
+     
         uuid
         imageProfileUrl
         address
         percentCompleteProfile
         hasCompletedTour
+        
+        lastNameFather
+        lastNameMother
+        typeDocument
+        documentNumber
+        gender
+        region{
+          id
+        }
+        provincia{
+          id
+        }
+        distrito{
+          id
+        }
+      	address
+        houseNumber
+        postalCode
+        
+        laborSituation
+        actualPosition
+        serviceTime
+
+        biography
+        facebook
+        instagram
+        linkedin
+
+        isDirectorOrShareholder10Percent
+        isPublicOfficialOrFamily
+        acceptPrivacyPolicy
+        acceptTermsConditions
+        birthdayDate
       }
     }
   ''';
@@ -1191,6 +1223,7 @@ class QueryRepository {
             typeAccount
             isJointAccount
             isDefaultAccount
+            bankLogoUrl
           }
         }
       }
@@ -1246,6 +1279,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
           invesmentInDolares{
@@ -1273,6 +1310,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
             }
           }
         }
@@ -1562,6 +1603,7 @@ class QueryRepository {
       query getPaymentHistory{
         corporatePaymentHistory{
         nextPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1569,9 +1611,10 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
-          
+           isCapitalPayment
           }
           passPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1579,8 +1622,10 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
           recentPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1588,9 +1633,62 @@ class QueryRepository {
             paymentVoucherUrl
             investmentFundName
             currency
+            isCapitalPayment
           }
         }
       }
+    ''';
+  }
+
+  static String get getLegalDocuments {
+    return '''
+     query{
+      userGetLegalDocuments{
+        legalAcceptance{
+          termsAndConditions
+          privacyPolicy
+        }
+        sunatDeclarations{ 
+          nameFile
+          declarationUrl
+        }
+      }
+    }
+    ''';
+  }
+
+  static String get getProfileCompleteness {
+    return '''
+     query getUserProfileCompleteness{
+      userCompletenessProfile{
+        completionPercentage
+        personalDataComplete
+        locationComplete
+        occupationComplete
+        legalTermsCompleteness
+        profileComplete
+      }
+    }
+    ''';
+  }
+
+  static String get getStepBankAccounts {
+    return '''
+    query getStepBankAccounts(\$uuid: UUID, \$bankSlug: String) {
+      companyBankAccountQueries{
+          companyBankAccounts( bankUuid : \$uuid , bankSlug : \$bankSlug   ) {
+          companyBankType
+          accountNumber
+          accountCci
+          bank{
+            bankName
+            slug
+            bankImageUrl
+          }
+        
+      }
+    }
+  }
     ''';
   }
 }

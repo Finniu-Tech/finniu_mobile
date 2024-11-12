@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
@@ -6,29 +5,30 @@ import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/datasources/contract_datasource_imp.dart';
 import 'package:finniu/infrastructure/datasources/pre_investment_imp_datasource.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/feedback_modal.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/widgets/accept_tems.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/helpers/step_helpers.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/buttons.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/header.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/utils/color_utils.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class InvestmentProcessStep2Screen extends ConsumerWidget {
   final FundEntity fund;
@@ -45,17 +45,21 @@ class InvestmentProcessStep2Screen extends ConsumerWidget {
   });
 
   @override
-  @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
 
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
         isDarkMode: currentTheme.isDarkMode,
-        backgroundColor:
-            currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
-        body:
-            Step2Body(fund: fund, amount: amount, preInvestmentUUID: preInvestmentUUID, isReInvestment: isReInvestment),
+        backgroundColor: currentTheme.isDarkMode
+            ? Color(fund.getHexDetailColorDark())
+            : Color(fund.getHexDetailColorLight()),
+        body: Step2Body(
+          fund: fund,
+          amount: amount,
+          preInvestmentUUID: preInvestmentUUID,
+          isReInvestment: isReInvestment,
+        ),
       ),
     );
   }
@@ -74,86 +78,21 @@ class Step2Body extends HookConsumerWidget {
     this.isReInvestment,
   });
 
-  Future<void> getImageFromGallery(BuildContext context, WidgetRef ref) async {
-    PermissionStatus status = await Permission.photos.status;
-    print('Initial status: $status');
-    bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-
-    if (Platform.isIOS) {
-      if (status.isGranted || status.isLimited) {
-        await _openGallery(context, ref);
-      } else if (status.isDenied) {
-        status = await Permission.photos.request();
-        if (status.isGranted || status.isLimited) {
-          // ignore: use_build_context_synchronously
-          await _openGallery(context, ref);
-        } else {
-          _showPermissionDeniedDialog(context, isDarkMode);
-        }
-      } else if (status.isPermanentlyDenied) {
-        _showOpenSettingsDialog(context, isDarkMode);
-      }
-    } else {
-      // Para Android
-      if (status.isGranted) {
-        await _openGallery(context, ref);
-      } else {
-        await _openGallery(context, ref);
-      }
-    }
-  }
-
-  Future<void> _openGallery(context, ref) async {
-    try {
-      final ImagePicker picker = ImagePicker();
-      final List<XFile> images = await picker.pickMultiImage();
-      if (images.isNotEmpty) {
-        List<String> voucherImageListBase64 = [];
-        List<String> voucherImageListPreview = [];
-        for (var image in images) {
-          final File imageFile = File(image.path);
-          final List<int> imageBytes = await imageFile.readAsBytes();
-          final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
-          voucherImageListBase64.add(base64Image);
-          voucherImageListPreview.add(image.path);
-        }
-        ref.read(preInvestmentVoucherImagesProvider.notifier).state = voucherImageListBase64;
-        ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = voucherImageListPreview;
-      }
-    } catch (e) {
-      bool isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-      if (e is PlatformException && e.code == 'photo_access_denied') {
-        _showOpenSettingsDialog(context, isDarkMode);
-      } else {
-        _showPermissionDeniedDialog(context, isDarkMode);
-      }
-    }
-  }
-
-  void _showPermissionDeniedDialog(context, isDarkMode) {
-    // Show a dialog indicating that the user has denied access to the gallery
-    showGrantPermissionModal(context, isDarkMode, false);
-  }
-
-  void _showOpenSettingsDialog(context, isDarkMode) {
-    // Show a dialog indicating that the user has permanently denied access to the gallery
-    showGrantPermissionModal(context, isDarkMode, true);
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentTheme = ref.watch(settingsNotifierProvider);
     final voucherImageBase64 = ref.watch(preInvestmentVoucherImagesProvider);
+    final isSoles = ref.watch(isSolesStateProvider);
+    final String currencyValue = isSoles ? currencyEnum.PEN : currencyEnum.USD;
+
     final userReadContract = useState(false);
     ValueNotifier<BankAccount?> senderBankAccountState = useState(null);
     ValueNotifier<BankAccount?> receiverBankAccountState = useState(null);
-    final isSoles = ref.watch(isSolesStateProvider);
+    final effectExecuted = useState(false);
+
     final isDarkMode = currentTheme.isDarkMode;
     final String textCurrency = isSoles ? 'soles' : 'dólares';
-    final String currencyValue = isSoles ? currencyEnum.PEN : currencyEnum.USD;
     final String symbolCurrency = isSoles ? 'S/' : 'US\$';
-
-    final effectExecuted = useState(false);
 
     useEffect(
       () {
@@ -162,7 +101,8 @@ class Step2Body extends HookConsumerWidget {
             ref.read(selectedBankAccountSenderProvider.notifier).state = null;
             ref.read(selectedBankAccountReceiverProvider.notifier).state = null;
             ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
-            ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state = [];
+            ref.read(preInvestmentVoucherImagesPreviewProvider.notifier).state =
+                [];
             ref.read(userAcceptedTermsProvider.notifier).state = false;
             effectExecuted.value = true;
           });
@@ -172,11 +112,13 @@ class Step2Body extends HookConsumerWidget {
       [],
     );
 
-    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider,
+        (previous, next) {
       senderBankAccountState.value = next;
     });
 
-    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider, (previous, next) {
+    ref.listen<BankAccount?>(selectedBankAccountReceiverProvider,
+        (previous, next) {
       receiverBankAccountState.value = next;
     });
 
@@ -190,17 +132,24 @@ class Step2Body extends HookConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               HeaderWidget(
-                containerColor:
-                    isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+                containerColor: isDarkMode
+                    ? fund.getHexDetailColorSecondaryDark()
+                    : fund.getHexDetailColorSecondaryLight(),
                 textColor: aboutTextBusinessColor,
-                iconColor: isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
+                iconColor: isDarkMode
+                    ? fund.getHexDetailColorSecondaryDark()
+                    : fund.getHexDetailColorSecondaryLight(),
                 urlIcon: fund.iconUrl!,
                 labelText: 'Acerca de',
               ),
               const SizedBox(height: 20),
               Text(
                 fund.name,
-                style: const TextStyle(color: Color(primaryDark), fontSize: 20, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  color: Color(primaryDark),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -210,7 +159,9 @@ class Step2Body extends HookConsumerWidget {
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontSize: 14,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -264,7 +215,9 @@ class Step2Body extends HookConsumerWidget {
                       fontSize: 14,
                       color: currentTheme.isDarkMode
                           ? const Color(whiteText)
-                          : const Color(primaryDark), // Reemplaza estos valores con tus constantes
+                          : const Color(
+                              primaryDark,
+                            ), // Reemplaza estos valores con tus constantes
                     ),
                     children: [
                       const TextSpan(
@@ -304,7 +257,9 @@ class Step2Body extends HookConsumerWidget {
                   textAlign: TextAlign.justify,
                   style: TextStyle(
                     fontSize: 14,
-                    color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -328,7 +283,9 @@ class Step2Body extends HookConsumerWidget {
                         : Color(fund.getHexDetailColorSecondaryLight()),
                   ),
                   border: Border.all(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryLightAlternative),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryLightAlternative),
                     width: 1,
                   ),
                 ),
@@ -342,6 +299,12 @@ class Step2Body extends HookConsumerWidget {
                           padding: const EdgeInsets.only(right: 10, top: 10),
                           child: InkWell(
                             onTap: () {
+                              ref
+                                  .read(firebaseAnalyticsServiceProvider)
+                                  .logCustomEvent(
+                                eventName: FirebaseAnalyticsEvents.addVoucher,
+                                parameters: {},
+                              );
                               photoHelp(context);
                             },
                             child: ImageIcon(
@@ -349,7 +312,9 @@ class Step2Body extends HookConsumerWidget {
                               size: 20, // Tamaño de la imagen
                               color: currentTheme.isDarkMode
                                   ? const Color(grayText)
-                                  : const Color(primaryDark), // Color de la imagen
+                                  : const Color(
+                                      primaryDark,
+                                    ), // Color de la imagen
                             ),
                           ),
                         ),
@@ -358,7 +323,6 @@ class Step2Body extends HookConsumerWidget {
                         alignment: Alignment.center,
                         child: InkWell(
                           onTap: () {
-                            print('Abrir galeria');
                             getImageFromGallery(context, ref);
                           },
                           // onTap: () async {
@@ -367,16 +331,24 @@ class Step2Body extends HookConsumerWidget {
 
                           child: Builder(
                             builder: (context) {
-                              final voucherPreview = ref.watch(preInvestmentVoucherImagesPreviewProvider);
+                              final voucherPreview = ref.watch(
+                                preInvestmentVoucherImagesPreviewProvider,
+                              );
                               return voucherPreview.isEmpty
                                   ? ImageIcon(
-                                      const AssetImage('assets/icons/photo.png'),
-                                      color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
+                                      const AssetImage(
+                                        'assets/icons/photo.png',
+                                      ),
+                                      color: currentTheme.isDarkMode
+                                          ? const Color(grayText)
+                                          : const Color(primaryDark),
                                     )
                                   : SizedBox(
-                                      height: 60, // Ajusta este valor según tus necesidades
+                                      height:
+                                          60, // Ajusta este valor según tus necesidades
                                       child: ListView.builder(
-                                        scrollDirection: Axis.horizontal, // Hace que la lista sea horizontal
+                                        scrollDirection: Axis
+                                            .horizontal, // Hace que la lista sea horizontal
                                         itemCount: voucherPreview.length,
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
@@ -395,47 +367,65 @@ class Step2Body extends HookConsumerWidget {
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsets.only(
+                                                  padding:
+                                                      const EdgeInsets.only(
                                                     bottom: 10,
                                                   ),
                                                   child: Align(
-                                                    alignment: Alignment.bottomLeft,
+                                                    alignment:
+                                                        Alignment.bottomLeft,
                                                     child: GestureDetector(
                                                       onTap: () {
                                                         // Código para eliminar la imagen
-                                                        List<String> voucherImageBase64 = ref.watch(
+                                                        List<String>
+                                                            voucherImageBase64 =
+                                                            ref.watch(
                                                           preInvestmentVoucherImagesProvider,
                                                         );
-                                                        List<String> voucherPreviewImage = ref.watch(
+                                                        List<String>
+                                                            voucherPreviewImage =
+                                                            ref.watch(
                                                           preInvestmentVoucherImagesPreviewProvider,
                                                         );
-                                                        List<String> modifiedVoucherImageBase64 = List.from(
+                                                        List<String>
+                                                            modifiedVoucherImageBase64 =
+                                                            List.from(
                                                           voucherImageBase64,
                                                         );
 
-                                                        List<String> modifiedVoucherPreviewImage = List.from(
+                                                        List<String>
+                                                            modifiedVoucherPreviewImage =
+                                                            List.from(
                                                           voucherPreviewImage,
                                                         );
 
-                                                        modifiedVoucherImageBase64.removeAt(index);
-                                                        modifiedVoucherPreviewImage.removeAt(index);
+                                                        modifiedVoucherImageBase64
+                                                            .removeAt(index);
+                                                        modifiedVoucherPreviewImage
+                                                            .removeAt(index);
                                                         ref
-                                                            .read(
-                                                              preInvestmentVoucherImagesProvider.notifier,
-                                                            )
-                                                            .state = modifiedVoucherImageBase64;
+                                                                .read(
+                                                                  preInvestmentVoucherImagesProvider
+                                                                      .notifier,
+                                                                )
+                                                                .state =
+                                                            modifiedVoucherImageBase64;
                                                         ref
-                                                            .read(
-                                                              preInvestmentVoucherImagesPreviewProvider.notifier,
-                                                            )
-                                                            .state = modifiedVoucherPreviewImage;
+                                                                .read(
+                                                                  preInvestmentVoucherImagesPreviewProvider
+                                                                      .notifier,
+                                                                )
+                                                                .state =
+                                                            modifiedVoucherPreviewImage;
                                                       },
                                                       child: Container(
                                                         width: 16,
                                                         height: 16,
-                                                        decoration: const BoxDecoration(
+                                                        decoration:
+                                                            const BoxDecoration(
                                                           color: Colors.black38,
-                                                          shape: BoxShape.circle,
+                                                          shape:
+                                                              BoxShape.circle,
                                                         ),
                                                         child: const Icon(
                                                           Icons.close,
@@ -463,7 +453,9 @@ class Step2Body extends HookConsumerWidget {
                           child: Text(
                             'Suba la foto(s) nítida donde sea visible el código de operación',
                             style: TextStyle(
-                              color: currentTheme.isDarkMode ? const Color(grayText) : const Color(primaryDark),
+                              color: currentTheme.isDarkMode
+                                  ? const Color(grayText)
+                                  : const Color(primaryDark),
                               fontSize: 8,
                             ),
                             textAlign: TextAlign.center,
@@ -488,12 +480,15 @@ class Step2Body extends HookConsumerWidget {
                     'He leido y acepto el ',
                     style: TextStyle(
                       fontSize: 10,
-                      color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(blackText),
+                      color: currentTheme.isDarkMode
+                          ? const Color(whiteText)
+                          : const Color(blackText),
                     ),
                   ),
                   GestureDetector(
                     onTap: () async {
-                      String contractURL = await ContractDataSourceImp().getContract(
+                      String contractURL =
+                          await ContractDataSourceImp().getContract(
                         uuid: preInvestmentUUID,
                         client: ref.watch(gqlClientProvider).value!,
                       );
@@ -513,7 +508,9 @@ class Step2Body extends HookConsumerWidget {
                     child: Text(
                       ' Contrato de Inversión de Finniu ',
                       style: TextStyle(
-                        color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        color: currentTheme.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                         fontSize: 11,
                         fontWeight: FontWeight.bold,
                       ),
@@ -533,67 +530,82 @@ class Step2Body extends HookConsumerWidget {
                       var response;
                       final base64Image = voucherImageBase64;
                       if (base64Image.isEmpty) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debe subir una imagen de la constancia de transferencia',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "La constancia es requerida",
+                          message:
+                              'Debe subir una imagen de la constancia de transferencia',
+                          snackType: SnackType.warning,
                         );
+
                         return;
                       }
 
                       if (ref.watch(userAcceptedTermsProvider) == false) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debe aceptar y leer el contrato',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Debe aceptar y leer el contrato",
+                          message: 'Debe aceptar y leer el contrato',
+                          snackType: SnackType.warning,
                         );
+
                         return;
                       }
-                      if (senderBankAccountState.value == null || receiverBankAccountState.value == null) {
-                        CustomSnackbar.show(
-                          context,
-                          'Debe seleccionar una cuenta bancaria',
-                          'error',
+                      if (senderBankAccountState.value == null ||
+                          receiverBankAccountState.value == null) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Debe seleccionar una cuenta bancaria",
+                          message: 'Debe seleccionar una cuenta bancaria',
+                          snackType: SnackType.warning,
                         );
+
                         return;
                       }
                       if (isReInvestment == true) {
                         context.loaderOverlay.show();
-                        final UpdateReInvestmentParams updateReInvestmentParams = UpdateReInvestmentParams(
+                        final UpdateReInvestmentParams
+                            updateReInvestmentParams = UpdateReInvestmentParams(
                           preInvestmentUUID: preInvestmentUUID,
-                          userReadContract: ref.watch(userAcceptedTermsProvider),
+                          userReadContract:
+                              ref.watch(userAcceptedTermsProvider),
                           files: base64Image,
-                          bankAccountReceiver: receiverBankAccountState.value!.id,
+                          bankAccountReceiver:
+                              receiverBankAccountState.value!.id,
                           bankAccountSender: senderBankAccountState.value!.id,
                         );
-                        response = await ref.read(updateReInvestmentProvider(updateReInvestmentParams).future);
+                        response = await ref.read(
+                          updateReInvestmentProvider(updateReInvestmentParams)
+                              .future,
+                        );
                       } else {
                         context.loaderOverlay.show();
                         response = await PreInvestmentDataSourceImp().update(
                           client: ref.watch(gqlClientProvider).value!,
                           uuid: preInvestmentUUID,
                           readContract: ref.watch(userAcceptedTermsProvider),
-                          bankAccountReceiverUUID: receiverBankAccountState.value!.id,
-                          bankAccountSenderUUID: senderBankAccountState.value!.id,
+                          bankAccountReceiverUUID:
+                              receiverBankAccountState.value!.id,
+                          bankAccountSenderUUID:
+                              senderBankAccountState.value!.id,
                           files: base64Image,
                         );
                       }
 
                       if (response.success == false) {
                         context.loaderOverlay.hide();
-                        CustomSnackbar.show(
-                          context,
-                          response.error ?? 'Hubo un problema al guardar',
-                          'error',
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error al guardar",
+                          message:
+                              response.error ?? 'Hubo un problema al guardar',
+                          snackType: SnackType.error,
                         );
                       } else {
                         context.loaderOverlay.hide();
-                        showThanksForInvestingModal(
+                        showFeedbackModal(
                           context,
-                          () {
-                            Navigator.pushNamedAndRemoveUntil(context, '/evaluation', (route) => false);
-                          },
-                          isReInvestment,
+                          isReInvestment: isReInvestment ?? false,
                         );
                       }
                     },

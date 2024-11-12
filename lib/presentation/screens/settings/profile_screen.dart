@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:finniu/constants/colors.dart';
-import 'package:finniu/domain/entities/ubigeo.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
-import 'package:finniu/presentation/providers/ubigeo_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/settings/constants/civil_state.dart';
 import 'package:finniu/presentation/screens/settings/widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -18,8 +16,8 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 class ProfileScreen extends StatefulHookConsumerWidget {
   const ProfileScreen({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   ConsumerState<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -33,17 +31,23 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
     final userProfile = ref.watch(userProfileNotifierProvider);
 
     // final namesController = useTextEditingController();
-    final firstNameController = useTextEditingController(text: userProfile.firstName);
-    final lastNameController = useTextEditingController(text: userProfile.lastName);
-    final docNumberController =
-        useTextEditingController(text: userProfile.documentNumber == null ? '' : userProfile.documentNumber);
+    final firstNameController =
+        useTextEditingController(text: userProfile.firstName);
+    final lastNameController =
+        useTextEditingController(text: userProfile.lastName);
+    final docNumberController = useTextEditingController(
+      text: userProfile.documentNumber ?? '',
+    );
     // final departmentController = useTextEditingController(text: userProfile.region);
     // final provinceController = useTextEditingController(text: userProfile.provincia);
     // final districtController = useTextEditingController(text: userProfile.distrito);
-    final addressController = useTextEditingController(text: userProfile.address);
-    final civilStateController = useTextEditingController(text: userProfile.civilStatus);
+    final addressController =
+        useTextEditingController(text: userProfile.address);
+    final civilStateController =
+        useTextEditingController(text: userProfile.civilStatus);
 
-    final occupationController = useTextEditingController(text: userProfile.occupation);
+    final occupationController =
+        useTextEditingController(text: userProfile.occupation);
 
     // final regionsFuture = ref.watch(regionsFutureProvider.future);
     // final allProvincesFuture = ref.read(provincesFutureProvider.future);
@@ -56,9 +60,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     final formKey = GlobalKey<FormState>();
 
-    final percentage =
-        useState(userProfile.percentCompleteProfile == null ? 0.0 : userProfile.percentCompleteProfile! / 100.0);
-    final percentageString = useState('${(percentage.value * 100).toInt().toString()}%');
+    final percentage = useState(
+      userProfile.percentCompleteProfile == null
+          ? 0.0
+          : userProfile.percentCompleteProfile! / 100.0,
+    );
+    final percentageString =
+        useState('${(percentage.value * 100).toInt().toString()}%');
     final imageFile = useState(
       userProfile.imageProfileUrl ??
           "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
@@ -66,8 +74,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
 
     final editar = useState(userProfile.hasRequiredData() ? false : true);
 
-    Color disabledColor = themeProvider.isDarkMode ? const Color(grayText) : const Color(0xffF4F4F4);
-    Color enableColor = themeProvider.isDarkMode ? const Color(backgroundColorDark) : const Color(whiteText);
+    Color disabledColor = themeProvider.isDarkMode
+        ? const Color(grayText)
+        : const Color(0xffF4F4F4);
+    Color enableColor = themeProvider.isDarkMode
+        ? const Color(backgroundColorDark)
+        : const Color(whiteText);
 
     Future<void> filterSelects(WidgetRef ref) async {
       // final String departmentValue = departmentController.text;
@@ -139,7 +151,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       // districtController.text = districtName;
 
       if (civilStateController.text.isNotEmpty) {
-        civilStateController.text = MaritalStatusMapper().mapStatusToText(civilStateController.text);
+        civilStateController.text =
+            MaritalStatusMapper().mapStatusToText(civilStateController.text);
       }
     }
 
@@ -199,13 +212,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               print('Error al mostrar el overlay: $e');
                             }
                             try {
-                              Future<XFile?> ximage = _picker.pickImage(source: ImageSource.gallery);
+                              Future<XFile?> ximage = _picker.pickImage(
+                                source: ImageSource.gallery,
+                              );
 
                               final xImage = await ximage;
                               imageFile.value = xImage!.path;
 
-                              final List<int> imageBytes = await xImage.readAsBytes();
-                              final base64Image = "data:image/jpeg;base64,${base64Encode(imageBytes)}";
+                              final List<int> imageBytes =
+                                  await xImage.readAsBytes();
+                              final base64Image =
+                                  "data:image/jpeg;base64,${base64Encode(imageBytes)}";
                               final success = await ref.read(
                                 updateUserAvatarFutureProvider(
                                   base64Image,
@@ -220,9 +237,21 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 }
                               }
                               if (success) {
-                                CustomSnackbar.show(context, 'Su foto de perfil se actualizó correctamente', 'success');
+                                showSnackBarV2(
+                                  context: context,
+                                  title: "Actualizado correctamente",
+                                  message:
+                                      'Su foto de perfil se actualizó correctamente',
+                                  snackType: SnackType.success,
+                                );
                               } else {
-                                CustomSnackbar.show(context, 'Error al actualizar el su foto de perfil', 'error');
+                                showSnackBarV2(
+                                  context: context,
+                                  title: "Error al actualizar",
+                                  message:
+                                      'Error al actualizar el su foto de perfil',
+                                  snackType: SnackType.error,
+                                );
                               }
                             } catch (e) {
                               if (context.loaderOverlay.visible) {
@@ -232,7 +261,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                   print('Error al ocultar el overlay: $e');
                                 }
                               }
-                              CustomSnackbar.show(context, 'Error al actualizar el su foto de perfil', 'error');
+                              showSnackBarV2(
+                                context: context,
+                                title: "Error al actualizar",
+                                message:
+                                    'Error al actualizar el su foto de perfil',
+                                snackType: SnackType.error,
+                              );
                             }
                           },
                           child: CircularPercentAvatar(
@@ -300,7 +335,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                         height: 1.5,
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
-                        color: themeProvider.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                        color: themeProvider.isDarkMode
+                            ? const Color(primaryLight)
+                            : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -376,7 +413,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       onEditingComplete: () {
                         // _calculatePercentage();
                       },
-                      keyboardType: const TextInputType.numberWithOptions(signed: true, decimal: true),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        signed: true,
+                        decimal: true,
+                      ),
                       decoration: InputDecoration(
                         hintText: 'Escriba su documento de indentificación',
                         label: const Text("Documento de indentificación"),
@@ -418,7 +458,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   //         if (!context.loaderOverlay.visible) {
                   //           context.loaderOverlay.hide();
                   //         }
-                  //         CustomSnackbar.show(context, 'Error al cargar los departamentos', 'error');
+                  //
                   //       }
 
                   //       // _calculatePercentage();
@@ -470,7 +510,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   //         if (!context.loaderOverlay.visible) {
                   //           context.loaderOverlay.hide();
                   //         }
-                  //         CustomSnackbar.show(context, 'Error al cargar las provincias', 'error');
+                  //
                   //       }
                   //     },
                   //   ),
@@ -507,7 +547,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   //         if (!context.loaderOverlay.visible) {
                   //           context.loaderOverlay.hide();
                   //         }
-                  //         CustomSnackbar.show(context, 'Error al cargar los distritos', 'error');
+                  //
                   //       }
                   //     },
                   //   ),
@@ -602,11 +642,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                               addressController.text.isEmpty ||
                               occupationController.text.isEmpty ||
                               civilStateController.text.isEmpty) {
-                            CustomSnackbar.show(
-                              context,
-                              'Por favor, complete todos los campos',
-                              'error',
+                            showSnackBarV2(
+                              context: context,
+                              title: "Debe completar todos los campos",
+                              message: 'Por favor, complete todos los campos',
+                              snackType: SnackType.warning,
                             );
+
                             return;
                           }
 
@@ -648,7 +690,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           //   districtCodeController.text = '';
                           // }
 
-                          final userProfile = ref.watch(userProfileNotifierProvider);
+                          final userProfile =
+                              ref.watch(userProfileNotifierProvider);
 
                           final success = await ref.read(
                             updateUserProfileFutureProvider(
@@ -657,10 +700,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 lastName: lastNameController.text,
                                 documentNumber: docNumberController.text,
                                 region: departmentCodeController.text,
-                                provincia: '${departmentCodeController.text}${provinceCodeController.text}',
+                                provincia:
+                                    '${departmentCodeController.text}${provinceCodeController.text}',
                                 distrito:
                                     '${departmentCodeController.text}${provinceCodeController.text}${districtCodeController.text}',
-                                civilStatus: MaritalStatusMapper().mapStatus(civilStateController.text),
+                                civilStatus: MaritalStatusMapper()
+                                    .mapStatus(civilStateController.text),
                                 address: addressController.text,
                                 occupation: occupationController.text,
                               ),
@@ -676,7 +721,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 print('Error al ocultar el overlay: $e');
                               }
                             }
-                            CustomSnackbar.show(context, 'Sus datos se actualizaron correctamente', 'success');
+                            showSnackBarV2(
+                              context: context,
+                              title: "Sus datos se actualizaron correctamente",
+                              message:
+                                  'Sus datos se actualizaron correctamente',
+                              snackType: SnackType.success,
+                            );
                           } else {
                             if (context.loaderOverlay.visible) {
                               try {
@@ -685,12 +736,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                                 print('Error al ocultar el overlay: $e');
                               }
                             }
-                            CustomSnackbar.show(context, 'Error al actualizar', 'error');
+                            showSnackBarV2(
+                              context: context,
+                              title: "Error al actualizar",
+                              message:
+                                  'Error al actualizar el su foto de perfil',
+                              snackType: SnackType.error,
+                            );
                           }
                           // } catch (e) {
                           //   print('error: $e');
                           //   context.loaderOverlay.hide();
-                          //   CustomSnackbar.show(context, 'Error al actualizar', 'error');
+
                           // }
 
                           // Navigator.pushNamed(context, '/home_home');
@@ -698,7 +755,13 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           print('error!');
                           print(e);
                           print(s);
-                          CustomSnackbar.show(context, 'Error al actualizar', 'error');
+                          showSnackBarV2(
+                            context: context,
+                            title: "Error al actualizar",
+                            message: 'Error al actualizar el su foto de perfil',
+                            snackType: SnackType.error,
+                          );
+
                           if (context.loaderOverlay.visible) {
                             try {
                               context.loaderOverlay.hide();
@@ -711,7 +774,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       child: Text(
                         editar.value ? 'Guardar' : 'Editar',
                         style: TextStyle(
-                          color: themeProvider.isDarkMode ? const Color(primaryDark) : const Color(whiteText),
+                          color: themeProvider.isDarkMode
+                              ? const Color(primaryDark)
+                              : const Color(whiteText),
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),

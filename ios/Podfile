@@ -103,6 +103,7 @@ post_install do |installer|
 
         ## dart: PermissionGroup.criticalAlerts
         'PERMISSION_ASSISTANT=0',
+
       ]
 
     end

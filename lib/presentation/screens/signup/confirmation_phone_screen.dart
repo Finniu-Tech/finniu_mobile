@@ -1,16 +1,15 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/widgets/fonts.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:graphql/src/graphql_client.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import '../../providers/settings_provider.dart';
 
 class SendCode extends ConsumerWidget {
   const SendCode({super.key});
@@ -27,20 +26,18 @@ class SendCode extends ConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              // Espacio vacío para mover el contenido hacia arriba
               const SizedBox(height: 40),
-
               SizedBox(
                 width: 291,
                 height: 71,
                 child: TextPoppins(
                   text: "Tu seguridad es primero",
-                  colorText: themeProvider.isDarkMode ? primaryLight : primaryDark,
+                  colorText:
+                      themeProvider.isDarkMode ? primaryLight : primaryDark,
                   fontSize: 24,
                   fontWeight: FontWeight.w600,
                 ),
               ),
-
               const SizedBox(
                 height: 18,
               ),
@@ -63,7 +60,9 @@ class SendCode extends ConsumerWidget {
                   'Te enviaremos el código de verificación por correo',
                   style: TextStyle(
                     fontSize: 14,
-                    color: themeProvider.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                    color: themeProvider.isDarkMode
+                        ? const Color(whiteText)
+                        : const Color(primaryDark),
                   ),
                 ),
               ),
@@ -76,16 +75,20 @@ class SendCode extends ConsumerWidget {
 
                     graphQLClient.when(
                       data: (client) async {
-                        final result = await sendEmailOTPCode(userProfileProvider.email!, client);
+                        final result = await sendEmailOTPCode(
+                          userProfileProvider.email!,
+                          client,
+                        );
 
                         if (result == true) {
                           context.loaderOverlay.hide();
                           Navigator.of(context).pushNamed('/activate_account');
                         } else {
-                          CustomSnackbar.show(
-                            context,
-                            'No se pudo enviar el correo',
-                            "error",
+                          showSnackBarV2(
+                            context: context,
+                            title: "Error al enviar el correo",
+                            message: 'No se pudo enviar el correo',
+                            snackType: SnackType.error,
                           );
                         }
                       },
@@ -99,10 +102,9 @@ class SendCode extends ConsumerWidget {
                   ),
                 ),
               ),
-
               const SizedBox(
                 height: 65,
-              )
+              ),
             ],
           ),
         ),

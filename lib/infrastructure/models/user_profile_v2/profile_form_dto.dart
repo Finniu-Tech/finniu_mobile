@@ -7,6 +7,7 @@ class DtoRegisterForm {
   final String email;
   final String password;
   final String confirmPassword;
+  final String birthday;
   final bool acceptTermsConditions;
   final bool acceptPrivacyPolicy;
 
@@ -19,7 +20,19 @@ class DtoRegisterForm {
     required this.confirmPassword,
     required this.acceptTermsConditions,
     required this.acceptPrivacyPolicy,
+    required this.birthday,
   });
+  toJson() => {
+        "nickName": nickName,
+        "countryPrefix": countryPrefix,
+        "phoneNumber": phoneNumber,
+        "email": email,
+        "password": password,
+        "confirmPassword": confirmPassword,
+        "acceptTermsConditions": acceptTermsConditions,
+        "acceptPrivacyPolicy": acceptPrivacyPolicy,
+        "birthday": birthday,
+      };
 }
 
 class DtoPersonalForm {
@@ -29,7 +42,9 @@ class DtoPersonalForm {
   final TypeDocumentEnum documentType;
   final String documentNumber;
   final CivilStatusEnum civilStatus;
-  final String gender;
+  final String? imageProfile;
+  final GenderEnum gender;
+  final String? birthday;
 
   DtoPersonalForm({
     required this.firstName,
@@ -38,13 +53,33 @@ class DtoPersonalForm {
     required this.documentType,
     required this.documentNumber,
     required this.civilStatus,
+    required this.imageProfile,
     required this.gender,
+    this.birthday,
   });
 }
 
-enum TypeDocumentEnum {
-  DNI,
-  CARNET_EXTRAJERIA,
+enum TypeDocumentEnum { DNI, CARNET, OTHERS }
+
+final List<String> documentType = [
+  'DNI',
+  'Carné de extranjeria',
+  'Otro',
+];
+
+String getTypeDocumentByUser(String type) {
+  switch (type) {
+    case 'DNI':
+      return "DNI";
+    case "CARNET":
+      return "Carné de extranjeria";
+    case "OTHERS":
+      return "Otro";
+    case "":
+      return "";
+    default:
+      return "";
+  }
 }
 
 extension TypeDocumentEnumExtension on TypeDocumentEnum {
@@ -52,22 +87,26 @@ extension TypeDocumentEnumExtension on TypeDocumentEnum {
     switch (this) {
       case TypeDocumentEnum.DNI:
         return "DNI";
-      case TypeDocumentEnum.CARNET_EXTRAJERIA:
-        return "CARNET_EXTRAJERIA";
+      case TypeDocumentEnum.CARNET:
+        return "CARNET";
+      case TypeDocumentEnum.OTHERS:
+        return "OTHERS";
       default:
-        return "DNI";
+        return "OTHERS";
     }
   }
 }
 
-TypeDocumentEnum? getTypeDocumentEnum(String valor) {
+TypeDocumentEnum getTypeDocumentEnum(String valor) {
   switch (valor) {
     case 'DNI':
       return TypeDocumentEnum.DNI;
     case 'Carné de extranjeria':
-      return TypeDocumentEnum.CARNET_EXTRAJERIA;
+      return TypeDocumentEnum.CARNET;
+    case 'Otro':
+      return TypeDocumentEnum.OTHERS;
     default:
-      return TypeDocumentEnum.DNI;
+      return TypeDocumentEnum.OTHERS;
   }
 }
 
@@ -76,6 +115,30 @@ enum CivilStatusEnum {
   MARRIED,
   DIVORCED,
   WIDOWED,
+}
+
+final List<String> maritalStatus = [
+  'Soltero',
+  'Casado',
+  'Divorciado',
+  'Viudo',
+];
+
+String getCivilStatusByUser(String type) {
+  switch (type) {
+    case 'SINGLE':
+      return "Soltero";
+    case "MARRIED":
+      return "Casado";
+    case "DIVORCED":
+      return "Divorciado";
+    case "WIDOWED":
+      return "Viudo";
+    case "":
+      return "";
+    default:
+      return "";
+  }
 }
 
 extension CivilStatusEnumExtension on CivilStatusEnum {
@@ -116,8 +179,6 @@ class DtoLocationForm {
   final String province;
   final String district;
   final String address;
-  final String houseNumber;
-  final String postalCode;
 
   DtoLocationForm({
     required this.country,
@@ -125,22 +186,16 @@ class DtoLocationForm {
     required this.province,
     required this.district,
     required this.address,
-    required this.houseNumber,
-    required this.postalCode,
   });
 }
 
 class DtoOccupationForm {
   final String occupation;
   final String companyName;
-  final LaborSituationEnum laborSituation;
-  final ServiceTimeEnum serviceTime;
 
   DtoOccupationForm({
     required this.occupation,
     required this.companyName,
-    required this.laborSituation,
-    required this.serviceTime,
   });
 }
 
@@ -151,6 +206,27 @@ enum LaborSituationEnum {
   RETIRED,
   SELF_EMPLOYED,
   OTHER,
+}
+
+String getLaborsStatusEnumByUser(String? valor) {
+  switch (valor) {
+    case 'Employed':
+      return 'Empleado';
+    case 'Unemployed':
+      return 'Desempleado';
+    case 'Student':
+      return 'Estudiante';
+    case 'Retired':
+      return 'Retirado';
+    case 'Self-employed':
+      return 'Autoempleo';
+    case 'Other':
+      return 'Otro';
+    case "":
+      return '';
+    default:
+      return '';
+  }
 }
 
 extension LaborSituationEnumExtension on LaborSituationEnum {
@@ -178,7 +254,7 @@ LaborSituationEnum? getLaborsStatusEnum(String valor) {
   switch (valor) {
     case 'Empleado':
       return LaborSituationEnum.EMPLOYED;
-    case 'Independiente':
+    case 'Desempleado':
       return LaborSituationEnum.UNEMPLOYED;
     case 'Estudiante':
       return LaborSituationEnum.STUDENT;
@@ -199,6 +275,23 @@ enum ServiceTimeEnum {
   THREE_TO_FIVE_YEARS,
   FIVE_TO_TEN_YEARS,
   MORE_THAN_TEN_YEARS,
+}
+
+String getServiceTimeEnumByUser(String? valor) {
+  switch (valor) {
+    case "Less than 1 year":
+      return 'Menos de un año';
+    case '1 to 3 years':
+      return 'Entre 1 y 3 años';
+    case '3 to 5 years':
+      return 'Entre 3 y 5 años';
+    case '5 to 10 years':
+      return 'Entre 5 y 10 años';
+    case 'More than 10 years':
+      return 'Mas de 10 años';
+    default:
+      return '';
+  }
 }
 
 extension ServiceTimeEnumExtension on ServiceTimeEnum {
@@ -265,4 +358,74 @@ class DtoAboutMeForm {
     required this.linkedin,
     required this.other,
   });
+}
+
+enum GenderEnum {
+  MALE,
+  FEMALE,
+  NON_BINARY,
+  OTHER,
+  PREFER_NOT_TO_SAY,
+}
+
+final List<String> genderType = [
+  'Masculino',
+  'Femenino',
+  "No binario",
+  "Otro",
+  "Prefiero no decirlo",
+];
+
+String getGenderByUser(String type) {
+  switch (type) {
+    case 'MALE':
+      return "Masculino";
+    case "FEMALE":
+      return "Femenino";
+    case "NON_BINARY":
+      return "No binario";
+    case "OTHER":
+      return "Otro";
+    case "PREFER_NOT_TO_SAY":
+      return "Prefiero no decirlo";
+
+    default:
+      return "Otro";
+  }
+}
+
+extension GenderEnumExtension on GenderEnum {
+  String get name {
+    switch (this) {
+      case GenderEnum.MALE:
+        return "MALE";
+      case GenderEnum.FEMALE:
+        return "FEMALE";
+      case GenderEnum.NON_BINARY:
+        return "NON_BINARY";
+      case GenderEnum.OTHER:
+        return "OTHER";
+      case GenderEnum.PREFER_NOT_TO_SAY:
+        return "PREFER_NOT_TO_SAY";
+      default:
+        return "OTHER";
+    }
+  }
+}
+
+GenderEnum? getGenderEnum(String valor) {
+  switch (valor) {
+    case 'Masculino':
+      return GenderEnum.MALE;
+    case 'Femenino':
+      return GenderEnum.FEMALE;
+    case 'No binario':
+      return GenderEnum.NON_BINARY;
+    case 'Otro':
+      return GenderEnum.OTHER;
+    case 'Prefiero no decirlo':
+      return GenderEnum.PREFER_NOT_TO_SAY;
+    default:
+      return GenderEnum.PREFER_NOT_TO_SAY;
+  }
 }

@@ -18,13 +18,14 @@ import 'package:finniu/presentation/providers/pre_investment_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/presentation/screens/home/widgets/modals.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
+// import 'package:finniu/presentation/screens/home/widgets/modals.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/step_2.dart';
 import 'package:finniu/presentation/screens/investment_confirmation/utils.dart';
 import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
 import 'package:finniu/widgets/custom_select_button.dart';
 import 'package:finniu/widgets/scaffold.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:finniu/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,7 +49,8 @@ class Step1 extends HookConsumerWidget {
     final originFundsController = useTextEditingController();
     final otherFundOriginController = useTextEditingController();
 
-    final uuidPlan = (ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>)['planUuid'];
+    final uuidPlan = (ModalRoute.of(context)!.settings.arguments
+        as Map<String, dynamic>)['planUuid'];
     final isSoles = ref.watch(isSolesStateProvider);
 
     return CustomLoaderOverlay(
@@ -72,7 +74,8 @@ class Step1 extends HookConsumerWidget {
                   bankController: bankController,
                   isSoles: isSoles,
                   // bankNumberController: bankNumberController,
-                  plan: _plans.firstWhere((element) => element.uuid == uuidPlan),
+                  plan:
+                      _plans.firstWhere((element) => element.uuid == uuidPlan),
                 );
               },
               loading: () => const Center(
@@ -139,7 +142,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
         _selectedBankAccount.bankAccount,
       );
       final banks = await ref.read(bankFutureProvider.future);
-      final _selectedBank = BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
+      final _selectedBank =
+          BankEntity.getBankByName(_selectedBankAccount.bankName, banks);
       setState(() {
         selectedBank = _selectedBank;
         selectedBankAccount = _selectedBankAccount;
@@ -154,21 +158,26 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
         widget.deadLineController.text.isEmpty ||
         widget.bankController.text.isEmpty ||
         widget.originFundsController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Hubo un problema, asegúrate de haber completado los campos anteriores',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error revisar datos",
+        message:
+            'Hubo un problema, asegúrate de haber completado los campos anteriores',
+        snackType: SnackType.warning,
       );
 
       return false;
     }
 
-    if (widget.originFundsController.text == 'Otros' && widget.otherFundOriginController.text.isEmpty) {
-      CustomSnackbar.show(
-        context,
-        'Debe de ingresar el origen de los fondos',
-        'error',
+    if (widget.originFundsController.text == 'Otros' &&
+        widget.otherFundOriginController.text.isEmpty) {
+      showSnackBarV2(
+        context: context,
+        title: "Ingrese el origen de los fondos",
+        message: 'Debe de ingresar el origen de los fondos',
+        snackType: SnackType.warning,
       );
+
       return false;
     }
 
@@ -200,10 +209,11 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
         context.loaderOverlay.hide();
       } catch (e) {
         context.loaderOverlay.hide();
-        CustomSnackbar.show(
-          context,
-          'Hubo un problema, intenta nuevamente',
-          'error',
+        showSnackBarV2(
+          context: context,
+          title: "Error interno",
+          message: 'Hubo un problema, intenta nuevamente',
+          snackType: SnackType.error,
         );
       }
     }
@@ -228,8 +238,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
     useEffect(
       () {
         selectedPlan = widget.plan;
-        if (userProfile.hasRequiredData() == false) {
-          completeProfileDialog(context, ref);
+        if (userProfile.completeToInvestData() < 1.0) {
+          // showVerifyIdentity(context);
         }
 
         _updateBankAccount();
@@ -239,7 +249,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
       },
       [userProfile],
     );
-    ref.listen<BankAccount?>(selectedBankAccountSenderProvider, (previous, next) {
+    ref.listen<BankAccount?>(selectedBankAccountSenderProvider,
+        (previous, next) {
       _updateBankAccount();
     });
 
@@ -264,7 +275,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: Color(Theme.of(context).colorScheme.secondary.value),
+                      color:
+                          Color(Theme.of(context).colorScheme.secondary.value),
                     ),
                   ),
                 ],
@@ -389,7 +401,9 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               'Completa los siguientes datos',
               textAlign: TextAlign.left,
               style: TextStyle(
-                color: widget.currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
+                color: widget.currentTheme.isDarkMode
+                    ? const Color(whiteText)
+                    : const Color(primaryDark),
                 fontSize: 14,
                 height: 1.5,
               ),
@@ -415,7 +429,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 },
                 onChanged: (value) {
                   debouncer.run(() {
-                    if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
+                    if (widget.amountController.text.isNotEmpty &&
+                        widget.deadLineController.text.isNotEmpty) {
                       calculateInvestment(context, ref);
                     }
                   });
@@ -449,7 +464,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                 },
                 callbackOnChange: (value) async {
                   widget.deadLineController.text = value;
-                  if (widget.amountController.text.isNotEmpty && widget.deadLineController.text.isNotEmpty) {
+                  if (widget.amountController.text.isNotEmpty &&
+                      widget.deadLineController.text.isNotEmpty) {
                     calculateInvestment(context, ref);
                   }
                 },
@@ -493,7 +509,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     decoration: InputDecoration(
                       prefixIcon: widget.bankController.text.isNotEmpty
                           ? Padding(
-                              padding: const EdgeInsets.only(right: 8.0, left: 20.0),
+                              padding:
+                                  const EdgeInsets.only(right: 8.0, left: 20.0),
                               child: selectedBank != null
                                   ? selectedBank!.logoUrl!.isNotEmpty
                                       ? Image.network(
@@ -511,7 +528,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                             )
                           : null,
                       hintText: 'Número de cuenta',
-                      hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                      hintStyle:
+                          const TextStyle(color: Color(grayText), fontSize: 11),
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.zero,
                       ),
@@ -604,83 +622,88 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     maxHeight: 50,
                     maxWidth: 150,
                   ),
-                  suffixIcon: Container(
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        // minimumSize: Size(80, 30),
-                        side: const BorderSide(
-                          width: 0.5,
+                  suffixIcon: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      // minimumSize: Size(80, 30),
+                      side: const BorderSide(
+                        width: 0.5,
+                        color: Color(primaryDark),
+                      ),
+                      backgroundColor: const Color(primaryLight),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
+                        ),
+                      ),
+                    ),
+                    child: const Padding(
+                      padding: EdgeInsets.only(top: 12, bottom: 10),
+                      child: Text(
+                        "Aplicarlo",
+                        style: TextStyle(
                           color: Color(primaryDark),
                         ),
-                        backgroundColor: const Color(primaryLight),
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(25),
-                            bottomRight: Radius.circular(25),
-                          ),
-                        ),
                       ),
-                      child: const Padding(
-                        padding: EdgeInsets.only(top: 12, bottom: 10),
-                        child: Text(
-                          "Aplicarlo",
-                          style: TextStyle(
-                            color: Color(primaryDark),
-                          ),
-                        ),
-                      ),
-                      onPressed: () async {
-                        if (widget.amountController.text.isEmpty || widget.deadLineController.text.isEmpty) {
-                          CustomSnackbar.show(
-                            context,
-                            'Debes ingresar el monto y el plazo para aplicar el cupón',
-                            'error',
-                          );
-                          return; // Sale de la función para evitar que continúe el proceso
-                        }
-                        context.loaderOverlay.show();
-                        final inputCalculator = CalculatorInput(
-                          amount: int.parse(widget.amountController.text),
-                          months: int.parse(
-                            widget.deadLineController.text.split(' ')[0],
-                          ),
-                          currency: isSoles ? currencyNuevoSol : currencyDollar,
-                          coupon: widget.couponController.text,
-                        );
-
-                        resultCalculator = await ref.watch(
-                          calculateInvestmentFutureProvider(
-                            inputCalculator,
-                          ).future,
-                        );
-                        setState(() {
-                          if (resultCalculator?.plan != null) {
-                            selectedPlan = resultCalculator!.plan!;
-                            profitability = resultCalculator!.profitability;
-                            showInvestmentBoxes = true;
-                          }
-                        });
-
-                        context.loaderOverlay.hide();
-                        if (resultCalculator?.error == null) {
-                          CustomSnackbar.show(
-                            context,
-                            'Cupón aplicado correctamente',
-                            'success',
-                          );
-                        } else {
-                          widget.couponController.clear();
-                          CustomSnackbar.show(
-                            context,
-                            resultCalculator?.error ?? 'Hubo un problema, intenta nuevamente',
-                            'error',
-                          );
-                        }
-                      },
                     ),
+                    onPressed: () async {
+                      if (widget.amountController.text.isEmpty ||
+                          widget.deadLineController.text.isEmpty) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error al aplicar el cupón",
+                          message:
+                              'Debes ingresar el monto y el plazo para aplicar el cupón',
+                          snackType: SnackType.warning,
+                        );
+
+                        return;
+                      }
+                      context.loaderOverlay.show();
+                      final inputCalculator = CalculatorInput(
+                        amount: int.parse(widget.amountController.text),
+                        months: int.parse(
+                          widget.deadLineController.text.split(' ')[0],
+                        ),
+                        currency: isSoles ? currencyNuevoSol : currencyDollar,
+                        coupon: widget.couponController.text,
+                      );
+
+                      resultCalculator = await ref.watch(
+                        calculateInvestmentFutureProvider(
+                          inputCalculator,
+                        ).future,
+                      );
+                      setState(() {
+                        if (resultCalculator?.plan != null) {
+                          selectedPlan = resultCalculator!.plan!;
+                          profitability = resultCalculator!.profitability;
+                          showInvestmentBoxes = true;
+                        }
+                      });
+
+                      context.loaderOverlay.hide();
+                      if (resultCalculator?.error == null) {
+                        showSnackBarV2(
+                          context: context,
+                          title: "Cupón aplicado",
+                          message: 'Cupón aplicado correctamente',
+                          snackType: SnackType.success,
+                        );
+                      } else {
+                        widget.couponController.clear();
+                        showSnackBarV2(
+                          context: context,
+                          title: "Error al aplicar el cupón",
+                          message: 'Hubo un problema, intenta nuevamente',
+                          snackType: SnackType.error,
+                        );
+                      }
+                    },
                   ),
                   hintText: 'Ingresa tu código',
-                  hintStyle: const TextStyle(color: Color(grayText), fontSize: 11),
+                  hintStyle:
+                      const TextStyle(color: Color(grayText), fontSize: 11),
                   border: const OutlineInputBorder(
                     borderRadius: BorderRadius.zero,
                   ),
@@ -760,7 +783,9 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            isSoles ? formatterSoles.format(profitability) : formatterUSD.format(profitability),
+                            isSoles
+                                ? formatterSoles.format(profitability)
+                                : formatterUSD.format(profitability),
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 16,
@@ -791,8 +816,8 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
               height: 50,
               child: TextButton(
                 onPressed: () async {
-                  if (userProfile.hasRequiredData() == false) {
-                    completeProfileDialog(context, ref);
+                  if (userProfile.completeToInvestData() < 1.0) {
+                    // showVerifyIdentity(context);
                     return;
                   }
                   if (validate() == false) {
@@ -814,23 +839,28 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                     currency: isSoles ? currencyNuevoSol : currencyDollar,
                     bankAccountNumber: selectedBankAccount!.id,
                     originFunds: OriginFunds(
-                      originFundsEnum: OriginFoundsUtil.fromReadableName(originFund),
+                      originFundsEnum:
+                          OriginFoundsUtil.fromReadableName(originFund),
                       otherText: widget.otherFundOriginController.text,
                     )
                     // bankAccountNumber: widget.bankNumberController.text,
                     ,
                   );
                   context.loaderOverlay.show();
-                  final preInvestmentEntityResponse = await ref.watch(preInvestmentSaveProvider(preInvestment).future);
+                  final preInvestmentEntityResponse = await ref
+                      .watch(preInvestmentSaveProvider(preInvestment).future);
 
                   if (preInvestmentEntityResponse?.success == false) {
                     context.loaderOverlay.hide();
                     // CHECK HERE
-                    CustomSnackbar.show(
-                      context,
-                      preInvestmentEntityResponse?.error ?? 'Hubo un problema, intenta nuevamente',
-                      'error',
+                    showSnackBarV2(
+                      context: context,
+                      title: "Error al iniciar inversión",
+                      message: preInvestmentEntityResponse?.error ??
+                          'Hubo un problema, intenta nuevamente',
+                      snackType: SnackType.error,
                     );
+
                     return;
                   } else {
                     context.loaderOverlay.hide();
@@ -839,13 +869,16 @@ class _Step1BodyState extends ConsumerState<Step1Body> {
                           preInvestmentVoucherImagesPreviewProvider.notifier,
                         )
                         .state = [];
-                    ref.read(preInvestmentVoucherImagesProvider.notifier).state = [];
+                    ref
+                        .read(preInvestmentVoucherImagesProvider.notifier)
+                        .state = [];
                     Navigator.pushNamed(
                       context,
                       '/investment_step2',
                       arguments: PreInvestmentStep2Arguments(
                         plan: selectedPlan!,
-                        preInvestment: preInvestmentEntityResponse!.preInvestment!,
+                        preInvestment:
+                            preInvestmentEntityResponse!.preInvestment!,
                         resultCalculator: resultCalculator!,
                       ),
                     );
@@ -870,25 +903,34 @@ class StepBar extends ConsumerStatefulWidget {
   final int step;
 
   const StepBar({
-    Key? key,
+    super.key,
     required this.step,
   });
 
   @override
-  _StepBarState createState() => _StepBarState();
+  StepBarState createState() => StepBarState();
 }
 
-class _StepBarState extends ConsumerState<StepBar> {
+class StepBarState extends ConsumerState<StepBar> {
   @override
   Widget build(BuildContext context) {
     final currentTheme = ref.watch(settingsNotifierProvider);
-    final Color activeBackgroundColor = currentTheme.isDarkMode ? const Color(secondary) : const Color(primaryLight);
-    final Color inactiveBackgroundColor = currentTheme.isDarkMode ? Colors.transparent : Colors.transparent;
+    final Color activeBackgroundColor = currentTheme.isDarkMode
+        ? const Color(secondary)
+        : const Color(primaryLight);
+    final Color inactiveBackgroundColor =
+        currentTheme.isDarkMode ? Colors.transparent : Colors.transparent;
 
-    final Color inactiveBorderColor = currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark);
+    final Color inactiveBorderColor = currentTheme.isDarkMode
+        ? const Color(primaryLight)
+        : const Color(primaryDark);
     const Color activeBorderColor = Colors.transparent;
-    final Color activeIconColor = currentTheme.isDarkMode ? const Color(primaryDark) : const Color(primaryDark);
-    final Color inactiveIconColor = currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark);
+    final Color activeIconColor = currentTheme.isDarkMode
+        ? const Color(primaryDark)
+        : const Color(primaryDark);
+    final Color inactiveIconColor = currentTheme.isDarkMode
+        ? const Color(primaryLight)
+        : const Color(primaryDark);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -903,9 +945,13 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 1 ? activeBackgroundColor : inactiveBackgroundColor,
+                color: widget.step == 1
+                    ? activeBackgroundColor
+                    : inactiveBackgroundColor,
                 border: Border.all(
-                  color: widget.step == 1 ? activeBorderColor : inactiveBorderColor,
+                  color: widget.step == 1
+                      ? activeBorderColor
+                      : inactiveBorderColor,
                   width: 2,
                 ),
                 borderRadius: const BorderRadius.only(
@@ -931,7 +977,9 @@ class _StepBarState extends ConsumerState<StepBar> {
               child: Column(
                 children: [
                   Divider(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                     thickness: 1,
                   ),
                 ],
@@ -941,9 +989,13 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 2 ? activeBackgroundColor : inactiveBackgroundColor,
+                color: widget.step == 2
+                    ? activeBackgroundColor
+                    : inactiveBackgroundColor,
                 border: Border.all(
-                  color: widget.step == 2 ? activeBorderColor : inactiveBorderColor,
+                  color: widget.step == 2
+                      ? activeBorderColor
+                      : inactiveBorderColor,
                   width: 2,
                 ),
                 shape: BoxShape.rectangle,
@@ -968,7 +1020,9 @@ class _StepBarState extends ConsumerState<StepBar> {
               child: Column(
                 children: [
                   Divider(
-                    color: currentTheme.isDarkMode ? const Color(primaryLight) : const Color(primaryDark),
+                    color: currentTheme.isDarkMode
+                        ? const Color(primaryLight)
+                        : const Color(primaryDark),
                     thickness: 1,
                   ),
                 ],
@@ -978,9 +1032,13 @@ class _StepBarState extends ConsumerState<StepBar> {
               height: 40,
               width: 55,
               decoration: BoxDecoration(
-                color: widget.step == 3 ? activeBackgroundColor : inactiveBackgroundColor,
+                color: widget.step == 3
+                    ? activeBackgroundColor
+                    : inactiveBackgroundColor,
                 border: Border.all(
-                  color: widget.step == 3 ? activeBorderColor : inactiveBorderColor,
+                  color: widget.step == 3
+                      ? activeBorderColor
+                      : inactiveBorderColor,
                   width: 2,
                 ),
                 shape: BoxShape.rectangle,

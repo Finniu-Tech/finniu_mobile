@@ -23,9 +23,11 @@ class TitleModal extends ConsumerWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.6,
           child: TextPoppins(
-            text: isReInvestment == true ? "Resumen de mi reinversión" : "Resumen de mi inversión",
+            text: isReInvestment == true
+                ? "Resumen de mi reinversión"
+                : "Resumen de mi inversión",
             fontSize: 20,
-            isBold: true,
+            fontWeight: FontWeight.w500,
             lines: 2,
           ),
         ),

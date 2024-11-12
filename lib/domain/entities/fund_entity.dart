@@ -193,8 +193,8 @@ class FundBenefit {
       uuid: data['uuid'],
       title: data['benefitText'],
       iconUrl: data['icon'],
-      hexBackgroundColorLight: data['backgroundColorDark'],
-      hexBackgroundColorDark: data['backgroundColorLight'],
+      hexBackgroundColorLight: data['backgroundColorLight'],
+      hexBackgroundColorDark: data['backgroundColorDark'],
       isActive: data['isActive'],
       isDelete: data['isDeleted'],
     );

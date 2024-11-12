@@ -40,7 +40,7 @@ class CompleteDetailsScreenV2 extends StatelessWidget {
               TextPoppins(
                 text: textTitle,
                 fontSize: 20,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 lines: 2,
                 textDark: titleDark,
                 textLight: titleLight,
@@ -51,7 +51,6 @@ class CompleteDetailsScreenV2 extends StatelessWidget {
               TextPoppins(
                 text: textBody,
                 fontSize: 14,
-                isBold: false,
                 lines: 2,
                 align: TextAlign.start,
                 textDark: bodyDark,
@@ -171,21 +170,21 @@ class DataDocumentsAbout extends ConsumerWidget {
                   TextPoppins(
                     text: "Mis datos personales",
                     fontSize: 16,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: textSelectDark,
                     textLight: textSelectLight,
                   ),
                   TextPoppins(
                     text: "Documentos legales",
                     fontSize: 16,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: textNotSelectDark,
                     textLight: textNotSelectLight,
                   ),
                   TextPoppins(
                     text: "Sobre",
                     fontSize: 16,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textDark: textNotSelectDark,
                     textLight: textNotSelectLight,
                   ),

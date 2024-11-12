@@ -1,3 +1,5 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/timer_counterdown_provider.dart';
@@ -5,14 +7,14 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/activate_account_v2.dart/widgets/verification_code_v2.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/user_profil_v2/scafold_user_profile.dart';
-import 'package:finniu/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class ActivateAccountV2 extends HookConsumerWidget {
+class ActivateAccountV2 extends ConsumerWidget {
   const ActivateAccountV2({
     super.key,
   });
@@ -31,16 +33,29 @@ class ActivateAccountV2 extends HookConsumerWidget {
 
       client.when(
         data: (client) async {
-          print('email: ${user.email}');
           final result = await (sendEmailOTPCode(user.email!, client));
-
+          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            eventName: FirebaseAnalyticsEvents.pushDataSucces,
+            parameters: {
+              "screen": FirebaseScreen.activateAccountV2,
+              "send_email": "refresh_code",
+            },
+          );
           if (result == true) {
             ref.read(timerCounterDownProvider.notifier).startTimer(first: true);
           } else {
-            CustomSnackbar.show(
-              context,
-              'No se pudo reenviar el correo',
-              'error',
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.pushDataError,
+              parameters: {
+                "screen": FirebaseScreen.activateAccountV2,
+                "send_email": "email_false",
+              },
+            );
+            showSnackBarV2(
+              context: context,
+              title: "Error al enviar el correo",
+              message: 'No se pudo enviar el correo',
+              snackType: SnackType.error,
             );
           }
         },
@@ -90,7 +105,7 @@ class ActivateAccountV2 extends HookConsumerWidget {
                   fontSize: 16,
                   textDark: subTitleDark,
                   textLight: subTitleLight,
-                  isBold: true,
+                  fontWeight: FontWeight.w500,
                   align: TextAlign.center,
                 ),
                 const SizedBox(
@@ -102,7 +117,6 @@ class ActivateAccountV2 extends HookConsumerWidget {
                   fontSize: 12,
                   textDark: subTitleDark,
                   textLight: subTitleLight,
-                  isBold: false,
                   align: TextAlign.center,
                   lines: 2,
                 ),
@@ -127,7 +141,6 @@ class ActivateAccountV2 extends HookConsumerWidget {
                     fontSize: 11,
                     textDark: subTitleDark,
                     textLight: subTitleLight,
-                    isBold: false,
                     align: TextAlign.center,
                   ),
                   const SizedBox(

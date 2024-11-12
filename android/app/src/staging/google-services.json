@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "753002738147",
+    "project_id": "finniu-staging",
+    "storage_bucket": "finniu-staging.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753002738147:android:3e4c77e41490087272f0d6",
+        "android_client_info": {
+          "package_name": "com.finniu.app.staging"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8QJt2rZEKTjzjvi6j8vf7PBlYxYp_5zk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

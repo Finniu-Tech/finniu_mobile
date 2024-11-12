@@ -1,8 +1,10 @@
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/v2_simulator_slider_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
-import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -19,17 +21,48 @@ class ButtonCalculate extends ConsumerWidget {
     final defaultCorporateFund = ref.watch(defaultCorporateFundProvider);
 
     void toInvestPressed() {
-      Navigator.pushNamed(context, '/v2/investment/step-1',
-          arguments: {'fund': defaultCorporateFund, 'amount': amount, 'deadLine': '${months.getMonthValue()} meses'});
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.navigateTo,
+        parameters: {
+          "screen": FirebaseScreen.simulatorV2,
+          "currency": isSoles ? "dollar" : "soles",
+          "navigate_to": FirebaseScreen.investmentStep1V2,
+          'deadLine': '${months.getMonthValue()} meses',
+          "amount": amount.toString(),
+        },
+      );
+      Navigator.pushNamed(
+        context,
+        '/v2/investment/step-1',
+        arguments: {
+          'fund': defaultCorporateFund,
+          'amount': amount,
+          'deadLine': '${months.getMonthValue()} meses',
+        },
+      );
     }
 
     void recalculatePressed() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.clickEvent,
+        parameters: {
+          "screen": FirebaseScreen.simulatorV2,
+          "currency": isSoles ? "dollar" : "soles",
+          "recalculate": "recalculate_simulation",
+        },
+      );
       Navigator.of(context).pop();
     }
 
     Future<void> calculatePressed() async {
       if (amount < 1000) {
-        CustomSnackbar.show(context, "Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000", 'error');
+        showSnackBarV2(
+          context: context,
+          title: "Error en el monto",
+          message:
+              "Por favor, ingresa un monto mayor a ${isSoles ? "S/" : "\$"}1.000",
+          snackType: SnackType.warning,
+        );
       } else {
         investmentSimulationModal(
           context,

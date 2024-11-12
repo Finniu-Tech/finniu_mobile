@@ -83,7 +83,8 @@ class DropDownWidget extends ConsumerStatefulWidget {
   _DropDownWidgetState createState() => _DropDownWidgetState();
 }
 
-class _DropDownWidgetState extends ConsumerState<DropDownWidget> with SingleTickerProviderStateMixin {
+class _DropDownWidgetState extends ConsumerState<DropDownWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _heightAnimation;
 
@@ -172,12 +173,13 @@ class _DropDownWidgetState extends ConsumerState<DropDownWidget> with SingleTick
                               fontSize: 9,
                               textDark: textTimeDark,
                               textLight: textTimeLight,
-                              isBold: true,
+                              fontWeight: FontWeight.w500,
                             ),
                             Icon(
                               Icons.keyboard_arrow_up,
                               size: 24,
-                              color: Color(isDarkMode ? iconTimeDark : iconTimeLight),
+                              color: Color(
+                                  isDarkMode ? iconTimeDark : iconTimeLight),
                             ),
                           ],
                         ),
@@ -227,14 +229,14 @@ class TitleCard extends ConsumerWidget {
             fontSize: 10,
             textDark: textTimeDark,
             textLight: textTimeLight,
-            isBold: true,
+            fontWeight: FontWeight.w500,
           ),
           Row(
             children: [
               TextPoppins(
                 text: "$timeInDay días ",
                 fontSize: 16,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 textDark: textTimeInDayDark,
                 textLight: textTimeInDayLight,
               ),

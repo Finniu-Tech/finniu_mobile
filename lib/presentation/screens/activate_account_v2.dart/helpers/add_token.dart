@@ -1,11 +1,13 @@
 import 'package:finniu/infrastructure/models/auth.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/otp.dart';
 import 'package:finniu/infrastructure/repositories/auth_repository_imp.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/providers/otp_provider.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
-import 'package:finniu/widgets/snackbar.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -48,32 +50,52 @@ void addToken(BuildContext context, WidgetRef ref, String code) {
           );
           token.then((value) {
             if (value != null) {
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataSucces,
+                parameters: {
+                  "screen": FirebaseScreen.activateAccountV2,
+                  "push_code": "push_code_success",
+                  "navigate": "/v2/form_personal_data",
+                },
+              );
               ref.read(authTokenProvider.notifier).state = value;
               Navigator.pushNamed(context, '/v2/form_personal_data');
+              context.loaderOverlay.hide();
             } else {
-              CustomSnackbar.show(
-                context,
-                "Error al procesar la solicitud token error",
-                'error',
+              ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                eventName: FirebaseAnalyticsEvents.pushDataSucces,
+                parameters: {
+                  "screen": FirebaseScreen.activateAccountV2,
+                  "push_code": "push_code_error",
+                },
               );
+              showSnackBarV2(
+                context: context,
+                title: "Error al verificar token",
+                message: "Error al procesar la solicitud token error",
+                snackType: SnackType.error,
+              );
+              context.loaderOverlay.hide();
             }
           });
         } else {
-          CustomSnackbar.show(
-            context,
-            "Error al procesar la solicitud d loginResponse false",
-            'error',
+          showSnackBarV2(
+            context: context,
+            title: "Error al verificar token",
+            message: "Error al procesar la solicitud token error",
+            snackType: SnackType.error,
           );
+          context.loaderOverlay.hide();
         }
       });
     } else {
-      Navigator.of(context).pop();
-      CustomSnackbar.show(
-        context,
-        'No se pudo validar el código de verificación',
-        'error',
+      showSnackBarV2(
+        context: context,
+        title: "Error al verificar token",
+        message: "Error al procesar la solicitud token error",
+        snackType: SnackType.error,
       );
+      context.loaderOverlay.hide();
     }
-    context.loaderOverlay.hide();
   });
 }

@@ -1,0 +1,46 @@
+{
+    "project_info": {
+      "project_number": "480490923107",
+      "project_id": "finniu",
+      "storage_bucket": "finniu.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:480490923107:android:714c2c1816755103b44456",
+          "android_client_info": {
+            "package_name": "com.finniu"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "480490923107-6fg8oloooe1sdan54nmv5cplki8lmusf.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyA-pIJzEy7n6fGwRnomYFKu1pvpGMKFkUo"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "480490923107-6fg8oloooe1sdan54nmv5cplki8lmusf.apps.googleusercontent.com",
+                "client_type": 3
+              },
+              {
+                "client_id": "480490923107-rh9naf1mikcdckvsllfme3vu912obgqh.apps.googleusercontent.com",
+                "client_type": 2,
+                "ios_info": {
+                  "bundle_id": "com.finniu"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }

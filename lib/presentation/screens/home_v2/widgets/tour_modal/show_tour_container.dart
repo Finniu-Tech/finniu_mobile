@@ -51,16 +51,16 @@ class _ShowTourContainerState extends State<ShowTourContainer> {
               const TextPoppins(
                 text: "📲",
                 fontSize: 30,
-                isBold: true,
+                fontWeight: FontWeight.w500,
                 align: TextAlign.center,
               ),
               const SizedBox(width: 10),
               if (isShow)
                 Flexible(
                   child: TextPoppins(
-                    text: "Conóce lo nuevo",
+                    text: "Conoce lo nuevo",
                     fontSize: 16,
-                    isBold: true,
+                    fontWeight: FontWeight.w500,
                     textLight: textColor,
                     textDark: textColor,
                     align: TextAlign.center,
