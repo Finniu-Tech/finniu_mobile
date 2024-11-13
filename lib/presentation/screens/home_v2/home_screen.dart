@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
@@ -7,6 +8,7 @@ import 'package:finniu/domain/entities/investment_rentability_report_entity.dart
 import 'package:finniu/domain/entities/last_operation_entity.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user.dart';
+import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/feature_flags_provider.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/funds_provider.dart';
@@ -21,6 +23,7 @@ import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';
@@ -36,12 +39,15 @@ import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour_container.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
+import 'package:finniu/services/device_info_service.dart';
 import 'package:finniu/services/push_notifications_service.dart';
+// import 'package:finniu/services/push_notifications_service.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreenV2 extends HookConsumerWidget {
@@ -63,43 +69,44 @@ class HomeScreenV2 extends HookConsumerWidget {
       [],
     );
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        currentTheme: currentTheme,
-        userProfile: userProfile,
-      ),
-      backgroundColor: Color(
-        currentTheme.isDarkMode
-            ? scaffoldBlackBackground
-            : scaffoldLightGradientPrimary,
-      ),
-      bottomNavigationBar: const NavigationBarHome(),
-      extendBody: true,
-      body: HookBuilder(
-        builder: (context) {
-          final userProfile = ref.watch(userProfileFutureProvider);
-          // final seeLater = ref.watch(seeLaterProvider);
+    return NotificationPermissionHandler(
+      profile: userProfile,
+      child: Scaffold(
+        appBar: CustomAppBar(
+          currentTheme: currentTheme,
+          userProfile: userProfile,
+        ),
+        backgroundColor: Color(
+          currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary,
+        ),
+        bottomNavigationBar: const NavigationBarHome(),
+        extendBody: true,
+        body: HookBuilder(
+          builder: (context) {
+            final userProfile = ref.watch(userProfileFutureProvider);
 
-          return userProfile.when(
-            data: (profile) {
-              _setUserAnalytics(ref, profile);
-              if (profile.hasCompletedTour == false) {
-                _handleTourAndNotifications(context, ref, profile);
-              }
-              return Stack(
-                children: [
-                  HomeBody(
-                    currentTheme: currentTheme,
-                    userProfile: profile,
-                  ),
-                  const SeeLaterWidget(),
-                ],
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, _) => Center(child: Text(error.toString())),
-          );
-        },
+            return userProfile.when(
+              data: (profile) {
+                _setUserAnalytics(ref, profile);
+                if (profile.hasCompletedTour == false) {
+                  _handleTour(context, ref, profile);
+                }
+
+                return Stack(
+                  children: [
+                    HomeBody(
+                      currentTheme: currentTheme,
+                      userProfile: profile,
+                    ),
+                    const SeeLaterWidget(),
+                  ],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) => Center(child: Text(error.toString())),
+            );
+          },
+        ),
       ),
     );
   }
@@ -107,13 +114,16 @@ class HomeScreenV2 extends HookConsumerWidget {
   void _setUserAnalytics(WidgetRef ref, UserProfile profile) {
     final analytics = ref.read(firebaseAnalyticsServiceProvider);
     analytics.setUserId(
-      "_${profile.id}${profile.firstName}_${profile.lastName}${profile.email}_${profile.phoneNumber}",
+      "${profile.firstName}_${profile.lastName}${profile.email}_${profile.documentNumber}_${profile.phoneNumber}",
     );
     analytics.setUserProperty(
       name: "first_name",
       value: "${profile.firstName}_${profile.lastName}",
     );
-
+    analytics.setUserProperty(
+      name: "document_number",
+      value: "${profile.documentNumber}",
+    );
     analytics.setUserProperty(
       name: "email",
       value: "${profile.email}",
@@ -124,28 +134,15 @@ class HomeScreenV2 extends HookConsumerWidget {
     );
   }
 
-  void _handleTourAndNotifications(
-      BuildContext context, WidgetRef ref, UserProfile profile) {
-    if (profile.hasCompletedTour != null) {
+  void _handleTour(BuildContext context, WidgetRef ref, UserProfile profile) {
+    // if (profile.hasCompletedTour != null) {
+
+    if (profile.hasCompletedTour == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         bool seeLaterTour = ref.watch(seeLaterProvider);
 
         if (profile.hasCompletedTour == false && seeLaterTour == false) {
           showTourV2(context);
-        }
-
-        if (profile.hasCompletedTour == true) {
-          final pushNotificationService = PushNotificationService();
-          await pushNotificationService.requestPermissions(context);
-          String? token = await pushNotificationService.getToken();
-
-          if (token != null) {
-            // TODO: set user token to the backend
-            // ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
-            //       name: "fcm_token",
-            //       value: token,
-            //     );
-          }
         }
       });
     }
@@ -250,16 +247,15 @@ class HomeBody extends HookConsumerWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] ==
-                    true) ...[
+                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] == true) ...[
                   ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/home_home'),
                     child: const Text('Ir a home normal'),
                   ),
-                  ElevatedButton(
+                  TextButton(
                     onPressed: () => Navigator.pushNamed(context, '/catalog'),
-                    child: const Text('Ir a catalogo'),
-                  )
+                    child: const Text('Ver Catalogo de Widgets'),
+                  ),
                 ],
                 const SizedBox(
                   height: 120,
@@ -284,12 +280,10 @@ class BodyHomeUpperSectionWidget extends StatefulHookConsumerWidget {
   final bool renderNonInvestment;
 
   @override
-  _BodyHomeUpperSectionWidgetState createState() =>
-      _BodyHomeUpperSectionWidgetState();
+  _BodyHomeUpperSectionWidgetState createState() => _BodyHomeUpperSectionWidgetState();
 }
 
-class _BodyHomeUpperSectionWidgetState
-    extends ConsumerState<BodyHomeUpperSectionWidget> {
+class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectionWidget> {
   final PageController pageController = PageController();
   int selectedPage = 0;
 
@@ -345,9 +339,7 @@ class _BodyHomeUpperSectionWidgetState
                         height: 35,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
-                          children: pageWidgets
-                              .map((widget) => widget.title)
-                              .toList(),
+                          children: pageWidgets.map((widget) => widget.title).toList(),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -371,26 +363,6 @@ class _BodyHomeUpperSectionWidgetState
                       ),
                     ],
                   ),
-                  // if (widget.renderNonInvestment)
-                  //   Positioned.fill(
-                  //     child: IgnorePointer(
-                  //       child: BackdropFilter(
-                  //         filter: ImageFilter.blur(sigmaX: 2.0, sigmaY: 2.0),
-                  //         child: Container(
-                  //           decoration: BoxDecoration(
-                  //             color: Colors.transparent.withOpacity(0.1),
-                  //             borderRadius: const BorderRadius.only(
-                  //               bottomRight: Radius.circular(50),
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ),
-                  //     ),
-                  //   ),
-                  // if (widget.renderNonInvestment)
-                  //   const Center(
-                  //     child: NonInvestmentContainer(),
-                  //   ),
                 ],
               ),
             );
@@ -437,8 +409,7 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //print('fund uuid: ${fund.uuid}');
-    final lastOperationsAsyncValue =
-        ref.watch(lastOperationsFutureProvider(fund.uuid));
+    final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(fund.uuid));
     // List<LastOperation> reinvestmentOperations = [];
     final isSoles = ref.watch(isSolesStateProvider);
     final selectedCurrency = isSoles ? 'nuevo sol' : 'dolar';
@@ -447,10 +418,8 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
       data: (lastOperations) {
         if (fund.fundType == FundTypeEnum.corporate) {
           // reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
-          filteredOperations = lastOperations
-              .where((element) =>
-                  element.enterprisePreInvestment?.currency == selectedCurrency)
-              .toList();
+          filteredOperations =
+              lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
 
           lastOperations = filteredOperations;
         }
@@ -472,8 +441,7 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
             ],
             GraphicContainer(fund: fund),
             const SizedBox(height: 10),
-            if (lastOperations.isNotEmpty &&
-                fund.fundType == FundTypeEnum.corporate) ...[
+            if (lastOperations.isNotEmpty && fund.fundType == FundTypeEnum.corporate) ...[
               LastOperationsSlider(
                 lastOperations: lastOperations,
                 fund: fund,
@@ -564,16 +532,12 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
       case 'draft':
         return SliderDraft(
           amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-          isReInvestment:
-              operation.enterprisePreInvestment?.isReInvestment ?? false,
+          isReInvestment: operation.enterprisePreInvestment?.isReInvestment ?? false,
           onTap: () => showDraftModal(
             context,
-            amountNumber:
-                operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-            isReinvest:
-                operation.enterprisePreInvestment?.isReInvestment ?? false,
-            profitability:
-                operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
+            amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
+            isReinvest: operation.enterprisePreInvestment?.isReInvestment ?? false,
+            profitability: operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
             termMonth: operation.enterprisePreInvestment?.deadline ?? 0,
             uuid: operation.enterprisePreInvestment?.uuidPreInvestment ?? '',
             moneyIcon: true,
@@ -585,10 +549,8 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         );
       case 'pending':
         if (operation.enterprisePreInvestment?.isReInvestment == true &&
-                operation.enterprisePreInvestment?.actionStatus ==
-                    ActionStatusEnum.defaultReInvestment ||
-            operation.enterprisePreInvestment?.actionStatus ==
-                ActionStatusEnum.defaultReInvestment.toLowerCase()) {
+                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment ||
+            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment.toLowerCase()) {
           return ReinvestmentPendingSlider(
             amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
             fundName: widget.fund.name,
@@ -612,8 +574,7 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         );
 
       default:
-        return Text(
-            'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
+        return Text('Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
 
@@ -640,9 +601,7 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         ),
         const SizedBox(height: 5),
         CarouselSlider(
-          items: filteredOperations
-              .map((operation) => _buildSliderWidget(operation))
-              .toList(),
+          items: filteredOperations.map((operation) => _buildSliderWidget(operation)).toList(),
           options: CarouselOptions(
             height: 94,
             viewportFraction: 0.9,
@@ -668,13 +627,10 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
               child: Container(
                 width: 8.0,
                 height: 8.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: (Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black)
+                  color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
                       .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
                 ),
               ),
@@ -710,9 +666,7 @@ class SliderInCourse extends ConsumerWidget {
           margin: const EdgeInsets.only(left: 5, right: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -759,8 +713,7 @@ class ToValidateSlider extends ConsumerWidget {
     var whatsappUrlAndroid = Uri.parse(
       "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
     );
-    var whatsappUrlIphone =
-        Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+    var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
     if (defaultTargetPlatform == TargetPlatform.android) {
       await launchUrl(whatsappUrlAndroid);
@@ -784,8 +737,7 @@ class ToValidateSlider extends ConsumerWidget {
       var whatsappUrlAndroid = Uri.parse(
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
       );
-      var whatsappUrlIphone =
-          Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+      var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
       if (defaultTargetPlatform == TargetPlatform.android) {
         await launchUrl(whatsappUrlAndroid);
@@ -819,9 +771,7 @@ class ToValidateSlider extends ConsumerWidget {
             margin: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
@@ -909,9 +859,7 @@ class LabelInCourseState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode
-              ? const Color(labelDarkContainer)
-              : const Color(labelLightContainer),
+          color: isDarkMode ? const Color(labelDarkContainer) : const Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -923,8 +871,7 @@ class LabelInCourseState extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color:
-                    isDarkMode ? const Color(textDark) : const Color(textLight),
+                color: isDarkMode ? const Color(textDark) : const Color(textLight),
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
               ),
@@ -960,9 +907,7 @@ class ReinvestmentPendingSlider extends ConsumerWidget {
             margin: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
@@ -1022,4 +967,89 @@ class ReinvestmentValidationText extends ConsumerWidget {
       ],
     );
   }
+}
+
+class NotificationPermissionHandler extends StatefulHookConsumerWidget {
+  final UserProfile profile;
+  final Widget child;
+
+  const NotificationPermissionHandler({
+    Key? key,
+    required this.profile,
+    required this.child,
+  }) : super(key: key);
+
+  @override
+  ConsumerState<NotificationPermissionHandler> createState() => _NotificationPermissionHandlerState();
+}
+
+class _NotificationPermissionHandlerState extends ConsumerState<NotificationPermissionHandler> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _handleNotificationPermission();
+    });
+  }
+
+  Future<void> _handleNotificationPermission() async {
+    final pushNotificationService = ref.read(pushNotificationServiceProvider);
+    await pushNotificationService.processPendingNotificationLog();
+    await pushNotificationService.checkSavedNotificationRoute();
+
+    try {
+      final token = await pushNotificationService.initializeAfterLogin();
+      final hasRequested = await pushNotificationService.hasRequestedPermission();
+
+      if (!mounted) return;
+
+      if (token != null && hasRequested == false) {
+        context.loaderOverlay.show();
+
+        try {
+          final isTokenSynchronized = ref.read(userDeviceSyncProvider);
+          await pushNotificationService.setRequestedPermission();
+
+          if (!isTokenSynchronized) {
+            final deviceInfo = await DeviceInfoService().getDeviceInfo(widget.profile.id!);
+            await DeviceInfoService().saveDeviceInfo(deviceInfo);
+            ref.read(userDeviceSyncProvider.notifier).state = true;
+
+            if (!mounted) return;
+            context.loaderOverlay.hide();
+
+            showThanksInvestmentDialog(
+              context,
+              textTitle: '¡Notificaciones activadas!',
+              textBody: 'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
+              textButton: 'Entendido',
+              onPressed: () => Navigator.pop(context),
+              textTanks: '',
+            );
+          }
+        } finally {
+          if (mounted) context.loaderOverlay.hide();
+        }
+      }
+    } on PushNotificationPermissionDeniedException {
+      if (!mounted) return;
+      pushNotificationService.showLaterReminderModal(context);
+      await pushNotificationService.setReminderShown();
+    } catch (e) {
+      print('Error al inicializar notificaciones: $e');
+      if (!mounted) return;
+
+      showThanksInvestmentDialog(
+        context,
+        textTitle: 'Notificaciones',
+        textBody: 'No pudimos activar las notificaciones. Puedes intentarlo más tarde desde tu perfil.',
+        textButton: 'Entendido',
+        onPressed: () => Navigator.pop(context),
+        textTanks: '',
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }

@@ -66,6 +66,7 @@ logOut(BuildContext context, WidgetRef ref) {
   ref.invalidate(paymentListProvider);
   ref.invalidate(investmentHistoryV2DataSourceProvider);
   ref.invalidate(seeLaterProvider);
+  ref.invalidate(userDeviceSyncProvider);
 
   // logout(ref);
   Navigator.of(context).pushNamedAndRemoveUntil(
