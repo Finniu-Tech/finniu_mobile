@@ -18,8 +18,8 @@ class PositionNotifier extends StateNotifier<PositionState> {
   PositionNotifier()
       : super(
           PositionState(
-            left: 20.0,
-            top: 20.0,
+            left: 40.0,
+            top: 40.0,
           ),
         );
 

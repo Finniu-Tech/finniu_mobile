@@ -104,7 +104,6 @@ post_install do |installer|
         ## dart: PermissionGroup.criticalAlerts
         'PERMISSION_ASSISTANT=0',
 
-        '$(inherited)', 'BYPASS_PERMISSION_LOCATION_ALWAYS=1'
       ]
 
     end

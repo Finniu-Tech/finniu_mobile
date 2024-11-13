@@ -327,7 +327,9 @@ class UserProfile {
         civilStatus!.isNotEmpty &&
         gender != null &&
         gender!.isNotEmpty &&
-        imageProfileUrl != null;
+        imageProfileUrl != null &&
+        birthDate != null &&
+        birthDate!.isNotEmpty;
   }
 
   bool completeLocationData() {

@@ -35,6 +35,9 @@ class _BodyVerify extends ConsumerWidget {
       Navigator.popAndPushNamed(
         context,
         userProfileCompleteness.getNextStep() ?? '/v2/my_data',
+        arguments: {
+          "birthday": true,
+        },
       );
       // Navigator.pushNamed(context, '/v2/my_data');
     }

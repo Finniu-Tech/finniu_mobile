@@ -23,7 +23,7 @@ class FinniuAccountProvider extends ConsumerWidget {
       data: (data) {
         return FinniuAccount(
           accountCci: data.accountCci,
-          bankName: data.bankName,
+          bankName: data.slug,
           accountNumber: data.accountNumber,
           bankUrl: data.bankUrl ?? "",
         );
@@ -33,7 +33,7 @@ class FinniuAccountProvider extends ConsumerWidget {
           final data = finniuAccountSolesDefault;
           return FinniuAccount(
             accountCci: data.accountCci,
-            bankName: data.bankName,
+            bankName: data.slug,
             accountNumber: data.accountNumber,
             bankUrl: data.bankUrl ?? "",
           );
@@ -41,7 +41,7 @@ class FinniuAccountProvider extends ConsumerWidget {
           final data = finniuAccountDolarsDefault;
           return FinniuAccount(
             accountCci: data.accountCci,
-            bankName: data.bankName,
+            bankName: data.slug,
             accountNumber: data.accountNumber,
             bankUrl: data.bankUrl ?? "",
           );
@@ -136,7 +136,7 @@ class FinniuAccount extends ConsumerWidget {
             height: 5,
           ),
           FinniuTranferContainer(
-            bank: "Nº cuenta $bankName",
+            bank: "Nº cuenta ${bankName.toUpperCase()}",
             bankNumber: accountNumber,
             bankUrl: bankUrl,
           ),

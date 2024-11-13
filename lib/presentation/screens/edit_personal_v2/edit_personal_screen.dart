@@ -302,8 +302,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El tipo de documento es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el tipo de documento.",
+                        message: "Por favor, completa el tipo de documento.",
                         snackType: SnackType.warning,
                       );
                       documentTypeError.value = true;
@@ -356,8 +355,7 @@ class EditPersonalForm extends HookConsumerWidget {
                       showSnackBarV2(
                         context: context,
                         title: "El estado civil es obligatorio",
-                        message:
-                            "Por favor, completa el seleciona el estado civil",
+                        message: "Por favor, completa el estado civil",
                         snackType: SnackType.warning,
                       );
                       civilStatusError.value = true;
@@ -386,8 +384,8 @@ class EditPersonalForm extends HookConsumerWidget {
                     if (value == null || value.isEmpty) {
                       showSnackBarV2(
                         context: context,
-                        title: "El genero es obligatorio",
-                        message: "Por favor, completa el seleciona el genero",
+                        title: "El género es obligatorio",
+                        message: "Por favor, completa el género",
                         snackType: SnackType.warning,
                       );
                       genderTypeError.value = true;
@@ -412,13 +410,13 @@ class EditPersonalForm extends HookConsumerWidget {
                   controller: dateController,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      // showSnackBarV2(
-                      //   context: context,
-                      //   title: "Fecha de nacimiento incorrecta",
-                      //   message: "Por favor, completa la fecha.",
-                      //   snackType: SnackType.warning,
-                      // );
-                      // birthDateError.value = true;
+                      showSnackBarV2(
+                        context: context,
+                        title: "Fecha de nacimiento incorrecta",
+                        message: "Por favor, completa la fecha.",
+                        snackType: SnackType.warning,
+                      );
+                      birthDateError.value = true;
                       return null;
                     }
                     return null;

@@ -8,19 +8,22 @@ import 'package:flutter/material.dart';
 
 void addImage({required BuildContext context, required WidgetRef ref}) async {
   final ImagePicker picker = ImagePicker();
-  final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+  final XFile? image = await picker.pickImage(
+    source: ImageSource.gallery,
+    imageQuality: 80,
+  );
 
   if (image != null) {
     final File imageFile = File(image.path);
     final int imageSize = await imageFile.length();
     final double imageSizeInMB = imageSize / (1024 * 1024);
-    const double maxSizeInMB = 2;
+    const double maxSizeInMB = 5;
 
     if (imageSizeInMB > maxSizeInMB) {
       showSnackBarV2(
         context: context,
         title: "Foto muy pesada",
-        message: "No pudimos procesar tu foto por que es mayor a 2MB ",
+        message: "No pudimos procesar tu foto por que es mayor a 5MB ",
         snackType: SnackType.warning,
       );
 

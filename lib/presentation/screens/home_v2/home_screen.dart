@@ -88,7 +88,10 @@ class HomeScreenV2 extends HookConsumerWidget {
             return userProfile.when(
               data: (profile) {
                 _setUserAnalytics(ref, profile);
-                _handleTour(context, ref, profile);
+                if (profile.hasCompletedTour == false) {
+                  _handleTour(context, ref, profile);
+                }
+
                 print('auth token 7777777 ${ref.watch(authTokenProvider)}');
                 // _handleNotificationPermission(context, ref, profile);
                 // _handleTourAndNotifications(context, ref, profile);
@@ -99,12 +102,7 @@ class HomeScreenV2 extends HookConsumerWidget {
                       currentTheme: currentTheme,
                       userProfile: profile,
                     ),
-                    if (ref.read(seeLaterProvider) == true && profile.hasCompletedTour == false)
-                      Positioned(
-                        left: 0,
-                        top: MediaQuery.of(context).size.height * 0.2,
-                        child: const ShowTourContainer(),
-                      ),
+                    const SeeLaterWidget(),
                   ],
                 );
               },
@@ -166,6 +164,122 @@ class HomeScreenV2 extends HookConsumerWidget {
         //   }
         // }
       });
+    }
+  }
+
+  // void _handleTourAndNotifications(BuildContext context, WidgetRef ref, UserProfile profile) {
+  //   if (profile.hasCompletedTour != null) {
+  //     WidgetsBinding.instance.addPostFrameCallback((_) async {
+  //       bool seeLaterTour = ref.watch(seeLaterProvider);
+
+  //       if (profile.hasCompletedTour == false && seeLaterTour == false) {
+  //         showTourV2(context);
+  //       }
+
+  //       if (profile.hasCompletedTour == true) {
+  //         final pushNotificationService = PushNotificationService(
+
+  //         );
+  //         await pushNotificationService.requestPermissions();
+  //         String? token = await pushNotificationService.getToken();
+
+  //         if (token != null) {
+  //           final isTokenSynchronized = ref.read(userDeviceSyncProvider);
+  //           if (!isTokenSynchronized) {
+  //             print('profile id: ${profile.id}');
+  //             final deviceInfo = await DeviceInfoService().getDeviceInfo(profile.id!);
+  //             print('deviceInfo: $deviceInfo');
+  //             DeviceInfoService().saveDeviceInfo(deviceInfo);
+  //             ref.read(userDeviceSyncProvider.notifier).state = true;
+  //           }
+
+  //           // TODO: set user token to the backend
+  //           // ref.read(firebaseAnalyticsServiceProvider).setUserProperty(
+  //           //       name: "fcm_token",
+  //           //       value: token,
+  //           //     );
+  //         }
+  //       }
+  //     });
+  //   }
+  // }
+
+  // void _handleNotificationPermission(BuildContext context, WidgetRef ref, UserProfile profile) {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) async {
+  //     final pushNotificationService = ref.read(pushNotificationServiceProvider);
+
+  //     try {
+  //       final token = await pushNotificationService.initializeAfterLogin();
+  //       final hasRequested = await pushNotificationService.hasRequestedPermission();
+
+  //       if (token != null && hasRequested == false) {
+  //         print('Push notification token obtenido: $token');
+  //         //show loader
+  //         context.loaderOverlay.show();
+  //         final isTokenSynchronized = ref.read(userDeviceSyncProvider);
+  //         pushNotificationService.setRequestedPermission();
+  //         if (!isTokenSynchronized) {
+  //           print('profile id: ${profile.id}');
+  //           final deviceInfo = await DeviceInfoService().getDeviceInfo(profile.id!);
+  //           print('deviceInfo: $deviceInfo');
+  //           DeviceInfoService().saveDeviceInfo(deviceInfo);
+  //           ref.read(userDeviceSyncProvider.notifier).state = true;
+
+  //           context.loaderOverlay.hide();
+  //           if (context.mounted) {
+  //             showThanksInvestmentDialog(
+  //               context,
+  //               textTitle: '¡Notificaciones activadas!',
+  //               textBody: 'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
+  //               textButton: 'Entendido',
+  //               onPressed: () => Navigator.pop(context),
+  //               textTanks: '',
+  //             );
+  //           }
+  //         } else {
+  //           context.loaderOverlay.hide();
+  //         }
+  //       }
+  //     } on PushNotificationPermissionDeniedException {
+  //       if (context.mounted) {
+  //         pushNotificationService.showLaterReminderModal(context);
+  //         await pushNotificationService.setReminderShown();
+  //       }
+  //     } catch (e) {
+  //       print('Error al inicializar notificaciones: $e');
+  //       context.loaderOverlay.hide();
+  //       if (context.mounted) {
+  //         showThanksInvestmentDialog(
+  //           context,
+  //           textTitle: 'Notificaciones',
+  //           textBody: 'No pudimos activar las notificaciones. Puedes intentarlo más tarde desde tu perfil.',
+  //           textButton: 'Entendido',
+  //           onPressed: () => Navigator.pop(context),
+  //           textTanks: '',
+  //         );
+  //       }
+  //     }
+  //   });
+  // }
+}
+
+class SeeLaterWidget extends ConsumerWidget {
+  const SeeLaterWidget({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final seeLater = ref.watch(seeLaterProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    if (seeLater == true && userProfile.hasCompletedTour == false) {
+      return Positioned(
+        left: 0,
+        top: MediaQuery.of(context).size.height * 0.2,
+        child: const ShowTourContainer(),
+      );
+    } else {
+      return const SizedBox();
     }
   }
 

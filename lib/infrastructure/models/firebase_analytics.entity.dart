@@ -262,4 +262,7 @@ class FirebaseAnalyticsEvents {
   static const String pushDataError = "push_data_error";
   static const String scrollPage = "scroll_page";
   static const String formValidateError = "form_validate_error";
+  static const String navigateToJulia = "navigate_to_julia";
+  static const String openJulia = "open_julia";
+  static const String closeJulia = "close_julia";
 }

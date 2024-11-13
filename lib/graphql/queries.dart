@@ -1600,6 +1600,7 @@ class QueryRepository {
       query getPaymentHistory{
         corporatePaymentHistory{
         nextPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1610,6 +1611,7 @@ class QueryRepository {
            isCapitalPayment
           }
           passPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
@@ -1620,6 +1622,7 @@ class QueryRepository {
             isCapitalPayment
           }
           recentPayments{
+            paymentVoucherUrl
             uuid
             paymentDate
             amount
