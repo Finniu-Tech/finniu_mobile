@@ -12,7 +12,6 @@ class NotificationsDataSource {
     http.Client? client,
   }) : _client = client ?? http.Client();
 
-  // Headers comunes
   Map<String, String> get _headers => {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
@@ -48,7 +47,6 @@ class NotificationsDataSource {
         'status': 'delivered',
         'from_date': DateTime.now().subtract(const Duration(days: 3)).toIso8601String(),
       };
-      print('query params: $queryParams');
 
       final uri = Uri.parse('$baseUrl/notification-logs');
       final response = await _client.post(
@@ -56,7 +54,6 @@ class NotificationsDataSource {
         headers: _headers,
         body: jsonEncode(queryParams),
       );
-      print('response notifications: ${response.body}');
       if (response.statusCode == 200) {
         final List<dynamic> data = json.decode(response.body)['logs'];
         return data.map((json) => NotificationModel.fromJson(json)).toList();
@@ -100,25 +97,18 @@ class NotificationsDataSource {
         'extra_data': extraData ?? {},
         if (parentNotificationUuid != null) 'parent_notification_uuid': parentNotificationUuid,
       };
-      print('payload xxx: $payload');
       final response = await _client.post(
         Uri.parse('$baseUrl/register-log'),
         headers: _headers,
         body: json.encode(payload),
       );
 
-      print('Register log response: ${response.body}');
       return response.statusCode == 200;
     } catch (e) {
-      print('Error registering notification log: $e');
-      // No relanzamos la excepción para que no afecte el flujo principal
       return false;
     }
   }
 }
-
-// También necesitarás un modelo para las notificaciones:
-// lib/models/notification_model.dart
 
 enum NotificationStatus { delivered, read, error, open }
 

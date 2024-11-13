@@ -58,16 +58,9 @@ class DeviceInfoService {
   }
 
   Future<bool> saveDeviceInfo(DeviceInfoModel deviceInfo) async {
-    print('saveDeviceInfo: ${deviceInfo.toJson()}');
     final bool success =
         await NotificationsDataSource(baseUrl: appConfig.notificationsBaseUrl).saveDeviceToken(deviceInfo);
     return success;
   }
   // Future<void> saveDeviceInfo(DeviceInfoModel deviceInfo) async {
-  //   try {
-  //     await deviceInfo.save();
-  //   } catch (e) {
-  //     throw Exception('Failed to save device info: $e');
-  //   }
-  // }
 }
