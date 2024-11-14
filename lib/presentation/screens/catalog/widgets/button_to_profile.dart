@@ -23,7 +23,7 @@ class ButtonToProfile extends ConsumerWidget {
         child: userProfile.imageProfileUrl == null ||
                 userProfile.imageProfileUrl == ""
             ? Image.asset(
-                "assets/avatars/_${isDarkMode ? "dark" : "light"}.png",
+                "assets/avatars/profile_image_${isDarkMode ? "dark" : "light"}.png",
                 width: size,
                 height: size,
               )
@@ -32,7 +32,7 @@ class ButtonToProfile extends ConsumerWidget {
                 width: size,
                 height: size,
                 errorBuilder: (context, error, stackTrace) => Image.asset(
-                  "assets/avatars/_${isDarkMode ? "dark" : "light"}.png",
+                  "assets/avatars/profile_image_${isDarkMode ? "dark" : "light"}.png",
                   width: size,
                   height: size,
                 ),
