@@ -58,7 +58,6 @@ class FundDetailBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userProfile = ref.watch(userProfileNotifierProvider);
     return Column(
       children: [
         HeaderInvestment(
@@ -94,7 +93,7 @@ class FundDetailBody extends ConsumerWidget {
             //   legalTermsCompleteness: 100,
             //   completionPercentage: 100,
             // );
-            if (userProfile.completeData() != 1) {
+            if (!userProfileCompleteness.hasCompleteProfile()) {
               if (fund.fundType == FundTypeEnum.corporate) {
                 ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                   eventName: FirebaseAnalyticsEvents.screenView,
