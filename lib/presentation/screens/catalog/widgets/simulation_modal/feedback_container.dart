@@ -80,7 +80,7 @@ class FormFeedback extends HookConsumerWidget {
         context.loaderOverlay.show();
 
         final result = await pushFeedbackData(context, data, ref);
-        print("result $result");
+
         if (result) {
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.pushDataSucces,
