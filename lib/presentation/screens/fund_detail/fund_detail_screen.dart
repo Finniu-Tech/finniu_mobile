@@ -94,7 +94,7 @@ class FundDetailBody extends ConsumerWidget {
             //   legalTermsCompleteness: 100,
             //   completionPercentage: 100,
             // );
-            if (userProfile.completeData() != 1) {
+            if (!userProfileCompleteness.hasCompleteProfile()) {
               if (fund.fundType == FundTypeEnum.corporate) {
                 ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                   eventName: FirebaseAnalyticsEvents.screenView,
