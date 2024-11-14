@@ -326,8 +326,8 @@ class UserProfile {
   }
 
   bool completePersonalData() {
-    return nickName != null &&
-        nickName!.isNotEmpty &&
+    return firstName != null &&
+        firstName!.isNotEmpty &&
         lastNameFather != null &&
         lastNameFather!.isNotEmpty &&
         lastNameMother != null &&
