@@ -23,7 +23,6 @@ class _BodyMyData extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userProfile = ref.watch(userProfileNotifierProvider);
     void navigate(BuildContext context, String navigate) {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.navigateTo,
@@ -35,38 +34,47 @@ class _BodyMyData extends ConsumerWidget {
       Navigator.pushNamed(context, navigate);
     }
 
-    return Column(
-      children: [
-        ButtonNavigateProfile(
-          isComplete: userProfile.completePersonalData(),
-          icon: "assets/svg_icons/user_icon.svg",
-          title: "Datos personales",
-          subtitle: "Información personal legal. \n",
-          onTap: () => navigate(context, '/v2/edit_personal_data'),
-        ),
-        ButtonNavigateProfile(
-          isComplete: userProfile.completeLocationData(),
-          icon: "assets/svg_icons/map_icon_v2.svg",
-          title: "Ubicación",
-          subtitle: "Información sobre su ubicación actual \n",
-          onTap: () => navigate(context, '/v2/edit_location_data'),
-        ),
-        ButtonNavigateProfile(
-          isComplete: userProfile.completeJobData(),
-          icon: "assets/svg_icons/bag_icon_v2.svg",
-          title: "Ocupación laboral",
-          subtitle: "Información sobre tu ocupación laboral \n",
-          onTap: () => navigate(context, '/v2/edit_job_data'),
-        ),
-        // ButtonNavigateProfile(
-        //   isComplete: userProfile.completeAboutData(),
-        //   icon: "assets/svg_icons/user_icon_v2.svg",
-        //   title: "Información adicional",
-        //   subtitle:
-        //       "Información de mi nombre favorito, cumpleaños y otros más....",
-        //   onTap: () => navigate(context, '/v2/additional_information'),
-        // ),
-      ],
+    final profileCompletenessAsync = ref.watch(userProfileCompletenessProvider);
+
+    return profileCompletenessAsync.when(
+      data: (profileCompleteness) {
+        return Column(
+          children: [
+            ButtonNavigateProfile(
+              isComplete: profileCompleteness.hasCompletePersonalData(),
+              icon: "assets/svg_icons/user_icon.svg",
+              title: "Datos personales",
+              subtitle: "Información personal legal. \n",
+              onTap: () => navigate(context, '/v2/edit_personal_data'),
+            ),
+            ButtonNavigateProfile(
+              isComplete: profileCompleteness.hasCompleteLocation(),
+              icon: "assets/svg_icons/map_icon_v2.svg",
+              title: "Ubicación",
+              subtitle: "Información sobre su ubicación actual \n",
+              onTap: () => navigate(context, '/v2/edit_location_data'),
+            ),
+            ButtonNavigateProfile(
+              isComplete: profileCompleteness.hasCompleteOccupation(),
+              icon: "assets/svg_icons/bag_icon_v2.svg",
+              title: "Ocupación laboral",
+              subtitle: "Información sobre tu ocupación laboral \n",
+              onTap: () => navigate(context, '/v2/edit_job_data'),
+            ),
+            // ButtonNavigateProfile(
+            //   isComplete: userProfile.completeAboutData(),
+            //   icon: "assets/svg_icons/user_icon_v2.svg",
+            //   title: "Información adicional",
+            //   subtitle:
+            //       "Información de mi nombre favorito, cumpleaños y otros más....",
+            //   onTap: () => navigate(context, '/v2/additional_information'),
+            // ),
+          ],
+        );
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) =>
+          const Text('Error al cargar el estado del perfil'),
     );
   }
 }

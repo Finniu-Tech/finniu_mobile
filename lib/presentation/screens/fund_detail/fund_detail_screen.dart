@@ -1,6 +1,5 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
-import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -84,17 +83,17 @@ class FundDetailBody extends ConsumerWidget {
               : 'Quiero simular',
           onPressed: () async {
             context.loaderOverlay.show();
-            // final userProfileCompleteness =
-            //     await ref.read(userProfileCompletenessProvider.future);
-            final userProfileCompleteness = UserProfileCompleteness(
-              profileComplete: userProfile.completeData(),
-              personalDataComplete:
-                  userProfile.completePersonalData() ? 100 : 0,
-              locationComplete: userProfile.completeLocationData() ? 100 : 0,
-              occupationComplete: userProfile.completeJobData() ? 100 : 0,
-              legalTermsCompleteness: 100,
-              completionPercentage: 100,
-            );
+            final userProfileCompleteness =
+                await ref.read(userProfileCompletenessProvider.future);
+            // final userProfileCompleteness = UserProfileCompleteness(
+            //   profileComplete: userProfile.completeData(),
+            //   personalDataComplete:
+            //       userProfile.completePersonalData() ? 100 : 0,
+            //   locationComplete: userProfile.completeLocationData() ? 100 : 0,
+            //   occupationComplete: userProfile.completeJobData() ? 100 : 0,
+            //   legalTermsCompleteness: 100,
+            //   completionPercentage: 100,
+            // );
             if (userProfile.completeData() != 1) {
               if (fund.fundType == FundTypeEnum.corporate) {
                 ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
