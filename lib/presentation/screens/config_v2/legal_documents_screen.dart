@@ -175,11 +175,12 @@ class _BodyLegalDocuments extends HookConsumerWidget {
                   text:
                       "Este 5% es la tributación correspondiente por renta de 2da categoría (inversiones). Aplica sobre tus intereses ganados.",
                 ),
-                const TitleLegal(),
+                if (documents.sunatDeclarations.isEmpty ||
+                    documents.sunatDeclarations.any((e) => e.nameFile.isEmpty))
+                  const TitleLegal(),
                 ...documents.sunatDeclarations.map(
-                  (e) => e.nameFile.isNotEmpty
-                      ? Container()
-                      : GestureDetector(
+                  (e) => e.nameFile.isEmpty
+                      ? GestureDetector(
                           onTap: () => {
                             ref
                                 .read(firebaseAnalyticsServiceProvider)
@@ -195,10 +196,12 @@ class _BodyLegalDocuments extends HookConsumerWidget {
                           child: RowDownload(
                             title: e.nameFile,
                           ),
-                        ),
+                        )
+                      : const SizedBox(),
                 ),
               ],
             ),
+
             ExpansionTitleLegal(
               title: "Aceptaciones legales y/o tributarios",
               children: [
