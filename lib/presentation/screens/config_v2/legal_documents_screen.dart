@@ -166,6 +166,7 @@ class _BodyLegalDocuments extends HookConsumerWidget {
             //     ),
             //   ],
             // ),
+
             ExpansionTitleLegal(
               title: "Declaración de la Sunat",
               children: [
@@ -176,21 +177,25 @@ class _BodyLegalDocuments extends HookConsumerWidget {
                 ),
                 const TitleLegal(),
                 ...documents.sunatDeclarations.map(
-                  (e) => GestureDetector(
-                    onTap: () => {
-                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-                        eventName: FirebaseAnalyticsEvents.clickEvent,
-                        parameters: {
-                          "screen": FirebaseScreen.legalDocumentsV2,
-                          "click": "declaration_sunat_${e.nameFile}",
-                        },
-                      ),
-                      openUrl(e.declarationUrl, context),
-                    },
-                    child: RowDownload(
-                      title: e.nameFile,
-                    ),
-                  ),
+                  (e) => e.nameFile.isNotEmpty
+                      ? Container()
+                      : GestureDetector(
+                          onTap: () => {
+                            ref
+                                .read(firebaseAnalyticsServiceProvider)
+                                .logCustomEvent(
+                              eventName: FirebaseAnalyticsEvents.clickEvent,
+                              parameters: {
+                                "screen": FirebaseScreen.legalDocumentsV2,
+                                "click": "declaration_sunat_${e.nameFile}",
+                              },
+                            ),
+                            openUrl(e.declarationUrl, context),
+                          },
+                          child: RowDownload(
+                            title: e.nameFile,
+                          ),
+                        ),
                 ),
               ],
             ),

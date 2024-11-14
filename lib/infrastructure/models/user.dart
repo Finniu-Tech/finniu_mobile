@@ -4,7 +4,8 @@
 
 import 'dart:convert';
 
-ScanUserModel scanModelFromJson(String str) => ScanUserModel.fromJson(json.decode(str));
+ScanUserModel scanModelFromJson(String str) =>
+    ScanUserModel.fromJson(json.decode(str));
 
 String scanModelToJson(ScanUserModel data) => json.encode(data.toJson());
 
@@ -16,7 +17,9 @@ class ScanUserModel {
   RegisterUser? registerUser;
 
   factory ScanUserModel.fromJson(Map<String, dynamic> json) => ScanUserModel(
-        registerUser: json["registerUser"] == null ? null : RegisterUser.fromJson(json["registerUser"]),
+        registerUser: json["registerUser"] == null
+            ? null
+            : RegisterUser.fromJson(json["registerUser"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -58,7 +61,9 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         email: json["email"],
-        userProfile: json["userProfile"] == null ? null : UserProfile.fromJson(json["userProfile"]),
+        userProfile: json["userProfile"] == null
+            ? null
+            : UserProfile.fromJson(json["userProfile"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -162,7 +167,9 @@ class UserProfile {
         id: json["userId"],
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
-        documentNumber: json["documentNumber"].toString() == 'null' ? '' : json["documentNumber"].toString(),
+        documentNumber: json["documentNumber"].toString() == 'null'
+            ? ''
+            : json["documentNumber"].toString(),
         gender: json["gender"],
         hasCompletedOnboarding: json["hasCompletedOnboarding"],
         hasCompletedTour: json["hasCompletedTour"],
@@ -177,8 +184,9 @@ class UserProfile {
         imageProfile: json["imageProfile"],
         imageProfileUrl: json["imageProfileUrl"],
         address: json["address"],
-        percentCompleteProfile:
-            json["percentCompleteProfile"] != null ? double.parse(json["percentCompleteProfile"].toString()) : 0.0,
+        percentCompleteProfile: json["percentCompleteProfile"] != null
+            ? double.parse(json["percentCompleteProfile"].toString())
+            : 0.0,
         lastNameFather: json["lastNameFather"],
         lastNameMother: json["lastNameMother"],
         countryPrefix: json["countryPrefix"],
@@ -192,7 +200,8 @@ class UserProfile {
         facebook: json["facebook"],
         instagram: json["instagram"],
         linkedin: json["linkedin"],
-        isDirectorOrShareholder10Percent: json["isDirectorOrShareholder10Percent"],
+        isDirectorOrShareholder10Percent:
+            json["isDirectorOrShareholder10Percent"],
         isPublicOfficialOrFamily: json["isPublicOfficialOrFamily"],
         acceptPrivacyPolicy: json["acceptPrivacyPolicy"],
         acceptTermsConditions: json["acceptTermsConditions"],
@@ -282,7 +291,8 @@ class UserProfile {
       documentNumber: documentNumber ?? this.documentNumber,
       address: address ?? this.address,
       occupation: occupation ?? this.occupation,
-      percentCompleteProfile: percentCompleteProfile ?? this.percentCompleteProfile,
+      percentCompleteProfile:
+          percentCompleteProfile ?? this.percentCompleteProfile,
       hasCompletedTour: hasCompletedTour ?? this.hasCompletedTour,
       lastNameFather: lastNameFather ?? this.lastNameFather,
       lastNameMother: lastNameMother ?? this.lastNameMother,
@@ -298,10 +308,13 @@ class UserProfile {
       facebook: facebook ?? this.facebook,
       instagram: instagram ?? this.instagram,
       linkedin: linkedin ?? this.linkedin,
-      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent ?? this.isDirectorOrShareholder10Percent,
-      isPublicOfficialOrFamily: isPublicOfficialOrFamily ?? this.isPublicOfficialOrFamily,
+      isDirectorOrShareholder10Percent: isDirectorOrShareholder10Percent ??
+          this.isDirectorOrShareholder10Percent,
+      isPublicOfficialOrFamily:
+          isPublicOfficialOrFamily ?? this.isPublicOfficialOrFamily,
       acceptPrivacyPolicy: acceptPrivacyPolicy ?? this.acceptPrivacyPolicy,
-      acceptTermsConditions: acceptTermsConditions ?? this.acceptTermsConditions,
+      acceptTermsConditions:
+          acceptTermsConditions ?? this.acceptTermsConditions,
       birthDate: birthDate ?? this.birthDate,
     );
   }
@@ -313,8 +326,8 @@ class UserProfile {
   }
 
   bool completePersonalData() {
-    return nickName != null &&
-        nickName!.isNotEmpty &&
+    return firstName != null &&
+        firstName!.isNotEmpty &&
         lastNameFather != null &&
         lastNameFather!.isNotEmpty &&
         lastNameMother != null &&
@@ -344,11 +357,18 @@ class UserProfile {
   }
 
   bool completeJobData() {
-    return occupation != null && occupation!.isNotEmpty && companyName != null && companyName!.isNotEmpty;
+    return occupation != null &&
+        occupation!.isNotEmpty &&
+        companyName != null &&
+        companyName!.isNotEmpty;
   }
 
   bool completeAboutData() {
-    return imageProfileUrl != null && biography != null && facebook != null && instagram != null && linkedin != null;
+    return imageProfileUrl != null &&
+        biography != null &&
+        facebook != null &&
+        instagram != null &&
+        linkedin != null;
   }
 
   double completeData() {
