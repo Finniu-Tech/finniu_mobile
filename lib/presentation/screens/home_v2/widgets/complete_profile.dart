@@ -1,4 +1,3 @@
-import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
