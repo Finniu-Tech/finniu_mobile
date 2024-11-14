@@ -58,7 +58,6 @@ class FundDetailBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userProfile = ref.watch(userProfileNotifierProvider);
     return Column(
       children: [
         HeaderInvestment(
