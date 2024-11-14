@@ -76,24 +76,3 @@ class ButtonToProfile extends ConsumerWidget {
     );
   }
 }
-
-
-// Image.network(
-//           userProfile.imageProfileUrl == null ||
-//                   userProfile.imageProfileUrl == ""
-//               ? "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png"
-//               : userProfile.imageProfileUrl!,
-//           width: size,
-//           height: size,
-//           errorBuilder: (context, error, stackTrace) => Image.asset(
-//             "assets/avatars/_${isDarkMode ? "dark" : "light"}.png",
-//             width: size,
-//             height: size,
-//           ),
-//           loadingBuilder: (context, child, loadingProgress) {
-//             if (loadingProgress == null) {
-//               return child;
-//             }
-//             return CircularLoader(width: size, height: size);
-//           },
-//         )
