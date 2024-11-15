@@ -25,6 +25,7 @@ class AccountExpanded extends ConsumerWidget {
       valueListenable: extendedState,
       builder: (context, value, child) {
         return ExpansionTile(
+          tilePadding: EdgeInsets.zero,
           initiallyExpanded: value,
           trailing: SwitchAcount(
             value: value,
@@ -33,11 +34,10 @@ class AccountExpanded extends ConsumerWidget {
           controller: controller,
           shape: const Border(),
           title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 150,
-                child: const TextPoppins(
+              const Expanded(
+                child: TextPoppins(
                   text: '¿Es una cuenta mancomunada?',
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
@@ -51,6 +51,7 @@ class AccountExpanded extends ConsumerWidget {
                 color:
                     isDarkMode ? const Color(iconDark) : const Color(iconLight),
               ),
+              const SizedBox(width: 5),
               TextPoppins(
                 text: value ? 'Si' : 'No',
                 fontSize: 11,

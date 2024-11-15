@@ -195,74 +195,89 @@ class FormAccounts extends HookConsumerWidget {
               const SizedBox(
                 height: 10,
               ),
-              ValueListenableBuilder<bool>(
-                valueListenable: bankError,
-                builder: (context, isError, child) {
-                  return InputTextFileAccounts(
-                    isError: isError,
-                    onError: () => bankError.value = false,
-                    controller: bankController,
-                    hintText: "Apellido paterno",
-                    validator: (value) {
-                      return null;
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ValueListenableBuilder<bool>(
+                    valueListenable: bankError,
+                    builder: (context, isError, child) {
+                      return Expanded(
+                        child: InputTextFileAccounts(
+                          isError: isError,
+                          onError: () => bankError.value = false,
+                          controller: bankController,
+                          hintText: "Apellido paterno",
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                      );
                     },
-                  );
-                },
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: bankError,
+                    builder: (context, isError, child) {
+                      return Expanded(
+                        child: InputTextFileAccounts(
+                          isError: isError,
+                          onError: () => bankError.value = false,
+                          controller: bankController,
+                          hintText: "Apellido materno",
+                          validator: (value) {
+                            return null;
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(
                 height: 10,
               ),
-              ValueListenableBuilder<bool>(
-                valueListenable: bankError,
-                builder: (context, isError, child) {
-                  return InputTextFileAccounts(
-                    isError: isError,
-                    onError: () => bankError.value = false,
-                    controller: bankController,
-                    hintText: "Apellido materno",
-                    validator: (value) {
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ValueListenableBuilder<bool>(
-                valueListenable: bankError,
-                builder: (context, isError, child) {
-                  return SelectableDropdownAccounts(
-                    title: "",
-                    options: const ["Peru"],
-                    itemSelectedValue: bankController.text,
-                    isError: isError,
-                    onError: () => bankError.value = false,
-                    selectController: bankController,
-                    hintText: "Tipo de Documento",
-                    validator: (value) {
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              ValueListenableBuilder<bool>(
-                valueListenable: bankError,
-                builder: (context, isError, child) {
-                  return InputTextFileAccounts(
-                    isError: isError,
-                    onError: () => bankError.value = false,
-                    controller: bankController,
-                    hintText: "Número de documento",
-                    validator: (value) {
-                      return null;
-                    },
-                  );
-                },
-              ),
+              Row(children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: bankError,
+                  builder: (context, isError, child) {
+                    return Expanded(
+                      child: SelectableDropdownAccounts(
+                        title: "  Documento  ",
+                        options: const ["Peru"],
+                        itemSelectedValue: bankController.text,
+                        isError: isError,
+                        onError: () => bankError.value = false,
+                        selectController: bankController,
+                        hintText: "Tipo",
+                        validator: (value) {
+                          return null;
+                        },
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                ValueListenableBuilder<bool>(
+                  valueListenable: bankError,
+                  builder: (context, isError, child) {
+                    return Expanded(
+                      child: InputTextFileAccounts(
+                        isError: isError,
+                        onError: () => bankError.value = false,
+                        controller: bankController,
+                        hintText: "Nº de documento",
+                        validator: (value) {
+                          return null;
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ]),
             ],
           ),
           Row(
