@@ -11,8 +11,9 @@ class InputTextFileAccounts extends ConsumerWidget {
     this.onError,
     this.isError = false,
     this.isNumeric = false,
+    this.isRow = false,
   });
-
+  final bool isRow;
   final TextEditingController controller;
   final String? Function(String?)? validator;
   final String hintText;
@@ -49,7 +50,7 @@ class InputTextFileAccounts extends ConsumerWidget {
       ),
       decoration: InputDecoration(
         hintStyle: TextStyle(
-          fontSize: 12,
+          fontSize: isRow ? 9 : 12,
           color: isDarkMode ? const Color(hintDark) : const Color(hintLight),
           fontWeight: FontWeight.w400,
           fontFamily: "Poppins",

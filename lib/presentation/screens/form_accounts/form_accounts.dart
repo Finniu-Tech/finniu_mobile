@@ -203,6 +203,7 @@ class FormAccounts extends HookConsumerWidget {
                     builder: (context, isError, child) {
                       return Expanded(
                         child: InputTextFileAccounts(
+                          isRow: true,
                           isError: isError,
                           onError: () => bankError.value = false,
                           controller: bankController,
@@ -222,6 +223,7 @@ class FormAccounts extends HookConsumerWidget {
                     builder: (context, isError, child) {
                       return Expanded(
                         child: InputTextFileAccounts(
+                          isRow: true,
                           isError: isError,
                           onError: () => bankError.value = false,
                           controller: bankController,
@@ -244,6 +246,7 @@ class FormAccounts extends HookConsumerWidget {
                   builder: (context, isError, child) {
                     return Expanded(
                       child: SelectableDropdownAccounts(
+                        isRow: true,
                         title: "  Documento  ",
                         options: const ["Peru"],
                         itemSelectedValue: bankController.text,
@@ -266,6 +269,7 @@ class FormAccounts extends HookConsumerWidget {
                   builder: (context, isError, child) {
                     return Expanded(
                       child: InputTextFileAccounts(
+                        isRow: true,
                         isError: isError,
                         onError: () => bankError.value = false,
                         controller: bankController,
@@ -311,6 +315,7 @@ class FormAccounts extends HookConsumerWidget {
             ],
           ),
           ButtonInvestment(text: "Guardar cuenta", onPressed: () {}),
+          const SizedBox(height: 20),
         ],
       ),
     );

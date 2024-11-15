@@ -13,10 +13,11 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
     required this.validator,
     required this.itemSelectedValue,
     required this.title,
+    this.isRow = false,
     this.onError,
     this.isError = false,
   });
-
+  final bool isRow;
   final List<String> options;
   final TextEditingController selectController;
   final String hintText;
@@ -82,7 +83,7 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
       hint: Text(
         hintText,
         style: TextStyle(
-          fontSize: 12,
+          fontSize: isRow ? 10 : 12,
           color: isDarkMode ? const Color(hintDark) : const Color(hintLight),
           fontWeight: FontWeight.w400,
           fontFamily: "Poppins",
