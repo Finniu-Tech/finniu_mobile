@@ -22,10 +22,10 @@ class InputTextFileAccounts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const int hintDark = 0xFF989898;
-    const int hintLight = 0xFF989898;
-    const int fillDark = 0xFF222222;
-    const int fillLight = 0xFFF7F7F7;
+    const int hintDark = 0xFF535050;
+    const int hintLight = 0xFF535050;
+    const int fillDark = 0xFF1A1A1A;
+    const int fillLight = 0xFFFFFFFF;
     const int textDark = 0xFFFFFFFF;
     const int textLight = 0xFF000000;
     const int borderColorDark = 0xFFA2E6FA;
