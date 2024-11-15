@@ -51,7 +51,7 @@ class SimulationSuccess extends ConsumerWidget {
           Image.asset(
             "assets/images/logo_simulation${isDarkMode ? "_dark" : "_light"}.png",
             width: 75,
-            height: 54,
+            height: 75,
             fit: BoxFit.fill,
           ),
           Row(
@@ -82,10 +82,10 @@ class SimulationSuccess extends ConsumerWidget {
                 ),
               ),
               SizedBox(
-                width: MediaQuery.of(context).size.width * 0.3,
+                width: MediaQuery.of(context).size.width * 0.4,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const TextPoppins(
                       text: "con un % de retorno",
@@ -93,9 +93,12 @@ class SimulationSuccess extends ConsumerWidget {
                       fontWeight: FontWeight.w500,
                       align: TextAlign.start,
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     TextPoppins(
                       text: "$percentage%",
-                      fontSize: 32,
+                      fontSize: 24,
                       fontWeight: FontWeight.w500,
                       textDark: percentageDark,
                       textLight: percentageLight,
@@ -169,14 +172,15 @@ class SimulationSuccess extends ConsumerWidget {
                   color: isDarkMode
                       ? const Color(textEveryDark)
                       : const Color(textEveryLight),
-                  size: 20,
+                  size: 18,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 const TextPoppins(
                   text: "Cada mes recibirás ",
-                  fontSize: 16,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                   textDark: textEveryDark,
                   textLight: textEveryLight,
                 ),

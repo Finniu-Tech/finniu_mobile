@@ -60,7 +60,7 @@ Future<dynamic> investmentSimulationModal(
     context: context,
     isScrollControlled: true,
     builder: (context) => SizedBox(
-      height: 460,
+      height: 480,
       child: BodySimulation(
         startingAmount: startingAmount,
         monthInvestment: mouthInvestment,
