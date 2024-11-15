@@ -16,7 +16,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final pushNotificationRouteProvider = StateProvider<String?>((ref) => null);
-// final navigatorKeyProvider = Provider((ref) => GlobalKey<NavigatorState>());
 
 final pushNotificationServiceProvider = Provider((ref) {
   final navigatorKey = ref.watch(globalNavigatorKeyProvider);
@@ -26,8 +25,6 @@ final pushNotificationServiceProvider = Provider((ref) {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
-  // No manejes la navegación aquí, solo guarda la información si es necesario
 }
 
 class PushNotificationService {
@@ -56,9 +53,6 @@ class PushNotificationService {
     if (initialMessage != null) {
       _handleInitialMessage(initialMessage);
     }
-
-    // NO solicitar permisos aquí
-    // NO suscribir a tópicos aquí
   }
 
   Future<String?> initializeAfterLogin() async {
@@ -84,8 +78,6 @@ class PushNotificationService {
     }
     return null;
   }
-
-// Crear una excepción personalizada
 
   Future<void> _initializeLocalNotifications() async {
     // Crear el canal de Android con configuración completa
@@ -461,6 +453,7 @@ class PushNotificationService {
     final dataSource = _notificationDataSource;
     final String userID = message.data['user_id'] ?? '';
     final deviceInfo = await DeviceInfoService().getDeviceInfo(userID);
+    print('device info zerooo: ${deviceInfo.toJson()}');
     final token = await getToken();
     final extraData = message.data['extra_data'] != null ? json.decode(message.data['extra_data']) : null;
 
