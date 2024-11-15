@@ -35,11 +35,14 @@ class AccountExpanded extends ConsumerWidget {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const TextPoppins(
-                text: '¿Es una cuenta mancomunada?',
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                align: TextAlign.start,
+              SizedBox(
+                width: 150,
+                child: const TextPoppins(
+                  text: '¿Es una cuenta mancomunada?',
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  align: TextAlign.start,
+                ),
               ),
               SvgPicture.asset(
                 'assets/svg_icons/message_question_icon.svg',

@@ -28,7 +28,7 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const int hintDark = 0xFF535050;
+    const int hintDark = 0xFF828282;
     const int hintLight = 0xFF535050;
     const int fillDark = 0xFF1A1A1A;
     const int fillLight = 0xFFFFFFFF;
@@ -75,7 +75,7 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
       validator: validator,
       icon: const Icon(
         Icons.keyboard_arrow_down,
-        size: 24,
+        size: 20,
         color: Colors.transparent,
       ),
       value: selectController.text.isNotEmpty ? selectController.text : null,
@@ -184,7 +184,7 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
                   if (option == selectController.text)
                     Icon(
                       Icons.check_circle_outline,
-                      size: 24,
+                      size: 20,
                       color: isDarkMode
                           ? const Color(iconDark)
                           : const Color(iconLight),

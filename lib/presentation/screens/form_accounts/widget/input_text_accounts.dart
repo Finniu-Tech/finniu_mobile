@@ -22,7 +22,7 @@ class InputTextFileAccounts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const int hintDark = 0xFF535050;
+    const int hintDark = 0xFF828282;
     const int hintLight = 0xFF535050;
     const int fillDark = 0xFF1A1A1A;
     const int fillLight = 0xFFFFFFFF;
@@ -108,12 +108,12 @@ class InputTextFileAccounts extends ConsumerWidget {
             ? const Icon(
                 Icons.error_outline,
                 color: Color(borderError),
-                size: 24,
+                size: 20,
               )
             : const Icon(
                 Icons.person_outline,
                 color: Colors.transparent,
-                size: 24,
+                size: 20,
               ),
       ),
       validator: validator,
