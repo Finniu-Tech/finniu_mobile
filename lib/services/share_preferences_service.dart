@@ -10,7 +10,20 @@ class Preferences {
   static String? _username;
   static bool _showedPushNotificationReminder = false;
   static bool _hasRequestedPushNotificationPermission = false;
-  // static String _authToken = '';
+  static String? _pendingNotificationRoute;
+
+  static String? get pendingNotificationRoute {
+    return _prefs.getString('pendingNotificationRoute') ?? _pendingNotificationRoute;
+  }
+
+  static set pendingNotificationRoute(String? route) {
+    _pendingNotificationRoute = route;
+    if (route != null) {
+      _prefs.setString('pendingNotificationRoute', route);
+    } else {
+      _prefs.remove('pendingNotificationRoute');
+    }
+  }
 
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();

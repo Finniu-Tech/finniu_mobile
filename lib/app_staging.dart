@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/intro_screen.dart';
 import 'package:finniu/routes/routes.dart';
 import 'package:finniu/services/deep_link_service.dart';
 import 'package:finniu/services/push_notifications_service.dart';
+import 'package:finniu/utils/debug_logger.dart';
 import 'package:finniu/widgets/connectivity.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,20 @@ class _AppStagingState extends ConsumerState<AppStaging> {
     _deepLinkHandler = ref.read(deepLinkHandlerProvider);
     _pushNotificationService = ref.read(pushNotificationServiceProvider);
 
-    _deepLinkHandler.initialize();
-    _pushNotificationService.initialize();
+    Future.delayed(Duration.zero, () async {
+      await _deepLinkHandler.initialize();
+      await _pushNotificationService.initialize();
+
+      if (mounted) {
+        // Verificar la ruta guardada después de la inicialización
+        final savedRoute = ref.read(pushNotificationRouteProvider);
+        await DebugLogger.log('Initial check - Saved route: $savedRoute');
+
+        if (savedRoute != null) {
+          await _pushNotificationService.checkSavedNotificationRoute();
+        }
+      }
+    });
   }
 
   @override

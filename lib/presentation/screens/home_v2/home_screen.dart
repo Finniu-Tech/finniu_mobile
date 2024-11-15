@@ -39,6 +39,8 @@ import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
 import 'package:finniu/services/device_info_service.dart';
 import 'package:finniu/services/push_notifications_service.dart';
+import 'package:finniu/services/share_preferences_service.dart';
+import 'package:finniu/utils/debug_logger.dart';
 // import 'package:finniu/services/push_notifications_service.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
@@ -75,9 +77,7 @@ class HomeScreenV2 extends HookConsumerWidget {
           userProfile: userProfile,
         ),
         backgroundColor: Color(
-          currentTheme.isDarkMode
-              ? scaffoldBlackBackground
-              : scaffoldLightGradientPrimary,
+          currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary,
         ),
         bottomNavigationBar: const NavigationBarHome(),
         extendBody: true,
@@ -247,8 +247,7 @@ class HomeBody extends HookConsumerWidget {
                 const SizedBox(
                   height: 15,
                 ),
-                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] ==
-                    true) ...[
+                if (ref.watch(featureFlagsProvider)[FeatureFlags.admin] == true) ...[
                   ElevatedButton(
                     onPressed: () => Navigator.pushNamed(context, '/home_home'),
                     child: const Text('Ir a home normal'),
@@ -281,12 +280,10 @@ class BodyHomeUpperSectionWidget extends StatefulHookConsumerWidget {
   final bool renderNonInvestment;
 
   @override
-  _BodyHomeUpperSectionWidgetState createState() =>
-      _BodyHomeUpperSectionWidgetState();
+  _BodyHomeUpperSectionWidgetState createState() => _BodyHomeUpperSectionWidgetState();
 }
 
-class _BodyHomeUpperSectionWidgetState
-    extends ConsumerState<BodyHomeUpperSectionWidget> {
+class _BodyHomeUpperSectionWidgetState extends ConsumerState<BodyHomeUpperSectionWidget> {
   final PageController pageController = PageController();
   int selectedPage = 0;
 
@@ -342,9 +339,7 @@ class _BodyHomeUpperSectionWidgetState
                         height: 35,
                         child: ListView(
                           scrollDirection: Axis.horizontal,
-                          children: pageWidgets
-                              .map((widget) => widget.title)
-                              .toList(),
+                          children: pageWidgets.map((widget) => widget.title).toList(),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -414,8 +409,7 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //print('fund uuid: ${fund.uuid}');
-    final lastOperationsAsyncValue =
-        ref.watch(lastOperationsFutureProvider(fund.uuid));
+    final lastOperationsAsyncValue = ref.watch(lastOperationsFutureProvider(fund.uuid));
     // List<LastOperation> reinvestmentOperations = [];
     final isSoles = ref.watch(isSolesStateProvider);
     final selectedCurrency = isSoles ? 'nuevo sol' : 'dolar';
@@ -424,10 +418,8 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
       data: (lastOperations) {
         if (fund.fundType == FundTypeEnum.corporate) {
           // reinvestmentOperations = LastOperation.filterByReInvestmentOperations(lastOperations);
-          filteredOperations = lastOperations
-              .where((element) =>
-                  element.enterprisePreInvestment?.currency == selectedCurrency)
-              .toList();
+          filteredOperations =
+              lastOperations.where((element) => element.enterprisePreInvestment?.currency == selectedCurrency).toList();
 
           lastOperations = filteredOperations;
         }
@@ -449,8 +441,7 @@ class FundHomeUpperSectionWidget extends ConsumerWidget {
             ],
             GraphicContainer(fund: fund),
             const SizedBox(height: 10),
-            if (lastOperations.isNotEmpty &&
-                fund.fundType == FundTypeEnum.corporate) ...[
+            if (lastOperations.isNotEmpty && fund.fundType == FundTypeEnum.corporate) ...[
               LastOperationsSlider(
                 lastOperations: lastOperations,
                 fund: fund,
@@ -541,16 +532,12 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
       case 'draft':
         return SliderDraft(
           amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-          isReInvestment:
-              operation.enterprisePreInvestment?.isReInvestment ?? false,
+          isReInvestment: operation.enterprisePreInvestment?.isReInvestment ?? false,
           onTap: () => showDraftModal(
             context,
-            amountNumber:
-                operation.enterprisePreInvestment?.amount.toInt() ?? 0,
-            isReinvest:
-                operation.enterprisePreInvestment?.isReInvestment ?? false,
-            profitability:
-                operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
+            amountNumber: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
+            isReinvest: operation.enterprisePreInvestment?.isReInvestment ?? false,
+            profitability: operation.enterprisePreInvestment?.rentability?.toInt() ?? 0,
             termMonth: operation.enterprisePreInvestment?.deadline ?? 0,
             uuid: operation.enterprisePreInvestment?.uuidPreInvestment ?? '',
             moneyIcon: true,
@@ -562,10 +549,8 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         );
       case 'pending':
         if (operation.enterprisePreInvestment?.isReInvestment == true &&
-                operation.enterprisePreInvestment?.actionStatus ==
-                    ActionStatusEnum.defaultReInvestment ||
-            operation.enterprisePreInvestment?.actionStatus ==
-                ActionStatusEnum.defaultReInvestment.toLowerCase()) {
+                operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment ||
+            operation.enterprisePreInvestment?.actionStatus == ActionStatusEnum.defaultReInvestment.toLowerCase()) {
           return ReinvestmentPendingSlider(
             amount: operation.enterprisePreInvestment?.amount.toInt() ?? 0,
             fundName: widget.fund.name,
@@ -589,8 +574,7 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         );
 
       default:
-        return Text(
-            'Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
+        return Text('Un widget vacío para ${operation.enterprisePreInvestment?.status} no manejado');
     }
   }
 
@@ -617,9 +601,7 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
         ),
         const SizedBox(height: 5),
         CarouselSlider(
-          items: filteredOperations
-              .map((operation) => _buildSliderWidget(operation))
-              .toList(),
+          items: filteredOperations.map((operation) => _buildSliderWidget(operation)).toList(),
           options: CarouselOptions(
             height: 94,
             viewportFraction: 0.9,
@@ -645,13 +627,10 @@ class ContainerLastOperationsState extends ConsumerState<LastOperationsSlider> {
               child: Container(
                 width: 8.0,
                 height: 8.0,
-                margin:
-                    const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
+                margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: (Theme.of(context).brightness == Brightness.dark
-                          ? Colors.white
-                          : Colors.black)
+                  color: (Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black)
                       .withOpacity(_currentIndex == entry.key ? 0.9 : 0.4),
                 ),
               ),
@@ -687,9 +666,7 @@ class SliderInCourse extends ConsumerWidget {
           margin: const EdgeInsets.only(left: 5, right: 5),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -736,8 +713,7 @@ class ToValidateSlider extends ConsumerWidget {
     var whatsappUrlAndroid = Uri.parse(
       "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
     );
-    var whatsappUrlIphone =
-        Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+    var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
     if (defaultTargetPlatform == TargetPlatform.android) {
       await launchUrl(whatsappUrlAndroid);
@@ -761,8 +737,7 @@ class ToValidateSlider extends ConsumerWidget {
       var whatsappUrlAndroid = Uri.parse(
         "whatsapp://send?phone=$whatsappNumber&text=${Uri.parse(whatsappMessage)}",
       );
-      var whatsappUrlIphone =
-          Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
+      var whatsappUrlIphone = Uri.parse("https://wa.me/$whatsappNumber?text=$whatsappMessage");
 
       if (defaultTargetPlatform == TargetPlatform.android) {
         await launchUrl(whatsappUrlAndroid);
@@ -796,9 +771,7 @@ class ToValidateSlider extends ConsumerWidget {
             margin: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
@@ -886,9 +859,7 @@ class LabelInCourseState extends ConsumerWidget {
             bottomLeft: Radius.circular(10),
             topRight: Radius.circular(10),
           ),
-          color: isDarkMode
-              ? const Color(labelDarkContainer)
-              : const Color(labelLightContainer),
+          color: isDarkMode ? const Color(labelDarkContainer) : const Color(labelLightContainer),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -900,8 +871,7 @@ class LabelInCourseState extends ConsumerWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color:
-                    isDarkMode ? const Color(textDark) : const Color(textLight),
+                color: isDarkMode ? const Color(textDark) : const Color(textLight),
                 fontSize: 8,
                 fontWeight: FontWeight.bold,
               ),
@@ -937,9 +907,7 @@ class ReinvestmentPendingSlider extends ConsumerWidget {
             margin: const EdgeInsets.only(left: 5, right: 5),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 7),
@@ -1012,18 +980,30 @@ class NotificationPermissionHandler extends StatefulHookConsumerWidget {
   }) : super(key: key);
 
   @override
-  ConsumerState<NotificationPermissionHandler> createState() =>
-      _NotificationPermissionHandlerState();
+  ConsumerState<NotificationPermissionHandler> createState() => _NotificationPermissionHandlerState();
 }
 
-class _NotificationPermissionHandlerState
-    extends ConsumerState<NotificationPermissionHandler> {
+class _NotificationPermissionHandlerState extends ConsumerState<NotificationPermissionHandler> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _handleNotificationPermission();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _handleNotificationPermission();
+      await _handlePendingNavigation();
     });
+  }
+
+  Future<void> _handlePendingNavigation() async {
+    final pushNotificationService = ref.read(pushNotificationServiceProvider);
+    final savedRoute = Preferences.pendingNotificationRoute;
+
+    await DebugLogger.log('Checking for pending navigation. Saved route: $savedRoute');
+
+    if (savedRoute != null) {
+      await pushNotificationService.processPendingNotificationLog();
+      pushNotificationService.performNavigation(savedRoute);
+      Preferences.pendingNotificationRoute = null;
+    }
   }
 
   Future<void> _handleNotificationPermission() async {
@@ -1033,8 +1013,7 @@ class _NotificationPermissionHandlerState
 
     try {
       final token = await pushNotificationService.initializeAfterLogin();
-      final hasRequested =
-          await pushNotificationService.hasRequestedPermission();
+      final hasRequested = await pushNotificationService.hasRequestedPermission();
 
       if (!mounted) return;
 
@@ -1046,8 +1025,7 @@ class _NotificationPermissionHandlerState
           await pushNotificationService.setRequestedPermission();
 
           if (!isTokenSynchronized) {
-            final deviceInfo =
-                await DeviceInfoService().getDeviceInfo(widget.profile.id!);
+            final deviceInfo = await DeviceInfoService().getDeviceInfo(widget.profile.id!);
             await DeviceInfoService().saveDeviceInfo(deviceInfo);
             ref.read(userDeviceSyncProvider.notifier).state = true;
 
@@ -1057,8 +1035,7 @@ class _NotificationPermissionHandlerState
             showThanksInvestmentDialog(
               context,
               textTitle: '¡Notificaciones activadas!',
-              textBody:
-                  'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
+              textBody: 'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
               textButton: 'Entendido',
               onPressed: () => Navigator.pop(context),
               textTanks: '',
@@ -1079,8 +1056,7 @@ class _NotificationPermissionHandlerState
       showThanksInvestmentDialog(
         context,
         textTitle: 'Notificaciones',
-        textBody:
-            'No pudimos activar las notificaciones. Puedes intentarlo más tarde desde tu perfil.',
+        textBody: 'No pudimos activar las notificaciones. Puedes intentarlo más tarde desde tu perfil.',
         textButton: 'Entendido',
         onPressed: () => Navigator.pop(context),
         textTanks: '',
