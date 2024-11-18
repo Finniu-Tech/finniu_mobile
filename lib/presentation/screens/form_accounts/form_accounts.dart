@@ -1,8 +1,11 @@
+import 'package:finniu/infrastructure/models/bank_user_account/input_models.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
+import 'package:finniu/presentation/screens/form_accounts/helpers/create_bank_account_v2.dart';
 import 'package:finniu/presentation/screens/form_accounts/widget/banks_dropdown_provider.dart';
 import 'package:finniu/presentation/screens/form_accounts/widget/input_select_accounts.dart';
 import 'package:finniu/presentation/screens/form_accounts/widget/input_text_accounts.dart';
@@ -11,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class FormAccountsScreen extends StatelessWidget {
   const FormAccountsScreen({super.key});
@@ -109,6 +113,31 @@ class FormAccounts extends HookConsumerWidget {
       print(jointHolderMothersLastNameController.text);
       print(jointHolderDocTypeController.text);
       print(jointHolderDocNumberController.text);
+      final isSoles = ref.read(isSolesStateProvider);
+      context.loaderOverlay.show();
+      CreateBankAccountInput input = CreateBankAccountInput(
+        bankUUID: bankController.text,
+        typeAccount: accountTypeController.text.toUpperCase(),
+        currency: isSoles ? 'SOLES' : 'DOLARES',
+        bankAccount: accountNumberController.text,
+        cci: cciNumberController.text,
+        aliasBankAccount: accountNameController.text,
+        isDefault: useForFutureOperations.value,
+        isPersonalAccount: personalAccountDeclaration.value,
+        jointAccount: isJointAccount.value
+            ? JointAccountInput(
+                name: jointHolderNameController.text,
+                lastName: jointHolderLastNameController.text,
+                documentType: jointHolderDocTypeController.text,
+                documentNumber: jointHolderDocNumberController.text,
+              )
+            : null,
+      );
+      createBankAccountV2(
+        context: context,
+        input: input,
+        ref: ref,
+      );
     }
 
     return Form(
