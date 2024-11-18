@@ -1,6 +1,7 @@
 import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -109,6 +110,8 @@ class SelectableDropdownBanks extends HookConsumerWidget {
     const int borderColorDark = 0xFFA2E6FA;
     const int borderColorLight = 0xFF0D3A5C;
     const int borderError = 0xFFED1C24;
+    const int errorDark = 0xff181818;
+    const int errorLight = 0xffA2E6FA;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final ValueNotifier<bool> reload = useState(false);
     final Set<BankEntity> list = options.toSet();
@@ -117,17 +120,56 @@ class SelectableDropdownBanks extends HookConsumerWidget {
       selectedItemBuilder: (context) {
         return list
             .map(
-              (item) => Text(
-                item.name,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: isDarkMode
-                      ? const Color(textSelectDark)
-                      : const Color(textSelectLight),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Poppins",
-                  overflow: TextOverflow.ellipsis,
-                ),
+              (item) => Row(
+                children: [
+                  ClipOval(
+                    child: Image.network(
+                      item.logoUrl ?? "",
+                      width: 25,
+                      height: 25,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) {
+                          return child;
+                        } else {
+                          return const CircularLoader(width: 10, height: 10);
+                        }
+                      },
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        width: 25,
+                        height: 25,
+                        decoration: BoxDecoration(
+                          color: isDarkMode
+                              ? const Color(errorDark)
+                              : const Color(errorLight),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(50),
+                          ),
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            "assets/images/bank_case_error.png",
+                            width: 20,
+                            height: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    item.name,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: isDarkMode
+                          ? const Color(textSelectDark)
+                          : const Color(textSelectLight),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                ],
               ),
             )
             .toList();
@@ -236,15 +278,61 @@ class SelectableDropdownBanks extends HookConsumerWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    option.name,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: isDarkMode
-                          ? const Color(textSelectDark)
-                          : const Color(textSelectLight),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Poppins",
+                  SizedBox(
+                    child: Row(
+                      children: [
+                        ClipOval(
+                          child: Image.network(
+                            option.logoUrl ?? "",
+                            width: 25,
+                            height: 25,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return const CircularLoader(
+                                  width: 10,
+                                  height: 10,
+                                );
+                              }
+                            },
+                            errorBuilder: (context, error, stackTrace) =>
+                                Container(
+                              width: 25,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                color: isDarkMode
+                                    ? const Color(errorDark)
+                                    : const Color(errorLight),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(50),
+                                ),
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  "assets/images/bank_case_error.png",
+                                  width: 20,
+                                  height: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          option.name,
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: isDarkMode
+                                ? const Color(textSelectDark)
+                                : const Color(textSelectLight),
+                            fontWeight: FontWeight.w400,
+                            fontFamily: "Poppins",
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   if (option.uuid == selectController.text)
