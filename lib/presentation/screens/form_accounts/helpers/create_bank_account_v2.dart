@@ -37,6 +37,7 @@ void createBankAccountV2({
         message: "Cuenta guardada correctamente",
         snackType: SnackType.success,
       );
+      Navigator.pop(context);
     } else {
       final errorMessage = response.messages.isNotEmpty
           ? response.messages.first.message

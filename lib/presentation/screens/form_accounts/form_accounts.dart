@@ -110,17 +110,7 @@ class FormAccounts extends HookConsumerWidget {
     }
 
     pushData() {
-      // print("pushData");
-      // print(bankController.text);
-      // print(accountTypeController.text.toUpperCase());
-      // print(accountNumberController.text);
-      // print(cciNumberController.text);
-      // print(accountNameController.text);
-      // print(jointHolderNameController.text);
-      // print(jointHolderLastNameController.text);
-      // print(jointHolderMothersLastNameController.text);
-      // print(jointHolderDocTypeController.text);
-      // print(jointHolderDocNumberController.text);
+      FocusManager.instance.primaryFocus?.unfocus();
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.formValidateError,
@@ -137,6 +127,15 @@ class FormAccounts extends HookConsumerWidget {
         );
         return;
       } else {
+        if (!personalAccountDeclaration.value && !isJointAccount.value) {
+          showSnackBarV2(
+            context: context,
+            title: "Seleccione tipo de cuenta",
+            message: "Por favor, seleccione cuenta personal o conjunta.",
+            snackType: SnackType.warning,
+          );
+          return;
+        }
         if (bankError.value) return;
         if (accountTypeError.value) return;
         if (accountNumberError.value) return;
