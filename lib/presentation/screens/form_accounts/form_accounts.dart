@@ -95,9 +95,7 @@ class FormAccounts extends HookConsumerWidget {
           ValueListenableBuilder<bool>(
             valueListenable: bankError,
             builder: (context, isError, child) {
-              return SelectableDropdownAccounts(
-                title: "  Banco  ",
-                options: const ["Peru"],
+              return BankDropdownAccounts(
                 itemSelectedValue: bankController.text,
                 isError: isError,
                 onError: () => bankError.value = false,

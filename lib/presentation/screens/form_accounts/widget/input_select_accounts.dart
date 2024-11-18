@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
@@ -206,6 +207,67 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
       onChanged: (newValue) {
         selectController.text = newValue!;
         reload.value = !reload.value;
+      },
+    );
+  }
+}
+
+class BankDropdownAccounts extends HookConsumerWidget {
+  const BankDropdownAccounts({
+    super.key,
+    required this.selectController,
+    required this.hintText,
+    required this.validator,
+    required this.itemSelectedValue,
+    this.onError,
+    this.isError = false,
+  });
+
+  final bool isError;
+  final VoidCallback? onError;
+  final TextEditingController selectController;
+  final String hintText;
+  final String? Function(String?)? validator;
+  final String? itemSelectedValue;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bankFuture = ref.watch(bankFutureProvider);
+
+    return bankFuture.when(
+      data: (data) {
+        // Manejo de datos
+        return SelectableDropdownAccounts(
+          title: "  Banco  ",
+          onError: onError,
+          isError: isError,
+          itemSelectedValue: selectController.text,
+          options: data.map((e) => e.name).toList(),
+          selectController: selectController,
+          hintText: hintText,
+          validator: validator,
+        );
+      },
+      loading: () {
+        return SelectableDropdownAccounts(
+          title: "  Banco  ",
+          itemSelectedValue: selectController.text,
+          options: const [],
+          selectController: selectController,
+          hintText: "Cargando...",
+          validator: validator,
+        );
+      },
+      error: (error, stack) {
+        // En caso de error
+        return SelectableDropdownAccounts(
+          title: "  Banco  ",
+          itemSelectedValue: selectController.text,
+          options: const [],
+          selectController: selectController,
+          hintText: "Error al cargar bancos",
+          validator: validator,
+        );
       },
     );
   }
