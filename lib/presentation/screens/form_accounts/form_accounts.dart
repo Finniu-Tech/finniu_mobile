@@ -3,6 +3,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
+import 'package:finniu/presentation/screens/form_accounts/widget/banks_dropdown_provider.dart';
 import 'package:finniu/presentation/screens/form_accounts/widget/input_select_accounts.dart';
 import 'package:finniu/presentation/screens/form_accounts/widget/input_text_accounts.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';

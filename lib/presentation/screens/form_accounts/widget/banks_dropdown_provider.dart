@@ -35,7 +35,11 @@ class BankDropdownAccounts extends HookConsumerWidget {
           onError: onError,
           isError: isError,
           itemSelectedValue: selectController.text,
-          options: data.map((e) => e).toList(),
+          options: data
+              .map(
+                (e) => e,
+              )
+              .toList(),
           selectController: selectController,
           hintText: hintText,
           validator: validator,
@@ -243,7 +247,7 @@ class SelectableDropdownBanks extends HookConsumerWidget {
                       fontFamily: "Poppins",
                     ),
                   ),
-                  if (option.name == selectController.text)
+                  if (option.uuid == selectController.text)
                     Icon(
                       Icons.check_circle_outline,
                       size: 20,
@@ -265,6 +269,7 @@ class SelectableDropdownBanks extends HookConsumerWidget {
         );
       }).toList(),
       onChanged: (newValue) {
+        print(newValue);
         selectController.text = newValue!;
         reload.value = !reload.value;
       },
