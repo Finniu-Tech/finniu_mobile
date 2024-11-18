@@ -1,3 +1,4 @@
+import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -79,11 +80,34 @@ class FormAccounts extends HookConsumerWidget {
     final jointHolderDocTypeError = useState(false);
     final jointHolderDocNumberError = useState(false);
 
-    onTap() {
+    void onTap() {
       isJointAccount.value = !isJointAccount.value;
-      isJointAccount.value
-          ? controllerExpanded.expand()
-          : controllerExpanded.collapse();
+
+      if (isJointAccount.value) {
+        controllerExpanded.expand();
+      } else {
+        controllerExpanded.collapse();
+
+        jointHolderNameController.clear();
+        jointHolderLastNameController.clear();
+        jointHolderMothersLastNameController.clear();
+        jointHolderDocTypeController.clear();
+        jointHolderDocNumberController.clear();
+      }
+    }
+
+    pushData() {
+      print("pushData");
+      print(bankController.text);
+      print(accountTypeController.text.toUpperCase());
+      print(accountNumberController.text);
+      print(cciNumberController.text);
+      print(accountNameController.text);
+      print(jointHolderNameController.text);
+      print(jointHolderLastNameController.text);
+      print(jointHolderMothersLastNameController.text);
+      print(jointHolderDocTypeController.text);
+      print(jointHolderDocNumberController.text);
     }
 
     return Form(
@@ -113,7 +137,7 @@ class FormAccounts extends HookConsumerWidget {
             builder: (context, isError, child) {
               return SelectableDropdownAccounts(
                 title: "  Tipo de cuenta  ",
-                options: const ["Peru"],
+                options: const ['Ahorros', 'Corriente'],
                 itemSelectedValue: accountTypeController.text,
                 isError: isError,
                 onError: () => accountTypeError.value = false,
@@ -332,7 +356,7 @@ class FormAccounts extends HookConsumerWidget {
                             child: SelectableDropdownAccounts(
                               isRow: true,
                               title: "  Documento  ",
-                              options: const ["Peru"],
+                              options: documentType,
                               itemSelectedValue:
                                   jointHolderDocTypeController.text,
                               isError: isError,
@@ -372,7 +396,16 @@ class FormAccounts extends HookConsumerWidget {
                   ),
                 ],
                 onExpansionChanged: (expanded) {
-                  isJointAccount.value = expanded;
+                  if (isJointAccount.value) {
+                    controllerExpanded.expand();
+                  } else {
+                    controllerExpanded.collapse();
+                    jointHolderNameController.clear();
+                    jointHolderLastNameController.clear();
+                    jointHolderMothersLastNameController.clear();
+                    jointHolderDocTypeController.clear();
+                    jointHolderDocNumberController.clear();
+                  }
                 },
               );
             },
@@ -410,7 +443,7 @@ class FormAccounts extends HookConsumerWidget {
                     ),
                   ],
                 ),
-          ButtonInvestment(text: "Guardar cuenta", onPressed: () {}),
+          ButtonInvestment(text: "Guardar cuenta", onPressed: () => pushData()),
           const SizedBox(height: 20),
         ],
       ),

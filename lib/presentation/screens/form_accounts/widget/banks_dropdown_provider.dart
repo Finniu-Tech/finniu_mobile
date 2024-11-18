@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/bank_entity.dart';
 import 'package:finniu/presentation/providers/bank_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -5,8 +6,67 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SelectableDropdownAccounts extends HookConsumerWidget {
-  const SelectableDropdownAccounts({
+class BankDropdownAccounts extends HookConsumerWidget {
+  const BankDropdownAccounts({
+    super.key,
+    required this.selectController,
+    required this.hintText,
+    required this.validator,
+    required this.itemSelectedValue,
+    this.onError,
+    this.isError = false,
+  });
+
+  final bool isError;
+  final VoidCallback? onError;
+  final TextEditingController selectController;
+  final String hintText;
+  final String? Function(String?)? validator;
+  final String? itemSelectedValue;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bankFuture = ref.watch(bankFutureProvider);
+
+    return bankFuture.when(
+      data: (data) {
+        return SelectableDropdownBanks(
+          title: "  Banco  ",
+          onError: onError,
+          isError: isError,
+          itemSelectedValue: selectController.text,
+          options: data.map((e) => e).toList(),
+          selectController: selectController,
+          hintText: hintText,
+          validator: validator,
+        );
+      },
+      loading: () {
+        return SelectableDropdownBanks(
+          title: "  Banco  ",
+          itemSelectedValue: selectController.text,
+          options: const [],
+          selectController: selectController,
+          hintText: "Cargando...",
+          validator: validator,
+        );
+      },
+      error: (error, stack) {
+        return SelectableDropdownBanks(
+          title: "  Banco  ",
+          itemSelectedValue: selectController.text,
+          options: const [],
+          selectController: selectController,
+          hintText: "Error al cargar bancos",
+          validator: validator,
+        );
+      },
+    );
+  }
+}
+
+class SelectableDropdownBanks extends HookConsumerWidget {
+  const SelectableDropdownBanks({
     super.key,
     required this.options,
     required this.selectController,
@@ -19,7 +79,7 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
     this.isError = false,
   });
   final bool isRow;
-  final List<String> options;
+  final List<BankEntity> options;
   final TextEditingController selectController;
   final String hintText;
   final String? Function(String?)? validator;
@@ -47,25 +107,22 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
     const int borderError = 0xFFED1C24;
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final ValueNotifier<bool> reload = useState(false);
-    final list = options.toSet();
+    final Set<BankEntity> list = options.toSet();
 
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
         return list
             .map(
-              (item) => SizedBox(
-                width: isRow ? 80 : null,
-                child: Text(
-                  item,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: isDarkMode
-                        ? const Color(textSelectDark)
-                        : const Color(textSelectLight),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Poppins",
-                    overflow: TextOverflow.ellipsis,
-                  ),
+              (item) => Text(
+                item.name,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: isDarkMode
+                      ? const Color(textSelectDark)
+                      : const Color(textSelectLight),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Poppins",
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             )
@@ -165,9 +222,9 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
       dropdownColor: isDarkMode
           ? const Color(dropdownColorDark)
           : const Color(dropdownColorLight),
-      items: list.map((String option) {
+      items: list.map((option) {
         return DropdownMenuItem<String>(
-          value: option,
+          value: option.uuid,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -176,7 +233,7 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    option,
+                    option.name,
                     style: TextStyle(
                       fontSize: 14,
                       color: isDarkMode
@@ -186,7 +243,7 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
                       fontFamily: "Poppins",
                     ),
                   ),
-                  if (option == selectController.text)
+                  if (option.name == selectController.text)
                     Icon(
                       Icons.check_circle_outline,
                       size: 20,
@@ -210,67 +267,6 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
       onChanged: (newValue) {
         selectController.text = newValue!;
         reload.value = !reload.value;
-      },
-    );
-  }
-}
-
-class BankDropdownAccounts extends HookConsumerWidget {
-  const BankDropdownAccounts({
-    super.key,
-    required this.selectController,
-    required this.hintText,
-    required this.validator,
-    required this.itemSelectedValue,
-    this.onError,
-    this.isError = false,
-  });
-
-  final bool isError;
-  final VoidCallback? onError;
-  final TextEditingController selectController;
-  final String hintText;
-  final String? Function(String?)? validator;
-  final String? itemSelectedValue;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bankFuture = ref.watch(bankFutureProvider);
-
-    return bankFuture.when(
-      data: (data) {
-        // Manejo de datos
-        return SelectableDropdownAccounts(
-          title: "  Banco  ",
-          onError: onError,
-          isError: isError,
-          itemSelectedValue: selectController.text,
-          options: data.map((e) => e.name).toList(),
-          selectController: selectController,
-          hintText: hintText,
-          validator: validator,
-        );
-      },
-      loading: () {
-        return SelectableDropdownAccounts(
-          title: "  Banco  ",
-          itemSelectedValue: selectController.text,
-          options: const [],
-          selectController: selectController,
-          hintText: "Cargando...",
-          validator: validator,
-        );
-      },
-      error: (error, stack) {
-        // En caso de error
-        return SelectableDropdownAccounts(
-          title: "  Banco  ",
-          itemSelectedValue: selectController.text,
-          options: const [],
-          selectController: selectController,
-          hintText: "Error al cargar bancos",
-          validator: validator,
-        );
       },
     );
   }
