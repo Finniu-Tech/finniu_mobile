@@ -277,6 +277,16 @@ class FormAccounts extends HookConsumerWidget {
                     accountNumberError.value = true;
                     return null;
                   }
+                  if (value.length <= 10) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta obligatorio",
+                      message: "El número de cuenta debe tener 10 digitos.",
+                      snackType: SnackType.warning,
+                    );
+                    accountNumberError.value = true;
+                    return null;
+                  }
                   return null;
                 },
               );
@@ -318,6 +328,16 @@ class FormAccounts extends HookConsumerWidget {
                       context: context,
                       title: "Número de cuenta CCI incorrecto",
                       message: 'Solo puedes usar números',
+                      snackType: SnackType.warning,
+                    );
+                    cciNumberError.value = true;
+                    return null;
+                  }
+                  if (value.length <= 10) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta obligatorio",
+                      message: "El número de cuenta CCI debe tener 10 digitos.",
                       snackType: SnackType.warning,
                     );
                     cciNumberError.value = true;
