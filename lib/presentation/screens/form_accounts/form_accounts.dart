@@ -1,8 +1,11 @@
 import 'package:finniu/infrastructure/models/bank_user_account/input_models.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/user_profile_v2/profile_form_dto.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/form_accounts/helpers/create_bank_account_v2.dart';
@@ -92,6 +95,11 @@ class FormAccounts extends HookConsumerWidget {
         controllerExpanded.expand();
       } else {
         controllerExpanded.collapse();
+        jointHolderNameError.value = false;
+        jointHolderLastNameError.value = false;
+        jointHolderMothersLastNameError.value = false;
+        jointHolderDocTypeError.value = false;
+        jointHolderDocNumberError.value = false;
 
         jointHolderNameController.clear();
         jointHolderLastNameController.clear();
@@ -102,42 +110,70 @@ class FormAccounts extends HookConsumerWidget {
     }
 
     pushData() {
-      print("pushData");
-      print(bankController.text);
-      print(accountTypeController.text.toUpperCase());
-      print(accountNumberController.text);
-      print(cciNumberController.text);
-      print(accountNameController.text);
-      print(jointHolderNameController.text);
-      print(jointHolderLastNameController.text);
-      print(jointHolderMothersLastNameController.text);
-      print(jointHolderDocTypeController.text);
-      print(jointHolderDocNumberController.text);
-      final isSoles = ref.read(isSolesStateProvider);
-      context.loaderOverlay.show();
-      CreateBankAccountInput input = CreateBankAccountInput(
-        bankUUID: bankController.text,
-        typeAccount: accountTypeController.text.toUpperCase(),
-        currency: isSoles ? 'SOLES' : 'DOLARES',
-        bankAccount: accountNumberController.text,
-        cci: cciNumberController.text,
-        aliasBankAccount: accountNameController.text,
-        isDefault: useForFutureOperations.value,
-        isPersonalAccount: personalAccountDeclaration.value,
-        jointAccount: isJointAccount.value
-            ? JointAccountInput(
-                name: jointHolderNameController.text,
-                lastName: jointHolderLastNameController.text,
-                documentType: jointHolderDocTypeController.text,
-                documentNumber: jointHolderDocNumberController.text,
-              )
-            : null,
-      );
-      createBankAccountV2(
-        context: context,
-        input: input,
-        ref: ref,
-      );
+      // print("pushData");
+      // print(bankController.text);
+      // print(accountTypeController.text.toUpperCase());
+      // print(accountNumberController.text);
+      // print(cciNumberController.text);
+      // print(accountNameController.text);
+      // print(jointHolderNameController.text);
+      // print(jointHolderLastNameController.text);
+      // print(jointHolderMothersLastNameController.text);
+      // print(jointHolderDocTypeController.text);
+      // print(jointHolderDocNumberController.text);
+      if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.formAccountsV2,
+            "error": "input_form",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
+          snackType: SnackType.warning,
+        );
+        return;
+      } else {
+        if (bankError.value) return;
+        if (accountTypeError.value) return;
+        if (accountNumberError.value) return;
+        if (cciNumberError.value) return;
+        if (accountNameError.value) return;
+        if (jointHolderNameError.value) return;
+        if (jointHolderLastNameError.value) return;
+        if (jointHolderMothersLastNameError.value) return;
+        if (jointHolderDocTypeError.value) return;
+        if (jointHolderDocNumberError.value) return;
+
+        final isSoles = ref.read(isSolesStateProvider);
+        context.loaderOverlay.show();
+        CreateBankAccountInput input = CreateBankAccountInput(
+          bankUUID: bankController.text,
+          typeAccount: accountTypeController.text.toUpperCase(),
+          currency: isSoles ? 'SOLES' : 'DOLARES',
+          bankAccount: accountNumberController.text,
+          cci: cciNumberController.text,
+          aliasBankAccount: accountNameController.text,
+          isDefault: useForFutureOperations.value,
+          isPersonalAccount: personalAccountDeclaration.value,
+          jointAccount: isJointAccount.value
+              ? JointAccountInput(
+                  name: jointHolderNameController.text,
+                  lastName: jointHolderLastNameController.text,
+                  documentType: jointHolderDocTypeController.text,
+                  documentNumber: jointHolderDocNumberController.text,
+                )
+              : null,
+        );
+        createBankAccountV2(
+          context: context,
+          input: input,
+          ref: ref,
+        );
+      }
     }
 
     return Form(
@@ -156,6 +192,17 @@ class FormAccounts extends HookConsumerWidget {
                 selectController: bankController,
                 hintText: "Selecione su banco",
                 validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Banco obligatorio",
+                      message: "Por favor, completa seleccione su banco.",
+                      snackType: SnackType.warning,
+                    );
+                    bankError.value = true;
+                    return null;
+                  }
+
                   return null;
                 },
               );
@@ -174,6 +221,16 @@ class FormAccounts extends HookConsumerWidget {
                 selectController: accountTypeController,
                 hintText: "Selecciona el tipo de cuenta",
                 validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Tipo de cuenta obligatorio",
+                      message: "Por favor, completa el tipo de cuenta.",
+                      snackType: SnackType.warning,
+                    );
+                    accountTypeError.value = true;
+                    return null;
+                  }
                   return null;
                 },
               );
@@ -199,6 +256,17 @@ class FormAccounts extends HookConsumerWidget {
                 hintText: "Escribe el número de cuenta",
                 isNumeric: true,
                 validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta obligatorio",
+                      message:
+                          "Por favor, completa ingresar el número de cuenta.",
+                      snackType: SnackType.warning,
+                    );
+                    accountNumberError.value = true;
+                    return null;
+                  }
                   return null;
                 },
               );
@@ -221,9 +289,20 @@ class FormAccounts extends HookConsumerWidget {
                 isError: isError,
                 onError: () => cciNumberError.value = false,
                 controller: cciNumberController,
-                hintText: "Escribe el número de cuenta",
+                hintText: "Escribe el número de cuenta CCI",
                 isNumeric: true,
                 validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta CCI obligatorio",
+                      message:
+                          "Por favor, completa ingresar el número de cuenta CCI.",
+                      snackType: SnackType.warning,
+                    );
+                    cciNumberError.value = true;
+                    return null;
+                  }
                   return null;
                 },
               );
@@ -258,7 +337,7 @@ class FormAccounts extends HookConsumerWidget {
                 isError: isError,
                 onError: () => accountNameError.value = false,
                 controller: accountNameController,
-                hintText: "Escribe el número de cuenta",
+                hintText: "Escribe el nombre de cuenta",
                 validator: (value) {
                   return null;
                 },
@@ -322,6 +401,20 @@ class FormAccounts extends HookConsumerWidget {
                         controller: jointHolderNameController,
                         hintText: "Nombres de la otra persona titular",
                         validator: (value) {
+                          if (isJointAccount.value) {
+                            if (value == null || value.isEmpty) {
+                              showSnackBarV2(
+                                context: context,
+                                title: "Nombres obligatorio",
+                                message:
+                                    "Por favor, completa ingresar los nombres de la otra persona titular.",
+                                snackType: SnackType.warning,
+                              );
+                              jointHolderNameError.value = true;
+                              return null;
+                            }
+                          }
+
                           return null;
                         },
                       );
@@ -345,6 +438,19 @@ class FormAccounts extends HookConsumerWidget {
                               controller: jointHolderLastNameController,
                               hintText: "Apellido paterno",
                               validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nombres Paterno obligatorio",
+                                      message:
+                                          "Por favor, completa ingresar los nombres de la otra persona titular.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderLastNameError.value = true;
+                                    return null;
+                                  }
+                                }
                                 return null;
                               },
                             ),
@@ -366,6 +472,20 @@ class FormAccounts extends HookConsumerWidget {
                               controller: jointHolderMothersLastNameController,
                               hintText: "Apellido materno",
                               validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nombres Materno obligatorio",
+                                      message:
+                                          "Por favor, completa ingresar los nombres de la otra persona titular.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderMothersLastNameError.value =
+                                        true;
+                                    return null;
+                                  }
+                                }
                                 return null;
                               },
                             ),
@@ -395,6 +515,19 @@ class FormAccounts extends HookConsumerWidget {
                               selectController: jointHolderDocTypeController,
                               hintText: "Tipo",
                               validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Tipo Documento obligatorio",
+                                      message:
+                                          "Por favor, seleccione tipo de documento.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocTypeError.value = true;
+                                    return null;
+                                  }
+                                }
                                 return null;
                               },
                             ),
@@ -416,6 +549,19 @@ class FormAccounts extends HookConsumerWidget {
                               controller: jointHolderDocNumberController,
                               hintText: "Nº de documento",
                               validator: (value) {
+                                if (isJointAccount.value) {
+                                  if (value == null || value.isEmpty) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nº Documento obligatorio",
+                                      message:
+                                          "Por favor, ingresa el Nº de documento.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocNumberError.value = true;
+                                    return null;
+                                  }
+                                }
                                 return null;
                               },
                             ),
