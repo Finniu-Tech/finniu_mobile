@@ -1,24 +1,32 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AccountExpanded extends ConsumerWidget {
-  const AccountExpanded({super.key, required this.children});
+  const AccountExpanded({
+    super.key,
+    required this.children,
+    required this.controllerExpanded,
+  });
   final List<Widget> children;
+  final ExpansionTileController controllerExpanded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final ValueNotifier<bool> extendedState = ValueNotifier(false);
-    final controller = ExpansionTileController();
+    final extendedState = useState<bool>(false);
+
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
 
     onTap() {
       extendedState.value = !extendedState.value;
-      extendedState.value ? controller.expand() : controller.collapse();
+      extendedState.value
+          ? controllerExpanded.expand()
+          : controllerExpanded.collapse();
     }
 
     return ValueListenableBuilder<bool>(
@@ -31,7 +39,7 @@ class AccountExpanded extends ConsumerWidget {
             value: value,
             onTap: onTap,
           ),
-          controller: controller,
+          controller: controllerExpanded,
           shape: const Border(),
           title: Row(
             mainAxisAlignment: MainAxisAlignment.start,

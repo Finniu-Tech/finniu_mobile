@@ -1,12 +1,13 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
-import 'package:finniu/presentation/screens/form_accounts/widget/account_expanded.dart';
 import 'package:finniu/presentation/screens/form_accounts/widget/input_select_accounts.dart';
 import 'package:finniu/presentation/screens/form_accounts/widget/input_text_accounts.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/expansion_title_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class FormAccountsScreen extends StatelessWidget {
@@ -40,11 +41,51 @@ class FormAccountsBody extends StatelessWidget {
 class FormAccounts extends HookConsumerWidget {
   FormAccounts({super.key});
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final controllerExpanded = ExpansionTileController();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
+    const int activeColor = 0xff0D3A5C;
+    const int activeTrackColor = 0xffD4F5FF;
+    const int inactiveThumbColor = 0xff828282;
+    const int inactiveTrackColor = 0xffF3F3F3;
+
+    final isJointAccount = useState(false);
+    final personalAccountDeclaration = useState(false);
+    final useForFutureOperations = useState(false);
+
     final bankController = useTextEditingController();
-    final ValueNotifier<bool> bankError = useState(false);
-    final ValueNotifier<bool> acceptPrivacyAndTerms = useState(false);
+    final accountTypeController = useTextEditingController();
+    final accountNumberController = useTextEditingController();
+    final cciNumberController = useTextEditingController();
+    final accountNameController = useTextEditingController();
+
+    final jointHolderNameController = useTextEditingController();
+    final jointHolderLastNameController = useTextEditingController();
+    final jointHolderMothersLastNameController = useTextEditingController();
+    final jointHolderDocTypeController = useTextEditingController();
+    final jointHolderDocNumberController = useTextEditingController();
+
+    final bankError = useState(false);
+    final accountTypeError = useState(false);
+    final accountNumberError = useState(false);
+    final cciNumberError = useState(false);
+    final accountNameError = useState(false);
+    final jointHolderNameError = useState(false);
+    final jointHolderLastNameError = useState(false);
+    final jointHolderMothersLastNameError = useState(false);
+    final jointHolderDocTypeError = useState(false);
+    final jointHolderDocNumberError = useState(false);
+
+    onTap() {
+      isJointAccount.value = !isJointAccount.value;
+      isJointAccount.value
+          ? controllerExpanded.expand()
+          : controllerExpanded.collapse();
+    }
+
     return Form(
       key: formKey,
       child: Column(
@@ -70,15 +111,15 @@ class FormAccounts extends HookConsumerWidget {
           ),
           const SizedBox(height: 15),
           ValueListenableBuilder<bool>(
-            valueListenable: bankError,
+            valueListenable: accountTypeError,
             builder: (context, isError, child) {
               return SelectableDropdownAccounts(
                 title: "  Tipo de cuenta  ",
                 options: const ["Peru"],
-                itemSelectedValue: bankController.text,
+                itemSelectedValue: accountTypeController.text,
                 isError: isError,
-                onError: () => bankError.value = false,
-                selectController: bankController,
+                onError: () => accountTypeError.value = false,
+                selectController: accountTypeController,
                 hintText: "Selecciona el tipo de cuenta",
                 validator: (value) {
                   return null;
@@ -97,12 +138,12 @@ class FormAccounts extends HookConsumerWidget {
           ),
           const SizedBox(height: 5),
           ValueListenableBuilder<bool>(
-            valueListenable: bankError,
+            valueListenable: accountNumberError,
             builder: (context, isError, child) {
               return InputTextFileAccounts(
                 isError: isError,
-                onError: () => bankError.value = false,
-                controller: bankController,
+                onError: () => accountNumberError.value = false,
+                controller: accountNumberController,
                 hintText: "Escribe el número de cuenta",
                 isNumeric: true,
                 validator: (value) {
@@ -122,12 +163,12 @@ class FormAccounts extends HookConsumerWidget {
           ),
           const SizedBox(height: 5),
           ValueListenableBuilder<bool>(
-            valueListenable: bankError,
+            valueListenable: cciNumberError,
             builder: (context, isError, child) {
               return InputTextFileAccounts(
                 isError: isError,
-                onError: () => bankError.value = false,
-                controller: bankController,
+                onError: () => cciNumberError.value = false,
+                controller: cciNumberController,
                 hintText: "Escribe el número de cuenta",
                 isNumeric: true,
                 validator: (value) {
@@ -159,12 +200,12 @@ class FormAccounts extends HookConsumerWidget {
           ),
           const SizedBox(height: 5),
           ValueListenableBuilder<bool>(
-            valueListenable: bankError,
+            valueListenable: accountNameError,
             builder: (context, isError, child) {
               return InputTextFileAccounts(
                 isError: isError,
-                onError: () => bankError.value = false,
-                controller: bankController,
+                onError: () => accountNameError.value = false,
+                controller: accountNameController,
                 hintText: "Escribe el número de cuenta",
                 validator: (value) {
                   return null;
@@ -173,123 +214,177 @@ class FormAccounts extends HookConsumerWidget {
             },
           ),
           const SizedBox(height: 10),
-          AccountExpanded(
-            children: [
-              const SizedBox(
-                height: 5,
-              ),
-              ValueListenableBuilder<bool>(
-                valueListenable: bankError,
-                builder: (context, isError, child) {
-                  return InputTextFileAccounts(
-                    isError: isError,
-                    onError: () => bankError.value = false,
-                    controller: bankController,
-                    hintText: "Nombres de la otra persona titular",
-                    validator: (value) {
-                      return null;
-                    },
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ValueListenableBuilder<bool>(
+            valueListenable: isJointAccount,
+            builder: (context, value, child) {
+              return ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                initiallyExpanded: isJointAccount.value,
+                trailing: Switch(
+                  value: isJointAccount.value,
+                  activeColor: const Color(activeColor),
+                  inactiveThumbColor: const Color(inactiveThumbColor),
+                  activeTrackColor: const Color(activeTrackColor),
+                  inactiveTrackColor: const Color(inactiveTrackColor),
+                  onChanged: (_) => {onTap()},
+                ),
+                controller: controllerExpanded,
+                shape: const Border(),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    const Expanded(
+                      child: TextPoppins(
+                        text: '¿Es una cuenta mancomunada?',
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        align: TextAlign.start,
+                      ),
+                    ),
+                    SvgPicture.asset(
+                      'assets/svg_icons/message_question_icon.svg',
+                      width: 20,
+                      height: 20,
+                      color: isDarkMode
+                          ? const Color(iconDark)
+                          : const Color(iconLight),
+                    ),
+                    const SizedBox(width: 5),
+                    TextPoppins(
+                      text: value ? 'Si' : 'No',
+                      fontSize: 11,
+                      align: TextAlign.start,
+                    ),
+                  ],
+                ),
                 children: [
+                  const SizedBox(
+                    height: 5,
+                  ),
                   ValueListenableBuilder<bool>(
-                    valueListenable: bankError,
+                    valueListenable: jointHolderNameError,
                     builder: (context, isError, child) {
-                      return Expanded(
-                        child: InputTextFileAccounts(
-                          isRow: true,
-                          isError: isError,
-                          onError: () => bankError.value = false,
-                          controller: bankController,
-                          hintText: "Apellido paterno",
-                          validator: (value) {
-                            return null;
-                          },
-                        ),
+                      return InputTextFileAccounts(
+                        isError: isError,
+                        onError: () => jointHolderNameError.value = false,
+                        controller: jointHolderNameController,
+                        hintText: "Nombres de la otra persona titular",
+                        validator: (value) {
+                          return null;
+                        },
                       );
                     },
                   ),
                   const SizedBox(
-                    width: 10,
+                    height: 10,
                   ),
-                  ValueListenableBuilder<bool>(
-                    valueListenable: bankError,
-                    builder: (context, isError, child) {
-                      return Expanded(
-                        child: InputTextFileAccounts(
-                          isRow: true,
-                          isError: isError,
-                          onError: () => bankError.value = false,
-                          controller: bankController,
-                          hintText: "Apellido materno",
-                          validator: (value) {
-                            return null;
-                          },
-                        ),
-                      );
-                    },
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderLastNameError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: InputTextFileAccounts(
+                              isRow: true,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderLastNameError.value = false,
+                              controller: jointHolderLastNameController,
+                              hintText: "Apellido paterno",
+                              validator: (value) {
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderMothersLastNameError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: InputTextFileAccounts(
+                              isRow: true,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderMothersLastNameError.value = false,
+                              controller: jointHolderMothersLastNameController,
+                              hintText: "Apellido materno",
+                              validator: (value) {
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderDocTypeError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: SelectableDropdownAccounts(
+                              isRow: true,
+                              title: "  Documento  ",
+                              options: const ["Peru"],
+                              itemSelectedValue:
+                                  jointHolderDocTypeController.text,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderDocTypeError.value = false,
+                              selectController: jointHolderDocTypeController,
+                              hintText: "Tipo",
+                              validator: (value) {
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ValueListenableBuilder<bool>(
+                        valueListenable: jointHolderDocNumberError,
+                        builder: (context, isError, child) {
+                          return Expanded(
+                            child: InputTextFileAccounts(
+                              isRow: true,
+                              isError: isError,
+                              onError: () =>
+                                  jointHolderDocNumberError.value = false,
+                              controller: jointHolderDocNumberController,
+                              hintText: "Nº de documento",
+                              validator: (value) {
+                                return null;
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ],
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: bankError,
-                  builder: (context, isError, child) {
-                    return Expanded(
-                      child: SelectableDropdownAccounts(
-                        isRow: true,
-                        title: "  Documento  ",
-                        options: const ["Peru"],
-                        itemSelectedValue: bankController.text,
-                        isError: isError,
-                        onError: () => bankError.value = false,
-                        selectController: bankController,
-                        hintText: "Tipo",
-                        validator: (value) {
-                          return null;
-                        },
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                ValueListenableBuilder<bool>(
-                  valueListenable: bankError,
-                  builder: (context, isError, child) {
-                    return Expanded(
-                      child: InputTextFileAccounts(
-                        isRow: true,
-                        isError: isError,
-                        onError: () => bankError.value = false,
-                        controller: bankController,
-                        hintText: "Nº de documento",
-                        validator: (value) {
-                          return null;
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ]),
-            ],
+                onExpansionChanged: (expanded) {
+                  isJointAccount.value = expanded;
+                },
+              );
+            },
           ),
           Row(
             children: [
               CheckBoxWidget(
-                value: acceptPrivacyAndTerms.value,
+                value: useForFutureOperations.value,
                 onChanged: (a) {
-                  acceptPrivacyAndTerms.value = !acceptPrivacyAndTerms.value;
+                  useForFutureOperations.value = !useForFutureOperations.value;
                 },
               ),
               const TextPoppins(
@@ -299,21 +394,24 @@ class FormAccounts extends HookConsumerWidget {
               ),
             ],
           ),
-          Row(
-            children: [
-              CheckBoxWidget(
-                value: acceptPrivacyAndTerms.value,
-                onChanged: (a) {
-                  acceptPrivacyAndTerms.value = !acceptPrivacyAndTerms.value;
-                },
-              ),
-              const TextPoppins(
-                text: "Declaro que es mi cuenta personal",
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-              ),
-            ],
-          ),
+          isJointAccount.value
+              ? const SizedBox()
+              : Row(
+                  children: [
+                    CheckBoxWidget(
+                      value: personalAccountDeclaration.value,
+                      onChanged: (a) {
+                        personalAccountDeclaration.value =
+                            !personalAccountDeclaration.value;
+                      },
+                    ),
+                    const TextPoppins(
+                      text: "Declaro que es mi cuenta personal",
+                      fontSize: 10,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ],
+                ),
           ButtonInvestment(text: "Guardar cuenta", onPressed: () {}),
           const SizedBox(height: 20),
         ],
