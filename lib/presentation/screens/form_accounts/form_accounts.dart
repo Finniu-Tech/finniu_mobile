@@ -93,6 +93,7 @@ class FormAccounts extends HookConsumerWidget {
 
       if (isJointAccount.value) {
         controllerExpanded.expand();
+        personalAccountDeclaration.value = false;
       } else {
         controllerExpanded.collapse();
         jointHolderNameError.value = false;
@@ -266,6 +267,16 @@ class FormAccounts extends HookConsumerWidget {
                     accountNumberError.value = true;
                     return null;
                   }
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta incorrecto",
+                      message: 'Solo puedes usar números',
+                      snackType: SnackType.warning,
+                    );
+                    accountNumberError.value = true;
+                    return null;
+                  }
                   return null;
                 },
               );
@@ -297,6 +308,16 @@ class FormAccounts extends HookConsumerWidget {
                       title: "Número de cuenta CCI obligatorio",
                       message:
                           "Por favor, completa ingresar el número de cuenta CCI.",
+                      snackType: SnackType.warning,
+                    );
+                    cciNumberError.value = true;
+                    return null;
+                  }
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    showSnackBarV2(
+                      context: context,
+                      title: "Número de cuenta CCI incorrecto",
+                      message: 'Solo puedes usar números',
                       snackType: SnackType.warning,
                     );
                     cciNumberError.value = true;
@@ -541,6 +562,7 @@ class FormAccounts extends HookConsumerWidget {
                         builder: (context, isError, child) {
                           return Expanded(
                             child: InputTextFileAccounts(
+                              isNumeric: true,
                               isRow: true,
                               isError: isError,
                               onError: () =>
@@ -555,6 +577,26 @@ class FormAccounts extends HookConsumerWidget {
                                       title: "Nº Documento obligatorio",
                                       message:
                                           "Por favor, ingresa el Nº de documento.",
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocNumberError.value = true;
+                                    return null;
+                                  }
+                                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nº Documento incorrecto",
+                                      message: 'Solo puedes usar números',
+                                      snackType: SnackType.warning,
+                                    );
+                                    jointHolderDocNumberError.value = true;
+                                    return null;
+                                  }
+                                  if (value.length != 8) {
+                                    showSnackBarV2(
+                                      context: context,
+                                      title: "Nº Documento incorrecto",
+                                      message: 'El DNI debe tener 8 caracteres',
                                       snackType: SnackType.warning,
                                     );
                                     jointHolderDocNumberError.value = true;

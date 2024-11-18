@@ -53,11 +53,11 @@ class SelectableDropdownAccounts extends HookConsumerWidget {
         return list
             .map(
               (item) => SizedBox(
-                width: isRow ? 90 : null,
+                width: isRow ? 60 : null,
                 child: Text(
                   item,
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: 14,
                     color: isDarkMode
                         ? const Color(textSelectDark)
                         : const Color(textSelectLight),
