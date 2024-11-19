@@ -1,6 +1,8 @@
 import 'package:finniu/infrastructure/datasources/forms_v2/add_account_bank.dart';
 import 'package:finniu/infrastructure/models/bank_user_account/input_models.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,13 @@ void createBankAccountV2({
     if (response.success) {
       ref.invalidate(bankAccountFutureProvider);
       ref.read(boolCreatedNewBankAccountProvider.notifier).state = true;
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataSucces,
+        parameters: {
+          "screen": FirebaseScreen.formAccountsV2,
+          "succes": "true",
+        },
+      );
 
       showSnackBarV2(
         context: context,
@@ -49,6 +58,13 @@ void createBankAccountV2({
         message: errorMessage,
         snackType: SnackType.error,
       );
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.pushDataError,
+        parameters: {
+          "screen": FirebaseScreen.formAccountsV2,
+          "succes": "false",
+        },
+      );
     }
   } catch (e) {
     showSnackBarV2(
@@ -56,6 +72,13 @@ void createBankAccountV2({
       title: "Error al guardar la cuenta",
       message: "Ocurrió un error inesperado. Intente nuevamente.",
       snackType: SnackType.error,
+    );
+    ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+      eventName: FirebaseAnalyticsEvents.pushDataError,
+      parameters: {
+        "screen": FirebaseScreen.formAccountsV2,
+        "succes": "false",
+      },
     );
   } finally {
     context.loaderOverlay.hide();
