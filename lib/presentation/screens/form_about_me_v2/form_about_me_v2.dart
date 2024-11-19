@@ -209,7 +209,7 @@ class AddImageProfile extends ConsumerWidget {
                   child: ClipOval(
                     child: userProfile.imageProfileUrl == "" ||
                             userProfile.imageProfileUrl == null
-                        ? const UserImageHelp()
+                        ? const SizedBox()
                         : Image.network(
                             userProfile.imageProfileUrl!,
                             width: 10,
@@ -223,6 +223,7 @@ class AddImageProfile extends ConsumerWidget {
                             },
                             errorBuilder: (context, error, stackTrace) =>
                                 const UserImageHelp(),
+                            fit: BoxFit.fill,
                           ),
                   ),
                 ),
