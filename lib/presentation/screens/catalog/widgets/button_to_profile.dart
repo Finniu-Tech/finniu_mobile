@@ -38,6 +38,7 @@ class ButtonToProfile extends ConsumerWidget {
             }
             return CircularLoader(width: size, height: size);
           },
+          fit: BoxFit.fill,
         ),
       ),
     );
