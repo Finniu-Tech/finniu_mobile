@@ -22,13 +22,9 @@ class ScaffoldHomeV4 extends StatelessWidget {
       },
       child: Scaffold(
         appBar: const CustomAppBarV4(),
-        body: SizedBox(
-          child: SingleChildScrollView(
-            child: Center(
-              child: SizedBox(
-                child: body,
-              ),
-            ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: body,
           ),
         ),
       ),
