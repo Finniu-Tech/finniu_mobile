@@ -1,14 +1,17 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class InvestContainer extends ConsumerWidget {
   const InvestContainer({
     super.key,
+    required this.isLoaded,
   });
-
+  final bool isLoaded;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -24,13 +27,13 @@ class InvestContainer extends ConsumerWidget {
           bottomRight: Radius.circular(25),
         ),
       ),
-      child: const Column(
+      child: Column(
         children: [
-          SwitchMoney(
+          const SwitchMoney(
             switchHeight: 30,
             switchWidth: 67,
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           SizedBox(
@@ -38,21 +41,25 @@ class InvestContainer extends ConsumerWidget {
             child: Row(
               children: [
                 Expanded(
-                  child: ActiveInvestmentContainer(),
+                  child: ActiveInvestmentContainer(
+                    isLoaded: isLoaded,
+                  ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Expanded(
                   child: Column(
                     children: [
                       Expanded(
-                        child: InvestCapital(),
+                        child: InvestCapital(
+                          isLoaded: isLoaded,
+                        ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Interest(),
                       ),
                     ],
@@ -61,10 +68,10 @@ class InvestContainer extends ConsumerWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
-          SizedBox(
+          const SizedBox(
             height: 70,
             child: Row(
               children: [
@@ -146,8 +153,9 @@ class Interest extends ConsumerWidget {
 class InvestCapital extends ConsumerWidget {
   const InvestCapital({
     super.key,
+    required this.isLoaded,
   });
-
+  final bool isLoaded;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -165,22 +173,80 @@ class InvestCapital extends ConsumerWidget {
 class ActiveInvestmentContainer extends ConsumerWidget {
   const ActiveInvestmentContainer({
     super.key,
+    required this.isLoaded,
   });
-
+  final bool isLoaded;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isDarkMode
               ? HomeV4Colors.gradientDark
               : HomeV4Colors.gradientDark,
-          stops: const [0.2, 0.7],
+          stops: const [0.0, 0.7],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,
         ),
         borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          const Row(
+            children: [
+              Expanded(
+                child: TextPoppins(
+                  text: "Inversiones activas",
+                  fontSize: 10,
+                ),
+              ),
+              Icon(
+                Icons.remove_red_eye_outlined,
+                size: 16,
+              ),
+            ],
+          ),
+          Skeletonizer(
+            enabled: isLoaded,
+            child: const TextPoppins(
+              text: "4 inversiones",
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          Divider(
+            color: isDarkMode
+                ? const Color(HomeV4Colors.dividerDark)
+                : const Color(HomeV4Colors.dividerLight),
+            height: 2,
+          ),
+          const TextPoppins(
+            text: "Rentabilidad promedio",
+            fontSize: 10,
+            fontWeight: FontWeight.w400,
+          ),
+          Skeletonizer(
+            enabled: isLoaded,
+            child: const TextPoppins(
+              text: "14%",
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const TextPoppins(
+            text: "de todas tus inversiones en curso",
+            fontSize: 10,
+            fontWeight: FontWeight.w400,
+            lines: 2,
+          ),
+        ],
       ),
     );
   }

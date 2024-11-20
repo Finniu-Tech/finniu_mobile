@@ -23,7 +23,9 @@ class HomeBodyV4 extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Column(
       children: [
-        InvestContainer(),
+        InvestContainer(
+          isLoaded: false,
+        ),
         Center(
           child: Text('Home Screen V4'),
         ),

@@ -23,4 +23,6 @@ class HomeV4Colors {
   static const int interestButtonLight = 0xff0D3A5C;
   static const int paymentsButtonDark = 0xffC9C0FF;
   static const int paymentsButtonLight = 0xffC9C0FF;
+  static const int dividerDark = 0xff9F8FFF;
+  static const int dividerLight = 0xff9F8FFF;
 }
