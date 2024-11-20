@@ -35,9 +35,7 @@ class UserProfileV2 extends ConsumerWidget {
           title: "Mi perfil",
           onLeadingPressed: () => Navigator.pushNamed(context, '/home_v2'),
         ),
-        backgroundColor: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         body: const SingleChildScrollView(
           child: _BodyProfile(),
         ),
@@ -115,8 +113,7 @@ class _BodyProfile extends ConsumerWidget {
           isComplete: true,
           icon: "assets/svg_icons/settings.svg",
           title: "Configuraciones",
-          subtitle:
-              "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
+          subtitle: "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
           onTap: () => {
             ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
               eventName: FirebaseAnalyticsEvents.navigateTo,

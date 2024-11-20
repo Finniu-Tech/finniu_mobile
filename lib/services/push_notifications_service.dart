@@ -8,6 +8,7 @@ import 'package:finniu/presentation/providers/notification_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/services/device_info_service.dart';
 import 'package:finniu/services/share_preferences_service.dart';
+import 'package:finniu/utils/debug_logger.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -16,7 +17,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final pushNotificationRouteProvider = StateProvider<String?>((ref) => null);
-// final navigatorKeyProvider = Provider((ref) => GlobalKey<NavigatorState>());
 
 final pushNotificationServiceProvider = Provider((ref) {
   final navigatorKey = ref.watch(globalNavigatorKeyProvider);
@@ -26,8 +26,8 @@ final pushNotificationServiceProvider = Provider((ref) {
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print("Handling a background message: ${message.messageId}");
-  // No manejes la navegación aquí, solo guarda la información si es necesario
+  await DebugLogger.log('Received background message: ${message.messageId}');
+  await DebugLogger.log('Message data: ${message.data}');
 }
 
 class PushNotificationService {
@@ -56,9 +56,6 @@ class PushNotificationService {
     if (initialMessage != null) {
       _handleInitialMessage(initialMessage);
     }
-
-    // NO solicitar permisos aquí
-    // NO suscribir a tópicos aquí
   }
 
   Future<String?> initializeAfterLogin() async {
@@ -84,8 +81,6 @@ class PushNotificationService {
     }
     return null;
   }
-
-// Crear una excepción personalizada
 
   Future<void> _initializeLocalNotifications() async {
     // Crear el canal de Android con configuración completa
@@ -179,21 +174,27 @@ class PushNotificationService {
     _showNotification(message);
   }
 
-  void _handleMessageOpenedApp(RemoteMessage message) {
+  void _handleMessageOpenedApp(RemoteMessage message) async {
+    await DebugLogger.log('App opened from notification: ${message.toMap()}');
+
     print("onMessageOpenedApp: $message");
     print('data from message: ${message.data}');
 
     // Envolver en try-catch para manejar posibles errores de estado
     try {
       if (checkAuthentication()) {
+        await DebugLogger.log('User is authenticated');
         _logNotificationOpenAsync(message);
         _handleNotificationNavigation(message.data);
       } else {
+        await DebugLogger.log('User not authenticated, saving message for later');
         print('User not authenticated, saving message for later: ${message.data}');
         _pendingLogMessage = message;
         _handleNotificationNavigation(message.data);
       }
     } catch (e) {
+      await DebugLogger.log('Error in handleMessageOpenedApp: $e');
+
       print('Error in handleMessageOpenedApp: $e');
       // En caso de error, asumimos que el usuario no está autenticado
       _pendingLogMessage = message;
@@ -258,66 +259,66 @@ class PushNotificationService {
     }
   }
 
-  void _handleNotificationNavigation(Map<String, dynamic> data) {
+  void _handleNotificationNavigation(Map<String, dynamic> data) async {
+    await DebugLogger.log('Starting navigation with data: $data');
     print("Handling notification navigation: $data");
-    bool isAuthenticated = false;
 
-    try {
-      isAuthenticated = checkAuthentication();
-    } catch (e) {
-      print('Error checking authentication in navigation: $e');
-    }
-
-    print('Is authenticated: $isAuthenticated');
     String route = data['deep_link'] ?? '/';
 
+    // Guardar la ruta en preferences
+    Preferences.pendingNotificationRoute = route;
+    await DebugLogger.log('Route saved: $route');
+
+    bool isAuthenticated = false;
+    try {
+      isAuthenticated = checkAuthentication();
+      await DebugLogger.log('Authentication status: $isAuthenticated');
+    } catch (e) {
+      await DebugLogger.log('Error checking authentication: $e');
+    }
+
     if (!isAuthenticated) {
-      print('Not authenticated, saving route and navigating to login');
-      try {
-        _ref.read(pushNotificationRouteProvider.notifier).state = route;
-      } catch (e) {
-        print('Error saving route: $e');
-      }
+      print('Not authenticated, navigating to login');
       _scheduleNavigation('/v2/login_email');
     } else {
-      print('Authenticated');
+      print('Authenticated, navigating to route');
       if (_pendingLogMessage != null) {
         _logNotificationOpenAsync(_pendingLogMessage!);
         _pendingLogMessage = null;
       }
       _scheduleNavigation(route);
+      Preferences.pendingNotificationRoute = null; // Limpiar la ruta después de usarla
     }
   }
 
   Future<bool> checkSavedNotificationRoute() async {
-    String? savedRoute;
-    bool isAuthenticated = false;
+    await DebugLogger.log('Checking saved notification route');
 
     try {
-      savedRoute = _ref.read(pushNotificationRouteProvider);
-      isAuthenticated = checkAuthentication();
-    } catch (e) {
-      print('Error checking saved route: $e');
-      return false;
-    }
+      final savedRoute = Preferences.pendingNotificationRoute;
+      final isAuthenticated = checkAuthentication();
 
-    print('Checking saved notification route: $savedRoute');
+      await DebugLogger.log('Saved route: $savedRoute, authenticated: $isAuthenticated');
 
-    if (savedRoute != null && isAuthenticated) {
-      try {
+      if (savedRoute != null && isAuthenticated) {
         if (_pendingLogMessage != null) {
           await _logNotificationOpen(_pendingLogMessage!);
           _pendingLogMessage = null;
         }
 
-        _performNavigation(savedRoute);
-        _ref.read(pushNotificationRouteProvider.notifier).state = null;
+        // Programar la navegación para el siguiente frame
+        Future.microtask(() {
+          performNavigation(savedRoute);
+          Preferences.pendingNotificationRoute = null;
+        });
+
         return true;
-      } catch (e) {
-        print('Error processing saved route: $e');
-        return false;
       }
+    } catch (e) {
+      await DebugLogger.log('Error checking saved route: $e');
+      print('Error checking saved route: $e');
     }
+
     return false;
   }
 
@@ -370,12 +371,12 @@ class PushNotificationService {
         _pendingNavigation.add(route);
       } else {
         print('Navigator is ready, performing navigation');
-        _performNavigation(route);
+        performNavigation(route);
       }
     });
   }
 
-  void _performNavigation(String route) {
+  void performNavigation(String route) {
     print('performNavigation START: $route');
     if (navigatorKey.currentState == null) {
       print('Navigator still null in perform navigation, adding to pending');
@@ -401,7 +402,7 @@ class PushNotificationService {
   void processPendingNavigations() {
     while (_pendingNavigation.isNotEmpty) {
       final route = _pendingNavigation.removeAt(0);
-      _performNavigation(route);
+      performNavigation(route);
     }
   }
 
@@ -461,6 +462,7 @@ class PushNotificationService {
     final dataSource = _notificationDataSource;
     final String userID = message.data['user_id'] ?? '';
     final deviceInfo = await DeviceInfoService().getDeviceInfo(userID);
+    print('device info zerooo: ${deviceInfo.toJson()}');
     final token = await getToken();
     final extraData = message.data['extra_data'] != null ? json.decode(message.data['extra_data']) : null;
 

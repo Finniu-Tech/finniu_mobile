@@ -71,6 +71,10 @@ class _BodySettings extends ConsumerWidget {
       }
     }
 
+    void setNotificationPush() {
+      print('set notification push');
+    }
+
     void navigatePrivacy() {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.navigateTo,
@@ -110,6 +114,13 @@ class _BodySettings extends ConsumerWidget {
           title: "Chat de ayuda",
           subtitle: "Visualización de chat con Julia en la app",
           onTap: () => setBubble(),
+          value: bubbleState.isRender,
+        ),
+        ButtonSwitchProfile(
+          icon: "assets/svg_icons/julia_icon.svg",
+          title: "Notificaciones",
+          subtitle: "Notificaciones push en la app",
+          onTap: () => setNotificationPush(),
           value: bubbleState.isRender,
         ),
       ],

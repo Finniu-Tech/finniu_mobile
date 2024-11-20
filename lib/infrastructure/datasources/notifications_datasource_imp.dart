@@ -55,8 +55,10 @@ class NotificationsDataSource {
         body: jsonEncode(queryParams),
       );
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body)['logs'];
-        return data.map((json) => NotificationModel.fromJson(json)).toList();
+        final dynamic data = json.decode(response.body)['data'];
+        final List<dynamic> logs = data?['logs'] ?? [];
+
+        return logs.map((json) => NotificationModel.fromJson(json)).toList();
       } else {
         throw Exception(
           'Failed to get notifications. Status: ${response.statusCode}',
@@ -81,8 +83,6 @@ class NotificationsDataSource {
     Map<String, dynamic>? extraData,
   }) async {
     final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
-    print('save log: ${deviceInfo.deviceId}');
-    print('campaignId: $campaignId');
     try {
       final payload = {
         'title': title,
