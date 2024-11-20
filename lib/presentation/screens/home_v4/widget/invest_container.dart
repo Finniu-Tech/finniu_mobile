@@ -3,6 +3,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
@@ -108,6 +109,35 @@ class PaymentsButton extends ConsumerWidget {
             : const Color(HomeV4Colors.paymentsButtonLight),
         borderRadius: BorderRadius.circular(10),
       ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                "assets/svg_icons/calendar_home_icon.svg",
+                width: 25,
+                height: 25,
+                color: isDarkMode
+                    ? const Color(HomeV4Colors.paymentsTextDark)
+                    : const Color(HomeV4Colors.paymentsTextLight),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              const TextPoppins(
+                text: "Mis pagos",
+                fontSize: 12,
+                textDark: HomeV4Colors.paymentsTextDark,
+                textLight: HomeV4Colors.paymentsTextLight,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
@@ -119,13 +149,50 @@ class InterestButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    void onTap() {
+      print(" on tap quiero invertir");
+    }
+
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(HomeV4Colors.interestButtonDark)
-            : const Color(HomeV4Colors.interestButtonLight),
-        borderRadius: BorderRadius.circular(10),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: isDarkMode
+              ? const Color(HomeV4Colors.interestButtonDark)
+              : const Color(HomeV4Colors.interestButtonLight),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  "assets/svg_icons/money_home_icon.svg",
+                  width: 25,
+                  height: 25,
+                  color: isDarkMode
+                      ? const Color(HomeV4Colors.interestTextDark)
+                      : const Color(HomeV4Colors.interestTextLight),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const TextPoppins(
+                  text: "Quiero invertir",
+                  fontSize: 12,
+                  textDark: HomeV4Colors.interestTextDark,
+                  textLight: HomeV4Colors.interestTextLight,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -155,29 +222,52 @@ class Interest extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextPoppins(
-                text: "Intereses generados",
-                fontSize: 10,
+              SvgPicture.asset(
+                "assets/svg_icons/chart_home_icon.svg",
+                width: 20,
+                height: 20,
+                color: isDarkMode
+                    ? const Color(HomeV4Colors.interestGeneratedDark)
+                    : const Color(HomeV4Colors.interestGeneratedLight),
               ),
-              SizedBox(
-                width: 10,
-              ),
-              Icon(
-                Icons.remove_red_eye_outlined,
-                size: 16,
+              const TextPoppins(
+                text: "Interes generados",
+                fontSize: 8,
               ),
             ],
           ),
           Skeletonizer(
             enabled: isLoaded,
-            child: const TextPoppins(
-              text: "+S/320.60",
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const TextPoppins(
+                  text: "+S/320.60",
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: isDarkMode
+                        ? const Color(HomeV4Colors.interestGeneratedContDark)
+                        : const Color(HomeV4Colors.interestGeneratedContLight),
+                  ),
+                  child: const TextPoppins(
+                    text: "+1.40",
+                    fontSize: 10,
+                    fontWeight: FontWeight.w500,
+                    textDark: HomeV4Colors.interestGeneratedDark,
+                    textLight: HomeV4Colors.interestGeneratedLight,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
@@ -210,20 +300,21 @@ class InvestCapital extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              TextPoppins(
+              SvgPicture.asset(
+                "assets/svg_icons/money_home_icon.svg",
+                width: 20,
+                height: 20,
+                color: isDarkMode
+                    ? const Color(HomeV4Colors.capitalTextDark)
+                    : const Color(HomeV4Colors.capitalTextLight),
+              ),
+              const TextPoppins(
                 text: "Capital invertido",
                 fontSize: 10,
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Icon(
-                Icons.remove_red_eye_outlined,
-                size: 16,
               ),
             ],
           ),
