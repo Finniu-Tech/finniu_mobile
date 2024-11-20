@@ -1,5 +1,6 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/app_bar_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -21,6 +22,8 @@ class ScaffoldHomeV4 extends StatelessWidget {
         );
       },
       child: Scaffold(
+        extendBody: true,
+        bottomNavigationBar: const NavBarV4(),
         appBar: const CustomAppBarV4(),
         body: SingleChildScrollView(
           child: Center(

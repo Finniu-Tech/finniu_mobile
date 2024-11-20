@@ -51,4 +51,6 @@ class HomeV4Colors {
   static const int rextieButtonTextLight = 0xff000095;
   static const int newsTitleDark = 0xffFFFFFF;
   static const int newsTitleLight = 0xffFFFFFF;
+  static const int navBarDark = 0xffC0F1FF;
+  static const int navBarLight = 0xffC0F1FF;
 }

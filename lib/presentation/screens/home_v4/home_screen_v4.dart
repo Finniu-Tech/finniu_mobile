@@ -33,6 +33,7 @@ class HomeBodyV4 extends StatelessWidget {
         ChangeContainer(),
         DividerHome(),
         NewsContainer(),
+        SizedBox(height: 80),
       ],
     );
   }
