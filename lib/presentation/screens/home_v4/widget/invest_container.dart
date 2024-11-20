@@ -59,8 +59,8 @@ class InvestContainer extends ConsumerWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Expanded(
-                        child: Interest(),
+                      Expanded(
+                        child: Interest(isLoaded: isLoaded),
                       ),
                     ],
                   ),
@@ -134,17 +134,53 @@ class InterestButton extends ConsumerWidget {
 class Interest extends ConsumerWidget {
   const Interest({
     super.key,
+    required this.isLoaded,
   });
-
+  final bool isLoaded;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: isDarkMode
             ? const Color(HomeV4Colors.interestContainerDark)
             : const Color(HomeV4Colors.interestContainerLight),
         borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextPoppins(
+                text: "Intereses generados",
+                fontSize: 10,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Icon(
+                Icons.remove_red_eye_outlined,
+                size: 16,
+              ),
+            ],
+          ),
+          Skeletonizer(
+            enabled: isLoaded,
+            child: const TextPoppins(
+              text: "+S/320.60",
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -160,11 +196,46 @@ class InvestCapital extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: isDarkMode
             ? const Color(HomeV4Colors.capitalContainerDark)
             : const Color(HomeV4Colors.capitalContainerLight),
         borderRadius: BorderRadius.circular(10),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          const Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextPoppins(
+                text: "Capital invertido",
+                fontSize: 10,
+              ),
+              SizedBox(
+                width: 10,
+              ),
+              Icon(
+                Icons.remove_red_eye_outlined,
+                size: 16,
+              ),
+            ],
+          ),
+          Skeletonizer(
+            enabled: isLoaded,
+            child: const TextPoppins(
+              text: "S/10.500",
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ],
       ),
     );
   }
