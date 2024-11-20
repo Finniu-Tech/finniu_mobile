@@ -35,4 +35,8 @@ class HomeV4Colors {
   static const int paymentsTextLight = 0xff000000;
   static const int dividerDark = 0xff9F8FFF;
   static const int dividerLight = 0xff9F8FFF;
+  static const int changeTitleDark = 0xff0D3A5C;
+  static const int changeTitleLight = 0xff0D3A5C;
+  static const int changeBorderDark = 0xffDADADA;
+  static const int changeBorderLight = 0xffDADADA;
 }
