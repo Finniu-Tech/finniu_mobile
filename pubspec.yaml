@@ -131,6 +131,7 @@ flutter:
     - assets/investment/
     - assets/result/
     - assets/home/
+    - assets/home_v4/
     - assets/svg/
     - assets/privacy/
     - assets/transfers/

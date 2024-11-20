@@ -20,6 +20,7 @@ class ChangeContainer extends StatelessWidget {
             height: 10,
           ),
           ChangeSunat(),
+          ChangeRextie(),
         ],
       ),
     );
@@ -35,6 +36,10 @@ class ChangeSunat extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 5,
+        horizontal: 15,
+      ),
       height: 60,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
@@ -47,6 +52,168 @@ class ChangeSunat extends ConsumerWidget {
               ? const Color(HomeV4Colors.changeBorderDark)
               : const Color(HomeV4Colors.changeBorderLight),
         ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/home_v4/sunat_logo_${isDarkMode ? "dark" : "light"}.png",
+            width: 64,
+            height: 35,
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextPoppins(
+                text: "Compra",
+                fontSize: 7,
+                fontWeight: FontWeight.w500,
+              ),
+              TextPoppins(
+                text: "3.7890",
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextPoppins(
+                text: "Venta",
+                fontSize: 7,
+                fontWeight: FontWeight.w500,
+              ),
+              TextPoppins(
+                text: "3.8520",
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ChangeRextie extends ConsumerWidget {
+  const ChangeRextie({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    return Container(
+      height: 60,
+      padding: const EdgeInsets.symmetric(
+        vertical: 5,
+        horizontal: 15,
+      ),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+        color: isDarkMode
+            ? const Color(HomeV4Colors.rextieContainerDark)
+            : const Color(HomeV4Colors.rextieContainerLight),
+        border: Border.all(
+          width: 1.0,
+          color: isDarkMode
+              ? const Color(HomeV4Colors.changeBorderDark)
+              : const Color(HomeV4Colors.changeBorderLight),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/home_v4/rextie_logo_${isDarkMode ? "dark" : "light"}.png",
+            width: 64,
+            height: 35,
+          ),
+          const SizedBox(
+            width: 30,
+          ),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextPoppins(
+                text: "Compra",
+                fontSize: 7,
+                fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.rextieTextDark,
+                textLight: HomeV4Colors.rextieTextLight,
+              ),
+              TextPoppins(
+                text: "3.7890",
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.rextieBuyDark,
+                textLight: HomeV4Colors.rextieBuyLight,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextPoppins(
+                text: "Venta",
+                fontSize: 7,
+                fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.rextieTextDark,
+                textLight: HomeV4Colors.rextieTextLight,
+              ),
+              TextPoppins(
+                text: "3.8520",
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.rextieTextDark,
+                textLight: HomeV4Colors.rextieTextLight,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Container(
+              height: 30,
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? const Color(HomeV4Colors.rextieButtonDark)
+                    : const Color(HomeV4Colors.rextieButtonDark),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Center(
+                child: TextPoppins(
+                  text: "Cambia ya!",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  textDark: HomeV4Colors.rextieButtonTextDark,
+                  textLight: HomeV4Colors.rextieButtonTextLight,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

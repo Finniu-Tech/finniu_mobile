@@ -39,4 +39,16 @@ class HomeV4Colors {
   static const int changeTitleLight = 0xff0D3A5C;
   static const int changeBorderDark = 0xffDADADA;
   static const int changeBorderLight = 0xffDADADA;
+  static const int rextieContainerDark = 0xff013BF5;
+  static const int rextieContainerLight = 0xff013BF5;
+  static const int rextieTextDark = 0xffFFFFFF;
+  static const int rextieTextLight = 0xffFFFFFF;
+  static const int rextieBuyDark = 0xffA2E6FA;
+  static const int rextieBuyLight = 0xffA2E6FA;
+  static const int rextieButtonDark = 0xff00C9FF;
+  static const int rextieButtonLight = 0xff00C9FF;
+  static const int rextieButtonTextDark = 0xff000095;
+  static const int rextieButtonTextLight = 0xff000095;
+  static const int newsTitleDark = 0xffFFFFFF;
+  static const int newsTitleLight = 0xffFFFFFF;
 }
