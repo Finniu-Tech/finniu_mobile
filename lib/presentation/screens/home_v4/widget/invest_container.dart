@@ -192,7 +192,7 @@ class InterestButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onTap() {
-      print(" on tap quiero invertir");
+      Navigator.pushNamed(context, '/v4/products');
     }
 
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;

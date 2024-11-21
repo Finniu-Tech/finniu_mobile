@@ -29,6 +29,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/form_personal_
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/home_screen_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/products_v4/products_v4_screen.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_v2_screen.dart';
@@ -315,5 +316,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
 
     '/v2/exit': (BuildContext context) => const ExitScreen(),
     '/v4/home': (BuildContext context) => const HomeScreenV4(),
+    '/v4/products': (BuildContext context) => const ProductsV4Screen(),
   };
 }
