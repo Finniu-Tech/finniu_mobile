@@ -249,6 +249,7 @@ class Interest extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final eyeOpen = ref.watch(eyeHomeProvider);
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -288,8 +289,8 @@ class Interest extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const TextPoppins(
-                  text: "+S/320.60",
+                TextPoppins(
+                  text: "S/${eyeOpen ? "10.500" : "****"}",
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                 ),
@@ -364,7 +365,7 @@ class InvestCapital extends ConsumerWidget {
           Skeletonizer(
             enabled: isLoaded,
             child: TextPoppins(
-              text: "S/ ${eyeOpen ? "10.500" : "****"}",
+              text: "S/${eyeOpen ? "10.500" : "****"}",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

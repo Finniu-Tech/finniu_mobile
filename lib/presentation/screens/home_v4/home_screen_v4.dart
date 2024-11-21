@@ -1,5 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/complete_profile.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/change_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/news_container.dart';
@@ -25,16 +28,60 @@ class HomeBodyV4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return const Stack(
       children: [
-        InvestContainer(
-          isLoaded: false,
+        Column(
+          children: [
+            InvestContainer(
+              isLoaded: false,
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            SliderInvest(),
+            SizedBox(
+              height: 20,
+            ),
+            ProfileCompletenessSection(),
+            ChangeContainer(),
+            DividerHome(),
+            NewsContainer(),
+            SizedBox(height: 80),
+          ],
         ),
-        ChangeContainer(),
-        DividerHome(),
-        NewsContainer(),
-        SizedBox(height: 80),
+        SeeLaterWidget(),
       ],
+    );
+  }
+}
+
+class SliderInvest extends ConsumerWidget {
+  const SliderInvest({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final List<Widget> items = [
+      SliderInCourse(
+        amount: 500,
+        fundName: "Inversion empresarial",
+        onPressed: () {},
+      ),
+      const ToValidateSlider(
+        amount: 500,
+        fundName: "Inversion empresarial",
+      ),
+    ];
+
+    return CarouselSlider(
+      items: items,
+      options: CarouselOptions(
+        height: 94,
+        viewportFraction: 0.9,
+        enlargeCenterPage: false,
+        enableInfiniteScroll: false,
+      ),
     );
   }
 }
