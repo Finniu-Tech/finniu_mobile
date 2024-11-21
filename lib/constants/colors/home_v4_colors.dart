@@ -53,4 +53,6 @@ class HomeV4Colors {
   static const int newsTitleLight = 0xffFFFFFF;
   static const int navBarDark = 0xffC0F1FF;
   static const int navBarLight = 0xffC0F1FF;
+  static const int iconEyeDark = 0xff000000;
+  static const int iconEyeLight = 0xff000000;
 }

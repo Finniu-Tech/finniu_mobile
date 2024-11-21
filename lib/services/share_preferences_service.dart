@@ -9,6 +9,8 @@ class Preferences {
   static String? _token;
   static String? _username;
   static bool _showedPushNotificationReminder = false;
+  static bool _eyeHome = false;
+
   // static String _authToken = '';
 
   static Future init() async {
@@ -20,7 +22,8 @@ class Preferences {
   }
 
   static bool get showedPushNotificationReminder {
-    return _prefs.getBool('showedPushNotificationReminder') ?? _showedPushNotificationReminder;
+    return _prefs.getBool('showedPushNotificationReminder') ??
+        _showedPushNotificationReminder;
   }
 
   static set isDarkMode(bool value) {
@@ -69,6 +72,14 @@ class Preferences {
     _prefs.setBool('showedPushNotificationReminder', value);
   }
 
+  static bool get eyeHome {
+    return _prefs.getBool('eyeHome') ?? _eyeHome;
+  }
+
+  static set eyeHome(bool value) {
+    _eyeHome = value;
+    _prefs.setBool('eyeHome', value);
+  }
   // static String get authToken {
   //   return _prefs.getString('authToken') ?? _authToken;
   // }

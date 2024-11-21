@@ -1,4 +1,5 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
+import 'package:finniu/presentation/providers/eye_home_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/switch.dart';
@@ -17,8 +18,11 @@ class InvestContainer extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
-      padding: const EdgeInsets.all(20),
-      height: 380,
+      padding: const EdgeInsets.only(
+        left: 20,
+        right: 20,
+      ),
+      height: 360,
       decoration: BoxDecoration(
         color: isDarkMode
             ? const Color(HomeV4Colors.investContainerDark)
@@ -30,10 +34,7 @@ class InvestContainer extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          const SwitchMoney(
-            switchHeight: 30,
-            switchWidth: 67,
-          ),
+          const RowSwitchAndEye(),
           const SizedBox(
             height: 15,
           ),
@@ -87,6 +88,47 @@ class InvestContainer extends ConsumerWidget {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class RowSwitchAndEye extends ConsumerWidget {
+  const RowSwitchAndEye({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final eyeOpen = ref.watch(eyeHomeProvider);
+    final eyeNotifier = ref.read(eyeHomeProvider.notifier);
+
+    return SizedBox(
+      height: 35,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SwitchMoney(
+            switchHeight: 30,
+            switchWidth: 67,
+          ),
+          IconButton(
+            icon: Icon(
+              !eyeOpen
+                  ? Icons.visibility_off_outlined
+                  : Icons.visibility_outlined,
+              color: isDarkMode
+                  ? const Color(HomeV4Colors.iconEyeDark)
+                  : const Color(HomeV4Colors.iconEyeLight),
+              size: 20,
+            ),
+            onPressed: () {
+              eyeNotifier.toggleEyeHome();
+            },
           ),
         ],
       ),
@@ -282,9 +324,12 @@ class InvestCapital extends ConsumerWidget {
     required this.isLoaded,
   });
   final bool isLoaded;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final eyeOpen = ref.watch(eyeHomeProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -297,9 +342,7 @@ class InvestCapital extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const SizedBox(
-            height: 10,
-          ),
+          const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -320,8 +363,8 @@ class InvestCapital extends ConsumerWidget {
           ),
           Skeletonizer(
             enabled: isLoaded,
-            child: const TextPoppins(
-              text: "S/10.500",
+            child: TextPoppins(
+              text: "S/ ${eyeOpen ? "10.500" : "****"}",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -368,10 +411,6 @@ class ActiveInvestmentContainer extends ConsumerWidget {
                   text: "Inversiones activas",
                   fontSize: 10,
                 ),
-              ),
-              Icon(
-                Icons.remove_red_eye_outlined,
-                size: 16,
               ),
             ],
           ),
