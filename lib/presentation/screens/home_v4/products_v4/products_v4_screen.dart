@@ -9,9 +9,12 @@ class ProductsV4Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: const Text('Productos'),
       ),
-      body: const SingleChildScrollView(child: ProductsBody()),
+      body: const SingleChildScrollView(
+        child: ProductsBody(),
+      ),
     );
   }
 }
@@ -23,10 +26,15 @@ class ProductsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [
-        OurProducts(),
-      ],
+    return Center(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: const Column(
+          children: [
+            OurProducts(),
+          ],
+        ),
+      ),
     );
   }
 }
