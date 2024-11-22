@@ -18,6 +18,7 @@ class ProductContainerStyles {
   final int minimumLight;
   final int profitabilityDark;
   final int profitabilityLight;
+  final bool isSoles;
 
   // Constructor
   ProductContainerStyles({
@@ -33,6 +34,7 @@ class ProductContainerStyles {
     required this.minimumLight,
     required this.profitabilityDark,
     required this.profitabilityLight,
+    required this.isSoles,
   });
 
   get getBackgroundContainerDark => backgroundContainerDark;
@@ -47,4 +49,51 @@ class ProductContainerStyles {
   get getProfitabilityLight => profitabilityLight;
   get getMinimumText => minimumText;
   get getProfitabilityText => profitabilityText;
+  get getIsSoles => isSoles;
 }
+
+final product = ProductContainerStyles(
+  backgroundContainerDark: 0xffE9FAFF,
+  backgroundContainerLight: 0xffE9FAFF,
+  imageProduct: "🏢",
+  titleText: "Producto de inversión a Plazo Fijo",
+  minimumText: "1.000",
+  profitabilityText: "19",
+  titleDark: 0xff0D3A5C,
+  titleLight: 0xff0D3A5C,
+  minimumDark: 0xffBBF0FF,
+  minimumLight: 0xffBBF0FF,
+  profitabilityDark: 0xffD2FDBA,
+  profitabilityLight: 0xffD2FDBA,
+  isSoles: true,
+);
+final product2 = ProductContainerStyles(
+  backgroundContainerDark: 0xffE9E5FF,
+  backgroundContainerLight: 0xffE9E5FF,
+  imageProduct: "🏡",
+  titleText: "Producto de inversión con Garantía Inmobiliaria",
+  minimumText: "50.000",
+  profitabilityText: "16",
+  titleDark: 0xff0D3A5C,
+  titleLight: 0xff0D3A5C,
+  minimumDark: 0xffBBF0FF,
+  minimumLight: 0xffBBF0FF,
+  profitabilityDark: 0xffD2FDBA,
+  profitabilityLight: 0xffD2FDBA,
+  isSoles: true,
+);
+final product3 = ProductContainerStyles(
+  backgroundContainerDark: 0xffE9FAFF,
+  backgroundContainerLight: 0xffE9FAFF,
+  imageProduct: "🏢",
+  titleText: "Producto de inversión a Plazo Fijo",
+  minimumText: "1.000",
+  profitabilityText: "17",
+  titleDark: 0xff0D3A5C,
+  titleLight: 0xff0D3A5C,
+  minimumDark: 0xffBBF0FF,
+  minimumLight: 0xffBBF0FF,
+  profitabilityDark: 0xffD2FDBA,
+  profitabilityLight: 0xffD2FDBA,
+  isSoles: false,
+);

@@ -1,9 +1,12 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class ProductsV4Screen extends StatelessWidget {
@@ -44,59 +47,65 @@ class ProductsBody extends StatelessWidget {
   }
 }
 
-class ListProducts extends ConsumerWidget {
+class ListProducts extends HookConsumerWidget {
   const ListProducts({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final product = ProductContainerStyles(
-      backgroundContainerDark: 0xffE9FAFF,
-      backgroundContainerLight: 0xffE9FAFF,
-      imageProduct: "🏢",
-      titleText: "Producto de inversión a Plazo Fijo",
-      minimumText: "1.000",
-      profitabilityText: "19",
-      titleDark: 0xff0D3A5C,
-      titleLight: 0xff0D3A5C,
-      minimumDark: 0xffBBF0FF,
-      minimumLight: 0xffBBF0FF,
-      profitabilityDark: 0xffD2FDBA,
-      profitabilityLight: 0xffD2FDBA,
+    final isSoles = ref.watch(isSolesStateProvider);
+
+    final PageController pageController =
+        PageController(initialPage: isSoles ? 0 : 1);
+
+    useEffect(
+      () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          pageController.animateToPage(
+            duration: const Duration(milliseconds: 500),
+            isSoles ? 0 : 1,
+            curve: Curves.easeInOut,
+          );
+        });
+        return null;
+      },
+      [isSoles],
     );
-    final product2 = ProductContainerStyles(
-      backgroundContainerDark: 0xffE9E5FF,
-      backgroundContainerLight: 0xffE9E5FF,
-      imageProduct: "🏡",
-      titleText: "Producto de inversión con Garantía Inmobiliaria",
-      minimumText: "50.000",
-      profitabilityText: "16",
-      titleDark: 0xff0D3A5C,
-      titleLight: 0xff0D3A5C,
-      minimumDark: 0xffBBF0FF,
-      minimumLight: 0xffBBF0FF,
-      profitabilityDark: 0xffD2FDBA,
-      profitabilityLight: 0xffD2FDBA,
-    );
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20),
-      child: Column(
-        children: [
-          ProductContainer(
-            colors: product,
-            onPressed: () {
-              print(" ver mas info");
-            },
-          ),
-          const SizedBox(height: 20),
-          ProductContainer(
-            colors: product2,
-            onPressed: () {
-              print(" ver mas info");
-            },
-          ),
-        ],
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: ExpandablePageView(
+          physics: const NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: [
+            Column(
+              children: [
+                ProductContainer(
+                  colors: product,
+                  onPressed: () {},
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ProductContainer(
+                  colors: product2,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                ProductContainer(
+                  colors: product3,
+                  onPressed: () {},
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
