@@ -32,7 +32,13 @@ class Investment {
       rentability: json['rentabilityAmmount'] == null
           ? null
           : _parseAmount(json['rentabilityAmmount']),
-      boucherImage: json['boucherList']?[0]?['boucherImage'],
+      boucherImage: json['boucherList'] == null
+          ? null
+          : (json['boucherList'] as List).firstWhere(
+              (item) =>
+                  item['boucherImage'] != null && item['boucherImage'] != "",
+              orElse: () => null,
+            )?['boucherImage'],
     );
   }
 
