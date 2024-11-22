@@ -63,43 +63,48 @@ class HomeScreenV2 extends HookConsumerWidget {
       [],
     );
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        currentTheme: currentTheme,
-        userProfile: userProfile,
-      ),
-      backgroundColor: Color(
-        currentTheme.isDarkMode
-            ? scaffoldBlackBackground
-            : scaffoldLightGradientPrimary,
-      ),
-      bottomNavigationBar: const NavigationBarHome(),
-      extendBody: true,
-      body: HookBuilder(
-        builder: (context) {
-          final userProfile = ref.watch(userProfileFutureProvider);
-          // final seeLater = ref.watch(seeLaterProvider);
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        appBar: CustomAppBar(
+          currentTheme: currentTheme,
+          userProfile: userProfile,
+        ),
+        backgroundColor: Color(
+          currentTheme.isDarkMode
+              ? scaffoldBlackBackground
+              : scaffoldLightGradientPrimary,
+        ),
+        bottomNavigationBar: const NavigationBarHome(),
+        extendBody: true,
+        body: HookBuilder(
+          builder: (context) {
+            final userProfile = ref.watch(userProfileFutureProvider);
+            // final seeLater = ref.watch(seeLaterProvider);
 
-          return userProfile.when(
-            data: (profile) {
-              _setUserAnalytics(ref, profile);
-              if (profile.hasCompletedTour == false) {
-                _handleTourAndNotifications(context, ref, profile);
-              }
-              return Stack(
-                children: [
-                  HomeBody(
-                    currentTheme: currentTheme,
-                    userProfile: profile,
-                  ),
-                  const SeeLaterWidget(),
-                ],
-              );
-            },
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, _) => Center(child: Text(error.toString())),
-          );
-        },
+            return userProfile.when(
+              data: (profile) {
+                _setUserAnalytics(ref, profile);
+                if (profile.hasCompletedTour == false) {
+                  _handleTourAndNotifications(context, ref, profile);
+                }
+                return Stack(
+                  children: [
+                    HomeBody(
+                      currentTheme: currentTheme,
+                      userProfile: profile,
+                    ),
+                    const SeeLaterWidget(),
+                  ],
+                );
+              },
+              loading: () => const Center(child: CircularProgressIndicator()),
+              error: (error, _) => Center(child: Text(error.toString())),
+            );
+          },
+        ),
       ),
     );
   }
