@@ -19,6 +19,7 @@ class ProductContainerStyles {
   final int profitabilityDark;
   final int profitabilityLight;
   final bool isSoles;
+  final String uuid;
 
   // Constructor
   ProductContainerStyles({
@@ -35,6 +36,7 @@ class ProductContainerStyles {
     required this.profitabilityDark,
     required this.profitabilityLight,
     required this.isSoles,
+    required this.uuid,
   });
 
   get getBackgroundContainerDark => backgroundContainerDark;
@@ -66,6 +68,7 @@ final product = ProductContainerStyles(
   profitabilityDark: 0xffD2FDBA,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
+  uuid: "1",
 );
 final product2 = ProductContainerStyles(
   backgroundContainerDark: 0xffE9E5FF,
@@ -81,6 +84,7 @@ final product2 = ProductContainerStyles(
   profitabilityDark: 0xffD2FDBA,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
+  uuid: "2",
 );
 final product3 = ProductContainerStyles(
   backgroundContainerDark: 0xffE9FAFF,
@@ -96,4 +100,5 @@ final product3 = ProductContainerStyles(
   profitabilityDark: 0xffD2FDBA,
   profitabilityLight: 0xffD2FDBA,
   isSoles: false,
+  uuid: "3",
 );
