@@ -387,13 +387,20 @@ class PushNotificationService {
 
     try {
       print('Attempting navigation to: $route');
-      navigatorKey.currentState!.pushReplacementNamed(route);
+      // Reemplazar pushReplacementNamed por pushNamedAndRemoveUntil
+      navigatorKey.currentState!.pushNamedAndRemoveUntil(
+        route,
+        (route) => false, // Esto remueve todas las rutas previas
+      );
       print('Navigation successful');
     } catch (e) {
       print('Navigation error: $e');
       // Intentar navegar a la ruta por defecto
       try {
-        navigatorKey.currentState?.pushReplacementNamed('/v2/home');
+        navigatorKey.currentState?.pushNamedAndRemoveUntil(
+          '/v2/home',
+          (route) => false, // También limpiar stack en caso de fallback
+        );
       } catch (e) {
         print('Fallback navigation also failed: $e');
       }

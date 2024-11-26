@@ -17,8 +17,7 @@ class ButtonToProfile extends ConsumerWidget {
 
     const borderWidth = 2.0;
     final secondBorder = isDarkMode ? Colors.black : Colors.white;
-    final borderColor =
-        isDarkMode ? const Color(0xffA2E6FA) : const Color(0xff4C8DBE);
+    final borderColor = isDarkMode ? const Color(0xffA2E6FA) : const Color(0xff4C8DBE);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/v2/profile');
@@ -44,8 +43,7 @@ class ButtonToProfile extends ConsumerWidget {
             ),
           ),
           child: ClipOval(
-            child: userProfile.imageProfileUrl == null ||
-                    userProfile.imageProfileUrl == ""
+            child: userProfile.imageProfileUrl == null || userProfile.imageProfileUrl == ""
                 ? Image.asset(
                     "assets/avatars/profile_image_${isDarkMode ? "dark" : "light"}.png",
                     width: size,
@@ -71,13 +69,6 @@ class ButtonToProfile extends ConsumerWidget {
                     },
                   ),
           ),
-          loadingBuilder: (context, child, loadingProgress) {
-            if (loadingProgress == null) {
-              return child;
-            }
-            return CircularLoader(width: size, height: size);
-          },
-          fit: BoxFit.fill,
         ),
       ),
     );

@@ -66,43 +66,45 @@ class HomeScreenV2 extends HookConsumerWidget {
       [],
     );
 
-    return NotificationPermissionHandler(
-      profile: userProfile,
-      child: Scaffold(
-        appBar: CustomAppBar(
-          currentTheme: currentTheme,
-          userProfile: userProfile,
-        ),
-        backgroundColor: Color(
-          currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary,
-        ),
-        bottomNavigationBar: const NavigationBarHome(),
-        extendBody: true,
-        body: HookBuilder(
-          builder: (context) {
-            final userProfile = ref.watch(userProfileFutureProvider);
+    return PopScope(
+      child: NotificationPermissionHandler(
+        profile: userProfile,
+        child: Scaffold(
+          appBar: CustomAppBar(
+            currentTheme: currentTheme,
+            userProfile: userProfile,
+          ),
+          backgroundColor: Color(
+            currentTheme.isDarkMode ? scaffoldBlackBackground : scaffoldLightGradientPrimary,
+          ),
+          bottomNavigationBar: const NavigationBarHome(),
+          extendBody: true,
+          body: HookBuilder(
+            builder: (context) {
+              final userProfile = ref.watch(userProfileFutureProvider);
 
-            return userProfile.when(
-              data: (profile) {
-                _setUserAnalytics(ref, profile);
-                if (profile.hasCompletedTour == false) {
-                  _handleTour(context, ref, profile);
-                }
+              return userProfile.when(
+                data: (profile) {
+                  _setUserAnalytics(ref, profile);
+                  if (profile.hasCompletedTour == false) {
+                    _handleTour(context, ref, profile);
+                  }
 
-                return Stack(
-                  children: [
-                    HomeBody(
-                      currentTheme: currentTheme,
-                      userProfile: profile,
-                    ),
-                    const SeeLaterWidget(),
-                  ],
-                );
-              },
-              loading: () => const Center(child: CircularProgressIndicator()),
-              error: (error, _) => Center(child: Text(error.toString())),
-            );
-          },
+                  return Stack(
+                    children: [
+                      HomeBody(
+                        currentTheme: currentTheme,
+                        userProfile: profile,
+                      ),
+                      const SeeLaterWidget(),
+                    ],
+                  );
+                },
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: (error, _) => Center(child: Text(error.toString())),
+              );
+            },
+          ),
         ),
       ),
     );
