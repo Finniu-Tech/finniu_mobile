@@ -17,13 +17,19 @@ class NotificationsDataSource {
         'Accept': 'application/json',
       };
 
-  Future<bool> saveDeviceToken(DeviceInfoModel deviceInfo) async {
+  Future<bool> saveDeviceToken(DeviceRegistrationModel deviceInfo) async {
     try {
+      final uri = Uri.parse('$baseUrl/device');
+      print('uri saveDeviceToken: $uri');
+      print('device info: ${deviceInfo.toJson()}');
+
       final response = await _client.post(
-        Uri.parse('$baseUrl/token-device'),
+        uri,
         headers: _headers,
-        body: deviceInfo.toJsonString(),
+        body: json.encode(deviceInfo.toJson()), // Importante: codificar a JSON
       );
+
+      print('response save device token: ${response.body}');
 
       if (response.statusCode == 200) {
         return true;
@@ -102,10 +108,72 @@ class NotificationsDataSource {
         headers: _headers,
         body: json.encode(payload),
       );
+      print('response save notification log~~~~~: ${response.body}');
 
       return response.statusCode == 200;
     } catch (e) {
       return false;
+    }
+  }
+
+  Future<bool> updateDevice({
+    required String deviceId,
+    required Map<String, dynamic> updates,
+  }) async {
+    try {
+      final uri = Uri.parse('$baseUrl/device/$deviceId');
+      print('uri updateDevice: $uri');
+      print('updates: $updates');
+
+      final response = await _client.put(
+        uri,
+        headers: _headers,
+        body: json.encode(updates),
+      );
+
+      print('response updateDevice: ${response.body}');
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        throw Exception(
+          'Failed to update device. Status: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      print('Error updating device: $e');
+      rethrow;
+    }
+  }
+
+  Future<DeviceRegistrationModel?> getDeviceById({required String deviceId}) async {
+    try {
+      final uri = Uri.parse('$baseUrl/device/$deviceId');
+      print('uri getDeviceById: $uri');
+
+      final response = await _client.get(
+        uri,
+        headers: _headers,
+      );
+
+      print('response getDeviceById: ${response.body}');
+
+      if (response.statusCode == 200) {
+        print('statusCode: ${response.statusCode}');
+        final data = json.decode(response.body);
+        print('data: $data');
+        if (data['success'] == true) {
+          print('data222: ${data['data']}');
+          final registerModel = DeviceRegistrationModel.fromJson(data['data']);
+          print('registerModel: $registerModel');
+          return registerModel;
+        }
+      }
+
+      return null;
+    } catch (e) {
+      print('Error getting device: $e');
+      rethrow;
     }
   }
 }

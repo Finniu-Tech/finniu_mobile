@@ -1,7 +1,30 @@
 // lib/models/device_info_model.dart
 import 'dart:convert';
 
+import 'package:finniu/infrastructure/models/notifications/notification_model.dart';
+
 enum PlatformType { android, ios }
+
+class DeviceRegistrationModel {
+  final DeviceInfoModel deviceInfo;
+  final NotificationPreferences notificationPreferences;
+
+  DeviceRegistrationModel({
+    required this.deviceInfo,
+    NotificationPreferences? notificationPreferences,
+  }) : this.notificationPreferences = notificationPreferences ?? NotificationPreferences();
+
+  Map<String, dynamic> toJson() => {
+        ...deviceInfo.toJson(),
+        ...notificationPreferences.toJson(),
+      };
+  factory DeviceRegistrationModel.fromJson(Map<String, dynamic> json) {
+    return DeviceRegistrationModel(
+      deviceInfo: DeviceInfoModel.fromJson(json),
+      notificationPreferences: NotificationPreferences.fromJson(json),
+    );
+  }
+}
 
 class DeviceInfoModel {
   final String deviceId;

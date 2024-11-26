@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:finniu/infrastructure/datasources/notifications_datasource_imp.dart';
+import 'package:finniu/infrastructure/models/notifications/device_info_model.dart';
+import 'package:finniu/infrastructure/models/notifications/notification_model.dart';
 // import 'package:finniu/main.dart';
 import 'package:finniu/presentation/providers/auth_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
@@ -11,10 +14,12 @@ import 'package:finniu/services/share_preferences_service.dart';
 import 'package:finniu/utils/debug_logger.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 final pushNotificationRouteProvider = StateProvider<String?>((ref) => null);
 
@@ -59,12 +64,9 @@ class PushNotificationService {
   }
 
   Future<String?> initializeAfterLogin() async {
-    // Solicitar permisos y verificar la respuesta
     NotificationSettings settings = await requestPermissions();
-
-    // Verificar el estado de la autorización
+    print('Notification settings: ${settings.authorizationStatus}');
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      // Solo si los permisos fueron autorizados, obtener y gestionar token
       String? token = await getToken();
       if (token != null) {
         print("FirebaseMessaging token: $token");
@@ -72,10 +74,9 @@ class PushNotificationService {
         return token;
       }
     } else {
-      // Si los permisos fueron denegados, verificar si debemos mostrar el recordatorio
+      print('Los permisos fueron denegados');
       bool reminderShown = await _hasReminderBeenShown();
       if (!reminderShown) {
-        // Aquí necesitaremos el context, así que modificaremos la firma del método
         throw PushNotificationPermissionDeniedException();
       }
     }
@@ -478,6 +479,128 @@ class PushNotificationService {
       parentNotificationUuid: message.data['notification_uuid'],
       extraData: extraData,
     );
+  }
+
+  Future<bool> areNotificationsEnabled() async {
+    final settings = await _fcm.getNotificationSettings();
+    return settings.authorizationStatus == AuthorizationStatus.authorized;
+  }
+
+  Future<bool> requestNativePermissions(BuildContext context, PushNotificationService pushService) async {
+    if (Platform.isIOS) {
+      final goToSettings = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Activar Notificaciones'),
+          content: const Text(
+            'Para recibir notificaciones, necesitas activarlas en la configuración de tu iPhone.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Ir a Configuración'),
+            ),
+          ],
+        ),
+      );
+
+      if (goToSettings == true) {
+        await openAppSettings();
+        // Esperar a que el usuario regrese y verificar el estado de los permisos
+        return await _checkPermissionsAfterSettings();
+      }
+      return false;
+    } else {
+      // En Android
+      final settings = await requestPermissions();
+      return settings.authorizationStatus == AuthorizationStatus.authorized;
+    }
+  }
+
+  Future<bool> _checkPermissionsAfterSettings() async {
+    await Future.delayed(const Duration(seconds: 1));
+    return await areNotificationsEnabled();
+  }
+
+  Future<NotificationPreferences> getDevicePreferences({required String deviceId}) async {
+    try {
+      final device = await _notificationDataSource.getDeviceById(deviceId: deviceId);
+      print('Device preferences: ${device?.notificationPreferences}');
+      return device?.notificationPreferences ??
+          NotificationPreferences(acceptsMarketing: true, acceptsOperational: true);
+    } catch (e) {
+      print('Error getting device preferences: $e');
+      return NotificationPreferences(acceptsMarketing: true, acceptsOperational: true);
+    }
+  }
+
+  void startPermissionListener({
+    required BuildContext context,
+    required VoidCallback onPermissionGranted,
+  }) {
+    bool wasInBackground = false;
+
+    SystemChannels.lifecycle.setMessageHandler((msg) async {
+      if (msg == AppLifecycleState.paused.toString()) {
+        wasInBackground = true;
+      }
+
+      if (msg == AppLifecycleState.resumed.toString() && wasInBackground) {
+        final isEnabled = await areNotificationsEnabled();
+        if (isEnabled) {
+          onPermissionGranted();
+        }
+        wasInBackground = false;
+      }
+      return null;
+    });
+  }
+
+  Future<void> updateDevicePreferences({
+    required String deviceId,
+    required NotificationPreferences preferences,
+  }) async {
+    try {
+      await _notificationDataSource.updateDevice(deviceId: deviceId, updates: preferences.toJson());
+    } catch (e) {
+      print('Error updating device preferences: $e');
+      DebugLogger.log('Error updating device preferences: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> updateDevice({required String deviceId, required Map<String, dynamic> updates}) async {
+    try {
+      await _notificationDataSource.updateDevice(deviceId: deviceId, updates: updates);
+    } catch (e) {
+      print('Error updating device: $e');
+      DebugLogger.log('Error updating device: $e');
+      rethrow;
+    }
+  }
+
+  Future<void> registerDevice({required DeviceRegistrationModel device}) async {
+    try {
+      await _notificationDataSource.saveDeviceToken(device);
+    } catch (e) {
+      print('Error registering device: $e');
+      DebugLogger.log('Error registering device: $e');
+      rethrow;
+    }
+  }
+
+  Future<DeviceRegistrationModel?> getDeviceById({required String deviceId}) async {
+    try {
+      return await _notificationDataSource.getDeviceById(deviceId: deviceId);
+    } catch (e) {
+      print('Error registering device: $e');
+      DebugLogger.log('Error registering device: $e');
+      rethrow;
+    }
   }
 }
 

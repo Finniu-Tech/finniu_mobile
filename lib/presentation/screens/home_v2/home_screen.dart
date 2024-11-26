@@ -32,22 +32,19 @@ import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart'
 import 'package:finniu/presentation/screens/home_v2/widgets/our_investment_funds.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/custom_app_bar.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/funds_title.dart';
+import 'package:finniu/presentation/screens/home_v2/widgets/push_notifications.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/show_draft_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/slider_draft.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/tour_modal/show_tour_container.dart';
 import 'package:finniu/presentation/screens/investment_v2/investment_screen_v2.dart';
-import 'package:finniu/services/device_info_service.dart';
-import 'package:finniu/services/push_notifications_service.dart';
-import 'package:finniu/services/share_preferences_service.dart';
-import 'package:finniu/utils/debug_logger.dart';
+
 // import 'package:finniu/services/push_notifications_service.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreenV2 extends HookConsumerWidget {
@@ -969,101 +966,102 @@ class ReinvestmentValidationText extends ConsumerWidget {
   }
 }
 
-class NotificationPermissionHandler extends StatefulHookConsumerWidget {
-  final UserProfile profile;
-  final Widget child;
+// class NotificationPermissionHandler extends StatefulHookConsumerWidget {
+//   final UserProfile profile;
+//   final Widget child;
 
-  const NotificationPermissionHandler({
-    Key? key,
-    required this.profile,
-    required this.child,
-  }) : super(key: key);
+//   const NotificationPermissionHandler({
+//     Key? key,
+//     required this.profile,
+//     required this.child,
+//   }) : super(key: key);
 
-  @override
-  ConsumerState<NotificationPermissionHandler> createState() => _NotificationPermissionHandlerState();
-}
+//   @override
+//   ConsumerState<NotificationPermissionHandler> createState() => _NotificationPermissionHandlerState();
+// }
 
-class _NotificationPermissionHandlerState extends ConsumerState<NotificationPermissionHandler> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _handleNotificationPermission();
-      await _handlePendingNavigation();
-    });
-  }
+// class _NotificationPermissionHandlerState extends ConsumerState<NotificationPermissionHandler> {
+//   @override
+//   void initState() {
+//     super.initState();
+//     WidgetsBinding.instance.addPostFrameCallback((_) async {
+//       await _handleNotificationPermission();
+//       await _handlePendingNavigation();
+//     });
+//   }
 
-  Future<void> _handlePendingNavigation() async {
-    final pushNotificationService = ref.read(pushNotificationServiceProvider);
-    final savedRoute = Preferences.pendingNotificationRoute;
+//   Future<void> _handlePendingNavigation() async {
+//     final pushNotificationService = ref.read(pushNotificationServiceProvider);
+//     final savedRoute = Preferences.pendingNotificationRoute;
 
-    await DebugLogger.log('Checking for pending navigation. Saved route: $savedRoute');
+//     await DebugLogger.log('Checking for pending navigation. Saved route: $savedRoute');
 
-    if (savedRoute != null) {
-      await pushNotificationService.processPendingNotificationLog();
-      pushNotificationService.performNavigation(savedRoute);
-      Preferences.pendingNotificationRoute = null;
-    }
-  }
+//     if (savedRoute != null) {
+//       await pushNotificationService.processPendingNotificationLog();
+//       pushNotificationService.performNavigation(savedRoute);
+//       Preferences.pendingNotificationRoute = null;
+//     }
+//   }
 
-  Future<void> _handleNotificationPermission() async {
-    final pushNotificationService = ref.read(pushNotificationServiceProvider);
-    await pushNotificationService.processPendingNotificationLog();
-    await pushNotificationService.checkSavedNotificationRoute();
+//   Future<void> _handleNotificationPermission() async {
+//     final pushNotificationService = ref.read(pushNotificationServiceProvider);
+//     await pushNotificationService.processPendingNotificationLog();
+//     await pushNotificationService.checkSavedNotificationRoute();
 
-    try {
-      final token = await pushNotificationService.initializeAfterLogin();
-      final hasRequested = await pushNotificationService.hasRequestedPermission();
+//     try {
+//       final token = await pushNotificationService.initializeAfterLogin();
+//       final hasRequested = await pushNotificationService.hasRequestedPermission();
 
-      if (!mounted) return;
+//       if (!mounted) return;
 
-      if (token != null && hasRequested == false) {
-        context.loaderOverlay.show();
+//       if (token != null && hasRequested == false) {
+//         context.loaderOverlay.show();
 
-        try {
-          final isTokenSynchronized = ref.read(userDeviceSyncProvider);
-          await pushNotificationService.setRequestedPermission();
+//         try {
+//           final isTokenSynchronized = ref.read(userDeviceSyncProvider);
+//           await pushNotificationService.setRequestedPermission();
 
-          if (!isTokenSynchronized) {
-            final deviceInfo = await DeviceInfoService().getDeviceInfo(widget.profile.id!);
-            await DeviceInfoService().saveDeviceInfo(deviceInfo);
-            ref.read(userDeviceSyncProvider.notifier).state = true;
+//           if (!isTokenSynchronized) {
+//             final deviceInfo = await DeviceInfoService().getDeviceInfo(widget.profile.id!);
+//             final preferences = NotificationPreferences
+//             await DeviceInfoService().saveDeviceInfo(deviceInfo);
+//             ref.read(userDeviceSyncProvider.notifier).state = true;
 
-            if (!mounted) return;
-            context.loaderOverlay.hide();
+//             if (!mounted) return;
+//             context.loaderOverlay.hide();
 
-            showThanksInvestmentDialog(
-              context,
-              textTitle: '¡Notificaciones activadas!',
-              textBody: 'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
-              textButton: 'Entendido',
-              onPressed: () => Navigator.pop(context),
-              textTanks: '',
-            );
-          }
-        } finally {
-          if (mounted) context.loaderOverlay.hide();
-        }
-      }
-    } on PushNotificationPermissionDeniedException {
-      if (!mounted) return;
-      pushNotificationService.showLaterReminderModal(context);
-      await pushNotificationService.setReminderShown();
-    } catch (e) {
-      print('Error al inicializar notificaciones: $e');
-      if (!mounted) return;
+//             showThanksInvestmentDialog(
+//               context,
+//               textTitle: '¡Notificaciones activadas!',
+//               textBody: 'Ahora recibirás actualizaciones importantes sobre tus inversiones.',
+//               textButton: 'Entendido',
+//               onPressed: () => Navigator.pop(context),
+//               textTanks: '',
+//             );
+//           }
+//         } finally {
+//           if (mounted) context.loaderOverlay.hide();
+//         }
+//       }
+//     } on PushNotificationPermissionDeniedException {
+//       if (!mounted) return;
+//       pushNotificationService.showLaterReminderModal(context);
+//       await pushNotificationService.setReminderShown();
+//     } catch (e) {
+//       print('Error al inicializar notificaciones: $e');
+//       if (!mounted) return;
 
-      showThanksInvestmentDialog(
-        context,
-        textTitle: 'Notificaciones',
-        textBody: 'No pudimos activar las notificaciones. Puedes intentarlo más tarde desde tu perfil.',
-        textButton: 'Entendido',
-        onPressed: () => Navigator.pop(context),
-        textTanks: '',
-      );
-    }
-  }
+//       showThanksInvestmentDialog(
+//         context,
+//         textTitle: 'Notificaciones',
+//         textBody: 'No pudimos activar las notificaciones. Puedes intentarlo más tarde desde tu perfil.',
+//         textButton: 'Entendido',
+//         onPressed: () => Navigator.pop(context),
+//         textTanks: '',
+//       );
+//     }
+//   }
 
-  @override
-  Widget build(BuildContext context) => widget.child;
-}
+//   @override
+//   Widget build(BuildContext context) => widget.child;
+// }

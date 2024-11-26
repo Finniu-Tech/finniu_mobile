@@ -57,10 +57,10 @@ class DeviceInfoService {
     }
   }
 
-  Future<bool> saveDeviceInfo(DeviceInfoModel deviceInfo) async {
-    final bool success =
-        await NotificationsDataSource(baseUrl: appConfig.notificationsBaseUrl).saveDeviceToken(deviceInfo);
-    return success;
-  }
+  // Future<bool> saveDeviceInfo(DeviceRegistrationModel deviceInfo) async {
+  //   final bool success =
+  //       await NotificationsDataSource(baseUrl: appConfig.notificationsBaseUrl).saveDeviceToken(deviceInfo);
+  //   return success;
+  // }
   // Future<void> saveDeviceInfo(DeviceInfoModel deviceInfo) async {
 }

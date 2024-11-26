@@ -1,5 +1,38 @@
 enum NotificationStatus { delivered, read, error }
 
+enum PushStatus { active, denied }
+
+class NotificationPreferences {
+  final bool acceptsOperational;
+  final bool acceptsMarketing;
+  final PushStatus permissionState;
+
+  NotificationPreferences({
+    this.acceptsOperational = true,
+    this.acceptsMarketing = true,
+    this.permissionState = PushStatus.active,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'accepts_operational': acceptsOperational,
+        'accepts_marketing': acceptsMarketing,
+        'state': permissionState.name,
+      };
+
+  factory NotificationPreferences.fromJson(Map<String, dynamic> json) {
+    return NotificationPreferences(
+      acceptsOperational: json['accepts_operational'] ?? true,
+      acceptsMarketing: json['accepts_marketing'] ?? true,
+      permissionState: json['state'] != null
+          ? PushStatus.values.firstWhere(
+              (e) => e.name == json['state'],
+              orElse: () => PushStatus.active,
+            )
+          : PushStatus.active,
+    );
+  }
+}
+
 class NotificationModel {
   final String id;
   final String userId;
