@@ -71,6 +71,13 @@ class ButtonToProfile extends ConsumerWidget {
                     },
                   ),
           ),
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) {
+              return child;
+            }
+            return CircularLoader(width: size, height: size);
+          },
+          fit: BoxFit.fill,
         ),
       ),
     );
