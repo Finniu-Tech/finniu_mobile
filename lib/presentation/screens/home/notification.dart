@@ -32,9 +32,7 @@ class NotificationScreen extends ConsumerWidget {
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.w600,
-                        color: currentTheme.isDarkMode
-                            ? const Color(0xffA2E6FA)
-                            : const Color(primaryDark),
+                        color: currentTheme.isDarkMode ? const Color(0xffA2E6FA) : const Color(primaryDark),
                       ),
                     ),
                   ),
@@ -57,9 +55,7 @@ class NotificationScreen extends ConsumerWidget {
                 'Hoy',
                 style: TextStyle(
                   fontSize: 16,
-                  color: currentTheme.isDarkMode
-                      ? const Color(whiteText)
-                      : const Color(primaryDark),
+                  color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
                 ),
               ),
             ),

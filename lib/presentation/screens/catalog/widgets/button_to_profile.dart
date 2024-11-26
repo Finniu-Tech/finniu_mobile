@@ -15,22 +15,61 @@ class ButtonToProfile extends ConsumerWidget {
     final userProfile = ref.watch(userProfileNotifierProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
+    const borderWidth = 2.0;
+    final secondBorder = isDarkMode ? Colors.black : Colors.white;
+    final borderColor =
+        isDarkMode ? const Color(0xffA2E6FA) : const Color(0xff4C8DBE);
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, '/v2/profile');
       },
-      child: ClipOval(
-        child: Image.network(
-          userProfile.imageProfileUrl == null ||
-                  userProfile.imageProfileUrl == ""
-              ? "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png"
-              : userProfile.imageProfileUrl!,
-          width: size,
-          height: size,
-          errorBuilder: (context, error, stackTrace) => Image.asset(
-            "assets/backgroud/profile_background_${isDarkMode ? "dark" : "light"}.png",
-            width: size,
-            height: size,
+      child: Container(
+        width: size + borderWidth + borderWidth,
+        height: size + borderWidth + borderWidth,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            color: borderColor,
+            width: borderWidth,
+          ),
+        ),
+        child: Container(
+          width: size + borderWidth,
+          height: size + borderWidth,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: secondBorder,
+              width: borderWidth,
+            ),
+          ),
+          child: ClipOval(
+            child: userProfile.imageProfileUrl == null ||
+                    userProfile.imageProfileUrl == ""
+                ? Image.asset(
+                    "assets/avatars/profile_image_${isDarkMode ? "dark" : "light"}.png",
+                    width: size,
+                    height: size,
+                    fit: BoxFit.cover,
+                  )
+                : Image.network(
+                    userProfile.imageProfileUrl!,
+                    width: size,
+                    height: size,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Image.asset(
+                      "assets/avatars/profile_image_${isDarkMode ? "dark" : "light"}.png",
+                      width: size,
+                      height: size,
+                      fit: BoxFit.cover,
+                    ),
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return CircularLoader(width: size, height: size);
+                    },
+                  ),
           ),
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) {

@@ -166,6 +166,7 @@ class _BodyLegalDocuments extends HookConsumerWidget {
             //     ),
             //   ],
             // ),
+
             ExpansionTitleLegal(
               title: "Declaración de la Sunat",
               children: [
@@ -174,26 +175,33 @@ class _BodyLegalDocuments extends HookConsumerWidget {
                   text:
                       "Este 5% es la tributación correspondiente por renta de 2da categoría (inversiones). Aplica sobre tus intereses ganados.",
                 ),
-                const TitleLegal(),
+                if (documents.sunatDeclarations.isEmpty ||
+                    documents.sunatDeclarations.any((e) => e.nameFile.isEmpty))
+                  const TitleLegal(),
                 ...documents.sunatDeclarations.map(
-                  (e) => GestureDetector(
-                    onTap: () => {
-                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-                        eventName: FirebaseAnalyticsEvents.clickEvent,
-                        parameters: {
-                          "screen": FirebaseScreen.legalDocumentsV2,
-                          "click": "declaration_sunat_${e.nameFile}",
-                        },
-                      ),
-                      openUrl(e.declarationUrl, context),
-                    },
-                    child: RowDownload(
-                      title: e.nameFile,
-                    ),
-                  ),
+                  (e) => e.nameFile.isEmpty
+                      ? GestureDetector(
+                          onTap: () => {
+                            ref
+                                .read(firebaseAnalyticsServiceProvider)
+                                .logCustomEvent(
+                              eventName: FirebaseAnalyticsEvents.clickEvent,
+                              parameters: {
+                                "screen": FirebaseScreen.legalDocumentsV2,
+                                "click": "declaration_sunat_${e.nameFile}",
+                              },
+                            ),
+                            openUrl(e.declarationUrl, context),
+                          },
+                          child: RowDownload(
+                            title: e.nameFile,
+                          ),
+                        )
+                      : const SizedBox(),
                 ),
               ],
             ),
+
             ExpansionTitleLegal(
               title: "Aceptaciones legales y/o tributarios",
               children: [

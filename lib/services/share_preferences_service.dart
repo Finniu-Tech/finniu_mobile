@@ -9,7 +9,21 @@ class Preferences {
   static String? _token;
   static String? _username;
   static bool _showedPushNotificationReminder = false;
-  // static String _authToken = '';
+  static bool _hasRequestedPushNotificationPermission = false;
+  static String? _pendingNotificationRoute;
+
+  static String? get pendingNotificationRoute {
+    return _prefs.getString('pendingNotificationRoute') ?? _pendingNotificationRoute;
+  }
+
+  static set pendingNotificationRoute(String? route) {
+    _pendingNotificationRoute = route;
+    if (route != null) {
+      _prefs.setString('pendingNotificationRoute', route);
+    } else {
+      _prefs.remove('pendingNotificationRoute');
+    }
+  }
 
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -21,6 +35,10 @@ class Preferences {
 
   static bool get showedPushNotificationReminder {
     return _prefs.getBool('showedPushNotificationReminder') ?? _showedPushNotificationReminder;
+  }
+
+  static bool get hasRequestedPushNotificationPermission {
+    return _prefs.getBool('hasRequestedPushNotificationPermission') ?? _hasRequestedPushNotificationPermission;
   }
 
   static set isDarkMode(bool value) {
@@ -67,6 +85,11 @@ class Preferences {
   static set showedPushNotificationReminder(bool value) {
     _showedPushNotificationReminder = value;
     _prefs.setBool('showedPushNotificationReminder', value);
+  }
+
+  static set hasRequestedPushNotificationPermission(bool value) {
+    _hasRequestedPushNotificationPermission = value;
+    _prefs.setBool('hasRequestedPushNotificationPermission', value);
   }
 
   // static String get authToken {

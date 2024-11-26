@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/providers/auth_provider.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,10 +7,10 @@ import 'package:app_links/app_links.dart';
 
 final appLinksProvider = Provider<AppLinks>((ref) => AppLinks());
 final deepLinkRouteProvider = StateProvider<String?>((ref) => null);
-final navigatorKeyProvider = Provider((ref) => GlobalKey<NavigatorState>());
+// final navigatorKeyProvider = Provider((ref) => GlobalKey<NavigatorState>());
 
 final deepLinkHandlerProvider = Provider((ref) {
-  final navigatorKey = ref.watch(navigatorKeyProvider);
+  final navigatorKey = ref.watch(globalNavigatorKeyProvider);
   return DeepLinkHandler(ref, navigatorKey);
 });
 

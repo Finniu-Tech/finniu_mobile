@@ -1,24 +1,148 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:finniu/infrastructure/datasources/notifications_datasource_imp.dart';
+// import 'package:finniu/main.dart';
+import 'package:finniu/presentation/providers/auth_provider.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
+import 'package:finniu/presentation/providers/notification_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
+import 'package:finniu/services/device_info_service.dart';
 import 'package:finniu/services/share_preferences_service.dart';
+import 'package:finniu/utils/debug_logger.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+final pushNotificationRouteProvider = StateProvider<String?>((ref) => null);
+
+final pushNotificationServiceProvider = Provider((ref) {
+  final navigatorKey = ref.watch(globalNavigatorKeyProvider);
+  return PushNotificationService(ref, navigatorKey);
+});
+
+@pragma('vm:entry-point')
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  await DebugLogger.log('Received background message: ${message.messageId}');
+  await DebugLogger.log('Message data: ${message.data}');
+}
 
 class PushNotificationService {
+  final Ref _ref;
+  final GlobalKey<NavigatorState> navigatorKey;
   final FirebaseMessaging _fcm = FirebaseMessaging.instance;
-  bool _initialized = false;
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  final _pendingNavigation = <String>[];
+  RemoteMessage? _pendingLogMessage;
+
+  PushNotificationService(this._ref, this.navigatorKey);
+
+  NotificationsDataSource get _notificationDataSource => _ref.read(notificationsDataSourceProvider);
 
   Future<void> initialize() async {
-    if (_initialized) return;
-    _initialized = true;
+    await Firebase.initializeApp();
 
-    FirebaseMessaging.onMessage.listen(_handleMessage);
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    // Solo inicializar lo básico, sin solicitar permisos
+    await _initializeLocalNotifications();
+
+    FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessageOpenedApp);
+
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleInitialMessage(initialMessage);
+    }
   }
 
-  Future<void> requestPermissions(BuildContext context) async {
-    bool reminderShown = await _hasReminderBeenShown();
+  Future<String?> initializeAfterLogin() async {
+    // Solicitar permisos y verificar la respuesta
+    NotificationSettings settings = await requestPermissions();
 
-    // Solicitar permisos
+    // Verificar el estado de la autorización
+    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+      // Solo si los permisos fueron autorizados, obtener y gestionar token
+      String? token = await getToken();
+      if (token != null) {
+        print("FirebaseMessaging token: $token");
+        await _fcm.subscribeToTopic('all');
+        return token;
+      }
+    } else {
+      // Si los permisos fueron denegados, verificar si debemos mostrar el recordatorio
+      bool reminderShown = await _hasReminderBeenShown();
+      if (!reminderShown) {
+        // Aquí necesitaremos el context, así que modificaremos la firma del método
+        throw PushNotificationPermissionDeniedException();
+      }
+    }
+    return null;
+  }
+
+  Future<void> _initializeLocalNotifications() async {
+    // Crear el canal de Android con configuración completa
+    AndroidNotificationChannel channel = const AndroidNotificationChannel(
+      'high_importance_channel',
+      'High Importance Notifications',
+      description: 'This channel is used for important notifications.',
+      importance: Importance.max,
+      playSound: true,
+      enableVibration: true,
+      enableLights: true,
+      showBadge: true,
+    );
+
+    await _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.createNotificationChannel(channel);
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    final DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
+      requestAlertPermission: false,
+      requestBadgePermission: false,
+      requestSoundPermission: false,
+      onDidReceiveLocalNotification: (int id, String? title, String? body, String? payload) async {
+        print("onDidReceiveLocalNotification xxx: $payload");
+        if (payload != null) {
+          _handleNotificationNavigation(json.decode(payload));
+        }
+      },
+      notificationCategories: [
+        DarwinNotificationCategory(
+          'default',
+          actions: [
+            DarwinNotificationAction.plain('id_1', 'Action 1'),
+            DarwinNotificationAction.plain('id_2', 'Action 2'),
+          ],
+        ),
+      ],
+    );
+
+    final InitializationSettings initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
+
+    await _flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) {
+        print("onDidReceiveNotificationResponse: $notificationResponse");
+        final String? payload = notificationResponse.payload;
+        if (payload != null) {
+          print('notification payload: $payload');
+          _handleNotificationNavigation(json.decode(payload));
+        }
+      },
+    );
+  }
+
+  Future<NotificationSettings> requestPermissions() async {
+    // Solicitar permisos de FCM
     NotificationSettings settings = await _fcm.requestPermission(
       alert: true,
       announcement: false,
@@ -29,14 +153,187 @@ class PushNotificationService {
       sound: true,
     );
 
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      print('Permisos de notificación concedidos');
-    } else if (settings.authorizationStatus == AuthorizationStatus.denied) {
-      print('Permisos de notificación denegados');
-      if (!reminderShown) {
-        _showLaterReminderModal(context);
-        await _setReminderShown();
+    // Solicitar permisos locales
+    await _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+
+    await _flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        ?.requestNotificationsPermission();
+
+    return settings;
+  }
+
+  void _handleForegroundMessage(RemoteMessage message) {
+    print("onForegroundMessage: $message");
+    _showNotification(message);
+  }
+
+  void _handleMessageOpenedApp(RemoteMessage message) async {
+    await DebugLogger.log('App opened from notification: ${message.toMap()}');
+
+    print("onMessageOpenedApp: $message");
+    print('data from message: ${message.data}');
+
+    // Envolver en try-catch para manejar posibles errores de estado
+    try {
+      if (checkAuthentication()) {
+        await DebugLogger.log('User is authenticated');
+        _logNotificationOpenAsync(message);
+        _handleNotificationNavigation(message.data);
+      } else {
+        await DebugLogger.log('User not authenticated, saving message for later');
+        print('User not authenticated, saving message for later: ${message.data}');
+        _pendingLogMessage = message;
+        _handleNotificationNavigation(message.data);
       }
+    } catch (e) {
+      await DebugLogger.log('Error in handleMessageOpenedApp: $e');
+
+      print('Error in handleMessageOpenedApp: $e');
+      // En caso de error, asumimos que el usuario no está autenticado
+      _pendingLogMessage = message;
+      _handleNotificationNavigation(message.data);
+    }
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print('handleMessage: $message');
+    _handleMessageOpenedApp(message);
+  }
+
+  void _handleInitialMessage(RemoteMessage message) {
+    print("App opened from terminated state: $message");
+    _handleNotificationNavigation(message.data);
+  }
+
+  void _showNotification(RemoteMessage message) async {
+    print("showNotification: $message");
+    print('notification: ${message.notification?.title}');
+    print('notification: ${message.notification?.body}');
+    print('notification: ${message.data}');
+
+    RemoteNotification? notification = message.notification;
+
+    if (notification != null) {
+      // Configuración específica para iOS
+      const DarwinNotificationDetails iOSPlatformChannelSpecifics = DarwinNotificationDetails(
+        presentAlert: true,
+        presentBadge: true,
+        presentSound: true,
+        sound: 'default',
+        badgeNumber: 1,
+        threadIdentifier: 'thread_id',
+        attachments: null,
+        categoryIdentifier: 'default',
+        interruptionLevel: InterruptionLevel.timeSensitive,
+      );
+
+      // Configuración específica para Android
+      final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'high_importance_channel',
+        'High Importance Notifications',
+        channelDescription: 'This channel is used for important notifications.',
+        importance: Importance.max,
+        priority: Priority.high,
+        showWhen: true,
+      );
+
+      final NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: androidPlatformChannelSpecifics,
+        iOS: iOSPlatformChannelSpecifics,
+      );
+
+      await _flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification.title,
+        notification.body,
+        platformChannelSpecifics,
+        payload: json.encode(message.data),
+      );
+    }
+  }
+
+  void _handleNotificationNavigation(Map<String, dynamic> data) async {
+    await DebugLogger.log('Starting navigation with data: $data');
+    print("Handling notification navigation: $data");
+
+    String route = data['deep_link'] ?? '/';
+
+    // Guardar la ruta en preferences
+    Preferences.pendingNotificationRoute = route;
+    await DebugLogger.log('Route saved: $route');
+
+    bool isAuthenticated = false;
+    try {
+      isAuthenticated = checkAuthentication();
+      await DebugLogger.log('Authentication status: $isAuthenticated');
+    } catch (e) {
+      await DebugLogger.log('Error checking authentication: $e');
+    }
+
+    if (!isAuthenticated) {
+      print('Not authenticated, navigating to login');
+      _scheduleNavigation('/v2/login_email');
+    } else {
+      print('Authenticated, navigating to route');
+      if (_pendingLogMessage != null) {
+        _logNotificationOpenAsync(_pendingLogMessage!);
+        _pendingLogMessage = null;
+      }
+      _scheduleNavigation(route);
+      Preferences.pendingNotificationRoute = null; // Limpiar la ruta después de usarla
+    }
+  }
+
+  Future<bool> checkSavedNotificationRoute() async {
+    await DebugLogger.log('Checking saved notification route');
+
+    try {
+      final savedRoute = Preferences.pendingNotificationRoute;
+      final isAuthenticated = checkAuthentication();
+
+      await DebugLogger.log('Saved route: $savedRoute, authenticated: $isAuthenticated');
+
+      if (savedRoute != null && isAuthenticated) {
+        if (_pendingLogMessage != null) {
+          await _logNotificationOpen(_pendingLogMessage!);
+          _pendingLogMessage = null;
+        }
+
+        // Programar la navegación para el siguiente frame
+        Future.microtask(() {
+          performNavigation(savedRoute);
+          Preferences.pendingNotificationRoute = null;
+        });
+
+        return true;
+      }
+    } catch (e) {
+      await DebugLogger.log('Error checking saved route: $e');
+      print('Error checking saved route: $e');
+    }
+
+    return false;
+  }
+
+  Future<void> processPendingNotificationLog() async {
+    print('processPendingNotificationLog: $_pendingLogMessage');
+    if (_pendingLogMessage == null) return;
+
+    try {
+      final isAuthenticated = checkAuthentication();
+      if (isAuthenticated) {
+        await _logNotificationOpen(_pendingLogMessage!);
+        _pendingLogMessage = null;
+      }
+    } catch (e) {
+      print('Error processing pending notification log: $e');
     }
   }
 
@@ -62,17 +359,67 @@ class PushNotificationService {
     }
   }
 
-  Future<void> _cleanupOldTokens() async {
-    await _fcm.deleteToken();
-    print('Token antiguo eliminado');
+  void _scheduleNavigation(String route) {
+    print('scheduleNavigation START: $route');
+    print('NavigatorKey: $navigatorKey');
+    print('NavigatorKey current state: ${navigatorKey.currentState}');
+    print('NavigatorKey current context: ${navigatorKey.currentContext}');
+
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (navigatorKey.currentState == null) {
+        print('Navigator is null, adding to pending navigation');
+        _pendingNavigation.add(route);
+      } else {
+        print('Navigator is ready, performing navigation');
+        performNavigation(route);
+      }
+    });
   }
 
-  void _handleMessage(RemoteMessage message) {
-    print("Notificación recibida: ${message.notification?.title}");
-    // Implementa la lógica para manejar la notificación
+  void performNavigation(String route) {
+    print('performNavigation START: $route');
+    if (navigatorKey.currentState == null) {
+      print('Navigator still null in perform navigation, adding to pending');
+      _pendingNavigation.add(route);
+      return;
+    }
+
+    try {
+      print('Attempting navigation to: $route');
+      navigatorKey.currentState!.pushReplacementNamed(route);
+      print('Navigation successful');
+    } catch (e) {
+      print('Navigation error: $e');
+      // Intentar navegar a la ruta por defecto
+      try {
+        navigatorKey.currentState?.pushReplacementNamed('/v2/home');
+      } catch (e) {
+        print('Fallback navigation also failed: $e');
+      }
+    }
   }
 
-  void _showLaterReminderModal(BuildContext context) {
+  void processPendingNavigations() {
+    while (_pendingNavigation.isNotEmpty) {
+      final route = _pendingNavigation.removeAt(0);
+      performNavigation(route);
+    }
+  }
+
+  // Método check authentication similar al DeepLinkHandler
+  bool checkAuthentication() {
+    final token = _ref.read(authTokenProvider);
+    print('Checking authentication: $token');
+    if (token == '') {
+      print('Not authenticated');
+      return false;
+    } else {
+      print('Authenticated');
+      return true;
+    }
+  }
+
+  void showLaterReminderModal(BuildContext context) {
     showThanksInvestmentDialog(
       context,
       textTitle: 'Entendemos!',
@@ -84,11 +431,56 @@ class PushNotificationService {
     );
   }
 
+  Future<void> _cleanupOldTokens() async {
+    await _fcm.deleteToken();
+    print('Token antiguo eliminado');
+  }
+
   Future<bool> _hasReminderBeenShown() async {
     return Preferences.showedPushNotificationReminder;
   }
 
-  Future<void> _setReminderShown() async {
+  Future<void> setReminderShown() async {
     Preferences.showedPushNotificationReminder = true;
   }
+
+  Future<bool> hasRequestedPermission() async {
+    return Preferences.hasRequestedPushNotificationPermission;
+  }
+
+  Future<void> setRequestedPermission() async {
+    Preferences.hasRequestedPushNotificationPermission = true;
+  }
+
+  void _logNotificationOpenAsync(RemoteMessage message) {
+    unawaited(_logNotificationOpen(message));
+  }
+
+  Future<void> _logNotificationOpen(RemoteMessage message) async {
+    print('message data: ${message.data}');
+    // try {
+    final dataSource = _notificationDataSource;
+    final String userID = message.data['user_id'] ?? '';
+    final deviceInfo = await DeviceInfoService().getDeviceInfo(userID);
+    print('device info zerooo: ${deviceInfo.toJson()}');
+    final token = await getToken();
+    final extraData = message.data['extra_data'] != null ? json.decode(message.data['extra_data']) : null;
+
+    await dataSource.saveNotificationLog(
+      title: message.notification?.title ?? '',
+      body: message.notification?.body ?? '',
+      userId: message.data['user_id'] ?? '',
+      notificationType: message.data['notification_type'] ?? 'operational',
+      campaignId: message.data['campaign_id'] ?? '',
+      status: 'open',
+      deviceId: deviceInfo.deviceId,
+      token: token ?? '',
+      parentNotificationUuid: message.data['notification_uuid'],
+      extraData: extraData,
+    );
+  }
+}
+
+class PushNotificationPermissionDeniedException implements Exception {
+  final String message = 'Push notification permissions were denied';
 }
