@@ -13,6 +13,8 @@ class RowProducts extends StatelessWidget {
     required this.textDark,
     required this.textLight,
     required this.profitabilityText,
+    required this.minimunTextColorDark,
+    required this.minimumTextColorLight,
   });
   final bool isDarkMode;
   final int minimumDark;
@@ -21,6 +23,8 @@ class RowProducts extends StatelessWidget {
   final int profitabilityLight;
   final int textDark;
   final int textLight;
+  final int minimunTextColorDark;
+  final int minimumTextColorLight;
   final String minimunText;
   final String profitabilityText;
 
@@ -40,17 +44,21 @@ class RowProducts extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TextPoppins(
+                TextPoppins(
                   text: "Puedes comenzar a Invertir desde",
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                   lines: 2,
+                  textDark: minimunTextColorDark,
+                  textLight: minimumTextColorLight,
                 ),
                 TextPoppins(
                   text: "S/$minimunText",
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                   lines: 2,
+                  textDark: minimunTextColorDark,
+                  textLight: minimumTextColorLight,
                 ),
               ],
             ),

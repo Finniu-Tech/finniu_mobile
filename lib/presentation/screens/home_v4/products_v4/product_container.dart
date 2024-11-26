@@ -62,6 +62,8 @@ class ProductContainer extends ConsumerWidget {
             profitabilityText: colors.getProfitabilityText,
             textDark: colors.textDark,
             textLight: colors.textLight,
+            minimunTextColorDark: colors.minimunTextColorDark,
+            minimumTextColorLight: colors.minimumTextColorLight,
           ),
           ElevatedButton(
             onPressed: onPressed,

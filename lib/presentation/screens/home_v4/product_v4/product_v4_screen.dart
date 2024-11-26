@@ -1,7 +1,9 @@
 import 'package:finniu/constants/colors/product_v4_colors.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/app_bar_product.dart';
+import 'package:finniu/presentation/screens/home_v4/product_v4/carrousel_detail.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/row_products.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
@@ -59,22 +61,20 @@ class ProductBody extends StatelessWidget {
           height: 15,
         ),
         Divider(thickness: 2),
-        SizedBox(
-          height: 5,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SwitchMoney(
+                switchHeight: 30,
+                switchWidth: 67,
+              ),
+            ],
+          ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            SwitchMoney(
-              switchHeight: 30,
-              switchWidth: 67,
-            ),
-          ],
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        RowMinRent()
+        RowMinRent(),
+        CarrouselDetailV4(),
       ],
     );
   }
@@ -88,12 +88,7 @@ class RowMinRent extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    //   titleDark: 0xffFFFFFF,
-    // titleLight: 0xff0D3A5C,
-    // minimumDark: 0xff0D3A5C,
-    // minimumLight: 0xffBBF0FF,
-    // profitabilityDark: 0xffB5FF8A,
-    // profitabilityLight: 0xffD2FDBA,
+    final isSoles = ref.watch(isSolesStateProvider);
     final colors = ProductContainerStyles(
       backgroundContainerDark: 0xff1B1B1B,
       backgroundContainerLight: 0xffE9FAFF,
@@ -104,7 +99,7 @@ class RowMinRent extends ConsumerWidget {
       titleDark: 0xffFFFFFF,
       titleLight: 0xff0D3A5C,
       minimumDark: 0xff0D3A5C,
-      minimumLight: 0xffBBF0FF,
+      minimumLight: isSoles ? 0xffBBF0FF : 0xff0D3A5C,
       profitabilityDark: 0xffB5FF8A,
       profitabilityLight: 0xffD2FDBA,
       isSoles: true,
@@ -115,17 +110,27 @@ class RowMinRent extends ConsumerWidget {
       buttonTextLight: 0xffFFFFFF,
       textDark: 0xff000000,
       textLight: 0xff000000,
+      minimunTextColorDark: 0xff000000,
+      minimumTextColorLight: isSoles ? 0xff000000 : 0xffFFFFFF,
     );
-    return RowProducts(
-      isDarkMode: isDarkMode,
-      minimumDark: colors.getMinimumDark,
-      minimumLight: colors.getMinimumLight,
-      minimunText: colors.getMinimumText,
-      profitabilityDark: colors.getProfitabilityDark,
-      profitabilityLight: colors.getProfitabilityLight,
-      profitabilityText: colors.getProfitabilityText,
-      textDark: colors.textDark,
-      textLight: colors.textLight,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ),
+      child: RowProducts(
+        isDarkMode: isDarkMode,
+        minimumDark: colors.getMinimumDark,
+        minimumLight: colors.getMinimumLight,
+        minimunText: colors.getMinimumText,
+        profitabilityDark: colors.getProfitabilityDark,
+        profitabilityLight: colors.getProfitabilityLight,
+        profitabilityText: colors.getProfitabilityText,
+        textDark: colors.textDark,
+        textLight: colors.textLight,
+        minimunTextColorDark: colors.minimunTextColorDark,
+        minimumTextColorLight: colors.minimumTextColorLight,
+      ),
     );
   }
 }

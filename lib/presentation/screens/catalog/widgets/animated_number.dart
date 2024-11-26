@@ -78,7 +78,9 @@ class AnimationNumberNotComma extends ConsumerWidget {
     final bool isSolesState = isSoles ?? ref.watch(isSolesStateProvider);
     return TweenAnimationBuilder(
       tween: Tween<double>(
-          begin: beginNumber.toDouble(), end: endNumber.toDouble()),
+        begin: beginNumber.toDouble(),
+        end: endNumber.toDouble(),
+      ),
       duration: Duration(seconds: duration),
       builder: (BuildContext context, double value, Widget? child) {
         final formattedValue = value % 1 == 0 ? value.toInt() : value;
