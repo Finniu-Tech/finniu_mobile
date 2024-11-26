@@ -1,6 +1,7 @@
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/products_v4/row_products.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -51,86 +52,16 @@ class ProductContainer extends ConsumerWidget {
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  height: 95,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: isDarkMode
-                        ? Color(colors.getMinimumDark)
-                        : Color(colors.getMinimumLight),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TextPoppins(
-                        text: "Puedes comenzar a Invertir desde",
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        lines: 2,
-                      ),
-                      TextPoppins(
-                        text: "S/${colors.getMinimumText}",
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600,
-                        lines: 2,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Container(
-                  height: 95,
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: isDarkMode
-                        ? Color(colors.getProfitabilityDark)
-                        : Color(colors.getProfitabilityLight),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextPoppins(
-                        text: "Con una rentabilidad de hasta",
-                        fontSize: 10,
-                        fontWeight: FontWeight.w500,
-                        lines: 2,
-                        textDark: colors.textDark,
-                        textLight: colors.textLight,
-                      ),
-                      Row(
-                        children: [
-                          TextPoppins(
-                            text: "${colors.getProfitabilityText}% ",
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                            textDark: colors.textDark,
-                            textLight: colors.textLight,
-                          ),
-                          TextPoppins(
-                            text: "anual",
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            textDark: colors.textDark,
-                            textLight: colors.textLight,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+          RowProducts(
+            isDarkMode: isDarkMode,
+            minimumDark: colors.getMinimumDark,
+            minimumLight: colors.getMinimumLight,
+            minimunText: colors.getMinimumText,
+            profitabilityDark: colors.getProfitabilityDark,
+            profitabilityLight: colors.getProfitabilityLight,
+            profitabilityText: colors.getProfitabilityText,
+            textDark: colors.textDark,
+            textLight: colors.textLight,
           ),
           ElevatedButton(
             onPressed: onPressed,
