@@ -1,9 +1,11 @@
 import 'package:finniu/presentation/observers/network_observer.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/intro_screen.dart';
 import 'package:finniu/routes/routes.dart';
 import 'package:finniu/services/deep_link_service.dart';
 import 'package:finniu/services/push_notifications_service.dart';
+import 'package:finniu/utils/debug_logger.dart';
 import 'package:finniu/widgets/connectivity.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
@@ -12,9 +14,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppStaging extends ConsumerStatefulWidget {
-  final PushNotificationService pushNotificationService;
+  // final PushNotificationService pushNotificationService;
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  const AppStaging({super.key, required this.pushNotificationService});
+  // const AppStaging({super.key, required this.pushNotificationService});
+  const AppStaging({super.key});
 
   @override
   ConsumerState<AppStaging> createState() => _AppStagingState();
@@ -22,12 +25,28 @@ class AppStaging extends ConsumerStatefulWidget {
 
 class _AppStagingState extends ConsumerState<AppStaging> {
   late final DeepLinkHandler _deepLinkHandler;
+  late final PushNotificationService _pushNotificationService;
 
   @override
   void initState() {
     super.initState();
     _deepLinkHandler = ref.read(deepLinkHandlerProvider);
-    _deepLinkHandler.initialize();
+    _pushNotificationService = ref.read(pushNotificationServiceProvider);
+
+    Future.delayed(Duration.zero, () async {
+      await _deepLinkHandler.initialize();
+      await _pushNotificationService.initialize();
+
+      if (mounted) {
+        // Verificar la ruta guardada después de la inicialización
+        final savedRoute = ref.read(pushNotificationRouteProvider);
+        await DebugLogger.log('Initial check - Saved route: $savedRoute');
+
+        if (savedRoute != null) {
+          await _pushNotificationService.checkSavedNotificationRoute();
+        }
+      }
+    });
   }
 
   @override
@@ -39,9 +58,10 @@ class _AppStagingState extends ConsumerState<AppStaging> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     AppStaging.analytics.setAnalyticsCollectionEnabled(true);
+    final navigatorKey = ref.watch(globalNavigatorKeyProvider);
 
     return MaterialApp(
-      navigatorKey: _deepLinkHandler.navigatorKey,
+      navigatorKey: navigatorKey,
       title: 'Finniu Staging',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -67,6 +87,7 @@ class _AppStagingState extends ConsumerState<AppStaging> {
       builder: (context, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _deepLinkHandler.processPendingNavigations();
+          _pushNotificationService.processPendingNavigations();
         });
 
         return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());

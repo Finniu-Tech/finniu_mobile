@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -67,6 +68,7 @@ class ImageEditStack extends ConsumerWidget {
                             },
                             errorBuilder: (context, error, stackTrace) =>
                                 const UserImageHelp(),
+                            fit: BoxFit.fill,
                           ),
                   ),
                 ),
@@ -87,6 +89,7 @@ class PickImageEditStack extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final userProfile = ref.watch(userProfileNotifierProvider);
     final String? imagePath = ref.watch(imagePathProvider);
     const int backgroundDark = 0xff191919;
     const int backgroundLight = 0xffFFFFFF;
@@ -119,7 +122,38 @@ class PickImageEditStack extends ConsumerWidget {
                       color: isDarkMode
                           ? const Color(backgroundDark)
                           : const Color(backgroundLight),
-                      width: 10,
+                      width: 8,
+                    ),
+                  ),
+                  child: ClipOval(
+                    child: userProfile.imageProfileUrl == "" ||
+                            userProfile.imageProfileUrl == null
+                        ? const UserImageHelp()
+                        : Image.network(
+                            userProfile.imageProfileUrl!,
+                            width: 10,
+                            height: 10,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return const UserImageHelp();
+                              }
+                            },
+                            errorBuilder: (context, error, stackTrace) =>
+                                const UserImageHelp(),
+                            fit: BoxFit.fill,
+                          ),
+                  ),
+                ),
+                Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.transparent,
+                      width: 8,
                     ),
                   ),
                   child: ClipOval(
@@ -147,17 +181,17 @@ class PickImageEditStack extends ConsumerWidget {
                               height: 80,
                               decoration: BoxDecoration(
                                 color: isDarkMode
-                                    ? const Color(backgroundDark)
-                                    : const Color(backgroundLight),
+                                    ? const Color(iconDark).withOpacity(0.3)
+                                    : const Color(iconDark).withOpacity(0.3),
                                 borderRadius: BorderRadius.circular(100),
                               ),
                               child: Center(
                                 child: SvgPicture.asset(
                                   "assets/svg_icons/gallery_add_icon_v2.svg",
-                                  width: 20,
-                                  height: 20,
+                                  width: 30,
+                                  height: 30,
                                   color: isDarkMode
-                                      ? const Color(iconDark)
+                                      ? const Color(iconLight)
                                       : const Color(iconLight),
                                 ),
                               ),

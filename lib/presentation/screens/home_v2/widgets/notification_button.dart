@@ -18,7 +18,9 @@ class NotificationButton extends HookConsumerWidget {
         color: currentTheme.isDarkMode ? const Color(whiteText) : const Color(primaryDark),
       ),
       tooltip: 'Notificaciones',
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, '/v2/notifications');
+      },
     );
   }
 }

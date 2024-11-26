@@ -1,32 +1,78 @@
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/infrastructure/models/notifications/notification_model.dart';
+import 'package:finniu/infrastructure/models/notifications_entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/bubble_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_navigate_profile.dart';
 import 'package:finniu/presentation/screens/profile_v2/widgets/button_switch_profile.dart';
+import 'package:finniu/services/device_info_service.dart';
+import 'package:finniu/services/push_notifications_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const ScaffoldConfig(
+    return ScaffoldConfig(
       title: "Configuraciones",
       children: _BodySettings(),
     );
   }
 }
 
-class _BodySettings extends ConsumerWidget {
-  const _BodySettings();
+class _BodySettings extends HookConsumerWidget {
+  _BodySettings();
+
+  Future<NotificationPreferences> _loadPreferences(String userId, WidgetRef ref) async {
+    final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
+    return ref.read(pushNotificationServiceProvider).getDevicePreferences(
+          deviceId: deviceInfo.deviceId,
+        );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Mover los hooks al nivel superior del build
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final bubbleState = ref.watch(positionProvider);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final isMarketingPushActive = useState(true);
+    final isOperationalPushActive = useState(true);
+
+    final future = useMemoized(
+      () => _loadPreferences(userProfile.id!, ref),
+      [userProfile.id],
+    );
+
+    final snapshot = useFuture(future);
+
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (snapshot.hasError) {
+      return Center(child: Text('Error cargando preferencias: ${snapshot.error}'));
+    }
+    useEffect(() {
+      if (snapshot.hasData) {
+        final preferences = snapshot.data!;
+        isMarketingPushActive.value = preferences.acceptsMarketing;
+        isOperationalPushActive.value = preferences.acceptsOperational;
+      }
+      return null;
+    }, [snapshot.data]);
+
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     void setDarkMode() {
       if (!isDarkMode) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
@@ -71,6 +117,81 @@ class _BodySettings extends ConsumerWidget {
       }
     }
 
+    Future<void> _updateNotificationPreferences({
+      required WidgetRef ref,
+      required NotificationType type,
+      required bool value,
+    }) async {
+      final deviceInfo = await DeviceInfoService().getDeviceInfo(userProfile.id!);
+      final Map<String, dynamic> updates = {};
+
+      if (type == NotificationType.operational) {
+        updates['accepts_operational'] = value;
+        updates['accepts_marketing'] = isMarketingPushActive.value;
+      } else if (type == NotificationType.marketing) {
+        updates['accepts_marketing'] = value;
+        updates['accepts_operational'] = isOperationalPushActive.value;
+      }
+
+      try {
+        await ref.read(pushNotificationServiceProvider).updateDevice(
+              deviceId: deviceInfo.deviceId,
+              updates: updates,
+            );
+      } catch (e, stackTrace) {
+        print('Error updating notification preferences: $e');
+        print('stackTrace: $stackTrace');
+      }
+    }
+
+    Future<void> handleNotificationSettings({
+      required WidgetRef ref,
+      required BuildContext context,
+      required NotificationType type,
+      required ValueNotifier<bool> stateNotifier,
+    }) async {
+      final pushService = ref.read(pushNotificationServiceProvider);
+      final newValue = !stateNotifier.value;
+      print('Current value: ${stateNotifier.value}');
+      print('New value: $newValue');
+
+      try {
+        context.loaderOverlay.show();
+
+        if (newValue) {
+          final hasPermission = await pushService.areNotificationsEnabled();
+
+          if (!hasPermission) {
+            final permissionsGranted = await pushService.requestNativePermissions(context, pushService);
+            if (!permissionsGranted) {
+              context.loaderOverlay.hide();
+              return;
+            }
+          }
+        }
+
+        await _updateNotificationPreferences(
+          ref: ref,
+          type: type,
+          value: newValue,
+        );
+
+        print('befotre notification settings updated');
+
+        if (type == NotificationType.operational) {
+          print('Updating operational push settings');
+          isOperationalPushActive.value = newValue;
+        }
+        if (type == NotificationType.marketing) {
+          isMarketingPushActive.value = newValue;
+        }
+      } catch (e) {
+        print('Error updating notification settings: $e');
+      } finally {
+        context.loaderOverlay.hide();
+      }
+    }
+
     void navigatePrivacy() {
       ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
         eventName: FirebaseAnalyticsEvents.navigateTo,
@@ -91,13 +212,6 @@ class _BodySettings extends ConsumerWidget {
           onTap: () => setDarkMode(),
           value: isDarkMode,
         ),
-        // ButtonNavigateProfile(
-        //   isComplete: true,
-        //   icon: "assets/svg_icons/notification_icon.svg",
-        //   title: "Notificaciones",
-        //   subtitle: "Qué notificaciones quieres recibir \n",
-        //   onTap: () => Navigator.pushNamed(context, '/v2/new_notifications'),
-        // ),
         ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/lock_key_icon.svg",
@@ -111,6 +225,34 @@ class _BodySettings extends ConsumerWidget {
           subtitle: "Visualización de chat con Julia en la app",
           onTap: () => setBubble(),
           value: bubbleState.isRender,
+        ),
+        ButtonSwitchProfile(
+          key: ValueKey('marketing-${isMarketingPushActive.value}'),
+          icon: "assets/svg_icons/julia_icon.svg",
+          title: "Notificaciones",
+          subtitle: "Notificaciones de marketing",
+          onTap: () => handleNotificationSettings(
+            ref: ref,
+            context: context,
+            type: NotificationType.marketing,
+            stateNotifier: isMarketingPushActive,
+          ),
+          value: isMarketingPushActive.value,
+          isExternalState: true,
+        ),
+        ButtonSwitchProfile(
+          key: ValueKey('operational-${isOperationalPushActive.value}'),
+          icon: "assets/svg_icons/julia_icon.svg",
+          title: "Notificaciones",
+          subtitle: "Notificaciones de operaciones",
+          onTap: () => handleNotificationSettings(
+            ref: ref,
+            context: context,
+            type: NotificationType.operational,
+            stateNotifier: isOperationalPushActive,
+          ),
+          value: isOperationalPushActive.value,
+          isExternalState: true,
         ),
       ],
     );
