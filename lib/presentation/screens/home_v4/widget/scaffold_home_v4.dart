@@ -5,12 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-class ScaffoldHomeV4 extends StatelessWidget {
+class ScaffoldHomeV4 extends ConsumerWidget {
   const ScaffoldHomeV4({super.key, required this.body});
   final Widget body;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int colorDark = 0xff000000;
+    const int colorLight = 0xffFFFFFF;
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (progress) {
@@ -22,6 +25,8 @@ class ScaffoldHomeV4 extends StatelessWidget {
         );
       },
       child: Scaffold(
+        backgroundColor:
+            isDarkMode ? const Color(colorDark) : const Color(colorLight),
         extendBody: true,
         bottomNavigationBar: const NavBarV4(),
         appBar: const CustomAppBarV4(),

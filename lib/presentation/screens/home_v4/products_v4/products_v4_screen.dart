@@ -1,6 +1,7 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/product_container.dart';
@@ -9,14 +10,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ProductsV4Screen extends StatelessWidget {
+class ProductsV4Screen extends ConsumerWidget {
   const ProductsV4Screen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      appBar: AppBarProducts(),
-      body: SingleChildScrollView(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int colorDark = 0xff000000;
+    const int colorLight = 0xffFFFFFF;
+    return Scaffold(
+      backgroundColor:
+          isDarkMode ? const Color(colorDark) : const Color(colorLight),
+      appBar: const AppBarProducts(),
+      body: const SingleChildScrollView(
         child: ProductsBody(),
       ),
     );
@@ -82,14 +88,18 @@ class ListProducts extends HookConsumerWidget {
               children: [
                 ProductContainer(
                   colors: product,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/v4/product');
+                  },
                 ),
                 const SizedBox(
                   height: 20,
                 ),
                 ProductContainer(
                   colors: product2,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/v4/product');
+                  },
                 ),
               ],
             ),
@@ -97,7 +107,9 @@ class ListProducts extends HookConsumerWidget {
               children: [
                 ProductContainer(
                   colors: product3,
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/v4/product');
+                  },
                 ),
               ],
             ),
