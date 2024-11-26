@@ -280,6 +280,8 @@ class Interest extends ConsumerWidget {
               const TextPoppins(
                 text: "Interes generados",
                 fontSize: 8,
+                textDark: HomeV4Colors.interestGeneratedTextDark,
+                textLight: HomeV4Colors.interestGeneratedTextLight,
               ),
             ],
           ),
@@ -290,12 +292,17 @@ class Interest extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text: "S/${eyeOpen ? "10.500" : "****"}",
+                  text: "+S/${eyeOpen ? "10.500" : "****"}",
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
+                  textDark: HomeV4Colors.interestGeneratedTextDark,
+                  textLight: HomeV4Colors.interestGeneratedTextLight,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: isDarkMode
@@ -391,7 +398,7 @@ class ActiveInvestmentContainer extends ConsumerWidget {
         gradient: LinearGradient(
           colors: isDarkMode
               ? HomeV4Colors.gradientDark
-              : HomeV4Colors.gradientDark,
+              : HomeV4Colors.gradientLight,
           stops: const [0.0, 0.7],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,

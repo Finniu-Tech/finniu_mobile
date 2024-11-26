@@ -1,42 +1,48 @@
 import 'dart:ui';
 
 class HomeV4Colors {
-  static const int appBarColorDark = 0xffE7FAFF;
+  static const int appBarColorDark = 0xff1B1B1B;
   static const int appBarColorLight = 0xffE7FAFF;
   static const int logoColorDark = 0xffFFFFFF;
   static const int logoColorLight = 0xff000000;
-  static const int investContainerDark = 0xffE7FAFF;
+  static const int investContainerDark = 0xff1B1B1B;
   static const int investContainerLight = 0xffE7FAFF;
   static const List<Color> gradientDark = [
     Color(0xFF9F8FFF),
-    Color(0xFFA2E6FA),
+    Color(0xFF0D3A5C),
   ];
   static const List<Color> gradientLight = [
     Color(0xFF9F8FFF),
     Color(0xFFA2E6FA),
   ];
-  static const int capitalContainerDark = 0xffC0F1FF;
+  static const int capitalContainerDark = 0xff0D3A5C;
   static const int capitalContainerLight = 0xffC0F1FF;
-  static const int capitalTextDark = 0xff0D3A5C;
+  static const int capitalTextDark = 0xffFFFFFF;
   static const int capitalTextLight = 0xff0D3A5C;
-  static const int interestContainerDark = 0xffDCFFC8;
+  static const int interestContainerDark = 0xffB5FF8A;
   static const int interestContainerLight = 0xffDCFFC8;
   static const int interestGeneratedDark = 0xff109B60;
   static const int interestGeneratedLight = 0xff109B60;
-  static const int interestGeneratedContDark = 0xffBDFF97;
+  static const int interestGeneratedContDark = 0xff86F248;
   static const int interestGeneratedContLight = 0xffBDFF97;
-  static const int interestButtonDark = 0xff0D3A5C;
+  static const int interestGeneratedTextDark = 0xff000000;
+  static const int interestGeneratedTextLight = 0xff000000;
+  static const int interestButtonDark = 0xffA2E6FA;
   static const int interestButtonLight = 0xff0D3A5C;
-  static const int interestTextDark = 0xffFFFFFF;
+  static const int interestTextDark = 0xff0D3A5C;
   static const int interestTextLight = 0xffFFFFFF;
   static const int paymentsButtonDark = 0xffC9C0FF;
   static const int paymentsButtonLight = 0xffC9C0FF;
-  static const int paymentsTextDark = 0xffFFFFFF;
+  static const int paymentsTextDark = 0xff000000;
   static const int paymentsTextLight = 0xff000000;
   static const int dividerDark = 0xff9F8FFF;
   static const int dividerLight = 0xff9F8FFF;
-  static const int changeTitleDark = 0xff0D3A5C;
+  static const int changeTitleDark = 0xffA2E6FA;
   static const int changeTitleLight = 0xff0D3A5C;
+  static const int sunatContainerDark = 0xffFFFFFF;
+  static const int sunatContainerLight = 0xffFFFFFF;
+  static const int sunatTextDark = 0xff000000;
+  static const int sunatTextLight = 0xff000000;
   static const int changeBorderDark = 0xffDADADA;
   static const int changeBorderLight = 0xffDADADA;
   static const int rextieContainerDark = 0xff013BF5;
@@ -53,6 +59,6 @@ class HomeV4Colors {
   static const int newsTitleLight = 0xffFFFFFF;
   static const int navBarDark = 0xffC0F1FF;
   static const int navBarLight = 0xffC0F1FF;
-  static const int iconEyeDark = 0xff000000;
+  static const int iconEyeDark = 0xffFFFFFF;
   static const int iconEyeLight = 0xff000000;
 }

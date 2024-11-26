@@ -5,23 +5,27 @@ class ProductV4Colors {
 }
 
 class ProductContainerStyles {
-  // Propiedades
-  final int backgroundContainerDark;
-  final int backgroundContainerLight;
+  final bool isSoles;
+  final String uuid;
   final String imageProduct;
   final String titleText;
   final String minimumText;
   final String profitabilityText;
+  final int backgroundContainerDark;
+  final int backgroundContainerLight;
   final int titleDark;
   final int titleLight;
   final int minimumDark;
   final int minimumLight;
   final int profitabilityDark;
   final int profitabilityLight;
-  final bool isSoles;
-  final String uuid;
+  final int buttonBackDark;
+  final int buttonBackLight;
+  final int buttonTextDark;
+  final int buttonTextLight;
+  final int textDark;
+  final int textLight;
 
-  // Constructor
   ProductContainerStyles({
     required this.backgroundContainerDark,
     required this.backgroundContainerLight,
@@ -37,6 +41,12 @@ class ProductContainerStyles {
     required this.profitabilityLight,
     required this.isSoles,
     required this.uuid,
+    required this.buttonBackDark,
+    required this.buttonBackLight,
+    required this.buttonTextDark,
+    required this.buttonTextLight,
+    required this.textDark,
+    required this.textLight,
   });
 
   get getBackgroundContainerDark => backgroundContainerDark;
@@ -55,50 +65,69 @@ class ProductContainerStyles {
 }
 
 final product = ProductContainerStyles(
-  backgroundContainerDark: 0xffE9FAFF,
+  backgroundContainerDark: 0xff1B1B1B,
   backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏢",
   titleText: "Producto de inversión a Plazo Fijo",
   minimumText: "1.000",
   profitabilityText: "19",
-  titleDark: 0xff0D3A5C,
+  titleDark: 0xffFFFFFF,
   titleLight: 0xff0D3A5C,
-  minimumDark: 0xffBBF0FF,
+  minimumDark: 0xff0D3A5C,
   minimumLight: 0xffBBF0FF,
-  profitabilityDark: 0xffD2FDBA,
+  profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
   uuid: "1",
+  buttonBackDark: 0xffA2E6FA,
+  buttonBackLight: 0xff0D3A5C,
+  buttonTextDark: 0xff0D3A5C,
+  buttonTextLight: 0xffFFFFFF,
+  textDark: 0xff000000,
+  textLight: 0xff000000,
 );
+
 final product2 = ProductContainerStyles(
-  backgroundContainerDark: 0xffE9E5FF,
-  backgroundContainerLight: 0xffE9E5FF,
+  backgroundContainerDark: 0xff1B1B1B,
+  backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏡",
   titleText: "Producto de inversión con Garantía Inmobiliaria",
   minimumText: "50.000",
   profitabilityText: "16",
-  titleDark: 0xff0D3A5C,
+  titleDark: 0xffFFFFFF,
   titleLight: 0xff0D3A5C,
-  minimumDark: 0xffBBF0FF,
+  minimumDark: 0xff0D3A5C,
   minimumLight: 0xffBBF0FF,
-  profitabilityDark: 0xffD2FDBA,
+  profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: true,
   uuid: "2",
+  buttonBackDark: 0xffA2E6FA,
+  buttonBackLight: 0xff0D3A5C,
+  buttonTextDark: 0xff0D3A5C,
+  buttonTextLight: 0xffFFFFFF,
+  textDark: 0xff000000,
+  textLight: 0xff000000,
 );
 final product3 = ProductContainerStyles(
-  backgroundContainerDark: 0xffE9FAFF,
+  backgroundContainerDark: 0xff1B1B1B,
   backgroundContainerLight: 0xffE9FAFF,
   imageProduct: "🏢",
   titleText: "Producto de inversión a Plazo Fijo",
   minimumText: "1.000",
   profitabilityText: "17",
-  titleDark: 0xff0D3A5C,
+  titleDark: 0xffFFFFFF,
   titleLight: 0xff0D3A5C,
-  minimumDark: 0xffBBF0FF,
+  minimumDark: 0xff0D3A5C,
   minimumLight: 0xffBBF0FF,
-  profitabilityDark: 0xffD2FDBA,
+  profitabilityDark: 0xffB5FF8A,
   profitabilityLight: 0xffD2FDBA,
   isSoles: false,
   uuid: "3",
+  buttonBackDark: 0xffA2E6FA,
+  buttonBackLight: 0xff0D3A5C,
+  buttonTextDark: 0xff0D3A5C,
+  buttonTextLight: 0xffFFFFFF,
+  textDark: 0xff000000,
+  textLight: 0xff000000,
 );
