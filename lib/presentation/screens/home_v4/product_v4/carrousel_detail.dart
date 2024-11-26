@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -5,6 +7,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart
 import 'package:finniu/presentation/screens/catalog/widgets/carrousel_slide.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -37,6 +40,7 @@ class CarrouselDetailV4 extends ConsumerWidget {
         columnColorDark: 0xff104872,
         columnColorLight: 0xff104872,
       ),
+      const DistributionContainer(),
     ];
 
     return Container(
@@ -51,6 +55,118 @@ class CarrouselDetailV4 extends ConsumerWidget {
           viewportFraction: 0.7,
         ),
       ),
+    );
+  }
+}
+
+class ChartData {
+  final String category;
+  final double value;
+  final Color color;
+
+  ChartData(this.category, this.value, this.color);
+}
+
+class DistributionContainer extends HookConsumerWidget {
+  const DistributionContainer({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final PageController pageController = usePageController();
+    final currentPage = useState(0);
+
+    final List<ChartData> chartData = [
+      ChartData('Suplementación', 25, const Color(0xff0D3A5C)),
+      ChartData('Industriales', 21, const Color(0xffA2E6FA)),
+      ChartData('Agroindustria', 14, const Color(0xffB9A8FF)),
+      ChartData('Logística', 12, const Color(0xffAAE786)),
+      ChartData('Oil & Gas', 10, const Color(0xff326A95)),
+      ChartData('Inmobiliario', 9, const Color(0xff8066E8)),
+      ChartData('Maquinarias', 9, const Color(0xff71DFFF)),
+    ];
+    useEffect(
+      () {
+        final timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+          if (currentPage.value < chartData.length - 1) {
+            currentPage.value++;
+          } else {
+            currentPage.value = 0;
+          }
+
+          pageController.animateToPage(
+            currentPage.value,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+        });
+        return timer.cancel;
+      },
+      [],
+    );
+
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SlideCarouselCard(
+          color: isDarkMode ? 0xff1B1B1B : 0xffDCF5FC,
+          body: SfCircularChart(
+            series: <CircularSeries>[
+              DoughnutSeries<ChartData, String>(
+                dataSource: chartData,
+                xValueMapper: (ChartData data, _) => data.category,
+                yValueMapper: (ChartData data, _) => data.value,
+                pointColorMapper: (ChartData data, _) => data.color,
+                innerRadius: '70%',
+                dataLabelSettings: const DataLabelSettings(
+                  isVisible: false,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          width: 150,
+          child: PageView(
+            controller: pageController,
+            children: chartData.map((e) {
+              return SizedBox(
+                width: 150,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextPoppins(
+                      text: "${e.value}%",
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      textDark: 0xffFFFFFF,
+                      textLight: 0xff000000,
+                    ),
+                    TextPoppins(
+                      text: e.category,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      textDark: 0xffFFFFFF,
+                      textLight: 0xff000000,
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
+          ),
+        ),
+        const Positioned(
+          top: 30,
+          child: TextPoppins(
+            text: "Distribución",
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            textDark: 0xffFFFFFF,
+            textLight: 0xff000000,
+          ),
+        ),
+      ],
     );
   }
 }
