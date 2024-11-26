@@ -114,6 +114,23 @@ class _BodyProfile extends ConsumerWidget {
         ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/settings.svg",
+          title: "new home",
+          subtitle:
+              "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
+          onTap: () => {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.navigateTo,
+              parameters: {
+                "screen": FirebaseScreen.profileV2,
+                "navigate_to": FirebaseScreen.settingsV2,
+              },
+            ),
+            Navigator.pushNamed(context, '/v4/home'),
+          },
+        ),
+        ButtonNavigateProfile(
+          isComplete: true,
+          icon: "assets/svg_icons/settings.svg",
           title: "Configuraciones",
           subtitle:
               "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
