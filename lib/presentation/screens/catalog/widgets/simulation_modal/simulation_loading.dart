@@ -35,8 +35,8 @@ class SimulationLoading extends ConsumerWidget {
     const int monthEveryTextLight = 0xffF0E4FF;
     const int textEveryDark = 0xff000000;
     const int textEveryLight = 0xff000000;
-    const int dividerDark = 0xff1A1A1A;
-    const int dividerLight = 0xffDFF7FF;
+    // const int dividerDark = 0xff1A1A1A;
+    // const int dividerLight = 0xffDFF7FF;
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
       child: Column(
@@ -46,11 +46,11 @@ class SimulationLoading extends ConsumerWidget {
           Image.asset(
             "assets/images/logo_simulation${isDarkMode ? "_dark" : "_light"}.png",
             width: 75,
-            height: 54,
+            height: 75,
             fit: BoxFit.fill,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
@@ -63,42 +63,39 @@ class SimulationLoading extends ConsumerWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  AnimationNumber(
+                  AnimationNumberNotComma(
                     beginNumber: 0,
                     endNumber: startingAmount,
                     duration: 1,
                     fontSize: 24,
                     colorText: isDarkMode ? numberDark : numberLight,
+                    isSoles: isSoles,
                   ),
                 ],
               ),
-              Container(
-                width: 2,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(dividerDark)
-                      : const Color(dividerLight),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextPoppins(
+                      text: "con un % de retorno",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      align: TextAlign.start,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    TextPoppins(
+                      text: "--%",
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      textDark: percentageDark,
+                      textLight: percentageLight,
+                    ),
+                  ],
                 ),
-              ),
-              const Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextPoppins(
-                    text: "con un % de retorno",
-                    fontSize: 16,
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  TextPoppins(
-                    text: "--%",
-                    fontSize: 32,
-                    fontWeight: FontWeight.w500,
-                    textDark: percentageDark,
-                    textLight: percentageLight,
-                  ),
-                ],
               ),
             ],
           ),
@@ -172,7 +169,7 @@ class SimulationLoading extends ConsumerWidget {
                 ),
                 const TextPoppins(
                   text: "Cada mes recibirás ",
-                  fontSize: 16,
+                  fontSize: 14,
                   textDark: textEveryDark,
                   textLight: textEveryLight,
                 ),

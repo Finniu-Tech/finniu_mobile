@@ -96,9 +96,10 @@ void loginEmailHelper({
               bool hadDeepLink = await deepLinkHandler.checkSavedDeepLink();
               context.loaderOverlay.hide();
               if (!hadDeepLink) {
-                Navigator.pushNamed(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
                   route,
+                  (route) => false,
                 );
               }
             }

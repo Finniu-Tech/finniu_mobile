@@ -166,7 +166,7 @@ String? validateName({
     boolNotifier.value = true;
     return null;
   }
-  if (RegExp(r'[^a-zA-Z\s]').hasMatch(value)) {
+  if (RegExp(r'[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]').hasMatch(value)) {
     showSnackBarV2(
       context: context,
       title: "Nombre inválido",
