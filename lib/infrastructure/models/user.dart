@@ -164,7 +164,7 @@ class UserProfile {
         firstName: json["firstName"],
         lastName: json["lastName"],
         email: json["email"],
-        id: json["id"],
+        id: json["userId"],
         nickName: json["nickName"],
         civilStatus: json["civilStatus"],
         documentNumber: json["documentNumber"].toString() == 'null'
@@ -326,8 +326,8 @@ class UserProfile {
   }
 
   bool completePersonalData() {
-    return nickName != null &&
-        nickName!.isNotEmpty &&
+    return firstName != null &&
+        firstName!.isNotEmpty &&
         lastNameFather != null &&
         lastNameFather!.isNotEmpty &&
         lastNameMother != null &&

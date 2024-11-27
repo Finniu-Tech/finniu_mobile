@@ -134,30 +134,33 @@ class PersonalForm extends HookConsumerWidget {
         if (civilStatusError.value) return;
         if (genderTypeError.value) return;
 
-        if (imagePath == null) {
-          ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-            eventName: FirebaseAnalyticsEvents.formValidateError,
-            parameters: {
-              "screen": FirebaseScreen.formPersonalDataV2,
-              "error": "input_image",
-            },
-          );
-          showSnackBarV2(
-            context: context,
-            title: "Falta imagen de perfil",
-            message: "Por favor, agrega una imagen de perfil.",
-            snackType: SnackType.warning,
-          );
-          return;
-        }
-        if (imageBase64 == null) {
-          showSnackBarV2(
-            context: context,
-            title: "Falta imagen de perfil",
-            message: "Por favor, agrega una imagen de perfil.",
-            snackType: SnackType.warning,
-          );
-          return;
+        if (userProfile.imageProfileUrl == null ||
+            userProfile.imageProfileUrl == "") {
+          if (imagePath == null) {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.formValidateError,
+              parameters: {
+                "screen": FirebaseScreen.formPersonalDataV2,
+                "error": "input_image",
+              },
+            );
+            showSnackBarV2(
+              context: context,
+              title: "Falta imagen de perfil",
+              message: "Por favor, agrega una imagen de perfil.",
+              snackType: SnackType.warning,
+            );
+            return;
+          }
+          if (imageBase64 == null) {
+            showSnackBarV2(
+              context: context,
+              title: "Falta imagen de perfil",
+              message: "Por favor, agrega una imagen de perfil.",
+              snackType: SnackType.warning,
+            );
+            return;
+          }
         }
 
         context.loaderOverlay.show();

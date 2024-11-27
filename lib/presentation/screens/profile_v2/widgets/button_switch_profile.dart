@@ -12,12 +12,14 @@ class ButtonSwitchProfile extends ConsumerWidget {
     required this.subtitle,
     required this.onTap,
     required this.value,
+    this.isExternalState,
   });
   final String? icon;
   final String title;
   final String subtitle;
   final VoidCallback onTap;
   final bool value;
+  final bool? isExternalState;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -32,8 +34,7 @@ class ButtonSwitchProfile extends ConsumerWidget {
         Divider(
           height: 1,
           thickness: 1,
-          color:
-              isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+          color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -46,18 +47,14 @@ class ButtonSwitchProfile extends ConsumerWidget {
               children: [
                 Column(
                   children: [
-                    icon == null
-                        ? const SizedBox.shrink()
-                        : const SizedBox(height: 15),
+                    icon == null ? const SizedBox.shrink() : const SizedBox(height: 15),
                     icon == null
                         ? const SizedBox.shrink()
                         : SvgPicture.asset(
                             icon!,
                             width: 25,
                             height: 25,
-                            color: isDarkMode
-                                ? const Color(iconDark)
-                                : const Color(iconLight),
+                            color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                           ),
                   ],
                 ),
@@ -83,10 +80,12 @@ class ButtonSwitchProfile extends ConsumerWidget {
                   ),
                 ),
                 Center(
-                  child: SwitchWidget(
-                    value: value,
-                    onTap: onTap,
-                  ),
+                  child: isExternalState == true
+                      ? ExternalStateSwitchWidget(value: value, onTap: onTap)
+                      : SwitchWidget(
+                          value: value,
+                          onTap: onTap,
+                        ),
                 ),
               ],
             ),
@@ -95,8 +94,7 @@ class ButtonSwitchProfile extends ConsumerWidget {
         Divider(
           height: 1,
           thickness: 1,
-          color:
-              isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
+          color: isDarkMode ? const Color(dividerDark) : const Color(dividerLight),
         ),
       ],
     );
@@ -137,6 +135,35 @@ class _SwitchWidgetState extends ConsumerState<SwitchWidget> {
       activeTrackColor: const Color(activeTrackColor),
       inactiveTrackColor: const Color(inactiveTrackColor),
       onChanged: (_) => {widget.onTap(), setState(() => value = !value)},
+    );
+  }
+}
+
+class ExternalStateSwitchWidget extends StatelessWidget {
+  // Cambiado a StatelessWidget
+  const ExternalStateSwitchWidget({
+    super.key,
+    required this.value,
+    required this.onTap,
+  });
+  final bool value;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    const int activeColor = 0xff0D3A5C;
+    const int activeTrackColor = 0xffD4F5FF;
+    const int inactiveThumbColor = 0xff828282;
+    const int inactiveTrackColor = 0xffF3F3F3;
+
+    return Switch(
+      key: ValueKey(value),
+      value: value,
+      activeColor: const Color(activeColor),
+      inactiveThumbColor: const Color(inactiveThumbColor),
+      activeTrackColor: const Color(activeTrackColor),
+      inactiveTrackColor: const Color(inactiveTrackColor),
+      onChanged: (_) => onTap(),
     );
   }
 }

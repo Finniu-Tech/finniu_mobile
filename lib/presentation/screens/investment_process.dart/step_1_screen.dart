@@ -352,9 +352,10 @@ class _FormStep1State extends ConsumerState<FormStep1> {
         "navigate_to": FirebaseScreen.investmentStep2V2,
       },
     );
-    Navigator.pushNamed(
+    Navigator.pushNamedAndRemoveUntil(
       context,
       '/v2/investment/step-2',
+      (route) => false,
       arguments: {
         'fund': widget.fund,
         'preInvestmentUUID': response.preInvestmentUUID,
@@ -403,9 +404,10 @@ class _FormStep1State extends ConsumerState<FormStep1> {
     );
     context.loaderOverlay.hide();
     if (widget.reInvestmentType == typeReinvestmentEnum.CAPITAL_ADITIONAL) {
-      Navigator.pushNamed(
+      Navigator.pushNamedAndRemoveUntil(
         context,
         '/v2/investment/step-2',
+        (route) => false,
         arguments: {
           'fund': widget.fund,
           'preInvestmentUUID': response.reInvestmentUuid,

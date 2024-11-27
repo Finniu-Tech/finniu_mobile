@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/observers/network_observer.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/intro_screen.dart';
 import 'package:finniu/routes/routes.dart';
@@ -12,10 +13,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class AppProduction extends ConsumerStatefulWidget {
-  final PushNotificationService pushNotificationService;
+  // final PushNotificationService pushNotificationService;
 
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
-  const AppProduction({super.key, required this.pushNotificationService});
+  // const AppProduction({super.key, required this.pushNotificationService});
+  const AppProduction({super.key});
 
   @override
   ConsumerState<AppProduction> createState() => _AppProductionState();
@@ -23,12 +25,15 @@ class AppProduction extends ConsumerStatefulWidget {
 
 class _AppProductionState extends ConsumerState<AppProduction> {
   late final DeepLinkHandler _deepLinkHandler;
+  late final PushNotificationService _pushNotificationService;
 
   @override
   void initState() {
     super.initState();
     _deepLinkHandler = ref.read(deepLinkHandlerProvider);
+    _pushNotificationService = ref.read(pushNotificationServiceProvider);
     _deepLinkHandler.initialize();
+    _pushNotificationService.initialize();
   }
 
   @override
@@ -42,9 +47,10 @@ class _AppProductionState extends ConsumerState<AppProduction> {
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     AppProduction.analytics.setAnalyticsCollectionEnabled(true);
+    final navigatorKey = ref.watch(globalNavigatorKeyProvider);
 
     return MaterialApp(
-      navigatorKey: _deepLinkHandler.navigatorKey,
+      navigatorKey: navigatorKey,
       title: 'Finniu',
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
@@ -70,10 +76,10 @@ class _AppProductionState extends ConsumerState<AppProduction> {
       builder: (context, child) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
           _deepLinkHandler.processPendingNavigations();
+          _pushNotificationService.processPendingNavigations();
         });
 
-        return InternetConnectionAlertWidget(
-            child: child ?? const SizedBox.shrink());
+        return InternetConnectionAlertWidget(child: child ?? const SizedBox.shrink());
       },
     );
   }
