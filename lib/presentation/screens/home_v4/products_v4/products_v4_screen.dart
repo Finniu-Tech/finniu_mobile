@@ -1,10 +1,12 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
+import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/product_container.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -16,12 +18,12 @@ class ProductsV4Screen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int colorDark = 0xff000000;
-    const int colorLight = 0xffFFFFFF;
     return Scaffold(
-      backgroundColor:
-          isDarkMode ? const Color(colorDark) : const Color(colorLight),
+      backgroundColor: isDarkMode
+          ? const Color(HomeV4Colors.backgroudDark)
+          : const Color(HomeV4Colors.backgroudLight),
       appBar: const AppBarProducts(),
+      bottomNavigationBar: const NavBarV4(),
       body: const SingleChildScrollView(
         child: ProductsBody(),
       ),

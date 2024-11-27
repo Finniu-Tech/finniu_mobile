@@ -1,5 +1,7 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/presentation/providers/eye_home_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/switch.dart';
@@ -192,6 +194,7 @@ class InterestButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onTap() {
+      ref.read(navigatorStateProvider.notifier).state = 1;
       Navigator.pushNamed(context, '/v4/products');
     }
 
@@ -249,6 +252,7 @@ class Interest extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
     final eyeOpen = ref.watch(eyeHomeProvider);
     return Container(
       padding: const EdgeInsets.all(10),
@@ -292,7 +296,8 @@ class Interest extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text: "+S/${eyeOpen ? "10.500" : "****"}",
+                  text:
+                      "+${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   textDark: HomeV4Colors.interestGeneratedTextDark,
@@ -337,6 +342,7 @@ class InvestCapital extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final eyeOpen = ref.watch(eyeHomeProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -372,7 +378,7 @@ class InvestCapital extends ConsumerWidget {
           Skeletonizer(
             enabled: isLoaded,
             child: TextPoppins(
-              text: "S/${eyeOpen ? "10.500" : "****"}",
+              text: "${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

@@ -61,4 +61,15 @@ class HomeV4Colors {
   static const int navBarLight = 0xffC0F1FF;
   static const int iconEyeDark = 0xffFFFFFF;
   static const int iconEyeLight = 0xff000000;
+  static const int backgroudDark = 0xff000000;
+  static const int backgroudLight = 0xffFFFFFF;
+}
+
+class NavBarV4Colors {
+  static const int backgroundColorDark = 0xff0E0E0E;
+  static const int backgroundColorLight = 0xffFFFFFF;
+  static const int borderDark = 0xff3C3C3C;
+  static const int borderLight = 0xffE6E6E6;
+  static const int iconDark = 0xffA2E6FA;
+  static const int iconLight = 0xff0D3A5C;
 }
