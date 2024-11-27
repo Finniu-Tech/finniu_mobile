@@ -11,6 +11,20 @@ class Preferences {
   static bool _showedPushNotificationReminder = false;
   static bool _hasRequestedPushNotificationPermission = false;
   static String? _pendingNotificationRoute;
+  static String? _installationId;
+
+  static String? get installationId {
+    return _prefs.getString('installationId') ?? _installationId;
+  }
+
+  static set installationId(String? id) {
+    _installationId = id;
+    if (id != null) {
+      _prefs.setString('installationId', id);
+    } else {
+      _prefs.remove('installationId');
+    }
+  }
 
   static String? get pendingNotificationRoute {
     return _prefs.getString('pendingNotificationRoute') ?? _pendingNotificationRoute;
