@@ -110,6 +110,15 @@ class ProductBody extends ConsumerWidget {
       minimumLightSoles: 0xffBBF0FF,
       minimumTextColorLightSoles: 0xff000000,
     );
+
+    void onPressCall() {
+      print("on press call");
+    }
+
+    void onPressSimulator() {
+      print("on press simulator");
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -146,6 +155,102 @@ class ProductBody extends ConsumerWidget {
         ),
         CarrouselDetailV4(
           itemCarrousel: itemsCarousel,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        RowButtons(
+          onPressCall: onPressCall,
+          onPressSimulator: onPressSimulator,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
+    );
+  }
+}
+
+class RowButtons extends ConsumerWidget {
+  const RowButtons({
+    super.key,
+    required this.onPressCall,
+    required this.onPressSimulator,
+  });
+  final Function() onPressCall;
+  final Function() onPressSimulator;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int callButtonDark = 0xff252525;
+    const int callButtonLight = 0xffA2E6FA;
+    const int simulatorButtonDark = 0xffA2E6FA;
+    const int simulatorButtonLight = 0xff0D3A5C;
+    const int callTextDark = 0xffA2E6FA;
+    const int callTextLight = 0xff0A2E4A;
+    const int simulatorTextDark = 0xff0D3A5C;
+    const int simulatorTextLight = 0xffFFFFFF;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        GestureDetector(
+          onTap: onPressCall,
+          child: Container(
+            width: 155,
+            height: 40,
+            decoration: BoxDecoration(
+              color: isDarkMode
+                  ? const Color(callButtonDark)
+                  : const Color(callButtonLight),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextPoppins(
+                  text: "Agendar",
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  textDark: callTextDark,
+                  textLight: callTextLight,
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Icon(
+                  Icons.video_call_outlined,
+                  size: 24,
+                ),
+              ],
+            ),
+          ),
+        ),
+        GestureDetector(
+          onTap: onPressSimulator,
+          child: Container(
+            width: 155,
+            height: 40,
+            decoration: BoxDecoration(
+              color: isDarkMode
+                  ? const Color(simulatorButtonDark)
+                  : const Color(simulatorButtonLight),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            child: const Center(
+              child: TextPoppins(
+                text: "Agendar",
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                textDark: simulatorTextDark,
+                textLight: simulatorTextLight,
+              ),
+            ),
+          ),
         ),
       ],
     );
