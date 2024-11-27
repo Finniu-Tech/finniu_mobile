@@ -1,4 +1,3 @@
-import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,56 +8,30 @@ class ProfileCompletenessSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final profileCompletenessAsync = ref.watch(userProfileCompletenessProvider);
-
-    // return profileCompletenessAsync.when(
-    //   data: (profileCompleteness) {
-    //     if (!profileCompleteness.isComplete()) {
-    //       return CompleteProfileNotificationWidget(
-    //         message:
-    //             'Completa tus datos en unos minutos para comenzar a invertir',
-    //         buttonText: 'Completar',
-    //         onPressed: () {
-    //           Navigator.pushNamed(
-    //             context,
-    //             profileCompleteness.getNextStep() ?? '/v2/my_data',
-    //           );
-    //         },
-    //         imagePath: 'assets/home/complete_profile.png',
-    //       );
-    //     } else {
-    //       return const SizedBox.shrink();
-    //     }
-    //   },
-    //   loading: () => const Center(child: CircularProgressIndicator()),
-    //   error: (error, stack) =>
-    //       const Text('Error al cargar el estado del perfil'),
-    // );
-    final userProfile = ref.watch(userProfileNotifierProvider);
-    final userProfileCompleteness = UserProfileCompleteness(
-      profileComplete: userProfile.completeData(),
-      personalDataComplete: userProfile.completePersonalData() ? 100 : 0,
-      locationComplete: userProfile.completeLocationData() ? 100 : 0,
-      occupationComplete: userProfile.completeJobData() ? 100 : 0,
-      legalTermsCompleteness: 100,
-      completionPercentage: 100,
+    final profileCompletenessAsync = ref.watch(userProfileCompletenessProvider);
+    return profileCompletenessAsync.when(
+      data: (profileCompleteness) {
+        if (!profileCompleteness.isComplete()) {
+          return CompleteProfileNotificationWidget(
+            message:
+                'Completa tus datos en unos minutos para comenzar a invertir',
+            buttonText: 'Completar',
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                profileCompleteness.getNextStep() ?? '/v2/my_data',
+              );
+            },
+            imagePath: 'assets/home/complete_profile.png',
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) =>
+          const Text('Error al cargar el estado del perfil'),
     );
-    if (userProfile.completeData() != 1) {
-      return CompleteProfileNotificationWidget(
-        message: 'Completa tus datos en unos minutos para comenzar a invertir',
-        buttonText: 'Completar',
-        onPressed: () {
-          Navigator.pushNamed(
-              context, userProfileCompleteness.getNextStep() ?? '/v2/my_data',
-              arguments: {
-                'birthday': true,
-              });
-        },
-        imagePath: 'assets/home/complete_profile.png',
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
   }
 }
 

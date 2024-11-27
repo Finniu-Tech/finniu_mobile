@@ -12,6 +12,7 @@ import 'package:finniu/presentation/screens/complete_details/widgets/app_bar_log
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/form_data_navigator.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/progress_form.dart';
 import 'package:finniu/presentation/screens/form_personal_data_v2/widgets/title_form.dart';
+import 'package:finniu/presentation/screens/profile_v2/widgets/image_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/svg.dart';
@@ -176,8 +177,8 @@ class AddImageProfile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int backgroundDark = 0xff222222;
-    const int backgroundLight = 0xffEEEEEE;
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final String? imagePath = ref.watch(imagePathProvider);
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
     return SizedBox(
@@ -190,25 +191,96 @@ class AddImageProfile extends ConsumerWidget {
             onTap: () {
               addImage(context: context, ref: ref);
             },
-            child: Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                color: isDarkMode
-                    ? const Color(backgroundDark)
-                    : const Color(backgroundLight),
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: Center(
-                child: SvgPicture.asset(
-                  "assets/svg_icons/gallery_add_icon_v2.svg",
-                  width: 20,
-                  height: 20,
-                  color: isDarkMode
-                      ? const Color(iconDark)
-                      : const Color(iconLight),
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: 75,
+                  height: 75,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isDarkMode
+                          ? const Color(iconDark).withOpacity(0.3)
+                          : const Color(iconDark).withOpacity(0.3),
+                      width: 1,
+                    ),
+                  ),
+                  child: ClipOval(
+                    child: userProfile.imageProfileUrl == "" ||
+                            userProfile.imageProfileUrl == null
+                        ? const SizedBox()
+                        : Image.network(
+                            userProfile.imageProfileUrl!,
+                            width: 10,
+                            height: 10,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else {
+                                return const UserImageHelp();
+                              }
+                            },
+                            errorBuilder: (context, error, stackTrace) =>
+                                const UserImageHelp(),
+                            fit: BoxFit.fill,
+                          ),
+                  ),
                 ),
-              ),
+                Container(
+                  width: 90,
+                  height: 90,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.transparent,
+                      width: 8,
+                    ),
+                  ),
+                  child: ClipOval(
+                    child: imagePath != null
+                        ? GestureDetector(
+                            onTap: () {
+                              addImage(context: context, ref: ref);
+                            },
+                            child: ClipOval(
+                              clipBehavior: Clip.hardEdge,
+                              child: Image.file(
+                                File(imagePath),
+                                fit: BoxFit.fill,
+                                width: 80,
+                                height: 80,
+                              ),
+                            ),
+                          )
+                        : GestureDetector(
+                            onTap: () {
+                              addImage(context: context, ref: ref);
+                            },
+                            child: Container(
+                              width: 90,
+                              height: 90,
+                              decoration: BoxDecoration(
+                                color: isDarkMode
+                                    ? const Color(iconDark).withOpacity(0.3)
+                                    : const Color(iconDark).withOpacity(0.3),
+                                borderRadius: BorderRadius.circular(100),
+                              ),
+                              child: Center(
+                                child: SvgPicture.asset(
+                                  "assets/svg_icons/gallery_add_icon_v2.svg",
+                                  width: 30,
+                                  height: 30,
+                                  color: isDarkMode
+                                      ? const Color(iconLight)
+                                      : const Color(iconLight),
+                                ),
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(
