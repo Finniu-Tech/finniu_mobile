@@ -94,7 +94,7 @@ class ProductBody extends ConsumerWidget {
       titleDark: 0xffFFFFFF,
       titleLight: 0xff0D3A5C,
       minimumDark: 0xff0D3A5C,
-      minimumLight: isSoles ? 0xffBBF0FF : 0xff0D3A5C,
+      minimumLight: 0xff0D3A5C,
       profitabilityDark: 0xffB5FF8A,
       profitabilityLight: 0xffD2FDBA,
       isSoles: true,
@@ -106,7 +106,9 @@ class ProductBody extends ConsumerWidget {
       textDark: 0xff000000,
       textLight: 0xff000000,
       minimunTextColorDark: 0xffFFFFFF,
-      minimumTextColorLight: isSoles ? 0xff000000 : 0xffFFFFFF,
+      minimumTextColorLight: 0xffFFFFFF,
+      minimumLightSoles: 0xffBBF0FF,
+      minimumTextColorLightSoles: 0xff000000,
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

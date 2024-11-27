@@ -29,30 +29,35 @@ class ProductContainerStyles {
   final int textLight;
   final int minimunTextColorDark;
   final int minimumTextColorLight;
+  final int minimumLightSoles;
+  final int minimumTextColorLightSoles;
 
-  ProductContainerStyles(
-      {required this.backgroundContainerDark,
-      required this.backgroundContainerLight,
-      required this.imageProduct,
-      required this.titleText,
-      required this.minimumText,
-      required this.profitabilityText,
-      required this.titleDark,
-      required this.titleLight,
-      required this.minimumDark,
-      required this.minimumLight,
-      required this.profitabilityDark,
-      required this.profitabilityLight,
-      required this.isSoles,
-      required this.uuid,
-      required this.buttonBackDark,
-      required this.buttonBackLight,
-      required this.buttonTextDark,
-      required this.buttonTextLight,
-      required this.textDark,
-      required this.textLight,
-      required this.minimunTextColorDark,
-      required this.minimumTextColorLight});
+  ProductContainerStyles({
+    required this.backgroundContainerDark,
+    required this.backgroundContainerLight,
+    required this.imageProduct,
+    required this.titleText,
+    required this.minimumText,
+    required this.profitabilityText,
+    required this.titleDark,
+    required this.titleLight,
+    required this.minimumDark,
+    required this.minimumLight,
+    required this.profitabilityDark,
+    required this.profitabilityLight,
+    required this.isSoles,
+    required this.uuid,
+    required this.buttonBackDark,
+    required this.buttonBackLight,
+    required this.buttonTextDark,
+    required this.buttonTextLight,
+    required this.textDark,
+    required this.textLight,
+    required this.minimunTextColorDark,
+    required this.minimumTextColorLight,
+    required this.minimumLightSoles,
+    required this.minimumTextColorLightSoles,
+  });
 
   get getBackgroundContainerDark => backgroundContainerDark;
   get getBackgroundContainerLight => backgroundContainerLight;
@@ -94,6 +99,8 @@ final product = ProductContainerStyles(
   textLight: 0xff000000,
   minimunTextColorDark: 0xffFFFFFF,
   minimumTextColorLight: 0xff000000,
+  minimumLightSoles: 0xffBBF0FF,
+  minimumTextColorLightSoles: 0xff000000,
 );
 
 final product2 = ProductContainerStyles(
@@ -119,6 +126,8 @@ final product2 = ProductContainerStyles(
   textLight: 0xff000000,
   minimunTextColorDark: 0xffFFFFFF,
   minimumTextColorLight: 0xff000000,
+  minimumLightSoles: 0xffBBF0FF,
+  minimumTextColorLightSoles: 0xff000000,
 );
 final product3 = ProductContainerStyles(
   backgroundContainerDark: 0xff1B1B1B,
@@ -143,6 +152,8 @@ final product3 = ProductContainerStyles(
   textLight: 0xff000000,
   minimunTextColorDark: 0xffFFFFFF,
   minimumTextColorLight: 0xff000000,
+  minimumLightSoles: 0xffBBF0FF,
+  minimumTextColorLightSoles: 0xff000000,
 );
 
 class ChartData {
