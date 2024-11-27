@@ -158,37 +158,59 @@ class _BodySettings extends HookConsumerWidget {
       try {
         context.loaderOverlay.show();
 
-        if (newValue) {
-          final hasPermission = await pushService.areNotificationsEnabled();
+        // Verificar el estado actual de los permisos del SO
+        final hasPermission = await pushService.areNotificationsEnabled();
 
-          if (!hasPermission) {
-            final permissionsGranted = await pushService.requestNativePermissions(context, pushService);
-            if (!permissionsGranted) {
-              context.loaderOverlay.hide();
-              return;
-            }
+        if (newValue && !hasPermission) {
+          final permissionsGranted = await pushService.requestNativePermissions(context, pushService);
+          if (!permissionsGranted) {
+            context.loaderOverlay.hide();
+            return;
           }
         }
 
-        await _updateNotificationPreferences(
-          ref: ref,
-          type: type,
-          value: newValue,
-        );
-
-        print('befotre notification settings updated');
+        // Preparar las actualizaciones incluyendo el state basado en los permisos del SO
+        final Map<String, dynamic> updates = {
+          'state': hasPermission ? 'active' : 'denied', // Siempre actualizar el state según permisos del SO
+        };
 
         if (type == NotificationType.operational) {
-          print('Updating operational push settings');
+          updates['accepts_operational'] = newValue;
+          updates['accepts_marketing'] = isMarketingPushActive.value;
+        } else if (type == NotificationType.marketing) {
+          updates['accepts_marketing'] = newValue;
+          updates['accepts_operational'] = isOperationalPushActive.value;
+        }
+
+        final deviceInfo = await DeviceInfoService().getDeviceInfo(userProfile.id!);
+        await pushService.updateDevice(
+          deviceId: deviceInfo.deviceId,
+          updates: updates,
+        );
+
+        if (type == NotificationType.operational) {
           isOperationalPushActive.value = newValue;
         }
         if (type == NotificationType.marketing) {
           isMarketingPushActive.value = newValue;
         }
+
+        if (!hasPermission && newValue) {
+          stateNotifier.value = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Por favor activa los permisos de notificaciones en la configuración'),
+              duration: Duration(seconds: 3),
+            ),
+          );
+        }
       } catch (e) {
         print('Error updating notification settings: $e');
+        stateNotifier.value = !newValue;
       } finally {
-        context.loaderOverlay.hide();
+        if (context.mounted) {
+          context.loaderOverlay.hide();
+        }
       }
     }
 
