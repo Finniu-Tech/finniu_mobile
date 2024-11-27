@@ -109,6 +109,7 @@ class ImageProfileStack extends ConsumerWidget {
                             },
                             errorBuilder: (context, error, stackTrace) =>
                                 const UserImageHelp(),
+                            fit: BoxFit.fill,
                           ),
                   ),
                 ),

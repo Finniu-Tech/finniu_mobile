@@ -58,12 +58,16 @@ Future<dynamic> investmentSimulationModal(
 }) async {
   showModalBottomSheet(
     context: context,
-    builder: (context) => BodySimulation(
-      startingAmount: startingAmount,
-      monthInvestment: mouthInvestment,
-      toInvestPressed: toInvestPressed,
-      recalculatePressed: recalculatePressed,
-      coupon: coupon,
+    isScrollControlled: true,
+    builder: (context) => SizedBox(
+      height: 480,
+      child: BodySimulation(
+        startingAmount: startingAmount,
+        monthInvestment: mouthInvestment,
+        toInvestPressed: toInvestPressed,
+        recalculatePressed: recalculatePressed,
+        coupon: coupon,
+      ),
     ),
   );
 }

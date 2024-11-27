@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -58,9 +59,7 @@ class ButtonInvestment extends ConsumerWidget {
           elevation: WidgetStateProperty.all(5),
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -69,9 +68,7 @@ class ButtonInvestment extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode
-                ? const Color(colorTextButtonDarkColor)
-                : const Color(colorTextButtonLightColor),
+            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
             fontWeight: FontWeight.w500,
@@ -241,9 +238,7 @@ class ButtonForm extends ConsumerWidget {
                 return Colors.grey;
               }
               return Color(
-                isDarkMode
-                    ? buttonBackgroundColorDark
-                    : buttonBackgroundColorLight,
+                isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
               );
             },
           ),
@@ -252,9 +247,7 @@ class ButtonForm extends ConsumerWidget {
               if (states.contains(WidgetState.disabled)) {
                 return Colors.black38;
               }
-              return isDarkMode
-                  ? const Color(colorTextButtonDarkColor)
-                  : const Color(colorTextButtonLightColor);
+              return isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor);
             },
           ),
         ),
@@ -326,9 +319,7 @@ class ButtonDialog extends ConsumerWidget {
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.all(
             Color(
-              isDarkMode
-                  ? buttonBackgroundColorDark
-                  : buttonBackgroundColorLight,
+              isDarkMode ? buttonBackgroundColorDark : buttonBackgroundColorLight,
             ),
           ),
         ),
@@ -337,9 +328,7 @@ class ButtonDialog extends ConsumerWidget {
           text,
           textAlign: TextAlign.center,
           style: TextStyle(
-            color: isDarkMode
-                ? const Color(colorTextButtonDarkColor)
-                : const Color(colorTextButtonLightColor),
+            color: isDarkMode ? const Color(colorTextButtonDarkColor) : const Color(colorTextButtonLightColor),
             fontSize: 16,
             fontFamily: "Poppins",
           ),
@@ -421,14 +410,12 @@ class BodyDialog extends ConsumerWidget {
                 ),
                 Row(
                   children: [
-                    Text(
+                    AutoSizeText(
                       textTitle,
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: isDarkMode
-                            ? const Color(labelTextDarkColor)
-                            : const Color(labelTextLightColor),
+                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                       ),
                     ),
                     Image.asset('assets/icons/icon_tanks.png'),
@@ -441,7 +428,7 @@ class BodyDialog extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       textBody,
                       style: const TextStyle(
                         fontSize: 12,
@@ -450,15 +437,13 @@ class BodyDialog extends ConsumerWidget {
                       maxLines: 4,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    Text(
+                    AutoSizeText(
                       textTanks,
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.bold,
                         fontFamily: "Poppins",
-                        color: isDarkMode
-                            ? const Color(labelTextDarkColor)
-                            : const Color(labelTextLightColor),
+                        color: isDarkMode ? const Color(labelTextDarkColor) : const Color(labelTextLightColor),
                       ),
                       maxLines: 1,
                       textAlign: TextAlign.start,
