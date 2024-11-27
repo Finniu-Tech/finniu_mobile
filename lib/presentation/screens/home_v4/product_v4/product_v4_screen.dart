@@ -4,6 +4,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/app_bar_product.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/carrousel_detail.dart';
+import 'package:finniu/presentation/screens/home_v4/product_v4/item_carrousel.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/row_products.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
@@ -28,13 +29,14 @@ class ProductDetailV4 extends ConsumerWidget {
   }
 }
 
-class ProductBody extends StatelessWidget {
+class ProductBody extends ConsumerWidget {
   const ProductBody({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isSoles = ref.watch(isSolesStateProvider);
     const String objective =
         "Inversión en préstamos para capital de trabajo o desarrollo de proyectos en empresas que pertenecen al portafolio diversificado de Finniu.";
     const List<String> characteristics = [
@@ -44,51 +46,44 @@ class ProductBody extends StatelessWidget {
       "Plazo de inversión desde 6 meses",
       "Riesgo: Moderado",
     ];
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TitleDetail(),
-        ObjectiveDetail(
-          objective: objective,
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Characteristics(
-          characteristics: characteristics,
-        ),
-        SizedBox(
-          height: 15,
-        ),
-        Divider(thickness: 2),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SwitchMoney(
-                switchHeight: 30,
-                switchWidth: 67,
-              ),
-            ],
-          ),
-        ),
-        RowMinRent(),
-        CarrouselDetailV4(),
-      ],
-    );
-  }
-}
+    final List<ChartData> chartData = [
+      ChartData('Suplementación', 25, const Color(0xff0D3A5C)),
+      ChartData('Industriales', 21, const Color(0xffA2E6FA)),
+      ChartData('Agroindustria', 14, const Color(0xffB9A8FF)),
+      ChartData('Logística', 12, const Color(0xffAAE786)),
+      ChartData('Oil & Gas', 10, const Color(0xff326A95)),
+      ChartData('Inmobiliario', 9, const Color(0xff8066E8)),
+      ChartData('Maquinarias', 9, const Color(0xff71DFFF)),
+    ];
+    const dataInvestGrafic = [
+      {"x": "Ene 24", "y": 4.3},
+      {"x": "Feb 24", "y": 4.5},
+      {"x": "Mar 24", "y": 4.6},
+    ];
 
-class RowMinRent extends ConsumerWidget {
-  const RowMinRent({
-    super.key,
-  });
+    final List<Widget> itemsCarousel = [
+      ManagedAssetsV4(
+        investmentsText: isSoles ? 5700000 : 570000,
+        cardColorDark: 0xFFB9A8FF,
+        cardColorLight: 0xFFB9A8FF,
+        dividerColorDark: 0xFF8066E8,
+        dividerColorLight: 0xFF8066E8,
+        numberColorDark: 0xFF000000,
+        numberColorLight: 0xFF000000,
+        isSoles: isSoles,
+      ),
+      const InvestedCapitalV4(
+        data: dataInvestGrafic,
+        cardColorDark: 0xff0A2F4A,
+        cardColorLight: 0xff0A2F4A,
+        columnColorDark: 0xff104872,
+        columnColorLight: 0xff104872,
+      ),
+      DistributionContainer(
+        data: chartData,
+      ),
+    ];
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isSoles = ref.watch(isSolesStateProvider);
     final colors = ProductContainerStyles(
       backgroundContainerDark: 0xff1B1B1B,
       backgroundContainerLight: 0xffE9FAFF,
@@ -110,9 +105,61 @@ class RowMinRent extends ConsumerWidget {
       buttonTextLight: 0xffFFFFFF,
       textDark: 0xff000000,
       textLight: 0xff000000,
-      minimunTextColorDark: 0xff000000,
+      minimunTextColorDark: 0xffFFFFFF,
       minimumTextColorLight: isSoles ? 0xff000000 : 0xffFFFFFF,
     );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        TitleDetail(
+          title: colors.titleText,
+        ),
+        const ObjectiveDetail(
+          objective: objective,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        const Characteristics(
+          characteristics: characteristics,
+        ),
+        const SizedBox(
+          height: 15,
+        ),
+        const Divider(thickness: 2),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SwitchMoney(
+                switchHeight: 30,
+                switchWidth: 67,
+              ),
+            ],
+          ),
+        ),
+        RowMinRent(
+          colors: colors,
+        ),
+        CarrouselDetailV4(
+          itemCarrousel: itemsCarousel,
+        ),
+      ],
+    );
+  }
+}
+
+class RowMinRent extends ConsumerWidget {
+  const RowMinRent({
+    super.key,
+    required this.colors,
+  });
+  final ProductContainerStyles colors;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 20,
@@ -226,14 +273,15 @@ class ObjectiveDetail extends StatelessWidget {
 class TitleDetail extends StatelessWidget {
   const TitleDetail({
     super.key,
+    required this.title,
   });
-
+  final String title;
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(20.0),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
       child: TextPoppins(
-        text: "Producto de \ninversión a Plazo Fijo",
+        text: title,
         fontSize: 20,
         fontWeight: FontWeight.w600,
         lines: 2,
