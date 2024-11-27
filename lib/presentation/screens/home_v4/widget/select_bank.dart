@@ -44,7 +44,11 @@ class SelectBankBody extends ConsumerWidget {
     const backgroundDark = 0xff0E0E0E;
     const backgroundLight = 0xffFFFFFF;
     const iconDark = 0xffFFFFFF;
-    const iconLight = 0xff000000;
+    const iconLight = 0xff0D3A5C;
+    const titleDark = 0xffA2E6FA;
+    const titleLight = 0xff0D3A5C;
+    const textDark = 0xffFFFFFF;
+    const textLight = 0xff0D3A5C;
     final selectedBank = isSender
         ? ref.watch(selectedBankAccountSenderProvider)
         : ref.watch(selectedBankAccountReceiverProvider);
@@ -104,18 +108,28 @@ class SelectBankBody extends ConsumerWidget {
               fontWeight: FontWeight.w500,
               lines: 2,
               align: TextAlign.center,
+              textDark: titleDark,
+              textLight: titleLight,
             ),
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.credit_card_outlined),
-                SizedBox(width: 10),
-                TextPoppins(
+                Icon(
+                  Icons.credit_card_outlined,
+                  size: 24,
+                  color: isDarkMode
+                      ? const Color(titleDark)
+                      : const Color(titleLight),
+                ),
+                const SizedBox(width: 10),
+                const TextPoppins(
                   text: "Selecciona tu cuenta bancaria",
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
                   lines: 2,
                   align: TextAlign.center,
+                  textDark: textDark,
+                  textLight: textLight,
                 ),
               ],
             ),
@@ -372,14 +386,8 @@ class BankItem extends ConsumerWidget {
                     textLight: isSelected ? textSelectLight : null,
                   ),
                   TextPoppins(
-                    text: bankAccount.bankName,
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    textDark: isSelected ? textSelectDark : null,
-                    textLight: isSelected ? textSelectLight : null,
-                  ),
-                  TextPoppins(
-                    text: getMaskedNumber(bankAccount.bankAccount),
+                    text:
+                        "${bankAccount.bankSlug} ${getMaskedNumber(bankAccount.bankAccount)}",
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     textDark: isSelected ? textSelectDark : null,
