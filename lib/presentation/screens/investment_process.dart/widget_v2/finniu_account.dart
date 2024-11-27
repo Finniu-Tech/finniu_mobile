@@ -242,19 +242,20 @@ class FinniuTranferContainer extends HookConsumerWidget {
             ),
             Row(
               children: [
-                TextPoppins(
-                  text: bank,
-                  fontSize: 12,
-                ),
+                TextPoppins(text: bank, fontSize: 12, lines: 2),
                 const SizedBox(
                   width: 5,
                 ),
-                TextPoppins(
-                  text: bankNumber,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w600,
-                  textDark: titleDark,
-                  textLight: titleLight,
+                SizedBox(
+                  width: 120,
+                  child: TextPoppins(
+                    text: bankNumber,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    textDark: titleDark,
+                    textLight: titleLight,
+                    lines: 2,
+                  ),
                 ),
               ],
             ),
