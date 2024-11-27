@@ -1,4 +1,5 @@
 import 'package:finniu/infrastructure/datasources/notifications_datasource_imp.dart';
+import 'package:finniu/infrastructure/models/notifications/notification_model.dart';
 import 'package:finniu/infrastructure/models/notifications_entity.dart';
 import 'package:finniu/main.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -6,6 +7,7 @@ import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/notifications/widgets/app_bar_notifications.dart';
+import 'package:finniu/services/device_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +23,9 @@ class NotificationsScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarNotificationsScreen(),
+      bottomNavigationBar: const NavigationBarHome(
+        colorBackground: Colors.transparent,
+      ),
       body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.0),
@@ -34,16 +39,27 @@ class NotificationsScreen extends ConsumerWidget {
 class _BodyListView extends ConsumerWidget {
   const _BodyListView();
 
+  Future<List<NotificationModel>> _getFilteredNotifications(String userId, NotificationsDataSource dataSource) async {
+    final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
+    final currentDeviceId = deviceInfo.deviceId;
+
+    final notifications = await dataSource.getNotifications(userId: userId);
+
+    return notifications.where((notification) => notification.deviceId == currentDeviceId).toList();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notificationDataSource = NotificationsDataSource(baseUrl: appConfig.notificationsBaseUrl);
     final userProfile = ref.watch(userProfileNotifierProvider);
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final bottomNavHeight = kBottomNavigationBarHeight;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height - 100,
       child: FutureBuilder<List<NotificationModel>>(
-        future: notificationDataSource.getNotifications(userId: userProfile.id!),
+        future: _getFilteredNotifications(userProfile.id!, notificationDataSource),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -60,33 +76,38 @@ class _BodyListView extends ConsumerWidget {
           final notifications = snapshot.data!;
           final groupedNotifications = _groupNotifications(notifications);
 
-          return ListView.builder(
-            itemCount: groupedNotifications.length,
-            itemBuilder: (context, index) {
-              final group = groupedNotifications[index];
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: Text(
-                      group.dateLabel,
-                      style: Theme.of(context).textTheme.titleMedium,
+          return SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height - 100 - bottomPadding - bottomNavHeight,
+            child: ListView.builder(
+              itemCount: groupedNotifications.length,
+              itemBuilder: (context, index) {
+                final group = groupedNotifications[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        group.dateLabel,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
-                  ),
-                  ...group.notifications
-                      .map(
-                        (notification) => _NotificationsColumn(
-                          textTitle: notification.title,
-                          textBody: notification.body,
-                          textDay: group.dateLabel,
-                          icon: Icons.notifications_none_outlined,
-                        ),
-                      )
-                      .toList(),
-                ],
-              );
-            },
+                    ...group.notifications
+                        .map(
+                          (notification) => _NotificationsColumn(
+                            textTitle: notification.title,
+                            textBody: notification.body,
+                            textDay: group.dateLabel,
+                            icon: Icons.notifications_none_outlined,
+                          ),
+                        )
+                        .toList(),
+                    SizedBox(height: 50),
+                  ],
+                );
+              },
+            ),
           );
         },
       ),
@@ -167,13 +188,13 @@ class _NotificationsColumn extends ConsumerWidget {
         // ),
         const SizedBox(height: 5),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
           width: MediaQuery.of(context).size.width,
-          height: 94,
+          height: 100,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -192,7 +213,7 @@ class _NotificationsColumn extends ConsumerWidget {
                   children: [
                     TextPoppins(
                       text: textTitle,
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       textDark: titleDark,
                       textLight: titleLight,
@@ -200,7 +221,7 @@ class _NotificationsColumn extends ConsumerWidget {
                     TextPoppins(
                       text: textBody,
                       fontSize: 11,
-                      lines: 2,
+                      lines: 3,
                     ),
                   ],
                 ),

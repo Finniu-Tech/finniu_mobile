@@ -136,7 +136,7 @@ class HomeScreenV2 extends HookConsumerWidget {
   void _handleTour(BuildContext context, WidgetRef ref, UserProfile profile) {
     // if (profile.hasCompletedTour != null) {
 
-    if (profile.hasCompletedTour == null) {
+    if (profile.hasCompletedTour != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         bool seeLaterTour = ref.watch(seeLaterProvider);
 

@@ -264,7 +264,7 @@ class PushNotificationService {
     await DebugLogger.log('Starting navigation with data: $data');
     print("Handling notification navigation: $data");
 
-    String route = data['deep_link'] ?? '/';
+    String route = data['deep_link'] ?? '/v2/notifications';
 
     // Guardar la ruta en preferences
     Preferences.pendingNotificationRoute = route;
