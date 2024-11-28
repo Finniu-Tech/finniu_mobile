@@ -8,8 +8,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class AppBarProducts extends ConsumerWidget implements PreferredSizeWidget {
   const AppBarProducts({
     super.key,
+    this.title = 'Productos',
   });
-
+  final String title;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -37,8 +38,8 @@ class AppBarProducts extends ConsumerWidget implements PreferredSizeWidget {
           Navigator.pop(context);
         },
       ),
-      title: const TextPoppins(
-        text: 'Productos',
+      title: TextPoppins(
+        text: title,
         fontSize: 17,
         fontWeight: FontWeight.w600,
       ),

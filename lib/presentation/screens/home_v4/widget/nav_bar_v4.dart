@@ -53,8 +53,9 @@ class NavBarV4 extends ConsumerWidget {
               "nav_bar": "true",
             },
           );
-          // Navigator.of(context)
-          //     .pushNamedAndRemoveUntil('/v2/investment', (route) => false);
+          Navigator.of(context).pushNamed(
+            '/v2/my_investments',
+          );
           break;
         case 3:
           ref.read(navigatorStateProvider.notifier).state = 2;
