@@ -154,7 +154,7 @@ class AddAccount extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return GestureDetector(
-      onTap: () => Navigator.pop(context),
+      onTap: () => Navigator.pushNamed(context, '/v2/form_accounts'),
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 50,
@@ -224,7 +224,9 @@ class ListBanks extends ConsumerWidget {
     super.key,
     required this.isSender,
   });
+
   final bool isSender;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
@@ -235,6 +237,7 @@ class ListBanks extends ConsumerWidget {
           height: 250,
           child: ListView.builder(
             shrinkWrap: true,
+            reverse: true,
             itemCount: bankAccounts.length,
             itemBuilder: (context, index) {
               return BankItem(
