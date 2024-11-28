@@ -93,9 +93,7 @@ class BodySimulation extends ConsumerWidget {
     const int backgroundLight = 0xffFFFFFF;
     return Container(
       decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -104,11 +102,8 @@ class BodySimulation extends ConsumerWidget {
       child: Stack(
         children: [
           Dialog(
-            insetPadding:
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
-            backgroundColor: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            insetPadding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             child: BodyDialog(
                 startingAmount: startingAmount,
                 monthInvestment: monthInvestment,
@@ -154,8 +149,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
       coupon: widget.coupon,
     );
 
-    final response =
-        ref.watch(calculateInvestmentFutureProvider(calculatorInput));
+    final response = ref.watch(calculateInvestmentFutureProvider(calculatorInput));
 
     return response.when(
       data: (data) {
@@ -166,6 +160,7 @@ class _BodyDialogState extends ConsumerState<BodyDialog> {
           recalculatePressed: widget.recalculatePressed,
           profitability: data.profitability!.toInt(),
           percentage: data.finalRentability!.toInt(),
+          rentabilityPerMonth: data.rentabilityPerMonth!,
         );
       },
       loading: () {

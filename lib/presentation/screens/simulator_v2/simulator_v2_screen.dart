@@ -35,9 +35,7 @@ class V2SimulatorScreen extends HookConsumerWidget {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: isDarkMode
-            ? const Color(columnColorDark)
-            : const Color(columnColorLight),
+        backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
         appBar: const AppBarSimulatorScreen(),
         bottomNavigationBar: const NavigationBarHome(
           colorBackground: Colors.transparent,
@@ -66,8 +64,7 @@ class SimulatorBody extends ConsumerStatefulWidget {
 
 class SimulatorBodyState extends ConsumerState<SimulatorBody> {
   FundEntity getCorporateFund(List<FundEntity> fundList) {
-    return fundList
-        .firstWhere((element) => element.fundType == FundTypeEnum.corporate);
+    return fundList.firstWhere((element) => element.fundType == FundTypeEnum.corporate);
   }
 
   @override
@@ -77,8 +74,7 @@ class SimulatorBodyState extends ConsumerState<SimulatorBody> {
       ref.read(fundListFutureProvider.future).then((fundList) {
         final defaultEnterpriseFund = getCorporateFund(fundList);
         if (ref.read(defaultCorporateFundProvider) == null) {
-          ref.read(defaultCorporateFundProvider.notifier).state =
-              defaultEnterpriseFund;
+          ref.read(defaultCorporateFundProvider.notifier).state = defaultEnterpriseFund;
         }
       });
     });
@@ -101,9 +97,7 @@ class SimulatorBodyState extends ConsumerState<SimulatorBody> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height * 0.6,
           decoration: BoxDecoration(
-            color: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(30),
               topRight: Radius.circular(30),
