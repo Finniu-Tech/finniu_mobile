@@ -47,6 +47,25 @@ class MyInvestmentsContainer extends ConsumerWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10.0)),
                     ),
+                    child: const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextPoppins(
+                          text: "Inversión en curso",
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                          textDark: MyInvestV4Colors.totalInvestTextDark,
+                          textLight: MyInvestV4Colors.totalInvestTextLight,
+                        ),
+                        TextPoppins(
+                          text: "S/10.326",
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          textDark: MyInvestV4Colors.totalInvestTextDark,
+                          textLight: MyInvestV4Colors.totalInvestTextLight,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -57,12 +76,34 @@ class MyInvestmentsContainer extends ConsumerWidget {
                     children: [
                       Expanded(
                         child: Container(
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: isDarkMode
                                 ? const Color(MyInvestV4Colors.rentDark)
                                 : const Color(MyInvestV4Colors.rentLight),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextPoppins(
+                                text: "Rentabilidad",
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                                textDark: MyInvestV4Colors.totalInvestTextDark,
+                                textLight:
+                                    MyInvestV4Colors.totalInvestTextLight,
+                              ),
+                              TextPoppins(
+                                text: "+S/320.60",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                textDark: MyInvestV4Colors.totalInvestTextDark,
+                                textLight:
+                                    MyInvestV4Colors.totalInvestTextLight,
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -71,6 +112,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                       ),
                       Expanded(
                         child: Container(
+                          padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: isDarkMode
                                 ? const Color(MyInvestV4Colors.investActiveDark)
@@ -78,6 +120,28 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                     MyInvestV4Colors.investActiveLight),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10.0)),
+                          ),
+                          child: const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              TextPoppins(
+                                text: "Inversiones activas",
+                                fontSize: 11,
+                                fontWeight: FontWeight.w400,
+                                textDark: MyInvestV4Colors.totalInvestTextDark,
+                                textLight:
+                                    MyInvestV4Colors.totalInvestTextLight,
+                              ),
+                              TextPoppins(
+                                text: "4 inversiones",
+                                fontSize: 20,
+                                fontWeight: FontWeight.w600,
+                                textDark: MyInvestV4Colors.totalInvestTextDark,
+                                textLight:
+                                    MyInvestV4Colors.totalInvestTextLight,
+                              ),
+                            ],
                           ),
                         ),
                       ),

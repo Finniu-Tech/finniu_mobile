@@ -314,17 +314,13 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/rextie_comminication': (BuildContext context) =>
         const RextieComminicationScree(),
     '/push_notification': (BuildContext context) => FirebaseTokenScreen(),
-
     '/v2/bubble_whatsapp': (BuildContext context) =>
         const BubbleWhatsappScreen(),
-
     '/v2/exit': (BuildContext context) => const ExitScreen(),
-
     '/v4/home': (BuildContext context) => const HomeScreenV4(),
     '/v4/products': (BuildContext context) => const ProductsV4Screen(),
     '/v4/product': (BuildContext context) => const ProductDetailV4(),
     '/debug_log': (BuildContext context) => DebugLogsScreen(),
-
     '/v2/form_accounts': (BuildContext context) => const FormAccountsScreen(),
     '/v2/my_investments': (BuildContext context) => const MyInvestmentsScreen(),
   };
