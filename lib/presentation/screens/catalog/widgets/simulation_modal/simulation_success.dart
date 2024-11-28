@@ -15,6 +15,7 @@ class SimulationSuccess extends ConsumerWidget {
     required this.recalculatePressed,
     required this.profitability,
     required this.percentage,
+    required this.rentabilityPerMonth,
   });
   final int startingAmount;
   final int monthInvestment;
@@ -22,6 +23,7 @@ class SimulationSuccess extends ConsumerWidget {
   final int percentage;
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
+  final double rentabilityPerMonth;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -135,9 +137,7 @@ class SimulationSuccess extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: 66,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(returnDark)
-                  : const Color(returnLight),
+              color: isDarkMode ? const Color(returnDark) : const Color(returnLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
@@ -156,9 +156,7 @@ class SimulationSuccess extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: 49,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(monthEveryTextDark)
-                  : const Color(monthEveryTextLight),
+              color: isDarkMode ? const Color(monthEveryTextDark) : const Color(monthEveryTextLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
@@ -169,9 +167,7 @@ class SimulationSuccess extends ConsumerWidget {
               children: [
                 Icon(
                   Icons.calendar_today_outlined,
-                  color: isDarkMode
-                      ? const Color(textEveryDark)
-                      : const Color(textEveryLight),
+                  color: isDarkMode ? const Color(textEveryDark) : const Color(textEveryLight),
                   size: 18,
                 ),
                 const SizedBox(
@@ -186,7 +182,8 @@ class SimulationSuccess extends ConsumerWidget {
                 ),
                 TextPoppins(
                   text:
-                      "${isSoles ? "S/" : "\$"}${((profitability - startingAmount) / monthInvestment).toStringAsFixed(0)}",
+                      // "${isSoles ? "S/" : "\$"}${((profitability - startingAmount) / monthInvestment).toStringAsFixed(0)}",
+                      "${isSoles ? "S/" : "\$"}${rentabilityPerMonth.toStringAsFixed(2)}",
                   fontSize: 16,
                   textDark: textEveryDark,
                   textLight: textEveryLight,
