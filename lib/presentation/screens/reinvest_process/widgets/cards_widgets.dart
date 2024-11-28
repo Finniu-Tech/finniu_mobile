@@ -119,7 +119,8 @@ class CreditCardWidget extends StatelessWidget {
 
 class CreditCardWheel extends StatefulHookConsumerWidget {
   final String currency;
-  final bool isSender; // Indica si la tarjeta es del remitente o del destinatario
+  final bool
+      isSender; // Indica si la tarjeta es del remitente o del destinatario
   final String typeReInvestment;
   const CreditCardWheel({
     super.key,
@@ -166,7 +167,8 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
       builder: (context, ref, child) {
         final bankAccountsAsyncValue = ref.watch(bankAccountFutureProvider);
         final banksAsyncValue = ref.watch(bankFutureProvider);
-        final bool createdNewBankAccount = ref.watch(boolCreatedNewBankAccountProvider);
+        final bool createdNewBankAccount =
+            ref.watch(boolCreatedNewBankAccountProvider);
 
         return SizedBox(
           height: 480,
@@ -182,7 +184,9 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                         duration: const Duration(seconds: 2),
                         curve: Curves.easeInOut,
                       );
-                      ref.read(boolCreatedNewBankAccountProvider.notifier).state = false;
+                      ref
+                          .read(boolCreatedNewBankAccountProvider.notifier)
+                          .state = false;
                     }
                   });
                   return showDetail
@@ -193,7 +197,8 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                             Column(
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width * 0.9,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.9,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
@@ -256,11 +261,13 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                               ),
                               child: TextButton(
                                 onPressed: () {
-                                  showAccountTransferModal(
-                                    context,
-                                    widget.currency,
-                                    widget.isSender,
-                                  );
+                                  Navigator.of(context)
+                                      .pushNamed('/v2/form_accounts');
+                                  // showAccountTransferModal(
+                                  //   context,
+                                  //   widget.currency,
+                                  //   widget.isSender,
+                                  // );
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: const Color(primaryLight),
@@ -310,19 +317,22 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                   if (widget.isSender) {
                                     ref
                                         .read(
-                                          selectedBankAccountSenderProvider.notifier,
+                                          selectedBankAccountSenderProvider
+                                              .notifier,
                                         )
                                         .state = bankAccountSelected;
                                   } else {
                                     ref
                                         .read(
-                                          selectedBankAccountReceiverProvider.notifier,
+                                          selectedBankAccountReceiverProvider
+                                              .notifier,
                                         )
                                         .state = bankAccountSelected;
                                   }
                                   //pop modal
                                   Navigator.of(context).pop();
-                                  if (widget.typeReInvestment == typeReinvestmentEnum.CAPITAL_ONLY &&
+                                  if (widget.typeReInvestment ==
+                                          typeReinvestmentEnum.CAPITAL_ONLY &&
                                       !widget.isSender) {
                                     showThanksModal(context);
                                   }
@@ -386,16 +396,19 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                       itemExtent: 220,
                                       diameterRatio: 2,
                                       physics: const FixedExtentScrollPhysics(),
-                                      childDelegate: ListWheelChildBuilderDelegate(
+                                      childDelegate:
+                                          ListWheelChildBuilderDelegate(
                                         builder: (context, index) {
-                                          final bankAccount = bankAccounts[index % bankAccounts.length];
+                                          final bankAccount = bankAccounts[
+                                              index % bankAccounts.length];
                                           final bank = banks.isNotEmpty
                                               ? BankEntity.getBankByName(
                                                   bankAccount.bankName,
                                                   banks,
                                                 )
                                               : null;
-                                          final imageAsset = bank?.cardImageUrl ??
+                                          final imageAsset = bank
+                                                  ?.cardImageUrl ??
                                               'https://finniu-statics.s3.amazonaws.com/finniu/images/bank/1db5fde8/agora.png';
                                           return CreditCardWidget(
                                             bankAccount: bankAccount,
@@ -403,14 +416,17 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                                             onTap: () async {
                                               if (!showDetail) {
                                                 if (banks.isNotEmpty) {
-                                                  final selectedBank = BankEntity.getBankByName(
+                                                  final selectedBank =
+                                                      BankEntity.getBankByName(
                                                     bankAccount.bankName,
                                                     banks,
                                                   );
                                                   setState(() {
                                                     showDetail = true;
-                                                    bankAccountSelected = bankAccount;
-                                                    selectedImage = selectedBank.cardImageUrl ??
+                                                    bankAccountSelected =
+                                                        bankAccount;
+                                                    selectedImage = selectedBank
+                                                            .cardImageUrl ??
                                                         'assets/credit_cards/golden_card.png';
                                                   });
                                                 } else {
@@ -430,11 +446,8 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                               height: 50,
                               child: TextButton(
                                 onPressed: () {
-                                  showAccountTransferModal(
-                                    context,
-                                    widget.currency,
-                                    widget.isSender,
-                                  );
+                                  Navigator.of(context)
+                                      .pushNamed('/v2/form_accounts');
                                 },
                                 style: TextButton.styleFrom(
                                   backgroundColor: const Color(primaryLight),
@@ -467,11 +480,13 @@ class _CreditCardWheelState extends ConsumerState<CreditCardWheel> {
                         );
                 },
                 loading: () => const Center(child: CircularProgressIndicator()),
-                error: (error, stackTrace) => const Center(child: Text('Failed to load banks')),
+                error: (error, stackTrace) =>
+                    const Center(child: Text('Failed to load banks')),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (error, stackTrace) => const Center(child: Text('Failed to load bank accounts')),
+            error: (error, stackTrace) =>
+                const Center(child: Text('Failed to load bank accounts')),
           ),
         );
       },
@@ -536,10 +551,13 @@ class FinalAmountWidget extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(settingsNotifierProvider);
-    const activeTextColor = Color(primaryDark); // Use the theme's primaryDark color
+    const activeTextColor =
+        Color(primaryDark); // Use the theme's primaryDark color
     const inactiveTextColor = Color(grayText); // Use the theme's grayText color
-    const activeBackgroundColor = Color(0xFFEBFBFF); // Use the theme's primaryLight color
-    const inactiveBackgroundColor = Color(0xFFF9FAFA); // Background color for inactive state
+    const activeBackgroundColor =
+        Color(0xFFEBFBFF); // Use the theme's primaryLight color
+    const inactiveBackgroundColor =
+        Color(0xFFF9FAFA); // Background color for inactive state
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -576,7 +594,9 @@ class FinalAmountWidget extends HookConsumerWidget {
                       ),
                     ),
                     Text(
-                      isSoles ? formatterSoles.format(amount) : formatterUSD.format(amount),
+                      isSoles
+                          ? formatterSoles.format(amount)
+                          : formatterUSD.format(amount),
                       style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.w800,
@@ -591,7 +611,9 @@ class FinalAmountWidget extends HookConsumerWidget {
                   style: TextStyle(
                     fontSize: 8.0,
                     fontWeight: FontWeight.w600,
-                    color: isActive ? activeTextColor.withOpacity(0.6) : inactiveTextColor.withOpacity(0.6),
+                    color: isActive
+                        ? activeTextColor.withOpacity(0.6)
+                        : inactiveTextColor.withOpacity(0.6),
                   ),
                 ),
               ],

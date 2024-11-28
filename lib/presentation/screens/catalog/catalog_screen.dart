@@ -86,6 +86,15 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
+              text: "form accoutns",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v2/form_accounts');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "new bank select",
               onPressed: () {
                 showBankAccountModalV4(
