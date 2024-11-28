@@ -71,7 +71,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Expanded(
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.45,
                   child: Column(
                     children: [
                       Expanded(
@@ -84,26 +85,31 @@ class MyInvestmentsContainer extends ConsumerWidget {
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10.0)),
                           ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              TextPoppins(
-                                text: "Rentabilidad",
-                                fontSize: 11,
-                                fontWeight: FontWeight.w400,
-                                textDark: MyInvestV4Colors.totalInvestTextDark,
-                                textLight:
-                                    MyInvestV4Colors.totalInvestTextLight,
-                              ),
-                              TextPoppins(
-                                text: "+S/320.60",
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                textDark: MyInvestV4Colors.totalInvestTextDark,
-                                textLight:
-                                    MyInvestV4Colors.totalInvestTextLight,
-                              ),
-                            ],
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            child: const Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                TextPoppins(
+                                  text: "Rentabilidad",
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w400,
+                                  textDark:
+                                      MyInvestV4Colors.totalInvestTextDark,
+                                  textLight:
+                                      MyInvestV4Colors.totalInvestTextLight,
+                                ),
+                                TextPoppins(
+                                  text: "+S/320.60",
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w600,
+                                  textDark:
+                                      MyInvestV4Colors.totalInvestTextDark,
+                                  textLight:
+                                      MyInvestV4Colors.totalInvestTextLight,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -112,6 +118,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                       ),
                       Expanded(
                         child: Container(
+                          width: MediaQuery.of(context).size.width * 0.45,
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: isDarkMode

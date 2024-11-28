@@ -19,4 +19,8 @@ class MyInvestV4Colors {
   static const int calendarLight = 0xffD1F5FF;
   static const int calendarIconDark = 0xffA2E6FA;
   static const int calendarIconLight = 0xff0D3A5C;
+  static const int goDocumentDark = 0xffFFFFFF;
+  static const int goDocumentLight = 0xff000000;
+  static const int dividerDark = 0xff535050;
+  static const int dividerLight = 0xffD9D9D9;
 }
