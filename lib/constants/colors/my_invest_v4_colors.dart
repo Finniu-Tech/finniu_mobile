@@ -23,4 +23,8 @@ class MyInvestV4Colors {
   static const int goDocumentLight = 0xff000000;
   static const int dividerDark = 0xff535050;
   static const int dividerLight = 0xffD9D9D9;
+  static const int itemTabBarDark = 0xffFFFFFF;
+  static const int itemTabBarLight = 0xffFFFFFF;
+  static const int itemTabBarTextDark = 0xffFFFFFF;
+  static const int itemTabBarTextLight = 0xff000000;
 }
