@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors/select_bank_account.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/re_investment_provider.dart';
@@ -13,16 +14,19 @@ void showBankAccountModalV4({
   required String currency,
   required bool isSender,
   required String typeReInvestment,
+  required BankAccount? bankSelect,
 }) {
   showModalBottomSheet(
     context: context,
     isDismissible: false,
+    enableDrag: false,
     isScrollControlled: true,
     builder: (context) {
       return SelectBankBody(
         isSender: isSender,
         currency: currency,
         typeReInvestment: typeReInvestment,
+        bankSelect: bankSelect,
       );
     },
   );
@@ -34,29 +38,25 @@ class SelectBankBody extends ConsumerWidget {
     required this.isSender,
     required this.currency,
     required this.typeReInvestment,
+    required this.bankSelect,
   });
   final bool isSender;
   final String currency;
   final String typeReInvestment;
+  final BankAccount? bankSelect;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const backgroundDark = 0xff0E0E0E;
-    const backgroundLight = 0xffFFFFFF;
-    const iconDark = 0xffFFFFFF;
-    const iconLight = 0xff0D3A5C;
-    const titleDark = 0xffA2E6FA;
-    const titleLight = 0xff0D3A5C;
-    const textDark = 0xffFFFFFF;
-    const textLight = 0xff0D3A5C;
     final selectedBank = isSender
         ? ref.watch(selectedBankAccountSenderProvider)
         : ref.watch(selectedBankAccountReceiverProvider);
 
     void closeModal() {
       isSender
-          ? ref.read(selectedBankAccountSenderProvider.notifier).state = null
-          : ref.read(selectedBankAccountReceiverProvider.notifier).state = null;
+          ? ref.read(selectedBankAccountSenderProvider.notifier).state =
+              bankSelect
+          : ref.read(selectedBankAccountReceiverProvider.notifier).state =
+              bankSelect;
       Navigator.pop(context);
     }
 
@@ -71,8 +71,8 @@ class SelectBankBody extends ConsumerWidget {
         ),
         decoration: BoxDecoration(
           color: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+              ? const Color(SelectBankAccountColors.backgroundDark)
+              : const Color(SelectBankAccountColors.backgroundLight),
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20),
             topRight: Radius.circular(20),
@@ -93,8 +93,8 @@ class SelectBankBody extends ConsumerWidget {
                       Icons.add_circle_outline,
                       size: 24,
                       color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
+                          ? const Color(SelectBankAccountColors.iconDark)
+                          : const Color(SelectBankAccountColors.iconLight),
                     ),
                   ),
                 ),
@@ -108,8 +108,8 @@ class SelectBankBody extends ConsumerWidget {
               fontWeight: FontWeight.w500,
               lines: 2,
               align: TextAlign.center,
-              textDark: titleDark,
-              textLight: titleLight,
+              textDark: SelectBankAccountColors.titleDark,
+              textLight: SelectBankAccountColors.titleLight,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -118,8 +118,8 @@ class SelectBankBody extends ConsumerWidget {
                   Icons.credit_card_outlined,
                   size: 24,
                   color: isDarkMode
-                      ? const Color(titleDark)
-                      : const Color(titleLight),
+                      ? const Color(SelectBankAccountColors.titleDark)
+                      : const Color(SelectBankAccountColors.titleLight),
                 ),
                 const SizedBox(width: 10),
                 const TextPoppins(
@@ -128,8 +128,8 @@ class SelectBankBody extends ConsumerWidget {
                   fontWeight: FontWeight.w500,
                   lines: 2,
                   align: TextAlign.center,
-                  textDark: textDark,
-                  textLight: textLight,
+                  textDark: SelectBankAccountColors.textDark,
+                  textLight: SelectBankAccountColors.textLight,
                 ),
               ],
             ),
@@ -153,17 +153,15 @@ class AddAccount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const colorDark = 0xff0D3A5C;
-    const colorLight = 0xffA2E6FA;
-    const textDark = 0xffA2E6FA;
-    const textLight = 0xff000000;
     return GestureDetector(
       onTap: () => Navigator.pop(context),
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 50,
         decoration: BoxDecoration(
-          color: isDarkMode ? const Color(colorDark) : const Color(colorLight),
+          color: isDarkMode
+              ? const Color(SelectBankAccountColors.addAccountDark)
+              : const Color(SelectBankAccountColors.addAccountLight),
           borderRadius: BorderRadius.circular(50),
         ),
         child: const Center(
@@ -171,8 +169,8 @@ class AddAccount extends ConsumerWidget {
             text: 'Agregar cuenta bancaria',
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            textDark: textDark,
-            textLight: textLight,
+            textDark: SelectBankAccountColors.addAccountTextDark,
+            textLight: SelectBankAccountColors.addAccountTextLight,
           ),
         ),
       ),
@@ -188,10 +186,6 @@ class ConfirmAccount extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const colorDark = 0xffA2E6FA;
-    const colorLight = 0xff0D3A5C;
-    const textDark = 0xff0D3A5C;
-    const textLight = 0xffFFFFFF;
     return GestureDetector(
       onTap: () => Navigator.pop(context),
       child: Container(
@@ -206,7 +200,9 @@ class ConfirmAccount extends ConsumerWidget {
               offset: const Offset(0, 3),
             ),
           ],
-          color: isDarkMode ? const Color(colorDark) : const Color(colorLight),
+          color: isDarkMode
+              ? const Color(SelectBankAccountColors.confirmDark)
+              : const Color(SelectBankAccountColors.confirmLight),
           borderRadius: BorderRadius.circular(50),
         ),
         child: const Center(
@@ -214,8 +210,8 @@ class ConfirmAccount extends ConsumerWidget {
             text: 'Confirmar cuenta',
             fontSize: 14,
             fontWeight: FontWeight.w600,
-            textDark: textDark,
-            textLight: textLight,
+            textDark: SelectBankAccountColors.confirmTextDark,
+            textLight: SelectBankAccountColors.confirmTextLight,
           ),
         ),
       ),
@@ -279,16 +275,6 @@ class BankItem extends ConsumerWidget {
         ? ref.watch(selectedBankAccountSenderProvider)
         : ref.watch(selectedBankAccountReceiverProvider);
 
-    // Colores
-    const int backgroundColorDark = 0xff1F1F1F;
-    const int backgroundColorLight = 0xffF0F0F0;
-    const int errorDark = 0xff181818;
-    const int errorLight = 0xffA2E6FA;
-    const int backgroundSelectDark = 0xff8ADAF2;
-    const int backgroundSelectLight = 0xffDFF8FF;
-    const int textSelectDark = 0xff000000;
-    const int textSelectLight = 0xff000000;
-
     String getCurrency(String? currency) {
       switch (currency) {
         case "nuevo sol":
@@ -309,7 +295,8 @@ class BankItem extends ConsumerWidget {
       }
     }
 
-    final isSelected = selectedBank == bankAccount;
+    final isSelected =
+        selectedBank != null ? selectedBank.id == bankAccount.id : false;
 
     return GestureDetector(
       onTap: () => {
@@ -327,11 +314,11 @@ class BankItem extends ConsumerWidget {
         decoration: BoxDecoration(
           color: isSelected
               ? (isDarkMode
-                  ? const Color(backgroundSelectDark)
-                  : const Color(backgroundSelectLight))
+                  ? const Color(SelectBankAccountColors.backgroundSelectDark)
+                  : const Color(SelectBankAccountColors.backgroundSelectLight))
               : (isDarkMode
-                  ? const Color(backgroundColorDark)
-                  : const Color(backgroundColorLight)),
+                  ? const Color(SelectBankAccountColors.backgroundColorDark)
+                  : const Color(SelectBankAccountColors.backgroundColorLight)),
           borderRadius: const BorderRadius.all(
             Radius.circular(10),
           ),
@@ -355,8 +342,8 @@ class BankItem extends ConsumerWidget {
                   height: 40,
                   decoration: BoxDecoration(
                     color: isDarkMode
-                        ? const Color(errorDark)
-                        : const Color(errorLight),
+                        ? const Color(SelectBankAccountColors.errorDark)
+                        : const Color(SelectBankAccountColors.errorLight),
                     borderRadius: const BorderRadius.all(
                       Radius.circular(50),
                     ),
@@ -382,16 +369,24 @@ class BankItem extends ConsumerWidget {
                   TextPoppins(
                     text: getCurrency(bankAccount.currency),
                     fontSize: 14,
-                    textDark: isSelected ? textSelectDark : null,
-                    textLight: isSelected ? textSelectLight : null,
+                    textDark: isSelected
+                        ? SelectBankAccountColors.textSelectDark
+                        : null,
+                    textLight: isSelected
+                        ? SelectBankAccountColors.textSelectLight
+                        : null,
                   ),
                   TextPoppins(
                     text:
-                        "${bankAccount.bankSlug} ${getMaskedNumber(bankAccount.bankAccount)}",
+                        "${bankAccount.bankSlug.toUpperCase()} ${getMaskedNumber(bankAccount.bankAccount)}",
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
-                    textDark: isSelected ? textSelectDark : null,
-                    textLight: isSelected ? textSelectLight : null,
+                    textDark: isSelected
+                        ? SelectBankAccountColors.textSelectDark
+                        : null,
+                    textLight: isSelected
+                        ? SelectBankAccountColors.textSelectLight
+                        : null,
                   ),
                 ],
               ),

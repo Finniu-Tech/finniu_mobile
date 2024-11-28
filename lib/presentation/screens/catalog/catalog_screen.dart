@@ -89,11 +89,11 @@ class CatalogScreen extends HookConsumerWidget {
               text: "new bank select",
               onPressed: () {
                 showBankAccountModalV4(
-                  context: context,
-                  currency: isSoles ? CurrencyEnum.PEN : CurrencyEnum.USD,
-                  isSender: false,
-                  typeReInvestment: "",
-                );
+                    context: context,
+                    currency: isSoles ? CurrencyEnum.PEN : CurrencyEnum.USD,
+                    isSender: false,
+                    typeReInvestment: "",
+                    bankSelect: null);
               },
             ),
             const SizedBox(

@@ -1,6 +1,7 @@
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -54,12 +55,16 @@ class AddContainer extends ConsumerWidget {
     const int icon = 0xff0D3A5C;
     const int iconDark = 0xffFFFFFF;
     const int iconLight = 0xff0D3A5C;
+    final bankSelect = isSended
+        ? ref.read(selectedBankAccountSenderProvider)
+        : ref.read(selectedBankAccountReceiverProvider);
     return GestureDetector(
       onTap: () => showBankAccountModalV4(
         context: context,
         currency: currencyValue,
         isSender: isSended,
         typeReInvestment: "",
+        bankSelect: bankSelect,
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -162,6 +167,7 @@ class BankContainer extends ConsumerWidget {
         currency: currencyValue,
         isSender: isSended,
         typeReInvestment: "",
+        bankSelect: selectBank,
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5),
