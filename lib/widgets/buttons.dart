@@ -37,14 +37,22 @@ class _CustomButtonState extends ConsumerState<CustomButton> {
   Widget build(BuildContext context) {
     Color colorBackground;
     if (widget.colorBackground == null) {
-      colorBackground = Theme.of(context).textButtonTheme.style!.backgroundColor!.resolve({MaterialState.pressed})!;
+      colorBackground = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .backgroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       colorBackground = Color(widget.colorBackground!);
     }
 
     Color textColor;
     if (widget.colorText == null) {
-      textColor = Theme.of(context).textButtonTheme.style!.foregroundColor!.resolve({MaterialState.pressed})!;
+      textColor = Theme.of(context)
+          .textButtonTheme
+          .style!
+          .foregroundColor!
+          .resolve({MaterialState.pressed})!;
     } else {
       textColor = Color(widget.colorText!);
     }
@@ -93,7 +101,8 @@ class CustomReturnButton extends ConsumerWidget {
     // final currentTheme = Provider.of<SettingsProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
-        Navigator.pop(context);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home_v2', (route) => false);
       },
       child: Container(
         margin: const EdgeInsets.all(10),
@@ -198,7 +207,9 @@ class BottomNavigationBarHome extends HookConsumerWidget {
               type: BottomNavigationBarType.fixed,
               backgroundColor: Color(isDarkMode ? primaryLight : primaryDark),
               selectedItemColor: Color(isDarkMode ? primaryDark : primaryLight),
-              unselectedItemColor: Color(isDarkMode ? primaryDark : primaryLight).withOpacity(0.6),
+              unselectedItemColor:
+                  Color(isDarkMode ? primaryDark : primaryLight)
+                      .withOpacity(0.6),
               selectedFontSize: 14,
               unselectedFontSize: 14,
               currentIndex: selectedIndex,
@@ -251,21 +262,26 @@ class BottomNavigationBarHome extends HookConsumerWidget {
   void _navigate(BuildContext context, int index) {
     switch (index) {
       case 0:
-        Navigator.of(context).pushNamedAndRemoveUntil('/home_home', (route) => false);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/home_home', (route) => false);
         break;
       case 1:
-        Navigator.of(context).pushNamedAndRemoveUntil('/plan_list', (route) => false);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/plan_list', (route) => false);
         break;
       case 2:
-        Navigator.of(context).pushNamedAndRemoveUntil('/process_investment', (route) => false);
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil('/process_investment', (route) => false);
         break;
       default:
     }
   }
 
-  Widget _buildIcon(String imagePath, BuildContext context, int selectedIndex, int index, bool isDarkMode) {
+  Widget _buildIcon(String imagePath, BuildContext context, int selectedIndex,
+      int index, bool isDarkMode) {
     print('current index $selectedIndex');
-    Color iconColor = isDarkMode ? const Color(primaryDark) : const Color(primaryLight);
+    Color iconColor =
+        isDarkMode ? const Color(primaryDark) : const Color(primaryLight);
     final isSelected = selectedIndex == index;
     iconColor = isSelected ? iconColor : iconColor.withOpacity(0.6);
     return Padding(

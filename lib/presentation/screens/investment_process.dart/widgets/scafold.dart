@@ -33,7 +33,8 @@ class ScaffoldInvestment extends StatelessWidget {
                 : const Color(primaryDark),
             Icons.arrow_back,
           ),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: () => Navigator.of(context)
+              .pushNamedAndRemoveUntil("/home_v2", (route) => false),
         ),
       ),
       body: body,
