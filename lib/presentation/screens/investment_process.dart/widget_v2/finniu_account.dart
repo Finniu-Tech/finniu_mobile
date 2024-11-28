@@ -125,7 +125,7 @@ class FinniuAccount extends ConsumerWidget {
               ),
               TextPoppins(
                 text: "20609327210",
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: FontWeight.w600,
                 textDark: titleDark,
                 textLight: titleLight,
@@ -180,6 +180,7 @@ class FinniuTranferContainer extends HookConsumerWidget {
 
     void copyToClipboard() {
       Clipboard.setData(ClipboardData(text: bankNumber));
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor:
@@ -240,28 +241,26 @@ class FinniuTranferContainer extends HookConsumerWidget {
             const SizedBox(
               width: 10,
             ),
-            Row(
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextPoppins(
-                  text: bank,
-                  fontSize: 12,
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
+                TextPoppins(text: bank, fontSize: 12, lines: 2),
                 TextPoppins(
                   text: bankNumber,
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: FontWeight.w600,
                   textDark: titleDark,
                   textLight: titleLight,
+                  lines: 2,
                 ),
               ],
             ),
           ],
         ),
-        const SizedBox(
-          width: 10,
+        const Expanded(
+          child: SizedBox(
+            width: 10,
+          ),
         ),
         SizedBox(
           width: 20,
