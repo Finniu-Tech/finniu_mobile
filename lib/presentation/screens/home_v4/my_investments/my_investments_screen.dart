@@ -1,6 +1,8 @@
+import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/my_investments/document_page.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/my_investments_container.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
@@ -30,22 +32,79 @@ class MyInvestmentsScreen extends ConsumerWidget {
 }
 
 class MyInvestmentsBody extends StatelessWidget {
-  const MyInvestmentsBody({
-    super.key,
-  });
+  const MyInvestmentsBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final pageController = PageController(initialPage: 0);
+    final List<Widget> pages = [
+      InvestPage(
+        pageController: pageController,
+      ),
+      DocumentTabBar(
+        pageController: pageController,
+      ),
+    ];
+
+    return ExpandablePageView.builder(
+      controller: pageController,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: pages.length,
+      itemBuilder: (BuildContext context, int index) {
+        return pages[index];
+      },
+    );
+  }
+}
+
+class DocumentTabBar extends StatelessWidget {
+  const DocumentTabBar({
+    super.key,
+    required this.pageController,
+  });
+  final PageController pageController;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onHorizontalDragEnd: (details) {
+        if (details.velocity.pixelsPerSecond.dx > 0) {
+          pageController.animateToPage(
+            0,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          );
+        }
+      },
+      child: const DocumenteBody(),
+    );
+  }
+}
+
+class InvestPage extends StatelessWidget {
+  const InvestPage({
+    super.key,
+    required this.pageController,
+  });
+  final PageController pageController;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
       children: [
-        MyInvestmentsContainer(
+        const MyInvestmentsContainer(
           isLoaded: false,
         ),
-        NavigateToDocuments(),
-        TabBarBusinessV4(
+        GestureDetector(
+          onTap: () => pageController.animateToPage(
+            1,
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.easeInOut,
+          ),
+          child: const NavigateToDocuments(),
+        ),
+        const TabBarBusinessV4(
           isReinvest: false,
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
       ],

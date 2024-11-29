@@ -59,3 +59,10 @@ class ToValidateColorsV4 {
   static const int completeTextDark = 0xffA2E6FA;
   static const int completeTextLight = 0xff0D3A5C;
 }
+
+class DocumentsV4 {
+  static const int goDocumentDark = 0xffFFFFFF;
+  static const int goDocumentLight = 0xff000000;
+  static const int dividerDark = 0xffA2E6FA;
+  static const int dividerLight = 0xffA2E6FA;
+}

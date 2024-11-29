@@ -58,7 +58,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           textLight: MyInvestV4Colors.totalInvestTextLight,
                         ),
                         TextPoppins(
-                          text: "S/10.326",
+                          text: "S/10.326**",
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           textDark: MyInvestV4Colors.totalInvestTextDark,
@@ -98,7 +98,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   textLight: MyInvestV4Colors.rentTextLight,
                                 ),
                                 TextPoppins(
-                                  text: "+S/320.60",
+                                  text: "+S/320.60**",
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
                                   textDark: MyInvestV4Colors.rentTextDark,
@@ -137,7 +137,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                     MyInvestV4Colors.investActiveTextLight,
                               ),
                               TextPoppins(
-                                text: "4 inversiones",
+                                text: "4 inversiones**",
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
                                 textDark: MyInvestV4Colors.investActiveTextDark,
