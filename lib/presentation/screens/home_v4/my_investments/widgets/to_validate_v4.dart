@@ -1,11 +1,15 @@
+import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
+import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -47,8 +51,7 @@ class ToValidateListV4 extends ConsumerWidget {
                       );
                     },
                     child: ToValidateInvestmentV4(
-                      dateEnds: list[index].finishDateInvestment,
-                      amount: list[index].amount,
+                      item: list[index],
                     ),
                   ),
                 );
@@ -59,37 +62,15 @@ class ToValidateListV4 extends ConsumerWidget {
 }
 
 class ToValidateInvestmentV4 extends ConsumerWidget {
-  final String dateEnds;
-  final int amount;
-  final bool? isReinvestment;
   const ToValidateInvestmentV4({
     super.key,
-    required this.dateEnds,
-    required this.amount,
-    this.isReinvestment,
+    required this.item,
   });
-
+  final Investment item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const backgroundDark = 0xff252525;
-    const backgroundLight = 0xffFFFFFF;
-    const fundTitleDark = 0xff252525;
-    const fundTitleLight = 0xff000000;
-    const iconDark = 0xffA2E6FA;
-    const iconLight = 0xff0D3A5C;
-    const int itemAmonutDark = 0xff0D3A5C;
-    const int itemAmountLight = 0xffCFF4FF;
-    const int itemAmonutTextDark = 0xffA2E6FA;
-    const int itemAmountTextLight = 0xff0D3A5C;
-    const int itemRentDark = 0xffB5FF8A;
-    const int itemRentLight = 0xffD9FFC4;
-    const int itemRentTextDark = 0xffA2E6FA;
-    const int itemRentTextLight = 0xff0D3A5C;
-    const int buttonDetailDark = 0xff125385;
-    const int buttonDetailLight = 0xffA2E6FA;
-    const int iconDetailDark = 0xff125385;
-    const int iconDetailLight = 0xff000000;
+
     return Container(
       padding: const EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width * 0.9,
@@ -97,8 +78,8 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+            ? const Color(ToValidateColorsV4.backgroundDark)
+            : const Color(ToValidateColorsV4.backgroundLight),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,18 +88,19 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
           Row(
             children: [
               const TextPoppins(
-                text: "Inversión fondo empresarial",
+                text: "Inversión fondo empresarial +++++++",
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
-                textDark: fundTitleDark,
-                textLight: fundTitleLight,
+                textDark: ToValidateColorsV4.fundTitleDark,
+                textLight: ToValidateColorsV4.fundTitleLight,
               ),
               const Spacer(),
               Icon(
                 Icons.timer_outlined,
                 size: 16,
-                color:
-                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+                color: isDarkMode
+                    ? const Color(ToValidateColorsV4.iconDark)
+                    : const Color(ToValidateColorsV4.iconLight),
               ),
               const SizedBox(
                 width: 5,
@@ -126,147 +108,170 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
               const TextPoppins(
                 text: "En revisión",
                 fontSize: 9,
-                textDark: fundTitleDark,
-                textLight: fundTitleLight,
+                textDark: ToValidateColorsV4.fundTitleDark,
+                textLight: ToValidateColorsV4.fundTitleLight,
               ),
             ],
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Expanded(
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: isDarkMode
-                        ? const Color(itemAmonutDark)
-                        : const Color(itemAmountLight),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.monetization_on_outlined,
-                            size: 12,
-                            color: isDarkMode
-                                ? const Color(itemAmonutTextDark)
-                                : const Color(itemAmountTextLight),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const TextPoppins(
-                            text: "Inversión en curso",
-                            fontSize: 7,
-                            textDark: itemAmonutTextDark,
-                            textLight: itemAmountTextLight,
-                          ),
-                        ],
-                      ),
-                      const TextPoppins(
-                        text: "S/1,000.00",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        textDark: itemAmonutTextDark,
-                        textLight: itemAmountTextLight,
-                      ),
-                    ],
-                  ),
+              Container(
+                constraints: const BoxConstraints(maxWidth: 150),
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
+                  color: isDarkMode
+                      ? const Color(ToValidateColorsV4.itemAmonutDark)
+                      : const Color(ToValidateColorsV4.itemAmountLight),
                 ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: Container(
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
-                    color: isDarkMode
-                        ? const Color(itemRentDark)
-                        : const Color(itemRentLight),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.show_chart,
-                            size: 12,
-                            color: isDarkMode
-                                ? const Color(itemRentTextDark)
-                                : const Color(itemRentTextLight),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const TextPoppins(
-                            text: "Rentabilidad",
-                            fontSize: 8,
-                            textDark: itemRentTextDark,
-                            textLight: itemRentTextLight,
-                          ),
-                        ],
-                      ),
-                      const TextPoppins(
-                        text: "16%",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        textDark: itemRentTextDark,
-                        textLight: itemRentTextLight,
-                      ),
-                    ],
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.monetization_on_outlined,
+                          size: 12,
+                          color: isDarkMode
+                              ? const Color(
+                                  ToValidateColorsV4.itemAmonutTextDark,
+                                )
+                              : const Color(
+                                  ToValidateColorsV4.itemAmountTextLight,
+                                ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const TextPoppins(
+                          text: "Inversión en curso",
+                          fontSize: 7,
+                          textDark: ToValidateColorsV4.itemAmonutTextDark,
+                          textLight: ToValidateColorsV4.itemAmountTextLight,
+                        ),
+                      ],
+                    ),
+                    AnimationNumberNotComma(
+                      isSoles: null,
+                      endNumber: item.amount,
+                      duration: 2,
+                      fontSize: 16,
+                      colorText: isDarkMode
+                          ? ToValidateColorsV4.itemAmonutTextDark
+                          : ToValidateColorsV4.itemAmountTextLight,
+                      beginNumber: 0,
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(
                 width: 5,
               ),
               Container(
-                width: 40,
-                height: 40,
+                width: 110,
+                height: 50,
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(100)),
+                  borderRadius: const BorderRadius.all(Radius.circular(10)),
                   color: isDarkMode
-                      ? const Color(buttonDetailDark)
-                      : const Color(buttonDetailLight),
+                      ? const Color(ToValidateColorsV4.itemRentDark)
+                      : const Color(ToValidateColorsV4.itemRentLight),
                 ),
-                child: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                  color: isDarkMode
-                      ? const Color(iconDetailDark)
-                      : const Color(iconDetailLight),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.show_chart,
+                          size: 12,
+                          color: isDarkMode
+                              ? const Color(ToValidateColorsV4.itemRentTextDark)
+                              : const Color(
+                                  ToValidateColorsV4.itemRentTextLight,
+                                ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const TextPoppins(
+                          text: "Rentabilidad",
+                          fontSize: 7,
+                          textDark: ToValidateColorsV4.itemRentTextDark,
+                          textLight: ToValidateColorsV4.itemRentTextLight,
+                        ),
+                      ],
+                    ),
+                    TextPoppins(
+                      text: item.rentability != null
+                          ? "${item.rentability!.toStringAsFixed(2)}%"
+                          : "+++++++",
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      textDark: ToValidateColorsV4.itemRentTextDark,
+                      textLight: ToValidateColorsV4.itemRentTextLight,
+                    ),
+                  ],
+                ),
+              ),
+              const Spacer(),
+              GestureDetector(
+                onTap: () => {
+                  Navigator.pushNamed(
+                    context,
+                    '/v2/summary',
+                    arguments: ArgumentsNavigator(
+                      uuid: item.uuid,
+                      status: StatusInvestmentEnum.in_process,
+                    ),
+                  ),
+                },
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(100)),
+                    color: isDarkMode
+                        ? const Color(ToValidateColorsV4.buttonDetailDark)
+                        : const Color(ToValidateColorsV4.buttonDetailLight),
+                  ),
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: isDarkMode
+                        ? const Color(ToValidateColorsV4.iconDetailDark)
+                        : const Color(ToValidateColorsV4.iconDetailLight),
+                  ),
                 ),
               ),
             ],
           ),
-          Row(
-            children: [
-              Icon(
-                Icons.help_outline,
-                size: 16,
-                color:
-                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              const TextPoppins(
-                text: "¿Cuanto tiempo demora la revisión?",
-                fontSize: 8,
-                textDark: iconDark,
-                textLight: iconLight,
-              ),
-            ],
+          GestureDetector(
+            onTap: () => {showValidationModal(context, contactWhatsApp)},
+            child: Row(
+              children: [
+                Icon(
+                  Icons.help_outline,
+                  size: 16,
+                  color: isDarkMode
+                      ? const Color(ToValidateColorsV4.iconDark)
+                      : const Color(ToValidateColorsV4.iconLight),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                const TextPoppins(
+                  text: "¿Cuanto tiempo demora la revisión?",
+                  fontSize: 8,
+                  textDark: ToValidateColorsV4.fundTitleDark,
+                  textLight: ToValidateColorsV4.fundTitleLight,
+                ),
+              ],
+            ),
           ),
         ],
       ),

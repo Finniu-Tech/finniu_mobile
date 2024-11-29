@@ -48,7 +48,7 @@ class MyInvestmentsBody extends StatelessWidget {
         ),
         SizedBox(
           height: 20,
-        )
+        ),
       ],
     );
   }

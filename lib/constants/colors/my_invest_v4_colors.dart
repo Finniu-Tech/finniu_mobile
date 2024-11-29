@@ -28,3 +28,24 @@ class MyInvestV4Colors {
   static const int itemTabBarTextDark = 0xffFFFFFF;
   static const int itemTabBarTextLight = 0xff000000;
 }
+
+class ToValidateColorsV4 {
+  static const int backgroundDark = 0xff252525;
+  static const int backgroundLight = 0xffFFFFFF;
+  static const int fundTitleDark = 0xffFFFFFF;
+  static const int fundTitleLight = 0xff000000;
+  static const int iconDark = 0xffA2E6FA;
+  static const int iconLight = 0xff0D3A5C;
+  static const int itemAmonutDark = 0xff0D3A5C;
+  static const int itemAmountLight = 0xffCFF4FF;
+  static const int itemAmonutTextDark = 0xffA2E6FA;
+  static const int itemAmountTextLight = 0xff0D3A5C;
+  static const int itemRentDark = 0xffB5FF8A;
+  static const int itemRentLight = 0xffD9FFC4;
+  static const int itemRentTextDark = 0xff0D3A5C;
+  static const int itemRentTextLight = 0xff0D3A5C;
+  static const int buttonDetailDark = 0xff125385;
+  static const int buttonDetailLight = 0xffA2E6FA;
+  static const int iconDetailDark = 0xffA2E6FA;
+  static const int iconDetailLight = 0xff000000;
+}
