@@ -94,19 +94,15 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   text: "Rentabilidad",
                                   fontSize: 11,
                                   fontWeight: FontWeight.w400,
-                                  textDark:
-                                      MyInvestV4Colors.totalInvestTextDark,
-                                  textLight:
-                                      MyInvestV4Colors.totalInvestTextLight,
+                                  textDark: MyInvestV4Colors.rentTextDark,
+                                  textLight: MyInvestV4Colors.rentTextLight,
                                 ),
                                 TextPoppins(
                                   text: "+S/320.60",
                                   fontSize: 20,
                                   fontWeight: FontWeight.w600,
-                                  textDark:
-                                      MyInvestV4Colors.totalInvestTextDark,
-                                  textLight:
-                                      MyInvestV4Colors.totalInvestTextLight,
+                                  textDark: MyInvestV4Colors.rentTextDark,
+                                  textLight: MyInvestV4Colors.rentTextLight,
                                 ),
                               ],
                             ),
@@ -136,17 +132,17 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                 text: "Inversiones activas",
                                 fontSize: 11,
                                 fontWeight: FontWeight.w400,
-                                textDark: MyInvestV4Colors.totalInvestTextDark,
+                                textDark: MyInvestV4Colors.investActiveTextDark,
                                 textLight:
-                                    MyInvestV4Colors.totalInvestTextLight,
+                                    MyInvestV4Colors.investActiveTextLight,
                               ),
                               TextPoppins(
                                 text: "4 inversiones",
                                 fontSize: 20,
                                 fontWeight: FontWeight.w600,
-                                textDark: MyInvestV4Colors.totalInvestTextDark,
+                                textDark: MyInvestV4Colors.investActiveTextDark,
                                 textLight:
-                                    MyInvestV4Colors.totalInvestTextLight,
+                                    MyInvestV4Colors.investActiveTextLight,
                               ),
                             ],
                           ),

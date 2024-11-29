@@ -48,4 +48,14 @@ class ToValidateColorsV4 {
   static const int buttonDetailLight = 0xffA2E6FA;
   static const int iconDetailDark = 0xffA2E6FA;
   static const int iconDetailLight = 0xff000000;
+  static const int buttonReInvestDark = 0xffA2E6FA;
+  static const int buttonReInvestLight = 0xff0D3A5C;
+  static const int textReInvestDark = 0xff0D3A5C;
+  static const int textReInvestLight = 0xffFFFFFF;
+  static const int completeIconDark = 0xff00A854;
+  static const int completeIconLight = 0xff00A854;
+  static const int completeButtonDark = 0xff0D3A5C;
+  static const int completeButtonLight = 0xffA2E6FA;
+  static const int completeTextDark = 0xffA2E6FA;
+  static const int completeTextLight = 0xff0D3A5C;
 }

@@ -1,5 +1,4 @@
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
-import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
@@ -9,22 +8,22 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class ToValidateListV4 extends ConsumerWidget {
-  const ToValidateListV4({super.key, required this.list});
+class CompletListV4 extends ConsumerWidget {
   final List<Investment> list;
+  const CompletListV4({super.key, required this.list});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      // height: 336,
+      // width: 336,
       child: list.isEmpty
           ? const NoInvestmentCase(
-              title: "Aún no tienes inversiones por validar",
+              title: "Aún no tienes inversiones en curso",
               textBody:
-                  "Recuerda que vas a poder visualizar tus inversiones por validar cuando hayas realizado una inversión reciente y no ha sido aprobada aún",
+                  "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
             )
           : ListView.builder(
               itemCount: list.length,
@@ -50,7 +49,7 @@ class ToValidateListV4 extends ConsumerWidget {
                         ),
                       );
                     },
-                    child: ToValidateInvestmentV4(
+                    child: CompleteItemV4(
                       item: list[index],
                     ),
                   ),
@@ -61,8 +60,8 @@ class ToValidateListV4 extends ConsumerWidget {
   }
 }
 
-class ToValidateInvestmentV4 extends ConsumerWidget {
-  const ToValidateInvestmentV4({
+class CompleteItemV4 extends ConsumerWidget {
+  const CompleteItemV4({
     super.key,
     required this.item,
   });
@@ -74,7 +73,7 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 125,
+      height: 140,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.all(Radius.circular(10)),
         color: isDarkMode
@@ -88,7 +87,7 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
           Row(
             children: [
               const TextPoppins(
-                text: "Inversión fondo empresarial +++++++",
+                text: "Inversión fondo empresarial ++",
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 textDark: ToValidateColorsV4.fundTitleDark,
@@ -96,18 +95,18 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
               ),
               const Spacer(),
               Icon(
-                Icons.timer_outlined,
+                Icons.check_circle_outline_outlined,
                 size: 16,
                 color: isDarkMode
-                    ? const Color(ToValidateColorsV4.iconDark)
-                    : const Color(ToValidateColorsV4.iconLight),
+                    ? const Color(ToValidateColorsV4.completeIconDark)
+                    : const Color(ToValidateColorsV4.completeIconLight),
               ),
               const SizedBox(
                 width: 5,
               ),
-              const TextPoppins(
-                text: "En revisión",
-                fontSize: 9,
+              TextPoppins(
+                text: "Finaliza: ${item.finishDateInvestment}",
+                fontSize: 8,
                 textDark: ToValidateColorsV4.fundTitleDark,
                 textLight: ToValidateColorsV4.fundTitleLight,
               ),
@@ -118,7 +117,6 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
             children: [
               Expanded(
                 child: Container(
-                  constraints: const BoxConstraints(maxWidth: 150),
                   height: 50,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -141,7 +139,7 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                                     ToValidateColorsV4.fundTitleDark,
                                   )
                                 : const Color(
-                                    ToValidateColorsV4.itemAmountTextLight,
+                                    ToValidateColorsV4.fundTitleLight,
                                   ),
                           ),
                           const SizedBox(
@@ -193,7 +191,8 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                             size: 12,
                             color: isDarkMode
                                 ? const Color(
-                                    ToValidateColorsV4.itemRentTextDark)
+                                    ToValidateColorsV4.itemRentTextDark,
+                                  )
                                 : const Color(
                                     ToValidateColorsV4.itemRentTextLight,
                                   ),
@@ -209,14 +208,16 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
                           ),
                         ],
                       ),
-                      TextPoppins(
-                        text: item.rentability != null
-                            ? "${item.rentability!.toStringAsFixed(2)}%"
-                            : "+++++++",
+                      AnimationNumberNotComma(
+                        isSoles: null,
+                        endNumber:
+                            item.rentability != null ? item.rentability! : 0,
+                        duration: 2,
                         fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        textDark: ToValidateColorsV4.itemRentTextDark,
-                        textLight: ToValidateColorsV4.itemRentTextLight,
+                        colorText: isDarkMode
+                            ? ToValidateColorsV4.itemRentTextDark
+                            : ToValidateColorsV4.itemRentTextLight,
+                        beginNumber: 0,
                       ),
                     ],
                   ),
@@ -244,27 +245,24 @@ class ToValidateInvestmentV4 extends ConsumerWidget {
               ),
             ],
           ),
-          GestureDetector(
-            onTap: () => {showValidationModal(context, contactWhatsApp)},
-            child: Row(
-              children: [
-                Icon(
-                  Icons.help_outline,
-                  size: 16,
-                  color: isDarkMode
-                      ? const Color(ToValidateColorsV4.iconDark)
-                      : const Color(ToValidateColorsV4.iconLight),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                const TextPoppins(
-                  text: "¿Cuanto tiempo demora la revisión?",
-                  fontSize: 8,
-                  textDark: ToValidateColorsV4.fundTitleDark,
-                  textLight: ToValidateColorsV4.fundTitleLight,
-                ),
-              ],
+          Container(
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width,
+            height: 30,
+            decoration: BoxDecoration(
+              color: isDarkMode
+                  ? const Color(ToValidateColorsV4.completeButtonDark)
+                  : const Color(ToValidateColorsV4.completeButtonLight),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(20),
+              ),
+            ),
+            child: const TextPoppins(
+              text: "Ver mi tabla de pagos",
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              textDark: ToValidateColorsV4.completeTextDark,
+              textLight: ToValidateColorsV4.completeTextLight,
             ),
           ),
         ],

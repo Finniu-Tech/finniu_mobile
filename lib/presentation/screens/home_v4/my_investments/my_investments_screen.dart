@@ -6,7 +6,6 @@ import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products
 import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/tab_bar_v4.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class MyInvestmentsScreen extends ConsumerWidget {
