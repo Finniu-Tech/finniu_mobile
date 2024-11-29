@@ -188,8 +188,8 @@ class ActiveModalBody extends ConsumerWidget {
                             Icons.circle,
                             size: 10,
                             color: isDarkMode
-                                ? const Color(ActiveModal.borderTermDark)
-                                : const Color(ActiveModal.borderTermLight),
+                                ? const Color(ActiveModal.borderEstateDark)
+                                : const Color(ActiveModal.borderEstateLight),
                           ),
                         ],
                       ),
