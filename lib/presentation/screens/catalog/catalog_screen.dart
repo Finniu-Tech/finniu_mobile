@@ -80,14 +80,21 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
+
               text: "debug logs",
               onPressed: () {
                 Navigator.pushNamed(context, '/debug_log');
+
               },
             ),
             const SizedBox(
               height: 10,
             ),
+
+            const SizedBox(
+              height: 10,
+            ),
+
             ButtonInvestment(
               text: "whats app",
               onPressed: () {
