@@ -20,6 +20,15 @@ class MyInvestmentsContainer extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     final eyeOpen = ref.watch(eyeHomeProvider);
+    const String amount = "10.500";
+    const String rent = "350.60";
+    const String rentPerent = "+1.40";
+    const String investActive = "4";
+
+    void onTapInvestActive() {
+      print("pon tap invest active");
+    }
+
     return Container(
       padding: const EdgeInsets.only(
         left: 20,
@@ -63,7 +72,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                         ),
                         TextPoppins(
                           text:
-                              "+${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
+                              "+${isSoles ? "S/" : "\$"}${eyeOpen ? amount : "****"}",
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           textDark: MyInvestV4Colors.totalInvestTextDark,
@@ -126,7 +135,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                             ),
                                     ),
                                     child: const TextPoppins(
-                                      text: "+1.40",
+                                      text: rentPerent,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       textDark:
@@ -145,7 +154,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   children: [
                                     TextPoppins(
                                       text:
-                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? "320.60" : "****"}",
+                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? rent : "****"}",
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       textDark: HomeV4Colors
@@ -164,38 +173,71 @@ class MyInvestmentsContainer extends ConsumerWidget {
                         height: 10,
                       ),
                       Expanded(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.45,
-                          padding: const EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: isDarkMode
-                                ? const Color(MyInvestV4Colors.investActiveDark)
-                                : const Color(
-                                    MyInvestV4Colors.investActiveLight),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)),
-                          ),
-                          child: const Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              TextPoppins(
-                                text: "Inversiones activas",
-                                fontSize: 11,
-                                fontWeight: FontWeight.w400,
-                                textDark: MyInvestV4Colors.investActiveTextDark,
-                                textLight:
-                                    MyInvestV4Colors.investActiveTextLight,
-                              ),
-                              TextPoppins(
-                                text: "4 inversiones**",
-                                fontSize: 20,
-                                fontWeight: FontWeight.w600,
-                                textDark: MyInvestV4Colors.investActiveTextDark,
-                                textLight:
-                                    MyInvestV4Colors.investActiveTextLight,
-                              ),
-                            ],
+                        child: GestureDetector(
+                          onTap: onTapInvestActive,
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.45,
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: isDarkMode
+                                  ? const Color(
+                                      MyInvestV4Colors.investActiveDark)
+                                  : const Color(
+                                      MyInvestV4Colors.investActiveLight),
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10.0)),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const TextPoppins(
+                                  text: "Inversiones activas",
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w400,
+                                  textDark:
+                                      MyInvestV4Colors.investActiveTextDark,
+                                  textLight:
+                                      MyInvestV4Colors.investActiveTextLight,
+                                ),
+                                Row(
+                                  children: [
+                                    const TextPoppins(
+                                      text: investActive,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      textDark:
+                                          MyInvestV4Colors.investActiveTextDark,
+                                      textLight: MyInvestV4Colors
+                                          .investActiveTextLight,
+                                    ),
+                                    const TextPoppins(
+                                      text: " inversiones",
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                      textDark:
+                                          MyInvestV4Colors.investActiveTextDark,
+                                      textLight: MyInvestV4Colors
+                                          .investActiveTextLight,
+                                    ),
+                                    const Spacer(),
+                                    Icon(
+                                      Icons.chevron_right,
+                                      color: isDarkMode
+                                          ? const Color(
+                                              MyInvestV4Colors
+                                                  .investActiveTextDark,
+                                            )
+                                          : const Color(
+                                              MyInvestV4Colors
+                                                  .investActiveTextLight,
+                                            ),
+                                      size: 25,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

@@ -61,7 +61,7 @@ class ToValidateColorsV4 {
 }
 
 class DocumentsV4 {
-  static const int backgroundDark = 0xff252525;
+  static const int backgroundDark = 0xff000000;
   static const int backgroundLight = 0xffFFFFFF;
   static const int goDocumentDark = 0xffFFFFFF;
   static const int goDocumentLight = 0xff000000;
@@ -75,8 +75,8 @@ class DocumentsV4 {
   static const int itemDateLight = 0xff000000;
   static const int itemIconDark = 0xffA2E6FA;
   static const int itemIconLight = 0xff0D3A5C;
-  static const int itemButtonDark = 0xff000000;
+  static const int itemButtonDark = 0xffA2E6FA;
   static const int itemButtonLight = 0xffA2E6FA;
-  static const int itemButtonIconDark = 0xff000000;
+  static const int itemButtonIconDark = 0xff0D3A5C;
   static const int itemButtonIconLight = 0xff000000;
 }

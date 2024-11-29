@@ -1,6 +1,9 @@
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
+import 'package:finniu/domain/entities/document.dart';
+import 'package:finniu/presentation/providers/documents_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -95,118 +98,96 @@ class TabBarDocuments extends HookConsumerWidget {
       initialIndex: 0,
     );
     final currentIndex = useState(0);
-    useEffect(
-      () {
-        void listener() {
-          currentIndex.value = tabController.index;
+
+    useEffect(() {
+      void listener() {
+        currentIndex.value = tabController.index;
+      }
+
+      tabController.addListener(listener);
+      return () => tabController.removeListener(listener);
+    }, [tabController]);
+
+    final documentsUserAsync = ref.watch(documentsUser);
+
+    return documentsUserAsync.when(
+      data: (userDocuments) {
+        if (userDocuments == null) {
+          return const Center(child: Text('No se encontraron documentos.'));
         }
+        final contractList = userDocuments.contractList
+            .map((doc) => DocumentItem(item: doc))
+            .toList();
+        final taxList = userDocuments.taxList
+            .map((doc) => DocumentItem(item: doc))
+            .toList();
+        final reportList = userDocuments.reportList
+            .map((doc) => DocumentItem(item: doc))
+            .toList();
 
-        tabController.addListener(listener);
-        return () => tabController.removeListener(listener);
-      },
-      [tabController],
-    );
-
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.9,
-      child: Column(
-        children: [
-          TabBar(
-            controller: tabController,
-            labelPadding: const EdgeInsets.symmetric(horizontal: 10),
-            padding: EdgeInsets.zero,
-            dividerColor: Colors.transparent,
-            indicatorColor: Colors.transparent,
-            overlayColor: WidgetStateProperty.all(Colors.transparent),
-            tabs: [
-              ButtonHistory(
-                isSelected: currentIndex.value == 0,
-                text: 'Contratos',
+        return SizedBox(
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: Column(
+            children: [
+              TabBar(
+                controller: tabController,
+                labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+                padding: EdgeInsets.zero,
+                dividerColor: Colors.transparent,
+                indicatorColor: Colors.transparent,
+                overlayColor: WidgetStateProperty.all(Colors.transparent),
+                tabs: [
+                  ButtonHistory(
+                    isSelected: currentIndex.value == 0,
+                    text: 'Contratos',
+                  ),
+                  ButtonHistory(
+                    isSelected: currentIndex.value == 1,
+                    text: 'Impuestos',
+                  ),
+                  ButtonHistory(
+                    isSelected: currentIndex.value == 2,
+                    text: 'Reportes',
+                  ),
+                ],
               ),
-              ButtonHistory(
-                isSelected: currentIndex.value == 1,
-                text: 'Impuestos',
-              ),
-              ButtonHistory(
-                isSelected: currentIndex.value == 2,
-                text: 'Reportes',
+              const SizedBox(height: 10),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.9,
+                height: MediaQuery.of(context).size.height * 0.65,
+                alignment: Alignment.topCenter,
+                child: TabBarView(
+                  controller: tabController,
+                  children: [
+                    ListView.builder(
+                      itemCount: contractList.length,
+                      itemBuilder: (context, index) => contractList[index],
+                    ),
+                    ListView.builder(
+                      itemCount: taxList.length,
+                      itemBuilder: (context, index) => taxList[index],
+                    ),
+                    ListView.builder(
+                      itemCount: reportList.length,
+                      itemBuilder: (context, index) => reportList[index],
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-          const SizedBox(height: 10),
-          Container(
-            width: MediaQuery.of(context).size.width * 0.9,
-            height: MediaQuery.of(context).size.height * 0.65,
-            alignment: Alignment.topCenter,
-            child: TabBarView(
-              controller: tabController,
-              children: [
-                ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) => DocumentItem(
-                    item: Document(
-                      title: 'Contrato 1',
-                      date: '01/01/2023',
-                      downloadUrl: 'https://example.com/contract1.pdf',
-                      type: DocumentType.contrato,
-                    ),
-                  ),
-                ),
-                ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) => DocumentItem(
-                    item: Document(
-                      title: 'Contrato 1',
-                      date: '01/01/2023',
-                      downloadUrl: 'https://example.com/contract1.pdf',
-                      type: DocumentType.impuesto,
-                    ),
-                  ),
-                ),
-                ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) => DocumentItem(
-                    item: Document(
-                      title: 'Contrato 1',
-                      date: '01/01/2023',
-                      downloadUrl: 'https://example.com/contract1.pdf',
-                      type: DocumentType.reporte,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+        );
+      },
+      loading: () => const Center(
+        child: CircularLoader(
+          width: 50,
+          height: 50,
+        ),
+      ),
+      error: (error, stack) => Center(
+        child: Text('Error: $error'),
       ),
     );
-  }
-}
-
-enum DocumentType { contrato, impuesto, reporte }
-
-class Document {
-  final String title;
-  final String date;
-  final String downloadUrl;
-  final DocumentType type;
-
-  Document({
-    required this.title,
-    required this.date,
-    required this.downloadUrl,
-    required this.type,
-  });
-
-  get getIcon {
-    switch (type) {
-      case DocumentType.contrato:
-        return Icons.edit_document;
-      case DocumentType.impuesto:
-        return Icons.percent;
-      case DocumentType.reporte:
-        return Icons.bar_chart;
-    }
   }
 }
 
@@ -281,8 +262,8 @@ class DocumentItem extends ConsumerWidget {
                   Icons.file_download_outlined,
                   size: 26,
                   color: isDarkMode
-                      ? const Color(DocumentsV4.itemIconDark)
-                      : const Color(DocumentsV4.itemIconLight),
+                      ? const Color(DocumentsV4.itemButtonIconDark)
+                      : const Color(DocumentsV4.itemButtonIconLight),
                 ),
               ),
             ),
