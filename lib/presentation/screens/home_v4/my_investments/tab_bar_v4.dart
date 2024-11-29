@@ -22,6 +22,18 @@ class TabBarBusinessV4 extends HookConsumerWidget {
       initialLength: 4,
       initialIndex: isReinvest == true ? 1 : 0,
     );
+    final currentIndex = useState(0);
+    useEffect(
+      () {
+        void listener() {
+          currentIndex.value = tabController.index;
+        }
+
+        tabController.addListener(listener);
+        return () => tabController.removeListener(listener);
+      },
+      [tabController],
+    );
 
     List<Investment> userInPendingList = [];
     List<Investment> userToValidateList = [];
@@ -87,19 +99,19 @@ class TabBarBusinessV4 extends HookConsumerWidget {
                 isScrollable: true,
                 tabs: [
                   ButtonHistory(
-                    isSelected: tabController.index == 0,
+                    isSelected: currentIndex.value == 0,
                     text: 'Por validar',
                   ),
                   ButtonHistory(
-                    isSelected: tabController.index == 1,
+                    isSelected: currentIndex.value == 1,
                     text: 'En curso',
                   ),
                   ButtonHistory(
-                    isSelected: tabController.index == 2,
+                    isSelected: currentIndex.value == 2,
                     text: 'Pendientes',
                   ),
                   ButtonHistory(
-                    isSelected: tabController.index == 3,
+                    isSelected: currentIndex.value == 3,
                     text: 'Finalizadas',
                   ),
                 ],

@@ -71,11 +71,11 @@ class DocumentsV4 {
   static const int itemBankLight = 0xffF7F7F7;
   static const int itemTitleDark = 0xffA2E6FA;
   static const int itemTitleLight = 0xff0D3A5C;
-  static const int itemDateDark = 0xff000000;
+  static const int itemDateDark = 0xffFFFFFF;
   static const int itemDateLight = 0xff000000;
   static const int itemIconDark = 0xffA2E6FA;
   static const int itemIconLight = 0xff0D3A5C;
-  static const int itemButtonDark = 0xffA2E6FA;
+  static const int itemButtonDark = 0xff000000;
   static const int itemButtonLight = 0xffA2E6FA;
   static const int itemButtonIconDark = 0xff000000;
   static const int itemButtonIconLight = 0xff000000;

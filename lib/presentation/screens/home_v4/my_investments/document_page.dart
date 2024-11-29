@@ -94,62 +94,128 @@ class TabBarDocuments extends HookConsumerWidget {
       initialLength: 3,
       initialIndex: 0,
     );
+    final currentIndex = useState(0);
+    useEffect(
+      () {
+        void listener() {
+          currentIndex.value = tabController.index;
+        }
 
-    return Column(
-      children: [
-        TabBar(
-          controller: tabController,
-          labelPadding: const EdgeInsets.symmetric(horizontal: 5),
-          padding: EdgeInsets.zero,
-          isScrollable: true,
-          tabs: [
-            ButtonHistory(
-              isSelected: tabController.index == 0,
-              text: 'Por validar',
-            ),
-            ButtonHistory(
-              isSelected: tabController.index == 1,
-              text: 'En curso',
-            ),
-            ButtonHistory(
-              isSelected: tabController.index == 2,
-              text: 'Pendientes',
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.9,
-          height: MediaQuery.of(context).size.height * 0.65,
-          alignment: Alignment.topCenter,
-          child: TabBarView(
+        tabController.addListener(listener);
+        return () => tabController.removeListener(listener);
+      },
+      [tabController],
+    );
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.9,
+      child: Column(
+        children: [
+          TabBar(
             controller: tabController,
-            children: [
-              ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) => const DocumentItem(),
+            labelPadding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.zero,
+            dividerColor: Colors.transparent,
+            indicatorColor: Colors.transparent,
+            overlayColor: WidgetStateProperty.all(Colors.transparent),
+            tabs: [
+              ButtonHistory(
+                isSelected: currentIndex.value == 0,
+                text: 'Contratos',
               ),
-              ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) => const DocumentItem(),
+              ButtonHistory(
+                isSelected: currentIndex.value == 1,
+                text: 'Impuestos',
               ),
-              ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) => const DocumentItem(),
+              ButtonHistory(
+                isSelected: currentIndex.value == 2,
+                text: 'Reportes',
               ),
             ],
           ),
-        ),
-      ],
+          const SizedBox(height: 10),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9,
+            height: MediaQuery.of(context).size.height * 0.65,
+            alignment: Alignment.topCenter,
+            child: TabBarView(
+              controller: tabController,
+              children: [
+                ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) => DocumentItem(
+                    item: Document(
+                      title: 'Contrato 1',
+                      date: '01/01/2023',
+                      downloadUrl: 'https://example.com/contract1.pdf',
+                      type: DocumentType.contrato,
+                    ),
+                  ),
+                ),
+                ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) => DocumentItem(
+                    item: Document(
+                      title: 'Contrato 1',
+                      date: '01/01/2023',
+                      downloadUrl: 'https://example.com/contract1.pdf',
+                      type: DocumentType.impuesto,
+                    ),
+                  ),
+                ),
+                ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) => DocumentItem(
+                    item: Document(
+                      title: 'Contrato 1',
+                      date: '01/01/2023',
+                      downloadUrl: 'https://example.com/contract1.pdf',
+                      type: DocumentType.reporte,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
+  }
+}
+
+enum DocumentType { contrato, impuesto, reporte }
+
+class Document {
+  final String title;
+  final String date;
+  final String downloadUrl;
+  final DocumentType type;
+
+  Document({
+    required this.title,
+    required this.date,
+    required this.downloadUrl,
+    required this.type,
+  });
+
+  get getIcon {
+    switch (type) {
+      case DocumentType.contrato:
+        return Icons.edit_document;
+      case DocumentType.impuesto:
+        return Icons.percent;
+      case DocumentType.reporte:
+        return Icons.bar_chart;
+    }
   }
 }
 
 class DocumentItem extends ConsumerWidget {
   const DocumentItem({
     super.key,
+    required this.item,
   });
-
+  final Document item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -171,26 +237,26 @@ class DocumentItem extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Icon(
-            Icons.edit_document,
+            item.getIcon,
             size: 24,
             color: isDarkMode
                 ? const Color(DocumentsV4.itemIconDark)
                 : const Color(DocumentsV4.itemIconLight),
           ),
           const SizedBox(width: 10),
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               TextPoppins(
-                text: "Operación #001345",
+                text: "Operación ${item.title}",
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 textDark: DocumentsV4.itemTitleDark,
                 textLight: DocumentsV4.itemTitleLight,
               ),
               TextPoppins(
-                text: "12/05/2024",
+                text: item.date,
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 textDark: DocumentsV4.itemDateDark,

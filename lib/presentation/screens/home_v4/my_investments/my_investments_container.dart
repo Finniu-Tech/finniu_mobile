@@ -1,11 +1,13 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/presentation/providers/eye_home_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/switch.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class MyInvestmentsContainer extends ConsumerWidget {
   const MyInvestmentsContainer({
@@ -16,12 +18,14 @@ class MyInvestmentsContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
+    final eyeOpen = ref.watch(eyeHomeProvider);
     return Container(
       padding: const EdgeInsets.only(
         left: 20,
         right: 20,
       ),
-      height: 280,
+      height: 230,
       decoration: BoxDecoration(
         color: isDarkMode
             ? const Color(MyInvestV4Colors.containerDark)
@@ -35,7 +39,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
         children: [
           const RowGoCalendar(),
           SizedBox(
-            height: 200,
+            height: 160,
             child: Row(
               children: [
                 Expanded(
@@ -47,10 +51,10 @@ class MyInvestmentsContainer extends ConsumerWidget {
                       borderRadius:
                           const BorderRadius.all(Radius.circular(10.0)),
                     ),
-                    child: const Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextPoppins(
+                        const TextPoppins(
                           text: "Inversión en curso",
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
@@ -58,7 +62,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           textLight: MyInvestV4Colors.totalInvestTextLight,
                         ),
                         TextPoppins(
-                          text: "S/10.326**",
+                          text:
+                              "+${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           textDark: MyInvestV4Colors.totalInvestTextDark,
@@ -80,32 +85,78 @@ class MyInvestmentsContainer extends ConsumerWidget {
                           padding: const EdgeInsets.all(10),
                           decoration: BoxDecoration(
                             color: isDarkMode
-                                ? const Color(MyInvestV4Colors.rentDark)
-                                : const Color(MyInvestV4Colors.rentLight),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10.0)),
+                                ? const Color(
+                                    HomeV4Colors.interestContainerDark)
+                                : const Color(
+                                    HomeV4Colors.interestContainerLight),
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                          child: SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.45,
-                            child: const Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                TextPoppins(
-                                  text: "Rentabilidad",
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w400,
-                                  textDark: MyInvestV4Colors.rentTextDark,
-                                  textLight: MyInvestV4Colors.rentTextLight,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const TextPoppins(
+                                    text: "Rentabilidad",
+                                    fontSize: 8,
+                                    textDark:
+                                        HomeV4Colors.interestGeneratedTextDark,
+                                    textLight:
+                                        HomeV4Colors.interestGeneratedTextLight,
+                                  ),
+                                  const Spacer(),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 6,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: isDarkMode
+                                          ? const Color(
+                                              HomeV4Colors
+                                                  .interestGeneratedContDark,
+                                            )
+                                          : const Color(
+                                              HomeV4Colors
+                                                  .interestGeneratedContLight,
+                                            ),
+                                    ),
+                                    child: const TextPoppins(
+                                      text: "+1.40",
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      textDark:
+                                          HomeV4Colors.interestGeneratedDark,
+                                      textLight:
+                                          HomeV4Colors.interestGeneratedLight,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Skeletonizer(
+                                enabled: isLoaded,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    TextPoppins(
+                                      text:
+                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? "320.60" : "****"}",
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      textDark: HomeV4Colors
+                                          .interestGeneratedTextDark,
+                                      textLight: HomeV4Colors
+                                          .interestGeneratedTextLight,
+                                    ),
+                                  ],
                                 ),
-                                TextPoppins(
-                                  text: "+S/320.60**",
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w600,
-                                  textDark: MyInvestV4Colors.rentTextDark,
-                                  textLight: MyInvestV4Colors.rentTextLight,
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),

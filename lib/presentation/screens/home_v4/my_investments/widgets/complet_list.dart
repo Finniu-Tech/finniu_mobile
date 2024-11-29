@@ -71,7 +71,10 @@ class CompleteItemV4 extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 7,
+        vertical: 10,
+      ),
       width: MediaQuery.of(context).size.width * 0.9,
       height: 140,
       decoration: BoxDecoration(
