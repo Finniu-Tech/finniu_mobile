@@ -10,6 +10,7 @@ class PlanSimulation {
   final String? error;
   final String? endDate;
   final String? startDate;
+  final double? rentabilityPerMonth;
 
   PlanSimulation({
     required this.initialAmount,
@@ -19,6 +20,7 @@ class PlanSimulation {
     required this.finalRentability,
     required this.endDate,
     required this.startDate,
+    required this.rentabilityPerMonth,
     this.error,
   });
 

@@ -173,6 +173,7 @@ class MutationRepository {
                 currency: \$currency
               }
             ){
+              rentabilityPerMonth
               finalRestabilityPercent
               success
               profitability{

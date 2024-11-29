@@ -39,6 +39,7 @@ class CalculateInvestment {
     this.endDate,
     this.plan,
     this.finalRestabilityPercent,
+    this.rentabilityPerMonth,
   });
 
   bool? success;
@@ -47,6 +48,7 @@ class CalculateInvestment {
   double? finalRestabilityPercent;
   String? startDate;
   String? endDate;
+  double? rentabilityPerMonth;
 
   factory CalculateInvestment.fromJson(Map<String, dynamic> json) => CalculateInvestment(
         success: json["success"],
@@ -55,6 +57,7 @@ class CalculateInvestment {
         finalRestabilityPercent: double.parse(json["finalRestabilityPercent"]),
         startDate: json["estimatedDates"] == null ? null : json["estimatedDates"]["startDate"],
         endDate: json["estimatedDates"] == null ? null : json["estimatedDates"]["endDate"],
+        rentabilityPerMonth: double.parse(json["rentabilityPerMonth"]),
       );
 
   Map<String, dynamic> toJson() => {
