@@ -195,6 +195,7 @@ class FirebaseScreen {
   static const String rextieCommunicationV2 = '/v2/rextie_comminication';
   static const String pushNotification = '/push_notification';
   static const String exitV2 = '/v2/exit';
+  static const String formAccountsV2 = '/v2/form_accounts';
 }
 
 class FirebaseAnalyticsEvents {
