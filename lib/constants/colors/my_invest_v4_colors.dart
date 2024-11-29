@@ -80,3 +80,16 @@ class DocumentsV4 {
   static const int itemButtonIconDark = 0xff0D3A5C;
   static const int itemButtonIconLight = 0xff000000;
 }
+
+class ActiveModal {
+  static const int backgroundDark = 0xff1A1A1A;
+  static const int backgroundLight = 0xffFFFFFF;
+  static const int iconDark = 0xffFFFFFF;
+  static const int iconLight = 0xff0D3A5C;
+  static const int textDark = 0xffFFFFFF;
+  static const int textLight = 0xff0D3A5C;
+  static const int borderTermDark = 0xffA2E6FA;
+  static const int borderTermLight = 0xff0D3A5C;
+  static const int borderEstateDark = 0xff8066E8;
+  static const int borderEstateLight = 0xffB9A8FF;
+}
