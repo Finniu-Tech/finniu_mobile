@@ -41,41 +41,15 @@ class MyInvestmentsBody extends StatelessWidget {
       InvestPage(
         pageController: pageController,
       ),
-      DocumentTabBar(
-        pageController: pageController,
-      ),
+      const DocumenteBody(),
     ];
 
     return ExpandablePageView.builder(
       controller: pageController,
-      physics: const NeverScrollableScrollPhysics(),
       itemCount: pages.length,
       itemBuilder: (BuildContext context, int index) {
         return pages[index];
       },
-    );
-  }
-}
-
-class DocumentTabBar extends StatelessWidget {
-  const DocumentTabBar({
-    super.key,
-    required this.pageController,
-  });
-  final PageController pageController;
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onHorizontalDragEnd: (details) {
-        if (details.velocity.pixelsPerSecond.dx > 0) {
-          pageController.animateToPage(
-            0,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          );
-        }
-      },
-      child: const DocumenteBody(),
     );
   }
 }
