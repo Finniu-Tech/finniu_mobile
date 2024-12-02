@@ -24,7 +24,7 @@ class TitleFond extends ConsumerWidget {
       alignment: Alignment.centerLeft,
       children: [
         Container(
-          constraints: const BoxConstraints(maxWidth: 260),
+          constraints: const BoxConstraints(maxWidth: 280),
           width: MediaQuery.of(context).size.width * 0.7,
           height: 30,
           alignment: Alignment.center,
