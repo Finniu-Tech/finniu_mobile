@@ -37,7 +37,7 @@ class ScaffoldConfig extends ConsumerWidget {
             ? null
             : Container(
                 width: 0,
-                height: 90,
+                height: 60,
                 color: Colors.transparent,
               ),
         backgroundColor: isDarkMode
