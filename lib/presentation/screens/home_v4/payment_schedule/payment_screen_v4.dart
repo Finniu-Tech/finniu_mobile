@@ -1,7 +1,10 @@
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/capital_modal.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_list.dart';
+import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/rent_contaiener.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/title_fond.dart';
@@ -125,7 +128,41 @@ class CapitalDetail extends ConsumerWidget {
     const int iconLight = 0xff0D3A5C;
 
     void voucherOnPress() {
+      const String title = "Operación #001";
+      const String bankTitle = "Banco a donde te depositamos";
+      const String rent = "S/70.90";
+      const String rentTitle = "Capital a depositar";
+      const String date = "12/Ene/2024";
+      const String dateTitle = "Fecha de pago próximo";
+      const String time = "12:30";
+      final BankAccount bankAccount = BankAccount(
+        id: "1",
+        bankAccount: "234242424244",
+        bankName: "BBVA",
+        currency: "nuevo sol",
+        typeAccount: "cuenta_ahorros",
+        isJointAccount: false,
+        isDefaultAccount: true,
+        bankSlug: "bbva",
+      );
       print("pon tap voucher");
+
+      showCapitalModal(
+        context,
+        profModal: ProfModal(
+          title: title,
+          bankTitle: bankTitle,
+          rent: rent,
+          rentTitle: rentTitle,
+          date: date,
+          dateTitle: dateTitle,
+          time: time,
+          bankAccount: bankAccount,
+          numberAccount: bankAccount.bankAccount,
+          downloadVoucher: "",
+        ),
+        isPaid: true,
+      );
     }
 
     return Container(

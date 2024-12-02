@@ -288,6 +288,7 @@ class RowRent extends ConsumerWidget {
     required this.rent,
     required this.rentTitle,
   });
+
   final String rent;
   final String rentTitle;
 
