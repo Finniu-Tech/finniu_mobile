@@ -1,8 +1,10 @@
 import 'package:finniu/constants/number_format.dart';
+import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/helpers/month_to_string.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -105,19 +107,87 @@ class DetailModal extends StatelessWidget {
   final bool isPaid;
   @override
   Widget build(BuildContext context) {
-    void voucherOnPress() {
+    void voucherPay() {
+      const String title = "Operación #001";
+      const String bankTitle = "Banco a donde te depositamos";
+      const String rent = "S/70.90";
+      const String rentTitle = "Fecha de pago";
+      const String date = "12/Ene/2024";
+      const String dateTitle = "Rentabilidad pagada";
+      const String time = "12:30";
+      final BankAccount bankAccount = BankAccount(
+        id: "1",
+        bankAccount: "234242424244",
+        bankName: "BBVA",
+        currency: "nuevo sol",
+        typeAccount: "cuenta_ahorros",
+        isJointAccount: false,
+        isDefaultAccount: true,
+        bankSlug: "bbva",
+      );
       print("pon tap voucher");
+      showProfitabilityModal(
+        context,
+        profModal: ProfModal(
+          title: title,
+          bankTitle: bankTitle,
+          rent: rent,
+          rentTitle: rentTitle,
+          date: date,
+          dateTitle: dateTitle,
+          time: time,
+          bankAccount: bankAccount,
+          numberAccount: "",
+          downloadVoucher: "",
+        ),
+      );
+    }
+
+    void voucherSee() {
+      const String title = "Operación #007";
+      const String bankTitle = "Banco a donde te depositamos";
+      const String rent = "S/70.90";
+      const String rentTitle = "Fecha de pago próximo";
+      const String date = "12/Ene/2024";
+      const String dateTitle = "Rentabilidad a depositar";
+      const String time = "12:30";
+      final BankAccount bankAccount = BankAccount(
+        id: "1",
+        bankAccount: "234242424244",
+        bankName: "BBVA",
+        currency: "nuevo sol",
+        typeAccount: "cuenta_ahorros",
+        isJointAccount: false,
+        isDefaultAccount: true,
+        bankSlug: "bbva",
+      );
+      print("pon tap voucher");
+      showProfitabilityModal(
+        context,
+        profModal: ProfModal(
+          title: title,
+          bankTitle: bankTitle,
+          rent: rent,
+          rentTitle: rentTitle,
+          date: date,
+          dateTitle: dateTitle,
+          time: time,
+          bankAccount: bankAccount,
+          numberAccount: "",
+          downloadVoucher: null,
+        ),
+      );
     }
 
     return isPaid
         ? PayButton(
             text: 'Pagado',
-            onPressed: voucherOnPress,
+            onPressed: voucherPay,
           )
         : SeeVoucher(
             text: 'Ver',
             icon: "eye.svg",
-            onPressed: voucherOnPress,
+            onPressed: voucherSee,
           );
   }
 }
