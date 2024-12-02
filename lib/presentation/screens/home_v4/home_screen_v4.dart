@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/complete_profile.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/change_container.dart';
@@ -28,28 +29,33 @@ class HomeBodyV4 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
+    return Stack(
       children: [
         Column(
           children: [
-            InvestContainer(
+            const InvestContainer(
               isLoaded: false,
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            SliderInvest(),
-            SizedBox(
+            const SliderInvest(),
+            const SizedBox(
               height: 20,
             ),
-            ProfileCompletenessSection(),
-            ChangeContainer(),
-            DividerHome(),
-            NewsContainer(),
-            SizedBox(height: 80),
+            const ProfileCompletenessSection(),
+            const ChangeContainer(),
+            const DividerHome(),
+            ButtonInvestment(
+                text: "go payment",
+                onPressed: () {
+                  Navigator.pushNamed(context, '/v4/payment_schedule');
+                }),
+            const NewsContainer(),
+            const SizedBox(height: 80),
           ],
         ),
-        SeeLaterWidget(),
+        const SeeLaterWidget(),
       ],
     );
   }
