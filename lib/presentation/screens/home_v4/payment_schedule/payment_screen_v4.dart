@@ -96,16 +96,92 @@ class PaymentBody extends StatelessWidget {
                 ),
               ],
             ),
-            Column(
+            const Column(
               children: [
-                const TitleDataV4(),
-                ProfitabilityListV4(
-                  list: list,
-                ),
+                TitleCapitalV4(),
+                CapitalDetail(),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class CapitalDetail extends ConsumerWidget {
+  const CapitalDetail({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int titleTableDark = 0xffFFFFFF;
+    const int titleTableLight = 0xff000000;
+    const int borderColorDark = 0xffD0D0D0;
+    const int borderColorLight = 0xffD0D0D0;
+    const int iconDark = 0xffA2E6FA;
+    const int iconLight = 0xff0D3A5C;
+
+    void voucherOnPress() {
+      print("pon tap voucher");
+    }
+
+    return Container(
+      width: MediaQuery.of(context).size.width * 0.9,
+      height: 50,
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.only(left: 20),
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border.all(
+          width: 1,
+          color: isDarkMode
+              ? const Color(borderColorDark)
+              : const Color(borderColorLight),
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(10),
+          bottomRight: Radius.circular(10),
+        ),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          const TextPoppins(
+            text: "S/10.000",
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            textDark: titleTableDark,
+            textLight: titleTableLight,
+          ),
+          Row(
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+                size: 16,
+                color:
+                    isDarkMode ? const Color(iconDark) : const Color(iconLight),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              const TextPoppins(
+                text: "15 En/2025",
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                textDark: titleTableDark,
+                textLight: titleTableLight,
+              ),
+            ],
+          ),
+          SeeVoucher(
+            text: 'Ver',
+            icon: "eye.svg",
+            onPressed: voucherOnPress,
+          ),
+        ],
       ),
     );
   }

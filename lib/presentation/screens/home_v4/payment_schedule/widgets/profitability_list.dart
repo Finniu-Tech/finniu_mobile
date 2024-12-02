@@ -347,3 +347,49 @@ class TitleDataV4 extends ConsumerWidget {
     );
   }
 }
+
+class TitleCapitalV4 extends ConsumerWidget {
+  const TitleCapitalV4({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int titleTableDark = 0xffFFFFFF;
+    const int titleTableLight = 0xff000000;
+    const int backgroundColorDark = 0xff0D3A5C;
+    const int backgroundColorLight = 0xffE3F9FF;
+    const int borderColorDark = 0xffD0D0D0;
+    const int borderColorLight = 0xffD0D0D0;
+
+    return Container(
+      width: double.infinity,
+      height: 38,
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.only(left: 20),
+      decoration: BoxDecoration(
+        color: isDarkMode
+            ? const Color(backgroundColorDark)
+            : const Color(backgroundColorLight),
+        border: Border.all(
+          width: 1,
+          color: isDarkMode
+              ? const Color(borderColorDark)
+              : const Color(borderColorLight),
+        ),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(10),
+          topRight: Radius.circular(10),
+        ),
+      ),
+      child: const TextPoppins(
+        text: "Pago del capital",
+        fontSize: 16,
+        fontWeight: FontWeight.w500,
+        textDark: titleTableDark,
+        textLight: titleTableLight,
+      ),
+    );
+  }
+}
