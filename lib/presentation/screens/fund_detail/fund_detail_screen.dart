@@ -82,8 +82,8 @@ class FundDetailBody extends ConsumerWidget {
               : 'Quiero simular',
           onPressed: () async {
             context.loaderOverlay.show();
-            final userProfileCompleteness =
-                await ref.read(userProfileCompletenessProvider.future);
+            // final userProfileCompleteness =
+            //     await ref.read(userProfileCompletenessProvider.future);
             // final userProfileCompleteness = UserProfileCompleteness(
             //   profileComplete: userProfile.completeData(),
             //   personalDataComplete:
@@ -93,66 +93,93 @@ class FundDetailBody extends ConsumerWidget {
             //   legalTermsCompleteness: 100,
             //   completionPercentage: 100,
             // );
-            if (!userProfileCompleteness.hasCompleteProfile()) {
-              if (fund.fundType == FundTypeEnum.corporate) {
-                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-                  eventName: FirebaseAnalyticsEvents.screenView,
-                  parameters: {
-                    "screen": FirebaseScreen.fundDetail,
-                    'navigatedTo': fund.name,
-                  },
-                );
-                ref.read(firebaseAnalyticsServiceProvider).logScreenView(
-                  screenName: 'fund_detail',
-                  screenClass: 'fund_detail',
-                  parameters: {
-                    'navigated_from': fund.name,
-                  },
-                );
-                showVerifyIdentity(
-                  context,
-                  userProfileCompleteness,
-                  redirect: () {
-                    Navigator.pushNamed(context, '/v2/investment/step-1',
-                        arguments: {'fund': fund});
-                  },
-                );
-              } else {
-                ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-                  eventName: FirebaseAnalyticsEvents.screenView,
-                  parameters: {
-                    "screen": FirebaseScreen.fundDetail,
-                    'navigated_from': fund.name,
-                  },
-                );
-                ref.read(firebaseAnalyticsServiceProvider).logScreenView(
-                  screenName: 'fund_detail',
-                  screenClass: 'fund_detail',
-                  parameters: {
-                    'navigated_from': fund.name,
-                  },
-                );
-                showVerifyIdentity(context, userProfileCompleteness,
-                    redirect: () {
-                  Navigator.pushNamed(context, '/v2/aggro-investment',
-                      arguments: {'fund': fund});
-                });
-              }
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.screenView,
+              parameters: {
+                "screen": FirebaseScreen.fundDetail,
+                'navigated_from': fund.name,
+              },
+            );
+            ref.read(firebaseAnalyticsServiceProvider).logScreenView(
+              screenName: 'fund_detail',
+              screenClass: 'fund_detail',
+              parameters: {
+                'navigated_from': fund.name,
+              },
+            );
+            if (fund.fundType == FundTypeEnum.corporate) {
+              Navigator.pushNamed(
+                context,
+                '/v2/investment/step-1',
+                arguments: {'fund': fund},
+              );
             } else {
-              if (fund.fundType == FundTypeEnum.corporate) {
-                Navigator.pushNamed(
-                  context,
-                  '/v2/investment/step-1',
-                  arguments: {'fund': fund},
-                );
-              } else {
-                Navigator.pushNamed(
-                  context,
-                  '/v2/aggro-investment',
-                  arguments: {'fund': fund},
-                );
-              }
+              Navigator.pushNamed(
+                context,
+                '/v2/aggro-investment',
+                arguments: {'fund': fund},
+              );
             }
+            // if (!userProfileCompleteness.hasCompleteProfile()) {
+            //   if (fund.fundType == FundTypeEnum.corporate) {
+            //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            //       eventName: FirebaseAnalyticsEvents.screenView,
+            //       parameters: {
+            //         "screen": FirebaseScreen.fundDetail,
+            //         'navigatedTo': fund.name,
+            //       },
+            //     );
+            //     ref.read(firebaseAnalyticsServiceProvider).logScreenView(
+            //       screenName: 'fund_detail',
+            //       screenClass: 'fund_detail',
+            //       parameters: {
+            //         'navigated_from': fund.name,
+            //       },
+            //     );
+            //     showVerifyIdentity(
+            //       context,
+            //       userProfileCompleteness,
+            //       redirect: () {
+            //         Navigator.pushNamed(context, '/v2/investment/step-1',
+            //             arguments: {'fund': fund});
+            //       },
+            //     );
+            //   } else {
+            //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+            //       eventName: FirebaseAnalyticsEvents.screenView,
+            //       parameters: {
+            //         "screen": FirebaseScreen.fundDetail,
+            //         'navigated_from': fund.name,
+            //       },
+            //     );
+            //     ref.read(firebaseAnalyticsServiceProvider).logScreenView(
+            //       screenName: 'fund_detail',
+            //       screenClass: 'fund_detail',
+            //       parameters: {
+            //         'navigated_from': fund.name,
+            //       },
+            //     );
+            //     showVerifyIdentity(context, userProfileCompleteness,
+            //         redirect: () {
+            //       Navigator.pushNamed(context, '/v2/aggro-investment',
+            //           arguments: {'fund': fund});
+            //     });
+            //   }
+            // } else {
+            //   if (fund.fundType == FundTypeEnum.corporate) {
+            //     Navigator.pushNamed(
+            //       context,
+            //       '/v2/investment/step-1',
+            //       arguments: {'fund': fund},
+            //     );
+            //   } else {
+            //     Navigator.pushNamed(
+            //       context,
+            //       '/v2/aggro-investment',
+            //       arguments: {'fund': fund},
+            //     );
+            //   }
+            // }
 
             context.loaderOverlay.hide();
           },
