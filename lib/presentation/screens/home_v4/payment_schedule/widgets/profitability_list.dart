@@ -73,16 +73,17 @@ class ProfitabilityListV4 extends ConsumerWidget {
                 ),
                 Expanded(
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      const SizedBox(
-                        width: 20,
-                      ),
                       TextPoppins(
                         text: isSoles
                             ? formatterSoles.format(list[index].amount)
                             : formatterUSD.format(list[index].amount),
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
+                      ),
+                      DetailModal(
+                        isPaid: list[index].isPaid,
                       ),
                     ],
                   ),
@@ -91,6 +92,153 @@ class ProfitabilityListV4 extends ConsumerWidget {
             ),
           );
         },
+      ),
+    );
+  }
+}
+
+class DetailModal extends StatelessWidget {
+  const DetailModal({
+    super.key,
+    required this.isPaid,
+  });
+  final bool isPaid;
+  @override
+  Widget build(BuildContext context) {
+    void voucherOnPress() {
+      print("pon tap voucher");
+    }
+
+    return isPaid
+        ? PayButton(
+            text: 'Pagado',
+            onPressed: voucherOnPress,
+          )
+        : SeeVoucher(
+            text: 'Ver',
+            icon: "eye.svg",
+            onPressed: voucherOnPress,
+          );
+  }
+}
+
+class SeeVoucher extends ConsumerWidget {
+  const SeeVoucher({
+    super.key,
+    required this.text,
+    required this.icon,
+    required this.onPressed,
+  });
+  final String text;
+  final String icon;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundColorDark = 0xff08273F;
+    const int backgroundColorLight = 0xffA2E6FA;
+    const int contentColorDark = 0xffFFFFFF;
+    const int contentColorLight = 0xff000000;
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 73,
+        height: 22,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Color(isDarkMode ? backgroundColorDark : backgroundColorLight),
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextPoppins(
+              text: text,
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              textDark: contentColorDark,
+              textLight: contentColorLight,
+            ),
+            const SizedBox(width: 10),
+            SvgPicture.asset(
+              'assets/svg_icons/$icon',
+              width: 14,
+              height: 14,
+              color: Color(isDarkMode ? contentColorDark : contentColorLight),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PayButton extends ConsumerWidget {
+  const PayButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+  });
+  final String text;
+
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    const int backgroundColorDark = 0xffA2E6FA;
+    const int backgroundColorLight = 0xff08273F;
+    const int contentColorDark = 0xff000000;
+    const int contentColorLight = 0xffFFFFFF;
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        width: 73,
+        height: 22,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Color(isDarkMode ? backgroundColorDark : backgroundColorLight),
+          borderRadius: BorderRadius.circular(5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.2),
+              spreadRadius: 1,
+              blurRadius: 5,
+              offset: const Offset(0, 3),
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextPoppins(
+              text: text,
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              textDark: contentColorDark,
+              textLight: contentColorLight,
+            ),
+            const SizedBox(width: 10),
+            Icon(
+              Icons.arrow_forward_ios,
+              size: 14,
+              color: isDarkMode
+                  ? const Color(contentColorDark)
+                  : const Color(contentColorLight),
+            ),
+          ],
+        ),
       ),
     );
   }

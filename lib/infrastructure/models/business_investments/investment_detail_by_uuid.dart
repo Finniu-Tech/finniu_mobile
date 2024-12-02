@@ -41,17 +41,25 @@ class InvestmentDetailUuid {
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       month: json['deadline']['value'],
-      voucher: (json['boucherList'] as List<dynamic>).isNotEmpty ? json['boucherList'][0]["boucherImage"] : null,
+      voucher: (json['boucherList'] as List<dynamic>).isNotEmpty
+          ? json['boucherList'][0]["boucherImage"]
+          : null,
       rentabilityAmount: _parseAmount(json['rentabilityAmmount']),
       rentabilityPercent: _parseAmount(json['rentabilityPercent']),
       finishDateInvestment: json['finishDateInvestment'],
       contract: json['contract'],
-      bankAccountReceiver:
-          json['bankAccountReceiver'] != null ? BankAccount.fromJson(json['bankAccountReceiver']) : null,
-      bankAccountSender: json['bankAccountSender'] != null ? BankAccount.fromJson(json['bankAccountSender']) : null,
-      profitabilityListMonth:
-          (json['paymentRentability'] as List<dynamic>).map((item) => ProfitabilityItem.fromJson(item)).toList(),
-      fund: json['investmentFund'] != null ? FundEntity.fromJson(json['investmentFund']) : null,
+      bankAccountReceiver: json['bankAccountReceiver'] != null
+          ? BankAccount.fromJson(json['bankAccountReceiver'])
+          : null,
+      bankAccountSender: json['bankAccountSender'] != null
+          ? BankAccount.fromJson(json['bankAccountSender'])
+          : null,
+      profitabilityListMonth: (json['paymentRentability'] as List<dynamic>)
+          .map((item) => ProfitabilityItem.fromJson(item))
+          .toList(),
+      fund: json['investmentFund'] != null
+          ? FundEntity.fromJson(json['investmentFund'])
+          : null,
       isReInvestment: json['isReInvestment'] ?? false,
     );
   }
@@ -84,11 +92,13 @@ class ProfitabilityItem {
   final int amount;
   final String? voucher;
   final int? numberPayment;
+  final bool isPaid;
   ProfitabilityItem({
     required this.paymentDate,
     required this.amount,
     required this.numberPayment,
     this.voucher,
+    this.isPaid = false,
   });
 
   factory ProfitabilityItem.fromJson(Map<String, dynamic> json) {

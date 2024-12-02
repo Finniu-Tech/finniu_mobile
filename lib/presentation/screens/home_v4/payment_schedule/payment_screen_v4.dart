@@ -38,11 +38,13 @@ class PaymentBody extends StatelessWidget {
         paymentDate: DateTime(2023, 7, 1),
         amount: 50,
         numberPayment: 1,
+        isPaid: true,
       ),
       ProfitabilityItem(
         paymentDate: DateTime(2023, 8, 1),
         amount: 50,
         numberPayment: 1,
+        isPaid: true,
       ),
       ProfitabilityItem(
         paymentDate: DateTime(2023, 9, 1),
@@ -85,6 +87,14 @@ class PaymentBody extends StatelessWidget {
             const TitleTable(),
             const SizedBox(
               height: 15,
+            ),
+            Column(
+              children: [
+                const TitleDataV4(),
+                ProfitabilityListV4(
+                  list: list,
+                ),
+              ],
             ),
             Column(
               children: [
