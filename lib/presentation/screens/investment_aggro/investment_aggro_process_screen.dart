@@ -26,10 +26,10 @@ class InvestmentAggroProcessScreen extends ConsumerWidget {
     final currentTheme = ref.watch(settingsNotifierProvider);
     return CustomLoaderOverlay(
       child: ScaffoldInvestment(
+        currentRoute: InvestmentRoute.fundDetail,
+        fundEntity: fund,
         isDarkMode: currentTheme.isDarkMode,
-        backgroundColor: currentTheme.isDarkMode
-            ? const Color(scaffoldBlackBackground)
-            : const Color(whiteText),
+        backgroundColor: currentTheme.isDarkMode ? const Color(scaffoldBlackBackground) : const Color(whiteText),
         // currentTheme.isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
         body: AggroBody(
           fund: fund,
@@ -242,8 +242,7 @@ class BottomSection extends HookConsumerWidget {
 
       return false;
     }
-    if (originFundsController.text == 'Otros' &&
-        otherOriginFundsController.text.isEmpty) {
+    if (originFundsController.text == 'Otros' && otherOriginFundsController.text.isEmpty) {
       showSnackBarV2(
         context: context,
         title: "Error origen de fondos",
@@ -270,9 +269,7 @@ class BottomSection extends HookConsumerWidget {
           topRight: Radius.circular(20),
         ),
         color: Color(
-          isDarkMode
-              ? fund.getHexDetailColorDark()
-              : fund.getHexDetailColorLight(),
+          isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight(),
         ),
       ),
       child: Column(
@@ -293,20 +290,16 @@ class BottomSection extends HookConsumerWidget {
               //   '12 cuotas',
               // ],
               asyncItems: (String filter) async {
-                final quoteNumbers = await ref
-                    .watch(getAggroInvestmentQuotesFutureProvider.future);
+                final quoteNumbers = await ref.watch(getAggroInvestmentQuotesFutureProvider.future);
 
                 // append the word "cuota" to each item in the list
-                return quoteNumbers
-                    .map((item) => '$item ${item == 1 ? "cuota" : "cuotas"}')
-                    .toList();
+                return quoteNumbers.map((item) => '$item ${item == 1 ? "cuota" : "cuotas"}').toList();
               },
               callbackOnChange: (value) async {
                 quoteNumberController.text = value;
                 // installments.value = int.parse((value).split(' ')[0]);
                 installments.value = _getNumberFromString(value);
-                if (quoteNumberController.text.isNotEmpty &&
-                    parcelNumberController.text.isNotEmpty) {
+                if (quoteNumberController.text.isNotEmpty && parcelNumberController.text.isNotEmpty) {
                   calculateInvestment(
                     quoteNumberController.text,
                     parcelNumberController.text,
@@ -318,9 +311,7 @@ class BottomSection extends HookConsumerWidget {
               textEditingController: quoteNumberController,
               labelText: "Cantidad de Cuotas",
               hintText: "Seleccione numero de cuotas",
-              enabledFillColor: isDarkMode
-                  ? Color(fund.getHexDetailColorDark())
-                  : Color(fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
               unselectedItemColor: isDarkMode
                   ? Color(fund.getHexDetailColorSecondaryDark())
                   : Color(fund.getHexDetailColorSecondaryLight()),
@@ -358,8 +349,7 @@ class BottomSection extends HookConsumerWidget {
               callbackOnChange: (value) async {
                 parcelNumberController.text = value;
                 plots.value = _getNumberFromString(value);
-                if (quoteNumberController.text.isNotEmpty &&
-                    parcelNumberController.text.isNotEmpty) {
+                if (quoteNumberController.text.isNotEmpty && parcelNumberController.text.isNotEmpty) {
                   calculateInvestment(
                     quoteNumberController.text,
                     parcelNumberController.text,
@@ -371,9 +361,7 @@ class BottomSection extends HookConsumerWidget {
               textEditingController: parcelNumberController,
               labelText: "Cantidad de Parcelas",
               hintText: "Seleccione numero de parcelas",
-              enabledFillColor: isDarkMode
-                  ? Color(fund.getHexDetailColorDark())
-                  : Color(fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
               unselectedItemColor: isDarkMode
                   ? Color(fund.getHexDetailColorSecondaryDark())
                   : Color(fund.getHexDetailColorSecondaryLight()),
@@ -406,9 +394,7 @@ class BottomSection extends HookConsumerWidget {
                 }
               },
               textEditingController: originFundsController,
-              enabledFillColor: isDarkMode
-                  ? Color(fund.getHexDetailColorDark())
-                  : Color(fund.getHexDetailColorLight()),
+              enabledFillColor: isDarkMode ? Color(fund.getHexDetailColorDark()) : Color(fund.getHexDetailColorLight()),
               labelText: "Origen de procedencia del dinero",
               hintText: "Seleccione el origen",
               unselectedItemColor: isDarkMode
@@ -462,12 +448,9 @@ class BottomSection extends HookConsumerWidget {
                 if (!isValid) {
                   return;
                 }
-                final SaveAggroInvestmentInput saveInput =
-                    SaveAggroInvestmentInput(
-                  numberInstallments:
-                      _getNumberFromString(quoteNumberController.text)!,
-                  numberParcel:
-                      _getNumberFromString(parcelNumberController.text)!,
+                final SaveAggroInvestmentInput saveInput = SaveAggroInvestmentInput(
+                  numberInstallments: _getNumberFromString(quoteNumberController.text)!,
+                  numberParcel: _getNumberFromString(parcelNumberController.text)!,
                   fundUUID: fund.uuid,
                   originFunds: OriginFunds(
                     originFundsEnum: OriginFoundsUtil.fromReadableName(
@@ -476,14 +459,13 @@ class BottomSection extends HookConsumerWidget {
                     otherText: otherOriginFundsController.text,
                   ),
                 );
-                final SaveAggroInvestmentResponse response = await ref
-                    .read(saveAggroInvestmentFutureProvider(saveInput).future);
+                final SaveAggroInvestmentResponse response =
+                    await ref.read(saveAggroInvestmentFutureProvider(saveInput).future);
                 if (response.success == false) {
                   showSnackBarV2(
                     context: context,
                     title: "Error al calcular inversión",
-                    message:
-                        response.messages?[0].message ?? 'Ocurrio un error',
+                    message: response.messages?[0].message ?? 'Ocurrio un error',
                     snackType: SnackType.error,
                   );
 
