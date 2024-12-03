@@ -58,7 +58,7 @@ class NavBarV4 extends ConsumerWidget {
           );
           break;
         case 3:
-          ref.read(navigatorStateProvider.notifier).state = 2;
+          ref.read(navigatorStateProvider.notifier).state = 3;
           ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
             eventName: FirebaseAnalyticsEvents.navigateTo,
             parameters: {
@@ -66,8 +66,9 @@ class NavBarV4 extends ConsumerWidget {
               "nav_bar": "true",
             },
           );
-          // Navigator.of(context)
-          //     .pushNamedAndRemoveUntil('/v2/investment', (route) => false);
+          Navigator.of(context).pushNamed(
+            '/v4/notices',
+          );
           break;
         default:
           ref.read(navigatorStateProvider.notifier).state = 0;
@@ -119,8 +120,8 @@ class NavBarV4 extends ConsumerWidget {
             NavigationButtonV4(
               icon: 'assets/svg_icons/notices_icon.svg',
               title: 'noticias',
-              onTap: () => navigate(context, 1),
-              isSelected: selectedIndex == 1 ? true : false,
+              onTap: () => navigate(context, 3),
+              isSelected: selectedIndex == 3 ? true : false,
               isDarkMode: isDarkMode,
             ),
           ],
