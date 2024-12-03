@@ -15,7 +15,7 @@ class ListInvestMonth extends StatelessWidget {
     return SizedBox(
       height: 400,
       child: ListView.builder(
-        itemCount: 4,
+        itemCount: list.length,
         itemBuilder: (context, index) => ItemCalendar(
           item: list[index],
         ),
@@ -41,6 +41,13 @@ class ItemCalendar extends ConsumerWidget {
     const downloadIconLight = 0xffFFFFFF;
     const downloadDark = 0xffA2E6FA;
     const downloadLight = 0xff0D3A5C;
+    const dateIconDark = 0xffA2E6FA;
+    const dateIconLight = 0xff0D3A5C;
+    const rentIconDark = 0xffB5FF8A;
+    const rentIconLight = 0xff55B63D;
+    const rentTextDark = 0xffB5FF8A;
+    const rentTextLight = 0xff0D3A5C;
+    const titleColor = 0xff0D3A5C;
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       width: MediaQuery.of(context).size.width * 0.9,
@@ -108,6 +115,136 @@ class ItemCalendar extends ConsumerWidget {
               else
                 const SizedBox(),
             ],
+          ),
+          const SizedBox(height: 10),
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.75,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    TextPoppins(
+                      text: item.color.icon,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    const SizedBox(width: 10),
+                    TextPoppins(
+                      text: item.color.title,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      textLight: titleColor,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 3,
+                            height: 47,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: isDarkMode
+                                  ? const Color(dateIconDark)
+                                  : const Color(dateIconLight),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.calendar_today_outlined,
+                                      size: 12,
+                                      color: isDarkMode
+                                          ? const Color(dateIconDark)
+                                          : const Color(dateIconLight),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    const TextPoppins(
+                                      text: "Fecha",
+                                      fontSize: 10,
+                                    ),
+                                  ],
+                                ),
+                                TextPoppins(
+                                  text: item.date,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 3,
+                            height: 47,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: isDarkMode
+                                  ? const Color(rentIconDark)
+                                  : const Color(rentIconLight),
+                            ),
+                          ),
+                          const SizedBox(width: 5),
+                          Padding(
+                            padding: const EdgeInsets.all(4.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.show_chart_rounded,
+                                      size: 12,
+                                      color: isDarkMode
+                                          ? const Color(rentIconDark)
+                                          : const Color(rentIconLight),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    const TextPoppins(
+                                      text: "Rentabilidad",
+                                      fontSize: 10,
+                                    ),
+                                  ],
+                                ),
+                                TextPoppins(
+                                  text: item.rent,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w500,
+                                  textDark: rentTextDark,
+                                  textLight: rentTextLight,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),
