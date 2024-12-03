@@ -10,7 +10,8 @@ final noticesProvider = FutureProvider.autoDispose<List<Notice>>((ref) async {
         description:
             "Lorem ipsum dolor sit amet consectetur. Posuere rutrum quisque senectus et duis et varius. Duis egestas vestibulum egestas inte....",
         date: "28/Nov/2024",
-        linkUrl: "",
+        linkUrl:
+            "https://www.ambito.com/negocios/el-futuro-del-delivery-ia-ultravelocidad-y-expansion-los-pilares-rappi-2025-n6088573",
         linkImage: "",
       ),
       Notice(
@@ -18,7 +19,8 @@ final noticesProvider = FutureProvider.autoDispose<List<Notice>>((ref) async {
         description:
             "Lorem ipsum dolor sit amet consectetur. Posuere rutrum quisque senectus et duis et varius. Duis egestas vestibulum egestas inte....",
         date: "18/Nov/2024",
-        linkUrl: "",
+        linkUrl:
+            "https://www.ambito.com/negocios/el-futuro-del-delivery-ia-ultravelocidad-y-expansion-los-pilares-rappi-2025-n6088573",
         linkImage: "",
       ),
       Notice(
@@ -26,7 +28,8 @@ final noticesProvider = FutureProvider.autoDispose<List<Notice>>((ref) async {
         description:
             "Lorem ipsum dolor sit amet consectetur. Posuere rutrum quisque senectus et duis et varius. Duis egestas vestibulum egestas inte....",
         date: "12/Nov/2024",
-        linkUrl: "",
+        linkUrl:
+            "https://www.ambito.com/negocios/el-futuro-del-delivery-ia-ultravelocidad-y-expansion-los-pilares-rappi-2025-n6088573",
         linkImage: "",
       ),
     ];

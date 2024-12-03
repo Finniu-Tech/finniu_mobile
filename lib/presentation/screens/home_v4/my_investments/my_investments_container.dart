@@ -273,30 +273,37 @@ class RowGoCalendar extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Container(
-            width: 32,
-            height: 32,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(100),
-              color: isDarkMode
-                  ? const Color(MyInvestV4Colors.calendarDark)
-                  : const Color(MyInvestV4Colors.calendarLight),
+          GestureDetector(
+            onTap: () => Navigator.pushNamed(context, '/v4/calendar'),
+            child: Row(
+              children: [
+                Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(100),
+                    color: isDarkMode
+                        ? const Color(MyInvestV4Colors.calendarDark)
+                        : const Color(MyInvestV4Colors.calendarLight),
+                  ),
+                  child: Icon(
+                    Icons.calendar_today_outlined,
+                    size: 20,
+                    color: isDarkMode
+                        ? const Color(MyInvestV4Colors.calendarIconDark)
+                        : const Color(MyInvestV4Colors.calendarIconLight),
+                  ),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const TextPoppins(
+                  text: "Ver Calendario de pagos",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
             ),
-            child: Icon(
-              Icons.calendar_today_outlined,
-              size: 20,
-              color: isDarkMode
-                  ? const Color(MyInvestV4Colors.calendarIconDark)
-                  : const Color(MyInvestV4Colors.calendarIconLight),
-            ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          const TextPoppins(
-            text: "Ver Calendario de pagos",
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
           ),
           const Spacer(),
           const SwitchMoney(

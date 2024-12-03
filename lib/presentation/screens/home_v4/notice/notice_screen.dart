@@ -98,6 +98,8 @@ class NoticeItem extends ConsumerWidget {
         return;
       } else {
         print("on tap ${item.linkUrl}");
+        Navigator.pushNamed(context, '/v4/notices_detail',
+            arguments: item.linkUrl);
       }
     }
 
