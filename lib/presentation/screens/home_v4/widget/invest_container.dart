@@ -146,41 +146,44 @@ class PaymentsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(HomeV4Colors.paymentsButtonDark)
-            : const Color(HomeV4Colors.paymentsButtonLight),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "assets/svg_icons/calendar_home_icon.svg",
-                width: 25,
-                height: 25,
-                color: isDarkMode
-                    ? const Color(HomeV4Colors.paymentsTextDark)
-                    : const Color(HomeV4Colors.paymentsTextLight),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const TextPoppins(
-                text: "Mis pagos",
-                fontSize: 12,
-                textDark: HomeV4Colors.paymentsTextDark,
-                textLight: HomeV4Colors.paymentsTextLight,
-              ),
-            ],
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, '/v4/calendar'),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isDarkMode
+              ? const Color(HomeV4Colors.paymentsButtonDark)
+              : const Color(HomeV4Colors.paymentsButtonLight),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  "assets/svg_icons/calendar_home_icon.svg",
+                  width: 25,
+                  height: 25,
+                  color: isDarkMode
+                      ? const Color(HomeV4Colors.paymentsTextDark)
+                      : const Color(HomeV4Colors.paymentsTextLight),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const TextPoppins(
+                  text: "Mis pagos",
+                  fontSize: 12,
+                  textDark: HomeV4Colors.paymentsTextDark,
+                  textLight: HomeV4Colors.paymentsTextLight,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
