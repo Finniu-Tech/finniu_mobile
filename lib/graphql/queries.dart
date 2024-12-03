@@ -1221,6 +1221,7 @@ class QueryRepository {
             isJointAccount
             isDefaultAccount
             bankLogoUrl
+            bankSlug
           }
         }
       }
