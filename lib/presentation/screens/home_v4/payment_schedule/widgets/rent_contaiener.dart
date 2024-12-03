@@ -6,14 +6,19 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class RentContainer extends ConsumerWidget {
   const RentContainer({
     super.key,
+    required this.rent,
+    required this.percent,
+    required this.dateInfo,
+    required this.isRender,
   });
-
+  final String rent;
+  final String percent;
+  final String dateInfo;
+  final bool isRender;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const String rent = "S/70.90";
-    const String percent = "+1.40";
-    const String dateInfo = "Actualizado Jul/2024";
+
     const int backgroundDark = 0xffB5FF8A;
     const int backgroundLight = 0xffD0FFB5;
     const int dateDark = 0xff0D3A5C;
@@ -27,7 +32,7 @@ class RentContainer extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       width: MediaQuery.of(context).size.width * 0.9,
-      height: 100,
+      height: isRender ? 100 : 80,
       decoration: BoxDecoration(
         color: isDarkMode
             ? const Color(backgroundDark)
@@ -62,7 +67,7 @@ class RentContainer extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const TextPoppins(
+              TextPoppins(
                 text: rent,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
@@ -84,7 +89,7 @@ class RentContainer extends ConsumerWidget {
                     Radius.circular(10),
                   ),
                 ),
-                child: const TextPoppins(
+                child: TextPoppins(
                   text: percent,
                   fontSize: 11,
                   fontWeight: FontWeight.w500,
@@ -94,27 +99,29 @@ class RentContainer extends ConsumerWidget {
               ),
             ],
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.timer_sharp,
-                size: 15,
-                color:
-                    isDarkMode ? const Color(dateDark) : const Color(dateLight),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              const TextPoppins(
-                text: dateInfo,
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-                textDark: dateDark,
-                textLight: dateLight,
-              ),
-            ],
-          ),
+          if (isRender)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.timer_sharp,
+                  size: 15,
+                  color: isDarkMode
+                      ? const Color(dateDark)
+                      : const Color(dateLight),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                TextPoppins(
+                  text: dateInfo,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                  textDark: dateDark,
+                  textLight: dateLight,
+                ),
+              ],
+            ),
         ],
       ),
     );

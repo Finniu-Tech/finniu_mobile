@@ -36,6 +36,9 @@ class PaymentBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const String rent = "S/70.90";
+    const String percent = "+1.40";
+    const String dateInfo = "Actualizado Jul/2024";
     final List<ProfitabilityItem> list = [
       ProfitabilityItem(
         paymentDate: DateTime(2023, 7, 1),
@@ -83,7 +86,12 @@ class PaymentBody extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const RentContainer(),
+            const RentContainer(
+              rent: rent,
+              percent: percent,
+              dateInfo: dateInfo,
+              isRender: true,
+            ),
             const SizedBox(
               height: 15,
             ),
