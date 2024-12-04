@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/step_1/widgets/input_invest_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/select_invest_v4.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widget_v2/fund_row_step.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/widgets/step_scaffolf.dart';
@@ -91,10 +92,14 @@ class FormStepOne extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final timeController = useTextEditingController();
     final originController = useTextEditingController();
+    final amountController = useTextEditingController();
+    final couponController = useTextEditingController();
     final ValueNotifier<bool> timeError = useState(false);
     final ValueNotifier<bool> originError = useState(false);
+    final ValueNotifier<bool> amountError = useState(false);
+    final ValueNotifier<bool> couponError = useState(false);
 
-    const List<String> optionsTime = ["6", "12", "24"];
+    const List<String> optionsTime = ["6 meses", "12 meses", "24 meses"];
     const List<String> optionsOrigin = [
       "Salario",
       "Ahorros",
@@ -109,6 +114,23 @@ class FormStepOne extends HookConsumerWidget {
       key: formKey,
       child: Column(
         children: [
+          const SizedBox(height: 15),
+          ValueListenableBuilder<bool>(
+            valueListenable: amountError,
+            builder: (context, isError, child) {
+              return InputTextFileInvest(
+                title: "  Monto  ",
+                isNumeric: true,
+                controller: amountController,
+                isError: isError,
+                onError: () => amountError.value = false,
+                hintText: "Ingrese su monto de inversión",
+                validator: (p0) {
+                  return null;
+                },
+              );
+            },
+          ),
           const SizedBox(height: 15),
           ValueListenableBuilder<bool>(
             valueListenable: timeError,
@@ -139,6 +161,23 @@ class FormStepOne extends HookConsumerWidget {
                 hintText: "Seleccione origen",
                 selectController: originController,
                 options: optionsOrigin,
+                validator: (p0) {
+                  return null;
+                },
+              );
+            },
+          ),
+          const SizedBox(height: 15),
+          ValueListenableBuilder<bool>(
+            valueListenable: couponError,
+            builder: (context, isError, child) {
+              return InputTextFileInvest(
+                title: "  Si es que tienes un cupón, ingrésalo aquí  ",
+                isNumeric: true,
+                controller: couponController,
+                isError: isError,
+                onError: () => couponError.value = false,
+                hintText: "Ingresa tu cupón",
                 validator: (p0) {
                   return null;
                 },

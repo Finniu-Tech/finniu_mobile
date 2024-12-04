@@ -39,12 +39,19 @@ class SelecDropdownInvest extends HookConsumerWidget {
     const int iconLight = 0xFF0D3A5C;
     const int textSelectDark = 0xFFFFFFFF;
     const int textSelectLight = 0xFF000000;
-    const int dividerDark = 0xFF535050;
-    const int dividerLight = 0xFFD9D9D9;
-    const int dropdownColorDark = 0xFF222222;
-    const int dropdownColorLight = 0xFFF7F7F7;
+
+    const int dropdownColorDark = 0xFF0E0E0E;
+    const int dropdownColorLight = 0xFffDCF5FC;
+
     const int borderColorDark = 0xFFA2E6FA;
     const int borderColorLight = 0xFF0D3A5C;
+    const int itemContainerDark = 0xFFA2E6FA;
+    const int itemContainerLight = 0xFFA2E6FA;
+    const int itemContainerSelectDark = 0xFF0D3A5C;
+    const int itemContainerSelectLight = 0xFF0D3A5C;
+    const int itemText = 0xFF0D3A5C;
+    const int itemTextSelect = 0xFFFFFFFF;
+
     const int borderError = 0xFFED1C24;
     // const int errorDark = 0xff181818;
     // const int errorLight = 0xffA2E6FA;
@@ -165,42 +172,30 @@ class SelecDropdownInvest extends HookConsumerWidget {
       items: list.map((String option) {
         return DropdownMenuItem<String>(
           value: option,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    option,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: isDarkMode
-                          ? const Color(textSelectDark)
-                          : const Color(textSelectLight),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Poppins",
-                    ),
-                  ),
-                  if (option == selectController.text)
-                    Icon(
-                      Icons.check_circle_outline,
-                      size: 24,
-                      color: isDarkMode
-                          ? const Color(iconDark)
-                          : const Color(iconLight),
-                    ),
-                ],
+          child: Container(
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(25.0)),
+              color: option == itemSelectedValue
+                  ? isDarkMode
+                      ? const Color(itemContainerSelectDark)
+                      : const Color(itemContainerSelectLight)
+                  : isDarkMode
+                      ? const Color(itemContainerDark)
+                      : const Color(itemContainerLight),
+            ),
+            child: Text(
+              option,
+              style: TextStyle(
+                fontSize: 14,
+                color: option == itemSelectedValue
+                    ? const Color(itemTextSelect)
+                    : const Color(itemText),
+                fontWeight: FontWeight.w400,
+                fontFamily: "Poppins",
               ),
-              const SizedBox(height: 4),
-              Divider(
-                color: isDarkMode
-                    ? const Color(dividerDark)
-                    : const Color(dividerLight),
-                height: 1,
-              ),
-            ],
+            ),
           ),
         );
       }).toList(),
