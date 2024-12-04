@@ -8,13 +8,17 @@ class StepScaffold extends ConsumerWidget {
   const StepScaffold({
     super.key,
     required this.children,
+    this.useDefaultLoading = false,
   });
+  final bool useDefaultLoading;
   final Widget children;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff0E0E0E;
     const int backgroundLight = 0xffDEF7FF;
+    const int iconLight = 0xff0D3A5C;
+    const int iconDark = 0xffA2E6FA;
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (progress) {
@@ -30,7 +34,18 @@ class StepScaffold extends ConsumerWidget {
           height: 80,
         ),
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: useDefaultLoading,
+          leading: IconButton(
+            onPressed: () => {
+              ScaffoldMessenger.of(context).clearSnackBars(),
+              Navigator.of(context).pop(),
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color:
+                  isDarkMode ? const Color(iconDark) : const Color(iconLight),
+            ),
+          ),
           backgroundColor: isDarkMode
               ? const Color(backgroundDark)
               : const Color(backgroundLight),

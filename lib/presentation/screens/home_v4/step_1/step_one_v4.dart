@@ -14,6 +14,7 @@ class StepOneV4 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StepScaffold(
+      useDefaultLoading: true,
       children: StepOneBody(),
     );
   }
@@ -28,11 +29,12 @@ class StepOneBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final args =
         ModalRoute.of(context)!.settings.arguments as ProductContainerStyles;
+    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int textDark = 0xffFFFFFF;
     const int textLight = 0xff0D3A5C;
-    final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.85,
@@ -107,14 +109,19 @@ class FormStepOne extends HookConsumerWidget {
       'Inversiones',
       'Herencia',
       'Préstamos',
-      'Otros'
+      'Otros',
     ];
+
+    const buttonBack = 0xffA2E6FA;
+    const buttonText = 0xff0D3A5C;
+    const buttonBorder = 0xff0D3A5C;
+
     return Form(
       autovalidateMode: AutovalidateMode.disabled,
       key: formKey,
       child: Column(
         children: [
-          const SizedBox(height: 15),
+          const SizedBox(height: 25),
           ValueListenableBuilder<bool>(
             valueListenable: amountError,
             builder: (context, isError, child) {
@@ -131,7 +138,7 @@ class FormStepOne extends HookConsumerWidget {
               );
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 25),
           ValueListenableBuilder<bool>(
             valueListenable: timeError,
             builder: (context, isError, child) {
@@ -149,7 +156,7 @@ class FormStepOne extends HookConsumerWidget {
               );
             },
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 25),
           ValueListenableBuilder<bool>(
             valueListenable: originError,
             builder: (context, isError, child) {
@@ -167,22 +174,57 @@ class FormStepOne extends HookConsumerWidget {
               );
             },
           ),
-          const SizedBox(height: 15),
-          ValueListenableBuilder<bool>(
-            valueListenable: couponError,
-            builder: (context, isError, child) {
-              return InputTextFileInvest(
-                title: "  Si es que tienes un cupón, ingrésalo aquí  ",
-                isNumeric: true,
-                controller: couponController,
-                isError: isError,
-                onError: () => couponError.value = false,
-                hintText: "Ingresa tu cupón",
-                validator: (p0) {
-                  return null;
+          const SizedBox(height: 25),
+          Stack(
+            children: [
+              ValueListenableBuilder<bool>(
+                valueListenable: couponError,
+                builder: (context, isError, child) {
+                  return InputTextFileInvest(
+                    title: "  Si es que tienes un cupón  ",
+                    isNumeric: true,
+                    controller: couponController,
+                    isError: isError,
+                    onError: () => couponError.value = false,
+                    hintText: "Ingresa tu cupón",
+                    validator: (p0) {
+                      return null;
+                    },
+                  );
                 },
-              );
-            },
+              ),
+              Positioned(
+                right: 0,
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Center(
+                    child: Container(
+                      width: 100,
+                      height: 48,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: const Color(buttonBorder),
+                          width: 1,
+                        ),
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(25),
+                          bottomRight: Radius.circular(25),
+                        ),
+                        color: const Color(buttonBack),
+                      ),
+                      child: const TextPoppins(
+                        text: "Aplicarlo",
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        textDark: buttonText,
+                        textLight: buttonText,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

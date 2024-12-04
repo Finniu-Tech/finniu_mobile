@@ -31,7 +31,7 @@ class SelecDropdownInvest extends HookConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final ValueNotifier<bool> reload = useState(false);
     final list = options.toSet();
-    const int hintDark = 0xFF828282;
+    const int hintDark = 0xFFFFFFFF;
     const int hintLight = 0xFF535050;
     const int fillDark = 0xFF0E0E0E;
     const int fillLight = 0xFffDCF5FC;
@@ -40,7 +40,7 @@ class SelecDropdownInvest extends HookConsumerWidget {
     const int textSelectDark = 0xFFFFFFFF;
     const int textSelectLight = 0xFF000000;
 
-    const int dropdownColorDark = 0xFF0E0E0E;
+    const int dropdownColorDark = 0xFF1B1B1B;
     const int dropdownColorLight = 0xFffDCF5FC;
 
     const int borderColorDark = 0xFFA2E6FA;
