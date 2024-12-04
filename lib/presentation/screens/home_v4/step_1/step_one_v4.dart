@@ -3,16 +3,16 @@ import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
-import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
-import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
+import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/push_cupon.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/save_pre_invest.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/widgets/input_invest_v4.dart';
@@ -115,12 +115,14 @@ class FormStepOne extends HookConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
     final timeController = useTextEditingController();
     final originController = useTextEditingController();
+    final originOtherController = useTextEditingController();
     final amountController = useTextEditingController();
     final couponController = useTextEditingController();
     final ValueNotifier<bool> timeError = useState(false);
     final ValueNotifier<bool> originError = useState(false);
     final ValueNotifier<bool> amountError = useState(false);
     final ValueNotifier<bool> couponError = useState(false);
+    final ValueNotifier<bool> originOtherError = useState(false);
     final planSimulation = useState<PlanSimulation?>(null);
 
     const List<String> optionsTime = ["6 meses", "12 meses", "24 meses"];
@@ -174,37 +176,14 @@ class FormStepOne extends HookConsumerWidget {
         context: context,
         ref: ref,
       );
-      if (planSimulation.value?.error == null) {
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.addCoupon,
-          parameters: {
-            "screen": FirebaseScreen.investmentStep1V2,
-            'cupon_applied': true.toString(),
-          },
-        );
-        showSnackBarV2(
-          context: context,
-          title: "Cupón aplicado",
-          message: 'Cupón aplicado correctamente',
-          snackType: SnackType.success,
-        );
-      } else {
-        couponController.clear();
-        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-          eventName: FirebaseAnalyticsEvents.addCoupon,
-          parameters: {
-            "screen": FirebaseScreen.investmentStep1V2,
-            'cupon_applied': false.toString(),
-          },
-        );
-        showSnackBarV2(
-          context: context,
-          title: "Error al aplicar cupón",
-          message: planSimulation.value?.error ??
-              'Hubo un problema, intenta nuevamente',
-          snackType: SnackType.error,
-        );
-      }
+      couponFinish(
+        context: context,
+        plan: planSimulation.value,
+        ref: ref,
+        coupon: couponController.text,
+        couponController: couponController,
+      );
+
       context.loaderOverlay.hide();
     }
 
@@ -230,37 +209,19 @@ class FormStepOne extends HookConsumerWidget {
                 originFundsEnum: OriginFoundsUtil.fromReadableName(
                   originController.text,
                 ),
+                otherText: originOtherController.text,
               ),
               fundUUID: fundUuid,
             ),
           );
           context.loaderOverlay.hide();
-          if (response.success) {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              '/v2/investment/step-2',
-              (route) => false,
-              arguments: {
-                'preInvestmentUUID': response.preInvestmentUUID,
-                'amount': amountController.text,
-              },
-            );
-          } else {
-            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
-              eventName: FirebaseAnalyticsEvents.pushDataError,
-              parameters: {
-                "screen": FirebaseScreen.investmentStep1V2,
-                "event": "save_pre_investment_error",
-              },
-            );
-            showSnackBarV2(
-              context: context,
-              title: "Error interno",
-              message: response.messages?[0].message ??
-                  'Hubo un problema, asegúrate de haber completado todos los campos',
-              snackType: SnackType.error,
-            );
-          }
+          navigateToNext(
+            success: response.success,
+            ref: ref,
+            context: context,
+            uuid: response.preInvestmentUUID ?? '',
+            amount: amountController.text,
+          );
         },
         recalculatePressed: () => {
           Navigator.pop(context),
@@ -330,6 +291,26 @@ class FormStepOne extends HookConsumerWidget {
                     );
                   },
                 ),
+                originController.text == "Otros"
+                    ? const SizedBox(height: 25)
+                    : const SizedBox(),
+                originController.text == "Otros"
+                    ? ValueListenableBuilder<bool>(
+                        valueListenable: originOtherError,
+                        builder: (context, isError, child) {
+                          return InputTextFileInvest(
+                            title: " Otro origen  ",
+                            controller: originOtherController,
+                            isError: isError,
+                            onError: () => originOtherError.value = false,
+                            hintText: "Ingrese su origen",
+                            validator: (p0) {
+                              return null;
+                            },
+                          );
+                        },
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: 25),
                 Stack(
                   children: [
