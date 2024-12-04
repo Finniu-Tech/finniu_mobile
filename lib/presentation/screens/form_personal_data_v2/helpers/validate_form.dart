@@ -102,6 +102,59 @@ String? validateNumber({
   return null;
 }
 
+String? validateNumberMin({
+  required String field,
+  required String? value,
+  required BuildContext context,
+  required ValueNotifier<bool> boolNotifier,
+  double? minValue,
+}) {
+  if (value == null || value.isEmpty) {
+    showSnackBarV2(
+      context: context,
+      title: "$field obligatorio",
+      message: "Por favor, completa el ${field.toLowerCase()}.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+
+  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+    showSnackBarV2(
+      context: context,
+      title: "$field incorrecto",
+      message: 'Solo puedes usar números',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  final number = double.tryParse(value);
+  if (number == null) {
+    showSnackBarV2(
+      context: context,
+      title: "$field incorrecto",
+      message: 'El valor debe ser un número válido.',
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+  if (minValue != null && number < minValue) {
+    showSnackBarV2(
+      context: context,
+      title: "$field incorrecto",
+      message: "El monto debe ser mayor o igual a $minValue.",
+      snackType: SnackType.warning,
+    );
+    boolNotifier.value = true;
+    return null;
+  }
+
+  return null;
+}
+
 String? validateNumberDocument({
   required TypeDocumentEnum? typeDocument,
   required String field,

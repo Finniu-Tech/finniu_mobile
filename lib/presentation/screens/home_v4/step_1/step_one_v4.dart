@@ -3,14 +3,17 @@ import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/calculate_investment.dart';
 import 'package:finniu/infrastructure/models/calculate_investment.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/infrastructure/models/fund/corporate_investment_models.dart';
 import 'package:finniu/infrastructure/models/pre_investment_form.dart';
 import 'package:finniu/infrastructure/models/re_investment/input_models.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/investment_simulation.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/snackbar/snackbar_v2.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/form_personal_data_v2/helpers/validate_form.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/coupon_push.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/navigate_to_next.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/helpers/push_cupon.dart';
@@ -142,91 +145,117 @@ class FormStepOne extends HookConsumerWidget {
 
     void onPressCupon() async {
       FocusManager.instance.primaryFocus?.unfocus();
-      context.loaderOverlay.show();
-      if (amountController.text.isEmpty || timeController.text.isEmpty) {
+
+      print(!formKey.currentState!.validate());
+      if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.formPersonalDataV2,
+            "error": "input_form",
+          },
+        );
         showSnackBarV2(
           context: context,
-          title: "Error al aplicar cupón",
-          message: 'Debes ingresar el monto y el plazo para aplicar el cupón',
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
           snackType: SnackType.warning,
         );
-        context.loaderOverlay.hide();
+
         return;
-      }
-      if (couponController.text.isEmpty) {
-        showSnackBarV2(
+      } else {
+        if (amountError.value) return;
+        if (timeError.value) return;
+        if (couponError.value) return;
+        context.loaderOverlay.show();
+        final inputCalculator = CalculatorInput(
+          amount: int.parse(amountController.text),
+          months: int.parse(
+            timeController.text.split(' ')[0],
+          ),
+          currency: isSoles ? currencyNuevoSol : currencyDollar,
+          coupon: couponController.text,
+        );
+        planSimulation.value = await pushCupon(
+          inputCalculator: inputCalculator,
           context: context,
-          title: "Error al aplicar cupón",
-          message: 'Debes ingresar el cupón',
-          snackType: SnackType.warning,
+          ref: ref,
         );
-        context.loaderOverlay.hide();
-        return;
+        couponFinish(
+          context: context,
+          plan: planSimulation.value,
+          ref: ref,
+          coupon: couponController.text,
+          couponController: couponController,
+        );
       }
-      final inputCalculator = CalculatorInput(
-        amount: int.parse(amountController.text),
-        months: int.parse(
-          timeController.text.split(' ')[0],
-        ),
-        currency: isSoles ? currencyNuevoSol : currencyDollar,
-        coupon: couponController.text,
-      );
-      planSimulation.value = await pushCupon(
-        inputCalculator: inputCalculator,
-        context: context,
-        ref: ref,
-      );
-      couponFinish(
-        context: context,
-        plan: planSimulation.value,
-        ref: ref,
-        coupon: couponController.text,
-        couponController: couponController,
-      );
 
       context.loaderOverlay.hide();
     }
 
     void onPressSimulator() {
-      investmentSimulationModal(
-        context,
-        startingAmount: int.parse(amountController.text),
-        finalAmount: int.parse(amountController.text),
-        mouthInvestment: int.parse(timeController.text.split(' ')[0]),
-        coupon: couponController.text,
-        toInvestPressed: () async {
-          context.loaderOverlay.show();
-          Navigator.pop(context);
-          final response = await savePreInvestment(
-            context,
-            ref,
-            SaveCorporateInvestmentInput(
-              amount: amountController.text,
-              months: timeController.text.split(' ')[0],
-              coupon: couponController.text,
-              currency: isSoles ? currencyNuevoSol : currencyDollar,
-              originFunds: OriginFunds(
-                originFundsEnum: OriginFoundsUtil.fromReadableName(
-                  originController.text,
+      if (!formKey.currentState!.validate()) {
+        ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+          eventName: FirebaseAnalyticsEvents.formValidateError,
+          parameters: {
+            "screen": FirebaseScreen.formPersonalDataV2,
+            "error": "input_form",
+          },
+        );
+        showSnackBarV2(
+          context: context,
+          title: "Datos obligatorios incompletos",
+          message: "Por favor, completa todos los campos.",
+          snackType: SnackType.warning,
+        );
+        return;
+      } else {
+        if (amountError.value) return;
+        if (timeError.value) return;
+        if (couponError.value) return;
+        if (originError.value) return;
+        if (originOtherError.value) return;
+
+        investmentSimulationModal(
+          context,
+          startingAmount: int.parse(amountController.text),
+          finalAmount: int.parse(amountController.text),
+          mouthInvestment: int.parse(timeController.text.split(' ')[0]),
+          coupon: couponController.text,
+          toInvestPressed: () async {
+            context.loaderOverlay.show();
+            Navigator.pop(context);
+            final response = await savePreInvestment(
+              context,
+              ref,
+              SaveCorporateInvestmentInput(
+                amount: amountController.text,
+                months: timeController.text.split(' ')[0],
+                coupon: couponController.text,
+                currency: isSoles ? currencyNuevoSol : currencyDollar,
+                originFunds: OriginFunds(
+                  originFundsEnum: OriginFoundsUtil.fromReadableName(
+                    originController.text,
+                  ),
+                  otherText: originOtherController.text,
                 ),
-                otherText: originOtherController.text,
+                fundUUID: fundUuid,
               ),
-              fundUUID: fundUuid,
-            ),
-          );
-          context.loaderOverlay.hide();
-          navigateToNext(
-            success: response.success,
-            ref: ref,
-            context: context,
-            uuid: response.preInvestmentUUID ?? '',
-            amount: amountController.text,
-          );
-        },
-        recalculatePressed: () => {
-          Navigator.pop(context),
-        },
-      );
+            );
+            context.loaderOverlay.hide();
+            navigateToNext(
+              success: response.success,
+              ref: ref,
+              context: context,
+              uuid: response.preInvestmentUUID ?? '',
+              amount: amountController.text,
+            );
+          },
+          recalculatePressed: () => {
+            Navigator.pop(context),
+          },
+        );
+      }
     }
 
     return Form(
@@ -249,7 +278,15 @@ class FormStepOne extends HookConsumerWidget {
                       isError: isError,
                       onError: () => amountError.value = false,
                       hintText: "Ingrese su monto de inversión",
-                      validator: (p0) {
+                      validator: (value) {
+                        validateNumberMin(
+                          value: value,
+                          field: "Monto",
+                          context: context,
+                          boolNotifier: amountError,
+                          minValue: 1000,
+                        );
+
                         return null;
                       },
                     );
@@ -267,7 +304,17 @@ class FormStepOne extends HookConsumerWidget {
                       hintText: "Seleccione su plazo de inversión",
                       selectController: timeController,
                       options: optionsTime,
-                      validator: (p0) {
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          showSnackBarV2(
+                            context: context,
+                            title: "Plazo obligatorio",
+                            message: "Por favor, completa el Plazo.",
+                            snackType: SnackType.warning,
+                          );
+                          timeError.value = true;
+                          return null;
+                        }
                         return null;
                       },
                     );
@@ -285,7 +332,17 @@ class FormStepOne extends HookConsumerWidget {
                       hintText: "Seleccione origen",
                       selectController: originController,
                       options: optionsOrigin,
-                      validator: (p0) {
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          showSnackBarV2(
+                            context: context,
+                            title: "Origen obligatorio",
+                            message: "Por favor, completa el Origen.",
+                            snackType: SnackType.warning,
+                          );
+                          originError.value = true;
+                          return null;
+                        }
                         return null;
                       },
                     );
@@ -304,7 +361,17 @@ class FormStepOne extends HookConsumerWidget {
                             isError: isError,
                             onError: () => originOtherError.value = false,
                             hintText: "Ingrese su origen",
-                            validator: (p0) {
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                showSnackBarV2(
+                                  context: context,
+                                  title: "Origen obligatorio",
+                                  message: "Por favor, completa el Origen.",
+                                  snackType: SnackType.warning,
+                                );
+                                originError.value = true;
+                                return null;
+                              }
                               return null;
                             },
                           );
