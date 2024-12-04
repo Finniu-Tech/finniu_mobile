@@ -116,6 +116,7 @@ class ProductBody extends ConsumerWidget {
     }
 
     void onPressSimulator() {
+      Navigator.pushNamed(context, '/v4/step_one', arguments: colors);
       print("on press simulator");
     }
 
@@ -243,7 +244,7 @@ class RowButtons extends ConsumerWidget {
             ),
             child: const Center(
               child: TextPoppins(
-                text: "Agendar",
+                text: "Simular",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 textDark: simulatorTextDark,

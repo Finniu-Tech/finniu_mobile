@@ -38,6 +38,7 @@ import 'package:finniu/presentation/screens/home_v4/notice/notice_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/payment_screen_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/product_v4_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/products_v4_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/step_1/step_one_v4.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_v2_screen.dart';
@@ -331,5 +332,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/calendar': (BuildContext context) => const CalendarScreenV4(),
     '/v4/notices': (BuildContext context) => const NoticeScreenV4(),
     '/v4/notices_detail': (BuildContext context) => const NoticeDetail(),
+    '/v4/step_one': (BuildContext context) => const StepOneV4(),
   };
 }
