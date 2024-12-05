@@ -6,8 +6,9 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class FundRowStep extends ConsumerWidget {
   const FundRowStep({
     super.key,
+    required this.icon,
   });
-
+  final String icon;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -60,9 +61,9 @@ class FundRowStep extends ConsumerWidget {
                       : const Color(iconLight),
                   borderRadius: BorderRadius.circular(100),
                 ),
-                child: const Center(
+                child: Center(
                   child: TextPoppins(
-                    text: "🏢",
+                    text: icon,
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
                   ),
