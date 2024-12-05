@@ -1,10 +1,9 @@
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class SelecDropdownInvest extends HookConsumerWidget {
+class SelecDropdownInvest extends ConsumerWidget {
   const SelecDropdownInvest({
     super.key,
     required this.options,
@@ -29,8 +28,7 @@ class SelecDropdownInvest extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final ValueNotifier<bool> reload = useState(false);
-    final list = options.toSet();
+
     const int hintDark = 0xFFFFFFFF;
     const int hintLight = 0xFF535050;
     const int fillDark = 0xFF0E0E0E;
@@ -58,7 +56,7 @@ class SelecDropdownInvest extends HookConsumerWidget {
 
     return DropdownButtonFormField<String>(
       selectedItemBuilder: (context) {
-        return list
+        return options
             .map(
               (item) => Text(
                 item,
@@ -169,7 +167,7 @@ class SelecDropdownInvest extends HookConsumerWidget {
       dropdownColor: isDarkMode
           ? const Color(dropdownColorDark)
           : const Color(dropdownColorLight),
-      items: list.map((String option) {
+      items: options.map((String option) {
         return DropdownMenuItem<String>(
           value: option,
           child: Container(
@@ -201,7 +199,6 @@ class SelecDropdownInvest extends HookConsumerWidget {
       }).toList(),
       onChanged: (newValue) {
         selectController.text = newValue!;
-        reload.value = !reload.value;
       },
     );
   }

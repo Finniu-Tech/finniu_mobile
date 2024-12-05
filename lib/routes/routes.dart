@@ -31,6 +31,7 @@ import 'package:finniu/presentation/screens/form_personal_data_v2/form_personal_
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/calendar/calendar_v4_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/experience/experience_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/home_screen_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/my_investments_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/notice/notice_detail.dart';
@@ -333,5 +334,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/notices': (BuildContext context) => const NoticeScreenV4(),
     '/v4/notices_detail': (BuildContext context) => const NoticeDetail(),
     '/v4/step_one': (BuildContext context) => const StepOneV4(),
+    '/v4/experience': (BuildContext context) => const ExperienceScreenV4(),
   };
 }

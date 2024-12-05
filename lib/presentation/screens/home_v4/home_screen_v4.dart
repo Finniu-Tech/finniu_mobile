@@ -51,6 +51,11 @@ class HomeBodyV4 extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, '/v4/payment_schedule');
                 }),
+            ButtonInvestment(
+                text: "go experience",
+                onPressed: () {
+                  Navigator.pushNamed(context, '/v4/experience');
+                }),
             const NewsContainer(),
             const SizedBox(height: 80),
           ],
