@@ -8,6 +8,7 @@ import 'package:finniu/presentation/screens/home_v4/widget/change_container.dart
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/news_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/scaffold_home_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/see_later_v4.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -63,7 +64,7 @@ class HomeBodyV4 extends StatelessWidget {
             const SizedBox(height: 80),
           ],
         ),
-        const SeeLaterWidget(),
+        const SeeLaterWidgetV4(),
       ],
     );
   }
