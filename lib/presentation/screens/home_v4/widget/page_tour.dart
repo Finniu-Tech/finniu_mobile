@@ -1,16 +1,149 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:flutter/material.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class PageFiveTour extends ConsumerWidget {
+class PageSevenTour extends StatelessWidget {
+  const PageSevenTour({
+    super.key,
+    required this.nextPage,
+  });
+  final VoidCallback nextPage;
+  @override
+  Widget build(BuildContext context) {
+    const String title = "Manténgase al día!";
+    const String subTitle = "Descubre lo último sobre inversiones y finanzas.";
+    const double columnTop = 170;
+    const double columnLeft = 20;
+    const double itemTop = 355;
+    const double itemLeft = 20;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: itemTop,
+            left: itemLeft,
+            child: Container(
+              padding: const EdgeInsets.only(
+                left: 10,
+                bottom: 10,
+                top: 10,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              width: MediaQuery.of(context).size.width - 40,
+              height: 210,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TextPoppins(
+                    text: "Últimas noticias",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    align: TextAlign.start,
+                  ),
+                  Image.asset(
+                    "assets/home_v4/notice_image.png",
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: 140,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          ColumnStack(
+            title: title,
+            subTitle: subTitle,
+            onPress: nextPage,
+            top: columnTop,
+            left: columnLeft,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageSixTour extends StatelessWidget {
+  const PageSixTour({
+    super.key,
+    required this.nextPage,
+  });
+  final VoidCallback nextPage;
+  @override
+  Widget build(BuildContext context) {
+    const String title = "Manténgase al día!";
+    const String subTitle = "Descubre lo último sobre inversiones y finanzas.";
+    const double columnTop = 170;
+    const double columnLeft = 20;
+    const double itemTop = 355;
+    const double itemLeft = 20;
+
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: itemTop,
+            left: itemLeft,
+            child: Container(
+              padding: const EdgeInsets.only(
+                left: 10,
+                bottom: 10,
+                top: 10,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.white,
+              ),
+              width: MediaQuery.of(context).size.width - 40,
+              height: 210,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TextPoppins(
+                    text: "Últimas noticias",
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    align: TextAlign.start,
+                  ),
+                  Image.asset(
+                    "assets/home_v4/notice_image.png",
+                    width: MediaQuery.of(context).size.width - 40,
+                    height: 140,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          ColumnStack(
+            title: title,
+            subTitle: subTitle,
+            onPress: nextPage,
+            top: columnTop,
+            left: columnLeft,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageFiveTour extends StatelessWidget {
   const PageFiveTour({
     super.key,
     required this.nextPage,
   });
   final VoidCallback nextPage;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     const String title = "Cambia dólares al mejor tipo!";
     const String subTitle =
         "Aprovecha invertir en dólares, accede a Rextie y para comprar tus dólares ";
@@ -55,14 +188,14 @@ class PageFiveTour extends ConsumerWidget {
   }
 }
 
-class PageFourTour extends ConsumerWidget {
+class PageFourTour extends StatelessWidget {
   const PageFourTour({
     super.key,
     required this.nextPage,
   });
   final VoidCallback nextPage;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     const String title = "Accede más rápido";
     const String subTitle =
         "Con los nuevos botones Quiero invertir y Mis pagos, tomar decisiones nunca fue tan sencillo. 🚀";
@@ -110,14 +243,14 @@ class PageFourTour extends ConsumerWidget {
   }
 }
 
-class PageThreeTour extends ConsumerWidget {
+class PageThreeTour extends StatelessWidget {
   const PageThreeTour({
     super.key,
     required this.nextPage,
   });
   final VoidCallback nextPage;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     const String title = "Tu inversión, en un vistazo!";
     const String subTitle =
         "Visualiza en un widget tus:\n• Inversiones activas 💸\n• Rentabilidad promedio %\n• Capital invertido 💰\n• Intereses generados 📈";
@@ -181,14 +314,14 @@ class PageThreeTour extends ConsumerWidget {
   }
 }
 
-class PageTwoTour extends ConsumerWidget {
+class PageTwoTour extends StatelessWidget {
   const PageTwoTour({
     super.key,
     required this.nextPage,
   });
   final VoidCallback nextPage;
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     const String title = "Tu saldo más protegido";
     const String subTitle =
         "Activa el ojo para ocultar el saldo de tu capital invertido. ¡Más tranquilidad con un toque! ";
