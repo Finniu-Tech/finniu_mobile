@@ -21,7 +21,6 @@ import 'package:finniu/presentation/screens/blue_gold_investments/widgets/funds_
 import 'package:finniu/presentation/screens/catalog/widgets/graphic_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar/slider_bar.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/progres_bar_investment.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home/widgets/reinvestment_available_card.dart';

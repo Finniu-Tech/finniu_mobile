@@ -13,8 +13,7 @@ class ProfileCompletenessSection extends ConsumerWidget {
       data: (profileCompleteness) {
         if (!profileCompleteness.isComplete()) {
           return CompleteProfileNotificationWidget(
-            message:
-                'Completa tus datos en unos minutos para comenzar a invertir',
+            message: 'Completa tus datos en unos minutos para comenzar a invertir',
             buttonText: 'Completar',
             onPressed: () {
               Navigator.pushNamed(
@@ -29,8 +28,7 @@ class ProfileCompletenessSection extends ConsumerWidget {
         }
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (error, stack) =>
-          const Text('Error al cargar el estado del perfil'),
+      error: (error, stack) => const Text('Error al cargar el estado del perfil'),
     );
   }
 }
@@ -54,8 +52,7 @@ class CompleteProfileNotificationWidget extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     // Define color variables
-    final Color backgroundColor =
-        isDarkMode ? const Color(0xffA2E6FA) : const Color(0xff051926);
+    final Color backgroundColor = isDarkMode ? const Color(0xffA2E6FA) : const Color(0xff051926);
     final Color textColor = isDarkMode ? Colors.black : Colors.white;
 
     return Center(
@@ -139,12 +136,8 @@ class CompleteButtonText extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               decoration: underline ? TextDecoration.underline : null,
-              decorationColor: isDarkMode
-                  ? const Color(textColorDark)
-                  : const Color(textColorLight),
-              color: isDarkMode
-                  ? const Color(textColorDark)
-                  : const Color(textColorLight),
+              decorationColor: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+              color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
               fontFamily: "Poppins",
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -154,9 +147,7 @@ class CompleteButtonText extends StatelessWidget {
           Icon(
             Icons.arrow_forward_ios,
             size: 12,
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
           ),
         ],
       ),

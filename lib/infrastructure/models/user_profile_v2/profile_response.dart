@@ -12,9 +12,7 @@ class RegisterUserV2Response {
   factory RegisterUserV2Response.fromJson(Map<String, dynamic> json) {
     return RegisterUserV2Response(
       success: json['success'],
-      messages: (json['messages'] as List)
-          .map((messageJson) => Message.fromJson(messageJson))
-          .toList(),
+      messages: (json['messages'] as List).map((messageJson) => Message.fromJson(messageJson)).toList(),
       user: json['user'] != null ? User.fromJson(json['user']) : null,
     );
   }
