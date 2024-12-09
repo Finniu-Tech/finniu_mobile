@@ -23,6 +23,7 @@ import 'package:finniu/presentation/screens/edit_location_v2/edit_location_scree
 import 'package:finniu/presentation/screens/edit_personal_v2/edit_personal_screen.dart';
 import 'package:finniu/presentation/screens/exit_screen/exit_screen.dart';
 import 'package:finniu/presentation/screens/form_about_me_v2/form_about_me_v2.dart';
+import 'package:finniu/presentation/screens/form_accounts/form_accounts.dart';
 import 'package:finniu/presentation/screens/form_job_v2/form_job_v2.dart';
 import 'package:finniu/presentation/screens/form_legal_terms/form_legal_v2.dart';
 import 'package:finniu/presentation/screens/form_location_v2/form_location_v2.dart';
@@ -297,5 +298,6 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/exit': (BuildContext context) => const ExitScreen(),
     '/debug_log': (BuildContext context) => DebugLogsScreen(),
     '/v4/home': (BuildContext context) => const HomeScreenV4(),
+    '/v2/form_accounts': (BuildContext context) => const FormAccountsScreen(),
   };
 }
