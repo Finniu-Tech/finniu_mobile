@@ -1,5 +1,7 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/presentation/providers/eye_home_provider.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/widgets/switch.dart';
@@ -144,41 +146,44 @@ class PaymentsButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Container(
-      decoration: BoxDecoration(
-        color: isDarkMode
-            ? const Color(HomeV4Colors.paymentsButtonDark)
-            : const Color(HomeV4Colors.paymentsButtonLight),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SvgPicture.asset(
-                "assets/svg_icons/calendar_home_icon.svg",
-                width: 25,
-                height: 25,
-                color: isDarkMode
-                    ? const Color(HomeV4Colors.paymentsTextDark)
-                    : const Color(HomeV4Colors.paymentsTextLight),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              const TextPoppins(
-                text: "Mis pagos",
-                fontSize: 12,
-                textDark: HomeV4Colors.paymentsTextDark,
-                textLight: HomeV4Colors.paymentsTextLight,
-              ),
-            ],
-          ),
-        ],
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, '/v4/calendar'),
+      child: Container(
+        decoration: BoxDecoration(
+          color: isDarkMode
+              ? const Color(HomeV4Colors.paymentsButtonDark)
+              : const Color(HomeV4Colors.paymentsButtonLight),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  "assets/svg_icons/calendar_home_icon.svg",
+                  width: 25,
+                  height: 25,
+                  color: isDarkMode
+                      ? const Color(HomeV4Colors.paymentsTextDark)
+                      : const Color(HomeV4Colors.paymentsTextLight),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const TextPoppins(
+                  text: "Mis pagos",
+                  fontSize: 12,
+                  textDark: HomeV4Colors.paymentsTextDark,
+                  textLight: HomeV4Colors.paymentsTextLight,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -192,7 +197,8 @@ class InterestButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     void onTap() {
-      print(" on tap quiero invertir");
+      ref.read(navigatorStateProvider.notifier).state = 1;
+      Navigator.pushNamed(context, '/v4/products');
     }
 
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -249,6 +255,7 @@ class Interest extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
     final eyeOpen = ref.watch(eyeHomeProvider);
     return Container(
       padding: const EdgeInsets.all(10),
@@ -280,6 +287,8 @@ class Interest extends ConsumerWidget {
               const TextPoppins(
                 text: "Interes generados",
                 fontSize: 8,
+                textDark: HomeV4Colors.interestGeneratedTextDark,
+                textLight: HomeV4Colors.interestGeneratedTextLight,
               ),
             ],
           ),
@@ -290,12 +299,18 @@ class Interest extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 TextPoppins(
-                  text: "S/${eyeOpen ? "10.500" : "****"}",
+                  text:
+                      "+${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
+                  textDark: HomeV4Colors.interestGeneratedTextDark,
+                  textLight: HomeV4Colors.interestGeneratedTextLight,
                 ),
                 Container(
-                  padding: const EdgeInsets.all(2),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 6,
+                    vertical: 2,
+                  ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     color: isDarkMode
@@ -330,6 +345,7 @@ class InvestCapital extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final eyeOpen = ref.watch(eyeHomeProvider);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
 
     return Container(
       padding: const EdgeInsets.all(10),
@@ -365,7 +381,7 @@ class InvestCapital extends ConsumerWidget {
           Skeletonizer(
             enabled: isLoaded,
             child: TextPoppins(
-              text: "S/${eyeOpen ? "10.500" : "****"}",
+              text: "${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -391,7 +407,7 @@ class ActiveInvestmentContainer extends ConsumerWidget {
         gradient: LinearGradient(
           colors: isDarkMode
               ? HomeV4Colors.gradientDark
-              : HomeV4Colors.gradientDark,
+              : HomeV4Colors.gradientLight,
           stops: const [0.0, 0.7],
           begin: Alignment.topRight,
           end: Alignment.bottomLeft,

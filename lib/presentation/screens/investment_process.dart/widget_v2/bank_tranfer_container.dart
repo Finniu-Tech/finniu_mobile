@@ -1,10 +1,11 @@
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
+import 'package:finniu/presentation/providers/re_investment_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
-import 'package:finniu/presentation/screens/reinvest_process/widgets/modal_widgets.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/select_bank.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -54,13 +55,16 @@ class AddContainer extends ConsumerWidget {
     const int icon = 0xff0D3A5C;
     const int iconDark = 0xffFFFFFF;
     const int iconLight = 0xff0D3A5C;
+    final bankSelect = isSended
+        ? ref.read(selectedBankAccountSenderProvider)
+        : ref.read(selectedBankAccountReceiverProvider);
     return GestureDetector(
-      onTap: () => showBankAccountModal(
-        context,
-        ref,
-        currencyValue,
-        isSended,
-        "",
+      onTap: () => showBankAccountModalV4(
+        context: context,
+        currency: currencyValue,
+        isSender: isSended,
+        typeReInvestment: "",
+        bankSelect: bankSelect,
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -148,13 +152,22 @@ class BankContainer extends ConsumerWidget {
       }
     }
 
+    String getMaskedNumber(String? number) {
+      if (number != null && number.length >= 3) {
+        String visible = number.substring(number.length - 3);
+        return "**********$visible";
+      } else {
+        return "**********----";
+      }
+    }
+
     return GestureDetector(
-      onTap: () => showBankAccountModal(
-        context,
-        ref,
-        currencyValue,
-        isSended,
-        "",
+      onTap: () => showBankAccountModalV4(
+        context: context,
+        currency: currencyValue,
+        isSender: isSended,
+        typeReInvestment: "",
+        bankSelect: selectBank,
       ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -205,13 +218,13 @@ class BankContainer extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 5,
                 ),
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.65,
                   child: TextPoppins(
                     text:
-                        "${selectBank?.bankName ?? "banco"} - ${getCurrency(selectBank?.currency)}  | ${selectBank?.bankAccount ?? "----"}",
+                        "${selectBank?.bankName ?? "banco"} - ${getCurrency(selectBank?.currency)} | ${getMaskedNumber(selectBank?.bankAccount)}",
                     fontSize: 11,
                   ),
                 ),

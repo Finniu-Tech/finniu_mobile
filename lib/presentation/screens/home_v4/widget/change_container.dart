@@ -46,6 +46,9 @@ class ChangeSunat extends ConsumerWidget {
           topLeft: Radius.circular(10),
           topRight: Radius.circular(10),
         ),
+        color: Color(isDarkMode
+            ? HomeV4Colors.sunatContainerDark
+            : HomeV4Colors.sunatContainerLight),
         border: Border.all(
           width: 1.0,
           color: isDarkMode
@@ -73,11 +76,15 @@ class ChangeSunat extends ConsumerWidget {
                 text: "Compra",
                 fontSize: 7,
                 fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.sunatTextDark,
+                textLight: HomeV4Colors.sunatTextLight,
               ),
               TextPoppins(
                 text: "3.7890",
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.sunatTextDark,
+                textLight: HomeV4Colors.sunatTextLight,
               ),
             ],
           ),
@@ -92,11 +99,15 @@ class ChangeSunat extends ConsumerWidget {
                 text: "Venta",
                 fontSize: 7,
                 fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.sunatTextDark,
+                textLight: HomeV4Colors.sunatTextLight,
               ),
               TextPoppins(
                 text: "3.8520",
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
+                textDark: HomeV4Colors.sunatTextDark,
+                textLight: HomeV4Colors.sunatTextLight,
               ),
             ],
           ),
@@ -131,8 +142,8 @@ class ChangeRextie extends ConsumerWidget {
         border: Border.all(
           width: 1.0,
           color: isDarkMode
-              ? const Color(HomeV4Colors.changeBorderDark)
-              : const Color(HomeV4Colors.changeBorderLight),
+              ? const Color(HomeV4Colors.rextieContainerDark)
+              : const Color(HomeV4Colors.rextieContainerLight),
         ),
       ),
       child: Row(

@@ -9,15 +9,17 @@ class StepScaffold extends ConsumerWidget {
   const StepScaffold({
     super.key,
     required this.children,
+    this.useDefaultLoading = false,
   });
+  final bool useDefaultLoading;
   final Widget children;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff0E0E0E;
     const int backgroundLight = 0xffDEF7FF;
-    final args =
-        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    const int iconLight = 0xff0D3A5C;
+    const int iconDark = 0xffA2E6FA;
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (progress) {
@@ -28,38 +30,31 @@ class StepScaffold extends ConsumerWidget {
           ),
         );
       },
-      child: PopScope(
-        child: Scaffold(
-          floatingActionButton: const SizedBox(
-            height: 80,
-          ),
-          appBar: AppBar(
-            leading: IconButton(
-              icon: Icon(
-                color: isDarkMode
-                    ? const Color(primaryLight)
-                    : const Color(primaryDark),
-                Icons.arrow_back,
-              ),
-              onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
-                '/v2/investment/step-1',
-                arguments: {'fund': args['fund']},
-                (route) => false,
-              ),
-            ),
-            automaticallyImplyLeading: false,
-            backgroundColor: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
-          ),
-          backgroundColor: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
-          body: GestureDetector(
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: SingleChildScrollView(
-              child: children,
-            ),
+      child: Scaffold(
+        floatingActionButton: const SizedBox(
+          height: 80,
+        ),
+        appBar: AppBar(
+          automaticallyImplyLeading: useDefaultLoading,
+          leading: useDefaultLoading
+              ? IconButton(
+                  onPressed: () => {
+                    ScaffoldMessenger.of(context).clearSnackBars(),
+                    Navigator.of(context).pop(),
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
+                  ),
+                )
+              : null,
+          backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        ),
+        backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        body: GestureDetector(
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: SingleChildScrollView(
+            child: children,
           ),
         ),
       ),

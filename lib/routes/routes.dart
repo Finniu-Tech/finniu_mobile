@@ -30,7 +30,16 @@ import 'package:finniu/presentation/screens/form_location_v2/form_location_v2.da
 import 'package:finniu/presentation/screens/form_personal_data_v2/form_personal_v2.dart';
 import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/calendar/calendar_v4_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/experience/experience_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/home_screen_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/my_investments/my_investments_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/notice/notice_detail.dart';
+import 'package:finniu/presentation/screens/home_v4/notice/notice_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/payment_schedule/payment_screen_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/product_v4/product_v4_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/products_v4/products_v4_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/step_1/step_one_v4.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_2_v2_screen.dart';
@@ -292,12 +301,19 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v2/pay_out': (BuildContext context) => const PayOutScreen(),
     '/v2/rextie_comminication': (BuildContext context) => const RextieComminicationScree(),
     '/push_notification': (BuildContext context) => FirebaseTokenScreen(),
-
     '/v2/bubble_whatsapp': (BuildContext context) => const BubbleWhatsappScreen(),
-
     '/v2/exit': (BuildContext context) => const ExitScreen(),
-    '/debug_log': (BuildContext context) => DebugLogsScreen(),
     '/v4/home': (BuildContext context) => const HomeScreenV4(),
+    '/v4/products': (BuildContext context) => const ProductsV4Screen(),
+    '/v4/product': (BuildContext context) => const ProductDetailV4(),
+    '/debug_log': (BuildContext context) => DebugLogsScreen(),
     '/v2/form_accounts': (BuildContext context) => const FormAccountsScreen(),
+    '/v2/my_investments': (BuildContext context) => const MyInvestmentsScreen(),
+    '/v4/payment_schedule': (BuildContext context) => const PaymentScreenV4(),
+    '/v4/calendar': (BuildContext context) => const CalendarScreenV4(),
+    '/v4/notices': (BuildContext context) => const NoticeScreenV4(),
+    '/v4/notices_detail': (BuildContext context) => const NoticeDetail(),
+    '/v4/step_one': (BuildContext context) => const StepOneV4(),
+    '/v4/experience': (BuildContext context) => const ExperienceScreenV4(),
   };
 }

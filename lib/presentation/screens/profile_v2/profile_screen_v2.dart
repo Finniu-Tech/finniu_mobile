@@ -35,7 +35,9 @@ class UserProfileV2 extends ConsumerWidget {
           title: "Mi perfil",
           onLeadingPressed: () => Navigator.pushNamed(context, '/home_v2'),
         ),
-        backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
+        backgroundColor: isDarkMode
+            ? const Color(backgroundDark)
+            : const Color(backgroundLight),
         body: const SingleChildScrollView(
           child: _BodyProfile(),
         ),
@@ -109,11 +111,46 @@ class _BodyProfile extends ConsumerWidget {
         const SizedBox(
           height: 40,
         ),
+        // ButtonNavigateProfile(
+        //   isComplete: true,
+        //   icon: "assets/svg_icons/settings.svg",
+        //   title: "new home",
+        //   subtitle:
+        //       "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
+        //   onTap: () => {
+        //     ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        //       eventName: FirebaseAnalyticsEvents.navigateTo,
+        //       parameters: {
+        //         "screen": FirebaseScreen.profileV2,
+        //         "navigate_to": FirebaseScreen.settingsV2,
+        //       },
+        //     ),
+        //     Navigator.pushNamed(context, '/v4/home'),
+        //   },
+        // ),
+        ButtonNavigateProfile(
+          isComplete: true,
+          icon: "assets/svg_icons/settings.svg",
+          title: "home v4",
+          subtitle:
+              "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
+          onTap: () => {
+            ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+              eventName: FirebaseAnalyticsEvents.navigateTo,
+              parameters: {
+                "screen": FirebaseScreen.profileV2,
+                "navigate_to": FirebaseScreen.settingsV2,
+              },
+            ),
+            Navigator.pushNamed(context, '/v4/home'),
+          },
+        ),
         ButtonNavigateProfile(
           isComplete: true,
           icon: "assets/svg_icons/settings.svg",
           title: "Configuraciones",
-          subtitle: "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
+          subtitle:
+              "Notificaciones, Modo oscuro, \nprivacidad, cambio de contraseña",
           onTap: () => {
             ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
               eventName: FirebaseAnalyticsEvents.navigateTo,

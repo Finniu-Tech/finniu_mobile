@@ -279,7 +279,7 @@ class FormAccounts extends HookConsumerWidget {
                         accountNumberError.value = true;
                         return null;
                       }
-                      if (value.length <= 10) {
+                      if (value.length < 10) {
                         showSnackBarV2(
                           context: context,
                           title: "Número de cuenta obligatorio",
@@ -335,7 +335,7 @@ class FormAccounts extends HookConsumerWidget {
                         cciNumberError.value = true;
                         return null;
                       }
-                      if (value.length <= 10) {
+                      if (value.length < 10) {
                         showSnackBarV2(
                           context: context,
                           title: "Número de cuenta obligatorio",

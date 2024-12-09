@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors/product_v4_colors.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/pre_investment_provider.dart';
@@ -23,6 +24,7 @@ class StepTwoV2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const StepScaffold(
+      useDefaultLoading: false,
       children: StepTwoBody(),
     );
   }
@@ -35,6 +37,32 @@ class StepTwoBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = ProductContainerStyles(
+      backgroundContainerDark: 0xff1B1B1B,
+      backgroundContainerLight: 0xffE9FAFF,
+      imageProduct: "🏢",
+      titleText: "Producto de inversión a Plazo Fijo",
+      minimumText: "1.000",
+      profitabilityText: "19",
+      titleDark: 0xffFFFFFF,
+      titleLight: 0xff0D3A5C,
+      minimumDark: 0xff0D3A5C,
+      minimumLight: 0xff0D3A5C,
+      profitabilityDark: 0xffB5FF8A,
+      profitabilityLight: 0xffD2FDBA,
+      isSoles: true,
+      uuid: "1",
+      buttonBackDark: 0xffA2E6FA,
+      buttonBackLight: 0xff0D3A5C,
+      buttonTextDark: 0xff0D3A5C,
+      buttonTextLight: 0xffFFFFFF,
+      textDark: 0xff000000,
+      textLight: 0xff000000,
+      minimunTextColorDark: 0xffFFFFFF,
+      minimumTextColorLight: 0xffFFFFFF,
+      minimumLightSoles: 0xffBBF0FF,
+      minimumTextColorLightSoles: 0xff000000,
+    );
     const int titleDark = 0xffA2E6FA;
     const int titleLight = 0xff0D3A5C;
     const int textDark = 0xffFFFFFF;
@@ -49,7 +77,9 @@ class StepTwoBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const FundRowStep(),
+            FundRowStep(
+              icon: colors.imageProduct,
+            ),
             const TextPoppins(
               text: "Fondo prestamos\nempresariales",
               fontSize: 20,

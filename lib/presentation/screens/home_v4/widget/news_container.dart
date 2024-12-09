@@ -10,15 +10,21 @@ class NewsContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width,
-      padding: const EdgeInsets.only(left: 20, top: 20, bottom: 10),
       child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          TitleNews(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 10,
+            ),
+            child: TitleNews(),
+          ),
           NewsCarrousel(),
+          SizedBox(height: 20),
         ],
       ),
     );
@@ -32,19 +38,30 @@ class NewsCarrousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = List.generate(4, (index) => const NewItem());
+    final items = List.generate(
+      3,
+      (index) => NewItem(
+        index: (index + 1).toString(),
+        title: "Artículo de finanzas",
+        author: "Por Javier Salmón",
+        date: "12 Nov, 2024",
+        onTap: () {
+          print("pon tap ${index + 1}");
+        },
+      ),
+    );
 
     return CarouselSlider(
       items: items,
       options: CarouselOptions(
-        height: 180.0,
+        height: 160.0,
         enlargeCenterPage: false,
         autoPlay: true,
         aspectRatio: 16 / 9,
         autoPlayCurve: Curves.fastOutSlowIn,
         enableInfiniteScroll: true,
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
-        viewportFraction: 0.4,
+        viewportFraction: 0.5,
       ),
     );
   }
@@ -53,45 +70,83 @@ class NewsCarrousel extends StatelessWidget {
 class NewItem extends StatelessWidget {
   const NewItem({
     super.key,
+    required this.index,
+    required this.title,
+    required this.author,
+    required this.date,
+    required this.onTap,
   });
-
+  final String index;
+  final String title;
+  final String author;
+  final String date;
+  final Function() onTap;
   @override
   Widget build(BuildContext context) {
+    const int buttonColor = 0xffA2E6FA;
     return Container(
-      margin: const EdgeInsets.only(right: 10),
-      width: 150,
-      height: 150,
+      width: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: Colors.red[300],
+        color: Colors.transparent,
       ),
       child: Stack(
         children: [
           Image.asset(
-            "assets/home_v4/new_example.png",
-            fit: BoxFit.fill,
+            "assets/home_v4/example_$index.png",
+            fit: BoxFit.cover,
           ),
-          const Padding(
-            padding: EdgeInsets.all(8.0),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 15,
+              vertical: 15,
+            ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TextPoppins(
-                  text: "Artículo de finanzas",
-                  fontSize: 11,
+                  text: title,
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
+                  textDark: HomeV4Colors.newsTitleDark,
+                  textLight: HomeV4Colors.newsTitleLight,
+                  lines: 2,
+                ),
+                const SizedBox(height: 5),
+                TextPoppins(
+                  text: author,
+                  fontSize: 8,
+                  lines: 2,
                   textDark: HomeV4Colors.newsTitleDark,
                   textLight: HomeV4Colors.newsTitleLight,
                 ),
                 TextPoppins(
-                  text: "Subtitulo finanzas",
+                  text: date,
                   fontSize: 8,
-                  fontWeight: FontWeight.w500,
+                  lines: 2,
                   textDark: HomeV4Colors.newsTitleDark,
                   textLight: HomeV4Colors.newsTitleLight,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
+                GestureDetector(
+                  onTap: onTap,
+                  child: Container(
+                    width: 105,
+                    height: 25,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: const Color(buttonColor),
+                    ),
+                    child: const Center(
+                      child: TextPoppins(
+                        text: "Leer Artículo",
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

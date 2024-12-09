@@ -90,9 +90,11 @@ class TextPoppins extends ConsumerWidget {
       style: TextStyle(
         fontFamily: "Poppins",
         fontSize: fontSize,
-        color: isDarkMode ? Color(textDark ?? 0xffffffff) : Color(textLight ?? 0xff000000),
+        color: isDarkMode
+            ? Color(textDark ?? 0xffffffff)
+            : Color(textLight ?? 0xff000000),
         fontWeight: fontWeight ?? FontWeight.w400,
-        decoration: TextDecoration.none, // Esto eliminará el subrayado
+        decoration: TextDecoration.none,
       ),
     );
   }
@@ -129,7 +131,9 @@ class TextSans extends ConsumerWidget {
       style: TextStyle(
         fontFamily: "DM Sans",
         fontSize: fontSize,
-        color: isDarkMode ? Color(textDark ?? 0xffffffff) : Color(textLight ?? 0xff000000),
+        color: isDarkMode
+            ? Color(textDark ?? 0xffffffff)
+            : Color(textLight ?? 0xff000000),
         fontWeight: fontWeight ?? FontWeight.w500,
       ),
     );

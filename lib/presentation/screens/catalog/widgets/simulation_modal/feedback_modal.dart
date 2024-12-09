@@ -3,7 +3,6 @@ import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
-import 'package:finniu/presentation/screens/catalog/widgets/simulation_modal/feedback_container.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -73,14 +72,14 @@ class _Dialog extends HookConsumerWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         width: MediaQuery.of(context).size.width * 0.9,
-        height: isExpanded.value ? 500 : 271,
+        height: 271,
         child: PageView(
           controller: pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: [
-            FeedbackContainer(
-              pageController: pageController,
-            ),
+            // FeedbackContainer(
+            //   pageController: pageController,
+            // ),
             ThankYouContainer(
               isReInvestment: isReInvestment,
             ),
@@ -117,7 +116,8 @@ class ThankYouContainer extends ConsumerWidget {
           "event": "push_feedback_succes",
         },
       );
-      Navigator.pushNamedAndRemoveUntil(context, "/home_v2", (route) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, '/v4/experience', (route) => false);
     }
 
     return SizedBox(

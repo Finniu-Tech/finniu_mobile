@@ -76,11 +76,6 @@ class _BodyMyAccounts extends ConsumerWidget {
                         },
                       ),
                       Navigator.pushNamed(context, '/v2/form_accounts'),
-                      // showAccountTransferModal(
-                      //   context,
-                      //   currency,
-                      //   true,
-                      // ),
                     },
                     child: const AddAccounts(),
                   ),
