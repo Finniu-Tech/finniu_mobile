@@ -1,7 +1,6 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
 class PageSevenTour extends StatelessWidget {
   const PageSevenTour({
@@ -11,168 +10,21 @@ class PageSevenTour extends StatelessWidget {
   final VoidCallback nextPage;
   @override
   Widget build(BuildContext context) {
-    const String title = "Todo a tu alcance";
-    const String subTitle = "Navega más fácil con los nuevos controles:";
-    const double columnTop = 70;
-    const double columnLeft = 70;
-    const int textColor = 0xffFFFFFF;
-    const int buttonColor = 0xffA2E6FA;
-    const int buttonTextColor = 0xff0D3A5C;
-    const double itemLeft = 0;
-    const String iconHome = 'assets/svg_icons/home_icon.svg';
-    const String iconProduct = 'assets/svg_icons/products_icon.svg';
-    const String iconInvest = 'assets/svg_icons/nav_bar_invest_icon.svg';
-    const String iconNotice = 'assets/svg_icons/notices_icon.svg';
-
     void onPress() {
       Navigator.pop(context);
     }
 
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: Stack(
-        children: [
-          Positioned(
-            bottom: 25,
-            left: itemLeft,
-            child: Image.asset(
-              "assets/home_v4/tour_navbar.png",
-              width: MediaQuery.of(context).size.width,
-              height: 80,
-              fit: BoxFit.fill,
-            ),
+    return GestureDetector(
+      onTap: onPress,
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height - 20,
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Image.asset(
+            "assets/home_v4/page_seven_tour.png",
           ),
-          Positioned(
-            top: columnTop,
-            left: columnLeft,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.6,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  const TextPoppins(
-                    text: title,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                    textDark: textColor,
-                    textLight: textColor,
-                  ),
-                  const SizedBox(height: 10),
-                  const TextPoppins(
-                    text: subTitle,
-                    lines: 5,
-                    fontSize: 14,
-                    textDark: textColor,
-                    textLight: textColor,
-                  ),
-                  const SizedBox(height: 10),
-                  SizedBox(
-                    height: 150,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              iconHome,
-                              width: 25,
-                              height: 25,
-                              color: const Color(buttonColor),
-                            ),
-                            const SizedBox(width: 10),
-                            const TextPoppins(
-                              text: "Home",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              textDark: buttonColor,
-                              textLight: buttonColor,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              iconProduct,
-                              width: 25,
-                              height: 25,
-                              color: const Color(buttonColor),
-                            ),
-                            const SizedBox(width: 10),
-                            const TextPoppins(
-                              text: "Productos",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              textDark: buttonColor,
-                              textLight: buttonColor,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              iconInvest,
-                              width: 25,
-                              height: 25,
-                              color: const Color(buttonColor),
-                            ),
-                            const SizedBox(width: 10),
-                            const TextPoppins(
-                              text: "Mis inversiones",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              textDark: buttonColor,
-                              textLight: buttonColor,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              iconNotice,
-                              width: 25,
-                              height: 25,
-                              color: const Color(buttonColor),
-                            ),
-                            const SizedBox(width: 10),
-                            const TextPoppins(
-                              text: "Noticias",
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              textDark: buttonColor,
-                              textLight: buttonColor,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  GestureDetector(
-                    onTap: onPress,
-                    child: Container(
-                      width: 185,
-                      height: 40,
-                      decoration: const BoxDecoration(
-                        color: Color(buttonColor),
-                        borderRadius: BorderRadius.all(Radius.circular(50)),
-                      ),
-                      alignment: Alignment.center,
-                      child: const TextPoppins(
-                        text: "Terminar",
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        textDark: buttonTextColor,
-                        textLight: buttonTextColor,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
