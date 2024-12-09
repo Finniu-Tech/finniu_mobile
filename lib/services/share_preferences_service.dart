@@ -41,7 +41,6 @@ class Preferences {
     }
   }
 
-
   static Future init() async {
     _prefs = await SharedPreferences.getInstance();
   }
@@ -51,8 +50,7 @@ class Preferences {
   }
 
   static bool get showedPushNotificationReminder {
-    return _prefs.getBool('showedPushNotificationReminder') ??
-        _showedPushNotificationReminder;
+    return _prefs.getBool('showedPushNotificationReminder') ?? _showedPushNotificationReminder;
   }
 
   static bool get hasRequestedPushNotificationPermission {
@@ -105,6 +103,10 @@ class Preferences {
     _prefs.setBool('showedPushNotificationReminder', value);
   }
 
+  static set hasRequestedPushNotificationPermission(bool value) {
+    _hasRequestedPushNotificationPermission = value;
+    _prefs.setBool('hasRequestedPushNotificationPermission', value);
+  }
 
   static bool get eyeHome {
     return _prefs.getBool('eyeHome') ?? _eyeHome;
@@ -114,13 +116,6 @@ class Preferences {
     _eyeHome = value;
     _prefs.setBool('eyeHome', value);
   }
-
-  static set hasRequestedPushNotificationPermission(bool value) {
-    _hasRequestedPushNotificationPermission = value;
-    _prefs.setBool('hasRequestedPushNotificationPermission', value);
-  }
-
-
   // static String get authToken {
   //   return _prefs.getString('authToken') ?? _authToken;
   // }
