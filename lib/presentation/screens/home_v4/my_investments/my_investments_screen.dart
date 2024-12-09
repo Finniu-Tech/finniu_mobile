@@ -5,6 +5,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/document_page.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/my_investments_container.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/app_bar_products.dart';
+import 'package:finniu/presentation/screens/home_v4/widget/button_tour_invest.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/tab_bar_v4.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,16 @@ class MyInvestmentsScreen extends ConsumerWidget {
         title: "Mis inversiones",
       ),
       bottomNavigationBar: const NavBarV4(),
-      body: const SingleChildScrollView(
-        child: MyInvestmentsBody(),
+      body: const Stack(
+        children: [
+          SingleChildScrollView(
+            child: MyInvestmentsBody(),
+          ),
+          Positioned(
+            top: 100,
+            child: ButtonInvestTourV4(),
+          ),
+        ],
       ),
     );
   }
