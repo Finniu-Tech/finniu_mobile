@@ -1,15 +1,18 @@
+import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class PageSevenTour extends StatelessWidget {
+class PageSevenTour extends ConsumerWidget {
   const PageSevenTour({
     super.key,
     required this.nextPage,
   });
   final VoidCallback nextPage;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     void onPress() {
       Navigator.pop(context);
     }
@@ -22,7 +25,7 @@ class PageSevenTour extends StatelessWidget {
         child: Align(
           alignment: Alignment.bottomCenter,
           child: Image.asset(
-            "assets/home_v4/page_seven_tour.png",
+            "assets/home_v4/page_seven_tour${isDarkMode ? "_dark" : "_light"}.png",
           ),
         ),
       ),

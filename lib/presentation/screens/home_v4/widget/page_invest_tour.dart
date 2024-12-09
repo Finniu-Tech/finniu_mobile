@@ -88,6 +88,7 @@ class PageTwoInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -100,7 +101,7 @@ class PageTwoInvestTour extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.8,
               height: 240,
               child: Image.asset(
-                "assets/tour/invest_tour_1.png",
+                "assets/tour/invest_tour_1${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -118,6 +119,7 @@ class PageThreeInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -127,10 +129,10 @@ class PageThreeInvestTour extends ConsumerWidget {
             top: 50,
             left: 20,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               height: 240,
               child: Image.asset(
-                "assets/tour/invest_tour_2.png",
+                "assets/tour/invest_tour_2${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -148,6 +150,7 @@ class PageFourInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -157,10 +160,9 @@ class PageFourInvestTour extends ConsumerWidget {
             top: 100,
             left: 20,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
               height: 320,
               child: Image.asset(
-                "assets/tour/invest_tour_3.png",
+                "assets/tour/invest_tour_3${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -178,6 +180,7 @@ class PageFiveInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -187,10 +190,10 @@ class PageFiveInvestTour extends ConsumerWidget {
             top: 100,
             right: 20,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.8,
+              width: MediaQuery.of(context).size.width * 0.9,
               height: 230,
               child: Image.asset(
-                "assets/tour/invest_tour_4.png",
+                "assets/tour/invest_tour_4${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -208,6 +211,7 @@ class PageSixInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -215,12 +219,12 @@ class PageSixInvestTour extends ConsumerWidget {
         children: [
           Positioned(
             top: 190,
-            right: 20,
+            right: 0,
             child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.85,
+              width: MediaQuery.of(context).size.width * 0.9,
               height: 230,
               child: Image.asset(
-                "assets/tour/invest_tour_5.png",
+                "assets/tour/invest_tour_5${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -238,6 +242,7 @@ class PageSevenInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -250,7 +255,7 @@ class PageSevenInvestTour extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.95,
               height: 280,
               child: Image.asset(
-                "assets/tour/invest_tour_6.png",
+                "assets/tour/invest_tour_6${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -268,6 +273,7 @@ class PageEightInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -280,7 +286,7 @@ class PageEightInvestTour extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 260,
               child: Image.asset(
-                "assets/tour/invest_tour_7.png",
+                "assets/tour/invest_tour_7${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -298,6 +304,7 @@ class PageNineInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -310,7 +317,7 @@ class PageNineInvestTour extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               height: 410,
               child: Image.asset(
-                "assets/tour/invest_tour_8.png",
+                "assets/tour/invest_tour_8${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -328,6 +335,7 @@ class PageTeenInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -340,7 +348,7 @@ class PageTeenInvestTour extends ConsumerWidget {
               width: MediaQuery.of(context).size.width * 0.9,
               height: MediaQuery.of(context).size.height,
               child: Image.asset(
-                "assets/tour/invest_tour_9.png",
+                "assets/tour/invest_tour_9${isDarkMode ? "_dark" : "_light"}.png",
                 fit: BoxFit.fill,
               ),
             ),
@@ -358,6 +366,7 @@ class PageElevenInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -369,7 +378,7 @@ class PageElevenInvestTour extends ConsumerWidget {
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: Image.asset(
-                "assets/tour/invest_tour_10.png",
+                "assets/tour/invest_tour_10${isDarkMode ? "_dark" : "_light"}.png",
                 height: 360,
                 fit: BoxFit.fill,
               ),
@@ -388,6 +397,7 @@ class PageTwelveInvestTour extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     return Column(
       children: [
         SizedBox(
@@ -401,7 +411,7 @@ class PageTwelveInvestTour extends ConsumerWidget {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: Image.asset(
-                    "assets/tour/invest_tour_11.png",
+                    "assets/tour/invest_tour_11${isDarkMode ? "_dark" : "_light"}.png",
                     height: MediaQuery.of(context).size.height * 0.9,
                     fit: BoxFit.fill,
                   ),
