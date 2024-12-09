@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/presentation/providers/eye_home_provider.dart';
+import 'package:finniu/presentation/providers/home_v4_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -18,7 +19,9 @@ class InvestContainer extends ConsumerWidget {
   final bool isLoaded;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final investHome = ref.watch(homeV4InvestProvider.future);
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+
     return Container(
       padding: const EdgeInsets.only(
         left: 20,
@@ -47,6 +50,7 @@ class InvestContainer extends ConsumerWidget {
                 Expanded(
                   child: ActiveInvestmentContainer(
                     isLoaded: isLoaded,
+                    countPlanesActive: "3",
                   ),
                 ),
                 const SizedBox(
@@ -396,8 +400,10 @@ class ActiveInvestmentContainer extends ConsumerWidget {
   const ActiveInvestmentContainer({
     super.key,
     required this.isLoaded,
+    required this.countPlanesActive,
   });
   final bool isLoaded;
+  final String countPlanesActive;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -433,8 +439,8 @@ class ActiveInvestmentContainer extends ConsumerWidget {
           ),
           Skeletonizer(
             enabled: isLoaded,
-            child: const TextPoppins(
-              text: "4 inversiones",
+            child: TextPoppins(
+              text: "$countPlanesActive inversiones",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
