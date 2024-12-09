@@ -99,13 +99,9 @@ class _BodyMyAccounts extends ConsumerWidget {
                     itemCount: data.length,
                     itemBuilder: (context, index) {
                       return AccointCard(
-                        notImage: data[index].bankLogoUrl == null ||
-                                data[index].bankLogoUrl == ""
-                            ? true
-                            : false,
+                        notImage: data[index].bankLogoUrl == null || data[index].bankLogoUrl == "" ? true : false,
                         title: data[index].bankName,
-                        subtitle:
-                            "${getCurrency(data[index].currency)} | ${hideNumbers(data[index].bankAccount)}  ",
+                        subtitle: "${getCurrency(data[index].currency)} | ${hideNumbers(data[index].bankAccount)}  ",
                         isJoint: data[index].isJointAccount,
                         logoUrl: data[index].bankLogoUrl ?? "",
                       );
