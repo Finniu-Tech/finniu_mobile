@@ -80,3 +80,29 @@ class PageOneInvestTour extends ConsumerWidget {
     );
   }
 }
+
+class PageTwoInvestTour extends ConsumerWidget {
+  const PageTwoInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 25,
+              left: 180,
+              child: SizedBox(
+                width: 180,
+                height: 90,
+                child: Image.asset("assets/tour/invest_tour_1.png"),
+              ),
+            ),
+          ],
+        ));
+  }
+}

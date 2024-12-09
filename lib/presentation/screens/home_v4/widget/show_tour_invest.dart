@@ -41,6 +41,7 @@ class TourInvestContainerV4 extends StatelessWidget {
         initTour: initTour,
         seeLaterTour: seeLaterTour,
       ),
+      PageTwoInvestTour(),
     ];
 
     return ExpandablePageView.builder(
