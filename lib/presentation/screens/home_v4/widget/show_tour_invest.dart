@@ -41,14 +41,59 @@ class TourInvestContainerV4 extends StatelessWidget {
         initTour: initTour,
         seeLaterTour: seeLaterTour,
       ),
-      PageTwoInvestTour(),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageTwoInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageThreeInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageFourInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageFiveInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageSixInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageSevenInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageEightInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageNineInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageTeenInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => nextPage(),
+        child: const PageElevenInvestTour(),
+      ),
+      GestureDetector(
+        onTap: () => Navigator.pop(context),
+        child: const PageTwelveInvestTour(),
+      ),
     ];
 
-    return ExpandablePageView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      controller: pageController,
-      itemCount: pages.length,
-      itemBuilder: (context, index) => pages[index],
+    return SingleChildScrollView(
+      child: ExpandablePageView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        controller: pageController,
+        itemCount: pages.length,
+        itemBuilder: (context, index) => pages[index],
+      ),
     );
   }
 }

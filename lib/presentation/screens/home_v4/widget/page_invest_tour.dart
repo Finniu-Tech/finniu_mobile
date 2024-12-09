@@ -89,20 +89,329 @@ class PageTwoInvestTour extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Stack(
-          children: [
-            Positioned(
-              top: 25,
-              left: 180,
-              child: SizedBox(
-                width: 180,
-                height: 90,
-                child: Image.asset("assets/tour/invest_tour_1.png"),
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 50,
+            left: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 240,
+              child: Image.asset(
+                "assets/tour/invest_tour_1.png",
+                fit: BoxFit.fill,
               ),
             ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageThreeInvestTour extends ConsumerWidget {
+  const PageThreeInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 50,
+            left: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 240,
+              child: Image.asset(
+                "assets/tour/invest_tour_2.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageFourInvestTour extends ConsumerWidget {
+  const PageFourInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 100,
+            left: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 320,
+              child: Image.asset(
+                "assets/tour/invest_tour_3.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageFiveInvestTour extends ConsumerWidget {
+  const PageFiveInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 100,
+            right: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.8,
+              height: 230,
+              child: Image.asset(
+                "assets/tour/invest_tour_4.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageSixInvestTour extends ConsumerWidget {
+  const PageSixInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 190,
+            right: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.85,
+              height: 230,
+              child: Image.asset(
+                "assets/tour/invest_tour_5.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageSevenInvestTour extends ConsumerWidget {
+  const PageSevenInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 290,
+            left: 10,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.95,
+              height: 280,
+              child: Image.asset(
+                "assets/tour/invest_tour_6.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageEightInvestTour extends ConsumerWidget {
+  const PageEightInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 130,
+            left: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 260,
+              child: Image.asset(
+                "assets/tour/invest_tour_7.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageNineInvestTour extends ConsumerWidget {
+  const PageNineInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 120,
+            left: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: 410,
+              child: Image.asset(
+                "assets/tour/invest_tour_8.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageTeenInvestTour extends ConsumerWidget {
+  const PageTeenInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 0,
+            left: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              height: MediaQuery.of(context).size.height,
+              child: Image.asset(
+                "assets/tour/invest_tour_9.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageElevenInvestTour extends ConsumerWidget {
+  const PageElevenInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height,
+      child: Stack(
+        children: [
+          Positioned(
+            top: 100,
+            left: 20,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Image.asset(
+                "assets/tour/invest_tour_10.png",
+                height: 360,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class PageTwelveInvestTour extends ConsumerWidget {
+  const PageTwelveInvestTour({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Column(
+      children: [
+        SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Stack(
+            children: [
+              Positioned(
+                top: 20,
+                left: 20,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: Image.asset(
+                    "assets/tour/invest_tour_11.png",
+                    height: MediaQuery.of(context).size.height * 0.9,
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
   }
 }
