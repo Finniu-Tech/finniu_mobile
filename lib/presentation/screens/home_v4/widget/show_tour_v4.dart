@@ -57,6 +57,9 @@ class TourContainerV4 extends StatelessWidget {
       PageSixTour(
         nextPage: nextPage,
       ),
+      PageSevenTour(
+        nextPage: nextPage,
+      ),
     ];
 
     return ExpandablePageView.builder(

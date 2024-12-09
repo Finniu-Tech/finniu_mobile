@@ -1,6 +1,7 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class PageSevenTour extends StatelessWidget {
   const PageSevenTour({
@@ -10,12 +11,22 @@ class PageSevenTour extends StatelessWidget {
   final VoidCallback nextPage;
   @override
   Widget build(BuildContext context) {
-    const String title = "Manténgase al día!";
-    const String subTitle = "Descubre lo último sobre inversiones y finanzas.";
-    const double columnTop = 170;
-    const double columnLeft = 20;
-    const double itemTop = 355;
-    const double itemLeft = 20;
+    const String title = "Todo a tu alcance";
+    const String subTitle = "Navega más fácil con los nuevos controles:";
+    const double columnTop = 70;
+    const double columnLeft = 70;
+    const int textColor = 0xffFFFFFF;
+    const int buttonColor = 0xffA2E6FA;
+    const int buttonTextColor = 0xff0D3A5C;
+    const double itemLeft = 0;
+    const String iconHome = 'assets/svg_icons/home_icon.svg';
+    const String iconProduct = 'assets/svg_icons/products_icon.svg';
+    const String iconInvest = 'assets/svg_icons/nav_bar_invest_icon.svg';
+    const String iconNotice = 'assets/svg_icons/notices_icon.svg';
+
+    void onPress() {
+      Navigator.pop(context);
+    }
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
@@ -23,45 +34,143 @@ class PageSevenTour extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: itemTop,
+            bottom: 25,
             left: itemLeft,
-            child: Container(
-              padding: const EdgeInsets.only(
-                left: 10,
-                bottom: 10,
-                top: 10,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
-              ),
-              width: MediaQuery.of(context).size.width - 40,
-              height: 210,
+            child: Image.asset(
+              "assets/home_v4/tour_navbar.png",
+              width: MediaQuery.of(context).size.width,
+              height: 80,
+              fit: BoxFit.fill,
+            ),
+          ),
+          Positioned(
+            top: columnTop,
+            left: columnLeft,
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.6,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const TextPoppins(
-                    text: "Últimas noticias",
-                    fontSize: 16,
+                    text: title,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
-                    align: TextAlign.start,
+                    textDark: textColor,
+                    textLight: textColor,
                   ),
-                  Image.asset(
-                    "assets/home_v4/notice_image.png",
-                    width: MediaQuery.of(context).size.width - 40,
-                    height: 140,
+                  const SizedBox(height: 10),
+                  const TextPoppins(
+                    text: subTitle,
+                    lines: 5,
+                    fontSize: 14,
+                    textDark: textColor,
+                    textLight: textColor,
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 150,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              iconHome,
+                              width: 25,
+                              height: 25,
+                              color: const Color(buttonColor),
+                            ),
+                            const SizedBox(width: 10),
+                            const TextPoppins(
+                              text: "Home",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              textDark: buttonColor,
+                              textLight: buttonColor,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              iconProduct,
+                              width: 25,
+                              height: 25,
+                              color: const Color(buttonColor),
+                            ),
+                            const SizedBox(width: 10),
+                            const TextPoppins(
+                              text: "Productos",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              textDark: buttonColor,
+                              textLight: buttonColor,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              iconInvest,
+                              width: 25,
+                              height: 25,
+                              color: const Color(buttonColor),
+                            ),
+                            const SizedBox(width: 10),
+                            const TextPoppins(
+                              text: "Mis inversiones",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              textDark: buttonColor,
+                              textLight: buttonColor,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              iconNotice,
+                              width: 25,
+                              height: 25,
+                              color: const Color(buttonColor),
+                            ),
+                            const SizedBox(width: 10),
+                            const TextPoppins(
+                              text: "Noticias",
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              textDark: buttonColor,
+                              textLight: buttonColor,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: onPress,
+                    child: Container(
+                      width: 185,
+                      height: 40,
+                      decoration: const BoxDecoration(
+                        color: Color(buttonColor),
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                      alignment: Alignment.center,
+                      child: const TextPoppins(
+                        text: "Terminar",
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        textDark: buttonTextColor,
+                        textLight: buttonTextColor,
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
-          ),
-          ColumnStack(
-            title: title,
-            subTitle: subTitle,
-            onPress: nextPage,
-            top: columnTop,
-            left: columnLeft,
           ),
         ],
       ),
@@ -79,16 +188,26 @@ class PageSixTour extends StatelessWidget {
   Widget build(BuildContext context) {
     const String title = "Manténgase al día!";
     const String subTitle = "Descubre lo último sobre inversiones y finanzas.";
-    const double columnTop = 170;
+    const double columnTop = 80;
     const double columnLeft = 20;
-    const double itemTop = 355;
+    const double itemTop = 350;
     const double itemLeft = 20;
+    const int textColor = 0xff000000;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
       child: Stack(
         children: [
+          Positioned(
+            top: 210,
+            left: 110,
+            child: SizedBox(
+              width: 65,
+              height: 130,
+              child: Image.asset("assets/home_v4/page_six_line.png"),
+            ),
+          ),
           Positioned(
             top: itemTop,
             left: itemLeft,
@@ -113,6 +232,7 @@ class PageSixTour extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     align: TextAlign.start,
+                    textDark: textColor,
                   ),
                   Image.asset(
                     "assets/home_v4/notice_image.png",
@@ -147,9 +267,9 @@ class PageFiveTour extends StatelessWidget {
     const String title = "Cambia dólares al mejor tipo!";
     const String subTitle =
         "Aprovecha invertir en dólares, accede a Rextie y para comprar tus dólares ";
-    const double columnTop = 170;
+    const double columnTop = 150;
     const double columnLeft = 20;
-    const double itemTop = 355;
+    const double itemTop = 370;
     const double itemLeft = 20;
 
     return SizedBox(
@@ -157,6 +277,15 @@ class PageFiveTour extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Stack(
         children: [
+          Positioned(
+            top: 280,
+            left: 110,
+            child: SizedBox(
+              width: 61,
+              height: 85,
+              child: Image.asset("assets/home_v4/page_five_line.png"),
+            ),
+          ),
           Positioned(
             top: itemTop,
             left: itemLeft,
@@ -254,7 +383,7 @@ class PageThreeTour extends StatelessWidget {
     const String title = "Tu inversión, en un vistazo!";
     const String subTitle =
         "Visualiza en un widget tus:\n• Inversiones activas 💸\n• Rentabilidad promedio %\n• Capital invertido 💰\n• Intereses generados 📈";
-    const double columnTop = 350;
+    const double columnTop = 400;
     final double columnLeft = MediaQuery.of(context).size.width / 4;
     const double itemTop = 140;
     const double itemLeft = 20;
@@ -264,6 +393,15 @@ class PageThreeTour extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Stack(
         children: [
+          Positioned(
+            top: 290,
+            left: 85,
+            child: SizedBox(
+              width: 15,
+              height: 130,
+              child: Image.asset("assets/home_v4/page_two_line.png"),
+            ),
+          ),
           Positioned(
             top: itemTop,
             left: itemLeft,
@@ -325,7 +463,7 @@ class PageTwoTour extends StatelessWidget {
     const String title = "Tu saldo más protegido";
     const String subTitle =
         "Activa el ojo para ocultar el saldo de tu capital invertido. ¡Más tranquilidad con un toque! ";
-    const double columnTop = 300;
+    const double columnTop = 200;
     const double columnLeft = 20;
     const double itemTop = 80;
     final double itemLeft = MediaQuery.of(context).size.width - 60;
@@ -334,6 +472,15 @@ class PageTwoTour extends StatelessWidget {
       height: MediaQuery.of(context).size.height,
       child: Stack(
         children: [
+          Positioned(
+            top: itemTop + 25,
+            left: itemLeft - 180,
+            child: SizedBox(
+              width: 180,
+              height: 90,
+              child: Image.asset("assets/home_v4/page_one_line.png"),
+            ),
+          ),
           Positioned(
             top: itemTop,
             left: itemLeft,
