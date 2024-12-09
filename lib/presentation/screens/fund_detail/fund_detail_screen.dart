@@ -1,6 +1,5 @@
 import 'package:finniu/constants/colors.dart';
 import 'package:finniu/domain/entities/fund_entity.dart';
-import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
@@ -14,6 +13,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/verify_identity.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/header_investment.dart';
 import 'package:finniu/presentation/screens/fund_detail/widgets/containers.dart';
+import 'package:finniu/presentation/screens/investment_process.dart/widgets/scafold.dart';
 import 'package:finniu/utils/strings.dart';
 import 'package:finniu/widgets/analytics.dart';
 import 'package:finniu/widgets/switch.dart';
@@ -30,9 +30,7 @@ class FundDetailScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final backgroundColor = isDarkMode
-        ? fund.getHexDetailColorDark()
-        : fund.getHexDetailColorLight();
+    final backgroundColor = isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight();
     return AnalyticsAwareWidget(
       screenName: 'Fund Detail Screen: ${fund.name}',
       child: CustomLoaderOverlay(
@@ -59,16 +57,11 @@ class FundDetailBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userProfile = ref.watch(userProfileNotifierProvider);
     return Column(
       children: [
         HeaderInvestment(
-          containerColor: isDarkMode
-              ? fund.getHexDetailColorDark()
-              : fund.getHexDetailColorLight(),
-          iconColor: isDarkMode
-              ? fund.getHexDetailColorSecondaryDark()
-              : fund.getHexDetailColorSecondaryLight(),
+          containerColor: isDarkMode ? fund.getHexDetailColorDark() : fund.getHexDetailColorLight(),
+          iconColor: isDarkMode ? fund.getHexDetailColorSecondaryDark() : fund.getHexDetailColorSecondaryLight(),
           textColor: isDarkMode ? whiteText : blackText,
           urlIcon: fund.iconUrl!,
           urlImageBackground: fund.backgroundImageUrl!,
@@ -79,23 +72,20 @@ class FundDetailBody extends ConsumerWidget {
         ),
         const SizedBox(height: 10),
         ButtonInvestment(
-          text: fund.fundType == FundTypeEnum.corporate
-              ? 'Quiero invertir'
-              : 'Quiero simular',
+          text: fund.fundType == FundTypeEnum.corporate ? 'Quiero invertir' : 'Quiero simular',
           onPressed: () async {
             context.loaderOverlay.show();
-            // final userProfileCompleteness =
-            //     await ref.read(userProfileCompletenessProvider.future);
-            final userProfileCompleteness = UserProfileCompleteness(
-              profileComplete: userProfile.completeData(),
-              personalDataComplete:
-                  userProfile.completePersonalData() ? 100 : 0,
-              locationComplete: userProfile.completeLocationData() ? 100 : 0,
-              occupationComplete: userProfile.completeJobData() ? 100 : 0,
-              legalTermsCompleteness: 100,
-              completionPercentage: 100,
-            );
-            if (userProfile.completeData() != 1) {
+            final userProfileCompleteness = await ref.read(userProfileCompletenessProvider.future);
+            // final userProfileCompleteness = UserProfileCompleteness(
+            //   profileComplete: userProfile.completeData(),
+            //   personalDataComplete:
+            //       userProfile.completePersonalData() ? 100 : 0,
+            //   locationComplete: userProfile.completeLocationData() ? 100 : 0,
+            //   occupationComplete: userProfile.completeJobData() ? 100 : 0,
+            //   legalTermsCompleteness: 100,
+            //   completionPercentage: 100,
+            // );
+            if (!userProfileCompleteness.hasCompleteProfile()) {
               if (fund.fundType == FundTypeEnum.corporate) {
                 ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
                   eventName: FirebaseAnalyticsEvents.screenView,
@@ -115,8 +105,7 @@ class FundDetailBody extends ConsumerWidget {
                   context,
                   userProfileCompleteness,
                   redirect: () {
-                    Navigator.pushNamed(context, '/v2/investment/step-1',
-                        arguments: {'fund': fund});
+                    Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': fund});
                   },
                 );
               } else {
@@ -134,10 +123,8 @@ class FundDetailBody extends ConsumerWidget {
                     'navigated_from': fund.name,
                   },
                 );
-                showVerifyIdentity(context, userProfileCompleteness,
-                    redirect: () {
-                  Navigator.pushNamed(context, '/v2/aggro-investment',
-                      arguments: {'fund': fund});
+                showVerifyIdentity(context, userProfileCompleteness, redirect: () {
+                  Navigator.pushNamed(context, '/v2/aggro-investment', arguments: {'fund': fund});
                 });
               }
             } else {
@@ -194,16 +181,12 @@ class ScrollBody extends ConsumerWidget {
     const int textLight = 0xffFFFFFF;
 
     void onPressedBenefits() {
-      ref
-          .read(firebaseAnalyticsServiceProvider)
-          .logCustomEvent(eventName: "click_benefits", parameters: {});
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(eventName: "click_benefits", parameters: {});
       showBenefits(context);
     }
 
     void onPressedInformation() {
-      ref
-          .read(firebaseAnalyticsServiceProvider)
-          .logCustomEvent(eventName: "click_information", parameters: {});
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(eventName: "click_information", parameters: {});
       launchUrl(Uri.parse(fund.moreInfoDownloadUrl!));
     }
 
@@ -218,9 +201,7 @@ class ScrollBody extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextPoppins(
-                text: fund.fundType == FundTypeEnum.corporate
-                    ? 'Descubre el portafolio'
-                    : 'Nuestro modelo de negocio',
+                text: fund.fundType == FundTypeEnum.corporate ? 'Descubre el portafolio' : 'Nuestro modelo de negocio',
                 fontSize: 20,
                 fontWeight: FontWeight.w600,
               ),
@@ -239,9 +220,7 @@ class ScrollBody extends ConsumerWidget {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
-                        (isDarkMode
-                            ? const Color(benefitsDark)
-                            : const Color(benefitsLight)),
+                        (isDarkMode ? const Color(benefitsDark) : const Color(benefitsLight)),
                       ),
                     ),
                     onPressed: () => onPressedBenefits(),
@@ -256,9 +235,7 @@ class ScrollBody extends ConsumerWidget {
                   ElevatedButton(
                     style: ButtonStyle(
                       backgroundColor: WidgetStateProperty.all(
-                        (isDarkMode
-                            ? const Color(benefitsLight)
-                            : const Color(benefitsDark)),
+                        (isDarkMode ? const Color(benefitsLight) : const Color(benefitsDark)),
                       ),
                     ),
                     onPressed: () => onPressedInformation(),
@@ -275,9 +252,7 @@ class ScrollBody extends ConsumerWidget {
                         Icon(
                           Icons.file_download_outlined,
                           size: 18,
-                          color: isDarkMode
-                              ? const Color(textDark)
-                              : const Color(textLight),
+                          color: isDarkMode ? const Color(textDark) : const Color(textLight),
                         ),
                       ],
                     ),
@@ -304,9 +279,7 @@ class ScrollBody extends ConsumerWidget {
               if (fund.fundType == FundTypeEnum.aggro) ...[
                 Center(
                   child: BlueGoldContainer(
-                    amount: isSoles
-                        ? fund.minAmountInvestmentPEN!
-                        : fund.minAmountInvestmentUSD!,
+                    amount: isSoles ? fund.minAmountInvestmentPEN! : fund.minAmountInvestmentUSD!,
                   ),
                 ),
               ],
@@ -314,9 +287,7 @@ class ScrollBody extends ConsumerWidget {
                 Center(
                   child: RealStateContainer(
                     minAmount: _getNumberFromString(
-                      isSoles
-                          ? fund.minAmountInvestmentPEN
-                          : fund.minAmountInvestmentUSD,
+                      isSoles ? fund.minAmountInvestmentPEN : fund.minAmountInvestmentUSD,
                     )!,
                   ),
                 ),
@@ -324,12 +295,9 @@ class ScrollBody extends ConsumerWidget {
                   height: 10,
                 ),
                 FundInfoSlider(
-                  annualProfitability:
-                      getNumberFromString(fund.lastRentability),
-                  totalInstallmentsAmount:
-                      getNumberFromString(fund.totalInstallmentsAmount),
-                  totalAssetsUnderManagement:
-                      getNumberFromString(fund.assetUnderManagementAmount),
+                  annualProfitability: getNumberFromString(fund.lastRentability),
+                  totalInstallmentsAmount: getNumberFromString(fund.totalInstallmentsAmount),
+                  totalAssetsUnderManagement: getNumberFromString(fund.assetUnderManagementAmount),
                   netWorthData: fund.netWorths,
                   netWorthAmount: getNumberFromString(fund.netWorthAmount),
                 ),

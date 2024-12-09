@@ -1,4 +1,3 @@
-import 'package:finniu/domain/entities/user_profile_completeness.dart';
 import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,56 +8,28 @@ class ProfileCompletenessSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final profileCompletenessAsync = ref.watch(userProfileCompletenessProvider);
-
-    // return profileCompletenessAsync.when(
-    //   data: (profileCompleteness) {
-    //     if (!profileCompleteness.isComplete()) {
-    //       return CompleteProfileNotificationWidget(
-    //         message:
-    //             'Completa tus datos en unos minutos para comenzar a invertir',
-    //         buttonText: 'Completar',
-    //         onPressed: () {
-    //           Navigator.pushNamed(
-    //             context,
-    //             profileCompleteness.getNextStep() ?? '/v2/my_data',
-    //           );
-    //         },
-    //         imagePath: 'assets/home/complete_profile.png',
-    //       );
-    //     } else {
-    //       return const SizedBox.shrink();
-    //     }
-    //   },
-    //   loading: () => const Center(child: CircularProgressIndicator()),
-    //   error: (error, stack) =>
-    //       const Text('Error al cargar el estado del perfil'),
-    // );
-    final userProfile = ref.watch(userProfileNotifierProvider);
-    final userProfileCompleteness = UserProfileCompleteness(
-      profileComplete: userProfile.completeData(),
-      personalDataComplete: userProfile.completePersonalData() ? 100 : 0,
-      locationComplete: userProfile.completeLocationData() ? 100 : 0,
-      occupationComplete: userProfile.completeJobData() ? 100 : 0,
-      legalTermsCompleteness: 100,
-      completionPercentage: 100,
+    final profileCompletenessAsync = ref.watch(userProfileCompletenessProvider);
+    return profileCompletenessAsync.when(
+      data: (profileCompleteness) {
+        if (!profileCompleteness.isComplete()) {
+          return CompleteProfileNotificationWidget(
+            message: 'Completa tus datos en unos minutos para comenzar a invertir',
+            buttonText: 'Completar',
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                profileCompleteness.getNextStep() ?? '/v2/my_data',
+              );
+            },
+            imagePath: 'assets/home/complete_profile.png',
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, stack) => const Text('Error al cargar el estado del perfil'),
     );
-    if (userProfile.completeData() != 1) {
-      return CompleteProfileNotificationWidget(
-        message: 'Completa tus datos en unos minutos para comenzar a invertir',
-        buttonText: 'Completar',
-        onPressed: () {
-          Navigator.pushNamed(
-              context, userProfileCompleteness.getNextStep() ?? '/v2/my_data',
-              arguments: {
-                'birthday': true,
-              });
-        },
-        imagePath: 'assets/home/complete_profile.png',
-      );
-    } else {
-      return const SizedBox.shrink();
-    }
   }
 }
 
@@ -81,8 +52,7 @@ class CompleteProfileNotificationWidget extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
 
     // Define color variables
-    final Color backgroundColor =
-        isDarkMode ? const Color(0xffA2E6FA) : const Color(0xff051926);
+    final Color backgroundColor = isDarkMode ? const Color(0xffA2E6FA) : const Color(0xff051926);
     final Color textColor = isDarkMode ? Colors.black : Colors.white;
 
     return Center(
@@ -166,12 +136,8 @@ class CompleteButtonText extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               decoration: underline ? TextDecoration.underline : null,
-              decorationColor: isDarkMode
-                  ? const Color(textColorDark)
-                  : const Color(textColorLight),
-              color: isDarkMode
-                  ? const Color(textColorDark)
-                  : const Color(textColorLight),
+              decorationColor: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
+              color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
               fontFamily: "Poppins",
               fontSize: 12,
               fontWeight: FontWeight.w500,
@@ -181,9 +147,7 @@ class CompleteButtonText extends StatelessWidget {
           Icon(
             Icons.arrow_forward_ios,
             size: 12,
-            color: isDarkMode
-                ? const Color(textColorDark)
-                : const Color(textColorLight),
+            color: isDarkMode ? const Color(textColorDark) : const Color(textColorLight),
           ),
         ],
       ),

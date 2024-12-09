@@ -78,9 +78,10 @@ class _DraftBody extends ConsumerWidget {
         },
       );
       Navigator.pop(context);
-      Navigator.pushNamed(
+      Navigator.pushNamedAndRemoveUntil(
         context,
         '/v2/investment/step-2',
+        (route) => false,
         arguments: {
           'fund': fund,
           'preInvestmentUUID': uuid,

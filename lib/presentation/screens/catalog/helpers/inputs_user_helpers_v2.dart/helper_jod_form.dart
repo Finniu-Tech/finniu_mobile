@@ -27,8 +27,7 @@ pushOccupationDataForm(
       snackType: SnackType.error,
     );
   }
-  Future<RegisterUserV2Response> response =
-      OccupationFormV2Imp(gqlClient!).saveOccupationDataUserV2(data: data);
+  Future<RegisterUserV2Response> response = OccupationFormV2Imp(gqlClient!).saveOccupationDataUserV2(data: data);
 
   response.then((value) {
     if (value.success) {
@@ -48,6 +47,7 @@ pushOccupationDataForm(
             "navigate": navigate,
           },
         );
+        ref.invalidate(userProfileCompletenessProvider);
 
         context.loaderOverlay.hide();
         isNavigate

@@ -58,7 +58,6 @@ class UserProfileCompleteness {
     if (!hasCompletePersonalData()) {
       return '/v2/form_personal_data';
     }
-
     if (!hasCompleteLocation()) {
       return '/v2/form_location';
     }

@@ -60,6 +60,7 @@ class FormRegister extends HookConsumerWidget {
       [passwordFocusNode],
     );
     void saveAndPush(BuildContext context) async {
+      FocusManager.instance.primaryFocus?.unfocus();
       if (!formKey.currentState!.validate()) {
         ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
           eventName: FirebaseAnalyticsEvents.pushDataError,
