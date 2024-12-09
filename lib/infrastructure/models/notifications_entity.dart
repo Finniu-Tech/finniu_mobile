@@ -13,3 +13,5 @@ class NotificationsDetail {
     required this.icon,
   });
 }
+
+enum NotificationType { marketing, operational }

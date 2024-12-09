@@ -2,6 +2,7 @@ import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/bank_user_account_provider.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/config_v2/scaffold_config.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/account_card.dart';
 import 'package:finniu/presentation/screens/my_accounts_v2/widgets/add_accounts.dart';
@@ -46,6 +47,48 @@ class _BodyMyAccounts extends ConsumerWidget {
 
     return bankAccounts.when(
       data: (data) {
+        if (data.isEmpty) {
+          return Center(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: 75,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: TextPoppins(
+                        text: "Aún no tienes cuentas agregadas",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 15),
+                  GestureDetector(
+                    onTap: () => {
+                      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+                        eventName: FirebaseAnalyticsEvents.clickEvent,
+                        parameters: {
+                          "screen": FirebaseScreen.myAccountsV2,
+                          "add_account": "add_account",
+                        },
+                      ),
+                      showAccountTransferModal(
+                        context,
+                        currency,
+                        true,
+                      ),
+                    },
+                    child: const AddAccounts(),
+                  ),
+                  const SizedBox(height: 35),
+                ],
+              ),
+            ),
+          );
+        }
         return Center(
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.9,

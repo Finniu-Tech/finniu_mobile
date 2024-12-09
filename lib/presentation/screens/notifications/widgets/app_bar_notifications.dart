@@ -2,8 +2,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class AppBarNotificationsScreen extends ConsumerWidget
-    implements PreferredSizeWidget {
+class AppBarNotificationsScreen extends ConsumerWidget implements PreferredSizeWidget {
   const AppBarNotificationsScreen({
     super.key,
   });
@@ -24,16 +23,12 @@ class AppBarNotificationsScreen extends ConsumerWidget
         style: TextStyle(
           fontFamily: "Poppins",
           fontSize: 24,
-          color: isDarkMode
-              ? const Color(titleColorDark)
-              : const Color(titleColorLight),
+          color: isDarkMode ? const Color(titleColorDark) : const Color(titleColorLight),
           fontWeight: FontWeight.bold,
         ),
       ),
       scrolledUnderElevation: 0,
-      backgroundColor: isDarkMode
-          ? const Color(appBarColorDark)
-          : const Color(appBarColorLight),
+      backgroundColor: isDarkMode ? const Color(appBarColorDark) : const Color(appBarColorLight),
       iconTheme: IconThemeData(
         color: isDarkMode
             ? const Color(

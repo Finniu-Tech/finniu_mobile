@@ -15,6 +15,7 @@ class SimulationSuccess extends ConsumerWidget {
     required this.recalculatePressed,
     required this.profitability,
     required this.percentage,
+    required this.rentabilityPerMonth,
   });
   final int startingAmount;
   final int monthInvestment;
@@ -22,6 +23,7 @@ class SimulationSuccess extends ConsumerWidget {
   final int percentage;
   final VoidCallback? toInvestPressed;
   final VoidCallback? recalculatePressed;
+  final double rentabilityPerMonth;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -39,8 +41,8 @@ class SimulationSuccess extends ConsumerWidget {
     const int monthEveryTextLight = 0xffF0E4FF;
     const int textEveryDark = 0xff000000;
     const int textEveryLight = 0xff000000;
-    const int dividerDark = 0xff1A1A1A;
-    const int dividerLight = 0xffDFF7FF;
+    // const int dividerDark = 0xff1A1A1A;
+    // const int dividerLight = 0xffDFF7FF;
 
     return SizedBox(
       width: MediaQuery.of(context).size.width * 0.8,
@@ -51,59 +53,60 @@ class SimulationSuccess extends ConsumerWidget {
           Image.asset(
             "assets/images/logo_simulation${isDarkMode ? "_dark" : "_light"}.png",
             width: 75,
-            height: 54,
+            height: 75,
             fit: BoxFit.fill,
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TextPoppins(
-                    text: "Si inviertes",
-                    fontSize: 16,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  AnimationNumber(
-                    beginNumber: 0,
-                    endNumber: startingAmount,
-                    duration: 1,
-                    fontSize: 24,
-                    colorText: isDarkMode ? numberDark : numberLight,
-                  ),
-                ],
-              ),
-              Container(
-                width: 2,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: isDarkMode
-                      ? const Color(dividerDark)
-                      : const Color(dividerLight),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextPoppins(
+                      text: "Si inviertes",
+                      fontSize: 16,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    AnimationNumberNotComma(
+                      beginNumber: 0,
+                      endNumber: startingAmount,
+                      duration: 1,
+                      fontSize: 24,
+                      colorText: isDarkMode ? numberDark : numberLight,
+                      isSoles: isSoles,
+                    ),
+                  ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TextPoppins(
-                    text: "con un % de retorno",
-                    fontSize: 16,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  TextPoppins(
-                    text: "$percentage%",
-                    fontSize: 32,
-                    fontWeight: FontWeight.w500,
-                    textDark: percentageDark,
-                    textLight: percentageLight,
-                  ),
-                ],
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.4,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const TextPoppins(
+                      text: "con un % de retorno",
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      align: TextAlign.start,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextPoppins(
+                      text: "$percentage%",
+                      fontSize: 24,
+                      fontWeight: FontWeight.w500,
+                      textDark: percentageDark,
+                      textLight: percentageLight,
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -134,9 +137,7 @@ class SimulationSuccess extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: 66,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(returnDark)
-                  : const Color(returnLight),
+              color: isDarkMode ? const Color(returnDark) : const Color(returnLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
@@ -155,9 +156,7 @@ class SimulationSuccess extends ConsumerWidget {
             width: MediaQuery.of(context).size.width,
             height: 49,
             decoration: BoxDecoration(
-              color: isDarkMode
-                  ? const Color(monthEveryTextDark)
-                  : const Color(monthEveryTextLight),
+              color: isDarkMode ? const Color(monthEveryTextDark) : const Color(monthEveryTextLight),
               borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
@@ -168,23 +167,23 @@ class SimulationSuccess extends ConsumerWidget {
               children: [
                 Icon(
                   Icons.calendar_today_outlined,
-                  color: isDarkMode
-                      ? const Color(textEveryDark)
-                      : const Color(textEveryLight),
-                  size: 20,
+                  color: isDarkMode ? const Color(textEveryDark) : const Color(textEveryLight),
+                  size: 18,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
                 const TextPoppins(
                   text: "Cada mes recibirás ",
-                  fontSize: 16,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                   textDark: textEveryDark,
                   textLight: textEveryLight,
                 ),
                 TextPoppins(
                   text:
-                      "${isSoles ? "S/" : "\$"}${((profitability - startingAmount) / monthInvestment).toStringAsFixed(0)}",
+                      // "${isSoles ? "S/" : "\$"}${((profitability - startingAmount) / monthInvestment).toStringAsFixed(0)}",
+                      "${isSoles ? "S/" : "\$"}${rentabilityPerMonth.toStringAsFixed(2)}",
                   fontSize: 16,
                   textDark: textEveryDark,
                   textLight: textEveryLight,

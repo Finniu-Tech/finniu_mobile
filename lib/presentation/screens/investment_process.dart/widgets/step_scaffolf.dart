@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class StepScaffold extends ConsumerWidget {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int backgroundDark = 0xff0E0E0E;
     const int backgroundLight = 0xffDEF7FF;
-    const int iconColorDark = 0xffA2E6FA;
-    const int iconColorLight = 0xff0D3A5C;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     return LoaderOverlay(
       useDefaultLoading: false,
       overlayWidgetBuilder: (progress) {
@@ -27,34 +28,38 @@ class StepScaffold extends ConsumerWidget {
           ),
         );
       },
-      child: Scaffold(
-        floatingActionButton: const SizedBox(
-          height: 80,
-        ),
-        appBar: AppBar(
+      child: PopScope(
+        child: Scaffold(
+          floatingActionButton: const SizedBox(
+            height: 80,
+          ),
+          appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(
+                color: isDarkMode
+                    ? const Color(primaryLight)
+                    : const Color(primaryDark),
+                Icons.arrow_back,
+              ),
+              onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                '/v2/investment/step-1',
+                arguments: {'fund': args['fund']},
+                (route) => false,
+              ),
+            ),
+            automaticallyImplyLeading: false,
+            backgroundColor: isDarkMode
+                ? const Color(backgroundDark)
+                : const Color(backgroundLight),
+          ),
           backgroundColor: isDarkMode
               ? const Color(backgroundDark)
               : const Color(backgroundLight),
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back,
-              color: isDarkMode
-                  ? const Color(iconColorDark)
-                  : const Color(iconColorLight),
+          body: GestureDetector(
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: SingleChildScrollView(
+              child: children,
             ),
-            onPressed: () {
-              ScaffoldMessenger.of(context).clearSnackBars();
-              Navigator.of(context).pop();
-            },
-          ),
-        ),
-        backgroundColor: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
-        body: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: SingleChildScrollView(
-            child: children,
           ),
         ),
       ),

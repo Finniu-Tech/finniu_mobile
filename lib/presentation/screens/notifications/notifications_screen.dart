@@ -1,10 +1,16 @@
+import 'package:finniu/infrastructure/datasources/notifications_datasource_imp.dart';
+import 'package:finniu/infrastructure/models/notifications/notification_model.dart';
 import 'package:finniu/infrastructure/models/notifications_entity.dart';
+import 'package:finniu/main.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/providers/user_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/notifications/widgets/app_bar_notifications.dart';
+import 'package:finniu/services/device_info_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:intl/intl.dart';
 
 class NotificationsScreen extends ConsumerWidget {
   const NotificationsScreen({super.key});
@@ -15,10 +21,11 @@ class NotificationsScreen extends ConsumerWidget {
     const int columnColorLight = 0xffFFFFFF;
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
+      backgroundColor: isDarkMode ? const Color(columnColorDark) : const Color(columnColorLight),
       appBar: const AppBarNotificationsScreen(),
+      bottomNavigationBar: const NavigationBarHome(
+        colorBackground: Colors.transparent,
+      ),
       body: const SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.all(15.0),
@@ -32,40 +39,121 @@ class NotificationsScreen extends ConsumerWidget {
 class _BodyListView extends ConsumerWidget {
   const _BodyListView();
 
+  Future<List<NotificationModel>> _getFilteredNotifications(String userId, NotificationsDataSource dataSource) async {
+    final deviceInfo = await DeviceInfoService().getDeviceInfo(userId);
+    final currentDeviceId = deviceInfo.deviceId;
+
+    final notifications = await dataSource.getNotifications(userId: userId);
+
+    return notifications.where((notification) => notification.deviceId == currentDeviceId).toList();
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    List<NotificationsDetail> list = [
-      NotificationsDetail(
-        textTitle: '¡Ya puedes ver tu inversión!',
-        textBody:
-            'Tu inversión fue validada exitosamente, ingresa a la App de Finniu para ver más a detalle',
-        textDay: 'Hoy',
-        icon: Icons.notifications_none_outlined,
-      ),
-      NotificationsDetail(
-        textTitle: '¡Ya puedes ver tu inversión!',
-        textBody:
-            'Tu inversión fue validada exitosamente, ingresa a la App de Finniu para ver más a detalleaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
-        textDay: 'Ayer',
-        icon: Icons.notifications_none_outlined,
-      ),
-    ];
+    final notificationDataSource = NotificationsDataSource(baseUrl: appConfig.notificationsBaseUrl);
+    final userProfile = ref.watch(userProfileNotifierProvider);
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
+    final bottomNavHeight = kBottomNavigationBarHeight;
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height - 100,
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          return _NotificationsColumn(
-            textTitle: list[index].textTitle,
-            textBody: list[index].textBody,
-            textDay: list[index].textDay,
-            icon: list[index].icon,
+      child: FutureBuilder<List<NotificationModel>>(
+        future: _getFilteredNotifications(userProfile.id!, notificationDataSource),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          if (snapshot.hasData && snapshot.data!.isEmpty) {
+            return const Center(child: Text('No hay notificaciones'));
+          }
+
+          final notifications = snapshot.data!;
+          final groupedNotifications = _groupNotifications(notifications);
+
+          return SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height - 100 - bottomPadding - bottomNavHeight,
+            child: ListView.builder(
+              itemCount: groupedNotifications.length,
+              itemBuilder: (context, index) {
+                final group = groupedNotifications[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Text(
+                        group.dateLabel,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
+                    ...group.notifications
+                        .map(
+                          (notification) => _NotificationsColumn(
+                            textTitle: notification.title,
+                            textBody: notification.body,
+                            textDay: group.dateLabel,
+                            icon: Icons.notifications_none_outlined,
+                          ),
+                        )
+                        .toList(),
+                    SizedBox(height: 50),
+                  ],
+                );
+              },
+            ),
           );
         },
       ),
     );
   }
+
+  List<NotificationGroup> _groupNotifications(List<NotificationModel> notifications) {
+    final now = DateTime.now();
+    final groups = <NotificationGroup>[];
+
+    // Ordenar por fecha más reciente
+    notifications.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+
+    for (var notification in notifications) {
+      final date = notification.creationDate;
+      String dateLabel;
+
+      if (date.year == now.year && date.month == now.month && date.day == now.day) {
+        dateLabel = 'Hoy';
+      } else if (date.year == now.year && date.month == now.month && date.day == now.day - 1) {
+        dateLabel = 'Ayer';
+      } else {
+        dateLabel = DateFormat('dd/MM/yyyy').format(date);
+      }
+
+      final existingGroup = groups.firstWhere(
+        (group) => group.dateLabel == dateLabel,
+        orElse: () {
+          final newGroup = NotificationGroup(dateLabel: dateLabel, notifications: []);
+          groups.add(newGroup);
+          return newGroup;
+        },
+      );
+
+      existingGroup.notifications.add(notification);
+    }
+
+    return groups;
+  }
+}
+
+class NotificationGroup {
+  final String dateLabel;
+  final List<NotificationModel> notifications;
+
+  NotificationGroup({required this.dateLabel, required this.notifications});
 }
 
 class _NotificationsColumn extends ConsumerWidget {
@@ -92,23 +180,21 @@ class _NotificationsColumn extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const SizedBox(height: 5),
-        TextPoppins(
-          text: textDay,
-          fontSize: 16,
-          fontWeight: FontWeight.w500,
-        ),
+        // const SizedBox(height: 5),
+        // TextPoppins(
+        //   text: textDay,
+        //   fontSize: 16,
+        //   fontWeight: FontWeight.w500,
+        // ),
         const SizedBox(height: 5),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: isDarkMode
-                ? const Color(backgroundDark)
-                : const Color(backgroundLight),
+            color: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
           ),
           width: MediaQuery.of(context).size.width,
-          height: 94,
+          height: 100,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -116,9 +202,7 @@ class _NotificationsColumn extends ConsumerWidget {
               Icon(
                 icon,
                 size: 24,
-                color: isDarkMode
-                    ? const Color(titleDark)
-                    : const Color(titleLight),
+                color: isDarkMode ? const Color(titleDark) : const Color(titleLight),
               ),
               const SizedBox(width: 10),
               SizedBox(
@@ -129,7 +213,7 @@ class _NotificationsColumn extends ConsumerWidget {
                   children: [
                     TextPoppins(
                       text: textTitle,
-                      fontSize: 16,
+                      fontSize: 15,
                       fontWeight: FontWeight.w500,
                       textDark: titleDark,
                       textLight: titleLight,
@@ -137,7 +221,7 @@ class _NotificationsColumn extends ConsumerWidget {
                     TextPoppins(
                       text: textBody,
                       fontSize: 11,
-                      lines: 2,
+                      lines: 3,
                     ),
                   ],
                 ),
