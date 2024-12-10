@@ -1,3 +1,4 @@
+import 'package:finniu/constants/colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:flutter/material.dart';
@@ -43,19 +44,13 @@ class StepScaffold extends ConsumerWidget {
                   },
                   icon: Icon(
                     Icons.arrow_back,
-                    color: isDarkMode
-                        ? const Color(iconDark)
-                        : const Color(iconLight),
+                    color: isDarkMode ? const Color(iconDark) : const Color(iconLight),
                   ),
                 )
               : null,
-          backgroundColor: isDarkMode
-              ? const Color(backgroundDark)
-              : const Color(backgroundLight),
+          backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         ),
-        backgroundColor: isDarkMode
-            ? const Color(backgroundDark)
-            : const Color(backgroundLight),
+        backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
         body: GestureDetector(
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: SingleChildScrollView(

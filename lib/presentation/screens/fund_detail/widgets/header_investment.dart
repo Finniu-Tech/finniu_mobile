@@ -85,7 +85,7 @@ class AboutContainer extends StatelessWidget {
 
           GestureDetector(
             child: Icon(Icons.arrow_back, size: 30, color: Colors.white),
-            onTap: () => Navigator.pop(context),
+            onTap: () => Navigator.of(context).pushNamedAndRemoveUntil("/home_v2", (route) => false),
           ),
 
           //     child: Container(

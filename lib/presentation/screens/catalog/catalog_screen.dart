@@ -69,9 +69,7 @@ class CatalogScreen extends HookConsumerWidget {
     final TextEditingController controller = TextEditingController();
 
     return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(backgroundDark)
-          : const Color(backgroundLight),
+      backgroundColor: isDarkMode ? const Color(backgroundDark) : const Color(backgroundLight),
       bottomNavigationBar: const NavigationBarHome(),
       appBar: AppBar(
         elevation: 0.0,
@@ -86,11 +84,33 @@ class CatalogScreen extends HookConsumerWidget {
               height: 10,
             ),
             ButtonInvestment(
+              text: "debug logs",
+              onPressed: () {
+                Navigator.pushNamed(context, '/debug_log');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
+              text: "nuevo home",
+              onPressed: () {
+                Navigator.pushNamed(context, '/v4/home');
+              },
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            ButtonInvestment(
               text: "form accoutns",
               onPressed: () {
                 Navigator.pushNamed(context, '/v2/form_accounts');
               },
             ),
+
             const SizedBox(
               height: 10,
             ),
@@ -108,20 +128,9 @@ class CatalogScreen extends HookConsumerWidget {
             const SizedBox(
               height: 10,
             ),
-            ButtonInvestment(
-              text: "debug logs",
-              onPressed: () {
-                Navigator.pushNamed(context, '/debug_log');
-              },
-            ),
             const SizedBox(
               height: 10,
             ),
-
-            const SizedBox(
-              height: 10,
-            ),
-
             ButtonInvestment(
               text: "whats app",
               onPressed: () {
@@ -231,8 +240,7 @@ class CatalogScreen extends HookConsumerWidget {
                     profileComplete: 100,
                   ),
                   redirect: () {
-                    Navigator.pushNamed(context, '/v2/investment/step-1',
-                        arguments: {'fund': ""});
+                    Navigator.pushNamed(context, '/v2/investment/step-1', arguments: {'fund': ""});
                   },
                 );
               },
@@ -318,8 +326,7 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message:
-                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.error,
                 );
               },
@@ -333,8 +340,7 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message:
-                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.warning,
                 );
               },
@@ -348,8 +354,7 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message:
-                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.success,
                 );
               },
@@ -363,8 +368,7 @@ class CatalogScreen extends HookConsumerWidget {
                 showSnackBarV2(
                   context: context,
                   title: "probando",
-                  message:
-                      "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
+                  message: "estoy probandossssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss",
                   snackType: SnackType.info,
                 );
               },
@@ -407,8 +411,7 @@ class CatalogScreen extends HookConsumerWidget {
               title: "Verificación  legal",
               children: [
                 ChildrenCheckboxTitle(
-                  text:
-                      "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
+                  text: "Eres miembro o familiar de un funcionario público o una persona políticamente expuesta. ",
                   value: true,
                 ),
               ],
@@ -432,8 +435,7 @@ class CatalogScreen extends HookConsumerWidget {
             const ExpansionTitleProfile(
               icon: "assets/svg_icons/dark_mode_icon.svg",
               title: "Contraseñas",
-              subtitle:
-                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               children: [
                 ChildrenTitle(
                   title: "Visualización de contraseña",
@@ -451,8 +453,7 @@ class CatalogScreen extends HookConsumerWidget {
             ButtonSwitchProfile(
               icon: null,
               title: "Sobre mis inversiones",
-              subtitle:
-                  "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
+              subtitle: "Sobre los depósitos, aprobaciones de mis inversiones y otros.",
               onTap: () => setInvest(),
               value: invest,
             ),
