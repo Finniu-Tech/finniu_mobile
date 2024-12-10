@@ -89,8 +89,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const TextPoppins(
-                text: "Inversión fondo empresarial ++",
+              TextPoppins(
+                text: item.fundName ?? "Inversion",
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 textDark: ToValidateColorsV4.fundTitleDark,
@@ -212,8 +212,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                       ),
                       TextPoppins(
                         text: item.rentability != null
-                            ? "${item.rentability!.toStringAsFixed(2)}%"
-                            : "+++++++",
+                            ? item.rentability!.toStringAsFixed(2)
+                            : "0.00",
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         textDark: ToValidateColorsV4.itemRentTextDark,

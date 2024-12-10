@@ -9,6 +9,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart
 import 'package:finniu/presentation/screens/catalog/widgets/no_investment_case.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CompletListV4 extends ConsumerWidget {
@@ -89,8 +90,8 @@ class CompleteItemV4 extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const TextPoppins(
-                text: "Inversión fondo empresarial ++",
+              TextPoppins(
+                text: item.fundName ?? "Inversion",
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
                 textDark: ToValidateColorsV4.fundTitleDark,
@@ -260,12 +261,28 @@ class CompleteItemV4 extends ConsumerWidget {
                 Radius.circular(20),
               ),
             ),
-            child: const TextPoppins(
-              text: "Ver mi tabla de pagos",
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              textDark: ToValidateColorsV4.completeTextDark,
-              textLight: ToValidateColorsV4.completeTextLight,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SvgPicture.asset(
+                  "assets/svg_icons/square_half.svg",
+                  width: 20,
+                  height: 20,
+                  color: isDarkMode
+                      ? const Color(ToValidateColorsV4.completeButtonLight)
+                      : const Color(ToValidateColorsV4.completeButtonDark),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                const TextPoppins(
+                  text: "Ver mi tabla de pagos",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  textDark: ToValidateColorsV4.completeTextDark,
+                  textLight: ToValidateColorsV4.completeTextLight,
+                ),
+              ],
             ),
           ),
         ],

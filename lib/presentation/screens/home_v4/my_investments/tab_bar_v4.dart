@@ -45,43 +45,14 @@ class TabBarBusinessV4 extends HookConsumerWidget {
           userToValidateList =
               data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
-
-          data?.investmentInSoles.investmentFinished.forEach((element) {
-            userCompletedList.add(element);
-            if (element.rentability != null) {
-              userCompletedList.add(
-                InvestmentV4(
-                  uuid: element.uuid,
-                  amount: element.rentability!,
-                  finishDateInvestment: element.finishDateInvestment,
-                  rentability: element.rentability,
-                  isCapital: false,
-                  boucherImage: null,
-                ),
-              );
-            }
-          });
+          userCompletedList = data?.investmentInSoles.investmentFinished ?? [];
         } else {
           userToValidateList =
               data?.investmentInDolares.investmentInProcess ?? [];
           userInProgressList =
               data?.investmentInDolares.investmentInCourse ?? [];
-
-          data?.investmentInDolares.investmentFinished.forEach((element) {
-            userCompletedList.add(element);
-            if (element.rentability != null) {
-              userCompletedList.add(
-                InvestmentV4(
-                  uuid: element.uuid,
-                  amount: element.rentability!,
-                  finishDateInvestment: element.finishDateInvestment,
-                  rentability: element.rentability,
-                  isCapital: false,
-                  boucherImage: element.boucherImage,
-                ),
-              );
-            }
-          });
+          userCompletedList =
+              data?.investmentInDolares.investmentFinished ?? [];
         }
 
         return SizedBox(
@@ -90,12 +61,11 @@ class TabBarBusinessV4 extends HookConsumerWidget {
             children: [
               TabBar(
                 labelPadding: const EdgeInsets.symmetric(horizontal: 5),
-                padding: EdgeInsets.zero,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 dividerColor: Colors.transparent,
                 indicatorColor: Colors.transparent,
                 overlayColor: WidgetStateProperty.all(Colors.transparent),
                 controller: tabController,
-                isScrollable: true,
                 tabs: [
                   ButtonHistory(
                     isSelected: currentIndex.value == 0,

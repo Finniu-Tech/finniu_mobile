@@ -7,6 +7,7 @@ class InvestmentV4 {
   final bool? isReinvestment;
   final String? actionStatus;
   final String? boucherImage;
+  final String? fundName;
   final bool isCapital;
 
   InvestmentV4({
@@ -18,6 +19,7 @@ class InvestmentV4 {
     this.isReinvestment = false,
     this.actionStatus,
     this.boucherImage,
+    this.fundName,
     this.isCapital = true,
   });
 
@@ -29,9 +31,11 @@ class InvestmentV4 {
       isReinvestAvailable: json['reinvestmentAvailable'] ?? false,
       isReinvestment: json['isReInvestment'] ?? false,
       actionStatus: json['actionStatus'] ?? '',
-      rentability: json['rentabilityAmmount'] == null
-          ? null
-          : _parseAmount(json['rentabilityAmmount']),
+      rentability: json['rentabilityAmmount'] != null
+          ? _parseAmount(json['rentabilityAmmount'])
+          : json['rentabilityPercent'] != null
+              ? double.parse(json['rentabilityPercent']).toInt()
+              : null,
       boucherImage: json['boucherList'] == null
           ? null
           : (json['boucherList'] as List).firstWhere(
@@ -39,6 +43,7 @@ class InvestmentV4 {
                   item['boucherImage'] != null && item['boucherImage'] != "",
               orElse: () => null,
             )?['boucherImage'],
+      fundName: json['investmentFund']?['name'],
     );
   }
 
@@ -50,14 +55,14 @@ class InvestmentV4 {
       'reinvestmentAvailable': isReinvestAvailable,
       'isReInvestment': isReinvestment,
       'actionStatus': actionStatus,
+      'boucherImage': boucherImage,
+      'fundName': fundName,
     };
   }
 
   static int _parseAmount(String amount) {
     try {
-      double parsedDouble = double.parse(amount);
-      int parsedDoublee = parsedDouble.toInt();
-      return parsedDoublee;
+      return double.parse(amount).toInt();
     } catch (e) {
       throw FormatException("Invalid amount format: $amount");
     }
