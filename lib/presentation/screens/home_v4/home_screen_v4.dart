@@ -46,14 +46,6 @@ class HomeBodyV4 extends StatelessWidget {
             const ChangeContainer(),
             const DividerHome(),
             ButtonInvestment(
-                text: "go payment",
-                onPressed: () {
-                  Navigator.pushNamed(context, '/v4/payment_schedule');
-                }),
-            const SizedBox(
-              height: 20,
-            ),
-            ButtonInvestment(
                 text: "go experience",
                 onPressed: () {
                   Navigator.pushNamed(context, '/v4/experience');

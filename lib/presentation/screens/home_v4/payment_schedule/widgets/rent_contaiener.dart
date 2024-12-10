@@ -1,3 +1,4 @@
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,7 @@ class RentContainer extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
 
     const int backgroundDark = 0xffB5FF8A;
     const int backgroundLight = 0xffD0FFB5;
@@ -68,7 +70,7 @@ class RentContainer extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextPoppins(
-                text: rent,
+                text: "+${isSoles ? "S/" : "\$"}$rent ",
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 textDark: textColor,

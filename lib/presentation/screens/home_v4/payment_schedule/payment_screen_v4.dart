@@ -1,3 +1,4 @@
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -18,12 +19,15 @@ class PaymentScreenV4 extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    return const Scaffold(
-      appBar: AppBarProducts(
+    final args = ModalRoute.of(context)!.settings.arguments as InvestmentV4;
+    return Scaffold(
+      appBar: const AppBarProducts(
         title: "Cronograma de pagos",
       ),
       body: SingleChildScrollView(
-        child: PaymentBody(),
+        child: PaymentBody(
+          item: args,
+        ),
       ),
     );
   }
@@ -32,11 +36,12 @@ class PaymentScreenV4 extends StatelessWidget {
 class PaymentBody extends StatelessWidget {
   const PaymentBody({
     super.key,
+    required this.item,
   });
-
+  final InvestmentV4 item;
   @override
   Widget build(BuildContext context) {
-    const String rent = "S/70.90";
+    final rent = item.rentability ?? 0;
     const String percent = "+1.40";
     const String dateInfo = "Actualizado Jul/2024";
     final List<ProfitabilityItem> list = [
@@ -86,8 +91,8 @@ class PaymentBody extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const RentContainer(
-              rent: rent,
+            RentContainer(
+              rent: rent.toString(),
               percent: percent,
               dateInfo: dateInfo,
               isRender: true,
