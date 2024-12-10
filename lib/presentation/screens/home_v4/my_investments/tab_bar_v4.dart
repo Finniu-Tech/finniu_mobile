@@ -23,6 +23,9 @@ class TabBarBusinessV4 extends HookConsumerWidget {
       initialIndex: isReinvest == true ? 1 : 0,
     );
     final currentIndex = useState(0);
+    List<InvestmentV4> userToValidateList = [];
+    List<InvestmentV4> userInProgressList = [];
+    List<InvestmentV4> userCompletedList = [];
     useEffect(
       () {
         void listener() {
@@ -30,14 +33,22 @@ class TabBarBusinessV4 extends HookConsumerWidget {
         }
 
         tabController.addListener(listener);
+        if (userToValidateList.isEmpty) {
+          if (userInProgressList.isNotEmpty) {
+            tabController.animateTo(1);
+          } else if (userCompletedList.isNotEmpty) {
+            tabController.animateTo(2);
+          }
+        }
         return () => tabController.removeListener(listener);
       },
-      [tabController],
+      [
+        tabController,
+        userToValidateList,
+        userInProgressList,
+        userCompletedList,
+      ],
     );
-
-    List<InvestmentV4> userToValidateList = [];
-    List<InvestmentV4> userInProgressList = [];
-    List<InvestmentV4> userCompletedList = [];
 
     return userInvestment.when(
       data: (data) {

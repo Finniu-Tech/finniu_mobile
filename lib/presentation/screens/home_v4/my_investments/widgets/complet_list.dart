@@ -22,7 +22,7 @@ class CompletListV4 extends ConsumerWidget {
       // width: 336,
       child: list.isEmpty
           ? const NoInvestmentCase(
-              title: "Aún no tienes inversiones en curso",
+              title: "Aún no tienes inversiones finalizadas",
               textBody:
                   "Recuerda que vas a poder visualizar tus inversiones finalizadas cuando finaliza el plazo de tu inversión",
             )
