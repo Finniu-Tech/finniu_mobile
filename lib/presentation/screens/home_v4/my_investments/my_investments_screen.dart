@@ -1,5 +1,7 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
+import 'package:finniu/domain/entities/home_v4_entity.dart';
+import 'package:finniu/presentation/providers/home_v4_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/document_page.dart';
@@ -31,7 +33,7 @@ class MyInvestmentsScreen extends ConsumerWidget {
             child: MyInvestmentsBody(),
           ),
           Positioned(
-            top: 100,
+            top: 180,
             child: ButtonInvestTourV4(),
           ),
         ],
@@ -73,9 +75,7 @@ class InvestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const MyInvestmentsContainer(
-          isLoaded: false,
-        ),
+        const MiInvestProvider(),
         GestureDetector(
           onTap: () => pageController.animateToPage(
             1,
@@ -91,6 +91,42 @@ class InvestPage extends StatelessWidget {
           height: 20,
         ),
       ],
+    );
+  }
+}
+
+class MiInvestProvider extends ConsumerWidget {
+  const MiInvestProvider({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<HomeUserInvest> investHome =
+        ref.watch(homeV4InvestProvider);
+
+    return investHome.when(
+      data: (data) {
+        if (data.investmentInDolares == null &&
+            data.investmentInSoles == null) {
+          return MyInvestmentsContainer(
+            data: homeUserErrorInvest,
+            isLoaded: false,
+          );
+        }
+        return MyInvestmentsContainer(
+          data: data,
+          isLoaded: false,
+        );
+      },
+      error: (error, stackTrace) => MyInvestmentsContainer(
+        data: homeUserErrorInvest,
+        isLoaded: false,
+      ),
+      loading: () => MyInvestmentsContainer(
+        data: homeUserErrorInvest,
+        isLoaded: true,
+      ),
     );
   }
 }

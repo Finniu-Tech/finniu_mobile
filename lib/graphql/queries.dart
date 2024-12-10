@@ -1705,8 +1705,8 @@ class QueryRepository {
         countPlanesActive
         totalBalanceRentability
         capitalInCourse
-        totalBalanceRentabilityIncreased
         totalBalanceRentabilityActually
+     
       }
     }
   }

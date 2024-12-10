@@ -17,7 +17,9 @@ final homeV4InvestProvider =
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
+
     final data = response.data;
+
     if (data == null) {
       throw Exception('Response data is null');
     }
