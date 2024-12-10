@@ -268,6 +268,8 @@ class PageThreeTour extends StatelessWidget {
                   Expanded(
                     child: ActiveInvestmentContainer(
                       isLoaded: isLoaded,
+                      countPlanesActive: "4",
+                      totalBalanceRentability: "14",
                     ),
                   ),
                   SizedBox(
@@ -279,13 +281,18 @@ class PageThreeTour extends StatelessWidget {
                         Expanded(
                           child: InvestCapital(
                             isLoaded: isLoaded,
+                            capitalInCourse: "10.500",
                           ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
                         Expanded(
-                          child: Interest(isLoaded: isLoaded),
+                          child: Interest(
+                            isLoaded: isLoaded,
+                            totalBalanceRentabilityIncreased: "134.94",
+                            totalBalanceRentabilityActually: "1.40",
+                          ),
                         ),
                       ],
                     ),

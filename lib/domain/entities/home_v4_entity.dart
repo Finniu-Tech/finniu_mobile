@@ -32,6 +32,7 @@ class AllInvestment {
   final int? countPlanesActive;
   final String? totalBalanceRentability;
   final int? capitalInCourse;
+  final String? totalBalanceRentabilityActually;
   final String? totalBalanceRentabilityIncreased;
 
   AllInvestment({
@@ -39,6 +40,7 @@ class AllInvestment {
     required this.totalBalanceRentability,
     required this.capitalInCourse,
     required this.totalBalanceRentabilityIncreased,
+    required this.totalBalanceRentabilityActually,
   });
 
   factory AllInvestment.fromJson(Map<String, dynamic> json) {
@@ -48,6 +50,8 @@ class AllInvestment {
       capitalInCourse: json['capitalInCourse'] as int?,
       totalBalanceRentabilityIncreased:
           json['totalBalanceRentabilityIncreased'] as String?,
+      totalBalanceRentabilityActually:
+          json['totalBalanceRentabilityActually'] as String?,
     );
   }
 
@@ -64,3 +68,24 @@ class AllInvestment {
 extension ListExtension<E> on List<E> {
   E? get firstOrNull => isNotEmpty ? first : null;
 }
+
+final AllInvestment investmentErrorInSoles = AllInvestment(
+  countPlanesActive: 0,
+  totalBalanceRentability: "----",
+  capitalInCourse: 0,
+  totalBalanceRentabilityIncreased: "----",
+  totalBalanceRentabilityActually: "----",
+);
+
+final AllInvestment investmentErrorInDolares = AllInvestment(
+  countPlanesActive: 0,
+  totalBalanceRentability: "----",
+  capitalInCourse: 0,
+  totalBalanceRentabilityIncreased: "----",
+  totalBalanceRentabilityActually: "----",
+);
+
+final HomeUserInvest homeUserErrorInvest = HomeUserInvest(
+  investmentInSoles: investmentErrorInSoles,
+  investmentInDolares: investmentErrorInDolares,
+);

@@ -1698,6 +1698,7 @@ class QueryRepository {
         countPlanesActive
         totalBalanceRentability
         capitalInCourse
+        totalBalanceRentabilityActually
         totalBalanceRentabilityIncreased
       }
       invesmentInDolares{
