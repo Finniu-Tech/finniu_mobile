@@ -1321,6 +1321,65 @@ class QueryRepository {
     ''';
   }
 
+  static String get userInfoAllInvestmentV4 {
+    return '''
+     query userInfoAllInvestment {
+      userInfoAllInvestment{
+          invesmentInSoles {
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
+              isReInvestment
+              
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
+            }
+          }
+          invesmentInDolares{
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
+              isReInvestment
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+               rentabilityAmmount
+              boucherList{
+                boucherImage
+              }
+            }
+          }
+        }
+      }
+
+    ''';
+  }
+
   static String get investmentDetailByUuid {
     return '''
      query investmentDetail (\$preInvestmentUuid : String!) {

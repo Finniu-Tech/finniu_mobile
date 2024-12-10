@@ -101,6 +101,39 @@ class InvestmentCategory {
   }
 }
 
+class InvestmentCategoryV4 {
+  final List<Investment> investmentInCourse;
+  final List<Investment> investmentFinished;
+  final List<Investment> investmentInProcess;
+
+  InvestmentCategoryV4({
+    required this.investmentInCourse,
+    required this.investmentFinished,
+    required this.investmentInProcess,
+  });
+
+  factory InvestmentCategoryV4.fromJson(Map<String, dynamic> json) {
+    return InvestmentCategoryV4(
+      investmentInCourse: _parseInvestmentList(json['invesmentInCourse']),
+      investmentFinished: _parseInvestmentList(json['invesmentFinished']),
+      investmentInProcess: _parseInvestmentList(json['invesmentInProcess']),
+    );
+  }
+
+  static List<Investment> _parseInvestmentList(dynamic jsonList) {
+    if (jsonList == null) return [];
+    return (jsonList as List).map((item) => Investment.fromJson(item)).toList();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'invesmentInCourse': investmentInCourse.map((i) => i.toJson()).toList(),
+      'invesmentFinished': investmentFinished.map((i) => i.toJson()).toList(),
+      'invesmentInProcess': investmentInProcess.map((i) => i.toJson()).toList(),
+    };
+  }
+}
+
 class UserInfoAllInvestment {
   final InvestmentCategory investmentInSoles;
   final InvestmentCategory investmentInDolares;
@@ -145,6 +178,51 @@ class UserInfoAllInvestment {
         investmentInSoles.investmentInCourse.isNotEmpty ||
         investmentInSoles.investmentFinished.isNotEmpty ||
         investmentInDolares.investmentPending.isNotEmpty ||
+        investmentInDolares.investmentInCourse.isNotEmpty ||
+        investmentInDolares.investmentFinished.isNotEmpty;
+  }
+}
+
+class UserInfoAllInvestmentV4 {
+  final InvestmentCategoryV4 investmentInSoles;
+  final InvestmentCategoryV4 investmentInDolares;
+
+  UserInfoAllInvestmentV4({
+    required this.investmentInSoles,
+    required this.investmentInDolares,
+  });
+
+  factory UserInfoAllInvestmentV4.fromJson(Map<String, dynamic> json) {
+    return UserInfoAllInvestmentV4(
+      investmentInSoles: json['invesmentInSoles'] != null &&
+              json['invesmentInSoles'].isNotEmpty
+          ? InvestmentCategoryV4.fromJson(json['invesmentInSoles'][0])
+          : InvestmentCategoryV4(
+              investmentInCourse: [],
+              investmentFinished: [],
+              investmentInProcess: [],
+            ),
+      investmentInDolares: json['invesmentInDolares'] != null &&
+              json['invesmentInDolares'].isNotEmpty
+          ? InvestmentCategoryV4.fromJson(json['invesmentInDolares'][0])
+          : InvestmentCategoryV4(
+              investmentInCourse: [],
+              investmentFinished: [],
+              investmentInProcess: [],
+            ),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'invesmentInSoles': [investmentInSoles.toJson()],
+      'invesmentInDolares': [investmentInDolares.toJson()],
+    };
+  }
+
+  bool hasAnyInvestment() {
+    return investmentInSoles.investmentInCourse.isNotEmpty ||
+        investmentInSoles.investmentFinished.isNotEmpty ||
         investmentInDolares.investmentInCourse.isNotEmpty ||
         investmentInDolares.investmentFinished.isNotEmpty;
   }

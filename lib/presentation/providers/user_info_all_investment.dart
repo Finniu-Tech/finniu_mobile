@@ -30,3 +30,29 @@ final userInfoAllInvestmentFutureProvider =
     return null;
   }
 });
+final userInfoAllInvestmentV4FutureProvider =
+    FutureProvider.autoDispose<UserInfoAllInvestmentV4?>((ref) async {
+  try {
+    final client = ref.watch(gqlClientProvider).value;
+
+    final result = await client!.query(
+      QueryOptions(
+        document: gql(
+          QueryRepository.userInfoAllInvestmentV4,
+        ),
+        fetchPolicy: FetchPolicy.noCache,
+      ),
+    );
+    final data = result.data?['userInfoAllInvestment'];
+
+    if (data == null) {
+      return null;
+    }
+    UserInfoAllInvestmentV4 user = UserInfoAllInvestmentV4.fromJson(data);
+
+    return user;
+  } catch (e) {
+    print(e);
+    return null;
+  }
+});

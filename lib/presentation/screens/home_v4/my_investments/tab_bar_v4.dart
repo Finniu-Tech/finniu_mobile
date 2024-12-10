@@ -19,7 +19,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
     final isSoles = ref.watch(isSolesStateProvider);
     final userInvestment = ref.watch(userInfoAllInvestmentFutureProvider);
     final tabController = useTabController(
-      initialLength: 4,
+      initialLength: 3,
       initialIndex: isReinvest == true ? 1 : 0,
     );
     final currentIndex = useState(0);
@@ -35,7 +35,6 @@ class TabBarBusinessV4 extends HookConsumerWidget {
       [tabController],
     );
 
-    List<Investment> userInPendingList = [];
     List<Investment> userToValidateList = [];
     List<Investment> userInProgressList = [];
     List<Investment> userCompletedList = [];
@@ -46,7 +45,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
           userToValidateList =
               data?.investmentInSoles.investmentInProcess ?? [];
           userInProgressList = data?.investmentInSoles.investmentInCourse ?? [];
-          userInPendingList = data?.investmentInSoles.investmentPending ?? [];
+
           data?.investmentInSoles.investmentFinished.forEach((element) {
             userCompletedList.add(element);
             if (element.rentability != null) {
@@ -67,7 +66,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
               data?.investmentInDolares.investmentInProcess ?? [];
           userInProgressList =
               data?.investmentInDolares.investmentInCourse ?? [];
-          userInPendingList = data?.investmentInDolares.investmentPending ?? [];
+
           data?.investmentInDolares.investmentFinished.forEach((element) {
             userCompletedList.add(element);
             if (element.rentability != null) {
@@ -108,10 +107,6 @@ class TabBarBusinessV4 extends HookConsumerWidget {
                   ),
                   ButtonHistory(
                     isSelected: currentIndex.value == 2,
-                    text: 'Pendientes',
-                  ),
-                  ButtonHistory(
-                    isSelected: currentIndex.value == 3,
                     text: 'Finalizadas',
                   ),
                 ],
@@ -128,9 +123,6 @@ class TabBarBusinessV4 extends HookConsumerWidget {
                       list: userToValidateList,
                     ),
                     InProgressListV4(list: userInProgressList),
-                    CompletListV4(
-                      list: userInPendingList,
-                    ),
                     CompletListV4(list: userCompletedList),
                   ],
                 ),
