@@ -1,5 +1,7 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
+import 'package:finniu/domain/entities/home_v4_entity.dart';
 import 'package:finniu/presentation/providers/eye_home_provider.dart';
+import 'package:finniu/presentation/providers/home_v4_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/navigator_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -13,12 +15,55 @@ import 'package:skeletonizer/skeletonizer.dart';
 class InvestContainer extends ConsumerWidget {
   const InvestContainer({
     super.key,
-    required this.isLoaded,
   });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<HomeUserInvest> investHome =
+        ref.watch(homeV4InvestProvider);
+
+    return investHome.when(
+      data: (data) {
+        if (data.investmentInDolares == null &&
+            data.investmentInSoles == null) {
+          return InvestBody(
+            isLoaded: false,
+            data: homeUserErrorInvest,
+          );
+        }
+        return InvestBody(
+          isLoaded: false,
+          data: data,
+        );
+      },
+      error: (error, stackTrace) => InvestBody(
+        isLoaded: false,
+        data: homeUserErrorInvest,
+      ),
+      loading: () => InvestBody(
+        isLoaded: true,
+        data: homeUserErrorInvest,
+      ),
+    );
+  }
+}
+
+class InvestBody extends ConsumerWidget {
+  const InvestBody({
+    super.key,
+    required this.isLoaded,
+    required this.data,
+  });
+
   final bool isLoaded;
+  final HomeUserInvest data;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
+    final AllInvestment investSelect =
+        isSoles ? data.investmentInSoles! : data.investmentInDolares!;
     return Container(
       padding: const EdgeInsets.only(
         left: 20,
@@ -47,6 +92,10 @@ class InvestContainer extends ConsumerWidget {
                 Expanded(
                   child: ActiveInvestmentContainer(
                     isLoaded: isLoaded,
+                    countPlanesActive:
+                        investSelect.countPlanesActive.toString(),
+                    totalBalanceRentability:
+                        investSelect.totalBalanceRentability.toString(),
                   ),
                 ),
                 const SizedBox(
@@ -58,13 +107,29 @@ class InvestContainer extends ConsumerWidget {
                       Expanded(
                         child: InvestCapital(
                           isLoaded: isLoaded,
+                          capitalInCourse: investSelect.capitalInCourse == null
+                              ? "0.00"
+                              : investSelect.capitalInCourse.toString(),
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       Expanded(
-                        child: Interest(isLoaded: isLoaded),
+                        child: Interest(
+                          isLoaded: isLoaded,
+                          totalBalanceRentabilityIncreased: investSelect
+                                      .totalBalanceRentabilityIncreased ==
+                                  null
+                              ? "0.00"
+                              : investSelect.totalBalanceRentabilityIncreased
+                                  .toString(),
+                          totalBalanceRentabilityActually: investSelect
+                                      .totalBalanceRentabilityActually ==
+                                  "0"
+                              ? null
+                              : investSelect.totalBalanceRentabilityActually,
+                        ),
                       ),
                     ],
                   ),
@@ -250,8 +315,12 @@ class Interest extends ConsumerWidget {
   const Interest({
     super.key,
     required this.isLoaded,
+    required this.totalBalanceRentabilityIncreased,
+    required this.totalBalanceRentabilityActually,
   });
   final bool isLoaded;
+  final String totalBalanceRentabilityIncreased;
+  final String? totalBalanceRentabilityActually;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -300,31 +369,33 @@ class Interest extends ConsumerWidget {
               children: [
                 TextPoppins(
                   text:
-                      "+${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
+                      "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityIncreased : "****"}",
                   fontSize: 18,
                   fontWeight: FontWeight.w600,
                   textDark: HomeV4Colors.interestGeneratedTextDark,
                   textLight: HomeV4Colors.interestGeneratedTextLight,
                 ),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 6,
-                    vertical: 2,
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: isDarkMode
-                        ? const Color(HomeV4Colors.interestGeneratedContDark)
-                        : const Color(HomeV4Colors.interestGeneratedContLight),
-                  ),
-                  child: const TextPoppins(
-                    text: "+1.40",
-                    fontSize: 10,
-                    fontWeight: FontWeight.w500,
-                    textDark: HomeV4Colors.interestGeneratedDark,
-                    textLight: HomeV4Colors.interestGeneratedLight,
-                  ),
-                ),
+                if (totalBalanceRentabilityActually != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 6,
+                      vertical: 2,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: isDarkMode
+                          ? const Color(HomeV4Colors.interestGeneratedContDark)
+                          : const Color(
+                              HomeV4Colors.interestGeneratedContLight),
+                    ),
+                    child: TextPoppins(
+                      text: totalBalanceRentabilityActually!,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                      textDark: HomeV4Colors.interestGeneratedDark,
+                      textLight: HomeV4Colors.interestGeneratedLight,
+                    ),
+                  )
               ],
             ),
           ),
@@ -338,9 +409,10 @@ class InvestCapital extends ConsumerWidget {
   const InvestCapital({
     super.key,
     required this.isLoaded,
+    required this.capitalInCourse,
   });
   final bool isLoaded;
-
+  final String capitalInCourse;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final eyeOpen = ref.watch(eyeHomeProvider);
@@ -381,7 +453,8 @@ class InvestCapital extends ConsumerWidget {
           Skeletonizer(
             enabled: isLoaded,
             child: TextPoppins(
-              text: "${isSoles ? "S/" : "\$"}${eyeOpen ? "10.500" : "****"}",
+              text:
+                  "${isSoles ? "S/" : "\$"}${eyeOpen ? capitalInCourse : "****"}",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -396,8 +469,12 @@ class ActiveInvestmentContainer extends ConsumerWidget {
   const ActiveInvestmentContainer({
     super.key,
     required this.isLoaded,
+    required this.countPlanesActive,
+    required this.totalBalanceRentability,
   });
   final bool isLoaded;
+  final String countPlanesActive;
+  final String totalBalanceRentability;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -433,8 +510,8 @@ class ActiveInvestmentContainer extends ConsumerWidget {
           ),
           Skeletonizer(
             enabled: isLoaded,
-            child: const TextPoppins(
-              text: "4 inversiones",
+            child: TextPoppins(
+              text: "$countPlanesActive inversiones",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -452,8 +529,8 @@ class ActiveInvestmentContainer extends ConsumerWidget {
           ),
           Skeletonizer(
             enabled: isLoaded,
-            child: const TextPoppins(
-              text: "14%",
+            child: TextPoppins(
+              text: "$totalBalanceRentability%",
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),

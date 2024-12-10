@@ -34,9 +34,7 @@ class HomeBodyV4 extends StatelessWidget {
       children: [
         Column(
           children: [
-            const InvestContainer(
-              isLoaded: false,
-            ),
+            const InvestContainer(),
             const SizedBox(
               height: 20,
             ),

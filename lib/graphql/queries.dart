@@ -1689,4 +1689,27 @@ class QueryRepository {
   }
     ''';
   }
+
+  static String get getHomeInvestUser {
+    return '''
+  query userInfoAllInvestment{
+    userInfoAllInvestment{
+      invesmentInSoles{
+        countPlanesActive
+        totalBalanceRentability
+        capitalInCourse
+        totalBalanceRentabilityActually
+        totalBalanceRentabilityIncreased
+      }
+      invesmentInDolares{
+        countPlanesActive
+        totalBalanceRentability
+        capitalInCourse
+        totalBalanceRentabilityIncreased
+        totalBalanceRentabilityActually
+      }
+    }
+  }
+    ''';
+  }
 }
