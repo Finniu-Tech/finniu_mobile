@@ -1706,6 +1706,7 @@ class QueryRepository {
         totalBalanceRentability
         capitalInCourse
         totalBalanceRentabilityIncreased
+        totalBalanceRentabilityActually
       }
     }
   }
