@@ -89,12 +89,15 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         children: [
           Row(
             children: [
-              TextPoppins(
-                text: item.fundName ?? "Inversion",
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                textDark: ToValidateColorsV4.fundTitleDark,
-                textLight: ToValidateColorsV4.fundTitleLight,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.45,
+                child: TextPoppins(
+                  text: item.fundName ?? "Inversion",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  textDark: ToValidateColorsV4.fundTitleDark,
+                  textLight: ToValidateColorsV4.fundTitleLight,
+                ),
               ),
               const Spacer(),
               Icon(
