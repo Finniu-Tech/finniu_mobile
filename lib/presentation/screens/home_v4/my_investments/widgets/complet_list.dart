@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
-import 'package:finniu/domain/entities/user_all_investment_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class CompletListV4 extends ConsumerWidget {
-  final List<Investment> list;
+  final List<InvestmentV4> list;
   const CompletListV4({super.key, required this.list});
 
   @override
@@ -65,7 +65,7 @@ class CompleteItemV4 extends ConsumerWidget {
     super.key,
     required this.item,
   });
-  final Investment item;
+  final InvestmentV4 item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;

@@ -1,4 +1,4 @@
-class Investment {
+class InvestmentV4 {
   final String uuid;
   final int amount;
   final int? rentability;
@@ -9,7 +9,7 @@ class Investment {
   final String? boucherImage;
   final bool isCapital;
 
-  Investment({
+  InvestmentV4({
     required this.uuid,
     required this.amount,
     required this.finishDateInvestment,
@@ -21,8 +21,8 @@ class Investment {
     this.isCapital = true,
   });
 
-  factory Investment.fromJson(Map<String, dynamic> json) {
-    return Investment(
+  factory InvestmentV4.fromJson(Map<String, dynamic> json) {
+    return InvestmentV4(
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       finishDateInvestment: json['finishDateInvestment'],
@@ -64,36 +64,34 @@ class Investment {
   }
 }
 
-class InvestmentCategory {
-  final List<Investment> investmentPending;
-  final List<Investment> investmentInCourse;
-  final List<Investment> investmentFinished;
-  final List<Investment> investmentInProcess;
+class InvestmentCategoryV4 {
+  final List<InvestmentV4> investmentInCourse;
+  final List<InvestmentV4> investmentFinished;
+  final List<InvestmentV4> investmentInProcess;
 
-  InvestmentCategory({
-    required this.investmentPending,
+  InvestmentCategoryV4({
     required this.investmentInCourse,
     required this.investmentFinished,
     required this.investmentInProcess,
   });
 
-  factory InvestmentCategory.fromJson(Map<String, dynamic> json) {
-    return InvestmentCategory(
-      investmentPending: _parseInvestmentList(json['investmentPending']),
+  factory InvestmentCategoryV4.fromJson(Map<String, dynamic> json) {
+    return InvestmentCategoryV4(
       investmentInCourse: _parseInvestmentList(json['invesmentInCourse']),
       investmentFinished: _parseInvestmentList(json['invesmentFinished']),
       investmentInProcess: _parseInvestmentList(json['invesmentInProcess']),
     );
   }
 
-  static List<Investment> _parseInvestmentList(dynamic jsonList) {
+  static List<InvestmentV4> _parseInvestmentList(dynamic jsonList) {
     if (jsonList == null) return [];
-    return (jsonList as List).map((item) => Investment.fromJson(item)).toList();
+    return (jsonList as List)
+        .map((item) => InvestmentV4.fromJson(item))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'investmentPending': investmentPending.map((i) => i.toJson()).toList(),
       'invesmentInCourse': investmentInCourse.map((i) => i.toJson()).toList(),
       'invesmentFinished': investmentFinished.map((i) => i.toJson()).toList(),
       'invesmentInProcess': investmentInProcess.map((i) => i.toJson()).toList(),
@@ -101,31 +99,29 @@ class InvestmentCategory {
   }
 }
 
-class UserInfoAllInvestment {
-  final InvestmentCategory investmentInSoles;
-  final InvestmentCategory investmentInDolares;
+class UserInfoAllInvestmentV4 {
+  final InvestmentCategoryV4 investmentInSoles;
+  final InvestmentCategoryV4 investmentInDolares;
 
-  UserInfoAllInvestment({
+  UserInfoAllInvestmentV4({
     required this.investmentInSoles,
     required this.investmentInDolares,
   });
 
-  factory UserInfoAllInvestment.fromJson(Map<String, dynamic> json) {
-    return UserInfoAllInvestment(
+  factory UserInfoAllInvestmentV4.fromJson(Map<String, dynamic> json) {
+    return UserInfoAllInvestmentV4(
       investmentInSoles: json['invesmentInSoles'] != null &&
               json['invesmentInSoles'].isNotEmpty
-          ? InvestmentCategory.fromJson(json['invesmentInSoles'][0])
-          : InvestmentCategory(
-              investmentPending: [],
+          ? InvestmentCategoryV4.fromJson(json['invesmentInSoles'][0])
+          : InvestmentCategoryV4(
               investmentInCourse: [],
               investmentFinished: [],
               investmentInProcess: [],
             ),
       investmentInDolares: json['invesmentInDolares'] != null &&
               json['invesmentInDolares'].isNotEmpty
-          ? InvestmentCategory.fromJson(json['invesmentInDolares'][0])
-          : InvestmentCategory(
-              investmentPending: [],
+          ? InvestmentCategoryV4.fromJson(json['invesmentInDolares'][0])
+          : InvestmentCategoryV4(
               investmentInCourse: [],
               investmentFinished: [],
               investmentInProcess: [],
@@ -141,32 +137,9 @@ class UserInfoAllInvestment {
   }
 
   bool hasAnyInvestment() {
-    return investmentInSoles.investmentPending.isNotEmpty ||
-        investmentInSoles.investmentInCourse.isNotEmpty ||
+    return investmentInSoles.investmentInCourse.isNotEmpty ||
         investmentInSoles.investmentFinished.isNotEmpty ||
-        investmentInDolares.investmentPending.isNotEmpty ||
         investmentInDolares.investmentInCourse.isNotEmpty ||
         investmentInDolares.investmentFinished.isNotEmpty;
-  }
-}
-
-class Data {
-  final UserInfoAllInvestment userInfoAllInvestment;
-
-  Data({
-    required this.userInfoAllInvestment,
-  });
-
-  factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(
-      userInfoAllInvestment:
-          UserInfoAllInvestment.fromJson(json['userInfoAllInvestment']),
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'userInfoAllInvestment': userInfoAllInvestment.toJson(),
-    };
   }
 }

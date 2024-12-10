@@ -1,4 +1,5 @@
 import 'package:finniu/domain/entities/user_all_investment_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/graphql/queries.dart';
 import 'package:finniu/presentation/providers/graphql_provider.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';

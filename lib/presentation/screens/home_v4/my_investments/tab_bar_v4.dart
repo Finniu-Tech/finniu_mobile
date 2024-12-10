@@ -1,4 +1,4 @@
-import 'package:finniu/domain/entities/user_all_investment_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/user_info_all_investment.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/tab_bar_business.dart';
@@ -17,7 +17,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isSoles = ref.watch(isSolesStateProvider);
-    final userInvestment = ref.watch(userInfoAllInvestmentFutureProvider);
+    final userInvestment = ref.watch(userInfoAllInvestmentV4FutureProvider);
     final tabController = useTabController(
       initialLength: 3,
       initialIndex: isReinvest == true ? 1 : 0,
@@ -35,9 +35,9 @@ class TabBarBusinessV4 extends HookConsumerWidget {
       [tabController],
     );
 
-    List<Investment> userToValidateList = [];
-    List<Investment> userInProgressList = [];
-    List<Investment> userCompletedList = [];
+    List<InvestmentV4> userToValidateList = [];
+    List<InvestmentV4> userInProgressList = [];
+    List<InvestmentV4> userCompletedList = [];
 
     return userInvestment.when(
       data: (data) {
@@ -50,7 +50,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
             userCompletedList.add(element);
             if (element.rentability != null) {
               userCompletedList.add(
-                Investment(
+                InvestmentV4(
                   uuid: element.uuid,
                   amount: element.rentability!,
                   finishDateInvestment: element.finishDateInvestment,
@@ -71,7 +71,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
             userCompletedList.add(element);
             if (element.rentability != null) {
               userCompletedList.add(
-                Investment(
+                InvestmentV4(
                   uuid: element.uuid,
                   amount: element.rentability!,
                   finishDateInvestment: element.finishDateInvestment,

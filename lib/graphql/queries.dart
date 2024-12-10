@@ -1323,13 +1323,17 @@ class QueryRepository {
 
   static String get userInfoAllInvestmentV4 {
     return '''
-     query userInfoAllInvestment {
+      query userInfoAllInvestment {
       userInfoAllInvestment{
           invesmentInSoles {
             invesmentInProcess{
               uuid
               amount
               finishDateInvestment
+              investmentFund{
+                name
+              }
+              rentabilityPercent
             }
             invesmentInCourse{
               uuid
@@ -1338,16 +1342,21 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
+               investmentFund{
+                name
+              }
+              rentabilityAmmount
               
             }
             invesmentFinished{
               uuid
               amount
               finishDateInvestment
-               rentabilityAmmount
-              boucherList{
-                boucherImage
+              rentabilityAmmount
+             	investmentFund{
+                name
               }
+              
             }
           }
           invesmentInDolares{
@@ -1355,6 +1364,10 @@ class QueryRepository {
               uuid
               amount
               finishDateInvestment
+              investmentFund{
+                name
+              }
+              rentabilityPercent
             }
             invesmentInCourse{
               uuid
@@ -1363,14 +1376,18 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
+               investmentFund{
+                name
+              }
+              rentabilityAmmount
             }
             invesmentFinished{
               uuid
               amount
               finishDateInvestment
-               rentabilityAmmount
-              boucherList{
-                boucherImage
+              rentabilityAmmount
+             	investmentFund{
+                name
               }
             }
           }
