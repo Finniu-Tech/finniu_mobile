@@ -1421,6 +1421,7 @@ class QueryRepository {
           bankAccount
           bankCciAccount
           bankLogoUrl
+          bankSlug
           currency
           alias
           typeAccount
@@ -1439,6 +1440,7 @@ class QueryRepository {
             bankAccount
             bankCciAccount
             bankLogoUrl
+            bankSlug
             currency
             alias
             typeAccount
@@ -1456,16 +1458,7 @@ class QueryRepository {
             detailBackgroundColorDark
             detailBackgroundColorLight
             backgroundImageUrl
-            assetsUnderManagement
-            mainImageUrl
-            fundType
-            tagDetailId
-            tagBenefitsId
-            tagDownloadInfoId
-            tagInvestmentButtonId
-            mainImageHorizontalUrl
-            detailBackgroundColorDarkSecondary
-            detailBackgroundColorSecondaryLight
+            
           }
         }
       }

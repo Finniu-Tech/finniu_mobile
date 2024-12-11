@@ -15,7 +15,9 @@ final userInvestmentByUuidFutureProvider = FutureProvider.family
         variables: {'preInvestmentUuid': uuid},
       ),
     );
+
     final data = result.data;
+    print(data);
     if (data == null) {
       return null;
     }

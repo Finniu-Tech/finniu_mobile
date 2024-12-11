@@ -20,7 +20,6 @@ class StatusInvestmentEnum {
   static const String pending = 'pending';
   static const String in_process = 'in_process';
 
-  //add a compare method , that compares a given string with the enum , it proves in lowercase
   static bool compare(String given, String targetStatus) {
     return given.toLowerCase() == targetStatus.toLowerCase();
   }

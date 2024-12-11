@@ -41,9 +41,11 @@ class InvestmentDetailUuid {
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
       month: json['deadline']['value'],
-      voucher: (json['boucherList'] as List<dynamic>).isNotEmpty
-          ? json['boucherList'][0]["boucherImage"]
-          : null,
+      voucher: (json['boucherList'] as List<dynamic>).firstWhere(
+        (item) =>
+            item['boucherImage'] != null && item['boucherImage'].isNotEmpty,
+        orElse: () => null,
+      )?['boucherImage'],
       rentabilityAmount: _parseAmount(json['rentabilityAmmount']),
       rentabilityPercent: _parseAmount(json['rentabilityPercent']),
       finishDateInvestment: json['finishDateInvestment'],
