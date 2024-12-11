@@ -9,12 +9,11 @@ import 'package:finniu/presentation/screens/business_investments/widgets/app_bar
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
-import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
+import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/init_end_container.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/icon_found.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/investment_amount_card.dart';
-import 'package:finniu/presentation/screens/new_simulator/widgets/investment_ends.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/loader_container.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/modal/error_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_transfer.dart';
@@ -23,21 +22,14 @@ import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitabi
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-class DetailInvestV4 extends ConsumerWidget {
+class DetailInvestV4 extends StatelessWidget {
   const DetailInvestV4({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int columnColorDark = 0xff0E0E0E;
-    const int columnColorLight = 0xffF8F8F8;
-
-    return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(columnColorDark)
-          : const Color(columnColorLight),
-      appBar: const AppBarBusinessScreen(),
-      body: const SingleChildScrollView(
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      appBar: AppBarBusinessScreen(),
+      body: SingleChildScrollView(
         child: _BodyScaffold(),
       ),
     );
@@ -51,10 +43,10 @@ class _BodyScaffold extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final ArgumentsNavigator arguments =
         ModalRoute.of(context)!.settings.arguments as ArgumentsNavigator;
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    final isSoles = ref.watch(isSolesStateProvider);
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.read(isSolesStateProvider);
     const int columnColorDark = 0xff0E0E0E;
-    const int columnColorLight = 0xffF8F8F8;
+    const int columnColorLight = 0xffFFFFFF;
     final investmentDetailByUuid =
         ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
 
@@ -111,6 +103,16 @@ class _BodyScaffold extends ConsumerWidget {
                   finalProfitability: data.amount + data.rentabilityAmount,
                   isLoading: false,
                 ),
+                const SizedBox(height: 15),
+                if (arguments.status != StatusInvestmentEnum.in_process) ...[
+                  InitEndContainer(
+                    dateStart: data.startDateInvestment,
+                    dateEnd: data.finishDateInvestment,
+                    dateCapitalPay: "15/03/2024",
+                    dateRentPay: "02/03/2024",
+                    isDarkMode: isDarkMode,
+                  ),
+                ],
                 const SizedBox(height: 15),
                 RowButtons(
                   voucher: data.voucher,

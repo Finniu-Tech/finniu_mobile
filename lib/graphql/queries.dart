@@ -1413,6 +1413,7 @@ class QueryRepository {
         amount
         rentabilityAmmount
         rentabilityPercent
+        startDateInvestment
         finishDateInvestment
         contract
         isReInvestment

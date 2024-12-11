@@ -7,6 +7,7 @@ class InvestmentDetailUuid {
   final int month;
   final int rentabilityAmount;
   final int rentabilityPercent;
+  final String startDateInvestment;
   final String finishDateInvestment;
   final String operationCode;
   final String? contract;
@@ -18,6 +19,7 @@ class InvestmentDetailUuid {
   final bool? isReInvestment;
 
   InvestmentDetailUuid({
+    required this.startDateInvestment,
     required this.operationCode,
     required this.uuid,
     required this.amount,
@@ -40,6 +42,7 @@ class InvestmentDetailUuid {
 
   factory InvestmentDetailUuid.fromJson(Map<String, dynamic> json) {
     return InvestmentDetailUuid(
+      startDateInvestment: json['startDateInvestment'],
       operationCode: json['operationCode'],
       uuid: json['uuid'],
       amount: _parseAmount(json['amount']),
