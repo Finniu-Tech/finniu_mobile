@@ -17,7 +17,7 @@ final userInvestmentByUuidFutureProvider = FutureProvider.family
     );
 
     final data = result.data;
-    print(data);
+
     if (data == null) {
       return null;
     }
