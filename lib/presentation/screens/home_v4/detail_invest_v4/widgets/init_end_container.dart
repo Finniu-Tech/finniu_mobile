@@ -1,4 +1,5 @@
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/pay_modal.dart';
 import 'package:flutter/material.dart';
 
 class InitEndContainer extends StatelessWidget {
@@ -31,7 +32,9 @@ class InitEndContainer extends StatelessWidget {
     const int endPointIconDark = 0xff9C84FE;
     const int endPointIconLight = 0xff9C84FE;
 
-    void onPressed() {}
+    void onPressed() {
+      showPayModal(context);
+    }
 
     return Container(
       padding: const EdgeInsets.all(15),

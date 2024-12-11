@@ -77,7 +77,7 @@ class IconFund extends ConsumerWidget {
                 ),
                 child: TextPoppins(
                   text: icon,
-                  fontSize: 24,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
               ),
