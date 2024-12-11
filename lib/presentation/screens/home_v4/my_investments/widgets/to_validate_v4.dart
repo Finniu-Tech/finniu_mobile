@@ -43,7 +43,7 @@ class ToValidateListV4 extends ConsumerWidget {
                       );
                       Navigator.pushNamed(
                         context,
-                        '/v2/summary',
+                        '/v4/detail_invest',
                         arguments: ArgumentsNavigator(
                           uuid: list[index].uuid,
                           status: StatusInvestmentEnum.in_process,

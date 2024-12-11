@@ -95,7 +95,7 @@ class TabBarBusinessV4 extends HookConsumerWidget {
               const SizedBox(height: 10),
               Container(
                 width: MediaQuery.of(context).size.width * 0.9,
-                height: MediaQuery.of(context).size.height * 0.4,
+                height: MediaQuery.of(context).size.height * 0.5,
                 alignment: Alignment.topCenter,
                 child: TabBarView(
                   controller: tabController,

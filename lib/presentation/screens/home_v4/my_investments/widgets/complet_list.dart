@@ -38,15 +38,15 @@ class CompletListV4 extends ConsumerWidget {
                         parameters: {
                           "screen": FirebaseScreen.investmentV2,
                           "navigate_to": FirebaseScreen.summaryV2,
-                          "status": StatusInvestmentEnum.in_process,
+                          "status": StatusInvestmentEnum.finished,
                         },
                       );
                       Navigator.pushNamed(
                         context,
-                        '/v2/summary',
+                        '/v4/detail_invest',
                         arguments: ArgumentsNavigator(
                           uuid: list[index].uuid,
-                          status: StatusInvestmentEnum.in_process,
+                          status: StatusInvestmentEnum.finished,
                         ),
                       );
                     },

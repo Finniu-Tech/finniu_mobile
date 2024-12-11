@@ -30,7 +30,7 @@ class MyInvestmentsScreen extends ConsumerWidget {
       body: const Stack(
         children: [
           SingleChildScrollView(
-            child: MyInvestmentsBody(),
+            child: InvestPage(),
           ),
           Positioned(
             top: 180,
@@ -49,9 +49,7 @@ class MyInvestmentsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageController = PageController(initialPage: 0);
     final List<Widget> pages = [
-      InvestPage(
-        pageController: pageController,
-      ),
+      const InvestPage(),
       const DocumenteBody(),
     ];
 
@@ -68,26 +66,17 @@ class MyInvestmentsBody extends StatelessWidget {
 class InvestPage extends StatelessWidget {
   const InvestPage({
     super.key,
-    required this.pageController,
   });
-  final PageController pageController;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        const MiInvestProvider(),
-        GestureDetector(
-          onTap: () => pageController.animateToPage(
-            1,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          ),
-          child: const NavigateToDocuments(),
-        ),
-        const TabBarBusinessV4(
+        MiInvestProvider(),
+        TabBarBusinessV4(
           isReinvest: false,
         ),
-        const SizedBox(
+        SizedBox(
           height: 20,
         ),
       ],
