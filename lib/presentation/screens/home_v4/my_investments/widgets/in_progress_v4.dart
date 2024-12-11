@@ -45,7 +45,7 @@ class InProgressListV4 extends ConsumerWidget {
                         '/v4/detail_invest',
                         arguments: ArgumentsNavigator(
                           uuid: list[index].uuid,
-                          status: StatusInvestmentEnum.in_process,
+                          status: StatusInvestmentEnum.in_course,
                         ),
                       );
                     },

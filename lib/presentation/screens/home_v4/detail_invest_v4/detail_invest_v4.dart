@@ -1,3 +1,4 @@
+import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
@@ -7,6 +8,7 @@ import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/business_investments/widgets/app_bar_business.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
+import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/navigation_bar.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
@@ -35,7 +37,6 @@ class DetailInvestV4 extends ConsumerWidget {
           ? const Color(columnColorDark)
           : const Color(columnColorLight),
       appBar: const AppBarBusinessScreen(),
-      bottomNavigationBar: const NavigationBarHome(),
       body: const SingleChildScrollView(
         child: _BodyScaffold(),
       ),
@@ -143,9 +144,6 @@ class _BodyScaffold extends ConsumerWidget {
                   ),
                 ],
                 const SizedBox(height: 15),
-                InvestmentEnds(
-                  finalDate: data.finishDateInvestment,
-                ),
                 const SizedBox(height: 15),
                 if (arguments.isReinvestAvailable == true &&
                     StatusInvestmentEnum.compare(
@@ -192,6 +190,13 @@ class _BodyScaffold extends ConsumerWidget {
                   ),
                 ],
                 const SizedBox(height: 15),
+                if (arguments.status == StatusInvestmentEnum.in_process) ...[
+                  ButtonInvestment(
+                    text: "Hablar con un asesor",
+                    onPressed: () =>
+                        showValidationModal(context, contactWhatsApp),
+                  ),
+                ],
               ],
             ),
           ),

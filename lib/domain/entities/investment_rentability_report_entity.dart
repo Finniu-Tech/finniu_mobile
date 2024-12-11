@@ -40,14 +40,15 @@ class StatusInvestmentEnum {
   }
 
   static LabelDetail getColorForStatus(String status) {
+    print(status);
     switch (status) {
       case 'En curso':
         return LabelDetail(
           label: 'En curso',
-          containerColorDark: 0xff000000,
-          containerColorLight: 0xff000000,
-          textColorDark: 0xff000000,
-          textColorLight: 0xff000000,
+          containerColorDark: 0xff55B63D,
+          containerColorLight: 0xff55B63D,
+          textColorDark: 0xffFFFFFF,
+          textColorLight: 0xffFFFFFF,
         );
       case 'Por validar':
         return LabelDetail(

@@ -1407,6 +1407,7 @@ class QueryRepository {
         boucherList {
           boucherImage
         }
+        operationCode
         rentabilityIncreased
         uuid
         amount
