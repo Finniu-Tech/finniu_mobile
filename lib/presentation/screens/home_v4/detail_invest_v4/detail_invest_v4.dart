@@ -20,6 +20,7 @@ import 'package:finniu/presentation/screens/new_simulator/widgets/selected_back_
 import 'package:finniu/presentation/screens/new_simulator/widgets/selected_bank_deposit.dart';
 import 'package:finniu/presentation/screens/new_simulator/widgets/term_profitability_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DetailInvestV4 extends StatelessWidget {
@@ -173,6 +174,19 @@ class _BodyScaffold extends ConsumerWidget {
                         )
                       : const SizedBox(),
                 ],
+                if (arguments.isReinvestAvailable == true &&
+                    StatusInvestmentEnum.compare(
+                      arguments.status,
+                      StatusInvestmentEnum.in_course,
+                    ) &&
+                    ActionStatusEnum.compare(
+                      arguments.actionStatus ?? '',
+                      ActionStatusEnum.defaultReInvestment,
+                    )) ...[
+                  arguments.isReinvestAvailable
+                      ? const SizedBox(height: 15)
+                      : const SizedBox(),
+                ],
                 if (ActionStatusEnum.compare(
                   arguments.actionStatus ?? '',
                   ActionStatusEnum.pendingReInvestment,
@@ -199,11 +213,172 @@ class _BodyScaffold extends ConsumerWidget {
                         showValidationModal(context, contactWhatsApp),
                   ),
                 ],
+                if (arguments.status != StatusInvestmentEnum.in_process) ...[
+                  ReInvestContainer(
+                    isDarkMode: isDarkMode,
+                  ),
+                  const SizedBox(height: 15),
+                ],
+                if (arguments.status != StatusInvestmentEnum.in_process) ...[
+                  ButtonInvestment(
+                    text: "Ver tabla de los pagos de intereses",
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      '/v4/payment_schedule',
+                      arguments: arguments.uuid,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class ReInvestContainer extends StatelessWidget {
+  const ReInvestContainer({
+    super.key,
+    required this.isDarkMode,
+  });
+
+  final bool isDarkMode;
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Color> gradientColor = [
+      const Color(0xffD1C6FF),
+      const Color(0xffA2E6FA),
+    ];
+    const int contratColor = 0xff0D3A5C;
+    const int amountColor = 0xffC5F3FF;
+    const int textColor = 0xff000000;
+    const int contratTextColor = 0xffFFFFFF;
+    void onPressed() {}
+
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: 120,
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: gradientColor,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const TextPoppins(
+                text: "Reinversión solicitada",
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                textDark: contratColor,
+                textLight: contratColor,
+              ),
+              GestureDetector(
+                onTap: onPressed,
+                child: Container(
+                  width: 95,
+                  height: 22,
+                  decoration: BoxDecoration(
+                    color: const Color(contratColor),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextPoppins(
+                        text: "Contrato",
+                        fontSize: 10,
+                        textDark: contratTextColor,
+                        textLight: contratTextColor,
+                      ),
+                      SizedBox(width: 5),
+                      Icon(
+                        Icons.file_download_outlined,
+                        color: Color(contratTextColor),
+                        size: 14,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              SvgPicture.asset(
+                "assets/svg_icons/dolar_money_icon.svg",
+                color: Color(contratColor),
+                width: 20,
+                height: 20,
+              ),
+              const SizedBox(width: 5),
+              const TextPoppins(
+                text: "Reinversión con monto agregado",
+                fontSize: 12,
+                textDark: textColor,
+                textLight: textColor,
+              ),
+              const Spacer(),
+              Container(
+                width: 67,
+                height: 25,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: const Color(amountColor),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const TextPoppins(
+                  text: "+ S/1.50+",
+                  fontSize: 10,
+                  textDark: contratColor,
+                  textLight: contratColor,
+                ),
+              ),
+            ],
+          ),
+          const Row(
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+                size: 20,
+                color: Colors.black,
+              ),
+              SizedBox(width: 5),
+              TextPoppins(
+                text: "Inicia",
+                fontSize: 12,
+                textDark: textColor,
+                textLight: textColor,
+                fontWeight: FontWeight.w500,
+              ),
+              SizedBox(width: 5),
+              TextPoppins(
+                text: "02/03/2025+",
+                fontSize: 12,
+                textDark: textColor,
+                textLight: textColor,
+              ),
+              SizedBox(width: 15),
+              Icon(
+                Icons.help_outline_outlined,
+                size: 20,
+                color: Colors.black,
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
