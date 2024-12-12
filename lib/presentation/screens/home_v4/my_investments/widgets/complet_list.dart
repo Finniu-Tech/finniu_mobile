@@ -256,7 +256,7 @@ class CompleteItemV4 extends ConsumerWidget {
             onTap: () => Navigator.pushNamed(
               context,
               '/v4/payment_schedule',
-              arguments: item,
+              arguments: item.uuid,
             ),
             child: Container(
               alignment: Alignment.center,

@@ -255,7 +255,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: isDarkMode
                     ? const Color(ToValidateColorsV4.buttonReInvestDark)
-                    : const Color(ToValidateColorsV4.buttonDetailLight),
+                    : const Color(ToValidateColorsV4.buttonReInvestLight),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),
