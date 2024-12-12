@@ -31,7 +31,7 @@ class InitEndContainer extends StatelessWidget {
     const int endPointLight = 0xffDFD7FF;
     const int endPointIconDark = 0xff9C84FE;
     const int endPointIconLight = 0xff9C84FE;
-
+    print(dateCapitalPay);
     void onPressed() {
       showPayModal(context);
     }

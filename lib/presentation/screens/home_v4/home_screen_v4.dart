@@ -3,7 +3,6 @@ import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/home_v2/widgets/complete_profile.dart';
-import 'package:finniu/presentation/screens/home_v4/widget/change_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/invest_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/news_container.dart';
 import 'package:finniu/presentation/screens/home_v4/widget/scaffold_home_v4.dart';

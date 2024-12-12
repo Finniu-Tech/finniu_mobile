@@ -2,6 +2,7 @@ import 'package:finniu/constants/contact_whats_app.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
+import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -110,8 +111,8 @@ class _BodyScaffold extends ConsumerWidget {
                   InitEndContainer(
                     dateStart: data.startDateInvestment,
                     dateEnd: data.finishDateInvestment,
-                    dateCapitalPay: "15/03/2024",
-                    dateRentPay: "02/03/2024",
+                    dateCapitalPay: data.paymentCapitalDateInvestment,
+                    dateRentPay: data.finishDateInvestment,
                     isDarkMode: isDarkMode,
                   ),
                 ],
@@ -189,9 +190,13 @@ class _BodyScaffold extends ConsumerWidget {
                   arguments.actionStatus ?? '',
                   ActionStatusEnum.pendingReInvestment,
                 )) ...[
-                  ReInvestContainer(
-                    isDarkMode: isDarkMode,
-                  ),
+                  data.reinvestmentInfo != null
+                      ? ReInvestContainer(
+                          isDarkMode: isDarkMode,
+                          dataReinvest: data.reinvestmentInfo!,
+                          isSoles: isSoles,
+                        )
+                      : const SizedBox(),
                   const SizedBox(height: 15),
                 ],
                 const SizedBox(height: 15),
@@ -203,9 +208,13 @@ class _BodyScaffold extends ConsumerWidget {
                   ),
                 ],
                 if (arguments.status != StatusInvestmentEnum.in_process) ...[
-                  ReInvestContainer(
-                    isDarkMode: isDarkMode,
-                  ),
+                  data.reinvestmentInfo != null
+                      ? ReInvestContainer(
+                          isDarkMode: isDarkMode,
+                          dataReinvest: data.reinvestmentInfo!,
+                          isSoles: isSoles,
+                        )
+                      : const SizedBox(),
                   const SizedBox(height: 15),
                 ],
                 if (arguments.status != StatusInvestmentEnum.in_process) ...[
@@ -241,9 +250,12 @@ class ReInvestContainer extends StatelessWidget {
   const ReInvestContainer({
     super.key,
     required this.isDarkMode,
+    required this.dataReinvest,
+    required this.isSoles,
   });
-
+  final ReInvestmentInfo dataReinvest;
   final bool isDarkMode;
+  final bool isSoles;
 
   @override
   Widget build(BuildContext context) {
@@ -255,7 +267,12 @@ class ReInvestContainer extends StatelessWidget {
     const int amountColor = 0xffC5F3FF;
     const int textColor = 0xff000000;
     const int contratTextColor = 0xffFFFFFF;
-    void onPressedContrat() {}
+    final String amountAdd =
+        dataReinvest.reinvestmentAditionalAmount?.toStringAsFixed(2) ?? '0.00';
+    void onPressedContrat() {
+      print(dataReinvest.contractUrl);
+    }
+
     void onPressedHelp() {
       showHelp(context);
     }
@@ -340,8 +357,8 @@ class ReInvestContainer extends StatelessWidget {
                   color: const Color(amountColor),
                   borderRadius: BorderRadius.circular(20),
                 ),
-                child: const TextPoppins(
-                  text: "+ S/1.50+",
+                child: TextPoppins(
+                  text: "+ ${isSoles ? "S/" : "\$"}.$amountAdd",
                   fontSize: 10,
                   textDark: contratColor,
                   textLight: contratColor,
