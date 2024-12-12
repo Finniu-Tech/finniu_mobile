@@ -1342,11 +1342,11 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
-               investmentFund{
+              rentabilityAmmount
+              investmentFund{
+                uuid
                 name
               }
-              rentabilityAmmount
-              
             }
             invesmentFinished{
               uuid
@@ -1377,7 +1377,8 @@ class QueryRepository {
               actionStatus
               isReInvestment
                investmentFund{
-                name
+                 uuid
+                 name
               }
               rentabilityAmmount
             }
@@ -1459,13 +1460,28 @@ class QueryRepository {
           }
           investmentFund{
             uuid
-            name
-            icon
-            listBackgroundColorDark
-            listBackgroundColorLight
-            detailBackgroundColorDark
-            detailBackgroundColorLight
-            backgroundImageUrl
+                 name
+                 icon
+                 listBackgroundColorLight
+                 listBackgroundColorDark
+                 detailBackgroundColorLight
+                 detailBackgroundColorDark
+                 backgroundImageUrl
+                 mainImageUrl
+                 createdAt
+                 isDeleted
+                 isActive
+                 fundType
+                 tagDetailId
+                 tagBenefitsId
+                 tagDownloadInfoId
+                 tagInvestmentButtonId
+                 mainImageHorizontalUrl
+                 detailBackgroundColorSecondaryLight
+                 detailBackgroundColorDarkSecondary
+                 lastRentability
+               
+                
             
           }
         }

@@ -44,6 +44,7 @@ final userInfoAllInvestmentV4FutureProvider =
         fetchPolicy: FetchPolicy.noCache,
       ),
     );
+
     final data = result.data?['userInfoAllInvestment'];
 
     if (data == null) {

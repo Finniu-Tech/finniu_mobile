@@ -8,12 +8,14 @@ class InvestmentV4 {
   final String? actionStatus;
   final String? boucherImage;
   final String? fundName;
+  final String? fundUuid;
   final bool isCapital;
 
   InvestmentV4({
     required this.uuid,
     required this.amount,
     required this.finishDateInvestment,
+    this.fundUuid,
     this.rentability,
     this.isReinvestAvailable = false,
     this.isReinvestment = false,
@@ -44,6 +46,7 @@ class InvestmentV4 {
               orElse: () => null,
             )?['boucherImage'],
       fundName: json['investmentFund']?['name'],
+      fundUuid: json['investmentFund']?['uuid'],
     );
   }
 

@@ -17,6 +17,8 @@ class DocumenteBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final uuid = ModalRoute.of(context)!.settings.arguments as String;
+
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -24,10 +26,12 @@ class DocumenteBody extends ConsumerWidget {
       color: isDarkMode
           ? const Color(DocumentsV4.backgroundDark)
           : const Color(DocumentsV4.backgroundLight),
-      child: const Column(
+      child: Column(
         children: [
-          TitleDocuments(),
-          TabBarDocuments(),
+          const TitleDocuments(),
+          TabBarDocuments(
+            uuid: uuid,
+          ),
         ],
       ),
     );
@@ -94,8 +98,11 @@ class TitleDocuments extends ConsumerWidget {
 }
 
 class TabBarDocuments extends HookConsumerWidget {
-  const TabBarDocuments({super.key});
-
+  const TabBarDocuments({
+    super.key,
+    required this.uuid,
+  });
+  final String uuid;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tabController = useTabController(

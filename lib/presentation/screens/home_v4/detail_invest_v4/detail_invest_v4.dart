@@ -162,7 +162,7 @@ class _BodyScaffold extends ConsumerWidget {
                     )) ...[
                   arguments.isReinvestAvailable
                       ? ButtonInvestment(
-                          text: 'Reinvertir mi inversión',
+                          text: 'Quiero reinvertir',
                           onPressed: () => reinvestmentQuestionModal(
                             context,
                             ref,
@@ -222,6 +222,7 @@ class _BodyScaffold extends ConsumerWidget {
                   const SizedBox(height: 15),
                 ],
                 if (arguments.status != StatusInvestmentEnum.in_process) ...[
+                  const SizedBox(height: 15),
                   ButtonInvestment(
                     text: "Ver tabla de los pagos de intereses",
                     onPressed: () => Navigator.pushNamed(
@@ -230,6 +231,20 @@ class _BodyScaffold extends ConsumerWidget {
                       arguments: arguments.uuid,
                     ),
                   ),
+                  ButtonInvestment(
+                    text: 'Quiero reinvertir',
+                    onPressed: () => reinvestmentQuestionModal(
+                      context,
+                      ref,
+                      arguments.uuid,
+                      data.amount.toDouble(),
+                      isSoles ? currencyEnum.PEN : currencyEnum.USD,
+                      true,
+                      data.fund,
+                      data.rentabilityPercent,
+                      data.month,
+                    ),
+                  )
                 ],
               ],
             ),
