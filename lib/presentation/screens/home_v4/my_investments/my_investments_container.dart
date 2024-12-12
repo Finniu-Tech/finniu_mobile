@@ -38,7 +38,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
     final totalBalanceRentabilityActually =
         investSelect.totalBalanceRentabilityActually == null
             ? "0.00"
-            : investSelect.averageProfitability.toString();
+            : investSelect.totalBalanceRentabilityActually.toString();
     void onTapInvestActive() {
       showModalActiveInvest(context);
     }
@@ -168,7 +168,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   children: [
                                     TextPoppins(
                                       text:
-                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityIncreased : "****"}",
+                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityActually : "****"}",
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       textDark: HomeV4Colors
