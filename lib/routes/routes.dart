@@ -32,6 +32,7 @@ import 'package:finniu/presentation/screens/fund_detail/fund_detail_screen.dart'
 import 'package:finniu/presentation/screens/home_v2/home_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/calendar/calendar_v4_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/detail_invest_v4.dart';
+import 'package:finniu/presentation/screens/home_v4/document/documents_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/experience/experience_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/home_screen_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/my_investments_screen.dart';
@@ -40,6 +41,7 @@ import 'package:finniu/presentation/screens/home_v4/notice/notice_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/payment_screen_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/product_v4/product_v4_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/products_v4/products_v4_screen.dart';
+import 'package:finniu/presentation/screens/home_v4/push_to_url/push_to_url_screen.dart';
 import 'package:finniu/presentation/screens/home_v4/step_1/step_one_v4.dart';
 import 'package:finniu/presentation/screens/investment_aggro/investment_aggro_process_screen.dart';
 import 'package:finniu/presentation/screens/investment_process.dart/step_1_screen.dart';
@@ -334,8 +336,10 @@ Map<String, WidgetBuilder> getApplicationRoutes() {
     '/v4/calendar': (BuildContext context) => const CalendarScreenV4(),
     '/v4/notices': (BuildContext context) => const NoticeScreenV4(),
     '/v4/notices_detail': (BuildContext context) => const NoticeDetail(),
+    '/v4/push_to_url': (BuildContext context) => const PushToUrlScreen(),
     '/v4/step_one': (BuildContext context) => const StepOneV4(),
     '/v4/experience': (BuildContext context) => const ExperienceScreenV4(),
     '/v4/detail_invest': (BuildContext context) => const DetailInvestV4(),
+    '/v4/documents': (BuildContext context) => const DocumentsScreen(),
   };
 }

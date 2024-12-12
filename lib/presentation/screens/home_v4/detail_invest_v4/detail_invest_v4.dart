@@ -3,6 +3,8 @@ import 'package:finniu/domain/entities/investment_rentability_report_entity.dart
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
+import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
+import 'package:finniu/presentation/providers/firebase_provider.dart';
 import 'package:finniu/presentation/providers/investment_detail_uuid_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -52,7 +54,7 @@ class _BodyScaffold extends ConsumerWidget {
     const int columnColorLight = 0xffFFFFFF;
     final investmentDetailByUuid =
         ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
-    print(arguments.uuid);
+
     return investmentDetailByUuid.when(
       error: (error, stack) {
         showErrorGetDetail(context);
@@ -101,6 +103,12 @@ class _BodyScaffold extends ConsumerWidget {
                 const SizedBox(height: 10),
                 const IconFund(),
                 const SizedBox(height: 15),
+                RowOperationAndVoucher(
+                  isDarkMode: isDarkMode,
+                  voucher: data.voucher,
+                  operation: data.operationCode,
+                ),
+                const SizedBox(height: 15),
                 InvestmentAmountCardsRow(
                   amountInvested: data.amount,
                   finalProfitability: data.amount + data.rentabilityAmount,
@@ -117,9 +125,9 @@ class _BodyScaffold extends ConsumerWidget {
                   ),
                 ],
                 const SizedBox(height: 15),
-                RowButtons(
-                  voucher: data.voucher,
-                  contract: data.contract,
+                RowNavigateToDocuments(
+                  isDarkMode: isDarkMode,
+                  uuidInvest: data.uuid,
                 ),
                 const SizedBox(height: 15),
                 TermProfitabilityRow(
@@ -232,6 +240,130 @@ class _BodyScaffold extends ConsumerWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class RowOperationAndVoucher extends ConsumerWidget {
+  const RowOperationAndVoucher({
+    super.key,
+    required this.operation,
+    required this.voucher,
+    required this.isDarkMode,
+  });
+  final String operation;
+  final String? voucher;
+  final bool isDarkMode;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    const int titleDark = 0xffA2E6FA;
+    const int titleLight = 0xff0D3A5C;
+
+    void voucherOnPress() {
+      ref.read(firebaseAnalyticsServiceProvider).logCustomEvent(
+        eventName: FirebaseAnalyticsEvents.voucherDownloadDetail,
+        parameters: {},
+      );
+      if (voucher == null) {
+        showNotVoucherOrContract(context, true);
+      } else {
+        // launchPdfURL(voucher!);
+        Navigator.pushNamed(context, '/v4/push_to_url', arguments: voucher);
+      }
+    }
+
+    return Row(
+      children: [
+        TextPoppins(
+          text: "Operación #$operation",
+          fontSize: 14,
+          fontWeight: FontWeight.w600,
+          textDark: titleDark,
+          textLight: titleLight,
+        ),
+        const Spacer(),
+        voucher == null || voucher == ''
+            ? const SizedBox()
+            : SizedBox(
+                width: 131,
+                child: ButtonsSimulator(
+                  text: 'Ver voucher',
+                  icon: "eye.svg",
+                  onPressed: voucherOnPress,
+                ),
+              ),
+      ],
+    );
+  }
+}
+
+class RowNavigateToDocuments extends StatelessWidget {
+  const RowNavigateToDocuments({
+    super.key,
+    required this.isDarkMode,
+    required this.uuidInvest,
+  });
+  final bool isDarkMode;
+  final String uuidInvest;
+  @override
+  Widget build(BuildContext context) {
+    const int titleDark = 0xffFFFFFF;
+    const int titleLight = 0xff000000;
+    const int dividerDark = 0xff0D3A5C;
+    const int dividerLight = 0xffA2E6FA;
+
+    void onTap() =>
+        Navigator.pushNamed(context, '/v4/documents', arguments: uuidInvest);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: SizedBox(
+        height: 60,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                SvgPicture.asset(
+                  "assets/svg_icons/file_icon.svg",
+                  width: 20,
+                  height: 20,
+                  color: isDarkMode
+                      ? const Color(titleDark)
+                      : const Color(titleLight),
+                ),
+                const SizedBox(width: 10),
+                const TextPoppins(
+                  text: "Documentación",
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  textDark: titleDark,
+                  textLight: titleLight,
+                ),
+                const Spacer(),
+                Icon(
+                  Icons.arrow_forward_ios,
+                  size: 15,
+                  color: isDarkMode
+                      ? const Color(titleDark)
+                      : const Color(titleLight),
+                ),
+              ],
+            ),
+            const TextPoppins(
+              text: "Información de tu contrato, impuestos, reporte",
+              fontSize: 12,
+            ),
+            Divider(
+              height: 1,
+              color: isDarkMode
+                  ? const Color(dividerDark)
+                  : const Color(dividerLight),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

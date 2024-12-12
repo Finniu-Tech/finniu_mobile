@@ -7,6 +7,7 @@ import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DocumenteBody extends ConsumerWidget {
@@ -40,7 +41,9 @@ class TitleDocuments extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
+    const int titleDark = 0xffFFFFFF;
+    const int titleLight = 0xff000000;
     return SizedBox(
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -53,11 +56,13 @@ class TitleDocuments extends ConsumerWidget {
                   const SizedBox(
                     width: 10,
                   ),
-                  Icon(
-                    Icons.edit_document,
+                  SvgPicture.asset(
+                    "assets/svg_icons/file_icon.svg",
+                    width: 20,
+                    height: 20,
                     color: isDarkMode
-                        ? const Color(DocumentsV4.goDocumentDark)
-                        : const Color(DocumentsV4.goDocumentLight),
+                        ? const Color(titleDark)
+                        : const Color(titleLight),
                   ),
                   const SizedBox(
                     width: 10,
@@ -73,7 +78,7 @@ class TitleDocuments extends ConsumerWidget {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 5,
             ),
             Divider(
               color: isDarkMode
