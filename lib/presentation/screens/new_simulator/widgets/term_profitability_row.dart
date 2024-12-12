@@ -5,11 +5,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class TermProfitabilityRow extends ConsumerWidget {
-  const TermProfitabilityRow(
-      {super.key,
-      required this.month,
-      required this.rentabilityPercent,
-      required this.isLoader});
+  const TermProfitabilityRow({
+    super.key,
+    required this.month,
+    required this.rentabilityPercent,
+    required this.isLoader,
+  });
   final int? month;
   final int? rentabilityPercent;
   final bool isLoader;
@@ -17,8 +18,10 @@ class TermProfitabilityRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    const int backgroundDark = 0xff2A2929;
+    const int backgroundDark = 0xff252525;
     const int backgroundLight = 0xffD3F5FF;
+    const int rentDark = 0xff252525;
+    const int rentLight = 0xffD9FFC4;
     const int iconDark = 0xffA2E6FA;
     const int iconLight = 0xff0D3A5C;
     return Row(
@@ -78,9 +81,8 @@ class TermProfitabilityRow extends ConsumerWidget {
             height: 66,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: isDarkMode
-                  ? const Color(backgroundDark)
-                  : const Color(backgroundLight),
+              color:
+                  isDarkMode ? const Color(rentDark) : const Color(rentLight),
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
