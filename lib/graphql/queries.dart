@@ -1415,6 +1415,7 @@ class QueryRepository {
         rentabilityPercent
         startDateInvestment
         finishDateInvestment
+        paymentCapitalDateInvestment
         contract
         isReInvestment
         bankAccountReceiver {
@@ -1450,7 +1451,12 @@ class QueryRepository {
             isDefaultAccount
             createdAt
           }
-          
+          reinvestmentInfo{
+            reinvestmentAditionalAmount
+            startDate
+            contractUrl
+            reinvestmentType
+          }
           investmentFund{
             uuid
             name
