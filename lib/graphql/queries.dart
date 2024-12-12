@@ -1766,8 +1766,8 @@ class QueryRepository {
   query userInfoAllInvestment{
     userInfoAllInvestment{
       invesmentInSoles{
+        averageProfitability
         countPlanesActive
-        totalBalanceRentability
         capitalInCourse
         totalBalanceRentabilityActually
         totalBalanceRentabilityIncreased

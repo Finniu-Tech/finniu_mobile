@@ -95,7 +95,7 @@ class InvestBody extends ConsumerWidget {
                     countPlanesActive:
                         investSelect.countPlanesActive.toString(),
                     totalBalanceRentability:
-                        investSelect.totalBalanceRentability.toString(),
+                        investSelect.averageProfitability.toString(),
                   ),
                 ),
                 const SizedBox(
@@ -118,17 +118,17 @@ class InvestBody extends ConsumerWidget {
                       Expanded(
                         child: Interest(
                           isLoaded: isLoaded,
-                          totalBalanceRentabilityIncreased: investSelect
-                                      .totalBalanceRentabilityIncreased ==
-                                  null
-                              ? "0.00"
-                              : investSelect.totalBalanceRentabilityIncreased
-                                  .toString(),
+                          totalBalanceRentabilityIncreased:
+                              investSelect.totalBalanceRentabilityIncreased ==
+                                      null
+                                  ? "0.00"
+                                  : investSelect.totalBalanceRentabilityActually
+                                      .toString(),
                           totalBalanceRentabilityActually: investSelect
                                       .totalBalanceRentabilityActually ==
                                   "0"
                               ? null
-                              : investSelect.totalBalanceRentabilityActually,
+                              : investSelect.totalBalanceRentabilityIncreased,
                         ),
                       ),
                     ],

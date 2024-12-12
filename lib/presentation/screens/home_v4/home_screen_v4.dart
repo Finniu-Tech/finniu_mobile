@@ -42,7 +42,7 @@ class HomeBodyV4 extends StatelessWidget {
               height: 20,
             ),
             ProfileCompletenessSection(),
-            ChangeContainer(),
+            // ChangeContainer(),
             DividerHome(),
             NewsContainer(),
             SizedBox(height: 80),
