@@ -9,6 +9,7 @@ import 'package:finniu/presentation/screens/business_investments/widgets/app_bar
 import 'package:finniu/presentation/screens/catalog/widgets/send_proof_button.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/validation_modal.dart';
+import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/help_modal.dart';
 import 'package:finniu/presentation/screens/home_v4/detail_invest_v4/widgets/init_end_container.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:finniu/presentation/screens/new_simulator/v2_summary_screen.dart';
@@ -50,7 +51,7 @@ class _BodyScaffold extends ConsumerWidget {
     const int columnColorLight = 0xffFFFFFF;
     final investmentDetailByUuid =
         ref.watch(userInvestmentByUuidFutureProvider(arguments.uuid));
-
+    print(arguments.uuid);
     return investmentDetailByUuid.when(
       error: (error, stack) {
         showErrorGetDetail(context);
@@ -140,14 +141,11 @@ class _BodyScaffold extends ConsumerWidget {
                         bankAccountReceiver: data.bankAccountReceiver!,
                       )
                     : const SizedBox(),
-                const SizedBox(height: 15),
                 if (data.profitabilityListMonth.isNotEmpty) ...[
                   SeeInterestPayment(
                     preInvestmentUUID: arguments.uuid,
                   ),
                 ],
-                const SizedBox(height: 15),
-                const SizedBox(height: 15),
                 if (arguments.isReinvestAvailable == true &&
                     StatusInvestmentEnum.compare(
                       arguments.status,
@@ -191,19 +189,10 @@ class _BodyScaffold extends ConsumerWidget {
                   arguments.actionStatus ?? '',
                   ActionStatusEnum.pendingReInvestment,
                 )) ...[
-                  const ButtonInvestmentDisabled(
-                    text: 'Re-inversión Solicitada',
-                    colorBackground: Color(0xff55B63D),
+                  ReInvestContainer(
+                    isDarkMode: isDarkMode,
                   ),
-                ],
-                if (ActionStatusEnum.compare(
-                  arguments.actionStatus ?? '',
-                  ActionStatusEnum.disabledReInvestment,
-                )) ...[
-                  const ButtonInvestmentDisabled(
-                    text: 'Devolución de Capital Solicitada',
-                    colorBackground: Color(0xff7C73FE),
-                  ),
+                  const SizedBox(height: 15),
                 ],
                 const SizedBox(height: 15),
                 if (arguments.status == StatusInvestmentEnum.in_process) ...[
@@ -238,6 +227,16 @@ class _BodyScaffold extends ConsumerWidget {
   }
 }
 
+//  if (ActionStatusEnum.compare(
+//                   arguments.actionStatus ?? '',
+//                   ActionStatusEnum.disabledReInvestment,
+//                 )) ...[
+//                   const ButtonInvestmentDisabled(
+//                     text: 'Devolución de Capital Solicitada',
+//                     colorBackground: Color(0xff7C73FE),
+//                   ),
+//                 ],
+
 class ReInvestContainer extends StatelessWidget {
   const ReInvestContainer({
     super.key,
@@ -256,7 +255,10 @@ class ReInvestContainer extends StatelessWidget {
     const int amountColor = 0xffC5F3FF;
     const int textColor = 0xff000000;
     const int contratTextColor = 0xffFFFFFF;
-    void onPressed() {}
+    void onPressedContrat() {}
+    void onPressedHelp() {
+      showHelp(context);
+    }
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -284,7 +286,7 @@ class ReInvestContainer extends StatelessWidget {
                 textLight: contratColor,
               ),
               GestureDetector(
-                onTap: onPressed,
+                onTap: onPressedContrat,
                 child: Container(
                   width: 95,
                   height: 22,
@@ -347,35 +349,38 @@ class ReInvestContainer extends StatelessWidget {
               ),
             ],
           ),
-          const Row(
-            children: [
-              Icon(
-                Icons.calendar_today_outlined,
-                size: 20,
-                color: Colors.black,
-              ),
-              SizedBox(width: 5),
-              TextPoppins(
-                text: "Inicia",
-                fontSize: 12,
-                textDark: textColor,
-                textLight: textColor,
-                fontWeight: FontWeight.w500,
-              ),
-              SizedBox(width: 5),
-              TextPoppins(
-                text: "02/03/2025+",
-                fontSize: 12,
-                textDark: textColor,
-                textLight: textColor,
-              ),
-              SizedBox(width: 15),
-              Icon(
-                Icons.help_outline_outlined,
-                size: 20,
-                color: Colors.black,
-              ),
-            ],
+          GestureDetector(
+            onTap: onPressedHelp,
+            child: const Row(
+              children: [
+                Icon(
+                  Icons.calendar_today_outlined,
+                  size: 20,
+                  color: Colors.black,
+                ),
+                SizedBox(width: 5),
+                TextPoppins(
+                  text: "Inicia",
+                  fontSize: 12,
+                  textDark: textColor,
+                  textLight: textColor,
+                  fontWeight: FontWeight.w500,
+                ),
+                SizedBox(width: 5),
+                TextPoppins(
+                  text: "02/03/2025+",
+                  fontSize: 12,
+                  textDark: textColor,
+                  textLight: textColor,
+                ),
+                SizedBox(width: 15),
+                Icon(
+                  Icons.help_outline_outlined,
+                  size: 20,
+                  color: Colors.black,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -394,7 +399,6 @@ class TitleModalV4 extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    print(status);
     final textAndColors = StatusInvestmentEnum.getColorForStatus(status);
 
     return Row(
