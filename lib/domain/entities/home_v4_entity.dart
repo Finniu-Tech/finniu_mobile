@@ -30,14 +30,15 @@ class HomeUserInvest {
 
 class AllInvestment {
   final int? countPlanesActive;
-  final String? totalBalanceRentability;
+
   final int? capitalInCourse;
   final String? totalBalanceRentabilityActually;
   final String? totalBalanceRentabilityIncreased;
+  final String? averageProfitability;
 
   AllInvestment({
     required this.countPlanesActive,
-    required this.totalBalanceRentability,
+    required this.averageProfitability,
     required this.capitalInCourse,
     required this.totalBalanceRentabilityIncreased,
     required this.totalBalanceRentabilityActually,
@@ -45,8 +46,8 @@ class AllInvestment {
 
   factory AllInvestment.fromJson(Map<String, dynamic> json) {
     return AllInvestment(
+      averageProfitability: json['averageProfitability'] as String?,
       countPlanesActive: json['countPlanesActive'] as int?,
-      totalBalanceRentability: json['totalBalanceRentability'] as String?,
       capitalInCourse: json['capitalInCourse'] as int?,
       totalBalanceRentabilityIncreased:
           json['totalBalanceRentabilityIncreased'] as String?,
@@ -58,7 +59,6 @@ class AllInvestment {
   Map<String, dynamic> toJson() {
     return {
       'countPlanesActive': countPlanesActive,
-      'totalBalanceRentability': totalBalanceRentability,
       'capitalInCourse': capitalInCourse,
       'totalBalanceRentabilityIncreased': totalBalanceRentabilityIncreased,
     };
@@ -71,7 +71,7 @@ extension ListExtension<E> on List<E> {
 
 final AllInvestment investmentErrorInSoles = AllInvestment(
   countPlanesActive: 0,
-  totalBalanceRentability: "----",
+  averageProfitability: "----",
   capitalInCourse: 0,
   totalBalanceRentabilityIncreased: "----",
   totalBalanceRentabilityActually: "----",
@@ -79,7 +79,7 @@ final AllInvestment investmentErrorInSoles = AllInvestment(
 
 final AllInvestment investmentErrorInDolares = AllInvestment(
   countPlanesActive: 0,
-  totalBalanceRentability: "----",
+  averageProfitability: "----",
   capitalInCourse: 0,
   totalBalanceRentabilityIncreased: "----",
   totalBalanceRentabilityActually: "----",

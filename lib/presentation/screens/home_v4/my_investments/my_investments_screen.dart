@@ -1,5 +1,7 @@
 import 'package:expandable_page_view/expandable_page_view.dart';
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
+import 'package:finniu/domain/entities/home_v4_entity.dart';
+import 'package:finniu/presentation/providers/home_v4_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/document_page.dart';
@@ -28,10 +30,10 @@ class MyInvestmentsScreen extends ConsumerWidget {
       body: const Stack(
         children: [
           SingleChildScrollView(
-            child: MyInvestmentsBody(),
+            child: InvestPage(),
           ),
           Positioned(
-            top: 100,
+            top: 180,
             child: ButtonInvestTourV4(),
           ),
         ],
@@ -47,9 +49,7 @@ class MyInvestmentsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageController = PageController(initialPage: 0);
     final List<Widget> pages = [
-      InvestPage(
-        pageController: pageController,
-      ),
+      const InvestPage(),
       const DocumenteBody(),
     ];
 
@@ -66,31 +66,56 @@ class MyInvestmentsBody extends StatelessWidget {
 class InvestPage extends StatelessWidget {
   const InvestPage({
     super.key,
-    required this.pageController,
   });
-  final PageController pageController;
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        const MyInvestmentsContainer(
-          isLoaded: false,
-        ),
-        GestureDetector(
-          onTap: () => pageController.animateToPage(
-            1,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut,
-          ),
-          child: const NavigateToDocuments(),
-        ),
-        const TabBarBusinessV4(
+        MiInvestProvider(),
+        TabBarBusinessV4(
           isReinvest: false,
         ),
-        const SizedBox(
+        SizedBox(
           height: 20,
         ),
       ],
+    );
+  }
+}
+
+class MiInvestProvider extends ConsumerWidget {
+  const MiInvestProvider({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AsyncValue<HomeUserInvest> investHome =
+        ref.watch(homeV4InvestProvider);
+
+    return investHome.when(
+      data: (data) {
+        if (data.investmentInDolares == null &&
+            data.investmentInSoles == null) {
+          return MyInvestmentsContainer(
+            data: homeUserErrorInvest,
+            isLoaded: false,
+          );
+        }
+        return MyInvestmentsContainer(
+          data: data,
+          isLoaded: false,
+        );
+      },
+      error: (error, stackTrace) => MyInvestmentsContainer(
+        data: homeUserErrorInvest,
+        isLoaded: false,
+      ),
+      loading: () => MyInvestmentsContainer(
+        data: homeUserErrorInvest,
+        isLoaded: true,
+      ),
     );
   }
 }

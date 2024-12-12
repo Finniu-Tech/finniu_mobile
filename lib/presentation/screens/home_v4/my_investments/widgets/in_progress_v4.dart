@@ -1,6 +1,6 @@
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
-import 'package:finniu/domain/entities/user_all_investment_entity.dart';
+import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class InProgressListV4 extends ConsumerWidget {
-  final List<Investment> list;
+  final List<InvestmentV4> list;
   const InProgressListV4({super.key, required this.list});
 
   @override
@@ -42,10 +42,10 @@ class InProgressListV4 extends ConsumerWidget {
                       );
                       Navigator.pushNamed(
                         context,
-                        '/v2/summary',
+                        '/v4/detail_invest',
                         arguments: ArgumentsNavigator(
                           uuid: list[index].uuid,
-                          status: StatusInvestmentEnum.in_process,
+                          status: StatusInvestmentEnum.in_course,
                         ),
                       );
                     },
@@ -65,7 +65,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
     super.key,
     required this.item,
   });
-  final Investment item;
+  final InvestmentV4 item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -89,12 +89,15 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
         children: [
           Row(
             children: [
-              const TextPoppins(
-                text: "Inversión fondo empresarial ++",
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                textDark: ToValidateColorsV4.fundTitleDark,
-                textLight: ToValidateColorsV4.fundTitleLight,
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.45,
+                child: TextPoppins(
+                  text: item.fundName ?? "Inversion",
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                  textDark: ToValidateColorsV4.fundTitleDark,
+                  textLight: ToValidateColorsV4.fundTitleLight,
+                ),
               ),
               const Spacer(),
               Icon(
@@ -212,8 +215,8 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
                       ),
                       TextPoppins(
                         text: item.rentability != null
-                            ? "${item.rentability!.toStringAsFixed(2)}%"
-                            : "+++++++",
+                            ? item.rentability!.toStringAsFixed(2)
+                            : "0.00",
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         textDark: ToValidateColorsV4.itemRentTextDark,
@@ -252,7 +255,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
               decoration: BoxDecoration(
                 color: isDarkMode
                     ? const Color(ToValidateColorsV4.buttonReInvestDark)
-                    : const Color(ToValidateColorsV4.buttonDetailLight),
+                    : const Color(ToValidateColorsV4.buttonReInvestLight),
                 borderRadius: const BorderRadius.all(
                   Radius.circular(20),
                 ),

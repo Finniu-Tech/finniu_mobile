@@ -1,5 +1,6 @@
 import 'package:finniu/constants/colors/home_v4_colors.dart';
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
+import 'package:finniu/domain/entities/home_v4_entity.dart';
 import 'package:finniu/presentation/providers/eye_home_provider.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
@@ -14,18 +15,30 @@ class MyInvestmentsContainer extends ConsumerWidget {
   const MyInvestmentsContainer({
     super.key,
     required this.isLoaded,
+    required this.data,
   });
   final bool isLoaded;
+  final HomeUserInvest data;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.watch(isSolesStateProvider);
     final eyeOpen = ref.watch(eyeHomeProvider);
-    const String amount = "10.500";
-    const String rent = "350.60";
-    const String rentPerent = "+1.40";
-    const String investActive = "4";
 
+    final AllInvestment investSelect =
+        isSoles ? data.investmentInSoles! : data.investmentInDolares!;
+    final capitalInCourse = investSelect.capitalInCourse == null
+        ? "0.00"
+        : investSelect.capitalInCourse.toString();
+    final totalBalanceRentabilityIncreased =
+        investSelect.totalBalanceRentabilityIncreased == null
+            ? "0.00"
+            : investSelect.totalBalanceRentabilityIncreased.toString();
+    final totalBalanceRentabilityActually =
+        investSelect.totalBalanceRentabilityActually == null
+            ? "0.00"
+            : investSelect.totalBalanceRentabilityActually.toString();
     void onTapInvestActive() {
       showModalActiveInvest(context);
     }
@@ -73,7 +86,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                         ),
                         TextPoppins(
                           text:
-                              "+${isSoles ? "S/" : "\$"}${eyeOpen ? amount : "****"}",
+                              "+${isSoles ? "S/" : "\$"}${eyeOpen ? capitalInCourse : "****"}",
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                           textDark: MyInvestV4Colors.totalInvestTextDark,
@@ -135,8 +148,8 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                                   .interestGeneratedContLight,
                                             ),
                                     ),
-                                    child: const TextPoppins(
-                                      text: rentPerent,
+                                    child: TextPoppins(
+                                      text: totalBalanceRentabilityIncreased,
                                       fontSize: 10,
                                       fontWeight: FontWeight.w500,
                                       textDark:
@@ -155,7 +168,7 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                   children: [
                                     TextPoppins(
                                       text:
-                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? rent : "****"}",
+                                          "+${isSoles ? "S/" : "\$"}${eyeOpen ? totalBalanceRentabilityActually : "****"}",
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       textDark: HomeV4Colors
@@ -203,8 +216,9 @@ class MyInvestmentsContainer extends ConsumerWidget {
                                 ),
                                 Row(
                                   children: [
-                                    const TextPoppins(
-                                      text: investActive,
+                                    TextPoppins(
+                                      text: investSelect.countPlanesActive
+                                          .toString(),
                                       fontSize: 20,
                                       fontWeight: FontWeight.w600,
                                       textDark:

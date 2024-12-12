@@ -18,12 +18,15 @@ class PaymentScreenV4 extends StatelessWidget {
   Widget build(
     BuildContext context,
   ) {
-    return const Scaffold(
-      appBar: AppBarProducts(
+    final args = ModalRoute.of(context)!.settings.arguments as String;
+    return Scaffold(
+      appBar: const AppBarProducts(
         title: "Cronograma de pagos",
       ),
       body: SingleChildScrollView(
-        child: PaymentBody(),
+        child: PaymentBody(
+          item: args,
+        ),
       ),
     );
   }
@@ -32,11 +35,13 @@ class PaymentScreenV4 extends StatelessWidget {
 class PaymentBody extends StatelessWidget {
   const PaymentBody({
     super.key,
+    required this.item,
   });
-
+  final String item;
   @override
   Widget build(BuildContext context) {
-    const String rent = "S/70.90";
+    print(item);
+    const rent = 0;
     const String percent = "+1.40";
     const String dateInfo = "Actualizado Jul/2024";
     final List<ProfitabilityItem> list = [
@@ -86,8 +91,8 @@ class PaymentBody extends StatelessWidget {
             const SizedBox(
               height: 15,
             ),
-            const RentContainer(
-              rent: rent,
+            RentContainer(
+              rent: rent.toString(),
               percent: percent,
               dateInfo: dateInfo,
               isRender: true,

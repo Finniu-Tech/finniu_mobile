@@ -1321,6 +1321,82 @@ class QueryRepository {
     ''';
   }
 
+  static String get userInfoAllInvestmentV4 {
+    return '''
+      query userInfoAllInvestment {
+      userInfoAllInvestment{
+          invesmentInSoles {
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+              investmentFund{
+                name
+              }
+              rentabilityPercent
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
+              isReInvestment
+               investmentFund{
+                name
+              }
+              rentabilityAmmount
+              
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+              rentabilityAmmount
+             	investmentFund{
+                name
+              }
+              
+            }
+          }
+          invesmentInDolares{
+            invesmentInProcess{
+              uuid
+              amount
+              finishDateInvestment
+              investmentFund{
+                name
+              }
+              rentabilityPercent
+            }
+            invesmentInCourse{
+              uuid
+              amount
+              finishDateInvestment
+              reinvestmentAvailable
+              actionStatus
+              isReInvestment
+               investmentFund{
+                name
+              }
+              rentabilityAmmount
+            }
+            invesmentFinished{
+              uuid
+              amount
+              finishDateInvestment
+              rentabilityAmmount
+             	investmentFund{
+                name
+              }
+            }
+          }
+        }
+      }
+
+    ''';
+  }
+
   static String get investmentDetailByUuid {
     return '''
      query investmentDetail (\$preInvestmentUuid : String!) {
@@ -1331,11 +1407,13 @@ class QueryRepository {
         boucherList {
           boucherImage
         }
+        operationCode
         rentabilityIncreased
         uuid
         amount
         rentabilityAmmount
         rentabilityPercent
+        startDateInvestment
         finishDateInvestment
         contract
         isReInvestment
@@ -1345,6 +1423,7 @@ class QueryRepository {
           bankAccount
           bankCciAccount
           bankLogoUrl
+          bankSlug
           currency
           alias
           typeAccount
@@ -1363,6 +1442,7 @@ class QueryRepository {
             bankAccount
             bankCciAccount
             bankLogoUrl
+            bankSlug
             currency
             alias
             typeAccount
@@ -1380,16 +1460,7 @@ class QueryRepository {
             detailBackgroundColorDark
             detailBackgroundColorLight
             backgroundImageUrl
-            assetsUnderManagement
-            mainImageUrl
-            fundType
-            tagDetailId
-            tagBenefitsId
-            tagDownloadInfoId
-            tagInvestmentButtonId
-            mainImageHorizontalUrl
-            detailBackgroundColorDarkSecondary
-            detailBackgroundColorSecondaryLight
+            
           }
         }
       }
@@ -1695,8 +1766,8 @@ class QueryRepository {
   query userInfoAllInvestment{
     userInfoAllInvestment{
       invesmentInSoles{
+        averageProfitability
         countPlanesActive
-        totalBalanceRentability
         capitalInCourse
         totalBalanceRentabilityActually
         totalBalanceRentabilityIncreased
@@ -1705,8 +1776,8 @@ class QueryRepository {
         countPlanesActive
         totalBalanceRentability
         capitalInCourse
-        totalBalanceRentabilityIncreased
         totalBalanceRentabilityActually
+     
       }
     }
   }

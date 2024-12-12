@@ -53,7 +53,7 @@ class SelectedBankTransfer extends ConsumerWidget {
                 fontSize: 14,
               ),
               TextPoppins(
-                text: "${bankAccountSender.bankName}",
+                text: bankAccountSender.bankSlug.toUpperCase(),
                 fontSize: 12,
               ),
               TextPoppins(
