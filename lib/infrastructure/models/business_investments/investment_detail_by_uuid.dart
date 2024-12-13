@@ -140,6 +140,7 @@ class TablePayV4 {
   final BankAccount? bankAccountSender;
   final List<ProfitabilityItemV4> profitabilityListMonth;
   final String fundName;
+  final String operationCode;
 
   TablePayV4({
     required this.rentabilityAmount,
@@ -149,11 +150,13 @@ class TablePayV4 {
     required this.profitabilityListMonth,
     required this.bankAccountSender,
     required this.fundName,
+    required this.operationCode,
   });
 
   factory TablePayV4.fromJson(Map<String, dynamic> json) {
     final investmentDetail = json['investmentDetail'];
     return TablePayV4(
+      operationCode: investmentDetail['operationCode'],
       rentabilityAmount: double.parse(investmentDetail['rentabilityAmmount']),
       rentabilityPercent: double.parse(investmentDetail['rentabilityPercent']),
       amount: double.parse(investmentDetail['amount']),

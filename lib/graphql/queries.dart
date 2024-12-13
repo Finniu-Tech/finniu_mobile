@@ -1557,6 +1557,7 @@ class QueryRepository {
         	rentabilityPercent
         	amount
     			paymentCapitalDateInvestment
+          operationCode
           paymentRentability{
            paymentDate
             amount
