@@ -1,11 +1,11 @@
 import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
-import 'package:finniu/domain/entities/fund_entity.dart';
 import 'package:finniu/domain/entities/investment_rentability_report_entity.dart';
 import 'package:finniu/domain/entities/re_investment_entity.dart';
 import 'package:finniu/domain/entities/user_all_investment_v4_entity.dart';
 import 'package:finniu/infrastructure/models/arguments_navigator.dart';
 import 'package:finniu/infrastructure/models/firebase_analytics.entity.dart';
 import 'package:finniu/presentation/providers/firebase_provider.dart';
+import 'package:finniu/presentation/providers/get_fund_investment.dart';
 import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/animated_number.dart';
@@ -14,6 +14,7 @@ import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/investment_status/widgets/reinvestment_question_modal.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class InProgressListV4 extends ConsumerWidget {
   final List<InvestmentV4> list;
@@ -66,6 +67,26 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.read(settingsNotifierProvider).isDarkMode;
     final isSoles = ref.read(isSolesStateProvider);
+
+    void navigateToReinvest() async {
+      context.loaderOverlay.show();
+      final dtoReinvest =
+          await ref.read(getInvestFutureProvider(item.uuid).future);
+      context.loaderOverlay.hide();
+
+      reinvestmentQuestionModal(
+        context,
+        ref,
+        item.uuid,
+        item.amount.toDouble(),
+        isSoles ? currencyEnum.PEN : currencyEnum.USD,
+        true,
+        dtoReinvest?.fund,
+        dtoReinvest?.rentabilityPercent,
+        dtoReinvest?.deadline,
+      );
+    }
+
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: 7,
@@ -256,15 +277,7 @@ class ProgressBarInProgressV4 extends ConsumerWidget {
           ),
           if (item.isReinvestAvailable == true)
             GestureDetector(
-              onTap: () => reinvestmentQuestionModal(
-                context,
-                ref,
-                item.uuid,
-                item.amount.toDouble(),
-                isSoles ? currencyEnum.PEN : currencyEnum.USD,
-                true,
-                FundEntity(uuid: item.fundUuid!, name: item.fundName!),
-              ),
+              onTap: navigateToReinvest,
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: 30,

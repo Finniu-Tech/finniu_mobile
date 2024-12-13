@@ -1489,6 +1489,51 @@ class QueryRepository {
     ''';
   }
 
+  static String get getFundInvestmentDetail {
+    return '''
+       query getFundInvestmentDetail (\$preInvestmentUuid : String!) {
+      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+       		deadline{
+            value
+          }
+          rentabilityPercent
+        uuid
+        amount
+        currency
+          investmentFund {
+            uuid
+            name
+            icon
+            listBackgroundColorLight
+            listBackgroundColorDark
+            detailBackgroundColorLight
+            detailBackgroundColorDark
+            backgroundImageUrl
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
+          }
+        }
+      }
+    ''';
+  }
+
   static String get getInvestmentMonthlyReturns {
     return '''
       query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){

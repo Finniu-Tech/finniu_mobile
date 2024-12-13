@@ -231,6 +231,7 @@ class _BodyScaffold extends ConsumerWidget {
                       arguments: arguments.uuid,
                     ),
                   ),
+                  const SizedBox(height: 15),
                   ButtonInvestment(
                     text: 'Quiero reinvertir',
                     onPressed: () => reinvestmentQuestionModal(
@@ -244,7 +245,7 @@ class _BodyScaffold extends ConsumerWidget {
                       data.rentabilityPercent,
                       data.month,
                     ),
-                  )
+                  ),
                 ],
               ],
             ),

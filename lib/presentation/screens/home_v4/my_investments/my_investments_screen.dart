@@ -3,6 +3,7 @@ import 'package:finniu/constants/colors/my_invest_v4_colors.dart';
 import 'package:finniu/domain/entities/home_v4_entity.dart';
 import 'package:finniu/presentation/providers/home_v4_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/document_page.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/my_investments_container.dart';
@@ -12,6 +13,7 @@ import 'package:finniu/presentation/screens/home_v4/widget/nav_bar_v4.dart';
 import 'package:finniu/presentation/screens/home_v4/my_investments/tab_bar_v4.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class MyInvestmentsScreen extends ConsumerWidget {
   const MyInvestmentsScreen({super.key});
@@ -19,24 +21,35 @@ class MyInvestmentsScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
-    return Scaffold(
-      backgroundColor: isDarkMode
-          ? const Color(MyInvestV4Colors.backgroudDark)
-          : const Color(MyInvestV4Colors.backgroudLight),
-      appBar: const AppBarProducts(
-        title: "Mis inversiones",
-      ),
-      bottomNavigationBar: const NavBarV4(),
-      body: const Stack(
-        children: [
-          SingleChildScrollView(
-            child: InvestPage(),
+    return LoaderOverlay(
+      useDefaultLoading: false,
+      overlayWidgetBuilder: (progress) {
+        return const Center(
+          child: CircularLoader(
+            width: 50,
+            height: 50,
           ),
-          Positioned(
-            top: 180,
-            child: ButtonInvestTourV4(),
-          ),
-        ],
+        );
+      },
+      child: Scaffold(
+        backgroundColor: isDarkMode
+            ? const Color(MyInvestV4Colors.backgroudDark)
+            : const Color(MyInvestV4Colors.backgroudLight),
+        appBar: const AppBarProducts(
+          title: "Mis inversiones",
+        ),
+        bottomNavigationBar: const NavBarV4(),
+        body: const Stack(
+          children: [
+            SingleChildScrollView(
+              child: InvestPage(),
+            ),
+            Positioned(
+              top: 180,
+              child: ButtonInvestTourV4(),
+            ),
+          ],
+        ),
       ),
     );
   }
