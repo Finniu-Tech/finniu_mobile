@@ -29,3 +29,26 @@ String getMaskedNumber(String? number) {
     return "**********234";
   }
 }
+
+String getMonthName(int month) {
+  const monthes = [
+    'Ene',
+    'Feb',
+    'Mar',
+    'Abr',
+    'May',
+    'Jun',
+    'Jul',
+    'Ago',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dic',
+  ];
+
+  if (month < 1 || month > 12) {
+    throw ArgumentError('El número del mes debe estar entre 1 y 12.');
+  }
+
+  return monthes[month - 1];
+}

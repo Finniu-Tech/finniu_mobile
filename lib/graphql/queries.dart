@@ -1549,6 +1549,29 @@ class QueryRepository {
     ''';
   }
 
+  static String get getInvestmentMonthlyReturnsV4 {
+    return '''
+        query getInvestmentMonthlyReturns(\$preInvestmentUuid: String!){
+        investmentDetail(preInvestmentUuid: \$preInvestmentUuid){
+       		rentabilityAmmount
+        	rentabilityPercent
+        	amount
+    			paymentCapitalDateInvestment
+       		
+          paymentRentability{
+           paymentDate
+            amount
+            numberPayment
+            paymentVoucherUrl
+            isCapitalPayment
+        
+            
+          }
+        }
+      }
+    ''';
+  }
+
   static String get getContratTaxReports {
     return '''
      query getContratTaxReports (\$preInvestmentUuid : UUID!){

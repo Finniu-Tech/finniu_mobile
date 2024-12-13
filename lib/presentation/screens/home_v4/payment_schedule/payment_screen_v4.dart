@@ -1,6 +1,9 @@
+import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
+import 'package:finniu/presentation/providers/get_table_invest_pay.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
+import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/capital_modal.dart';
 import 'package:finniu/presentation/screens/home_v4/payment_schedule/widgets/profitability_list.dart';
@@ -24,60 +27,67 @@ class PaymentScreenV4 extends StatelessWidget {
         title: "Cronograma de pagos",
       ),
       body: SingleChildScrollView(
-        child: PaymentBody(
-          item: args,
-        ),
+        child: PaymentBodyProvider(args: args),
       ),
     );
   }
 }
 
-class PaymentBody extends StatelessWidget {
+class PaymentBodyProvider extends ConsumerWidget {
+  const PaymentBodyProvider({
+    super.key,
+    required this.args,
+  });
+
+  final String args;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    print(args);
+    final profitabilityData = ref.watch(getMonthlyPaymentProviderV4(args));
+    return profitabilityData.when(
+      data: (data) {
+        return PaymentBody(
+          item: args,
+          data: data,
+        );
+      },
+      error: (error, stackTrace) {
+        return Center(
+          child: Text(error.toString()),
+        );
+      },
+      loading: () {
+        return SizedBox(
+          height: MediaQuery.of(context).size.height - 160,
+          width: MediaQuery.of(context).size.width,
+          child: const Center(
+            child: CircularLoader(
+              width: 50,
+              height: 50,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class PaymentBody extends ConsumerWidget {
   const PaymentBody({
     super.key,
     required this.item,
+    required this.data,
   });
   final String item;
+  final TablePayV4 data;
   @override
-  Widget build(BuildContext context) {
-    print(item);
+  Widget build(BuildContext context, WidgetRef ref) {
     const rent = 0;
+    final DateTime date = DateTime.now();
     const String percent = "+1.40";
-    const String dateInfo = "Actualizado Jul/2024";
-    final List<ProfitabilityItem> list = [
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 7, 1),
-        amount: 50,
-        numberPayment: 1,
-        isPaid: true,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 8, 1),
-        amount: 50,
-        numberPayment: 1,
-        isPaid: true,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 9, 1),
-        amount: 50,
-        numberPayment: 1,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 10, 1),
-        amount: 50,
-        numberPayment: 1,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime(2023, 11, 1),
-        amount: 50,
-        numberPayment: 1,
-      ),
-      ProfitabilityItem(
-        paymentDate: DateTime.now(),
-        amount: 50,
-        numberPayment: 1,
-      ),
-    ];
+    String dateInfo = "Actualizado ${getMonthName(date.month)}/${date.year}";
+
     return Center(
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.9,
@@ -108,7 +118,7 @@ class PaymentBody extends StatelessWidget {
               children: [
                 const TitleDataV4(),
                 ProfitabilityListV4(
-                  list: list,
+                  list: data.profitabilityListMonth,
                 ),
               ],
             ),

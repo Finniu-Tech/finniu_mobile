@@ -132,6 +132,62 @@ class ProfitabilityItem {
   }
 }
 
+class TablePayV4 {
+  final double rentabilityAmount;
+  final double rentabilityPercent;
+  final double amount;
+  final DateTime paymentCapitalDateInvestment;
+  final List<ProfitabilityItemV4> profitabilityListMonth;
+
+  TablePayV4({
+    required this.rentabilityAmount,
+    required this.rentabilityPercent,
+    required this.amount,
+    required this.paymentCapitalDateInvestment,
+    required this.profitabilityListMonth,
+  });
+
+  factory TablePayV4.fromJson(Map<String, dynamic> json) {
+    final investmentDetail = json['investmentDetail'];
+    return TablePayV4(
+      rentabilityAmount: double.parse(investmentDetail['rentabilityAmmount']),
+      rentabilityPercent: double.parse(investmentDetail['rentabilityPercent']),
+      amount: double.parse(investmentDetail['amount']),
+      paymentCapitalDateInvestment:
+          DateTime.parse(investmentDetail['paymentCapitalDateInvestment']),
+      profitabilityListMonth: (investmentDetail['paymentRentability'] as List)
+          .map((item) => ProfitabilityItemV4.fromJson(item))
+          .toList(),
+    );
+  }
+}
+
+class ProfitabilityItemV4 {
+  final DateTime paymentDate;
+  final double amount;
+  final String? voucher;
+  final int? numberPayment;
+  final bool isCapitalPayment;
+
+  ProfitabilityItemV4({
+    required this.paymentDate,
+    required this.amount,
+    this.numberPayment,
+    this.voucher,
+    required this.isCapitalPayment,
+  });
+
+  factory ProfitabilityItemV4.fromJson(Map<String, dynamic> json) {
+    return ProfitabilityItemV4(
+      paymentDate: DateTime.parse(json['paymentDate']),
+      amount: double.parse(json['amount']),
+      numberPayment: json['numberPayment'],
+      voucher: json['paymentVoucherUrl'],
+      isCapitalPayment: json['isCapitalPayment'],
+    );
+  }
+}
+
 enum TypeReinvestmentEnum { capitalAditional, capitalOnly }
 
 class ReInvestmentInfo {

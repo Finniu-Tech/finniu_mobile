@@ -15,7 +15,7 @@ class ProfitabilityListV4 extends ConsumerWidget {
     super.key,
     required this.list,
   });
-  final List<ProfitabilityItem> list;
+  final List<ProfitabilityItemV4> list;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
@@ -85,7 +85,7 @@ class ProfitabilityListV4 extends ConsumerWidget {
                         fontWeight: FontWeight.w500,
                       ),
                       DetailModal(
-                        isPaid: list[index].isPaid,
+                        isPaid: list[index].isCapitalPayment,
                       ),
                     ],
                   ),
