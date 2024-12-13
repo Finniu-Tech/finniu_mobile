@@ -31,7 +31,9 @@ class InitEndContainer extends StatelessWidget {
     const int endPointLight = 0xffDFD7FF;
     const int endPointIconDark = 0xff9C84FE;
     const int endPointIconLight = 0xff9C84FE;
-    print(dateCapitalPay);
+    const int lineDark = 0xffA2E6FA;
+    const int lineLight = 0xff0D3A5C;
+
     void onPressed() {
       showPayModal(context);
     }
@@ -55,81 +57,99 @@ class InitEndContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  child: Stack(
                     children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 20,
-                              height: 20,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: isDarkMode
-                                    ? const Color(initPointDark)
-                                    : const Color(initPointLight),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Icon(
-                                Icons.circle,
-                                size: 10,
-                                color: isDarkMode
-                                    ? const Color(initPointIconDark)
-                                    : const Color(initPointIconLight),
-                              ),
-                            ),
-                            const SizedBox(width: 5),
-                            const TextPoppins(
-                              text: "Inicio",
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
-                            ),
-                            const Spacer(),
-                            TextPoppins(
-                              text: dateStart,
-                              fontSize: 12,
-                            ),
-                          ],
+                      Positioned(
+                        top: 0,
+                        left: 10,
+                        child: CustomPaint(
+                          size: const Size(1, 50),
+                          painter: DottedLinePainter(
+                            color: isDarkMode
+                                ? const Color(lineDark)
+                                : const Color(lineLight),
+                            dashWidth: 2.0,
+                            dashSpace: 2.0,
+                          ),
                         ),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.4,
-                        child: Row(
-                          children: [
-                            Container(
-                              width: 20,
-                              height: 20,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                color: isDarkMode
-                                    ? const Color(endPointDark)
-                                    : const Color(endPointLight),
-                                borderRadius: BorderRadius.circular(100),
-                              ),
-                              child: Icon(
-                                Icons.circle,
-                                size: 10,
-                                color: isDarkMode
-                                    ? const Color(endPointIconDark)
-                                    : const Color(endPointIconLight),
-                              ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: isDarkMode
+                                        ? const Color(initPointDark)
+                                        : const Color(initPointLight),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Icon(
+                                    Icons.circle,
+                                    size: 10,
+                                    color: isDarkMode
+                                        ? const Color(initPointIconDark)
+                                        : const Color(initPointIconLight),
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                const TextPoppins(
+                                  text: "Inicio",
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                const Spacer(),
+                                TextPoppins(
+                                  text: dateStart,
+                                  fontSize: 12,
+                                ),
+                              ],
                             ),
-                            const SizedBox(width: 5),
-                            const TextPoppins(
-                              text: "Finaliza",
-                              fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 20,
+                                  height: 20,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: isDarkMode
+                                        ? const Color(endPointDark)
+                                        : const Color(endPointLight),
+                                    borderRadius: BorderRadius.circular(100),
+                                  ),
+                                  child: Icon(
+                                    Icons.circle,
+                                    size: 10,
+                                    color: isDarkMode
+                                        ? const Color(endPointIconDark)
+                                        : const Color(endPointIconLight),
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                const TextPoppins(
+                                  text: "Finaliza",
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                                const Spacer(),
+                                TextPoppins(
+                                  text: dateEnd,
+                                  fontSize: 12,
+                                ),
+                              ],
                             ),
-                            const Spacer(),
-                            TextPoppins(
-                              text: dateEnd,
-                              fontSize: 12,
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -210,5 +230,40 @@ class InitEndContainer extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class DottedLinePainter extends CustomPainter {
+  final Color color;
+  final double dashWidth;
+  final double dashSpace;
+
+  DottedLinePainter({
+    required this.color,
+    this.dashWidth = 4.0,
+    this.dashSpace = 4.0,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1.0
+      ..style = PaintingStyle.stroke;
+
+    double startY = 0.0;
+    while (startY < size.height) {
+      canvas.drawLine(
+        Offset(0, startY),
+        Offset(0, startY + dashWidth),
+        paint,
+      );
+      startY += dashWidth + dashSpace;
+    }
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }

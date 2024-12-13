@@ -1342,11 +1342,11 @@ class QueryRepository {
               reinvestmentAvailable
               actionStatus
               isReInvestment
-               investmentFund{
+              rentabilityAmmount
+              investmentFund{
+                uuid
                 name
               }
-              rentabilityAmmount
-              
             }
             invesmentFinished{
               uuid
@@ -1377,7 +1377,8 @@ class QueryRepository {
               actionStatus
               isReInvestment
                investmentFund{
-                name
+                 uuid
+                 name
               }
               rentabilityAmmount
             }
@@ -1459,14 +1460,74 @@ class QueryRepository {
           }
           investmentFund{
             uuid
+                 name
+                 icon
+                 listBackgroundColorLight
+                 listBackgroundColorDark
+                 detailBackgroundColorLight
+                 detailBackgroundColorDark
+                 backgroundImageUrl
+                 mainImageUrl
+                 createdAt
+                 isDeleted
+                 isActive
+                 fundType
+                 tagDetailId
+                 tagBenefitsId
+                 tagDownloadInfoId
+                 tagInvestmentButtonId
+                 mainImageHorizontalUrl
+                 detailBackgroundColorSecondaryLight
+                 detailBackgroundColorDarkSecondary
+                 lastRentability
+               
+                
+            
+          }
+        }
+      }
+    ''';
+  }
+
+  static String get getFundInvestmentDetail {
+    return '''
+       query getFundInvestmentDetail (\$preInvestmentUuid : String!) {
+      investmentDetail(preInvestmentUuid : \$preInvestmentUuid){
+       		deadline{
+            value
+          }
+          rentabilityPercent
+        uuid
+        amount
+        currency
+          investmentFund {
+            uuid
             name
             icon
-            listBackgroundColorDark
             listBackgroundColorLight
-            detailBackgroundColorDark
+            listBackgroundColorDark
             detailBackgroundColorLight
+            detailBackgroundColorDark
             backgroundImageUrl
-            
+            mainImageUrl
+            createdAt
+            isDeleted
+            isActive
+            fundType
+            tagDetailId
+            tagBenefitsId
+            tagDownloadInfoId
+            tagInvestmentButtonId
+            mainImageHorizontalUrl
+            detailBackgroundColorSecondaryLight
+            detailBackgroundColorDarkSecondary
+            lastRentability
+            netWorthAmount
+            assetsUnderManagement
+            moreInfoDownloadUrl
+            minAmountInvestmentPen
+            minAmountInvestmentUsd
+            objectiveFunds
           }
         }
       }
@@ -1485,6 +1546,27 @@ class QueryRepository {
           }
         }
       }
+    ''';
+  }
+
+  static String get getContratTaxReports {
+    return '''
+     query getContratTaxReports (\$preInvestmentUuid : UUID!){
+      documentationQueries{
+        contracts(preInvestmentUuid:\$preInvestmentUuid){
+        contractDate
+          contractUrl
+        }
+        taxes(preInvestmentUuid:\$preInvestmentUuid){
+          taxDate
+          taxUrl
+        }
+        quarterlyReports(preInvestmentUuid:\$preInvestmentUuid){
+          reportDate
+          reportUrl
+        }
+      }
+    }
     ''';
   }
 

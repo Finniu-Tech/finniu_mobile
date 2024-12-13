@@ -142,7 +142,8 @@ class _BodyProfile extends ConsumerWidget {
                 "navigate_to": FirebaseScreen.settingsV2,
               },
             ),
-            Navigator.pushNamed(context, '/v4/home'),
+            Navigator.pushNamedAndRemoveUntil(
+                context, '/v4/home', (route) => false),
           },
         ),
         ButtonNavigateProfile(
