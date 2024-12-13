@@ -2,6 +2,7 @@ import 'package:finniu/constants/number_format.dart';
 import 'package:finniu/domain/entities/user_bank_account_entity.dart';
 import 'package:finniu/infrastructure/models/business_investments/investment_detail_by_uuid.dart';
 import 'package:finniu/presentation/providers/get_table_invest_pay.dart';
+import 'package:finniu/presentation/providers/money_provider.dart';
 import 'package:finniu/presentation/providers/settings_provider.dart';
 import 'package:finniu/presentation/screens/catalog/circular_loader.dart';
 import 'package:finniu/presentation/screens/catalog/widgets/text_poppins.dart';
@@ -43,7 +44,6 @@ class PaymentBodyProvider extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    print(args);
     final profitabilityData = ref.watch(getMonthlyPaymentProviderV4(args));
     return profitabilityData.when(
       data: (data) {
@@ -87,6 +87,15 @@ class PaymentBody extends ConsumerWidget {
     final DateTime date = DateTime.now();
     const String percent = "+1.40";
     String dateInfo = "Actualizado ${getMonthName(date.month)}/${date.year}";
+    final List<ProfitabilityItemV4> listPay = [];
+    ProfitabilityItemV4? capitalPay;
+    for (var element in data.profitabilityListMonth) {
+      if (element.isCapitalPayment) {
+        capitalPay = element;
+      } else {
+        listPay.add(element);
+      }
+    }
 
     return Center(
       child: SizedBox(
@@ -97,7 +106,9 @@ class PaymentBody extends ConsumerWidget {
             const SizedBox(
               height: 15,
             ),
-            const TitleFond(),
+            TitleFond(
+              fundName: data.fundName,
+            ),
             const SizedBox(
               height: 15,
             ),
@@ -118,16 +129,20 @@ class PaymentBody extends ConsumerWidget {
               children: [
                 const TitleDataV4(),
                 ProfitabilityListV4(
-                  list: data.profitabilityListMonth,
+                  list: listPay,
                 ),
               ],
             ),
-            const Column(
-              children: [
-                TitleCapitalV4(),
-                CapitalDetail(),
-              ],
-            ),
+            capitalPay == null
+                ? const SizedBox()
+                : Column(
+                    children: [
+                      const TitleCapitalV4(),
+                      CapitalDetail(
+                        item: capitalPay,
+                      ),
+                    ],
+                  ),
           ],
         ),
       ),
@@ -138,11 +153,13 @@ class PaymentBody extends ConsumerWidget {
 class CapitalDetail extends ConsumerWidget {
   const CapitalDetail({
     super.key,
+    required this.item,
   });
-
+  final ProfitabilityItemV4 item;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
+    final isSoles = ref.watch(isSolesStateProvider);
     const int titleTableDark = 0xffFFFFFF;
     const int titleTableLight = 0xff000000;
     const int borderColorDark = 0xffD0D0D0;
@@ -209,8 +226,10 @@ class CapitalDetail extends ConsumerWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          const TextPoppins(
-            text: "S/10.000",
+          TextPoppins(
+            text: isSoles
+                ? formatterSolesNotComma.format(item.amount)
+                : formatterUSDNotComma.format(item.amount),
             fontSize: 14,
             fontWeight: FontWeight.w500,
             textDark: titleTableDark,
@@ -227,8 +246,9 @@ class CapitalDetail extends ConsumerWidget {
               const SizedBox(
                 width: 5,
               ),
-              const TextPoppins(
-                text: "15 En/2025",
+              TextPoppins(
+                text:
+                    "${getMonthName(item.paymentDate.month)}/${item.paymentDate.year}",
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 textDark: titleTableDark,

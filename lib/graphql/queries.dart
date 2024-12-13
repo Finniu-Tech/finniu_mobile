@@ -1557,15 +1557,29 @@ class QueryRepository {
         	rentabilityPercent
         	amount
     			paymentCapitalDateInvestment
-       		
           paymentRentability{
            paymentDate
             amount
             numberPayment
             paymentVoucherUrl
             isCapitalPayment
-        
-            
+          }
+          	bankAccountReceiver {
+       		  uuid
+       		  bankName
+       		  bankSlug
+       		  bankLogoUrl
+       		  bankAccount
+       		  bankCciAccount
+       		  currency
+       		  alias
+       		  typeAccount
+       		  isJointAccount
+       		  isDefaultAccount
+       		  createdAt
+       		}
+          investmentFund{
+            name
           }
         }
       }

@@ -24,13 +24,13 @@ class ProfitabilityListV4 extends ConsumerWidget {
     const int borderColorLight = 0xffD0D0D0;
 
     return SizedBox(
-      width: double.infinity,
-      height: 300,
+      width: MediaQuery.of(context).size.width,
+      height: list.length * 38 + 15,
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
           return Container(
-            width: double.infinity,
+            width: MediaQuery.of(context).size.width,
             height: 38,
             decoration: BoxDecoration(
               border: Border.all(

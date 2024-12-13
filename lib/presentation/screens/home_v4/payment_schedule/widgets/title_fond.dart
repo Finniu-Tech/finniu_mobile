@@ -6,15 +6,17 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 class TitleFond extends ConsumerWidget {
   const TitleFond({
     super.key,
+    required this.fundName,
   });
-
+  final String fundName;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(settingsNotifierProvider).isDarkMode;
     const int iconBankDark = 0xff08273F;
     const int iconBankLight = 0xffBEF0FF;
-    const String icon = "🏢";
-    const String title = "Fondo inversión a Plazo Fijo";
+    final String icon =
+        fundName == "Fondo inversiones empresariales" ? "🏢" : "🏡";
+    final String title = fundName;
     const int titleBankDark = 0xff0D3A5C;
     const int titleBankLight = 0xffECFBFF;
     const int titleDark = 0xffFFFFFF;
@@ -41,7 +43,7 @@ class TitleFond extends ConsumerWidget {
               ),
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
-                child: const TextPoppins(
+                child: TextPoppins(
                   text: title,
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -62,7 +64,7 @@ class TitleFond extends ConsumerWidget {
                 ? const Color(iconBankDark)
                 : const Color(iconBankLight),
           ),
-          child: const TextPoppins(
+          child: TextPoppins(
             text: icon,
             fontSize: 20,
             fontWeight: FontWeight.w600,

@@ -137,7 +137,9 @@ class TablePayV4 {
   final double rentabilityPercent;
   final double amount;
   final DateTime paymentCapitalDateInvestment;
+  final BankAccount? bankAccountSender;
   final List<ProfitabilityItemV4> profitabilityListMonth;
+  final String fundName;
 
   TablePayV4({
     required this.rentabilityAmount,
@@ -145,6 +147,8 @@ class TablePayV4 {
     required this.amount,
     required this.paymentCapitalDateInvestment,
     required this.profitabilityListMonth,
+    required this.bankAccountSender,
+    required this.fundName,
   });
 
   factory TablePayV4.fromJson(Map<String, dynamic> json) {
@@ -158,6 +162,10 @@ class TablePayV4 {
       profitabilityListMonth: (investmentDetail['paymentRentability'] as List)
           .map((item) => ProfitabilityItemV4.fromJson(item))
           .toList(),
+      bankAccountSender: investmentDetail['bankAccountSender'] != null
+          ? BankAccount.fromJson(investmentDetail['bankAccountSender'])
+          : null,
+      fundName: investmentDetail['investmentFund']['name'],
     );
   }
 }
