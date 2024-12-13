@@ -203,7 +203,8 @@ class TabBarDocuments extends HookConsumerWidget {
                     contractList.isNotEmpty
                         ? ListView.builder(
                             itemCount: contractList.length,
-                            itemBuilder: (context, index) => taxList[index],
+                            itemBuilder: (context, index) =>
+                                contractList[index],
                           )
                         : Center(
                             child: Image.asset(

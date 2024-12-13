@@ -47,7 +47,7 @@ final documentsUser = FutureProvider.family
     //   }
     // };
 
-    final user = UserDocuments.fromJson(data["data"]!);
+    final user = UserDocuments.fromJson(data);
     return user;
   } catch (e) {
     print(e);
